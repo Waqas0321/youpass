@@ -1,42 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/utils/responsive_layout.dart';
-import 'package:youpass/core/widgets/auth_back_button_widget.dart';
-import 'package:youpass/core/widgets/auth_content_container.dart';
-import 'package:youpass/core/widgets/auth_scaffold.dart';
-import 'package:youpass/core/widgets/youpass_logo.dart';
+import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/core/widgets/auth_header_widget.dart';
+import 'package:youpass/core/widgets/auth_page_layout.dart';
 import 'package:youpass/features/auth/presentation/widgets/register_footer_widget.dart';
 import 'package:youpass/features/auth/presentation/widgets/register_form_widget.dart';
-import 'package:youpass/features/auth/presentation/widgets/register_header_widget.dart';
+import 'package:youpass/features/auth/routes/register_route_args.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
 
+  RegisterRouteArgs? _readArgs(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments;
+    return args is RegisterRouteArgs ? args : null;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final layout = ResponsiveLayout(context);
+    final strings = context.l10n;
+    final routeArgs = _readArgs(context);
 
-    return AuthScaffold(
-      body: AuthContentContainer(
-        child: SingleChildScrollView(
-          padding: layout.screenPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: layout.spacing(8)),
-              const AuthBackButtonWidget(),
-              SizedBox(height: layout.spacing(16)),
-              const Center(child: YouPassLogo()),
-              SizedBox(height: layout.spacing(32)),
-              const RegisterHeaderWidget(),
-              SizedBox(height: layout.spacing(28)),
-              const RegisterFormWidget(),
-              SizedBox(height: layout.spacing(28)),
-              const RegisterFooterWidget(),
-              SizedBox(height: layout.spacing(24)),
-            ],
-          ),
-        ),
+    return AuthPageLayout(
+      showVolterBackButton: true,
+      headerSpacing: 32,
+      header: AuthHeaderWidget(
+        title: strings.createAccountTitle,
+        subtitle: strings.createAccountSubtitle,
       ),
+      body: RegisterFormWidget(routeArgs: routeArgs),
+      footer: const RegisterFooterWidget(),
     );
   }
 }

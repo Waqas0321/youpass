@@ -1,19 +1,28 @@
-import 'package:youpass/features/auth/data/models/user_model.dart';
+import 'package:youpass/features/auth/domain/entities/auth_session_entity.dart';
+import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
+import 'package:youpass/features/auth/domain/entities/register_request_entity.dart';
+import 'package:youpass/features/auth/domain/entities/send_code_result_entity.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<UserModel> login({
-    required String email,
-    required String password,
+  Future<SendCodeResultEntity> sendVerificationCode({
+    required String phone,
+    required String countryIsoCode,
+    required OtpPurpose purpose,
   });
 
-  Future<void> sendVerificationCode({
-    required String countryCode,
-    required String phoneNumber,
+  Future<SendCodeResultEntity> resendVerificationCode({
+    required String phone,
+    required String countryIsoCode,
+    required OtpPurpose purpose,
   });
 
-  Future<UserModel> verifyCode({
-    required String countryCode,
-    required String phoneNumber,
+  Future<AuthSessionEntity> loginWithPhone({
+    required String phone,
+    required String countryIsoCode,
     required String code,
   });
+
+  Future<AuthSessionEntity> registerAccount(RegisterRequestEntity request);
+
+  Future<void> logoutRemote();
 }

@@ -1,5 +1,5 @@
-import 'package:youpass/features/home/data/models/home_model.dart';
+import 'package:youpass/features/home/data/models/home_feed_model.dart';
 
 abstract class HomeRemoteDataSource {
-  Future<HomeModel> fetchHomeData();
+  Future<HomeFeedModel> fetchHomeFeed();
 }

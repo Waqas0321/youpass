@@ -24,9 +24,7 @@ class SplashScreenState extends State<SplashScreen> {
   Future<void> initAuth() async {
     final authProvider = context.read<AuthProvider>();
     await authProvider.checkAuthStatus();
-
     if (!mounted) return;
-
     if (authProvider.status == AuthStatus.authenticated) {
       Navigator.of(context).pushReplacementNamed(AppRoutes.home);
     } else {

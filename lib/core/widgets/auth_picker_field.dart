@@ -3,6 +3,9 @@ import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
+import 'package:youpass/core/widgets/auth_field_container.dart';
+import 'package:youpass/core/widgets/auth_field_icon_widget.dart';
+import 'package:youpass/core/widgets/auth_labeled_field_widget.dart';
 
 class AuthPickerField extends StatelessWidget {
   const AuthPickerField({
@@ -23,36 +26,24 @@ class AuthPickerField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
-    final fieldRadius = layout.radius(12);
     final hasValue = value != null && value!.isNotEmpty;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AppText(label, variant: AppTextVariant.label),
-        SizedBox(height: layout.spacing(8)),
-        Material(
-          color: AppColors.backgroundWhite,
-          borderRadius: BorderRadius.circular(fieldRadius),
-          child: InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(fieldRadius),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(fieldRadius),
-                border: Border.all(color: AppColors.lightGreyBorder),
-              ),
+    return AuthLabeledFieldWidget(
+      label: label,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(layout.radius(12)),
+          child: AuthFieldContainer(
+            child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: layout.spacing(14),
                 vertical: layout.spacing(16),
               ),
               child: Row(
                 children: [
-                  Icon(
-                    icon,
-                    size: layout.fontSize(22),
-                    color: AppColors.secondaryGrey.withValues(alpha: 0.7),
-                  ),
+                  AuthFieldIconWidget(icon: icon),
                   SizedBox(width: layout.spacing(12)),
                   Expanded(
                     child: AppText(
@@ -75,7 +66,7 @@ class AuthPickerField extends StatelessWidget {
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

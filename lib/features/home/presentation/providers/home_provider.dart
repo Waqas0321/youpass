@@ -1,17 +1,19 @@
 import 'package:flutter/foundation.dart';
-import 'package:youpass/features/home/domain/entities/home_entity.dart';
-import 'package:youpass/features/home/domain/usecases/get_home_data_usecase.dart';
+import 'package:youpass/core/constants/app_constants.dart';
+import 'package:youpass/features/home/domain/entities/home_feed_entity.dart';
+import 'package:youpass/features/home/domain/usecases/get_home_feed_usecase.dart';
 
 enum HomeStatus { initial, loading, loaded, error }
 
 class HomeProvider extends ChangeNotifier {
-  HomeProvider(this.getHomeDataUseCase);
+  HomeProvider(this.getHomeFeedUseCase);
 
-  final GetHomeDataUseCase getHomeDataUseCase;
+  final GetHomeFeedUseCase getHomeFeedUseCase;
 
   HomeStatus status = HomeStatus.initial;
-  HomeEntity? homeData;
+  HomeFeedEntity? homeFeed;
   String? errorMessage;
+  String selectedCategoryId = AppConstants.defaultHomeCategoryId;
 
   Future<void> loadHomeData() async {
     status = HomeStatus.loading;
@@ -19,12 +21,28 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      homeData = await getHomeDataUseCase();
+      homeFeed = await getHomeFeedUseCase();
       status = HomeStatus.loaded;
     } catch (error) {
       status = HomeStatus.error;
       errorMessage = error.toString();
     }
+    notifyListeners();
+  }
+
+  void setHomeFeed(HomeFeedEntity feed) {
+    homeFeed = feed;
+    status = HomeStatus.loaded;
+    errorMessage = null;
+    notifyListeners();
+  }
+
+  void selectCategory(String categoryId) {
+    if (selectedCategoryId == categoryId) {
+      return;
+    }
+
+    selectedCategoryId = categoryId;
     notifyListeners();
   }
 }

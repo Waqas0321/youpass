@@ -1,23 +1,32 @@
+import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
+import 'package:youpass/features/auth/domain/entities/register_request_entity.dart';
+import 'package:youpass/features/auth/domain/entities/send_code_result_entity.dart';
 import 'package:youpass/features/auth/domain/entities/user_entity.dart';
 
 abstract class AuthRepository {
-  Future<UserEntity> login({
-    required String email,
-    required String password,
+  Future<SendCodeResultEntity> sendVerificationCode({
+    required String phone,
+    required String countryIsoCode,
+    required OtpPurpose purpose,
   });
 
-  Future<void> sendVerificationCode({
-    required String countryCode,
-    required String phoneNumber,
+  Future<SendCodeResultEntity> resendVerificationCode({
+    required String phone,
+    required String countryIsoCode,
+    required OtpPurpose purpose,
   });
 
-  Future<UserEntity> verifyCode({
-    required String countryCode,
-    required String phoneNumber,
+  Future<UserEntity> loginWithPhone({
+    required String phone,
+    required String countryIsoCode,
     required String code,
   });
 
-  Future<void> logout();
+  Future<UserEntity> registerAccount(RegisterRequestEntity request);
+
+  Future<void> logout({bool notifyServer = true});
 
   Future<UserEntity?> getCurrentUser();
+
+  Future<String?> getAccessToken();
 }

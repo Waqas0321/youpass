@@ -7,9 +7,14 @@ class LoginUseCase {
   final AuthRepository authRepository;
 
   Future<UserEntity> call({
-    required String email,
-    required String password,
+    required String phone,
+    required String countryIsoCode,
+    required String code,
   }) {
-    return authRepository.login(email: email, password: password);
+    return authRepository.loginWithPhone(
+      phone: phone,
+      countryIsoCode: countryIsoCode,
+      code: code,
+    );
   }
 }

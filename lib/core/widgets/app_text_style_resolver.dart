@@ -129,7 +129,19 @@ class AppTextStyleResolver {
         return TextStyle(
           fontSize: layout.bodyFontSize,
           fontWeight: FontWeight.w700,
-          color: AppColors.primaryMustard,
+          color: AppColors.homeAccentYellow,
+        );
+      case AppTextVariant.greetingTitle:
+        return TextStyle(
+          fontSize: layout.fontSize(28),
+          fontWeight: FontWeight.w800,
+          color: AppColors.homeBlack,
+        );
+      case AppTextVariant.sectionTitle:
+        return TextStyle(
+          fontSize: layout.fontSize(18),
+          fontWeight: FontWeight.w800,
+          color: AppColors.homeBlack,
         );
     }
   }

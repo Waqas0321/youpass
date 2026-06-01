@@ -110,6 +110,18 @@ abstract class AppLocalizations {
   /// **'Sign in with your number and receive your code via WhatsApp'**
   String get phoneLoginSubtitle;
 
+  /// No description provided for @codeSentWhatsApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Code sent to your WhatsApp'**
+  String get codeSentWhatsApp;
+
+  /// No description provided for @codeSentSms.
+  ///
+  /// In en, this message translates to:
+  /// **'Code sent via SMS'**
+  String get codeSentSms;
+
   /// No description provided for @phoneNumberLabel.
   ///
   /// In en, this message translates to:
@@ -140,11 +152,17 @@ abstract class AppLocalizations {
   /// **'We sent a code to '**
   String get verificationCodeSentPrefix;
 
-  /// No description provided for @verificationCodeSentSuffix.
+  /// No description provided for @verificationCodeSentViaSms.
+  ///
+  /// In en, this message translates to:
+  /// **' via SMS '**
+  String get verificationCodeSentViaSms;
+
+  /// No description provided for @verificationCodeSentViaWhatsApp.
   ///
   /// In en, this message translates to:
   /// **' via WhatsApp '**
-  String get verificationCodeSentSuffix;
+  String get verificationCodeSentViaWhatsApp;
 
   /// No description provided for @validateCodeButton.
   ///
@@ -157,6 +175,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Resend code in '**
   String get resendCodePrefix;
+
+  /// No description provided for @resendCodeAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code'**
+  String get resendCodeAction;
 
   /// No description provided for @incorrectNumberQuestion.
   ///
@@ -176,23 +200,155 @@ abstract class AppLocalizations {
   /// **'Select your country'**
   String get selectCountryTitle;
 
+  /// No description provided for @searchCountryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search country or code'**
+  String get searchCountryHint;
+
+  /// No description provided for @searchCountryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No countries found'**
+  String get searchCountryEmpty;
+
   /// No description provided for @homeTitle.
   ///
   /// In en, this message translates to:
   /// **'Home'**
   String get homeTitle;
 
-  /// No description provided for @homeDashboardTitle.
+  /// No description provided for @homeGreeting.
   ///
   /// In en, this message translates to:
-  /// **'Dashboard'**
-  String get homeDashboardTitle;
+  /// **'Hello, {name}!'**
+  String homeGreeting(String name);
 
-  /// No description provided for @homeDashboardSubtitle.
+  /// No description provided for @homeDiscoverSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Your learning journey starts here'**
-  String get homeDashboardSubtitle;
+  /// **'Discover the best events for you'**
+  String get homeDiscoverSubtitle;
+
+  /// No description provided for @categoryChile.
+  ///
+  /// In en, this message translates to:
+  /// **'Chile'**
+  String get categoryChile;
+
+  /// No description provided for @categoryParties.
+  ///
+  /// In en, this message translates to:
+  /// **'Parties'**
+  String get categoryParties;
+
+  /// No description provided for @categoryConcerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Concerts'**
+  String get categoryConcerts;
+
+  /// No description provided for @categorySports.
+  ///
+  /// In en, this message translates to:
+  /// **'Sports'**
+  String get categorySports;
+
+  /// No description provided for @featuredEventTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FESTIVAL PRIMAVERA — 2026 —'**
+  String get featuredEventTitle;
+
+  /// No description provided for @featuredEventDate.
+  ///
+  /// In en, this message translates to:
+  /// **'NOVEMBER 21, 2026 • 5:00 PM'**
+  String get featuredEventDate;
+
+  /// No description provided for @featuredEventLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'BICENTENNIAL PARK, SANTIAGO'**
+  String get featuredEventLocation;
+
+  /// No description provided for @eventsSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Featured events'**
+  String get eventsSectionTitle;
+
+  /// No description provided for @seeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get seeAll;
+
+  /// No description provided for @buyTickets.
+  ///
+  /// In en, this message translates to:
+  /// **'BUY TICKETS'**
+  String get buyTickets;
+
+  /// No description provided for @eventCaribeDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday, January 31, 2026'**
+  String get eventCaribeDate;
+
+  /// No description provided for @eventCaribeLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Club Océano, Viña del Mar'**
+  String get eventCaribeLocation;
+
+  /// No description provided for @eventRockDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday, February 15, 2026'**
+  String get eventRockDate;
+
+  /// No description provided for @eventRockLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Simón Bolívar Park, Bogotá'**
+  String get eventRockLocation;
+
+  /// No description provided for @defaultGuestName.
+  ///
+  /// In en, this message translates to:
+  /// **'Christian'**
+  String get defaultGuestName;
+
+  /// No description provided for @brandBadgeOff.
+  ///
+  /// In en, this message translates to:
+  /// **'OFF'**
+  String get brandBadgeOff;
+
+  /// No description provided for @featuredEventSummerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SUMMER BEATS 2026'**
+  String get featuredEventSummerTitle;
+
+  /// No description provided for @featuredEventUrbanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'URBAN NIGHT LIVE'**
+  String get featuredEventUrbanTitle;
+
+  /// No description provided for @eventCaribeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Caribe Night'**
+  String get eventCaribeTitle;
+
+  /// No description provided for @eventRockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rock al Parque'**
+  String get eventRockTitle;
 
   /// No description provided for @helloUser.
   ///
@@ -209,8 +365,152 @@ abstract class AppLocalizations {
   /// No description provided for @errorGeneric.
   ///
   /// In en, this message translates to:
-  /// **'Error'**
+  /// **'Something went wrong. Please try again.'**
   String get errorGeneric;
+
+  /// No description provided for @phoneRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number is required'**
+  String get phoneRequired;
+
+  /// No description provided for @phoneInvalidLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a 9-digit number'**
+  String get phoneInvalidLength;
+
+  /// No description provided for @phoneMustStartWithNine.
+  ///
+  /// In en, this message translates to:
+  /// **'Number must start with 9'**
+  String get phoneMustStartWithNine;
+
+  /// No description provided for @phoneInvalidGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid phone number'**
+  String get phoneInvalidGeneric;
+
+  /// No description provided for @otpRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the verification code'**
+  String get otpRequired;
+
+  /// No description provided for @otpInvalidLength.
+  ///
+  /// In en, this message translates to:
+  /// **'The code must be 6 digits'**
+  String get otpInvalidLength;
+
+  /// No description provided for @registerFullNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your full name'**
+  String get registerFullNameRequired;
+
+  /// No description provided for @registerIdDocumentRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your ID or passport'**
+  String get registerIdDocumentRequired;
+
+  /// No description provided for @registerBirthDateRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your date of birth'**
+  String get registerBirthDateRequired;
+
+  /// No description provided for @registerGenderRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your gender'**
+  String get registerGenderRequired;
+
+  /// No description provided for @registerEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get registerEmailRequired;
+
+  /// No description provided for @registerTermsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'You must accept the terms and conditions'**
+  String get registerTermsRequired;
+
+  /// No description provided for @errorInvalidPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid phone number'**
+  String get errorInvalidPhone;
+
+  /// No description provided for @errorUnsupportedCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'This country is not supported'**
+  String get errorUnsupportedCountry;
+
+  /// No description provided for @errorOtpDeliveryFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send the code. Try again later.'**
+  String get errorOtpDeliveryFailed;
+
+  /// No description provided for @errorInvalidCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid code. Request a new one.'**
+  String get errorInvalidCode;
+
+  /// No description provided for @errorIncorrectCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect code'**
+  String get errorIncorrectCode;
+
+  /// No description provided for @errorCodeExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'The code expired. Request a new one.'**
+  String get errorCodeExpired;
+
+  /// No description provided for @errorUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No account found for this number'**
+  String get errorUserNotFound;
+
+  /// No description provided for @errorUserExists.
+  ///
+  /// In en, this message translates to:
+  /// **'This number is already registered'**
+  String get errorUserExists;
+
+  /// No description provided for @errorResendCooldown.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code in {seconds} seconds'**
+  String errorResendCooldown(int seconds);
+
+  /// No description provided for @errorMaxResends.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many resend attempts. Try again later.'**
+  String get errorMaxResends;
+
+  /// No description provided for @errorBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many failed attempts. Try again later.'**
+  String get errorBlocked;
+
+  /// No description provided for @errorValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check the information entered'**
+  String get errorValidation;
 
   /// No description provided for @routeNotFound.
   ///
@@ -301,6 +601,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other'**
   String get genderOther;
+
+  /// No description provided for @genderPreferNotToSay.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer not to say'**
+  String get genderPreferNotToSay;
 
   /// No description provided for @emailLabel.
   ///

@@ -16,6 +16,12 @@ class AppLocalizationsEs extends AppLocalizations {
       'Inicia sesión con tu número y recibe tu código por WhatsApp';
 
   @override
+  String get codeSentWhatsApp => 'Código enviado a tu WhatsApp';
+
+  @override
+  String get codeSentSms => 'Código enviado por SMS';
+
+  @override
   String get phoneNumberLabel => 'NÚMERO TELEFÓNICO';
 
   @override
@@ -31,13 +37,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get verificationCodeSentPrefix => 'Enviamos un código a ';
 
   @override
-  String get verificationCodeSentSuffix => ' via WhatsApp ';
+  String get verificationCodeSentViaSms => ' por SMS ';
+
+  @override
+  String get verificationCodeSentViaWhatsApp => ' por WhatsApp ';
 
   @override
   String get validateCodeButton => 'VALIDAR CÓDIGO';
 
   @override
   String get resendCodePrefix => 'Reenviar código en ';
+
+  @override
+  String get resendCodeAction => 'Reenviar código';
 
   @override
   String get incorrectNumberQuestion => '¿NÚMERO INCORRECTO?';
@@ -49,13 +61,81 @@ class AppLocalizationsEs extends AppLocalizations {
   String get selectCountryTitle => 'Selecciona tu país';
 
   @override
+  String get searchCountryHint => 'Buscar país o código';
+
+  @override
+  String get searchCountryEmpty => 'No se encontraron países';
+
+  @override
   String get homeTitle => 'Inicio';
 
   @override
-  String get homeDashboardTitle => 'Panel';
+  String homeGreeting(String name) {
+    return '¡Hola, $name!';
+  }
 
   @override
-  String get homeDashboardSubtitle => 'Tu camino de aprendizaje comienza aquí';
+  String get homeDiscoverSubtitle => 'Descubre los mejores eventos para ti';
+
+  @override
+  String get categoryChile => 'Chile';
+
+  @override
+  String get categoryParties => 'Fiestas';
+
+  @override
+  String get categoryConcerts => 'Conciertos';
+
+  @override
+  String get categorySports => 'Deportes';
+
+  @override
+  String get featuredEventTitle => 'FESTIVAL PRIMAVERA — 2026 —';
+
+  @override
+  String get featuredEventDate => '21 DE NOVIEMBRE, 2026 • 17:00 HRS';
+
+  @override
+  String get featuredEventLocation => 'PARQUE BICENTENARIO, SANTIAGO';
+
+  @override
+  String get eventsSectionTitle => 'Eventos destacados';
+
+  @override
+  String get seeAll => 'Ver todos';
+
+  @override
+  String get buyTickets => 'COMPRAR ENTRADAS';
+
+  @override
+  String get eventCaribeDate => 'Sábado, 31 de enero, 2026';
+
+  @override
+  String get eventCaribeLocation => 'Club Océano, Viña del Mar';
+
+  @override
+  String get eventRockDate => 'Domingo, 15 de febrero, 2026';
+
+  @override
+  String get eventRockLocation => 'Parque Simón Bolívar, Bogotá';
+
+  @override
+  String get defaultGuestName => 'Christian';
+
+  @override
+  String get brandBadgeOff => 'OFF';
+
+  @override
+  String get featuredEventSummerTitle => 'SUMMER BEATS 2026';
+
+  @override
+  String get featuredEventUrbanTitle => 'URBAN NIGHT LIVE';
+
+  @override
+  String get eventCaribeTitle => 'Caribe Night';
+
+  @override
+  String get eventRockTitle => 'Rock al Parque';
 
   @override
   String helloUser(String name) {
@@ -66,7 +146,84 @@ class AppLocalizationsEs extends AppLocalizations {
   String get logoutButton => 'Cerrar sesión';
 
   @override
-  String get errorGeneric => 'Error';
+  String get errorGeneric => 'Algo salió mal. Inténtalo de nuevo.';
+
+  @override
+  String get phoneRequired => 'El número telefónico es requerido';
+
+  @override
+  String get phoneInvalidLength => 'Ingresa un número de 9 dígitos';
+
+  @override
+  String get phoneMustStartWithNine => 'El número debe comenzar con 9';
+
+  @override
+  String get phoneInvalidGeneric => 'Ingresa un número válido';
+
+  @override
+  String get otpRequired => 'Ingresa el código de verificación';
+
+  @override
+  String get otpInvalidLength => 'El código debe tener 6 dígitos';
+
+  @override
+  String get registerFullNameRequired => 'Ingresa tu nombre completo';
+
+  @override
+  String get registerIdDocumentRequired => 'Ingresa tu RUT o pasaporte';
+
+  @override
+  String get registerBirthDateRequired => 'Selecciona tu fecha de nacimiento';
+
+  @override
+  String get registerGenderRequired => 'Selecciona tu género';
+
+  @override
+  String get registerEmailRequired => 'Ingresa tu correo electrónico';
+
+  @override
+  String get registerTermsRequired =>
+      'Debes aceptar los términos y condiciones';
+
+  @override
+  String get errorInvalidPhone => 'Número telefónico inválido';
+
+  @override
+  String get errorUnsupportedCountry => 'Este país no está disponible';
+
+  @override
+  String get errorOtpDeliveryFailed =>
+      'No se pudo enviar el código. Inténtalo más tarde.';
+
+  @override
+  String get errorInvalidCode => 'Código inválido. Solicita uno nuevo.';
+
+  @override
+  String get errorIncorrectCode => 'Código incorrecto';
+
+  @override
+  String get errorCodeExpired => 'El código expiró. Solicita uno nuevo.';
+
+  @override
+  String get errorUserNotFound => 'No existe una cuenta con este número';
+
+  @override
+  String get errorUserExists => 'Este número ya está registrado';
+
+  @override
+  String errorResendCooldown(int seconds) {
+    return 'Reenviar código en $seconds segundos';
+  }
+
+  @override
+  String get errorMaxResends => 'Demasiados reenvíos. Inténtalo más tarde.';
+
+  @override
+  String get errorBlocked =>
+      'Demasiados intentos fallidos. Inténtalo más tarde.';
+
+  @override
+  String get errorValidation => 'Revisa la información ingresada';
 
   @override
   String get routeNotFound => 'Ruta no encontrada';
@@ -113,6 +270,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get genderOther => 'Otro';
+
+  @override
+  String get genderPreferNotToSay => 'Prefiero no decir';
 
   @override
   String get emailLabel => 'CORREO ELECTRÓNICO';

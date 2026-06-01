@@ -17,4 +17,6 @@ enum AppTextVariant {
   otpPlaceholder,
   error,
   timer,
+  greetingTitle,
+  sectionTitle,
 }

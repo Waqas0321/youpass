@@ -1,8 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:youpass/features/auth/data/models/auth_session_model.dart';
 import 'package:youpass/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
 import '../../mocks/mock_auth_local_datasource.dart';
 import '../../mocks/mock_auth_remote_datasource.dart';
+import '../../../../helpers/auth_test_helper.dart';
 import '../../../../helpers/test_fixtures.dart';
 
 void main() {
@@ -10,9 +13,7 @@ void main() {
   late MockAuthLocalDataSource mockLocalDataSource;
   late AuthRepositoryImpl repository;
 
-  setUpAll(() {
-    registerFallbackValue(TestFixtures.testUser);
-  });
+  setUpAll(AuthTestHelper.registerFallbacks);
 
   setUp(() {
     mockRemoteDataSource = MockAuthRemoteDataSource();
@@ -23,25 +24,52 @@ void main() {
     );
   });
 
-  group('login', () {
-    test('fetches user, caches user and token', () async {
+  group('loginWithPhone', () {
+    test('persists session user and token', () async {
+      const session = AuthSessionModel(
+        accessToken: TestFixtures.testToken,
+        user: TestFixtures.testUser,
+      );
+
       when(
-        () => mockRemoteDataSource.login(
-          email: any(named: 'email'),
-          password: any(named: 'password'),
+        () => mockRemoteDataSource.loginWithPhone(
+          phone: any(named: 'phone'),
+          countryIsoCode: any(named: 'countryIsoCode'),
+          code: any(named: 'code'),
         ),
-      ).thenAnswer((_) async => TestFixtures.testUser);
+      ).thenAnswer((_) async => session);
       when(() => mockLocalDataSource.cacheUser(any())).thenAnswer((_) async {});
       when(() => mockLocalDataSource.cacheToken(any())).thenAnswer((_) async {});
 
-      final result = await repository.login(
-        email: TestFixtures.testEmail,
-        password: TestFixtures.testPassword,
+      final result = await repository.loginWithPhone(
+        phone: TestFixtures.testPhone,
+        countryIsoCode: 'CL',
+        code: '123456',
       );
 
       expect(result, TestFixtures.testUser);
       verify(() => mockLocalDataSource.cacheUser(TestFixtures.testUser)).called(1);
       verify(() => mockLocalDataSource.cacheToken(TestFixtures.testToken)).called(1);
+    });
+  });
+
+  group('sendVerificationCode', () {
+    test('delegates to remote datasource', () async {
+      when(
+        () => mockRemoteDataSource.sendVerificationCode(
+          phone: any(named: 'phone'),
+          countryIsoCode: any(named: 'countryIsoCode'),
+          purpose: any(named: 'purpose'),
+        ),
+      ).thenAnswer((_) async => TestFixtures.testSendCodeResult);
+
+      final result = await repository.sendVerificationCode(
+        phone: TestFixtures.testPhone,
+        countryIsoCode: 'CL',
+        purpose: OtpPurpose.login,
+      );
+
+      expect(result, TestFixtures.testSendCodeResult);
     });
   });
 
@@ -52,29 +80,6 @@ void main() {
       await repository.logout();
 
       verify(() => mockLocalDataSource.clearCache()).called(1);
-    });
-  });
-
-  group('sendVerificationCode', () {
-    test('delegates to remote datasource', () async {
-      when(
-        () => mockRemoteDataSource.sendVerificationCode(
-          countryCode: any(named: 'countryCode'),
-          phoneNumber: any(named: 'phoneNumber'),
-        ),
-      ).thenAnswer((_) async {});
-
-      await repository.sendVerificationCode(
-        countryCode: '56',
-        phoneNumber: '912345678',
-      );
-
-      verify(
-        () => mockRemoteDataSource.sendVerificationCode(
-          countryCode: '56',
-          phoneNumber: '912345678',
-        ),
-      ).called(1);
     });
   });
 

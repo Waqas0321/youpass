@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:youpass/core/locale/app_locale.dart';
 import 'package:youpass/features/auth/presentation/screens/login_screen.dart';
@@ -5,12 +6,12 @@ import 'package:youpass/features/auth/presentation/screens/verification_screen.d
 import 'package:youpass/l10n/app_localizations.dart';
 import 'package:youpass/routes/app_routes.dart';
 
-import '../../../../helpers/localization_test_helper.dart';
+import '../../../../helpers/auth_test_helper.dart';
 
 void main() {
   testWidgets('LoginScreen shows phone login UI in English', (tester) async {
     await tester.pumpWidget(
-      LocalizationTestHelper.wrap(child: const LoginScreen()),
+      AuthTestHelper.wrap(child: const LoginScreen()),
     );
 
     final strings = lookupAppLocalizations(AppLocale.english);
@@ -25,14 +26,17 @@ void main() {
     final strings = lookupAppLocalizations(AppLocale.english);
 
     await tester.pumpWidget(
-      LocalizationTestHelper.wrap(
+      AuthTestHelper.wrap(
         child: const LoginScreen(),
         routes: {
-          AppRoutes.verification: (_) => const VerificationScreen(),
+          AppRoutes.verification: (_) => VerificationScreen(
+                args: AuthTestHelper.testVerificationArgs,
+              ),
         },
       ),
     );
 
+    await tester.enterText(find.byType(TextField), '912345678');
     await tester.tap(find.text(strings.sendCodeButton));
     await tester.pumpAndSettle();
 

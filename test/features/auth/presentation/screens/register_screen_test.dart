@@ -4,12 +4,12 @@ import 'package:youpass/core/widgets/youpass_primary_button.dart';
 import 'package:youpass/features/auth/presentation/screens/register_screen.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
-import '../../../../helpers/localization_test_helper.dart';
+import '../../../../helpers/auth_test_helper.dart';
 
 void main() {
   testWidgets('RegisterScreen shows create account UI in English', (tester) async {
     await tester.pumpWidget(
-      LocalizationTestHelper.wrap(child: const RegisterScreen()),
+      AuthTestHelper.wrap(child: const RegisterScreen()),
     );
 
     final strings = lookupAppLocalizations(AppLocale.english);
@@ -22,7 +22,7 @@ void main() {
 
   testWidgets('RegisterScreen opens gender picker on tap', (tester) async {
     await tester.pumpWidget(
-      LocalizationTestHelper.wrap(child: const RegisterScreen()),
+      AuthTestHelper.wrap(child: const RegisterScreen()),
     );
 
     final strings = lookupAppLocalizations(AppLocale.english);

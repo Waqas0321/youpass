@@ -1,5 +1,5 @@
 import 'package:youpass/features/home/data/datasources/home_remote_datasource.dart';
-import 'package:youpass/features/home/domain/entities/home_entity.dart';
+import 'package:youpass/features/home/domain/entities/home_feed_entity.dart';
 import 'package:youpass/features/home/domain/repositories/home_repository.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -8,7 +8,7 @@ class HomeRepositoryImpl implements HomeRepository {
   final HomeRemoteDataSource remoteDataSource;
 
   @override
-  Future<HomeEntity> getHomeData() {
-    return remoteDataSource.fetchHomeData();
+  Future<HomeFeedEntity> getHomeFeed() {
+    return remoteDataSource.fetchHomeFeed();
   }
 }

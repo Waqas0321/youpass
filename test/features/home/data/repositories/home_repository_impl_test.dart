@@ -14,13 +14,13 @@ void main() {
     repository = HomeRepositoryImpl(mockRemoteDataSource);
   });
 
-  test('getHomeData delegates to remote datasource', () async {
-    when(() => mockRemoteDataSource.fetchHomeData())
-        .thenAnswer((_) async => TestFixtures.testHome);
+  test('getHomeFeed delegates to remote datasource', () async {
+    when(() => mockRemoteDataSource.fetchHomeFeed())
+        .thenAnswer((_) async => TestFixtures.testHomeFeed);
 
-    final result = await repository.getHomeData();
+    final result = await repository.getHomeFeed();
 
-    expect(result, TestFixtures.testHome);
-    verify(() => mockRemoteDataSource.fetchHomeData()).called(1);
+    expect(result, TestFixtures.testHomeFeed);
+    verify(() => mockRemoteDataSource.fetchHomeFeed()).called(1);
   });
 }

@@ -48,9 +48,13 @@ void main() {
       find.text(lookupAppLocalizations(AppLocale.english).selectCountryTitle),
       findsOneWidget,
     );
-    expect(find.text('Argentina'), findsOneWidget);
 
-    await tester.tap(find.text('Argentina'));
+    await tester.enterText(find.byType(TextField), 'Argentina');
+    await tester.pumpAndSettle();
+
+    expect(find.text('+54'), findsOneWidget);
+
+    await tester.tap(find.text('+54'));
     await tester.pumpAndSettle();
 
     expect(find.text('🇦🇷'), findsOneWidget);

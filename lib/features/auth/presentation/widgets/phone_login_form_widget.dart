@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/country_code_list.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/core/l10n/auth_error_extension.dart';
+import 'package:youpass/core/l10n/otp_delivery_message.dart';
+import 'package:youpass/core/widgets/app_snack_bar.dart';
 import 'package:youpass/core/utils/phone_formatter.dart';
+import 'package:youpass/core/utils/phone_validators.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
+import 'package:youpass/core/widgets/app_text.dart';
+import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/core/widgets/youpass_primary_button.dart';
+import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
+import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/auth/presentation/widgets/phone_input_widget.dart';
+import 'package:youpass/features/auth/routes/register_route_args.dart';
 import 'package:youpass/features/auth/routes/verification_route_args.dart';
 import 'package:youpass/routes/app_routes.dart';
 
@@ -26,21 +36,69 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
     super.dispose();
   }
 
-  String buildPhoneDisplay() {
-    final country =
-        phoneInputKey.currentState?.currentCountry ?? CountryCodeList.defaultCountry;
-    final dialCode = country.dialCode;
-    final digits = PhoneFormatter.digitsOnly(phoneController.text);
-
-    if (digits.isEmpty) {
-      return PhoneFormatter.formatDisplay(dialCode, '912345678');
-    }
-
-    return PhoneFormatter.formatDisplay(dialCode, digits);
+  String resolvePhoneDigits() {
+    return PhoneFormatter.digitsOnly(phoneController.text);
   }
 
-  void navigateToVerification() {
-    final args = VerificationRouteArgs(phoneDisplay: buildPhoneDisplay());
+  Future<void> sendCodeAndNavigate() async {
+    final country =
+        phoneInputKey.currentState?.currentCountry ?? CountryCodeList.defaultCountry;
+    final phoneDigits = resolvePhoneDigits();
+    final l10n = context.l10n;
+    final validationError = PhoneValidators.validateNationalNumber(
+      l10n,
+      phoneDigits,
+      isoCode: country.isoCode,
+    );
+
+    if (validationError != null) {
+      AppSnackBar.show(context, validationError);
+      return;
+    }
+
+    final authProvider = context.read<AuthProvider>();
+    final result = await authProvider.sendVerificationCode(
+      phone: phoneDigits,
+      countryIsoCode: country.isoCode,
+      purpose: OtpPurpose.login,
+    );
+
+    if (!mounted) {
+      return;
+    }
+
+    if (result == null) {
+      final message =
+          authProvider.localizedErrorMessage(l10n) ?? l10n.errorGeneric;
+      AppSnackBar.show(context, message);
+      return;
+    }
+
+    final effectivePurpose = result.effectivePurpose;
+
+    if (effectivePurpose == OtpPurpose.register) {
+      Navigator.of(context).pushNamed(
+        AppRoutes.register,
+        arguments: RegisterRouteArgs(
+          phone: phoneDigits,
+          countryIsoCode: country.isoCode,
+          phoneDisplay: result.phoneDisplay,
+          resendCooldownSeconds: result.resendAvailableInSeconds,
+          codeAlreadySent: true,
+        ),
+      );
+      return;
+    }
+
+    final args = VerificationRouteArgs(
+      phone: phoneDigits,
+      countryIsoCode: country.isoCode,
+      purpose: effectivePurpose,
+      phoneDisplay: result.phoneDisplay,
+      resendCooldownSeconds: result.resendAvailableInSeconds,
+      deliveryChannel: result.channel,
+      statusMessage: OtpDeliveryMessage.sentConfirmation(l10n, result.channel),
+    );
 
     Navigator.of(context).pushNamed(
       AppRoutes.verification,
@@ -51,6 +109,9 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final l10n = context.l10n;
+    final authProvider = context.watch<AuthProvider>();
+    final localizedError = authProvider.localizedErrorMessage(l10n);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -59,10 +120,18 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
           key: phoneInputKey,
           phoneController: phoneController,
         ),
+        if (localizedError != null) ...[
+          SizedBox(height: layout.spacing(12)),
+          AppText(
+            localizedError,
+            variant: AppTextVariant.error,
+          ),
+        ],
         SizedBox(height: layout.spacing(28)),
         YouPassPrimaryButton(
           label: context.l10n.sendCodeButton,
-          onPressed: navigateToVerification,
+          isLoading: authProvider.isSubmitting,
+          onPressed: sendCodeAndNavigate,
         ),
       ],
     );

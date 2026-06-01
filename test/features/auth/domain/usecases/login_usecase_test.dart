@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:youpass/features/auth/domain/usecases/login_usecase.dart';
+
 import '../../mocks/mock_auth_repository.dart';
 import '../../../../helpers/test_fixtures.dart';
 
@@ -13,24 +14,27 @@ void main() {
     loginUseCase = LoginUseCase(mockAuthRepository);
   });
 
-  test('calls repository login with email and password', () async {
+  test('calls repository loginWithPhone', () async {
     when(
-      () => mockAuthRepository.login(
-        email: any(named: 'email'),
-        password: any(named: 'password'),
+      () => mockAuthRepository.loginWithPhone(
+        phone: any(named: 'phone'),
+        countryIsoCode: any(named: 'countryIsoCode'),
+        code: any(named: 'code'),
       ),
     ).thenAnswer((_) async => TestFixtures.testUser);
 
     final result = await loginUseCase(
-      email: TestFixtures.testEmail,
-      password: TestFixtures.testPassword,
+      phone: TestFixtures.testPhone,
+      countryIsoCode: 'CL',
+      code: '123456',
     );
 
     expect(result, TestFixtures.testUser);
     verify(
-      () => mockAuthRepository.login(
-        email: TestFixtures.testEmail,
-        password: TestFixtures.testPassword,
+      () => mockAuthRepository.loginWithPhone(
+        phone: TestFixtures.testPhone,
+        countryIsoCode: 'CL',
+        code: '123456',
       ),
     ).called(1);
   });

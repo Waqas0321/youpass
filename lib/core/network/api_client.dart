@@ -2,35 +2,114 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:youpass/core/constants/app_constants.dart';
+import 'package:youpass/core/utils/app_logger.dart';
+
+typedef AuthTokenProvider = Future<String?> Function();
 
 class ApiClient {
-  ApiClient({http.Client? client}) : httpClient = client ?? http.Client();
+  ApiClient({
+    http.Client? client,
+    this.authTokenProvider,
+  }) : httpClient = client ?? http.Client();
 
   final http.Client httpClient;
+  final AuthTokenProvider? authTokenProvider;
 
   Future<http.Response> get(
     String url, {
     Map<String, String>? headers,
+    bool authenticated = false,
   }) async {
-    return httpClient
-        .get(Uri.parse(url), headers: headers)
-        .timeout(AppConstants.apiTimeout);
+    final resolvedHeaders = await _resolveHeaders(
+      headers: headers,
+      authenticated: authenticated,
+    );
+
+    return _send(
+      method: 'GET',
+      url: url,
+      request: () => httpClient
+          .get(Uri.parse(url), headers: resolvedHeaders)
+          .timeout(AppConstants.apiTimeout),
+    );
   }
 
   Future<http.Response> post(
     String url, {
     Map<String, String>? headers,
     Object? body,
+    bool authenticated = false,
   }) async {
-    return httpClient
-        .post(
-          Uri.parse(url),
-          headers: {
-            'Content-Type': 'application/json',
-            ...?headers,
-          },
-          body: body is String ? body : jsonEncode(body),
-        )
-        .timeout(AppConstants.apiTimeout);
+    final encodedBody = body is String ? body : jsonEncode(body);
+    final resolvedHeaders = await _resolveHeaders(
+      headers: headers,
+      authenticated: authenticated,
+    );
+
+    return _send(
+      method: 'POST',
+      url: url,
+      body: encodedBody,
+      request: () => httpClient
+          .post(
+            Uri.parse(url),
+            headers: resolvedHeaders,
+            body: encodedBody,
+          )
+          .timeout(AppConstants.apiTimeout),
+    );
+  }
+
+  Future<Map<String, String>> _resolveHeaders({
+    Map<String, String>? headers,
+    required bool authenticated,
+  }) async {
+    final resolved = <String, String>{
+      'Content-Type': 'application/json',
+      ...?headers,
+    };
+
+    if (authenticated && authTokenProvider != null) {
+      final token = await authTokenProvider!();
+      if (token != null && token.isNotEmpty) {
+        resolved['Authorization'] = 'Bearer $token';
+      }
+    }
+
+    return resolved;
+  }
+
+  Future<http.Response> _send({
+    required String method,
+    required String url,
+    required Future<http.Response> Function() request,
+    Object? body,
+  }) async {
+    final startedAt = DateTime.now();
+
+    AppLogger.apiRequest(method: method, url: url, body: body);
+
+    try {
+      final response = await request();
+      final duration = DateTime.now().difference(startedAt);
+
+      AppLogger.apiResponse(
+        method: method,
+        url: url,
+        statusCode: response.statusCode,
+        body: response.body,
+        duration: duration,
+      );
+
+      return response;
+    } catch (error, stackTrace) {
+      AppLogger.apiFailure(
+        method: method,
+        url: url,
+        error: error,
+        stackTrace: stackTrace,
+      );
+      rethrow;
+    }
   }
 }

@@ -1,3 +1,5 @@
+import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
+import 'package:youpass/features/auth/domain/entities/send_code_result_entity.dart';
 import 'package:youpass/features/auth/domain/repositories/auth_repository.dart';
 
 class SendCodeUseCase {
@@ -5,13 +7,15 @@ class SendCodeUseCase {
 
   final AuthRepository authRepository;
 
-  Future<void> call({
-    required String countryCode,
-    required String phoneNumber,
+  Future<SendCodeResultEntity> call({
+    required String phone,
+    required String countryIsoCode,
+    required OtpPurpose purpose,
   }) {
     return authRepository.sendVerificationCode(
-      countryCode: countryCode,
-      phoneNumber: phoneNumber,
+      phone: phone,
+      countryIsoCode: countryIsoCode,
+      purpose: purpose,
     );
   }
 }

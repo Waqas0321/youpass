@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
-import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
+import 'package:youpass/core/widgets/auth_bottom_sheet_shell.dart';
 
 class GenderPickerSheet extends StatelessWidget {
   const GenderPickerSheet({
@@ -14,13 +13,12 @@ class GenderPickerSheet extends StatelessWidget {
   final ValueChanged<String> onGenderSelected;
 
   static Future<String?> show(BuildContext context) {
-    return showModalBottomSheet<String>(
+    return AuthBottomSheetShell.show<String>(
       context: context,
-      backgroundColor: AppColors.backgroundWhite,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => GenderPickerSheet(
+      title: context.l10n.genderHint,
+      isScrollControlled: false,
+      maxHeightFactor: 0.4,
+      child: GenderPickerSheet(
         onGenderSelected: (gender) => Navigator.of(context).pop(gender),
       ),
     );
@@ -28,35 +26,24 @@ class GenderPickerSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final layout = ResponsiveLayout(context);
     final strings = context.l10n;
     final options = [
       strings.genderMale,
       strings.genderFemale,
       strings.genderOther,
+      strings.genderPreferNotToSay,
     ];
 
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: layout.spacing(16)),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AppText(
-              strings.genderHint,
-              variant: AppTextVariant.title,
-              fontSize: layout.fontSize(18),
+    return ListView(
+      shrinkWrap: true,
+      children: options
+          .map(
+            (option) => ListTile(
+              title: AppText(option, variant: AppTextVariant.listTitle),
+              onTap: () => onGenderSelected(option),
             ),
-            SizedBox(height: layout.spacing(12)),
-            ...options.map(
-              (option) => ListTile(
-                title: AppText(option, variant: AppTextVariant.listTitle),
-                onTap: () => onGenderSelected(option),
-              ),
-            ),
-          ],
-        ),
-      ),
+          )
+          .toList(),
     );
   }
 }

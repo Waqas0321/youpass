@@ -1,0 +1,53 @@
+{
+  "@@locale": "en",
+  "welcomeBackTitle": "WELCOME BACK",
+  "phoneLoginSubtitle": "Sign in with your number and receive your code via WhatsApp",
+  "phoneNumberLabel": "PHONE NUMBER",
+  "sendCodeButton": "SEND CODE",
+  "createAccountLink": "Create account",
+  "verificationCodeTitle": "VERIFICATION CODE",
+  "verificationCodeSentPrefix": "We sent a code to ",
+  "verificationCodeSentSuffix": " via WhatsApp ",
+  "validateCodeButton": "VALIDATE CODE",
+  "resendCodePrefix": "Resend code in ",
+  "incorrectNumberQuestion": "INCORRECT NUMBER?",
+  "changeNumberLink": "CHANGE NUMBER",
+  "selectCountryTitle": "Select your country",
+  "homeTitle": "Home",
+  "homeDashboardTitle": "Dashboard",
+  "homeDashboardSubtitle": "Your learning journey starts here",
+  "helloUser": "Hello, {name}",
+  "@helloUser": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "logoutButton": "Logout",
+  "errorGeneric": "Error",
+  "routeNotFound": "Route not found",
+  "backButton": "BACK",
+  "createAccountTitle": "CREATE ACCOUNT",
+  "createAccountSubtitle": "Complete the following details to create your account",
+  "fullNameLabel": "FULL NAME",
+  "fullNameHint": "Enter your full name",
+  "idDocumentLabel": "ID OR PASSPORT",
+  "idDocumentHint": "Enter your ID or passport",
+  "birthDateLabel": "DATE OF BIRTH",
+  "birthDateHint": "Select your date of birth",
+  "genderLabel": "GENDER",
+  "genderHint": "Select your gender",
+  "genderMale": "Male",
+  "genderFemale": "Female",
+  "genderOther": "Other",
+  "emailLabel": "EMAIL",
+  "emailHint": "example@email.com",
+  "instagramLabel": "INSTAGRAM USERNAME",
+  "instagramHint": "@instagramuser",
+  "termsPrefix": "I accept the ",
+  "termsLink": "terms and conditions",
+  "createAccountButton": "CREATE ACCOUNT",
+  "alreadyHaveAccountQuestion": "ALREADY HAVE AN ACCOUNT?",
+  "signInLink": "SIGN IN"
+}

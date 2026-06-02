@@ -93,5 +93,158 @@
   "termsLink": "términos y condiciones",
   "createAccountButton": "CREAR CUENTA",
   "alreadyHaveAccountQuestion": "¿YA TIENES CUENTA?",
-  "signInLink": "INICIAR SESIÓN"
+  "signInLink": "INICIAR SESIÓN",
+  "drawerMyProfile": "Mi Perfil",
+  "drawerMyTickets": "Mis Tickets",
+  "drawerMyFavorites": "Mis Favoritos",
+  "drawerInvitations": "INVITACIONES",
+  "drawerInvitationsNewBadge": "{count} nuevas",
+  "@drawerInvitationsNewBadge": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "drawerTierGold": "GOLD",
+  "profileTitle": "Mi Perfil",
+  "profileViewBenefits": "Ver mis beneficios",
+  "profilePersonalData": "DATOS PERSONALES",
+  "profileFullName": "Nombre y Apellidos",
+  "profileEmail": "Correo electrónico",
+  "profileBirthDate": "Fecha de nacimiento",
+  "profileGender": "Género",
+  "profileGenderMaleValue": "Hombre",
+  "profileInstagram": "Nick de Instagram",
+  "profileEditData": "Editar datos",
+  "profileWalletSection": "BILLETERA YOUPASS",
+  "profilePaymentMethods": "Mis métodos de pago",
+  "profileCardVisa": "Visa ••••4205",
+  "profileCardMastercard": "Mastercard ••••9988",
+  "profileDefaultCard": "Predeterminada",
+  "profileViewFullWallet": "Ver billetera completa",
+  "profileNotifications": "NOTIFICACIONES",
+  "profileReceiveNotifications": "Recibir notificaciones",
+  "profileNotificationChannels": "Email · Push · WhatsApp",
+  "profileSupport": "SOPORTE",
+  "profileWhatsAppSupport": "WhatsApp soporte",
+  "profileWriteEmail": "Escribir email",
+  "profileFaq": "Preguntas frecuentes",
+  "profileLogout": "Cerrar sesión",
+  "profileDeleteAccount": "Eliminar cuenta",
+  "confirmDialogCancel": "Cancelar",
+  "confirmLogoutTitle": "¿Cerrar sesión?",
+  "confirmLogoutMessage": "Deberás iniciar sesión nuevamente con tu número de teléfono para usar YouPass.",
+  "confirmLogoutAction": "Cerrar sesión",
+  "confirmDeleteAccountTitle": "¿Eliminar tu cuenta?",
+  "confirmDeleteAccountMessage": "Esto elimina permanentemente tu cuenta, entradas y datos de perfil. Enviaremos un código de verificación para confirmar.",
+  "confirmDeleteAccountAction": "Continuar",
+  "ticketsTabUpcoming": "PRÓXIMOS",
+  "ticketsTabPast": "EVENTOS PASADOS",
+  "ticketsStatusActive": "ACTIVO",
+  "ticketsViewQr": "VER QR",
+  "ticketsAssignEntries": "ASIGNAR ENTRADAS",
+  "ticketsAssignVip": "ASIGNAR ENTRADAS VIP",
+  "ticketsAttendedSectionTitle": "EVENTOS ASISTIDOS",
+  "ticketsAttendedSectionSubtitle": "Revisa tus eventos anteriores y tus estadísticas personales.",
+  "ticketsSearchHint": "Buscar evento / Nombre evento / productora",
+  "ticketsFiltersLabel": "FILTROS",
+  "ticketsFilterAll": "Todos",
+  "ticketsFilterParties": "Fiestas",
+  "ticketsFilterConcerts": "Conciertos",
+  "ticketsStatistics": "ESTADÍSTICAS",
+  "ticketsStatEntry": "Ingreso",
+  "ticketsStatConsumption": "Consumo",
+  "ticketsStatStay": "Estadía",
+  "ticketsFavoritesTip": "Puedes marcar eventos para agregarlos a favoritos.",
+  "favoritesSubtitle": "Tus productoras y eventos favoritos aparecerán aquí",
+  "favoritesSearchHint": "Buscar productora o evento",
+  "favoritesFiltersLabel": "FILTROS",
+  "favoritesFilterAll": "Todos",
+  "favoritesFilterUpcoming": "Próximos",
+  "favoritesFilterParties": "Fiestas",
+  "favoritesFilterVip": "VIP",
+  "favoritesProducerType": "Productora de eventos",
+  "favoritesProducerCoverage": "Eventos en todo Chile",
+  "favoritesViewEvents": "VER EVENTOS",
+  "favoritesSavedProducersCount": "{count} productoras guardadas",
+  "@favoritesSavedProducersCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "favoritesYoufestDescription": "Los mejores festivales y experiencias en vivo.",
+  "favoritesIguanaDescription": "Música electrónica, fiestas y experiencias únicas.",
+  "producerEventsUpcomingTitle": "PRÓXIMOS EVENTOS",
+  "producerEventsUpcomingSubtitle": "Descubre los próximos eventos de {producerName}",
+  "@producerEventsUpcomingSubtitle": {
+    "placeholders": {
+      "producerName": {
+        "type": "String"
+      }
+    }
+  },
+  "producerEventsSearchHint": "Buscar evento",
+  "producerEventCategoryParties": "Fiestas",
+  "producerEventCategoryFestivals": "Festivales",
+  "producerEventCategoryConcerts": "Conciertos",
+  "producerEventFromPrice": "Desde",
+  "producerEventBuyTicket": "COMPRAR ENTRADA",
+  "producerEventsAvailableCount": "{count} eventos disponibles",
+  "@producerEventsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "drawerMyInvitations": "Mis Invitaciones",
+  "invitationsScreenTitle": "MIS INVITACIONES",
+  "invitationsSubtitle": "Gestiona tus accesos e invitaciones a eventos",
+  "invitationsSearchHint": "Buscar invitaciones / Eventos / productores",
+  "invitationsFilterAll": "Todas",
+  "invitationsFilterGeneral": "General",
+  "invitationsFilterVip": "VIP",
+  "invitationsTierVip": "VIP",
+  "invitationsTierGeneral": "General",
+  "invitationsStatusLine": "Estado: {status}",
+  "@invitationsStatusLine": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationsStatusPending": "Pendiente",
+  "invitationsStatusConfirmed": "Confirmado",
+  "invitationsStatusRejected": "Rechazado",
+  "invitationsConfirmAttendance": "CONFIRMAR ASISTENCIA",
+  "invitationsReject": "RECHAZAR",
+  "invitationsViewQr": "VER QR",
+  "invitationsFooterNote": "Las invitaciones confirmadas generan un QR único e intransferible.",
+  "invitationsImportantTitle": "Importante",
+  "invitationsImportantMessage": "Al confirmar, la entrada queda reservada exclusivamente para ti. Si no asistes, podrías ser cobrado el valor total de la entrada.",
+  "invitationsAddPaymentMethod": "AGREGAR MEDIO DE PAGO",
+  "invitationsPaymentTitle": "Agregar medio de pago",
+  "invitationsPaymentSubtitle": "Ingresa los datos de tu tarjeta",
+  "invitationsCardNumber": "Número de tarjeta",
+  "invitationsCardNumberHint": "1234 5678 9012 3456",
+  "invitationsCardExpiry": "Fecha de vencimiento",
+  "invitationsCardExpiryHint": "MM/AA",
+  "invitationsCardCvv": "CVV",
+  "invitationsCardCvvHint": "123",
+  "invitationsCardholderName": "Nombre en la tarjeta",
+  "invitationsCardholderNameHint": "Como aparece en la tarjeta",
+  "invitationsPaymentSecureNote": "para utilizar de forma segura",
+  "invitationsSaveCard": "GUARDAR TARJETA",
+  "invitationsCardSavedTitle": "¡Tarjeta guardada con éxito!",
+  "invitationsCardSavedMessage": "Tu tarjeta quedó registrada. Recuerda:",
+  "invitationsCardSavedReminderCharge": "Si no asistes al evento, podrías ser cobrado el valor total de la entrada.",
+  "invitationsCardSavedReminderCancel": "Las cancelaciones deben hacerse con al menos 48 horas de anticipación para evitar cargos.",
+  "eventTicketScreenTitle": "Entrada del evento",
+  "eventTicketReadyTitle": "¡Tu entrada está lista!",
+  "eventTicketReadySubtitle": "Muestra este código en el acceso para ingresar al evento.",
+  "eventTicketManualIdLabel": "ID de ingreso manual"
 }

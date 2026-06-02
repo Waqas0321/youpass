@@ -14,7 +14,22 @@ class ApiEndpoints {
   static const String login = '$apiV1/auth/login';
   static const String register = '$apiV1/auth/register';
   static const String logout = '$apiV1/auth/logout';
+  static const String usersMe = '$apiV1/users/me';
   static const String userProfile = '$apiV1/users/me/profile';
   static const String userWelcomeData = '$apiV1/users/me/welcome-data';
+  static const String deleteAccountRequest = '$apiV1/auth/delete-account/request';
+  static const String deleteAccountVerify = '$apiV1/auth/delete-account/verify';
   static const String checkWhatsApp = '$apiV1/auth/check-whatsapp';
+
+  static const String invitations = '$apiV1/invitations';
+  static const String paymentMethods = '$apiV1/users/me/payment-methods';
+
+  static String invitationConfirm(String invitationId) =>
+      '$apiV1/invitations/$invitationId/confirm';
+
+  static String invitationReject(String invitationId) =>
+      '$apiV1/invitations/$invitationId/reject';
+
+  static String invitationTicket(String invitationId) =>
+      '$apiV1/invitations/$invitationId/ticket';
 }

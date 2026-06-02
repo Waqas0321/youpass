@@ -1,11 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
-import 'package:youpass/features/auth/domain/usecases/login_usecase.dart';
-import 'package:youpass/features/auth/domain/usecases/logout_usecase.dart';
-import 'package:youpass/features/auth/domain/usecases/register_usecase.dart';
-import 'package:youpass/features/auth/domain/usecases/resend_code_usecase.dart';
-import 'package:youpass/features/auth/domain/usecases/send_code_usecase.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 
 import '../../mocks/mock_auth_repository.dart';
@@ -20,29 +15,30 @@ void main() {
 
   setUp(() {
     mockAuthRepository = MockAuthRepository();
-    authProvider = AuthProvider(
-      sendCodeUseCase: SendCodeUseCase(mockAuthRepository),
-      resendCodeUseCase: ResendCodeUseCase(mockAuthRepository),
-      loginUseCase: LoginUseCase(mockAuthRepository),
-      registerUseCase: RegisterUseCase(mockAuthRepository),
-      logoutUseCase: LogoutUseCase(mockAuthRepository),
-      authRepository: mockAuthRepository,
-    );
+    authProvider = AuthTestHelper.buildAuthProvider(mockAuthRepository);
   });
 
   group('checkAuthStatus', () {
-    test('sets authenticated when user exists', () async {
+    test('sets authenticated when token and profile refresh succeed', () async {
+      when(() => mockAuthRepository.getAccessToken())
+          .thenAnswer((_) async => TestFixtures.testToken);
+      when(() => mockAuthRepository.getCachedUserProfile())
+          .thenAnswer((_) async => null);
       when(() => mockAuthRepository.getCurrentUser())
           .thenAnswer((_) async => TestFixtures.testUser);
+      when(() => mockAuthRepository.refreshUserProfile())
+          .thenAnswer((_) async => TestFixtures.testUserProfile);
 
       await authProvider.checkAuthStatus();
 
       expect(authProvider.status, AuthStatus.authenticated);
-      expect(authProvider.currentUser, TestFixtures.testUser);
+      expect(authProvider.currentUser?.id, TestFixtures.testUserProfile.id);
+      expect(authProvider.userProfile, TestFixtures.testUserProfile);
     });
 
-    test('sets unauthenticated when no user', () async {
-      when(() => mockAuthRepository.getCurrentUser()).thenAnswer((_) async => null);
+    test('sets unauthenticated when no token', () async {
+      when(() => mockAuthRepository.getAccessToken())
+          .thenAnswer((_) async => null);
 
       await authProvider.checkAuthStatus();
 
@@ -52,14 +48,16 @@ void main() {
   });
 
   group('loginWithPhone', () {
-    test('returns true and sets user on success', () async {
+    test('returns true and sets user when login succeeds', () async {
       when(
         () => mockAuthRepository.loginWithPhone(
           phone: any(named: 'phone'),
           countryIsoCode: any(named: 'countryIsoCode'),
           code: any(named: 'code'),
         ),
-      ).thenAnswer((_) async => TestFixtures.testUser);
+      ).thenAnswer((_) async => TestFixtures.testAuthSession);
+      when(() => mockAuthRepository.refreshUserProfile())
+          .thenAnswer((_) async => TestFixtures.testUserProfile);
 
       final success = await authProvider.loginWithPhone(
         phone: TestFixtures.testPhone,
@@ -69,7 +67,18 @@ void main() {
 
       expect(success, isTrue);
       expect(authProvider.status, AuthStatus.authenticated);
-      expect(authProvider.currentUser, TestFixtures.testUser);
+      expect(
+        authProvider.currentUser,
+        TestFixtures.testUserProfile.toUserEntity(),
+      );
+      expect(authProvider.userProfile, TestFixtures.testUserProfile);
+      verify(
+        () => mockAuthRepository.loginWithPhone(
+          phone: TestFixtures.testPhone,
+          countryIsoCode: 'CL',
+          code: '123456',
+        ),
+      ).called(1);
     });
   });
 

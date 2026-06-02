@@ -20,4 +20,18 @@ void main() {
     expect(session.welcome?.title, contains('Welcome'));
     expect(session.welcome?.durationSeconds, 2);
   });
+
+  test('fromJson trims access token and keeps login user json', () {
+    final session = AuthSessionModel.fromJson({
+      'access_token': '  token-with-space  ',
+      'user': {
+        'id': '1',
+        'fullName': 'Test',
+        'countryCode': 'PK',
+      },
+    });
+
+    expect(session.accessToken, 'token-with-space');
+    expect(session.loginUserJson?['fullName'], 'Test');
+  });
 }

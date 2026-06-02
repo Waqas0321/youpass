@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/constants/app_assets.dart';
 import 'package:youpass/core/constants/app_colors.dart';
+import 'package:youpass/core/widgets/app_asset_image.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
@@ -33,17 +35,11 @@ class EventListCardWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          AppAssetImage(
+            assetPath: AppAssets.dummyImage,
             width: thumbnailSize,
             height: thumbnailSize,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(layout.radius(12)),
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: event.thumbnailColors,
-              ),
-            ),
+            borderRadius: BorderRadius.circular(layout.radius(12)),
           ),
           SizedBox(width: layout.spacing(12)),
           Expanded(

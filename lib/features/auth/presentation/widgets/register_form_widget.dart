@@ -189,6 +189,23 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
       return;
     }
 
+    final whatsAppCheck = await authProvider.checkWhatsApp(
+      phone: phoneDigits,
+      countryIsoCode: country.isoCode,
+      purpose: OtpPurpose.register,
+    );
+
+    if (!mounted) {
+      return;
+    }
+
+    if (whatsAppCheck == null) {
+      final message =
+          authProvider.localizedErrorMessage(l10n) ?? l10n.errorGeneric;
+      AppSnackBar.show(context, message);
+      return;
+    }
+
     final result = await authProvider.sendVerificationCode(
       phone: phoneDigits,
       countryIsoCode: country.isoCode,
@@ -206,14 +223,17 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
       return;
     }
 
+    final deliveryChannel =
+        result.channel.isNotEmpty ? result.channel : whatsAppCheck.deliveryChannel;
+
     final args = VerificationRouteArgs(
       phone: phoneDigits,
       countryIsoCode: country.isoCode,
       purpose: result.effectivePurpose,
       phoneDisplay: result.phoneDisplay,
       resendCooldownSeconds: result.resendAvailableInSeconds,
-      deliveryChannel: result.channel,
-      statusMessage: OtpDeliveryMessage.sentConfirmation(l10n, result.channel),
+      deliveryChannel: deliveryChannel,
+      statusMessage: OtpDeliveryMessage.sentConfirmation(l10n, deliveryChannel),
       registerDraft: draft,
     );
 

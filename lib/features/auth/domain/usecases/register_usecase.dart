@@ -1,5 +1,5 @@
+import 'package:youpass/features/auth/domain/entities/auth_session_entity.dart';
 import 'package:youpass/features/auth/domain/entities/register_request_entity.dart';
-import 'package:youpass/features/auth/domain/entities/user_entity.dart';
 import 'package:youpass/features/auth/domain/repositories/auth_repository.dart';
 
 class RegisterUseCase {
@@ -7,7 +7,7 @@ class RegisterUseCase {
 
   final AuthRepository authRepository;
 
-  Future<UserEntity> call(RegisterRequestEntity request) {
+  Future<AuthSessionEntity> call(RegisterRequestEntity request) {
     return authRepository.registerAccount(request);
   }
 }

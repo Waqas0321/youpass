@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/constants/country_code_list.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/l10n/auth_error_extension.dart';
@@ -57,6 +58,33 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
     }
 
     final authProvider = context.read<AuthProvider>();
+
+    if (AppConstants.devBypassLoginApi) {
+      await authProvider.bypassLoginForTesting();
+      if (!mounted) {
+        return;
+      }
+      Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+      return;
+    }
+
+    final whatsAppCheck = await authProvider.checkWhatsApp(
+      phone: phoneDigits,
+      countryIsoCode: country.isoCode,
+      purpose: OtpPurpose.login,
+    );
+
+    if (!mounted) {
+      return;
+    }
+
+    if (whatsAppCheck == null) {
+      final message =
+          authProvider.localizedErrorMessage(l10n) ?? l10n.errorGeneric;
+      AppSnackBar.show(context, message);
+      return;
+    }
+
     final result = await authProvider.sendVerificationCode(
       phone: phoneDigits,
       countryIsoCode: country.isoCode,
@@ -90,14 +118,17 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
       return;
     }
 
+    final deliveryChannel =
+        result.channel.isNotEmpty ? result.channel : whatsAppCheck.deliveryChannel;
+
     final args = VerificationRouteArgs(
       phone: phoneDigits,
       countryIsoCode: country.isoCode,
       purpose: effectivePurpose,
       phoneDisplay: result.phoneDisplay,
       resendCooldownSeconds: result.resendAvailableInSeconds,
-      deliveryChannel: result.channel,
-      statusMessage: OtpDeliveryMessage.sentConfirmation(l10n, result.channel),
+      deliveryChannel: deliveryChannel,
+      statusMessage: OtpDeliveryMessage.sentConfirmation(l10n, deliveryChannel),
     );
 
     Navigator.of(context).pushNamed(

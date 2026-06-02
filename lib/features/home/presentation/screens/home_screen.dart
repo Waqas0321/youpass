@@ -11,7 +11,10 @@ import 'package:youpass/core/widgets/home_top_bar_widget.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/features/home/presentation/utils/home_feed_factory.dart';
+import 'package:youpass/features/home/domain/entities/drawer_menu_id.dart';
+import 'package:youpass/features/home/presentation/widgets/drawer/home_drawer_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/home_feed_widget.dart';
+import 'package:youpass/routes/app_routes.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,6 +24,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   Locale? lastLocale;
 
   @override
@@ -65,11 +69,33 @@ class _HomeScreenState extends State<HomeScreen> {
     final layout = ResponsiveLayout(context);
 
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: AppColors.backgroundWhite,
+      drawer: HomeDrawerWidget(
+        userName: resolveUserName(),
+        onMenuSelected: handleDrawerMenuSelected,
+      ),
       body: SafeArea(
         child: buildBody(homeProvider, layout),
       ),
     );
+  }
+
+  void openDrawer() {
+    scaffoldKey.currentState?.openDrawer();
+  }
+
+  void handleDrawerMenuSelected(DrawerMenuId menuId) {
+    switch (menuId) {
+      case DrawerMenuId.profile:
+        Navigator.of(context).pushNamed(AppRoutes.profile);
+      case DrawerMenuId.tickets:
+        Navigator.of(context).pushNamed(AppRoutes.myTickets);
+      case DrawerMenuId.favorites:
+        Navigator.of(context).pushNamed(AppRoutes.myFavorites);
+      case DrawerMenuId.invitations:
+        Navigator.of(context).pushNamed(AppRoutes.myInvitations);
+    }
   }
 
   Widget buildBody(HomeProvider homeProvider, ResponsiveLayout layout) {
@@ -94,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       children: [
         HomeTopBarWidget(
-          onMenuTap: () {},
+          onMenuTap: openDrawer,
         ),
         Expanded(
           child: SingleChildScrollView(

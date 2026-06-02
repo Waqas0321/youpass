@@ -21,7 +21,7 @@ void main() {
         countryIsoCode: any(named: 'countryIsoCode'),
         code: any(named: 'code'),
       ),
-    ).thenAnswer((_) async => TestFixtures.testUser);
+    ).thenAnswer((_) async => TestFixtures.testAuthSession);
 
     final result = await loginUseCase(
       phone: TestFixtures.testPhone,
@@ -29,7 +29,7 @@ void main() {
       code: '123456',
     );
 
-    expect(result, TestFixtures.testUser);
+    expect(result, TestFixtures.testAuthSession);
     verify(
       () => mockAuthRepository.loginWithPhone(
         phone: TestFixtures.testPhone,

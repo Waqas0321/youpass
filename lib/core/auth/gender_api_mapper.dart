@@ -28,4 +28,20 @@ class GenderApiMapper {
 
     return 'other';
   }
+
+  static String toDisplayLabel(String apiValue, AppLocalizations l10n) {
+    final normalized = apiValue.trim().toLowerCase();
+    switch (normalized) {
+      case 'male':
+        return l10n.genderMale;
+      case 'female':
+        return l10n.genderFemale;
+      case 'other':
+        return l10n.genderOther;
+      case 'prefer_not_to_say':
+        return l10n.genderPreferNotToSay;
+      default:
+        return normalized.isEmpty ? '' : apiValue;
+    }
+  }
 }

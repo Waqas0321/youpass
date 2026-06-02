@@ -8,7 +8,9 @@ import 'package:youpass/core/locale/locale_provider.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
+import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
 import 'package:youpass/l10n/app_localizations.dart';
+import 'package:youpass/core/theme/youpass_button_theme.dart';
 import 'package:youpass/routes/app_routes.dart';
 import 'package:youpass/routes/route_generator.dart';
 
@@ -27,6 +29,9 @@ class YouPassApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<HomeProvider>(
           create: (_) => sl<HomeProvider>(),
+        ),
+        ChangeNotifierProvider<InvitationsProvider>(
+          create: (_) => sl<InvitationsProvider>(),
         ),
       ],
       child: Consumer<LocaleProvider>(
@@ -49,6 +54,9 @@ class YouPassApp extends StatelessWidget {
               scaffoldBackgroundColor: AppColors.backgroundWhite,
               useMaterial3: true,
               fontFamily: 'Roboto',
+              elevatedButtonTheme: ElevatedButtonThemeData(
+                style: YouPassButtonTheme.outlineElevatedStyle(),
+              ),
             ),
             builder: (context, child) {
               final mediaQuery = MediaQuery.of(context);

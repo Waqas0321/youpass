@@ -1,0 +1,36 @@
+import 'package:flutter/material.dart';
+
+class InvitationsDesignSpec {
+  InvitationsDesignSpec._();
+
+  static const double designWidth = 390;
+
+  static const Color primary = Color(0xFFE69D17);
+  static const Color screenBackground = Color(0xFFFFFFFF);
+  static const Color titleText = Color(0xFF212121);
+  static const Color bodyText = Color(0xFF757575);
+  static const Color metaIcon = Color(0xFF9E9E9E);
+  static const Color cardBorder = Color(0xFFEEEEEE);
+  static const Color statusPending = Color(0xFFE69D17);
+  static const Color statusConfirmed = Color(0xFF2E7D32);
+  static const Color vipBadgeBackground = Color(0xFF1A2B4A);
+  static const Color generalBadgeBackground = Color(0xFF757575);
+  static const Color viewQrButton = Color(0xFFE69D17);
+  static const Color dialogBackground = Color(0xFFFFFBF2);
+  static const Color dialogBorder = Color(0xFFFDE6B0);
+  static const Color successGreen = Color(0xFF2E7D32);
+  static const Color warningIconBackground = Color(0xFFFFF0D6);
+
+  static const double horizontalPadding = 20;
+  static const double cardRadius = 16;
+  static const double imageRadius = 12;
+
+  static double scale(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    return (width / designWidth).clamp(0.85, 1.15);
+  }
+
+  static double px(BuildContext context, double designPixels) {
+    return designPixels * scale(context);
+  }
+}

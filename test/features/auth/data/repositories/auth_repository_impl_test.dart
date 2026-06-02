@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:youpass/features/auth/data/models/auth_session_model.dart';
+import 'package:youpass/features/auth/data/models/user_profile_model.dart';
 import 'package:youpass/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
 import '../../mocks/mock_auth_local_datasource.dart';
@@ -29,6 +30,7 @@ void main() {
       const session = AuthSessionModel(
         accessToken: TestFixtures.testToken,
         user: TestFixtures.testUser,
+        sessionId: 'sess-1',
       );
 
       when(
@@ -40,6 +42,8 @@ void main() {
       ).thenAnswer((_) async => session);
       when(() => mockLocalDataSource.cacheUser(any())).thenAnswer((_) async {});
       when(() => mockLocalDataSource.cacheToken(any())).thenAnswer((_) async {});
+      when(() => mockLocalDataSource.cacheSessionId(any()))
+          .thenAnswer((_) async {});
 
       final result = await repository.loginWithPhone(
         phone: TestFixtures.testPhone,
@@ -47,9 +51,54 @@ void main() {
         code: '123456',
       );
 
-      expect(result, TestFixtures.testUser);
+      expect(result, session);
       verify(() => mockLocalDataSource.cacheUser(TestFixtures.testUser)).called(1);
       verify(() => mockLocalDataSource.cacheToken(TestFixtures.testToken)).called(1);
+      verify(() => mockLocalDataSource.cacheSessionId('sess-1')).called(1);
+    });
+
+    test('caches profile from login user payload', () async {
+      final session = AuthSessionModel(
+        accessToken: TestFixtures.testToken,
+        user: TestFixtures.testUser,
+        loginUserJson: {
+          'id': TestFixtures.testUser.id,
+          'phone': '+923216548001',
+          'countryCode': 'PK',
+          'fullName': TestFixtures.testUser.name,
+          'email': TestFixtures.testUser.email,
+          'birthdate': '2003-06-02',
+          'gender': 'male',
+          'instagramUsername': 'Waqas0321',
+        },
+      );
+
+      when(
+        () => mockRemoteDataSource.loginWithPhone(
+          phone: any(named: 'phone'),
+          countryIsoCode: any(named: 'countryIsoCode'),
+          code: any(named: 'code'),
+        ),
+      ).thenAnswer((_) async => session);
+      when(() => mockLocalDataSource.cacheUser(any())).thenAnswer((_) async {});
+      when(() => mockLocalDataSource.cacheToken(any())).thenAnswer((_) async {});
+      when(() => mockLocalDataSource.cacheSessionId(any()))
+          .thenAnswer((_) async {});
+      when(() => mockLocalDataSource.cacheUserProfile(any()))
+          .thenAnswer((_) async {});
+
+      await repository.loginWithPhone(
+        phone: TestFixtures.testPhone,
+        countryIsoCode: 'PK',
+        code: '123456',
+      );
+
+      final captured = verify(
+        () => mockLocalDataSource.cacheUserProfile(captureAny()),
+      ).captured.single as UserProfileModel;
+
+      expect(captured.instagramUsername, 'Waqas0321');
+      expect(captured.birthdate, '2003-06-02');
     });
   });
 

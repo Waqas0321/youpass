@@ -661,6 +661,714 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'SIGN IN'**
   String get signInLink;
+
+  /// No description provided for @drawerMyProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'My Profile'**
+  String get drawerMyProfile;
+
+  /// No description provided for @drawerMyTickets.
+  ///
+  /// In en, this message translates to:
+  /// **'My Tickets'**
+  String get drawerMyTickets;
+
+  /// No description provided for @drawerMyFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'My Favorites'**
+  String get drawerMyFavorites;
+
+  /// No description provided for @drawerInvitations.
+  ///
+  /// In en, this message translates to:
+  /// **'INVITATIONS'**
+  String get drawerInvitations;
+
+  /// No description provided for @drawerInvitationsNewBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} new'**
+  String drawerInvitationsNewBadge(int count);
+
+  /// No description provided for @drawerTierGold.
+  ///
+  /// In en, this message translates to:
+  /// **'GOLD'**
+  String get drawerTierGold;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Profile'**
+  String get profileTitle;
+
+  /// No description provided for @profileViewBenefits.
+  ///
+  /// In en, this message translates to:
+  /// **'View my benefits'**
+  String get profileViewBenefits;
+
+  /// No description provided for @profilePersonalData.
+  ///
+  /// In en, this message translates to:
+  /// **'PERSONAL DATA'**
+  String get profilePersonalData;
+
+  /// No description provided for @profileFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get profileFullName;
+
+  /// No description provided for @profileEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get profileEmail;
+
+  /// No description provided for @profileBirthDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of birth'**
+  String get profileBirthDate;
+
+  /// No description provided for @profileGender.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get profileGender;
+
+  /// No description provided for @profileGenderMaleValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get profileGenderMaleValue;
+
+  /// No description provided for @profileInstagram.
+  ///
+  /// In en, this message translates to:
+  /// **'Instagram username'**
+  String get profileInstagram;
+
+  /// No description provided for @profileEditData.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit details'**
+  String get profileEditData;
+
+  /// No description provided for @profileWalletSection.
+  ///
+  /// In en, this message translates to:
+  /// **'YOUPASS WALLET'**
+  String get profileWalletSection;
+
+  /// No description provided for @profilePaymentMethods.
+  ///
+  /// In en, this message translates to:
+  /// **'My payment methods'**
+  String get profilePaymentMethods;
+
+  /// No description provided for @profileCardVisa.
+  ///
+  /// In en, this message translates to:
+  /// **'Visa ••••4205'**
+  String get profileCardVisa;
+
+  /// No description provided for @profileCardMastercard.
+  ///
+  /// In en, this message translates to:
+  /// **'Mastercard ••••9988'**
+  String get profileCardMastercard;
+
+  /// No description provided for @profileDefaultCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get profileDefaultCard;
+
+  /// No description provided for @profileViewFullWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'View full wallet'**
+  String get profileViewFullWallet;
+
+  /// No description provided for @profileNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'NOTIFICATIONS'**
+  String get profileNotifications;
+
+  /// No description provided for @profileReceiveNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive notifications'**
+  String get profileReceiveNotifications;
+
+  /// No description provided for @profileNotificationChannels.
+  ///
+  /// In en, this message translates to:
+  /// **'Email · Push · WhatsApp'**
+  String get profileNotificationChannels;
+
+  /// No description provided for @profileSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'SUPPORT'**
+  String get profileSupport;
+
+  /// No description provided for @profileWhatsAppSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp support'**
+  String get profileWhatsAppSupport;
+
+  /// No description provided for @profileWriteEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Send email'**
+  String get profileWriteEmail;
+
+  /// No description provided for @profileFaq.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequently asked questions'**
+  String get profileFaq;
+
+  /// No description provided for @profileLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get profileLogout;
+
+  /// No description provided for @profileDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get profileDeleteAccount;
+
+  /// No description provided for @confirmDialogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get confirmDialogCancel;
+
+  /// No description provided for @confirmLogoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out?'**
+  String get confirmLogoutTitle;
+
+  /// No description provided for @confirmLogoutMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You will need to sign in again with your phone number to use YouPass.'**
+  String get confirmLogoutMessage;
+
+  /// No description provided for @confirmLogoutAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get confirmLogoutAction;
+
+  /// No description provided for @confirmDeleteAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account?'**
+  String get confirmDeleteAccountTitle;
+
+  /// No description provided for @confirmDeleteAccountMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This permanently removes your account, tickets, and profile data. We will send a verification code to confirm.'**
+  String get confirmDeleteAccountMessage;
+
+  /// No description provided for @confirmDeleteAccountAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get confirmDeleteAccountAction;
+
+  /// No description provided for @ticketsTabUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'UPCOMING'**
+  String get ticketsTabUpcoming;
+
+  /// No description provided for @ticketsTabPast.
+  ///
+  /// In en, this message translates to:
+  /// **'PAST EVENTS'**
+  String get ticketsTabPast;
+
+  /// No description provided for @ticketsStatusActive.
+  ///
+  /// In en, this message translates to:
+  /// **'ACTIVE'**
+  String get ticketsStatusActive;
+
+  /// No description provided for @ticketsViewQr.
+  ///
+  /// In en, this message translates to:
+  /// **'VIEW QR'**
+  String get ticketsViewQr;
+
+  /// No description provided for @ticketsAssignEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'ASSIGN TICKETS'**
+  String get ticketsAssignEntries;
+
+  /// No description provided for @ticketsAssignVip.
+  ///
+  /// In en, this message translates to:
+  /// **'ASSIGN VIP TICKETS'**
+  String get ticketsAssignVip;
+
+  /// No description provided for @ticketsAttendedSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ATTENDED EVENTS'**
+  String get ticketsAttendedSectionTitle;
+
+  /// No description provided for @ticketsAttendedSectionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review your past events and your personal statistics.'**
+  String get ticketsAttendedSectionSubtitle;
+
+  /// No description provided for @ticketsSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search event / Event name / promoter'**
+  String get ticketsSearchHint;
+
+  /// No description provided for @ticketsFiltersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'FILTERS'**
+  String get ticketsFiltersLabel;
+
+  /// No description provided for @ticketsFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get ticketsFilterAll;
+
+  /// No description provided for @ticketsFilterParties.
+  ///
+  /// In en, this message translates to:
+  /// **'Parties'**
+  String get ticketsFilterParties;
+
+  /// No description provided for @ticketsFilterConcerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Concerts'**
+  String get ticketsFilterConcerts;
+
+  /// No description provided for @ticketsStatistics.
+  ///
+  /// In en, this message translates to:
+  /// **'STATISTICS'**
+  String get ticketsStatistics;
+
+  /// No description provided for @ticketsStatEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry'**
+  String get ticketsStatEntry;
+
+  /// No description provided for @ticketsStatConsumption.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumption'**
+  String get ticketsStatConsumption;
+
+  /// No description provided for @ticketsStatStay.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay'**
+  String get ticketsStatStay;
+
+  /// No description provided for @ticketsFavoritesTip.
+  ///
+  /// In en, this message translates to:
+  /// **'You can mark events to add them to favorites.'**
+  String get ticketsFavoritesTip;
+
+  /// No description provided for @favoritesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your favorite producers and events will appear here'**
+  String get favoritesSubtitle;
+
+  /// No description provided for @favoritesSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search producer or event'**
+  String get favoritesSearchHint;
+
+  /// No description provided for @favoritesFiltersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'FILTERS'**
+  String get favoritesFiltersLabel;
+
+  /// No description provided for @favoritesFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get favoritesFilterAll;
+
+  /// No description provided for @favoritesFilterUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get favoritesFilterUpcoming;
+
+  /// No description provided for @favoritesFilterParties.
+  ///
+  /// In en, this message translates to:
+  /// **'Parties'**
+  String get favoritesFilterParties;
+
+  /// No description provided for @favoritesFilterVip.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP'**
+  String get favoritesFilterVip;
+
+  /// No description provided for @favoritesProducerType.
+  ///
+  /// In en, this message translates to:
+  /// **'Event producer'**
+  String get favoritesProducerType;
+
+  /// No description provided for @favoritesProducerCoverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Events across Chile'**
+  String get favoritesProducerCoverage;
+
+  /// No description provided for @favoritesViewEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'VIEW EVENTS'**
+  String get favoritesViewEvents;
+
+  /// No description provided for @favoritesSavedProducersCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} saved producers'**
+  String favoritesSavedProducersCount(int count);
+
+  /// No description provided for @favoritesYoufestDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'The best festivals and live experiences.'**
+  String get favoritesYoufestDescription;
+
+  /// No description provided for @favoritesIguanaDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Electronic music, parties and unique experiences.'**
+  String get favoritesIguanaDescription;
+
+  /// No description provided for @producerEventsUpcomingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'UPCOMING EVENTS'**
+  String get producerEventsUpcomingTitle;
+
+  /// No description provided for @producerEventsUpcomingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover upcoming events from {producerName}'**
+  String producerEventsUpcomingSubtitle(String producerName);
+
+  /// No description provided for @producerEventsSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search event'**
+  String get producerEventsSearchHint;
+
+  /// No description provided for @producerEventCategoryParties.
+  ///
+  /// In en, this message translates to:
+  /// **'Parties'**
+  String get producerEventCategoryParties;
+
+  /// No description provided for @producerEventCategoryFestivals.
+  ///
+  /// In en, this message translates to:
+  /// **'Festivals'**
+  String get producerEventCategoryFestivals;
+
+  /// No description provided for @producerEventCategoryConcerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Concerts'**
+  String get producerEventCategoryConcerts;
+
+  /// No description provided for @producerEventFromPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get producerEventFromPrice;
+
+  /// No description provided for @producerEventBuyTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'BUY TICKET'**
+  String get producerEventBuyTicket;
+
+  /// No description provided for @producerEventsAvailableCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} events available'**
+  String producerEventsAvailableCount(int count);
+
+  /// No description provided for @drawerMyInvitations.
+  ///
+  /// In en, this message translates to:
+  /// **'My Invitations'**
+  String get drawerMyInvitations;
+
+  /// No description provided for @invitationsScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MY INVITATIONS'**
+  String get invitationsScreenTitle;
+
+  /// No description provided for @invitationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your event access and invitations'**
+  String get invitationsSubtitle;
+
+  /// No description provided for @invitationsSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search invitations / Events / promoters'**
+  String get invitationsSearchHint;
+
+  /// No description provided for @invitationsFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get invitationsFilterAll;
+
+  /// No description provided for @invitationsFilterGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get invitationsFilterGeneral;
+
+  /// No description provided for @invitationsFilterVip.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP'**
+  String get invitationsFilterVip;
+
+  /// No description provided for @invitationsTierVip.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP'**
+  String get invitationsTierVip;
+
+  /// No description provided for @invitationsTierGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get invitationsTierGeneral;
+
+  /// No description provided for @invitationsStatusLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Status: {status}'**
+  String invitationsStatusLine(String status);
+
+  /// No description provided for @invitationsStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get invitationsStatusPending;
+
+  /// No description provided for @invitationsStatusConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get invitationsStatusConfirmed;
+
+  /// No description provided for @invitationsStatusRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Declined'**
+  String get invitationsStatusRejected;
+
+  /// No description provided for @invitationsConfirmAttendance.
+  ///
+  /// In en, this message translates to:
+  /// **'CONFIRM ATTENDANCE'**
+  String get invitationsConfirmAttendance;
+
+  /// No description provided for @invitationsReject.
+  ///
+  /// In en, this message translates to:
+  /// **'DECLINE'**
+  String get invitationsReject;
+
+  /// No description provided for @invitationsViewQr.
+  ///
+  /// In en, this message translates to:
+  /// **'VIEW QR'**
+  String get invitationsViewQr;
+
+  /// No description provided for @invitationsFooterNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed invitations generate a unique, non-transferable QR code.'**
+  String get invitationsFooterNote;
+
+  /// No description provided for @invitationsImportantTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Important'**
+  String get invitationsImportantTitle;
+
+  /// No description provided for @invitationsImportantMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'By confirming, the ticket is reserved exclusively for you. If you do not attend, you may be charged the full ticket price.'**
+  String get invitationsImportantMessage;
+
+  /// No description provided for @invitationsAddPaymentMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD PAYMENT METHOD'**
+  String get invitationsAddPaymentMethod;
+
+  /// No description provided for @invitationsPaymentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add payment method'**
+  String get invitationsPaymentTitle;
+
+  /// No description provided for @invitationsPaymentSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your card details'**
+  String get invitationsPaymentSubtitle;
+
+  /// No description provided for @invitationsCardNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Card number'**
+  String get invitationsCardNumber;
+
+  /// No description provided for @invitationsCardNumberHint.
+  ///
+  /// In en, this message translates to:
+  /// **'1234 5678 9012 3456'**
+  String get invitationsCardNumberHint;
+
+  /// No description provided for @invitationsCardExpiry.
+  ///
+  /// In en, this message translates to:
+  /// **'Expiry date'**
+  String get invitationsCardExpiry;
+
+  /// No description provided for @invitationsCardExpiryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'MM/YY'**
+  String get invitationsCardExpiryHint;
+
+  /// No description provided for @invitationsCardCvv.
+  ///
+  /// In en, this message translates to:
+  /// **'CVV'**
+  String get invitationsCardCvv;
+
+  /// No description provided for @invitationsCardCvvHint.
+  ///
+  /// In en, this message translates to:
+  /// **'123'**
+  String get invitationsCardCvvHint;
+
+  /// No description provided for @invitationsCardholderName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name on card'**
+  String get invitationsCardholderName;
+
+  /// No description provided for @invitationsCardholderNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'As shown on the card'**
+  String get invitationsCardholderNameHint;
+
+  /// No description provided for @invitationsPaymentSecureNote.
+  ///
+  /// In en, this message translates to:
+  /// **'for secure use'**
+  String get invitationsPaymentSecureNote;
+
+  /// No description provided for @invitationsSaveCard.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE CARD'**
+  String get invitationsSaveCard;
+
+  /// No description provided for @invitationsCardSavedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Card saved successfully!'**
+  String get invitationsCardSavedTitle;
+
+  /// No description provided for @invitationsCardSavedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your card has been registered. Remember:'**
+  String get invitationsCardSavedMessage;
+
+  /// No description provided for @invitationsCardSavedReminderCharge.
+  ///
+  /// In en, this message translates to:
+  /// **'If you do not attend the event, you may be charged the full ticket price.'**
+  String get invitationsCardSavedReminderCharge;
+
+  /// No description provided for @invitationsCardSavedReminderCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancellations must be made at least 48 hours in advance to avoid charges.'**
+  String get invitationsCardSavedReminderCancel;
+
+  /// No description provided for @eventTicketScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Event ticket'**
+  String get eventTicketScreenTitle;
+
+  /// No description provided for @eventTicketReadyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your ticket is ready!'**
+  String get eventTicketReadyTitle;
+
+  /// No description provided for @eventTicketReadySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show this code at the entrance to enter the event.'**
+  String get eventTicketReadySubtitle;
+
+  /// No description provided for @eventTicketManualIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual entry ID'**
+  String get eventTicketManualIdLabel;
 }
 
 class _AppLocalizationsDelegate

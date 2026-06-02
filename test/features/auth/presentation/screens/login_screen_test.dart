@@ -7,6 +7,7 @@ import 'package:youpass/l10n/app_localizations.dart';
 import 'package:youpass/routes/app_routes.dart';
 
 import '../../../../helpers/auth_test_helper.dart';
+import '../../../auth/mocks/mock_auth_repository.dart';
 
 void main() {
   testWidgets('LoginScreen shows phone login UI in English', (tester) async {
@@ -22,12 +23,16 @@ void main() {
     expect(find.text('+56'), findsOneWidget);
   });
 
-  testWidgets('LoginScreen navigates to verification on button tap', (tester) async {
+  testWidgets('LoginScreen navigates to verification on send code success',
+      (tester) async {
     final strings = lookupAppLocalizations(AppLocale.english);
+    final mockAuthRepository = MockAuthRepository();
+    AuthTestHelper.stubSendCodeSuccess(mockAuthRepository);
 
     await tester.pumpWidget(
       AuthTestHelper.wrap(
         child: const LoginScreen(),
+        mockAuthRepository: mockAuthRepository,
         routes: {
           AppRoutes.verification: (_) => VerificationScreen(
                 args: AuthTestHelper.testVerificationArgs,

@@ -45,4 +45,12 @@ class HomeProvider extends ChangeNotifier {
     selectedCategoryId = categoryId;
     notifyListeners();
   }
+
+  void reset() {
+    status = HomeStatus.initial;
+    homeFeed = null;
+    errorMessage = null;
+    selectedCategoryId = AppConstants.defaultHomeCategoryId;
+    notifyListeners();
+  }
 }

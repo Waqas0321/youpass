@@ -1,4 +1,4 @@
-import 'package:youpass/features/auth/domain/entities/user_entity.dart';
+import 'package:youpass/features/auth/domain/entities/auth_session_entity.dart';
 import 'package:youpass/features/auth/domain/repositories/auth_repository.dart';
 
 class LoginUseCase {
@@ -6,7 +6,7 @@ class LoginUseCase {
 
   final AuthRepository authRepository;
 
-  Future<UserEntity> call({
+  Future<AuthSessionEntity> call({
     required String phone,
     required String countryIsoCode,
     required String code,

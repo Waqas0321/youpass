@@ -9,23 +9,34 @@ class AuthSessionModel extends AuthSessionEntity {
     super.sessionId,
     super.isNewUser,
     super.welcome,
+    this.loginUserJson,
   });
+
+  /// Raw `user` object from login/register — used to cache profile when `/users/me` fails.
+  final Map<String, dynamic>? loginUserJson;
 
   factory AuthSessionModel.fromJson(Map<String, dynamic> json) {
     final userJson = json['user'];
-    final token = json['access_token'] as String? ??
-        json['accessToken'] as String? ??
-        '';
+    final token = _readAccessToken(json);
 
     return AuthSessionModel(
       accessToken: token,
       user: userJson is Map<String, dynamic>
           ? UserModel.fromAuthJson(userJson)
           : const UserModel(id: '', email: '', name: ''),
-      sessionId: json['session_id'] as String?,
+      sessionId: json['session_id']?.toString(),
       isNewUser: json['is_new_user'] as bool? ?? false,
       welcome: _parseWelcome(json['welcome']),
+      loginUserJson: userJson is Map<String, dynamic> ? userJson : null,
     );
+  }
+
+  static String _readAccessToken(Map<String, dynamic> json) {
+    final raw = json['access_token'] ?? json['accessToken'] ?? json['token'];
+    if (raw == null) {
+      return '';
+    }
+    return raw.toString().trim();
   }
 
   static WelcomeEntity? _parseWelcome(Object? value) {

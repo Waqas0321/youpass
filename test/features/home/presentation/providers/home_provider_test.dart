@@ -52,6 +52,17 @@ void main() {
     expect(homeProvider.selectedCategoryId, AppConstants.categoryIdConcerts);
   });
 
+  test('reset clears feed and restores initial state', () {
+    homeProvider.setHomeFeed(TestFixtures.testHomeFeed);
+    homeProvider.selectCategory(AppConstants.categoryIdConcerts);
+
+    homeProvider.reset();
+
+    expect(homeProvider.status, HomeStatus.initial);
+    expect(homeProvider.homeFeed, isNull);
+    expect(homeProvider.selectedCategoryId, AppConstants.defaultHomeCategoryId);
+  });
+
   test('selectCategory does not notify when same category', () {
     homeProvider.selectCategory(AppConstants.categoryIdChile);
     final listener = Listener();

@@ -114,5 +114,158 @@
   "termsLink": "terms and conditions",
   "createAccountButton": "CREATE ACCOUNT",
   "alreadyHaveAccountQuestion": "ALREADY HAVE AN ACCOUNT?",
-  "signInLink": "SIGN IN"
+  "signInLink": "SIGN IN",
+  "drawerMyProfile": "My Profile",
+  "drawerMyTickets": "My Tickets",
+  "drawerMyFavorites": "My Favorites",
+  "drawerInvitations": "INVITATIONS",
+  "drawerInvitationsNewBadge": "{count} new",
+  "@drawerInvitationsNewBadge": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "drawerTierGold": "GOLD",
+  "profileTitle": "My Profile",
+  "profileViewBenefits": "View my benefits",
+  "profilePersonalData": "PERSONAL DATA",
+  "profileFullName": "Full name",
+  "profileEmail": "Email",
+  "profileBirthDate": "Date of birth",
+  "profileGender": "Gender",
+  "profileGenderMaleValue": "Male",
+  "profileInstagram": "Instagram username",
+  "profileEditData": "Edit details",
+  "profileWalletSection": "YOUPASS WALLET",
+  "profilePaymentMethods": "My payment methods",
+  "profileCardVisa": "Visa ••••4205",
+  "profileCardMastercard": "Mastercard ••••9988",
+  "profileDefaultCard": "Default",
+  "profileViewFullWallet": "View full wallet",
+  "profileNotifications": "NOTIFICATIONS",
+  "profileReceiveNotifications": "Receive notifications",
+  "profileNotificationChannels": "Email · Push · WhatsApp",
+  "profileSupport": "SUPPORT",
+  "profileWhatsAppSupport": "WhatsApp support",
+  "profileWriteEmail": "Send email",
+  "profileFaq": "Frequently asked questions",
+  "profileLogout": "Log out",
+  "profileDeleteAccount": "Delete account",
+  "confirmDialogCancel": "Cancel",
+  "confirmLogoutTitle": "Log out?",
+  "confirmLogoutMessage": "You will need to sign in again with your phone number to use YouPass.",
+  "confirmLogoutAction": "Log out",
+  "confirmDeleteAccountTitle": "Delete your account?",
+  "confirmDeleteAccountMessage": "This permanently removes your account, tickets, and profile data. We will send a verification code to confirm.",
+  "confirmDeleteAccountAction": "Continue",
+  "ticketsTabUpcoming": "UPCOMING",
+  "ticketsTabPast": "PAST EVENTS",
+  "ticketsStatusActive": "ACTIVE",
+  "ticketsViewQr": "VIEW QR",
+  "ticketsAssignEntries": "ASSIGN TICKETS",
+  "ticketsAssignVip": "ASSIGN VIP TICKETS",
+  "ticketsAttendedSectionTitle": "ATTENDED EVENTS",
+  "ticketsAttendedSectionSubtitle": "Review your past events and your personal statistics.",
+  "ticketsSearchHint": "Search event / Event name / promoter",
+  "ticketsFiltersLabel": "FILTERS",
+  "ticketsFilterAll": "All",
+  "ticketsFilterParties": "Parties",
+  "ticketsFilterConcerts": "Concerts",
+  "ticketsStatistics": "STATISTICS",
+  "ticketsStatEntry": "Entry",
+  "ticketsStatConsumption": "Consumption",
+  "ticketsStatStay": "Stay",
+  "ticketsFavoritesTip": "You can mark events to add them to favorites.",
+  "favoritesSubtitle": "Your favorite producers and events will appear here",
+  "favoritesSearchHint": "Search producer or event",
+  "favoritesFiltersLabel": "FILTERS",
+  "favoritesFilterAll": "All",
+  "favoritesFilterUpcoming": "Upcoming",
+  "favoritesFilterParties": "Parties",
+  "favoritesFilterVip": "VIP",
+  "favoritesProducerType": "Event producer",
+  "favoritesProducerCoverage": "Events across Chile",
+  "favoritesViewEvents": "VIEW EVENTS",
+  "favoritesSavedProducersCount": "{count} saved producers",
+  "@favoritesSavedProducersCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "favoritesYoufestDescription": "The best festivals and live experiences.",
+  "favoritesIguanaDescription": "Electronic music, parties and unique experiences.",
+  "producerEventsUpcomingTitle": "UPCOMING EVENTS",
+  "producerEventsUpcomingSubtitle": "Discover upcoming events from {producerName}",
+  "@producerEventsUpcomingSubtitle": {
+    "placeholders": {
+      "producerName": {
+        "type": "String"
+      }
+    }
+  },
+  "producerEventsSearchHint": "Search event",
+  "producerEventCategoryParties": "Parties",
+  "producerEventCategoryFestivals": "Festivals",
+  "producerEventCategoryConcerts": "Concerts",
+  "producerEventFromPrice": "From",
+  "producerEventBuyTicket": "BUY TICKET",
+  "producerEventsAvailableCount": "{count} events available",
+  "@producerEventsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "drawerMyInvitations": "My Invitations",
+  "invitationsScreenTitle": "MY INVITATIONS",
+  "invitationsSubtitle": "Manage your event access and invitations",
+  "invitationsSearchHint": "Search invitations / Events / promoters",
+  "invitationsFilterAll": "All",
+  "invitationsFilterGeneral": "General",
+  "invitationsFilterVip": "VIP",
+  "invitationsTierVip": "VIP",
+  "invitationsTierGeneral": "General",
+  "invitationsStatusLine": "Status: {status}",
+  "@invitationsStatusLine": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationsStatusPending": "Pending",
+  "invitationsStatusConfirmed": "Confirmed",
+  "invitationsStatusRejected": "Declined",
+  "invitationsConfirmAttendance": "CONFIRM ATTENDANCE",
+  "invitationsReject": "DECLINE",
+  "invitationsViewQr": "VIEW QR",
+  "invitationsFooterNote": "Confirmed invitations generate a unique, non-transferable QR code.",
+  "invitationsImportantTitle": "Important",
+  "invitationsImportantMessage": "By confirming, the ticket is reserved exclusively for you. If you do not attend, you may be charged the full ticket price.",
+  "invitationsAddPaymentMethod": "ADD PAYMENT METHOD",
+  "invitationsPaymentTitle": "Add payment method",
+  "invitationsPaymentSubtitle": "Enter your card details",
+  "invitationsCardNumber": "Card number",
+  "invitationsCardNumberHint": "1234 5678 9012 3456",
+  "invitationsCardExpiry": "Expiry date",
+  "invitationsCardExpiryHint": "MM/YY",
+  "invitationsCardCvv": "CVV",
+  "invitationsCardCvvHint": "123",
+  "invitationsCardholderName": "Name on card",
+  "invitationsCardholderNameHint": "As shown on the card",
+  "invitationsPaymentSecureNote": "for secure use",
+  "invitationsSaveCard": "SAVE CARD",
+  "invitationsCardSavedTitle": "Card saved successfully!",
+  "invitationsCardSavedMessage": "Your card has been registered. Remember:",
+  "invitationsCardSavedReminderCharge": "If you do not attend the event, you may be charged the full ticket price.",
+  "invitationsCardSavedReminderCancel": "Cancellations must be made at least 48 hours in advance to avoid charges.",
+  "eventTicketScreenTitle": "Event ticket",
+  "eventTicketReadyTitle": "Your ticket is ready!",
+  "eventTicketReadySubtitle": "Show this code at the entrance to enter the event.",
+  "eventTicketManualIdLabel": "Manual entry ID"
 }

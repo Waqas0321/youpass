@@ -299,4 +299,381 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signInLink => 'SIGN IN';
+
+  @override
+  String get drawerMyProfile => 'My Profile';
+
+  @override
+  String get drawerMyTickets => 'My Tickets';
+
+  @override
+  String get drawerMyFavorites => 'My Favorites';
+
+  @override
+  String get drawerInvitations => 'INVITATIONS';
+
+  @override
+  String drawerInvitationsNewBadge(int count) {
+    return '$count new';
+  }
+
+  @override
+  String get drawerTierGold => 'GOLD';
+
+  @override
+  String get profileTitle => 'My Profile';
+
+  @override
+  String get profileViewBenefits => 'View my benefits';
+
+  @override
+  String get profilePersonalData => 'PERSONAL DATA';
+
+  @override
+  String get profileFullName => 'Full name';
+
+  @override
+  String get profileEmail => 'Email';
+
+  @override
+  String get profileBirthDate => 'Date of birth';
+
+  @override
+  String get profileGender => 'Gender';
+
+  @override
+  String get profileGenderMaleValue => 'Male';
+
+  @override
+  String get profileInstagram => 'Instagram username';
+
+  @override
+  String get profileEditData => 'Edit details';
+
+  @override
+  String get profileWalletSection => 'YOUPASS WALLET';
+
+  @override
+  String get profilePaymentMethods => 'My payment methods';
+
+  @override
+  String get profileCardVisa => 'Visa ••••4205';
+
+  @override
+  String get profileCardMastercard => 'Mastercard ••••9988';
+
+  @override
+  String get profileDefaultCard => 'Default';
+
+  @override
+  String get profileViewFullWallet => 'View full wallet';
+
+  @override
+  String get profileNotifications => 'NOTIFICATIONS';
+
+  @override
+  String get profileReceiveNotifications => 'Receive notifications';
+
+  @override
+  String get profileNotificationChannels => 'Email · Push · WhatsApp';
+
+  @override
+  String get profileSupport => 'SUPPORT';
+
+  @override
+  String get profileWhatsAppSupport => 'WhatsApp support';
+
+  @override
+  String get profileWriteEmail => 'Send email';
+
+  @override
+  String get profileFaq => 'Frequently asked questions';
+
+  @override
+  String get profileLogout => 'Log out';
+
+  @override
+  String get profileDeleteAccount => 'Delete account';
+
+  @override
+  String get confirmDialogCancel => 'Cancel';
+
+  @override
+  String get confirmLogoutTitle => 'Log out?';
+
+  @override
+  String get confirmLogoutMessage =>
+      'You will need to sign in again with your phone number to use YouPass.';
+
+  @override
+  String get confirmLogoutAction => 'Log out';
+
+  @override
+  String get confirmDeleteAccountTitle => 'Delete your account?';
+
+  @override
+  String get confirmDeleteAccountMessage =>
+      'This permanently removes your account, tickets, and profile data. We will send a verification code to confirm.';
+
+  @override
+  String get confirmDeleteAccountAction => 'Continue';
+
+  @override
+  String get ticketsTabUpcoming => 'UPCOMING';
+
+  @override
+  String get ticketsTabPast => 'PAST EVENTS';
+
+  @override
+  String get ticketsStatusActive => 'ACTIVE';
+
+  @override
+  String get ticketsViewQr => 'VIEW QR';
+
+  @override
+  String get ticketsAssignEntries => 'ASSIGN TICKETS';
+
+  @override
+  String get ticketsAssignVip => 'ASSIGN VIP TICKETS';
+
+  @override
+  String get ticketsAttendedSectionTitle => 'ATTENDED EVENTS';
+
+  @override
+  String get ticketsAttendedSectionSubtitle =>
+      'Review your past events and your personal statistics.';
+
+  @override
+  String get ticketsSearchHint => 'Search event / Event name / promoter';
+
+  @override
+  String get ticketsFiltersLabel => 'FILTERS';
+
+  @override
+  String get ticketsFilterAll => 'All';
+
+  @override
+  String get ticketsFilterParties => 'Parties';
+
+  @override
+  String get ticketsFilterConcerts => 'Concerts';
+
+  @override
+  String get ticketsStatistics => 'STATISTICS';
+
+  @override
+  String get ticketsStatEntry => 'Entry';
+
+  @override
+  String get ticketsStatConsumption => 'Consumption';
+
+  @override
+  String get ticketsStatStay => 'Stay';
+
+  @override
+  String get ticketsFavoritesTip =>
+      'You can mark events to add them to favorites.';
+
+  @override
+  String get favoritesSubtitle =>
+      'Your favorite producers and events will appear here';
+
+  @override
+  String get favoritesSearchHint => 'Search producer or event';
+
+  @override
+  String get favoritesFiltersLabel => 'FILTERS';
+
+  @override
+  String get favoritesFilterAll => 'All';
+
+  @override
+  String get favoritesFilterUpcoming => 'Upcoming';
+
+  @override
+  String get favoritesFilterParties => 'Parties';
+
+  @override
+  String get favoritesFilterVip => 'VIP';
+
+  @override
+  String get favoritesProducerType => 'Event producer';
+
+  @override
+  String get favoritesProducerCoverage => 'Events across Chile';
+
+  @override
+  String get favoritesViewEvents => 'VIEW EVENTS';
+
+  @override
+  String favoritesSavedProducersCount(int count) {
+    return '$count saved producers';
+  }
+
+  @override
+  String get favoritesYoufestDescription =>
+      'The best festivals and live experiences.';
+
+  @override
+  String get favoritesIguanaDescription =>
+      'Electronic music, parties and unique experiences.';
+
+  @override
+  String get producerEventsUpcomingTitle => 'UPCOMING EVENTS';
+
+  @override
+  String producerEventsUpcomingSubtitle(String producerName) {
+    return 'Discover upcoming events from $producerName';
+  }
+
+  @override
+  String get producerEventsSearchHint => 'Search event';
+
+  @override
+  String get producerEventCategoryParties => 'Parties';
+
+  @override
+  String get producerEventCategoryFestivals => 'Festivals';
+
+  @override
+  String get producerEventCategoryConcerts => 'Concerts';
+
+  @override
+  String get producerEventFromPrice => 'From';
+
+  @override
+  String get producerEventBuyTicket => 'BUY TICKET';
+
+  @override
+  String producerEventsAvailableCount(int count) {
+    return '$count events available';
+  }
+
+  @override
+  String get drawerMyInvitations => 'My Invitations';
+
+  @override
+  String get invitationsScreenTitle => 'MY INVITATIONS';
+
+  @override
+  String get invitationsSubtitle => 'Manage your event access and invitations';
+
+  @override
+  String get invitationsSearchHint => 'Search invitations / Events / promoters';
+
+  @override
+  String get invitationsFilterAll => 'All';
+
+  @override
+  String get invitationsFilterGeneral => 'General';
+
+  @override
+  String get invitationsFilterVip => 'VIP';
+
+  @override
+  String get invitationsTierVip => 'VIP';
+
+  @override
+  String get invitationsTierGeneral => 'General';
+
+  @override
+  String invitationsStatusLine(String status) {
+    return 'Status: $status';
+  }
+
+  @override
+  String get invitationsStatusPending => 'Pending';
+
+  @override
+  String get invitationsStatusConfirmed => 'Confirmed';
+
+  @override
+  String get invitationsStatusRejected => 'Declined';
+
+  @override
+  String get invitationsConfirmAttendance => 'CONFIRM ATTENDANCE';
+
+  @override
+  String get invitationsReject => 'DECLINE';
+
+  @override
+  String get invitationsViewQr => 'VIEW QR';
+
+  @override
+  String get invitationsFooterNote =>
+      'Confirmed invitations generate a unique, non-transferable QR code.';
+
+  @override
+  String get invitationsImportantTitle => 'Important';
+
+  @override
+  String get invitationsImportantMessage =>
+      'By confirming, the ticket is reserved exclusively for you. If you do not attend, you may be charged the full ticket price.';
+
+  @override
+  String get invitationsAddPaymentMethod => 'ADD PAYMENT METHOD';
+
+  @override
+  String get invitationsPaymentTitle => 'Add payment method';
+
+  @override
+  String get invitationsPaymentSubtitle => 'Enter your card details';
+
+  @override
+  String get invitationsCardNumber => 'Card number';
+
+  @override
+  String get invitationsCardNumberHint => '1234 5678 9012 3456';
+
+  @override
+  String get invitationsCardExpiry => 'Expiry date';
+
+  @override
+  String get invitationsCardExpiryHint => 'MM/YY';
+
+  @override
+  String get invitationsCardCvv => 'CVV';
+
+  @override
+  String get invitationsCardCvvHint => '123';
+
+  @override
+  String get invitationsCardholderName => 'Name on card';
+
+  @override
+  String get invitationsCardholderNameHint => 'As shown on the card';
+
+  @override
+  String get invitationsPaymentSecureNote => 'for secure use';
+
+  @override
+  String get invitationsSaveCard => 'SAVE CARD';
+
+  @override
+  String get invitationsCardSavedTitle => 'Card saved successfully!';
+
+  @override
+  String get invitationsCardSavedMessage =>
+      'Your card has been registered. Remember:';
+
+  @override
+  String get invitationsCardSavedReminderCharge =>
+      'If you do not attend the event, you may be charged the full ticket price.';
+
+  @override
+  String get invitationsCardSavedReminderCancel =>
+      'Cancellations must be made at least 48 hours in advance to avoid charges.';
+
+  @override
+  String get eventTicketScreenTitle => 'Event ticket';
+
+  @override
+  String get eventTicketReadyTitle => 'Your ticket is ready!';
+
+  @override
+  String get eventTicketReadySubtitle =>
+      'Show this code at the entrance to enter the event.';
+
+  @override
+  String get eventTicketManualIdLabel => 'Manual entry ID';
 }

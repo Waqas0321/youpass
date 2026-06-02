@@ -1,0 +1,4 @@
+enum InvitationTier {
+  general,
+  vip,
+}

@@ -6,7 +6,12 @@ import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
 
 class YouPassLogo extends StatelessWidget {
-  const YouPassLogo({super.key});
+  const YouPassLogo({
+    super.key,
+    this.fontStyle = FontStyle.normal,
+  });
+
+  final FontStyle fontStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +23,7 @@ class YouPassLogo extends StatelessWidget {
         style: TextStyle(
           fontSize: layout.logoFontSize,
           fontWeight: FontWeight.w700,
+          fontStyle: fontStyle,
           color: AppColors.primaryMustard,
           letterSpacing: -0.5,
         ),

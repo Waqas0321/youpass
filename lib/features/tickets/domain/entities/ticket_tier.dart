@@ -1,0 +1,4 @@
+enum TicketTier {
+  general,
+  vip,
+}

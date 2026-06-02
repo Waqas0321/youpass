@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 
 import 'package:flutter/foundation.dart';
+import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/l10n/auth_message_localizer.dart';
 
 class AppLogger {
@@ -55,10 +56,12 @@ class AppLogger {
     required String url,
     Object? body,
   }) {
-    debug(
-      '→ $method $url\n${_formatBody(body)}',
-      tag: 'API',
-    );
+    final message = '→ $method $url\n${_formatBody(body)}';
+    if (kDebugMode && AppConstants.logApiResponsesToConsole) {
+      _printToConsole('API REQUEST', message);
+      return;
+    }
+    debug(message, tag: 'API');
   }
 
   static void apiResponse({
@@ -69,10 +72,13 @@ class AppLogger {
     Duration? duration,
   }) {
     final elapsed = duration == null ? '' : ' (${duration.inMilliseconds}ms)';
-    debug(
-      '← $statusCode $method $url$elapsed\n${_formatBody(body)}',
-      tag: 'API',
-    );
+    final message =
+        '← $statusCode $method $url$elapsed\n${_formatBody(body)}';
+    if (kDebugMode && AppConstants.logApiResponsesToConsole) {
+      _printToConsole('API RESPONSE', message);
+      return;
+    }
+    debug(message, tag: 'API');
   }
 
   static void apiFailure({
@@ -93,39 +99,74 @@ class AppLogger {
     debug(message, tag: 'Auth');
   }
 
+  static void _printToConsole(String title, String message) {
+    if (!kDebugMode || !AppConstants.logApiResponsesToConsole) {
+      return;
+    }
+
+    final divider = '═' * 48;
+    debugPrint('');
+    debugPrint(divider);
+    debugPrint(' $title ');
+    debugPrint(divider);
+    for (final line in message.split('\n')) {
+      _debugPrintLine(line);
+    }
+    debugPrint(divider);
+    debugPrint('');
+  }
+
+  static void _debugPrintLine(String line) {
+    const maxChunk = 900;
+    if (line.length <= maxChunk) {
+      debugPrint(line);
+      return;
+    }
+
+    for (var start = 0; start < line.length; start += maxChunk) {
+      final end = (start + maxChunk < line.length) ? start + maxChunk : line.length;
+      debugPrint(line.substring(start, end));
+    }
+  }
+
   static String _formatBody(Object? body) {
     if (body == null) {
       return 'Body: (empty)';
     }
 
     if (body is String) {
-      return 'Body: ${_sanitizeJsonString(body)}';
+      if (body.isEmpty) {
+        return 'Body: (empty)';
+      }
+      return 'Body:\n${_prettySanitizedJson(body)}';
     }
 
     try {
-      return 'Body: ${_sanitizeMap(jsonEncode(body))}';
+      final encoded = jsonEncode(body);
+      return 'Body:\n${_prettySanitizedJson(encoded)}';
     } catch (_) {
       return 'Body: $body';
     }
   }
 
-  static String _sanitizeJsonString(String raw) {
+  static String _prettySanitizedJson(String raw) {
     final forLog = AuthMessageLocalizer.localizeResponseBodyForLog(raw);
 
     try {
       final decoded = jsonDecode(forLog);
-      if (decoded is Map<String, dynamic>) {
-        return jsonEncode(_sanitizeMapValue(decoded));
-      }
-    } catch (_) {}
-
-    return _sanitizeMap(forLog);
+      final sanitized = decoded is Map<String, dynamic>
+          ? _sanitizeMapValue(decoded)
+          : decoded;
+      return const JsonEncoder.withIndent('  ').convert(sanitized);
+    } catch (_) {
+      return _sanitizeMap(forLog);
+    }
   }
 
   static String _sanitizeMap(String raw) {
     return raw
         .replaceAllMapped(
-          RegExp(r'"code"\s*:\s*"\d+"'),
+          RegExp(r'"code"\s*:\s*"\d{4,8}"'),
           (_) => '"code":"******"',
         )
         .replaceAllMapped(

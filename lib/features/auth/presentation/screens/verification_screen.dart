@@ -21,7 +21,7 @@ import 'package:youpass/features/auth/presentation/widgets/resend_code_widget.da
 import 'package:youpass/features/auth/presentation/widgets/verification_form_widget.dart';
 import 'package:youpass/features/auth/presentation/widgets/verification_header_widget.dart';
 import 'package:youpass/features/auth/routes/verification_route_args.dart';
-import 'package:youpass/routes/app_routes.dart';
+import 'package:youpass/features/auth/presentation/utils/auth_navigation.dart';
 
 class VerificationScreen extends StatefulWidget {
   const VerificationScreen({
@@ -93,6 +93,33 @@ class VerificationScreenState extends State<VerificationScreen> {
 
   Future<void> handleResendCode() async {
     final authProvider = context.read<AuthProvider>();
+
+    if (purpose == OtpPurpose.deleteAccount) {
+      final result = await authProvider.requestDeleteAccount();
+      if (!mounted) {
+        return;
+      }
+
+      if (result != null) {
+        setState(() {
+          deliveryChannel = result.channel;
+          phoneDisplay = result.phoneDisplay;
+          isCodeComplete = false;
+        });
+        otpController.clear();
+        startResendTimer(result.resendAvailableInSeconds);
+        return;
+      }
+
+      final retryAfter = authProvider.lastRetryAfterSeconds;
+      if (retryAfter != null && retryAfter > 0) {
+        startResendTimer(retryAfter);
+      }
+
+      showLocalizedError(authProvider);
+      return;
+    }
+
     final result = await authProvider.resendVerificationCode(
       phone: args.phone,
       countryIsoCode: args.countryIsoCode,
@@ -134,20 +161,26 @@ class VerificationScreenState extends State<VerificationScreen> {
     }
 
     final authProvider = context.read<AuthProvider>();
-    final success = purpose == OtpPurpose.register
-        ? await completeRegistration(authProvider, code)
-        : await authProvider.loginWithPhone(
-            phone: args.phone,
-            countryIsoCode: args.countryIsoCode,
-            code: code,
-          );
+    final bool success;
+
+    if (purpose == OtpPurpose.register) {
+      success = await completeRegistration(authProvider, code);
+    } else if (purpose == OtpPurpose.deleteAccount) {
+      success = await authProvider.confirmDeleteAccount(code);
+    } else {
+      success = await authProvider.loginWithPhone(
+        phone: args.phone,
+        countryIsoCode: args.countryIsoCode,
+        code: code,
+      );
+    }
 
     if (!mounted) {
       return;
     }
 
     if (success) {
-      Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+      AuthNavigation.completeOneTimeLogin(context, purpose: purpose);
       return;
     }
 

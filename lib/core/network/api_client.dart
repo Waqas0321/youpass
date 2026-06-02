@@ -1,19 +1,20 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:youpass/core/auth/auth_token_store.dart';
 import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/utils/app_logger.dart';
 
-typedef AuthTokenProvider = Future<String?> Function();
+typedef AuthCredentialsProvider = Future<AuthCredentials> Function();
 
 class ApiClient {
   ApiClient({
     http.Client? client,
-    this.authTokenProvider,
+    this.authCredentialsProvider,
   }) : httpClient = client ?? http.Client();
 
   final http.Client httpClient;
-  final AuthTokenProvider? authTokenProvider;
+  final AuthCredentialsProvider? authCredentialsProvider;
 
   Future<http.Response> get(
     String url, {
@@ -69,10 +70,26 @@ class ApiClient {
       ...?headers,
     };
 
-    if (authenticated && authTokenProvider != null) {
-      final token = await authTokenProvider!();
+    if (authenticated && authCredentialsProvider != null) {
+      final credentials = await authCredentialsProvider!();
+      final token = credentials.accessToken?.trim();
+      final sessionId = credentials.sessionId?.trim();
+
       if (token != null && token.isNotEmpty) {
         resolved['Authorization'] = 'Bearer $token';
+        AppLogger.debug(
+          'Authorization attached (${token.length} chars)',
+          tag: 'API',
+        );
+      } else if (authenticated) {
+        AppLogger.warning(
+          'Authenticated request without access token',
+          tag: 'API',
+        );
+      }
+
+      if (sessionId != null && sessionId.isNotEmpty) {
+        resolved['X-Session-Id'] = sessionId;
       }
     }
 

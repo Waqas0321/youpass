@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/constants/app_assets.dart';
 import 'package:youpass/core/constants/app_colors.dart';
+import 'package:youpass/core/widgets/app_asset_image.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
@@ -71,20 +73,17 @@ class FeaturedEventCardWidget extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: layout.spacing(2)),
-      decoration: BoxDecoration(
+      child: ClipRRect(
         borderRadius: BorderRadius.circular(layout.radius(16)),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: event.backgroundColors,
-        ),
-      ),
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: DecoratedBox(
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            AppAssetImage(
+              assetPath: AppAssets.dummyImage,
+              fit: BoxFit.cover,
+            ),
+            DecoratedBox(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(layout.radius(16)),
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -95,7 +94,6 @@ class FeaturedEventCardWidget extends StatelessWidget {
                 ),
               ),
             ),
-          ),
           Padding(
             padding: EdgeInsets.all(layout.spacing(18)),
             child: Column(
@@ -127,7 +125,8 @@ class FeaturedEventCardWidget extends StatelessWidget {
               ],
             ),
           ),
-        ],
+          ],
+        ),
       ),
     );
   }

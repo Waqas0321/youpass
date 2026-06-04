@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:youpass/core/l10n/auth_message_localizer.dart';
 import 'package:youpass/core/network/api_exception.dart';
+import 'package:youpass/core/network/session_auth_handler.dart';
 import 'package:youpass/core/utils/app_logger.dart';
 
 class ApiResponseParser {
@@ -20,6 +21,37 @@ class ApiResponseParser {
       }
     }
 
+    throw _exceptionFor(response, body);
+  }
+
+  static Object? parseRawData(http.Response response) {
+    final body = decodeBody(response);
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      if (body['success'] == true) {
+        return body['data'];
+      }
+    }
+
+    throw _exceptionFor(response, body);
+  }
+
+  static void parseSuccess(http.Response response) {
+    final body = decodeBody(response);
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      if (body.isEmpty || body['success'] == true) {
+        return;
+      }
+    }
+
+    throw _exceptionFor(response, body);
+  }
+
+  static ApiException _exceptionFor(
+    http.Response response,
+    Map<String, dynamic> body,
+  ) {
     final exception = ApiException.fromResponse(
       statusCode: response.statusCode,
       body: body,
@@ -36,7 +68,9 @@ class ApiResponseParser {
       tag: 'API',
     );
 
-    throw exception;
+    handleSessionAuthError(exception);
+
+    return exception;
   }
 
   static Map<String, dynamic> decodeBody(http.Response response) {

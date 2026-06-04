@@ -7,24 +7,17 @@ import 'package:youpass/features/home/presentation/widgets/drawer/drawer_profile
 class DrawerProfileCardWidget extends StatelessWidget {
   const DrawerProfileCardWidget({
     super.key,
-    required this.userName,
+    required this.fullName,
+    this.profilePhotoUrl,
   });
 
-  final String userName;
-
-  static String displayFirstName(String fullName) {
-    final trimmed = fullName.trim();
-    if (trimmed.isEmpty) {
-      return fullName;
-    }
-
-    return trimmed.split(RegExp(r'\s+')).first;
-  }
+  final String fullName;
+  final String? profilePhotoUrl;
 
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    final firstName = displayFirstName(userName);
+    final displayName = fullName.trim().isEmpty ? fullName : fullName.trim();
 
     final radius = DrawerDesignSpec.px(context, DrawerDesignSpec.profileCardRadius);
     final avatarSize = DrawerDesignSpec.px(context, DrawerDesignSpec.avatarSize);
@@ -71,22 +64,9 @@ class DrawerProfileCardWidget extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    width: avatarSize,
-                    height: avatarSize,
-                    decoration: const BoxDecoration(
-                      color: DrawerDesignSpec.avatarBackground,
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: Icon(
-                      Icons.person,
-                      size: DrawerDesignSpec.px(
-                        context,
-                        DrawerDesignSpec.avatarIconSize,
-                      ),
-                      color: DrawerDesignSpec.avatarIcon,
-                    ),
+                  _DrawerProfileAvatar(
+                    size: avatarSize,
+                    profilePhotoUrl: profilePhotoUrl,
                   ),
                   SizedBox(
                     width: DrawerDesignSpec.px(
@@ -100,7 +80,7 @@ class DrawerProfileCardWidget extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          firstName,
+                          displayName,
                           style: TextStyle(
                             fontSize: DrawerDesignSpec.px(
                               context,
@@ -176,6 +156,58 @@ class DrawerProfileCardWidget extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _DrawerProfileAvatar extends StatelessWidget {
+  const _DrawerProfileAvatar({
+    required this.size,
+    this.profilePhotoUrl,
+  });
+
+  final double size;
+  final String? profilePhotoUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    final resolvedUrl = profilePhotoUrl?.trim();
+    final hasPhoto = resolvedUrl != null && resolvedUrl.isNotEmpty;
+
+    return Container(
+      width: size,
+      height: size,
+      decoration: const BoxDecoration(
+        color: DrawerDesignSpec.avatarBackground,
+        shape: BoxShape.circle,
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: hasPhoto
+          ? Image.network(
+              resolvedUrl,
+              fit: BoxFit.cover,
+              width: size,
+              height: size,
+              errorBuilder: (context, error, stackTrace) =>
+                  _buildPlaceholder(context),
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return _buildPlaceholder(context);
+              },
+            )
+          : _buildPlaceholder(context),
+    );
+  }
+
+  Widget _buildPlaceholder(BuildContext context) {
+    return Center(
+      child: Icon(
+        Icons.person,
+        size: DrawerDesignSpec.px(context, DrawerDesignSpec.avatarIconSize),
+        color: DrawerDesignSpec.avatarIcon,
       ),
     );
   }

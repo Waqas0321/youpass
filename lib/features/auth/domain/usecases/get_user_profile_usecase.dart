@@ -6,7 +6,9 @@ class GetUserProfileUseCase {
 
   final AuthRepository authRepository;
 
-  Future<UserProfileEntity> call() {
-    return authRepository.refreshUserProfile();
+  Future<UserProfileEntity> call({String? accessTokenOverride}) {
+    return authRepository.refreshUserProfile(
+      accessTokenOverride: accessTokenOverride,
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/widgets/youpass_search_field_widget.dart';
 import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
 
 class FavoritesSearchFieldWidget extends StatelessWidget {
@@ -13,39 +14,14 @@ class FavoritesSearchFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final radius = FavoritesDesignSpec.px(context, 12);
-
-    return TextField(
+    return YouPassSearchFieldWidget(
+      hintText: hintText,
       onChanged: onChanged,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: TextStyle(
-          fontSize: FavoritesDesignSpec.px(context, 13),
-          color: FavoritesDesignSpec.bodyText,
-        ),
-        prefixIcon: Icon(
-          Icons.search,
-          size: FavoritesDesignSpec.px(context, 20),
-          color: FavoritesDesignSpec.metaIcon,
-        ),
-        filled: true,
-        fillColor: FavoritesDesignSpec.searchFill,
-        contentPadding: EdgeInsets.symmetric(
-          vertical: FavoritesDesignSpec.px(context, 12),
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius),
-          borderSide: const BorderSide(color: FavoritesDesignSpec.searchBorder),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius),
-          borderSide: const BorderSide(color: FavoritesDesignSpec.searchBorder),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius),
-          borderSide: const BorderSide(color: FavoritesDesignSpec.primary),
-        ),
-      ),
+      fillColor: FavoritesDesignSpec.searchFill,
+      borderColor: FavoritesDesignSpec.searchBorder,
+      focusedBorderColor: FavoritesDesignSpec.primary,
+      hintColor: FavoritesDesignSpec.bodyText,
+      iconColor: FavoritesDesignSpec.metaIcon,
     );
   }
 }

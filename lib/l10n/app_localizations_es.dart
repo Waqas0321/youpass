@@ -78,6 +78,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get homeDiscoverSubtitle => 'Descubre los mejores eventos para ti';
 
   @override
+  String get categoryAll => 'Todos';
+
+  @override
   String get categoryChile => 'Chile';
 
   @override
@@ -100,6 +103,40 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get eventsSectionTitle => 'Eventos destacados';
+
+  @override
+  String get homeNoEventsFound => 'No hay eventos para este filtro';
+
+  @override
+  String get allEventsTitle => 'Todos los eventos';
+
+  @override
+  String get allEventsSubtitle =>
+      'Explora todos los eventos publicados en YouPass';
+
+  @override
+  String get allEventsSearchHint => 'Buscar evento';
+
+  @override
+  String allEventsAvailableCount(int count) {
+    return '$count eventos disponibles';
+  }
+
+  @override
+  String get favoritesEventsSubtitle =>
+      'Eventos que guardaste con el icono de corazón';
+
+  @override
+  String get favoritesEventsSearchHint => 'Buscar evento favorito';
+
+  @override
+  String get favoritesEventsEmpty =>
+      'Aún no tienes eventos favoritos. Toca el corazón en un evento para guardarlo aquí.';
+
+  @override
+  String favoritesSavedEventsCount(int count) {
+    return '$count eventos guardados';
+  }
 
   @override
   String get seeAll => 'Ver todos';
@@ -397,6 +434,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get profileDeleteAccount => 'Eliminar cuenta';
 
   @override
+  String get profilePhotoUpdated => 'Foto de perfil actualizada';
+
+  @override
   String get confirmDialogCancel => 'Cancelar';
 
   @override
@@ -577,6 +617,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get invitationsTierVip => 'VIP';
 
   @override
+  String get invitationsTierVipMesa => 'VIP Mesa';
+
+  @override
   String get invitationsTierGeneral => 'General';
 
   @override
@@ -585,10 +628,13 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get invitationsStatusPending => 'Pendiente';
+  String get invitationsStatusPrefix => 'Estado:';
 
   @override
-  String get invitationsStatusConfirmed => 'Confirmado';
+  String get invitationsStatusPending => 'Esperando confirmación';
+
+  @override
+  String get invitationsStatusConfirmed => 'Confirmada';
 
   @override
   String get invitationsStatusRejected => 'Rechazado';
@@ -600,7 +646,42 @@ class AppLocalizationsEs extends AppLocalizations {
   String get invitationsReject => 'RECHAZAR';
 
   @override
+  String get invitationsCancel => 'ANULAR';
+
+  @override
+  String get invitationsAttendanceConfirmed => 'ASISTENCIA CONFIRMADA';
+
+  @override
   String get invitationsViewQr => 'VER QR';
+
+  @override
+  String get invitationsQrPendingTitle => 'Confirma tu asistencia';
+
+  @override
+  String get invitationsQrPendingMessage =>
+      'Tu código QR estará disponible después de confirmar esta invitación.';
+
+  @override
+  String get invitationsQrLockedTitle => 'QR aún no disponible';
+
+  @override
+  String get invitationsQrLockedMessage =>
+      'Tu QR estará disponible desde las 00:00 del día del evento.';
+
+  @override
+  String get invitationsQrExpiredTitle => 'QR expirado';
+
+  @override
+  String get invitationsQrExpiredMessage =>
+      'El código QR de este evento ya no está disponible.';
+
+  @override
+  String invitationsQrUnlockAt(String date) {
+    return 'Disponible desde $date';
+  }
+
+  @override
+  String get invitationsQrGotIt => 'ENTENDIDO';
 
   @override
   String get invitationsFooterNote =>

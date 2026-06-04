@@ -29,6 +29,8 @@ class FavoritesEventMetaRowWidget extends StatelessWidget {
           Expanded(
             child: Text(
               label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: FavoritesDesignSpec.px(context, 12),
                 fontWeight: FontWeight.w400,

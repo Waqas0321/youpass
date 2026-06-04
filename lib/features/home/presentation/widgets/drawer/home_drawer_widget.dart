@@ -10,17 +10,24 @@ import 'package:youpass/features/home/presentation/widgets/drawer/drawer_profile
 class HomeDrawerWidget extends StatelessWidget {
   const HomeDrawerWidget({
     super.key,
-    required this.userName,
+    required this.fullName,
+    this.profilePhotoUrl,
+    this.invitationsBadgeCount = 0,
     this.onMenuSelected,
   });
 
-  final String userName;
+  final String fullName;
+  final String? profilePhotoUrl;
+  final int invitationsBadgeCount;
   final ValueChanged<DrawerMenuId>? onMenuSelected;
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
-    final menuItems = DrawerMenuFactory.build(context.l10n);
+    final menuItems = DrawerMenuFactory.build(
+      context.l10n,
+      invitationsBadgeCount: invitationsBadgeCount,
+    );
     final horizontalPadding =
         DrawerDesignSpec.px(context, DrawerDesignSpec.horizontalPadding);
 
@@ -42,7 +49,10 @@ class HomeDrawerWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    DrawerProfileCardWidget(userName: userName),
+                    DrawerProfileCardWidget(
+                      fullName: fullName,
+                      profilePhotoUrl: profilePhotoUrl,
+                    ),
                     SizedBox(
                       height: DrawerDesignSpec.px(
                         context,

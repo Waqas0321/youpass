@@ -5,9 +5,9 @@ import 'package:youpass/core/widgets/app_asset_image.dart';
 import 'package:youpass/features/favorites/domain/entities/producer_event_category.dart';
 import 'package:youpass/features/favorites/domain/entities/producer_event_entity.dart';
 import 'package:youpass/features/favorites/presentation/data/favorites_mock_data.dart';
+import 'package:youpass/core/widgets/youpass_branded_app_bar_widget.dart';
 import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
 import 'package:youpass/features/favorites/presentation/routes/producer_events_route_args.dart';
-import 'package:youpass/features/favorites/presentation/widgets/favorites_branded_app_bar_widget.dart';
 import 'package:youpass/features/favorites/presentation/widgets/favorites_search_field_widget.dart';
 import 'package:youpass/features/favorites/presentation/widgets/favorites_section_header_widget.dart';
 import 'package:youpass/features/favorites/presentation/widgets/producer_event_card_widget.dart';
@@ -74,8 +74,10 @@ class _ProducerEventsScreenState extends State<ProducerEventsScreen> {
 
     return Scaffold(
       backgroundColor: FavoritesDesignSpec.screenBackground,
-      appBar: FavoritesBrandedAppBarWidget(
+      appBar: YouPassBrandedAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
+        primaryColor: FavoritesDesignSpec.primary,
+        backgroundColor: FavoritesDesignSpec.screenBackground,
       ),
       body: ListView(
         padding: EdgeInsets.fromLTRB(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
-import 'package:youpass/core/widgets/app_loader.dart';
+import 'package:youpass/core/widgets/shimmer/invitations_list_shimmer.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/youpass_branded_app_bar_widget.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
@@ -58,7 +58,6 @@ class MyInvitationsScreenState extends State<MyInvitationsScreen> {
     return Scaffold(
       backgroundColor: InvitationsDesignSpec.screenBackground,
       appBar: YouPassBrandedAppBarWidget(
-        screenTitle: AppStrings.drawerMyInvitations(strings),
         onBack: () => Navigator.of(context).pop(),
         primaryColor: InvitationsDesignSpec.primary,
       ),
@@ -74,7 +73,7 @@ class MyInvitationsScreenState extends State<MyInvitationsScreen> {
   ) {
     if (provider.status == InvitationsStatus.loading &&
         provider.invitations.isEmpty) {
-      return const Center(child: AppLoader());
+      return const InvitationsListShimmer();
     }
 
     if (provider.status == InvitationsStatus.error &&
@@ -93,6 +92,7 @@ class MyInvitationsScreenState extends State<MyInvitationsScreen> {
       onSearchChanged: updateSearch,
       onConfirmAttendance: actions.confirmAttendance,
       onRejectInvitation: actions.rejectInvitation,
+      onCancelInvitation: actions.rejectInvitation,
       onViewTicket: actions.openTicket,
     );
   }

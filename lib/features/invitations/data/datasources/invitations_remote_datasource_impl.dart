@@ -4,6 +4,7 @@ import 'package:youpass/features/invitations/data/datasources/invitations_remote
 import 'package:youpass/features/invitations/data/services/invitations_api_service.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_ticket_entity.dart';
+import 'package:youpass/features/invitations/domain/entities/invitations_summary_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/payment_method_request_entity.dart';
 
 class InvitationsRemoteDataSourceImpl implements InvitationsRemoteDataSource {
@@ -18,6 +19,41 @@ class InvitationsRemoteDataSourceImpl implements InvitationsRemoteDataSource {
     }
 
     return apiService.fetchInvitations();
+  }
+
+  @override
+  Future<InvitationsSummaryEntity> fetchSummary() async {
+    if (AppConstants.useInvitationsMockData) {
+      final pending = InvitationsMockData.invitations
+          .where((item) => item.status.name == 'pending')
+          .length;
+      return InvitationsSummaryEntity(
+        pendingCount: pending,
+        newCount: pending,
+        totalCount: InvitationsMockData.invitations.length,
+      );
+    }
+
+    return apiService.fetchSummary();
+  }
+
+  @override
+  Future<bool> hasSavedPaymentMethods() async {
+    if (AppConstants.useInvitationsMockData) {
+      return false;
+    }
+
+    return apiService.hasSavedPaymentMethods();
+  }
+
+  @override
+  Future<InvitationEntity> fetchInvitationDetail(String invitationId) async {
+    if (AppConstants.useInvitationsMockData) {
+      return InvitationsMockData.invitations
+          .firstWhere((item) => item.id == invitationId);
+    }
+
+    return apiService.fetchInvitationDetail(invitationId);
   }
 
   @override

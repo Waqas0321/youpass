@@ -1,29 +1,33 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:youpass/core/auth/auth_headers.dart';
 import 'package:youpass/core/auth/auth_token_store.dart';
 import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/utils/app_logger.dart';
 
-typedef AuthCredentialsProvider = Future<AuthCredentials> Function();
+typedef AuthTokenProvider = Future<String?> Function();
 
 class ApiClient {
   ApiClient({
     http.Client? client,
-    this.authCredentialsProvider,
+    this.authTokenProvider,
   }) : httpClient = client ?? http.Client();
 
   final http.Client httpClient;
-  final AuthCredentialsProvider? authCredentialsProvider;
+  final AuthTokenProvider? authTokenProvider;
 
   Future<http.Response> get(
     String url, {
     Map<String, String>? headers,
     bool authenticated = false,
+    String? accessTokenOverride,
   }) async {
     final resolvedHeaders = await _resolveHeaders(
       headers: headers,
       authenticated: authenticated,
+      accessTokenOverride: accessTokenOverride,
+      multipart: false,
     );
 
     return _send(
@@ -40,11 +44,14 @@ class ApiClient {
     Map<String, String>? headers,
     Object? body,
     bool authenticated = false,
+    String? accessTokenOverride,
   }) async {
     final encodedBody = body is String ? body : jsonEncode(body);
     final resolvedHeaders = await _resolveHeaders(
       headers: headers,
       authenticated: authenticated,
+      accessTokenOverride: accessTokenOverride,
+      multipart: false,
     );
 
     return _send(
@@ -61,36 +68,105 @@ class ApiClient {
     );
   }
 
+  Future<http.Response> delete(
+    String url, {
+    Map<String, String>? headers,
+    bool authenticated = false,
+    String? accessTokenOverride,
+  }) async {
+    final resolvedHeaders = await _resolveHeaders(
+      headers: headers,
+      authenticated: authenticated,
+      accessTokenOverride: accessTokenOverride,
+      multipart: false,
+    );
+
+    return _send(
+      method: 'DELETE',
+      url: url,
+      request: () => httpClient
+          .delete(Uri.parse(url), headers: resolvedHeaders)
+          .timeout(AppConstants.apiTimeout),
+    );
+  }
+
+  Future<http.Response> postMultipart(
+    String url, {
+    required List<http.MultipartFile> files,
+    Map<String, String>? fields,
+    bool authenticated = false,
+    String? accessTokenOverride,
+  }) async {
+    final request = http.MultipartRequest('POST', Uri.parse(url));
+    if (fields != null) {
+      request.fields.addAll(fields);
+    }
+    request.files.addAll(files);
+
+    final resolvedHeaders = await _resolveHeaders(
+      headers: const {},
+      authenticated: authenticated,
+      accessTokenOverride: accessTokenOverride,
+      multipart: true,
+    );
+
+    if (resolvedHeaders.containsKey('Authorization')) {
+      request.headers['Authorization'] = resolvedHeaders['Authorization']!;
+    }
+
+    return _send(
+      method: 'POST',
+      url: url,
+      request: () async {
+        final streamed = await httpClient
+            .send(request)
+            .timeout(AppConstants.apiTimeout);
+        return http.Response.fromStream(streamed);
+      },
+    );
+  }
+
   Future<Map<String, String>> _resolveHeaders({
     Map<String, String>? headers,
     required bool authenticated,
+    String? accessTokenOverride,
+    required bool multipart,
   }) async {
     final resolved = <String, String>{
-      'Content-Type': 'application/json',
+      if (!multipart) 'Content-Type': 'application/json',
       ...?headers,
     };
 
-    if (authenticated && authCredentialsProvider != null) {
-      final credentials = await authCredentialsProvider!();
-      final token = credentials.accessToken?.trim();
-      final sessionId = credentials.sessionId?.trim();
+    if (!authenticated) {
+      return resolved;
+    }
 
-      if (token != null && token.isNotEmpty) {
-        resolved['Authorization'] = 'Bearer $token';
-        AppLogger.debug(
-          'Authorization attached (${token.length} chars)',
-          tag: 'API',
-        );
-      } else if (authenticated) {
-        AppLogger.warning(
-          'Authenticated request without access token',
-          tag: 'API',
-        );
-      }
+    final override = AuthTokenStore.normalizeToken(accessTokenOverride);
+    String? token = override;
 
-      if (sessionId != null && sessionId.isNotEmpty) {
-        resolved['X-Session-Id'] = sessionId;
-      }
+    if (token == null || token.isEmpty) {
+      token = AuthTokenStore.accessToken;
+    }
+
+    if ((token == null || token.isEmpty) && authTokenProvider != null) {
+      token = AuthTokenStore.normalizeToken(await authTokenProvider!());
+    }
+
+    if (token != null && token.isNotEmpty) {
+      resolved.addAll(
+        multipart ? authHeadersMultipart(token) : authHeaders(token),
+      );
+      final source = override != null ? 'override' : 'store';
+      AppLogger.debug(
+        'Authorization attached from $source (${token.length} chars, '
+        'prefix=${token.substring(0, token.length.clamp(0, 12))}...)',
+        tag: 'API',
+      );
+    } else {
+      AppLogger.warning(
+        'Authenticated request without access token',
+        tag: 'API',
+      );
     }
 
     return resolved;

@@ -21,7 +21,7 @@ void main() {
               );
             },
           ),
-          drawer: const HomeDrawerWidget(userName: 'Alejandro'),
+          drawer: const HomeDrawerWidget(fullName: 'Alejandro'),
         ),
       ),
     );

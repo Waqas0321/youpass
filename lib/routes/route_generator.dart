@@ -8,11 +8,12 @@ import 'package:youpass/features/auth/presentation/screens/splash_screen.dart';
 import 'package:youpass/features/auth/presentation/screens/verification_screen.dart';
 import 'package:youpass/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:youpass/features/auth/routes/welcome_route_args.dart';
-import 'package:youpass/features/auth/routes/register_route_args.dart';
 import 'package:youpass/features/auth/routes/verification_route_args.dart';
 import 'package:youpass/features/home/presentation/screens/home_screen.dart';
 import 'package:youpass/features/profile/presentation/screens/profile_screen.dart';
 import 'package:youpass/features/profile/presentation/screens/profile_wallet_screen.dart';
+import 'package:youpass/features/events/presentation/routes/all_events_route_args.dart';
+import 'package:youpass/features/events/presentation/screens/all_events_screen.dart';
 import 'package:youpass/features/favorites/presentation/routes/producer_events_route_args.dart';
 import 'package:youpass/features/favorites/presentation/screens/my_favorites_screen.dart';
 import 'package:youpass/features/favorites/presentation/screens/producer_events_screen.dart';
@@ -73,6 +74,15 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const MyTicketsScreen());
       case AppRoutes.myFavorites:
         return MaterialPageRoute(builder: (_) => const MyFavoritesScreen());
+      case AppRoutes.allEvents:
+        final args = settings.arguments;
+        return MaterialPageRoute(
+          builder: (_) => AllEventsScreen(
+            args: args is AllEventsRouteArgs
+                ? args
+                : const AllEventsRouteArgs(),
+          ),
+        );
       case AppRoutes.producerEvents:
         final args = settings.arguments;
         if (args is! ProducerEventsRouteArgs) {

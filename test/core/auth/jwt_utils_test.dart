@@ -27,10 +27,23 @@ void main() {
       isFalse,
     );
   });
+
+  test('readSessionId returns session id claim from payload', () {
+    final token = _buildJwt(
+      exp: 4_000_000_000,
+      extraClaims: {'session_id': 'sess-from-jwt'},
+    );
+
+    expect(JwtUtils.readSessionId(token), 'sess-from-jwt');
+  });
 }
 
-String _buildJwt({required int exp}) {
+String _buildJwt({
+  required int exp,
+  Map<String, Object>? extraClaims,
+}) {
+  final payloadMap = {'exp': exp, ...?extraClaims};
   final header = base64Url.encode(utf8.encode('{"alg":"HS256"}'));
-  final payload = base64Url.encode(utf8.encode('{"exp":$exp}'));
+  final payload = base64Url.encode(utf8.encode(jsonEncode(payloadMap)));
   return '$header.$payload.signature';
 }

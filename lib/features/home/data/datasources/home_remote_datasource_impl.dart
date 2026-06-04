@@ -1,25 +1,36 @@
-import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_constants.dart';
-import 'package:youpass/core/constants/app_strings.dart';
-import 'package:youpass/core/locale/app_locale.dart';
-import 'package:youpass/features/home/data/datasources/home_mock_data.dart';
+import 'package:youpass/features/events/domain/repositories/events_repository.dart';
 import 'package:youpass/features/home/data/datasources/home_remote_datasource.dart';
-import 'package:youpass/features/home/data/models/home_feed_model.dart';
-import 'package:youpass/l10n/app_localizations.dart';
+import 'package:youpass/features/home/domain/entities/event_category_entity.dart';
+import 'package:youpass/features/home/domain/entities/home_feed_entity.dart';
 
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
-  HomeRemoteDataSourceImpl({this.locale = AppLocale.english});
+  HomeRemoteDataSourceImpl({
+    required this.eventsRepository,
+  });
 
-  final Locale locale;
+  final EventsRepository eventsRepository;
 
   @override
-  Future<HomeFeedModel> fetchHomeFeed() async {
-    await Future<void>.delayed(AppConstants.homeMockFetchDelay);
+  Future<HomeFeedEntity> fetchHomeFeed() {
+    return eventsRepository.fetchHomeFeed();
+  }
 
-    final l10n = lookupAppLocalizations(locale);
+  @override
+  Future<HomeFeedEventsUpdate> fetchFilteredEvents(
+    EventCategoryEntity category,
+  ) {
+    return eventsRepository.fetchFilteredEvents(category);
+  }
 
-    return HomeMockData.buildFeed(
-      labels: AppStrings.homeFeedLabels(l10n),
-    );
+  @override
+  Future<void> toggleEventFavorite({
+    required String eventId,
+    required bool isFavorite,
+  }) {
+    if (isFavorite) {
+      return eventsRepository.removeEventFavorite(eventId);
+    }
+
+    return eventsRepository.addEventFavorite(eventId);
   }
 }

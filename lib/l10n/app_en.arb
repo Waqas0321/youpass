@@ -29,6 +29,7 @@
     }
   },
   "homeDiscoverSubtitle": "Discover the best events for you",
+  "categoryAll": "All",
   "categoryChile": "Chile",
   "categoryParties": "Parties",
   "categoryConcerts": "Concerts",
@@ -37,6 +38,29 @@
   "featuredEventDate": "NOVEMBER 21, 2026 • 5:00 PM",
   "featuredEventLocation": "BICENTENNIAL PARK, SANTIAGO",
   "eventsSectionTitle": "Featured events",
+  "homeNoEventsFound": "No events found for this filter",
+  "allEventsTitle": "All events",
+  "allEventsSubtitle": "Browse every published event on YouPass",
+  "allEventsSearchHint": "Search event",
+  "allEventsAvailableCount": "{count} events available",
+  "@allEventsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "favoritesEventsSubtitle": "Events you saved with the heart icon",
+  "favoritesEventsSearchHint": "Search favorite event",
+  "favoritesEventsEmpty": "No favorite events yet. Tap the heart on an event to save it here.",
+  "favoritesSavedEventsCount": "{count} saved events",
+  "@favoritesSavedEventsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "seeAll": "See all",
   "buyTickets": "BUY TICKETS",
   "eventCaribeDate": "Saturday, January 31, 2026",
@@ -153,6 +177,7 @@
   "profileFaq": "Frequently asked questions",
   "profileLogout": "Log out",
   "profileDeleteAccount": "Delete account",
+  "profilePhotoUpdated": "Profile photo updated",
   "confirmDialogCancel": "Cancel",
   "confirmLogoutTitle": "Log out?",
   "confirmLogoutMessage": "You will need to sign in again with your phone number to use YouPass.",
@@ -229,6 +254,7 @@
   "invitationsFilterGeneral": "General",
   "invitationsFilterVip": "VIP",
   "invitationsTierVip": "VIP",
+  "invitationsTierVipMesa": "VIP Table",
   "invitationsTierGeneral": "General",
   "invitationsStatusLine": "Status: {status}",
   "@invitationsStatusLine": {
@@ -238,12 +264,30 @@
       }
     }
   },
-  "invitationsStatusPending": "Pending",
+  "invitationsStatusPrefix": "Status:",
+  "invitationsStatusPending": "Awaiting confirmation",
   "invitationsStatusConfirmed": "Confirmed",
   "invitationsStatusRejected": "Declined",
   "invitationsConfirmAttendance": "CONFIRM ATTENDANCE",
   "invitationsReject": "DECLINE",
+  "invitationsCancel": "CANCEL",
+  "invitationsAttendanceConfirmed": "ATTENDANCE CONFIRMED",
   "invitationsViewQr": "VIEW QR",
+  "invitationsQrPendingTitle": "Confirm attendance first",
+  "invitationsQrPendingMessage": "Your QR code will be available after you confirm this invitation.",
+  "invitationsQrLockedTitle": "QR not available yet",
+  "invitationsQrLockedMessage": "Your QR will be available from 00:00 on the day of the event.",
+  "invitationsQrExpiredTitle": "QR expired",
+  "invitationsQrExpiredMessage": "This event QR is no longer available.",
+  "invitationsQrUnlockAt": "Available from {date}",
+  "@invitationsQrUnlockAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationsQrGotIt": "GOT IT",
   "invitationsFooterNote": "Confirmed invitations generate a unique, non-transferable QR code.",
   "invitationsImportantTitle": "Important",
   "invitationsImportantMessage": "By confirming, the ticket is reserved exclusively for you. If you do not attend, you may be charged the full ticket price.",

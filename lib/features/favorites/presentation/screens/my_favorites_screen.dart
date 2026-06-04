@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
-import 'package:youpass/features/favorites/domain/entities/favorite_producer_entity.dart';
-import 'package:youpass/features/favorites/domain/entities/favorite_producer_filter.dart';
-import 'package:youpass/features/favorites/presentation/data/favorites_mock_data.dart';
+import 'package:youpass/core/widgets/shimmer/event_browse_list_shimmer.dart';
+import 'package:youpass/core/widgets/app_text.dart';
+import 'package:youpass/core/widgets/app_text_variant.dart';
+import 'package:youpass/core/widgets/youpass_branded_app_bar_widget.dart';
+import 'package:youpass/dependency_injection/injection_container.dart';
+import 'package:youpass/features/events/domain/entities/event_entity.dart';
+import 'package:youpass/features/events/domain/repositories/events_repository.dart';
+import 'package:youpass/features/events/domain/usecases/get_favorite_events_usecase.dart';
+import 'package:youpass/features/events/domain/usecases/toggle_event_favorite_usecase.dart'
+    as events_usecases;
+import 'package:youpass/features/events/presentation/utils/event_browse_filter_helper.dart';
+import 'package:youpass/features/events/presentation/widgets/event_browse_list_content.dart';
 import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
-import 'package:youpass/features/favorites/presentation/routes/producer_events_route_args.dart';
-import 'package:youpass/features/favorites/presentation/utils/favorites_text_factory.dart';
-import 'package:youpass/features/favorites/presentation/widgets/favorite_producer_card_widget.dart';
-import 'package:youpass/features/favorites/presentation/widgets/favorites_branded_app_bar_widget.dart';
-import 'package:youpass/features/favorites/presentation/widgets/favorites_filter_chip_widget.dart';
-import 'package:youpass/features/favorites/presentation/widgets/favorites_search_field_widget.dart';
-import 'package:youpass/features/favorites/presentation/widgets/favorites_section_header_widget.dart';
-import 'package:youpass/routes/app_routes.dart';
+import 'package:youpass/features/home/domain/entities/event_category_entity.dart';
+import 'package:youpass/l10n/app_localizations.dart';
 
 class MyFavoritesScreen extends StatefulWidget {
   const MyFavoritesScreen({super.key});
@@ -22,27 +26,77 @@ class MyFavoritesScreen extends StatefulWidget {
 }
 
 class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
-  FavoriteProducerFilter selectedFilter = FavoriteProducerFilter.all;
+  late final EventsRepository eventsRepository;
+  late final GetFavoriteEventsUseCase getFavoriteEventsUseCase;
+  late final events_usecases.ToggleEventFavoriteUseCase toggleEventFavoriteUseCase;
+
+  List<EventCategoryEntity> categories = [];
+  List<EventEntity> allEvents = [];
+  List<EventEntity> visibleEvents = [];
+  String selectedCategoryId = AppConstants.categoryIdAll;
   String searchQuery = '';
-  late List<FavoriteProducerEntity> allProducers;
-  late List<FavoriteProducerEntity> visibleProducers;
+  bool isLoading = true;
+  String? errorMessage;
+  final Set<String> favoritePendingIds = {};
 
   @override
   void initState() {
     super.initState();
-    allProducers = List<FavoriteProducerEntity>.from(FavoritesMockData.producers);
-    applyFilters();
+    eventsRepository = sl<EventsRepository>();
+    getFavoriteEventsUseCase = sl<GetFavoriteEventsUseCase>();
+    toggleEventFavoriteUseCase = sl<events_usecases.ToggleEventFavoriteUseCase>();
+    loadFavorites();
+  }
+
+  Future<void> loadFavorites() async {
+    setState(() {
+      isLoading = true;
+      errorMessage = null;
+    });
+
+    try {
+      final events = await getFavoriteEventsUseCase();
+      final loadedCategories = await eventsRepository.fetchBrowseCategories();
+
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        categories = loadedCategories;
+        allEvents = events;
+        isLoading = false;
+        applyFilters();
+      });
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        isLoading = false;
+        errorMessage = error.toString();
+      });
+    }
   }
 
   void applyFilters() {
-    final query = searchQuery.trim().toLowerCase();
-    visibleProducers = allProducers.where((producer) {
-      final matchesFilter = selectedFilter == FavoriteProducerFilter.all ||
-          producer.tags.contains(selectedFilter);
-      final matchesSearch = query.isEmpty ||
-          producer.name.toLowerCase().contains(query);
-      return matchesFilter && matchesSearch;
-    }).toList();
+    visibleEvents = EventBrowseFilterHelper.filter(
+      events: allEvents,
+      searchQuery: searchQuery,
+      selectedCategoryId: selectedCategoryId,
+      categories: categories,
+    );
+  }
+
+  void selectCategory(String categoryId) {
+    if (selectedCategoryId == categoryId) {
+      return;
+    }
+
+    setState(() {
+      selectedCategoryId = categoryId;
+      applyFilters();
+    });
   }
 
   void updateSearch(String value) {
@@ -52,149 +106,89 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
     });
   }
 
-  void updateFilter(FavoriteProducerFilter filter) {
-    setState(() {
-      selectedFilter = filter;
-      applyFilters();
-    });
+  Future<void> toggleFavorite(String eventId) async {
+    if (favoritePendingIds.contains(eventId)) {
+      return;
+    }
+
+    favoritePendingIds.add(eventId);
+
+    try {
+      await toggleEventFavoriteUseCase(
+        eventId: eventId,
+        isFavorite: true,
+      );
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        allEvents = allEvents.where((event) => event.id != eventId).toList();
+        applyFilters();
+      });
+    } catch (error) {
+      if (mounted) {
+        setState(() => errorMessage = error.toString());
+      }
+    } finally {
+      favoritePendingIds.remove(eventId);
+      if (mounted) {
+        setState(() {});
+      }
+    }
   }
 
-  void toggleFavorite(String producerId) {
-    setState(() {
-      allProducers = allProducers
-          .map(
-            (producer) => producer.id == producerId
-                ? FavoriteProducerEntity(
-                    id: producer.id,
-                    name: producer.name,
-                    imageAssetPath: producer.imageAssetPath,
-                    coverageLabel: producer.coverageLabel,
-                    isFavorite: !producer.isFavorite,
-                    tags: producer.tags,
-                  )
-                : producer,
-          )
-          .toList();
-      applyFilters();
-    });
-  }
-
-  void openProducerEvents(FavoriteProducerEntity producer) {
-    Navigator.of(context).pushNamed(
-      AppRoutes.producerEvents,
-      arguments: ProducerEventsRouteArgs(
-        producerId: producer.id,
-        producerName: producer.name,
-        imageAssetPath: producer.imageAssetPath,
-      ),
-    );
+  String emptyMessage(AppLocalizations strings) {
+    if (allEvents.isEmpty) {
+      return AppStrings.favoritesEventsEmpty(strings);
+    }
+    return AppStrings.homeNoEventsFound(strings);
   }
 
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    final horizontalPadding =
-        FavoritesDesignSpec.px(context, FavoritesDesignSpec.horizontalPadding);
 
     return Scaffold(
       backgroundColor: FavoritesDesignSpec.screenBackground,
-      appBar: FavoritesBrandedAppBarWidget(
-        screenTitle: AppStrings.drawerMyFavorites(strings),
+      appBar: YouPassBrandedAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
+        primaryColor: FavoritesDesignSpec.primary,
+        backgroundColor: FavoritesDesignSpec.screenBackground,
       ),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(
-          horizontalPadding,
-          FavoritesDesignSpec.px(context, 8),
-          horizontalPadding,
-          FavoritesDesignSpec.px(context, 24),
-        ),
-        children: [
-          FavoritesSectionHeaderWidget(
-            title: AppStrings.drawerMyFavorites(strings),
-            subtitle: AppStrings.favoritesSubtitle(strings),
-          ),
-          SizedBox(height: FavoritesDesignSpec.px(context, 16)),
-          FavoritesSearchFieldWidget(
-            hintText: AppStrings.favoritesSearchHint(strings),
-            onChanged: updateSearch,
-          ),
-          SizedBox(height: FavoritesDesignSpec.px(context, 14)),
-          Text(
-            AppStrings.favoritesFiltersLabel(strings),
-            style: TextStyle(
-              fontSize: FavoritesDesignSpec.px(context, 11),
-              fontWeight: FontWeight.w600,
-              color: FavoritesDesignSpec.bodyText,
-              letterSpacing: 0.5,
-            ),
-          ),
-          SizedBox(height: FavoritesDesignSpec.px(context, 8)),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                FavoritesFilterChipWidget(
-                  label: AppStrings.favoritesFilterAll(strings),
-                  isSelected: selectedFilter == FavoriteProducerFilter.all,
-                  onTap: () => updateFilter(FavoriteProducerFilter.all),
+      body: isLoading
+          ? const EventBrowseListShimmer()
+          : errorMessage != null && allEvents.isEmpty
+              ? Center(
+                  child: AppText(
+                    errorMessage!,
+                    variant: AppTextVariant.error,
+                  ),
+                )
+              : RefreshIndicator(
+                  onRefresh: loadFavorites,
+                  child: EventBrowseListContent(
+                    headerTitle: AppStrings.drawerMyFavorites(strings),
+                    headerSubtitle: AppStrings.favoritesEventsSubtitle(strings),
+                    headerIcon: Icons.favorite_outline,
+                    headerIconColor: FavoritesDesignSpec.favoriteActive,
+                    searchHint: AppStrings.favoritesEventsSearchHint(strings),
+                    onSearchChanged: updateSearch,
+                    categories: categories,
+                    selectedCategoryId: selectedCategoryId,
+                    onCategorySelected: selectCategory,
+                    visibleEvents: visibleEvents,
+                    emptyMessage: emptyMessage(strings),
+                    footerIcon: Icons.favorite,
+                    footerIconColor: FavoritesDesignSpec.favoriteActive,
+                    footerText: AppStrings.favoritesSavedEventsCount(
+                      strings,
+                      visibleEvents.length,
+                    ),
+                    onFavoriteTap: toggleFavorite,
+                    favoritePendingIds: favoritePendingIds,
+                    markAllAsFavorite: true,
+                  ),
                 ),
-                SizedBox(width: FavoritesDesignSpec.px(context, 8)),
-                FavoritesFilterChipWidget(
-                  label: AppStrings.favoritesFilterUpcoming(strings),
-                  isSelected: selectedFilter == FavoriteProducerFilter.upcoming,
-                  onTap: () => updateFilter(FavoriteProducerFilter.upcoming),
-                ),
-                SizedBox(width: FavoritesDesignSpec.px(context, 8)),
-                FavoritesFilterChipWidget(
-                  label: AppStrings.favoritesFilterParties(strings),
-                  isSelected: selectedFilter == FavoriteProducerFilter.parties,
-                  onTap: () => updateFilter(FavoriteProducerFilter.parties),
-                ),
-                SizedBox(width: FavoritesDesignSpec.px(context, 8)),
-                FavoritesFilterChipWidget(
-                  label: AppStrings.favoritesFilterVip(strings),
-                  isSelected: selectedFilter == FavoriteProducerFilter.vip,
-                  onTap: () => updateFilter(FavoriteProducerFilter.vip),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: FavoritesDesignSpec.px(context, 16)),
-          ...visibleProducers.map(
-            (producer) => FavoriteProducerCardWidget(
-              producer: producer,
-              description: FavoritesTextFactory.producerDescription(
-                strings,
-                producer.id,
-              ),
-              onViewEvents: () => openProducerEvents(producer),
-              onFavoriteToggle: () => toggleFavorite(producer.id),
-            ),
-          ),
-          SizedBox(height: FavoritesDesignSpec.px(context, 8)),
-          Row(
-            children: [
-              Icon(
-                Icons.favorite,
-                size: FavoritesDesignSpec.px(context, 16),
-                color: FavoritesDesignSpec.favoriteActive,
-              ),
-              SizedBox(width: FavoritesDesignSpec.px(context, 8)),
-              Text(
-                AppStrings.favoritesSavedProducersCount(
-                  strings,
-                  allProducers.where((p) => p.isFavorite).length,
-                ),
-                style: TextStyle(
-                  fontSize: FavoritesDesignSpec.px(context, 12),
-                  color: FavoritesDesignSpec.bodyText,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

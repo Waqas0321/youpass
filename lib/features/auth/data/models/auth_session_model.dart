@@ -1,4 +1,6 @@
 import 'package:youpass/features/auth/data/models/user_model.dart';
+import 'package:youpass/features/auth/data/models/user_profile_model.dart';
+import 'package:youpass/features/auth/data/models/welcome_model.dart';
 import 'package:youpass/features/auth/domain/entities/auth_session_entity.dart';
 import 'package:youpass/features/auth/domain/entities/welcome_entity.dart';
 
@@ -9,25 +11,28 @@ class AuthSessionModel extends AuthSessionEntity {
     super.sessionId,
     super.isNewUser,
     super.welcome,
-    this.loginUserJson,
+    this.cachedLoginProfile,
   });
 
-  /// Raw `user` object from login/register — used to cache profile when `/users/me` fails.
-  final Map<String, dynamic>? loginUserJson;
+  /// Profile snapshot from login/register `user` payload when `/users/me` is delayed.
+  final UserProfileModel? cachedLoginProfile;
 
   factory AuthSessionModel.fromJson(Map<String, dynamic> json) {
     final userJson = json['user'];
     final token = _readAccessToken(json);
+    final cachedProfile = userJson is Map<String, dynamic>
+        ? UserProfileModel.fromJson(userJson)
+        : null;
 
     return AuthSessionModel(
       accessToken: token,
       user: userJson is Map<String, dynamic>
           ? UserModel.fromAuthJson(userJson)
           : const UserModel(id: '', email: '', name: ''),
-      sessionId: json['session_id']?.toString(),
+      sessionId: json['session_id']?.toString().trim(),
       isNewUser: json['is_new_user'] as bool? ?? false,
       welcome: _parseWelcome(json['welcome']),
-      loginUserJson: userJson is Map<String, dynamic> ? userJson : null,
+      cachedLoginProfile: cachedProfile,
     );
   }
 
@@ -44,21 +49,11 @@ class AuthSessionModel extends AuthSessionEntity {
       return null;
     }
 
-    final title = value['title'] as String?;
-    final subtitle = value['subtitle'] as String?;
-    if (title == null || subtitle == null) {
+    final welcome = WelcomeModel.fromJson(value);
+    if (welcome.title.isEmpty || welcome.subtitle.isEmpty) {
       return null;
     }
 
-    final duration = value['duration_seconds'];
-    return WelcomeEntity(
-      title: title,
-      subtitle: subtitle,
-      durationSeconds: duration is int
-          ? duration
-          : duration is num
-              ? duration.toInt()
-              : 2,
-    );
+    return welcome;
   }
 }

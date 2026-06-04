@@ -20,11 +20,11 @@ class HomeCategoryFiltersWidget extends StatelessWidget {
     final layout = ResponsiveLayout(context);
 
     return SizedBox(
-      height: layout.spacing(44),
+      height: layout.spacing(40),
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
-        separatorBuilder: (_, index) => SizedBox(width: layout.spacing(10)),
+        separatorBuilder: (_, index) => SizedBox(width: layout.spacing(8)),
         itemBuilder: (context, index) {
           final category = categories[index];
 

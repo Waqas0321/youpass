@@ -1,9 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:youpass/core/auth/access_token_storage.dart';
 import 'package:youpass/core/auth/auth_session_storage.dart';
-import 'package:youpass/core/auth/auth_token_store.dart';
 import 'package:youpass/core/locale/locale_provider.dart';
-import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/constants/country_code_list.dart';
 import 'package:youpass/core/network/api_client.dart';
 import 'package:youpass/core/network/config_api_service.dart';
@@ -24,20 +23,32 @@ import 'package:youpass/features/auth/domain/usecases/register_usecase.dart';
 import 'package:youpass/features/auth/domain/usecases/request_delete_account_usecase.dart';
 import 'package:youpass/features/auth/domain/usecases/resend_code_usecase.dart';
 import 'package:youpass/features/auth/domain/usecases/send_code_usecase.dart';
+import 'package:youpass/features/auth/domain/usecases/upload_profile_photo_usecase.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
+import 'package:youpass/features/events/data/repositories/events_repository_impl.dart';
+import 'package:youpass/features/events/data/services/events_api_service.dart';
+import 'package:youpass/features/events/domain/repositories/events_repository.dart';
 import 'package:youpass/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:youpass/features/home/data/datasources/home_remote_datasource_impl.dart';
+import 'package:youpass/features/events/domain/usecases/get_all_events_usecase.dart';
+import 'package:youpass/features/events/domain/usecases/get_favorite_events_usecase.dart';
+import 'package:youpass/features/events/domain/usecases/toggle_event_favorite_usecase.dart'
+    as events_usecases;
 import 'package:youpass/features/home/data/repositories/home_repository_impl.dart';
 import 'package:youpass/features/home/domain/repositories/home_repository.dart';
+import 'package:youpass/features/home/domain/usecases/get_filtered_home_events_usecase.dart';
 import 'package:youpass/features/home/domain/usecases/get_home_feed_usecase.dart';
+import 'package:youpass/features/home/domain/usecases/toggle_event_favorite_usecase.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/features/invitations/data/datasources/invitations_remote_datasource.dart';
 import 'package:youpass/features/invitations/data/datasources/invitations_remote_datasource_impl.dart';
 import 'package:youpass/features/invitations/data/repositories/invitations_repository_impl.dart';
 import 'package:youpass/features/invitations/data/services/invitations_api_service.dart';
 import 'package:youpass/features/invitations/domain/repositories/invitations_repository.dart';
+import 'package:youpass/features/invitations/domain/usecases/check_saved_payment_methods_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/confirm_invitation_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/fetch_invitation_ticket_usecase.dart';
+import 'package:youpass/features/invitations/domain/usecases/fetch_invitations_summary_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/fetch_invitations_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/reject_invitation_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/save_payment_method_usecase.dart';
@@ -48,20 +59,18 @@ final GetIt sl = GetIt.instance;
 Future<void> initDependencies() async {
   final preferences = await SharedPreferences.getInstance();
   final storageService = StorageService(preferences);
-  AuthSessionStorage.hydrateFromDisk(storageService);
+  final accessTokenStorage = SecureAccessTokenStorage(
+    legacyStorage: storageService,
+  );
+  await AuthSessionStorage.hydrate(accessTokenStorage);
 
   sl
     ..registerLazySingleton<SharedPreferences>(() => preferences)
     ..registerLazySingleton<StorageService>(() => storageService)
+    ..registerLazySingleton<AccessTokenStorage>(() => accessTokenStorage)
     ..registerLazySingleton<ApiClient>(
       () => ApiClient(
-        authCredentialsProvider: () async {
-          final storage = sl<StorageService>();
-          return AuthTokenStore.resolveCredentials(
-            persistedToken: storage.getString(AppConstants.tokenKey),
-            persistedSessionId: storage.getString(AppConstants.sessionIdKey),
-          );
-        },
+        authTokenProvider: () => sl<AccessTokenStorage>().read(),
       ),
     )
     ..registerLazySingleton<ConfigApiService>(
@@ -74,7 +83,10 @@ Future<void> initDependencies() async {
       () => AuthRemoteDataSourceImpl(sl<AuthApiService>()),
     )
     ..registerLazySingleton<AuthLocalDataSource>(
-      () => AuthLocalDataSourceImpl(sl<StorageService>()),
+      () => AuthLocalDataSourceImpl(
+        storageService: sl<StorageService>(),
+        accessTokenStorage: sl<AccessTokenStorage>(),
+      ),
     )
     ..registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(
@@ -109,6 +121,9 @@ Future<void> initDependencies() async {
     ..registerLazySingleton<ConfirmDeleteAccountUseCase>(
       () => ConfirmDeleteAccountUseCase(sl<AuthRepository>()),
     )
+    ..registerLazySingleton<UploadProfilePhotoUseCase>(
+      () => UploadProfilePhotoUseCase(sl<AuthRepository>()),
+    )
     ..registerLazySingleton<LocaleProvider>(LocaleProvider.new)
     ..registerFactory<AuthProvider>(
       () => AuthProvider(
@@ -121,11 +136,32 @@ Future<void> initDependencies() async {
         getUserProfileUseCase: sl<GetUserProfileUseCase>(),
         requestDeleteAccountUseCase: sl<RequestDeleteAccountUseCase>(),
         confirmDeleteAccountUseCase: sl<ConfirmDeleteAccountUseCase>(),
+        uploadProfilePhotoUseCase: sl<UploadProfilePhotoUseCase>(),
         authRepository: sl<AuthRepository>(),
       ),
     )
+    ..registerLazySingleton<EventsApiService>(
+      () => EventsApiService(sl<ApiClient>()),
+    )
+    ..registerLazySingleton<EventsRepository>(
+      () => createEventsRepository(
+        eventsApiService: sl<EventsApiService>(),
+        localeProvider: sl<LocaleProvider>(),
+      ),
+    )
+    ..registerLazySingleton<GetAllEventsUseCase>(
+      () => GetAllEventsUseCase(sl<EventsRepository>()),
+    )
+    ..registerLazySingleton<GetFavoriteEventsUseCase>(
+      () => GetFavoriteEventsUseCase(sl<EventsRepository>()),
+    )
+    ..registerLazySingleton<events_usecases.ToggleEventFavoriteUseCase>(
+      () => events_usecases.ToggleEventFavoriteUseCase(sl<EventsRepository>()),
+    )
     ..registerLazySingleton<HomeRemoteDataSource>(
-      HomeRemoteDataSourceImpl.new,
+      () => HomeRemoteDataSourceImpl(
+        eventsRepository: sl<EventsRepository>(),
+      ),
     )
     ..registerLazySingleton<HomeRepository>(
       () => HomeRepositoryImpl(sl<HomeRemoteDataSource>()),
@@ -133,8 +169,18 @@ Future<void> initDependencies() async {
     ..registerLazySingleton<GetHomeFeedUseCase>(
       () => GetHomeFeedUseCase(sl<HomeRepository>()),
     )
+    ..registerLazySingleton<GetFilteredHomeEventsUseCase>(
+      () => GetFilteredHomeEventsUseCase(sl<HomeRepository>()),
+    )
+    ..registerLazySingleton<ToggleEventFavoriteUseCase>(
+      () => ToggleEventFavoriteUseCase(sl<HomeRepository>()),
+    )
     ..registerLazySingleton<HomeProvider>(
-      () => HomeProvider(sl<GetHomeFeedUseCase>()),
+      () => HomeProvider(
+        getHomeFeedUseCase: sl<GetHomeFeedUseCase>(),
+        getFilteredHomeEventsUseCase: sl<GetFilteredHomeEventsUseCase>(),
+        toggleEventFavoriteUseCase: sl<ToggleEventFavoriteUseCase>(),
+      ),
     )
     ..registerLazySingleton<InvitationsApiService>(
       () => InvitationsApiService(sl<ApiClient>()),
@@ -147,6 +193,12 @@ Future<void> initDependencies() async {
     )
     ..registerLazySingleton<FetchInvitationsUseCase>(
       () => FetchInvitationsUseCase(sl<InvitationsRepository>()),
+    )
+    ..registerLazySingleton<FetchInvitationsSummaryUseCase>(
+      () => FetchInvitationsSummaryUseCase(sl<InvitationsRepository>()),
+    )
+    ..registerLazySingleton<CheckSavedPaymentMethodsUseCase>(
+      () => CheckSavedPaymentMethodsUseCase(sl<InvitationsRepository>()),
     )
     ..registerLazySingleton<ConfirmInvitationUseCase>(
       () => ConfirmInvitationUseCase(sl<InvitationsRepository>()),
@@ -163,6 +215,8 @@ Future<void> initDependencies() async {
     ..registerLazySingleton<InvitationsProvider>(
       () => InvitationsProvider(
         fetchInvitationsUseCase: sl<FetchInvitationsUseCase>(),
+        fetchInvitationsSummaryUseCase: sl<FetchInvitationsSummaryUseCase>(),
+        checkSavedPaymentMethodsUseCase: sl<CheckSavedPaymentMethodsUseCase>(),
         confirmInvitationUseCase: sl<ConfirmInvitationUseCase>(),
         rejectInvitationUseCase: sl<RejectInvitationUseCase>(),
         fetchInvitationTicketUseCase: sl<FetchInvitationTicketUseCase>(),

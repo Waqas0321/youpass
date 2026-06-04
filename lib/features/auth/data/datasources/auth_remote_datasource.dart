@@ -34,9 +34,14 @@ abstract class AuthRemoteDataSource {
 
   Future<AuthSessionEntity> registerAccount(RegisterRequestEntity request);
 
-  Future<void> logoutRemote();
+  Future<void> logoutRemote({String? accessTokenOverride});
 
-  Future<UserProfileEntity> fetchUserProfile();
+  Future<UserProfileEntity> fetchUserProfile({String? accessTokenOverride});
+
+  Future<UserProfileEntity> uploadProfilePhoto(
+    String filePath, {
+    String? accessTokenOverride,
+  });
 
   Future<OtpDeliveryResultEntity> requestDeleteAccount();
 

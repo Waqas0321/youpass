@@ -1,4 +1,3 @@
-import 'package:youpass/core/constants/country_code_list.dart';
 import 'package:youpass/core/constants/country_codes_data.dart';
 import 'package:youpass/core/models/country_code.dart';
 import 'package:youpass/core/network/config_api_service.dart';

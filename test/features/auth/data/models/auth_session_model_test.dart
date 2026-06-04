@@ -32,6 +32,6 @@ void main() {
     });
 
     expect(session.accessToken, 'token-with-space');
-    expect(session.loginUserJson?['fullName'], 'Test');
+    expect(session.cachedLoginProfile?.fullName, 'Test');
   });
 }

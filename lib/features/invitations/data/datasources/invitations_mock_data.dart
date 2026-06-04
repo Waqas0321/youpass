@@ -1,6 +1,7 @@
 import 'package:youpass/core/constants/app_assets.dart';
 import 'package:youpass/features/invitations/data/models/invitation_model.dart';
 import 'package:youpass/features/invitations/data/models/invitation_ticket_model.dart';
+import 'package:youpass/features/invitations/domain/entities/invitation_qr_status.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_status.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_tier.dart';
 
@@ -18,7 +19,10 @@ class InvitationsMockData {
       dateTimeLabel: 'Sáb 4 Julio · 22:00',
       imageAssetPath: AppAssets.dummyImage,
       tier: InvitationTier.vip,
+      type: 'courtesy',
       status: InvitationStatus.pending,
+      requiresPaymentMethod: true,
+      qrStatus: InvitationQrStatus.locked,
     ),
     const InvitationModel(
       id: 'inv-concierto-x',
@@ -28,6 +32,7 @@ class InvitationsMockData {
       imageAssetPath: AppAssets.dummyImage,
       tier: InvitationTier.general,
       status: InvitationStatus.pending,
+      qrStatus: InvitationQrStatus.locked,
     ),
     const InvitationModel(
       id: festivalVeranoId,
@@ -39,6 +44,7 @@ class InvitationsMockData {
       status: InvitationStatus.confirmed,
       entryCode: '8F7A2B',
       qrPayload: 'YOUPASS-TICKET-8F7A2B',
+      qrStatus: InvitationQrStatus.available,
     ),
   ];
 

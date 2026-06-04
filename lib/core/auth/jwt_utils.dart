@@ -51,4 +51,24 @@ class JwtUtils {
 
     return null;
   }
+
+  static String? readSessionId(String token) {
+    final payload = decodePayload(token);
+    if (payload == null) {
+      return null;
+    }
+
+    for (final key in ['session_id', 'sessionId', 'sid', 'session']) {
+      final value = payload[key];
+      if (value == null) {
+        continue;
+      }
+      final normalized = value.toString().trim();
+      if (normalized.isNotEmpty) {
+        return normalized;
+      }
+    }
+
+    return null;
+  }
 }

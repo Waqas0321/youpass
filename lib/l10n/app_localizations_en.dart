@@ -78,6 +78,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeDiscoverSubtitle => 'Discover the best events for you';
 
   @override
+  String get categoryAll => 'All';
+
+  @override
   String get categoryChile => 'Chile';
 
   @override
@@ -100,6 +103,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get eventsSectionTitle => 'Featured events';
+
+  @override
+  String get homeNoEventsFound => 'No events found for this filter';
+
+  @override
+  String get allEventsTitle => 'All events';
+
+  @override
+  String get allEventsSubtitle => 'Browse every published event on YouPass';
+
+  @override
+  String get allEventsSearchHint => 'Search event';
+
+  @override
+  String allEventsAvailableCount(int count) {
+    return '$count events available';
+  }
+
+  @override
+  String get favoritesEventsSubtitle => 'Events you saved with the heart icon';
+
+  @override
+  String get favoritesEventsSearchHint => 'Search favorite event';
+
+  @override
+  String get favoritesEventsEmpty =>
+      'No favorite events yet. Tap the heart on an event to save it here.';
+
+  @override
+  String favoritesSavedEventsCount(int count) {
+    return '$count saved events';
+  }
 
   @override
   String get seeAll => 'See all';
@@ -396,6 +431,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileDeleteAccount => 'Delete account';
 
   @override
+  String get profilePhotoUpdated => 'Profile photo updated';
+
+  @override
   String get confirmDialogCancel => 'Cancel';
 
   @override
@@ -574,6 +612,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invitationsTierVip => 'VIP';
 
   @override
+  String get invitationsTierVipMesa => 'VIP Table';
+
+  @override
   String get invitationsTierGeneral => 'General';
 
   @override
@@ -582,7 +623,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get invitationsStatusPending => 'Pending';
+  String get invitationsStatusPrefix => 'Status:';
+
+  @override
+  String get invitationsStatusPending => 'Awaiting confirmation';
 
   @override
   String get invitationsStatusConfirmed => 'Confirmed';
@@ -597,7 +641,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invitationsReject => 'DECLINE';
 
   @override
+  String get invitationsCancel => 'CANCEL';
+
+  @override
+  String get invitationsAttendanceConfirmed => 'ATTENDANCE CONFIRMED';
+
+  @override
   String get invitationsViewQr => 'VIEW QR';
+
+  @override
+  String get invitationsQrPendingTitle => 'Confirm attendance first';
+
+  @override
+  String get invitationsQrPendingMessage =>
+      'Your QR code will be available after you confirm this invitation.';
+
+  @override
+  String get invitationsQrLockedTitle => 'QR not available yet';
+
+  @override
+  String get invitationsQrLockedMessage =>
+      'Your QR will be available from 00:00 on the day of the event.';
+
+  @override
+  String get invitationsQrExpiredTitle => 'QR expired';
+
+  @override
+  String get invitationsQrExpiredMessage =>
+      'This event QR is no longer available.';
+
+  @override
+  String invitationsQrUnlockAt(String date) {
+    return 'Available from $date';
+  }
+
+  @override
+  String get invitationsQrGotIt => 'GOT IT';
 
   @override
   String get invitationsFooterNote =>

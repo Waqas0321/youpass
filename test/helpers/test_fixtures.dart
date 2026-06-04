@@ -6,7 +6,8 @@ import 'package:youpass/features/auth/data/models/send_code_response_model.dart'
 import 'package:youpass/features/auth/domain/entities/whatsapp_check_result_entity.dart';
 import 'package:youpass/features/auth/data/models/user_model.dart';
 import 'package:youpass/features/auth/data/models/user_profile_model.dart';
-import 'package:youpass/features/home/data/datasources/home_mock_data.dart';
+import 'package:youpass/features/events/domain/repositories/events_repository.dart';
+import 'home_mock_data.dart';
 import 'package:youpass/features/home/data/models/home_feed_model.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
@@ -43,6 +44,12 @@ class TestFixtures {
     labels: AppStrings.homeFeedLabels(
       lookupAppLocalizations(AppLocale.english),
     ),
+  );
+
+  static final HomeFeedEventsUpdate testFilteredHomeEvents =
+      HomeFeedEventsUpdate(
+    carouselEvents: testHomeFeed.carouselEvents,
+    featuredEvents: testHomeFeed.featuredEvents,
   );
 
   static const String testPhone = '912345678';

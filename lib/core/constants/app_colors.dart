@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   static const Color primaryMustard = Color(0xFFE5A83B);
   static const Color homeAccentYellow = Color(0xFFFFB800);
+  static const Color favoriteActive = Color(0xFFE53935);
   static const Color darkNavy = Color(0xFF1A2B4A);
   static const Color homeBlack = Color(0xFF111111);
   static const Color secondaryGrey = Color(0xFF6B7280);

@@ -41,7 +41,12 @@ abstract class AuthRepository {
 
   Future<UserProfileEntity?> getCachedUserProfile();
 
-  Future<UserProfileEntity> refreshUserProfile();
+  Future<UserProfileEntity> refreshUserProfile({String? accessTokenOverride});
+
+  Future<UserProfileEntity> uploadProfilePhoto(
+    String filePath, {
+    String? accessTokenOverride,
+  });
 
   Future<String?> getAccessToken();
 

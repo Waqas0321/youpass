@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
+import 'package:youpass/core/auth/auth_token_store.dart';
 import 'package:youpass/core/auth/jwt_utils.dart';
+import 'package:youpass/core/network/api_exception.dart';
 import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/l10n/auth_message_localizer.dart';
-import 'package:youpass/core/network/api_exception.dart';
 import 'package:youpass/core/utils/app_logger.dart';
 import 'package:youpass/features/auth/domain/entities/auth_session_entity.dart';
 import 'package:youpass/features/auth/domain/entities/otp_delivery_result_entity.dart';
@@ -23,6 +24,7 @@ import 'package:youpass/features/auth/domain/usecases/register_usecase.dart';
 import 'package:youpass/features/auth/domain/usecases/request_delete_account_usecase.dart';
 import 'package:youpass/features/auth/domain/usecases/resend_code_usecase.dart';
 import 'package:youpass/features/auth/domain/usecases/send_code_usecase.dart';
+import 'package:youpass/features/auth/domain/usecases/upload_profile_photo_usecase.dart';
 import 'package:youpass/core/providers/session_providers_reset.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
@@ -41,6 +43,7 @@ class AuthProvider extends ChangeNotifier {
     required this.getUserProfileUseCase,
     required this.requestDeleteAccountUseCase,
     required this.confirmDeleteAccountUseCase,
+    required this.uploadProfilePhotoUseCase,
     required this.authRepository,
   });
 
@@ -53,6 +56,7 @@ class AuthProvider extends ChangeNotifier {
   final GetUserProfileUseCase getUserProfileUseCase;
   final RequestDeleteAccountUseCase requestDeleteAccountUseCase;
   final ConfirmDeleteAccountUseCase confirmDeleteAccountUseCase;
+  final UploadProfilePhotoUseCase uploadProfilePhotoUseCase;
   final AuthRepository authRepository;
 
   AuthStatus status = AuthStatus.initial;
@@ -62,7 +66,9 @@ class AuthProvider extends ChangeNotifier {
   String? errorMessage;
   String? errorCode;
   bool isSubmitting = false;
+  bool isUploadingProfilePhoto = false;
   int? lastRetryAfterSeconds;
+  String? _pinnedAccessToken;
 
   Future<void> checkAuthStatus() async {
     AppLogger.auth('Checking auth status');
@@ -87,7 +93,9 @@ class AuthProvider extends ChangeNotifier {
         await authRepository.getCurrentUser();
 
     try {
-      userProfile = await getUserProfileUseCase();
+      userProfile = await getUserProfileUseCase(
+        accessTokenOverride: await _resolveAccessToken(),
+      );
       currentUser = userProfile!.toUserEntity();
       await _setAuthenticated();
     } on ApiException catch (error) {
@@ -243,7 +251,19 @@ class AuthProvider extends ChangeNotifier {
     currentUser = session.user;
     pendingWelcome = session.welcome;
     status = AuthStatus.authenticated;
-    await _refreshProfileSilently();
+
+    final token = AuthTokenStore.accessToken ??
+        AuthTokenStore.normalizeToken(session.accessToken);
+    if (token != null && token.isNotEmpty) {
+      _pinnedAccessToken = token;
+      AppLogger.auth(
+        'Pinned login token tokenPrefix=${token.substring(0, token.length.clamp(0, 20))}...',
+      );
+    }
+
+    await _refreshProfileSilently(
+      accessTokenOverride: token,
+    );
     AppLogger.auth('$logLabel success userId=${session.user.id}');
     notifyListeners();
     return true;
@@ -265,9 +285,12 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<UserProfileEntity?> refreshUserProfile() async {
+    final accessToken = await _resolveAccessToken();
     final profile = await runAuthAction(
       actionName: 'get-profile',
-      action: () => getUserProfileUseCase(),
+      action: () => getUserProfileUseCase(
+        accessTokenOverride: accessToken,
+      ),
     );
 
     if (profile != null) {
@@ -278,6 +301,12 @@ class AuthProvider extends ChangeNotifier {
       }
       notifyListeners();
       return profile;
+    }
+
+    if (errorCode == 'SESSION_INVALID' || errorCode == 'UNAUTHORIZED') {
+      await authRepository.logout(notifyServer: false);
+      await _setUnauthenticated();
+      return null;
     }
 
     final cached = await authRepository.getCachedUserProfile();
@@ -312,6 +341,49 @@ class AuthProvider extends ChangeNotifier {
     await _setUnauthenticated();
     AppLogger.auth('Account deleted');
     return true;
+  }
+
+  Future<bool> uploadProfilePhoto(String filePath) async {
+    isUploadingProfilePhoto = true;
+    errorMessage = null;
+    errorCode = null;
+    notifyListeners();
+
+    try {
+      final token = await _resolveAccessToken();
+      final profile = await uploadProfilePhotoUseCase(
+        filePath,
+        accessTokenOverride: token,
+      );
+      userProfile = profile;
+      currentUser = profile.toUserEntity();
+      AppLogger.auth('Profile photo updated');
+      return true;
+    } on ApiException catch (error) {
+      errorCode = error.code;
+      errorMessage = error.message;
+      AppLogger.warning(
+        'upload-profile-photo failed: ${error.code}',
+        tag: 'Auth',
+      );
+      if (_isSessionInvalid(error)) {
+        await authRepository.logout(notifyServer: false);
+        await _setUnauthenticated();
+      }
+      return false;
+    } catch (error, stackTrace) {
+      errorMessage = error.toString();
+      AppLogger.error(
+        'upload-profile-photo failed',
+        tag: 'Auth',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      return false;
+    } finally {
+      isUploadingProfilePhoto = false;
+      notifyListeners();
+    }
   }
 
   Future<void> logout() async {
@@ -381,10 +453,32 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> _refreshProfileSilently() async {
+  Future<void> _refreshProfileSilently({String? accessTokenOverride}) async {
+    final cached = await authRepository.getCachedUserProfile();
+    if (cached != null) {
+      userProfile = cached;
+      currentUser = cached.toUserEntity();
+      AppLogger.auth('Using profile cached from login/register response');
+      return;
+    }
+
     try {
-      userProfile = await getUserProfileUseCase();
+      userProfile = await getUserProfileUseCase(
+        accessTokenOverride: accessTokenOverride,
+      );
       currentUser = userProfile!.toUserEntity();
+    } on ApiException catch (error) {
+      if (_isSessionInvalid(error)) {
+        AppLogger.auth(
+          'Profile refresh after login failed with ${error.code} — '
+          'using cached login profile',
+        );
+      }
+      final cached = await authRepository.getCachedUserProfile();
+      if (cached != null) {
+        userProfile = cached;
+        currentUser = cached.toUserEntity();
+      }
     } catch (_) {
       final cached = await authRepository.getCachedUserProfile();
       if (cached != null) {
@@ -402,6 +496,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> _setUnauthenticated() async {
+    _pinnedAccessToken = null;
     if (sl.isRegistered<HomeProvider>() &&
         sl.isRegistered<InvitationsProvider>()) {
       resetSessionProviders(
@@ -420,5 +515,28 @@ class AuthProvider extends ChangeNotifier {
 
   bool _isSessionInvalid(ApiException error) {
     return error.code == 'SESSION_INVALID' || error.code == 'UNAUTHORIZED';
+  }
+
+  Future<String> _resolveAccessToken() async {
+    final pinned = AuthTokenStore.normalizeToken(_pinnedAccessToken);
+    if (pinned != null && pinned.isNotEmpty) {
+      return pinned;
+    }
+
+    final memory = AuthTokenStore.accessToken;
+    if (memory != null && memory.isNotEmpty) {
+      return memory;
+    }
+
+    final disk = await authRepository.getAccessToken();
+    if (disk != null && disk.isNotEmpty) {
+      return disk;
+    }
+
+    throw ApiException(
+      code: 'UNAUTHORIZED',
+      message: 'Authentication required',
+      statusCode: 401,
+    );
   }
 }

@@ -1,8 +1,16 @@
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:youpass/core/network/api_endpoints.dart';
 import 'package:youpass/core/network/base_api_service.dart';
+import 'package:youpass/core/utils/image_mime_utils.dart';
 import 'package:youpass/features/auth/data/models/auth_session_model.dart';
+import 'package:youpass/features/auth/data/models/check_whatsapp_request_model.dart';
 import 'package:youpass/features/auth/data/models/delete_account_result_model.dart';
+import 'package:youpass/features/auth/data/models/delete_account_verify_request_model.dart';
+import 'package:youpass/features/auth/data/models/login_request_model.dart';
 import 'package:youpass/features/auth/data/models/otp_delivery_result_model.dart';
+import 'package:youpass/features/auth/data/models/otp_request_model.dart';
+import 'package:youpass/features/auth/data/models/register_request_model.dart';
 import 'package:youpass/features/auth/data/models/send_code_response_model.dart';
 import 'package:youpass/features/auth/data/models/user_profile_model.dart';
 import 'package:youpass/features/auth/data/models/whatsapp_check_result_model.dart';
@@ -16,142 +24,141 @@ class AuthApiService extends BaseApiService {
     required String phone,
     required String countryIsoCode,
     required OtpPurpose purpose,
-  }) async {
-    final data = await postData(
+  }) {
+    return postModel(
       ApiEndpoints.checkWhatsApp,
-      body: {
-        'phone': phone,
-        'country_code': countryIsoCode,
-        'purpose': purpose.apiValue,
-      },
+      body: CheckWhatsAppRequestModel(
+        phone: phone,
+        countryIsoCode: countryIsoCode,
+        purpose: purpose,
+      ).toJson(),
+      fromJson: WhatsAppCheckResultModel.fromJson,
     );
-
-    return WhatsAppCheckResultModel.fromJson(data);
   }
 
   Future<SendCodeResponseModel> sendCode({
     required String phone,
     required String countryIsoCode,
     required OtpPurpose purpose,
-  }) async {
-    final data = await postData(
+  }) {
+    return postModel(
       ApiEndpoints.sendCode,
-      body: _otpRequestBody(
+      body: _otpRequest(
         phone: phone,
         countryIsoCode: countryIsoCode,
         purpose: purpose,
-      ),
+      ).toJson(),
+      fromJson: SendCodeResponseModel.fromJson,
     );
-
-    return SendCodeResponseModel.fromJson(data);
   }
 
   Future<SendCodeResponseModel> resendCode({
     required String phone,
     required String countryIsoCode,
     required OtpPurpose purpose,
-  }) async {
-    final data = await postData(
+  }) {
+    return postModel(
       ApiEndpoints.resendCode,
-      body: _otpRequestBody(
+      body: _otpRequest(
         phone: phone,
         countryIsoCode: countryIsoCode,
         purpose: purpose,
-      ),
+      ).toJson(),
+      fromJson: SendCodeResponseModel.fromJson,
     );
-
-    return SendCodeResponseModel.fromJson(data);
   }
 
   Future<AuthSessionModel> login({
     required String phone,
     required String countryIsoCode,
     required String code,
-  }) async {
-    final data = await postData(
+  }) {
+    return postModel(
       ApiEndpoints.login,
-      body: {
-        'phone': phone,
-        'country_code': countryIsoCode,
-        'code': code,
-      },
+      body: LoginRequestModel(
+        phone: phone,
+        countryIsoCode: countryIsoCode,
+        code: code,
+      ).toJson(),
+      fromJson: AuthSessionModel.fromJson,
     );
-
-    return AuthSessionModel.fromJson(data);
   }
 
-  Future<AuthSessionModel> register(RegisterRequestEntity request) async {
-    final body = <String, dynamic>{
-      'phone': request.phone,
-      'country_code': request.countryIsoCode,
-      'code': request.code,
-      'full_name': request.fullName,
-      'rut_or_passport': request.documentId,
-      'email': request.email,
-      'birthdate': request.birthDate,
-      'gender': request.gender,
-      'accept_terms': request.acceptTerms,
-    };
-
-    final instagram = request.instagram.trim();
-    if (instagram.isNotEmpty) {
-      body['instagram_username'] = instagram;
-    }
-
-    final data = await postData(
+  Future<AuthSessionModel> register(RegisterRequestEntity request) {
+    return postModel(
       ApiEndpoints.register,
-      body: body,
+      body: RegisterRequestModel.fromEntity(request).toJson(),
+      fromJson: AuthSessionModel.fromJson,
     );
-
-    return AuthSessionModel.fromJson(data);
   }
 
-  Future<void> logout() {
+  Future<void> logout({String? accessTokenOverride}) {
     return postVoid(
       ApiEndpoints.logout,
       authenticated: true,
+      accessTokenOverride: accessTokenOverride,
     );
   }
 
-  Future<UserProfileModel> fetchCurrentUserProfile() async {
-    final data = await getData(
+  Future<UserProfileModel> fetchCurrentUserProfile({
+    String? accessTokenOverride,
+  }) {
+    return getModel(
       ApiEndpoints.usersMe,
+      fromJson: UserProfileModel.fromJson,
       authenticated: true,
+      accessTokenOverride: accessTokenOverride,
+    );
+  }
+
+  Future<UserProfileModel> uploadProfilePhoto(
+    String filePath, {
+    String? accessTokenOverride,
+  }) async {
+    final data = await postMultipartData(
+      ApiEndpoints.userProfilePhoto,
+      files: [
+        await http.MultipartFile.fromPath(
+          'photo',
+          filePath,
+          contentType: MediaType.parse(ImageMimeUtils.fromPath(filePath)),
+        ),
+      ],
+      authenticated: true,
+      accessTokenOverride: accessTokenOverride,
     );
 
     return UserProfileModel.fromJson(data);
   }
 
-  Future<OtpDeliveryResultModel> requestDeleteAccount() async {
-    final data = await postData(
+  Future<OtpDeliveryResultModel> requestDeleteAccount() {
+    return postModel(
       ApiEndpoints.deleteAccountRequest,
+      fromJson: OtpDeliveryResultModel.fromJson,
       authenticated: true,
     );
-
-    return OtpDeliveryResultModel.fromJson(data);
   }
 
   Future<DeleteAccountResultModel> confirmDeleteAccount({
     required String code,
-  }) async {
-    final data = await postData(
+  }) {
+    return postModel(
       ApiEndpoints.deleteAccountVerify,
-      body: {'code': code},
+      body: DeleteAccountVerifyRequestModel(code: code).toJson(),
+      fromJson: DeleteAccountResultModel.fromJson,
       authenticated: true,
     );
-
-    return DeleteAccountResultModel.fromJson(data);
   }
 
-  Map<String, String> _otpRequestBody({
+  OtpRequestModel _otpRequest({
     required String phone,
     required String countryIsoCode,
     required OtpPurpose purpose,
   }) {
-    return {
-      'phone': phone,
-      'country_code': countryIsoCode,
-      'purpose': purpose.apiValue,
-    };
+    return OtpRequestModel(
+      phone: phone,
+      countryIsoCode: countryIsoCode,
+      purpose: purpose,
+    );
   }
 }

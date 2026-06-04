@@ -3,12 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/l10n/auth_error_extension.dart';
-import 'package:youpass/core/widgets/app_loader.dart';
+import 'package:youpass/core/widgets/shimmer/profile_screen_shimmer.dart';
 import 'package:youpass/core/widgets/app_snack_bar.dart';
 import 'package:youpass/core/widgets/youpass_confirm_dialog.dart';
 import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/auth/routes/verification_route_args.dart';
+import 'package:youpass/features/profile/presentation/utils/profile_photo_actions.dart';
 import 'package:youpass/features/profile/presentation/utils/profile_view_data_factory.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_action_tile_widget.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_app_bar_widget.dart';
@@ -44,7 +45,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() => isLoadingProfile = true);
 
     await authProvider.hydrateCachedUserProfile();
-    await authProvider.refreshUserProfile();
+    if (authProvider.userProfile == null) {
+      await authProvider.refreshUserProfile();
+    }
     if (mounted) {
       setState(() => isLoadingProfile = false);
     }
@@ -52,6 +55,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void openWalletScreen() {
     Navigator.of(context).pushNamed(AppRoutes.profileWallet);
+  }
+
+  Future<void> handlePhotoUpdate() async {
+    await ProfilePhotoActions(context).pickAndUploadFromGallery();
   }
 
   Future<void> handleDeleteAccount() async {
@@ -107,7 +114,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         onBack: () => Navigator.of(context).pop(),
       ),
       body: isLoadingProfile && authProvider.userProfile == null
-          ? const Center(child: AppLoader())
+          ? const ProfileScreenShimmer()
           : SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
               child: Column(
@@ -115,7 +122,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   ProfileHeaderCardWidget(
                     data: profileData,
+                    isUploadingPhoto: authProvider.isUploadingProfilePhoto,
                     onHeaderTap: openWalletScreen,
+                    onPhotoTap: handlePhotoUpdate,
                     onViewBenefitsTap: openWalletScreen,
                   ),
                   SizedBox(

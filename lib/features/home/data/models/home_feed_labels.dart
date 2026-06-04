@@ -1,5 +1,6 @@
 class HomeFeedLabels {
   const HomeFeedLabels({
+    required this.allLabel,
     required this.chileLabel,
     required this.partiesLabel,
     required this.concertsLabel,
@@ -17,6 +18,7 @@ class HomeFeedLabels {
     required this.rockLocation,
   });
 
+  final String allLabel;
   final String chileLabel;
   final String partiesLabel;
   final String concertsLabel;

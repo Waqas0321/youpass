@@ -7,9 +7,10 @@ import 'package:youpass/l10n/app_localizations.dart';
 class DrawerMenuFactory {
   DrawerMenuFactory._();
 
-  static const int defaultInvitationsBadgeCount = 3;
-
-  static List<DrawerMenuItem> build(AppLocalizations l10n) {
+  static List<DrawerMenuItem> build(
+    AppLocalizations l10n, {
+    int invitationsBadgeCount = 0,
+  }) {
     return [
       DrawerMenuItem(
         id: DrawerMenuId.profile,
@@ -31,10 +32,12 @@ class DrawerMenuFactory {
         label: AppStrings.drawerInvitations(l10n),
         icon: Icons.auto_awesome_outlined,
         isHighlighted: true,
-        badgeLabel: AppStrings.drawerInvitationsNewBadge(
-          l10n,
-          defaultInvitationsBadgeCount,
-        ),
+        badgeLabel: invitationsBadgeCount > 0
+            ? AppStrings.drawerInvitationsNewBadge(
+                l10n,
+                invitationsBadgeCount,
+              )
+            : null,
       ),
     ];
   }

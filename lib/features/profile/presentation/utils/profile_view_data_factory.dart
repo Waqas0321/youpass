@@ -20,6 +20,7 @@ class ProfileViewDataFactory {
         birthDate: formatBirthdate(profile.birthdate),
         gender: GenderApiMapper.toDisplayLabel(profile.gender, l10n),
         instagramHandle: formatInstagram(profile.instagramUsername),
+        profilePhotoUrl: profile.profilePhotoUrl,
       );
     }
 

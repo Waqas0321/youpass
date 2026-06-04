@@ -20,6 +20,7 @@ class InvitationsListContentWidget extends StatelessWidget {
     required this.onSearchChanged,
     required this.onConfirmAttendance,
     required this.onRejectInvitation,
+    required this.onCancelInvitation,
     required this.onViewTicket,
   });
 
@@ -29,7 +30,8 @@ class InvitationsListContentWidget extends StatelessWidget {
   final ValueChanged<String> onSearchChanged;
   final ValueChanged<InvitationEntity> onConfirmAttendance;
   final ValueChanged<String> onRejectInvitation;
-  final ValueChanged<String> onViewTicket;
+  final ValueChanged<String> onCancelInvitation;
+  final ValueChanged<InvitationEntity> onViewTicket;
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +71,10 @@ class InvitationsListContentWidget extends StatelessWidget {
             onReject: invitation.status == InvitationStatus.pending
                 ? () => onRejectInvitation(invitation.id)
                 : null,
-            onViewQr: invitation.status == InvitationStatus.confirmed
-                ? () => onViewTicket(invitation.id)
+            onCancel: invitation.status == InvitationStatus.confirmed
+                ? () => onCancelInvitation(invitation.id)
                 : null,
+            onViewQr: () => onViewTicket(invitation),
           ),
         ),
         SizedBox(height: InvitationsDesignSpec.px(context, 8)),

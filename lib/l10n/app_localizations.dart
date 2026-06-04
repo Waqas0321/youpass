@@ -230,6 +230,12 @@ abstract class AppLocalizations {
   /// **'Discover the best events for you'**
   String get homeDiscoverSubtitle;
 
+  /// No description provided for @categoryAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get categoryAll;
+
   /// No description provided for @categoryChile.
   ///
   /// In en, this message translates to:
@@ -277,6 +283,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Featured events'**
   String get eventsSectionTitle;
+
+  /// No description provided for @homeNoEventsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No events found for this filter'**
+  String get homeNoEventsFound;
+
+  /// No description provided for @allEventsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All events'**
+  String get allEventsTitle;
+
+  /// No description provided for @allEventsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse every published event on YouPass'**
+  String get allEventsSubtitle;
+
+  /// No description provided for @allEventsSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search event'**
+  String get allEventsSearchHint;
+
+  /// No description provided for @allEventsAvailableCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} events available'**
+  String allEventsAvailableCount(int count);
+
+  /// No description provided for @favoritesEventsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Events you saved with the heart icon'**
+  String get favoritesEventsSubtitle;
+
+  /// No description provided for @favoritesEventsSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search favorite event'**
+  String get favoritesEventsSearchHint;
+
+  /// No description provided for @favoritesEventsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No favorite events yet. Tap the heart on an event to save it here.'**
+  String get favoritesEventsEmpty;
+
+  /// No description provided for @favoritesSavedEventsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} saved events'**
+  String favoritesSavedEventsCount(int count);
 
   /// No description provided for @seeAll.
   ///
@@ -848,6 +908,12 @@ abstract class AppLocalizations {
   /// **'Delete account'**
   String get profileDeleteAccount;
 
+  /// No description provided for @profilePhotoUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile photo updated'**
+  String get profilePhotoUpdated;
+
   /// No description provided for @confirmDialogCancel.
   ///
   /// In en, this message translates to:
@@ -1178,6 +1244,12 @@ abstract class AppLocalizations {
   /// **'VIP'**
   String get invitationsTierVip;
 
+  /// No description provided for @invitationsTierVipMesa.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP Table'**
+  String get invitationsTierVipMesa;
+
   /// No description provided for @invitationsTierGeneral.
   ///
   /// In en, this message translates to:
@@ -1190,10 +1262,16 @@ abstract class AppLocalizations {
   /// **'Status: {status}'**
   String invitationsStatusLine(String status);
 
+  /// No description provided for @invitationsStatusPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Status:'**
+  String get invitationsStatusPrefix;
+
   /// No description provided for @invitationsStatusPending.
   ///
   /// In en, this message translates to:
-  /// **'Pending'**
+  /// **'Awaiting confirmation'**
   String get invitationsStatusPending;
 
   /// No description provided for @invitationsStatusConfirmed.
@@ -1220,11 +1298,71 @@ abstract class AppLocalizations {
   /// **'DECLINE'**
   String get invitationsReject;
 
+  /// No description provided for @invitationsCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'CANCEL'**
+  String get invitationsCancel;
+
+  /// No description provided for @invitationsAttendanceConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'ATTENDANCE CONFIRMED'**
+  String get invitationsAttendanceConfirmed;
+
   /// No description provided for @invitationsViewQr.
   ///
   /// In en, this message translates to:
   /// **'VIEW QR'**
   String get invitationsViewQr;
+
+  /// No description provided for @invitationsQrPendingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm attendance first'**
+  String get invitationsQrPendingTitle;
+
+  /// No description provided for @invitationsQrPendingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your QR code will be available after you confirm this invitation.'**
+  String get invitationsQrPendingMessage;
+
+  /// No description provided for @invitationsQrLockedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'QR not available yet'**
+  String get invitationsQrLockedTitle;
+
+  /// No description provided for @invitationsQrLockedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your QR will be available from 00:00 on the day of the event.'**
+  String get invitationsQrLockedMessage;
+
+  /// No description provided for @invitationsQrExpiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'QR expired'**
+  String get invitationsQrExpiredTitle;
+
+  /// No description provided for @invitationsQrExpiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This event QR is no longer available.'**
+  String get invitationsQrExpiredMessage;
+
+  /// No description provided for @invitationsQrUnlockAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Available from {date}'**
+  String invitationsQrUnlockAt(String date);
+
+  /// No description provided for @invitationsQrGotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'GOT IT'**
+  String get invitationsQrGotIt;
 
   /// No description provided for @invitationsFooterNote.
   ///

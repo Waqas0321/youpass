@@ -13,6 +13,10 @@ class InvitationsDesignSpec {
   static const Color cardBorder = Color(0xFFEEEEEE);
   static const Color statusPending = Color(0xFFE69D17);
   static const Color statusConfirmed = Color(0xFF2E7D32);
+  static const Color statusPendingDot = Color(0xFFE69D17);
+  static const Color statusConfirmedDot = Color(0xFF4CAF50);
+  static const Color attendanceConfirmedButton = Color(0xFFBDBDBD);
+  static const Color cardShadow = Color(0x1A000000);
   static const Color vipBadgeBackground = Color(0xFF1A2B4A);
   static const Color generalBadgeBackground = Color(0xFF757575);
   static const Color viewQrButton = Color(0xFFE69D17);
@@ -20,6 +24,10 @@ class InvitationsDesignSpec {
   static const Color dialogBorder = Color(0xFFFDE6B0);
   static const Color successGreen = Color(0xFF2E7D32);
   static const Color warningIconBackground = Color(0xFFFFF0D6);
+  static const Color pendingStatusIconBackground = Color(0xFFFFF0D6);
+  static const Color pendingStatusIcon = Color(0xFF8D6E2C);
+  static const Color confirmedStatusIconBackground = Color(0xFFE8F5E9);
+  static const Color confirmedStatusIcon = Color(0xFF2E7D32);
 
   static const double horizontalPadding = 20;
   static const double cardRadius = 16;

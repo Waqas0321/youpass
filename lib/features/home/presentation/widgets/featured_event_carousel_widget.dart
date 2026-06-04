@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_assets.dart';
 import 'package:youpass/core/constants/app_colors.dart';
-import 'package:youpass/core/widgets/app_asset_image.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
+import 'package:youpass/core/widgets/event_network_image.dart';
 import 'package:youpass/core/widgets/page_indicator_widget.dart';
-import 'package:youpass/features/home/domain/entities/featured_event_entity.dart';
+import 'package:youpass/features/events/domain/entities/event_entity.dart';
 
 class FeaturedEventCarouselWidget extends StatefulWidget {
   const FeaturedEventCarouselWidget({
@@ -14,7 +13,7 @@ class FeaturedEventCarouselWidget extends StatefulWidget {
     required this.events,
   });
 
-  final List<FeaturedEventEntity> events;
+  final List<EventEntity> events;
 
   @override
   State<FeaturedEventCarouselWidget> createState() =>
@@ -35,6 +34,10 @@ class FeaturedEventCarouselWidgetState extends State<FeaturedEventCarouselWidget
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
     final cardHeight = layout.spacing(190);
+
+    if (widget.events.isEmpty) {
+      return SizedBox(height: cardHeight);
+    }
 
     return Column(
       children: [
@@ -65,7 +68,7 @@ class FeaturedEventCardWidget extends StatelessWidget {
     required this.event,
   });
 
-  final FeaturedEventEntity event;
+  final EventEntity event;
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +81,8 @@ class FeaturedEventCardWidget extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            AppAssetImage(
-              assetPath: AppAssets.dummyImage,
+            EventNetworkImage(
+              imageUrl: event.imageUrl,
               fit: BoxFit.cover,
             ),
             DecoratedBox(
@@ -94,37 +97,37 @@ class FeaturedEventCardWidget extends StatelessWidget {
                 ),
               ),
             ),
-          Padding(
-            padding: EdgeInsets.all(layout.spacing(18)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Spacer(),
-                ShaderMask(
-                  shaderCallback: (bounds) => const LinearGradient(
-                    colors: AppColors.homeFeaturedTitleGradient,
-                  ).createShader(bounds),
-                  child: AppText(
-                    event.title,
-                    variant: AppTextVariant.title,
-                    color: AppColors.backgroundWhite,
-                    fontSize: layout.fontSize(22),
-                    fontWeight: FontWeight.w900,
+            Padding(
+              padding: EdgeInsets.all(layout.spacing(18)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Spacer(),
+                  ShaderMask(
+                    shaderCallback: (bounds) => const LinearGradient(
+                      colors: AppColors.homeFeaturedTitleGradient,
+                    ).createShader(bounds),
+                    child: AppText(
+                      event.title,
+                      variant: AppTextVariant.title,
+                      color: AppColors.backgroundWhite,
+                      fontSize: layout.fontSize(22),
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
-                ),
-                SizedBox(height: layout.spacing(10)),
-                FeaturedEventMetaRow(
-                  icon: Icons.calendar_today_outlined,
-                  label: event.dateTimeLabel,
-                ),
-                SizedBox(height: layout.spacing(6)),
-                FeaturedEventMetaRow(
-                  icon: Icons.location_on_outlined,
-                  label: event.locationLabel,
-                ),
-              ],
+                  SizedBox(height: layout.spacing(10)),
+                  FeaturedEventMetaRow(
+                    icon: Icons.calendar_today_outlined,
+                    label: event.dateTimeLabel,
+                  ),
+                  SizedBox(height: layout.spacing(6)),
+                  FeaturedEventMetaRow(
+                    icon: Icons.location_on_outlined,
+                    label: event.locationLabel,
+                  ),
+                ],
+              ),
             ),
-          ),
           ],
         ),
       ),

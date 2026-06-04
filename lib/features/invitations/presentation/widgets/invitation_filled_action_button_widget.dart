@@ -7,22 +7,30 @@ class InvitationFilledActionButtonWidget extends StatelessWidget {
     required this.label,
     this.onPressed,
     this.backgroundColor = InvitationsDesignSpec.primary,
+    this.enabled = true,
   });
 
   final String label;
   final VoidCallback? onPressed;
   final Color backgroundColor;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
+    final effectiveColor = enabled
+        ? backgroundColor
+        : InvitationsDesignSpec.attendanceConfirmedButton;
+
     return SizedBox(
       width: double.infinity,
       height: InvitationsDesignSpec.px(context, 38),
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: enabled ? onPressed : null,
         style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
+          backgroundColor: effectiveColor,
+          disabledBackgroundColor: InvitationsDesignSpec.attendanceConfirmedButton,
           foregroundColor: Colors.white,
+          disabledForegroundColor: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(

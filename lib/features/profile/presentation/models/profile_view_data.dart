@@ -6,6 +6,7 @@ class ProfileViewData {
     required this.birthDate,
     required this.gender,
     required this.instagramHandle,
+    this.profilePhotoUrl,
   });
 
   final String fullName;
@@ -14,4 +15,5 @@ class ProfileViewData {
   final String birthDate;
   final String gender;
   final String instagramHandle;
+  final String? profilePhotoUrl;
 }

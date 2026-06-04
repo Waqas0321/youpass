@@ -9,6 +9,7 @@ class AppRoutes {
   static const String profileWallet = '/profile/wallet';
   static const String myTickets = '/tickets';
   static const String myFavorites = '/favorites';
+  static const String allEvents = '/events/all';
   static const String producerEvents = '/favorites/producer-events';
   static const String myInvitations = '/invitations';
   static const String eventTicket = '/invitations/ticket';

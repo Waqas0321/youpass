@@ -1,22 +1,17 @@
+import 'package:youpass/core/auth/access_token_storage.dart';
 import 'package:youpass/core/auth/auth_token_store.dart';
-import 'package:youpass/core/constants/app_constants.dart';
-import 'package:youpass/core/services/storage_service.dart';
 
-/// Restores in-memory auth credentials from disk on app launch.
+/// Restores in-memory access token from secure storage on app launch.
 class AuthSessionStorage {
   AuthSessionStorage._();
 
-  static void hydrateFromDisk(StorageService storage) {
-    final token = storage.getString(AppConstants.tokenKey)?.trim();
-    if (token == null || token.isEmpty) {
+  static Future<void> hydrate(AccessTokenStorage storage) async {
+    final token = await storage.read();
+    if (token == null) {
       AuthTokenStore.clear();
       return;
     }
 
-    final sessionId = storage.getString(AppConstants.sessionIdKey)?.trim();
-    AuthTokenStore.setSession(
-      accessToken: token,
-      sessionId: sessionId?.isNotEmpty == true ? sessionId : null,
-    );
+    AuthTokenStore.setSession(accessToken: token);
   }
 }

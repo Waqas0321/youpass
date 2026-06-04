@@ -1,3 +1,4 @@
+import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/features/home/data/models/home_feed_labels.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
@@ -17,9 +18,52 @@ class AppStrings {
   static String eventsSectionTitle(AppLocalizations l10n) =>
       l10n.eventsSectionTitle;
 
+  static String homeNoEventsFound(AppLocalizations l10n) =>
+      l10n.homeNoEventsFound;
+
+  static String allEventsTitle(AppLocalizations l10n) => l10n.allEventsTitle;
+
+  static String allEventsSubtitle(AppLocalizations l10n) =>
+      l10n.allEventsSubtitle;
+
+  static String allEventsSearchHint(AppLocalizations l10n) =>
+      l10n.allEventsSearchHint;
+
+  static String allEventsAvailableCount(AppLocalizations l10n, int count) =>
+      l10n.allEventsAvailableCount(count);
+
+  static String favoritesEventsSubtitle(AppLocalizations l10n) =>
+      l10n.favoritesEventsSubtitle;
+
+  static String favoritesEventsSearchHint(AppLocalizations l10n) =>
+      l10n.favoritesEventsSearchHint;
+
+  static String favoritesEventsEmpty(AppLocalizations l10n) =>
+      l10n.favoritesEventsEmpty;
+
+  static String favoritesSavedEventsCount(AppLocalizations l10n, int count) =>
+      l10n.favoritesSavedEventsCount(count);
+
   static String seeAll(AppLocalizations l10n) => l10n.seeAll;
 
   static String buyTickets(AppLocalizations l10n) => l10n.buyTickets;
+
+  static String homeCategoryLabel(AppLocalizations l10n, String categoryId) {
+    switch (categoryId) {
+      case AppConstants.categoryIdAll:
+        return l10n.categoryAll;
+      case AppConstants.categoryIdChile:
+        return l10n.categoryChile;
+      case AppConstants.categoryIdParties:
+        return l10n.categoryParties;
+      case AppConstants.categoryIdConcerts:
+        return l10n.categoryConcerts;
+      case AppConstants.categoryIdSports:
+        return l10n.categorySports;
+      default:
+        return categoryId;
+    }
+  }
 
   static String errorGeneric(AppLocalizations l10n) => l10n.errorGeneric;
 
@@ -110,6 +154,9 @@ class AppStrings {
 
   static String profileDeleteAccount(AppLocalizations l10n) =>
       l10n.profileDeleteAccount;
+
+  static String profilePhotoUpdated(AppLocalizations l10n) =>
+      l10n.profilePhotoUpdated;
 
   static String confirmDialogCancel(AppLocalizations l10n) =>
       l10n.confirmDialogCancel;
@@ -213,12 +260,6 @@ class AppStrings {
   static String favoritesSavedProducersCount(AppLocalizations l10n, int count) =>
       l10n.favoritesSavedProducersCount(count);
 
-  static String favoritesYoufestDescription(AppLocalizations l10n) =>
-      l10n.favoritesYoufestDescription;
-
-  static String favoritesIguanaDescription(AppLocalizations l10n) =>
-      l10n.favoritesIguanaDescription;
-
   static String producerEventsUpcomingTitle(AppLocalizations l10n) =>
       l10n.producerEventsUpcomingTitle;
 
@@ -276,8 +317,14 @@ class AppStrings {
   static String invitationsTierGeneral(AppLocalizations l10n) =>
       l10n.invitationsTierGeneral;
 
+  static String invitationsTierVipMesa(AppLocalizations l10n) =>
+      l10n.invitationsTierVipMesa;
+
   static String invitationsStatusLine(AppLocalizations l10n, String status) =>
       l10n.invitationsStatusLine(status);
+
+  static String invitationsStatusPrefix(AppLocalizations l10n) =>
+      l10n.invitationsStatusPrefix;
 
   static String invitationsStatusPending(AppLocalizations l10n) =>
       l10n.invitationsStatusPending;
@@ -294,8 +341,38 @@ class AppStrings {
   static String invitationsReject(AppLocalizations l10n) =>
       l10n.invitationsReject;
 
+  static String invitationsCancel(AppLocalizations l10n) =>
+      l10n.invitationsCancel;
+
+  static String invitationsAttendanceConfirmed(AppLocalizations l10n) =>
+      l10n.invitationsAttendanceConfirmed;
+
   static String invitationsViewQr(AppLocalizations l10n) =>
       l10n.invitationsViewQr;
+
+  static String invitationsQrPendingTitle(AppLocalizations l10n) =>
+      l10n.invitationsQrPendingTitle;
+
+  static String invitationsQrPendingMessage(AppLocalizations l10n) =>
+      l10n.invitationsQrPendingMessage;
+
+  static String invitationsQrLockedTitle(AppLocalizations l10n) =>
+      l10n.invitationsQrLockedTitle;
+
+  static String invitationsQrLockedMessage(AppLocalizations l10n) =>
+      l10n.invitationsQrLockedMessage;
+
+  static String invitationsQrExpiredTitle(AppLocalizations l10n) =>
+      l10n.invitationsQrExpiredTitle;
+
+  static String invitationsQrExpiredMessage(AppLocalizations l10n) =>
+      l10n.invitationsQrExpiredMessage;
+
+  static String invitationsQrUnlockAt(AppLocalizations l10n, String date) =>
+      l10n.invitationsQrUnlockAt(date);
+
+  static String invitationsQrGotIt(AppLocalizations l10n) =>
+      l10n.invitationsQrGotIt;
 
   static String invitationsFooterNote(AppLocalizations l10n) =>
       l10n.invitationsFooterNote;
@@ -371,6 +448,7 @@ class AppStrings {
 
   static HomeFeedLabels homeFeedLabels(AppLocalizations l10n) {
     return HomeFeedLabels(
+      allLabel: l10n.categoryAll,
       chileLabel: l10n.categoryChile,
       partiesLabel: l10n.categoryParties,
       concertsLabel: l10n.categoryConcerts,

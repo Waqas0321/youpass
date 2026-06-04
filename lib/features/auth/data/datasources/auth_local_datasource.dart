@@ -6,6 +6,9 @@ abstract class AuthLocalDataSource {
   Future<void> cacheUserProfile(UserProfileModel profile);
   Future<void> cacheToken(String token);
   Future<void> cacheSessionId(String sessionId);
+
+  Future<void> clearSessionId();
+
   Future<UserModel?> getCachedUser();
   Future<UserProfileModel?> getCachedUserProfile();
   Future<String?> getCachedToken();

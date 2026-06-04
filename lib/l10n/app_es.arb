@@ -22,6 +22,7 @@
   "homeTitle": "Inicio",
   "homeGreeting": "¡Hola, {name}!",
   "homeDiscoverSubtitle": "Descubre los mejores eventos para ti",
+  "categoryAll": "Todos",
   "categoryChile": "Chile",
   "categoryParties": "Fiestas",
   "categoryConcerts": "Conciertos",
@@ -30,6 +31,29 @@
   "featuredEventDate": "21 DE NOVIEMBRE, 2026 • 17:00 HRS",
   "featuredEventLocation": "PARQUE BICENTENARIO, SANTIAGO",
   "eventsSectionTitle": "Eventos destacados",
+  "homeNoEventsFound": "No hay eventos para este filtro",
+  "allEventsTitle": "Todos los eventos",
+  "allEventsSubtitle": "Explora todos los eventos publicados en YouPass",
+  "allEventsSearchHint": "Buscar evento",
+  "allEventsAvailableCount": "{count} eventos disponibles",
+  "@allEventsAvailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "favoritesEventsSubtitle": "Eventos que guardaste con el icono de corazón",
+  "favoritesEventsSearchHint": "Buscar evento favorito",
+  "favoritesEventsEmpty": "Aún no tienes eventos favoritos. Toca el corazón en un evento para guardarlo aquí.",
+  "favoritesSavedEventsCount": "{count} eventos guardados",
+  "@favoritesSavedEventsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "seeAll": "Ver todos",
   "buyTickets": "COMPRAR ENTRADAS",
   "eventCaribeDate": "Sábado, 31 de enero, 2026",
@@ -132,6 +156,7 @@
   "profileFaq": "Preguntas frecuentes",
   "profileLogout": "Cerrar sesión",
   "profileDeleteAccount": "Eliminar cuenta",
+  "profilePhotoUpdated": "Foto de perfil actualizada",
   "confirmDialogCancel": "Cancelar",
   "confirmLogoutTitle": "¿Cerrar sesión?",
   "confirmLogoutMessage": "Deberás iniciar sesión nuevamente con tu número de teléfono para usar YouPass.",
@@ -208,6 +233,7 @@
   "invitationsFilterGeneral": "General",
   "invitationsFilterVip": "VIP",
   "invitationsTierVip": "VIP",
+  "invitationsTierVipMesa": "VIP Mesa",
   "invitationsTierGeneral": "General",
   "invitationsStatusLine": "Estado: {status}",
   "@invitationsStatusLine": {
@@ -217,12 +243,30 @@
       }
     }
   },
-  "invitationsStatusPending": "Pendiente",
-  "invitationsStatusConfirmed": "Confirmado",
+  "invitationsStatusPrefix": "Estado:",
+  "invitationsStatusPending": "Esperando confirmación",
+  "invitationsStatusConfirmed": "Confirmada",
   "invitationsStatusRejected": "Rechazado",
   "invitationsConfirmAttendance": "CONFIRMAR ASISTENCIA",
   "invitationsReject": "RECHAZAR",
+  "invitationsCancel": "ANULAR",
+  "invitationsAttendanceConfirmed": "ASISTENCIA CONFIRMADA",
   "invitationsViewQr": "VER QR",
+  "invitationsQrPendingTitle": "Confirma tu asistencia",
+  "invitationsQrPendingMessage": "Tu código QR estará disponible después de confirmar esta invitación.",
+  "invitationsQrLockedTitle": "QR aún no disponible",
+  "invitationsQrLockedMessage": "Tu QR estará disponible desde las 00:00 del día del evento.",
+  "invitationsQrExpiredTitle": "QR expirado",
+  "invitationsQrExpiredMessage": "El código QR de este evento ya no está disponible.",
+  "invitationsQrUnlockAt": "Disponible desde {date}",
+  "@invitationsQrUnlockAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationsQrGotIt": "ENTENDIDO",
   "invitationsFooterNote": "Las invitaciones confirmadas generan un QR único e intransferible.",
   "invitationsImportantTitle": "Importante",
   "invitationsImportantMessage": "Al confirmar, la entrada queda reservada exclusivamente para ti. Si no asistes, podrías ser cobrado el valor total de la entrada.",

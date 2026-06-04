@@ -21,45 +21,45 @@ class CategoryChipWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final chipRadius = layout.radius(20);
+    final selectedFill = AppColors.primaryMustard;
+    final unselectedBorder = AppColors.lightGreyBorder;
+    final foregroundColor =
+        isSelected ? AppColors.backgroundWhite : AppColors.homeBlack;
 
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(layout.radius(24)),
+        borderRadius: BorderRadius.circular(chipRadius),
         child: Ink(
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.homeAccentYellow : AppColors.backgroundWhite,
-            borderRadius: BorderRadius.circular(layout.radius(24)),
+            color: isSelected ? selectedFill : AppColors.backgroundWhite,
+            borderRadius: BorderRadius.circular(chipRadius),
             border: Border.all(
-              color: isSelected
-                  ? AppColors.homeAccentYellow
-                  : AppColors.lightGreyBorder,
+              color: isSelected ? selectedFill : unselectedBorder,
             ),
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: layout.spacing(16),
-              vertical: layout.spacing(10),
+              vertical: layout.spacing(8),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   icon,
-                  size: layout.fontSize(18),
-                  color: isSelected
-                      ? AppColors.backgroundWhite
-                      : AppColors.secondaryGrey,
+                  size: layout.fontSize(16),
+                  color: foregroundColor,
                 ),
                 SizedBox(width: layout.spacing(8)),
                 AppText(
                   label,
                   variant: AppTextVariant.bodyEmphasis,
-                  color: isSelected
-                      ? AppColors.backgroundWhite
-                      : AppColors.homeBlack,
+                  color: foregroundColor,
                   fontSize: layout.fontSize(14),
+                  fontWeight: FontWeight.w700,
                 ),
               ],
             ),

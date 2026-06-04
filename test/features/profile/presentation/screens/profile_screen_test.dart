@@ -16,8 +16,15 @@ void main() {
 
     when(() => mockAuthRepository.getCachedUserProfile())
         .thenAnswer((_) async => null);
+    when(() => mockAuthRepository.getAccessToken())
+        .thenAnswer((_) async => TestFixtures.testToken);
     when(() => mockAuthRepository.refreshUserProfile())
         .thenAnswer((_) async => TestFixtures.testUserProfile);
+    when(
+      () => mockAuthRepository.refreshUserProfile(
+        accessTokenOverride: any(named: 'accessTokenOverride'),
+      ),
+    ).thenAnswer((_) async => TestFixtures.testUserProfile);
 
     await tester.pumpWidget(
       AuthTestHelper.wrap(

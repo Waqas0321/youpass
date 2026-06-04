@@ -1,6 +1,7 @@
 import 'package:youpass/features/invitations/data/datasources/invitations_remote_datasource.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_ticket_entity.dart';
+import 'package:youpass/features/invitations/domain/entities/invitations_summary_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/payment_method_request_entity.dart';
 import 'package:youpass/features/invitations/domain/repositories/invitations_repository.dart';
 
@@ -12,6 +13,21 @@ class InvitationsRepositoryImpl implements InvitationsRepository {
   @override
   Future<List<InvitationEntity>> fetchInvitations() {
     return remoteDataSource.fetchInvitations();
+  }
+
+  @override
+  Future<InvitationsSummaryEntity> fetchSummary() {
+    return remoteDataSource.fetchSummary();
+  }
+
+  @override
+  Future<bool> hasSavedPaymentMethods() {
+    return remoteDataSource.hasSavedPaymentMethods();
+  }
+
+  @override
+  Future<InvitationEntity> fetchInvitationDetail(String invitationId) {
+    return remoteDataSource.fetchInvitationDetail(invitationId);
   }
 
   @override

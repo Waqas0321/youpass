@@ -72,13 +72,28 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> logoutRemote() {
-    return authApiService.logout();
+  Future<void> logoutRemote({String? accessTokenOverride}) {
+    return authApiService.logout(
+      accessTokenOverride: accessTokenOverride,
+    );
   }
 
   @override
-  Future<UserProfileEntity> fetchUserProfile() {
-    return authApiService.fetchCurrentUserProfile();
+  Future<UserProfileEntity> fetchUserProfile({String? accessTokenOverride}) {
+    return authApiService.fetchCurrentUserProfile(
+      accessTokenOverride: accessTokenOverride,
+    );
+  }
+
+  @override
+  Future<UserProfileEntity> uploadProfilePhoto(
+    String filePath, {
+    String? accessTokenOverride,
+  }) {
+    return authApiService.uploadProfilePhoto(
+      filePath,
+      accessTokenOverride: accessTokenOverride,
+    );
   }
 
   @override

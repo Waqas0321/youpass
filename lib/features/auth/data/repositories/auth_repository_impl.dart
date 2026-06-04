@@ -1,5 +1,8 @@
 import 'package:youpass/core/auth/auth_token_store.dart';
+import 'package:youpass/core/auth/jwt_utils.dart';
+import 'package:youpass/core/auth/session_establish_retry.dart';
 import 'package:youpass/core/network/api_exception.dart';
+import 'package:youpass/core/utils/app_logger.dart';
 import 'package:youpass/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:youpass/features/auth/data/models/auth_session_model.dart';
 import 'package:youpass/features/auth/data/datasources/auth_remote_datasource.dart';
@@ -93,9 +96,11 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> logout({bool notifyServer = true}) async {
-    if (notifyServer) {
+    final token = AuthTokenStore.accessToken ?? await localDataSource.getCachedToken();
+
+    if (notifyServer && token != null && token.isNotEmpty) {
       try {
-        await remoteDataSource.logoutRemote();
+        await remoteDataSource.logoutRemote(accessTokenOverride: token);
       } catch (_) {
         // Clear local session even if server logout fails.
       }
@@ -114,17 +119,42 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<UserProfileEntity> refreshUserProfile() async {
-    final profile = await remoteDataSource.fetchUserProfile();
-    if (profile is UserProfileModel) {
-      await localDataSource.cacheUserProfile(profile);
-    }
-    return profile;
+  Future<UserProfileEntity> refreshUserProfile({
+    String? accessTokenOverride,
+  }) async {
+    return withSessionEstablishRetry(() async {
+      final token = _resolveAccessToken(accessTokenOverride);
+      final profile = await remoteDataSource.fetchUserProfile(
+        accessTokenOverride: token,
+      );
+      if (profile is UserProfileModel) {
+        await localDataSource.cacheUserProfile(profile);
+      }
+      return profile;
+    });
+  }
+
+  @override
+  Future<UserProfileEntity> uploadProfilePhoto(
+    String filePath, {
+    String? accessTokenOverride,
+  }) async {
+    return withSessionEstablishRetry(() async {
+      final token = _resolveAccessToken(accessTokenOverride);
+      final profile = await remoteDataSource.uploadProfilePhoto(
+        filePath,
+        accessTokenOverride: token,
+      );
+      if (profile is UserProfileModel) {
+        await localDataSource.cacheUserProfile(profile);
+      }
+      return profile;
+    });
   }
 
   @override
   Future<String?> getAccessToken() async {
-    return localDataSource.getCachedToken();
+    return AuthTokenStore.accessToken ?? await localDataSource.getCachedToken();
   }
 
   @override
@@ -142,8 +172,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   Future<void> persistSession(AuthSessionEntity session) async {
-    final token = session.accessToken.trim();
-    if (token.isEmpty) {
+    final token = AuthTokenStore.normalizeToken(session.accessToken);
+    if (token == null || token.isEmpty) {
       throw ApiException(
         code: 'MISSING_ACCESS_TOKEN',
         message: 'Login response did not include a valid access token',
@@ -153,21 +183,35 @@ class AuthRepositoryImpl implements AuthRepository {
 
     AuthTokenStore.setSession(
       accessToken: token,
-      sessionId: session.sessionId,
+      sessionId: AuthTokenStore.normalizeSessionId(session.sessionId) ??
+          JwtUtils.readSessionId(token),
+    );
+    AuthTokenStore.markEstablished();
+
+    AppLogger.auth(
+      'Session persisted tokenPrefix=${token.substring(0, token.length.clamp(0, 20))}...',
     );
 
     final user = UserModel.fromEntity(session.user);
     await localDataSource.cacheUser(user);
     await localDataSource.cacheToken(token);
 
-    final sessionId = session.sessionId?.trim();
-    if (sessionId != null && sessionId.isNotEmpty) {
-      await localDataSource.cacheSessionId(sessionId);
+    if (session is AuthSessionModel && session.cachedLoginProfile != null) {
+      await localDataSource.cacheUserProfile(session.cachedLoginProfile!);
+      AppLogger.auth('Cached profile from login/register user payload');
     }
+  }
 
-    if (session is AuthSessionModel && session.loginUserJson != null) {
-      final profile = UserProfileModel.fromJson(session.loginUserJson!);
-      await localDataSource.cacheUserProfile(profile);
+  String _resolveAccessToken(String? accessTokenOverride) {
+    final token = AuthTokenStore.normalizeToken(accessTokenOverride) ??
+        AuthTokenStore.accessToken;
+    if (token == null || token.isEmpty) {
+      throw ApiException(
+        code: 'UNAUTHORIZED',
+        message: 'Authentication required',
+        statusCode: 401,
+      );
     }
+    return token;
   }
 }

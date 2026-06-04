@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:youpass/core/auth/access_token_storage.dart';
 import 'package:youpass/core/auth/auth_token_store.dart';
 import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/services/storage_service.dart';
@@ -8,9 +9,13 @@ import 'package:youpass/features/auth/data/models/user_model.dart';
 import 'package:youpass/features/auth/data/models/user_profile_model.dart';
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
-  AuthLocalDataSourceImpl(this.storageService);
+  AuthLocalDataSourceImpl({
+    required this.storageService,
+    required this.accessTokenStorage,
+  });
 
   final StorageService storageService;
+  final AccessTokenStorage accessTokenStorage;
 
   @override
   Future<void> cacheUser(UserModel user) async {
@@ -31,12 +36,21 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<void> cacheToken(String token) async {
-    await storageService.saveString(AppConstants.tokenKey, token);
+    await accessTokenStorage.write(token);
   }
 
   @override
   Future<void> cacheSessionId(String sessionId) async {
-    await storageService.saveString(AppConstants.sessionIdKey, sessionId);
+    final normalized = AuthTokenStore.normalizeSessionId(sessionId);
+    if (normalized == null) {
+      return;
+    }
+    await storageService.saveString(AppConstants.sessionIdKey, normalized);
+  }
+
+  @override
+  Future<void> clearSessionId() async {
+    await storageService.remove(AppConstants.sessionIdKey);
   }
 
   @override
@@ -63,15 +77,15 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<String?> getCachedToken() async {
-    return storageService.getString(AppConstants.tokenKey);
+    return accessTokenStorage.read();
   }
 
   @override
   Future<void> clearCache() async {
     AuthTokenStore.clear();
+    await accessTokenStorage.delete();
     await storageService.remove(AppConstants.userKey);
     await storageService.remove(AppConstants.userProfileKey);
-    await storageService.remove(AppConstants.tokenKey);
     await storageService.remove(AppConstants.sessionIdKey);
   }
 }

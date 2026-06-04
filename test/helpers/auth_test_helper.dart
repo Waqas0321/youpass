@@ -14,6 +14,7 @@ import 'package:youpass/features/auth/domain/usecases/register_usecase.dart';
 import 'package:youpass/features/auth/domain/usecases/request_delete_account_usecase.dart';
 import 'package:youpass/features/auth/domain/usecases/resend_code_usecase.dart';
 import 'package:youpass/features/auth/domain/usecases/send_code_usecase.dart';
+import 'package:youpass/features/auth/domain/usecases/upload_profile_photo_usecase.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/features/auth/routes/verification_route_args.dart';
@@ -111,6 +112,7 @@ class AuthTestHelper {
       getUserProfileUseCase: GetUserProfileUseCase(repository),
       requestDeleteAccountUseCase: RequestDeleteAccountUseCase(repository),
       confirmDeleteAccountUseCase: ConfirmDeleteAccountUseCase(repository),
+      uploadProfilePhotoUseCase: UploadProfilePhotoUseCase(repository),
       authRepository: repository,
     );
   }

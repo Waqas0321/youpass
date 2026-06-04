@@ -1,4 +1,5 @@
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
+import 'package:youpass/features/invitations/domain/entities/invitation_qr_status.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_status.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_tier.dart';
 
@@ -11,13 +12,18 @@ class InvitationModel extends InvitationEntity {
     required super.imageAssetPath,
     required super.tier,
     required super.status,
+    super.eventId,
+    super.type,
+    super.requiresPaymentMethod = false,
     super.entryCode,
     super.qrPayload,
+    super.qrStatus,
   });
 
   factory InvitationModel.fromJson(Map<String, dynamic> json) {
     return InvitationModel(
       id: json['id']?.toString() ?? '',
+      eventId: json['event_id']?.toString() ?? json['eventId']?.toString(),
       eventTitle: _readString(json, 'event_title', 'eventTitle', 'title'),
       locationLabel: _readString(json, 'location', 'location_label', 'venue'),
       dateTimeLabel: _readString(
@@ -34,9 +40,14 @@ class InvitationModel extends InvitationEntity {
         fallback: '',
       ),
       tier: _parseTier(json['tier'] ?? json['ticket_tier']),
+      type: json['type']?.toString(),
       status: _parseStatus(json['status']),
+      requiresPaymentMethod: _parseBool(
+        json['requires_payment_method'] ?? json['requiresPaymentMethod'],
+      ),
       entryCode: json['entry_code']?.toString() ?? json['entryCode']?.toString(),
       qrPayload: json['qr_payload']?.toString() ?? json['qrPayload']?.toString(),
+      qrStatus: _parseQrStatus(json['qr_status'] ?? json['qrStatus']),
     );
   }
 
@@ -52,6 +63,17 @@ class InvitationModel extends InvitationEntity {
       return fallback;
     }
     return value.toString();
+  }
+
+  static bool _parseBool(Object? value) {
+    if (value is bool) {
+      return value;
+    }
+    if (value is num) {
+      return value != 0;
+    }
+    final normalized = value?.toString().toLowerCase();
+    return normalized == 'true' || normalized == '1';
   }
 
   static InvitationTier _parseTier(Object? value) {
@@ -72,6 +94,22 @@ class InvitationModel extends InvitationEntity {
         return InvitationStatus.rejected;
       default:
         return InvitationStatus.pending;
+    }
+  }
+
+  static InvitationQrStatus? _parseQrStatus(Object? value) {
+    final normalized = value?.toString().toLowerCase();
+    switch (normalized) {
+      case 'available':
+      case 'ready':
+      case 'unlocked':
+        return InvitationQrStatus.available;
+      case 'expired':
+        return InvitationQrStatus.expired;
+      case 'locked':
+        return InvitationQrStatus.locked;
+      default:
+        return null;
     }
   }
 

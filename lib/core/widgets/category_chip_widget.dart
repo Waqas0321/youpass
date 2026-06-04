@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_colors.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
@@ -21,11 +21,17 @@ class CategoryChipWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final theme = YouPassThemeExtension.of(context);
     final chipRadius = layout.radius(20);
-    final selectedFill = AppColors.primaryMustard;
-    final unselectedBorder = AppColors.lightGreyBorder;
-    final foregroundColor =
-        isSelected ? AppColors.backgroundWhite : AppColors.homeBlack;
+    final foregroundColor = isSelected
+        ? theme.chipSelectedForeground
+        : theme.chipUnselectedForeground;
+    final fillColor = isSelected
+        ? theme.chipSelectedBackground
+        : theme.chipUnselectedBackground;
+    final borderColor = isSelected
+        ? theme.chipSelectedBackground
+        : theme.chipUnselectedBorder;
 
     return Material(
       color: Colors.transparent,
@@ -34,11 +40,9 @@ class CategoryChipWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(chipRadius),
         child: Ink(
           decoration: BoxDecoration(
-            color: isSelected ? selectedFill : AppColors.backgroundWhite,
+            color: fillColor,
             borderRadius: BorderRadius.circular(chipRadius),
-            border: Border.all(
-              color: isSelected ? selectedFill : unselectedBorder,
-            ),
+            border: Border.all(color: borderColor),
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(

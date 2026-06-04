@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
-import 'package:youpass/core/widgets/app_asset_image.dart';
+import 'package:youpass/core/theme/tickets_screen_theme.dart';
 import 'package:youpass/features/tickets/domain/entities/ticket_tier.dart';
 import 'package:youpass/features/tickets/domain/entities/upcoming_ticket_entity.dart';
 import 'package:youpass/features/tickets/presentation/tickets_design_spec.dart';
+import 'package:youpass/features/tickets/presentation/widgets/ticket_event_image_widget.dart';
+import 'package:youpass/features/tickets/presentation/widgets/ticket_filled_button_widget.dart';
 import 'package:youpass/features/tickets/presentation/widgets/ticket_meta_row_widget.dart';
+import 'package:youpass/features/tickets/presentation/widgets/ticket_outline_button_widget.dart';
 import 'package:youpass/features/tickets/presentation/widgets/ticket_status_badge_widget.dart';
 
 class UpcomingTicketCardWidget extends StatelessWidget {
@@ -14,11 +18,13 @@ class UpcomingTicketCardWidget extends StatelessWidget {
     required this.ticket,
     this.onViewQr,
     this.onAssignTickets,
+    this.isViewQrLoading = false,
   });
 
   final UpcomingTicketEntity ticket;
   final VoidCallback? onViewQr;
   final VoidCallback? onAssignTickets;
+  final bool isViewQrLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +35,10 @@ class UpcomingTicketCardWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: TicketsDesignSpec.px(context, 16)),
       decoration: BoxDecoration(
-        color: TicketsDesignSpec.cardBackground,
+        color: TicketsScreenTheme.cardBackground(context),
         borderRadius: BorderRadius.circular(radius),
-        boxShadow: const [
-          BoxShadow(
-            color: TicketsDesignSpec.cardShadow,
-            blurRadius: 12,
-            offset: Offset(0, 4),
-          ),
-        ],
+        border: Border.all(color: TicketsScreenTheme.cardBorder(context)),
+        boxShadow: TicketsScreenTheme.cardShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -48,8 +49,8 @@ class UpcomingTicketCardWidget extends StatelessWidget {
             ),
             child: Stack(
               children: [
-                AppAssetImage(
-                  assetPath: ticket.imageAssetPath,
+                TicketEventImageWidget(
+                  imagePath: ticket.imageAssetPath,
                   width: double.infinity,
                   height: imageHeight,
                   fit: BoxFit.cover,
@@ -75,7 +76,7 @@ class UpcomingTicketCardWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: TicketsDesignSpec.px(context, 17),
                     fontWeight: FontWeight.w700,
-                    color: TicketsDesignSpec.titleText,
+                    color: TicketsScreenTheme.title(context),
                     height: 1.2,
                   ),
                 ),
@@ -93,24 +94,26 @@ class UpcomingTicketCardWidget extends StatelessWidget {
                   label: ticket.ticketTypeLabel,
                 ),
                 SizedBox(height: TicketsDesignSpec.px(context, 12)),
-                _TicketFilledButton(
+                TicketFilledButtonWidget(
                   label: AppStrings.ticketsViewQr(strings),
                   icon: Icons.visibility_outlined,
-                  backgroundColor: TicketsDesignSpec.primary,
-                  foregroundColor: Colors.white,
+                  backgroundColor: TicketsScreenTheme.accent(context),
+                  foregroundColor: TicketsScreenTheme.activeBadgeText(context),
                   onPressed: onViewQr,
+                  isLoading: isViewQrLoading,
                 ),
                 SizedBox(height: TicketsDesignSpec.px(context, 10)),
                 if (ticket.tier == TicketTier.vip)
-                  _TicketFilledButton(
+                  TicketFilledButtonWidget(
                     label: AppStrings.ticketsAssignVip(strings),
                     icon: Icons.confirmation_number_outlined,
-                    backgroundColor: TicketsDesignSpec.vipButton,
-                    foregroundColor: Colors.white,
+                    backgroundColor:
+                        TicketsScreenTheme.vipButtonBackground(context),
+                    foregroundColor: AppColors.backgroundWhite,
                     onPressed: onAssignTickets,
                   )
                 else
-                  _TicketOutlineButton(
+                  TicketOutlineButtonWidget(
                     label: AppStrings.ticketsAssignEntries(strings),
                     icon: Icons.people_outline,
                     onPressed: onAssignTickets,
@@ -119,108 +122,6 @@ class UpcomingTicketCardWidget extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _TicketFilledButton extends StatelessWidget {
-  const _TicketFilledButton({
-    required this.label,
-    required this.icon,
-    required this.backgroundColor,
-    required this.foregroundColor,
-    this.onPressed,
-  });
-
-  final String label;
-  final IconData icon;
-  final Color backgroundColor;
-  final Color foregroundColor;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final height = TicketsDesignSpec.px(context, 44);
-    final radius = TicketsDesignSpec.px(context, 10);
-
-    return SizedBox(
-      width: double.infinity,
-      height: height,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
-          foregroundColor: foregroundColor,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radius),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: TicketsDesignSpec.px(context, 18)),
-            SizedBox(width: TicketsDesignSpec.px(context, 8)),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: TicketsDesignSpec.px(context, 13),
-                fontWeight: FontWeight.w700,
-                letterSpacing: 0.3,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _TicketOutlineButton extends StatelessWidget {
-  const _TicketOutlineButton({
-    required this.label,
-    required this.icon,
-    this.onPressed,
-  });
-
-  final String label;
-  final IconData icon;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final height = TicketsDesignSpec.px(context, 44);
-    final radius = TicketsDesignSpec.px(context, 10);
-
-    return SizedBox(
-      width: double.infinity,
-      height: height,
-      child: OutlinedButton(
-        onPressed: onPressed,
-        style: OutlinedButton.styleFrom(
-          foregroundColor: TicketsDesignSpec.primary,
-          side: const BorderSide(color: TicketsDesignSpec.primary, width: 1.5),
-          backgroundColor: const Color(0xFFFFFBF0),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radius),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: TicketsDesignSpec.px(context, 18)),
-            SizedBox(width: TicketsDesignSpec.px(context, 8)),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: TicketsDesignSpec.px(context, 13),
-                fontWeight: FontWeight.w700,
-                letterSpacing: 0.3,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/core/widgets/shimmer/youpass_shimmer_box.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 
@@ -7,6 +8,7 @@ class InvitationCardShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = YouPassThemeExtension.of(context);
     final imageSize = InvitationsDesignSpec.px(context, 96);
     final radius = InvitationsDesignSpec.px(context, InvitationsDesignSpec.cardRadius);
     final spacing = InvitationsDesignSpec.px(context, 12);
@@ -15,9 +17,9 @@ class InvitationCardShimmer extends StatelessWidget {
       margin: EdgeInsets.only(bottom: InvitationsDesignSpec.px(context, 14)),
       padding: EdgeInsets.all(spacing),
       decoration: BoxDecoration(
-        color: InvitationsDesignSpec.screenBackground,
+        color: theme.cardBackground,
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: InvitationsDesignSpec.cardBorder),
+        border: Border.all(color: theme.cardBorder),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

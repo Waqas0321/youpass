@@ -22,7 +22,7 @@ class YouPassShimmerBox extends StatelessWidget {
       height: height,
       margin: margin,
       decoration: BoxDecoration(
-        color: YouPassShimmerTheme.base,
+        color: YouPassShimmerTheme.baseFor(context),
         borderRadius: BorderRadius.circular(borderRadius),
       ),
     );

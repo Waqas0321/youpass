@@ -1,47 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 
 class YouPassSearchFieldWidget extends StatelessWidget {
   const YouPassSearchFieldWidget({
     super.key,
     required this.hintText,
     this.onChanged,
-    this.fillColor = const Color(0xFFF5F5F5),
-    this.borderColor = const Color(0xFFE8E8E8),
-    this.focusedBorderColor = const Color(0xFFE69D17),
-    this.hintColor = const Color(0xFF757575),
-    this.iconColor = const Color(0xFF9E9E9E),
+    this.focusedBorderColor,
   });
 
   final String hintText;
   final ValueChanged<String>? onChanged;
-  final Color fillColor;
-  final Color borderColor;
-  final Color focusedBorderColor;
-  final Color hintColor;
-  final Color iconColor;
+  final Color? focusedBorderColor;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      onChanged: onChanged,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: TextStyle(fontSize: 13, color: hintColor),
-        prefixIcon: Icon(Icons.search, size: 20, color: iconColor),
-        filled: true,
-        fillColor: fillColor,
-        contentPadding: const EdgeInsets.symmetric(vertical: 12),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: borderColor),
+    final theme = YouPassThemeExtension.of(context);
+    final scheme = Theme.of(context).colorScheme;
+    final focusColor = focusedBorderColor ?? scheme.primary;
+    const radius = 12.0;
+
+    return Material(
+      color: theme.searchFill,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(radius),
+        side: BorderSide(color: theme.searchBorder),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: TextField(
+        onChanged: onChanged,
+        style: TextStyle(
+          fontSize: 13,
+          color: scheme.onSurface,
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: borderColor),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: focusedBorderColor),
+        cursorColor: focusColor,
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: TextStyle(
+            fontSize: 13,
+            color: scheme.onSurfaceVariant,
+          ),
+          prefixIcon: Icon(
+            Icons.search,
+            size: 20,
+            color: scheme.onSurfaceVariant,
+          ),
+          filled: false,
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(radius),
+            borderSide: BorderSide(color: focusColor, width: 1.5),
+          ),
+          contentPadding: const EdgeInsets.symmetric(vertical: 12),
         ),
       ),
     );

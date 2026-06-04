@@ -62,7 +62,6 @@ class _SplashScreenState extends State<SplashScreen> {
     final layout = ResponsiveLayout(context);
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundWhite,
       body: SafeArea(
         child: Center(
           child: Padding(

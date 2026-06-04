@@ -17,11 +17,7 @@ class FavoritesSearchFieldWidget extends StatelessWidget {
     return YouPassSearchFieldWidget(
       hintText: hintText,
       onChanged: onChanged,
-      fillColor: FavoritesDesignSpec.searchFill,
-      borderColor: FavoritesDesignSpec.searchBorder,
       focusedBorderColor: FavoritesDesignSpec.primary,
-      hintColor: FavoritesDesignSpec.bodyText,
-      iconColor: FavoritesDesignSpec.metaIcon,
     );
   }
 }

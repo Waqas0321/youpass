@@ -386,6 +386,24 @@ abstract class AppLocalizations {
   /// **'OFF'**
   String get brandBadgeOff;
 
+  /// No description provided for @brandBadgeOn.
+  ///
+  /// In en, this message translates to:
+  /// **'ON'**
+  String get brandBadgeOn;
+
+  /// No description provided for @brandModeProduction.
+  ///
+  /// In en, this message translates to:
+  /// **'PRODUCTION'**
+  String get brandModeProduction;
+
+  /// No description provided for @brandModeFiesta.
+  ///
+  /// In en, this message translates to:
+  /// **'PARTY MODE'**
+  String get brandModeFiesta;
+
   /// No description provided for @featuredEventSummerTitle.
   ///
   /// In en, this message translates to:
@@ -1034,6 +1052,42 @@ abstract class AppLocalizations {
   /// **'Concerts'**
   String get ticketsFilterConcerts;
 
+  /// No description provided for @ticketsFilterBar.
+  ///
+  /// In en, this message translates to:
+  /// **'Bar'**
+  String get ticketsFilterBar;
+
+  /// No description provided for @ticketsYearlySummaryAttended.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} events attended in {year}'**
+  String ticketsYearlySummaryAttended(int count, int year);
+
+  /// No description provided for @ticketsYearlySummaryProducer.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite producer: {name} ({count} events)'**
+  String ticketsYearlySummaryProducer(String name, int count);
+
+  /// No description provided for @ticketsEmptyUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming tickets yet.'**
+  String get ticketsEmptyUpcoming;
+
+  /// No description provided for @ticketsEmptyPast.
+  ///
+  /// In en, this message translates to:
+  /// **'No past events found.'**
+  String get ticketsEmptyPast;
+
+  /// No description provided for @ticketsRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get ticketsRetry;
+
   /// No description provided for @ticketsStatistics.
   ///
   /// In en, this message translates to:
@@ -1507,6 +1561,336 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Manual entry ID'**
   String get eventTicketManualIdLabel;
+
+  /// No description provided for @welcomeFallbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to YouPass'**
+  String get welcomeFallbackTitle;
+
+  /// No description provided for @welcomeFallbackSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your access to the best events starts here'**
+  String get welcomeFallbackSubtitle;
+
+  /// No description provided for @paymentBrandVisa.
+  ///
+  /// In en, this message translates to:
+  /// **'VISA'**
+  String get paymentBrandVisa;
+
+  /// No description provided for @paymentBrandMastercard.
+  ///
+  /// In en, this message translates to:
+  /// **'MC'**
+  String get paymentBrandMastercard;
+
+  /// No description provided for @errorMissingAccessToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not complete sign in. Please try again.'**
+  String get errorMissingAccessToken;
+
+  /// No description provided for @errorAuthenticationRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in to continue.'**
+  String get errorAuthenticationRequired;
+
+  /// No description provided for @emailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is required'**
+  String get emailRequired;
+
+  /// No description provided for @emailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email'**
+  String get emailInvalid;
+
+  /// No description provided for @passwordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is required'**
+  String get passwordRequired;
+
+  /// No description provided for @passwordMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get passwordMinLength;
+
+  /// No description provided for @phoneHintChile.
+  ///
+  /// In en, this message translates to:
+  /// **'9 1234 5678'**
+  String get phoneHintChile;
+
+  /// No description provided for @phoneHintGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'123 456 7890'**
+  String get phoneHintGeneric;
+
+  /// No description provided for @phoneHintPakistan.
+  ///
+  /// In en, this message translates to:
+  /// **'321 6548001'**
+  String get phoneHintPakistan;
+
+  /// No description provided for @mockEventFestivalVerano2026.
+  ///
+  /// In en, this message translates to:
+  /// **'Summer Festival 2026'**
+  String get mockEventFestivalVerano2026;
+
+  /// No description provided for @mockEventConciertoX.
+  ///
+  /// In en, this message translates to:
+  /// **'Concert X'**
+  String get mockEventConciertoX;
+
+  /// No description provided for @mockEventYoufest2026.
+  ///
+  /// In en, this message translates to:
+  /// **'YouFest 2026'**
+  String get mockEventYoufest2026;
+
+  /// No description provided for @mockEventIguanaSummer.
+  ///
+  /// In en, this message translates to:
+  /// **'IGUANA SUMMER'**
+  String get mockEventIguanaSummer;
+
+  /// No description provided for @mockEventYoufestWinter2026.
+  ///
+  /// In en, this message translates to:
+  /// **'YouFest Winter 2026'**
+  String get mockEventYoufestWinter2026;
+
+  /// No description provided for @mockEventNeonRooftopSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'Neon Rooftop Sessions'**
+  String get mockEventNeonRooftopSessions;
+
+  /// No description provided for @mockEventSummerClosingParty.
+  ///
+  /// In en, this message translates to:
+  /// **'Summer Closing Party'**
+  String get mockEventSummerClosingParty;
+
+  /// No description provided for @mockDateSaturdayMay15.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday, May 15 · 10:00 PM'**
+  String get mockDateSaturdayMay15;
+
+  /// No description provided for @mockDateSaturdayMay15Long.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday, May 15, 2026 - 10:00 PM'**
+  String get mockDateSaturdayMay15Long;
+
+  /// No description provided for @mockDateSaturdayJuly4.
+  ///
+  /// In en, this message translates to:
+  /// **'Sat, Jul 4 · 10:00 PM'**
+  String get mockDateSaturdayJuly4;
+
+  /// No description provided for @mockLocationClubAmanda.
+  ///
+  /// In en, this message translates to:
+  /// **'Club Amanda, Santiago'**
+  String get mockLocationClubAmanda;
+
+  /// No description provided for @mockLocationClubAmandaShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Club Amanda'**
+  String get mockLocationClubAmandaShort;
+
+  /// No description provided for @mockLocationMovistarArena.
+  ///
+  /// In en, this message translates to:
+  /// **'Movistar Arena'**
+  String get mockLocationMovistarArena;
+
+  /// No description provided for @mockLocationCentroEventosHilaria.
+  ///
+  /// In en, this message translates to:
+  /// **'Centro Eventos Hilaria'**
+  String get mockLocationCentroEventosHilaria;
+
+  /// No description provided for @mockTicketGeneralOne.
+  ///
+  /// In en, this message translates to:
+  /// **'General · 1 ticket'**
+  String get mockTicketGeneralOne;
+
+  /// No description provided for @mockTicketVipTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP · 2 tickets'**
+  String get mockTicketVipTwo;
+
+  /// No description provided for @mockStayDuration5h14m.
+  ///
+  /// In en, this message translates to:
+  /// **'5h 14m'**
+  String get mockStayDuration5h14m;
+
+  /// No description provided for @mockSeatVipTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Table 1 - VIP 1 | 10 guests'**
+  String get mockSeatVipTable;
+
+  /// No description provided for @mockProducerYoufest.
+  ///
+  /// In en, this message translates to:
+  /// **'YouFest'**
+  String get mockProducerYoufest;
+
+  /// No description provided for @mockProducerIguana.
+  ///
+  /// In en, this message translates to:
+  /// **'IGUANA'**
+  String get mockProducerIguana;
+
+  /// No description provided for @mockPriceFrom35000.
+  ///
+  /// In en, this message translates to:
+  /// **'From \$35,000 CLP'**
+  String get mockPriceFrom35000;
+
+  /// No description provided for @mockPriceFrom28000.
+  ///
+  /// In en, this message translates to:
+  /// **'From \$28,000 CLP'**
+  String get mockPriceFrom28000;
+
+  /// No description provided for @mockPriceFrom42000.
+  ///
+  /// In en, this message translates to:
+  /// **'From \$42,000 CLP'**
+  String get mockPriceFrom42000;
+
+  /// No description provided for @mockPriceFrom55000.
+  ///
+  /// In en, this message translates to:
+  /// **'From \$55,000 CLP'**
+  String get mockPriceFrom55000;
+
+  /// No description provided for @mockPriceFrom32000.
+  ///
+  /// In en, this message translates to:
+  /// **'From \$32,000 CLP'**
+  String get mockPriceFrom32000;
+
+  /// No description provided for @mockDateSaturdayJuly18.
+  ///
+  /// In en, this message translates to:
+  /// **'Sat, Jul 18, 2026'**
+  String get mockDateSaturdayJuly18;
+
+  /// No description provided for @mockDateFridayAugust7.
+  ///
+  /// In en, this message translates to:
+  /// **'Fri, Aug 7, 2026'**
+  String get mockDateFridayAugust7;
+
+  /// No description provided for @mockDateSaturdaySeptember12.
+  ///
+  /// In en, this message translates to:
+  /// **'Sat, Sep 12, 2026'**
+  String get mockDateSaturdaySeptember12;
+
+  /// No description provided for @mockDateSaturdayAugust22.
+  ///
+  /// In en, this message translates to:
+  /// **'Sat, Aug 22, 2026'**
+  String get mockDateSaturdayAugust22;
+
+  /// No description provided for @mockLocationParqueBicentenario.
+  ///
+  /// In en, this message translates to:
+  /// **'Bicentennial Park, Santiago'**
+  String get mockLocationParqueBicentenario;
+
+  /// No description provided for @mockLocationTerrazaNeon.
+  ///
+  /// In en, this message translates to:
+  /// **'Neon Rooftop, Santiago'**
+  String get mockLocationTerrazaNeon;
+
+  /// No description provided for @mockLocationClubAmandaValparaiso.
+  ///
+  /// In en, this message translates to:
+  /// **'Club Amanda, Valparaiso'**
+  String get mockLocationClubAmandaValparaiso;
+
+  /// No description provided for @mockLocationMovistarArenaShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Movistar Arena, Santiago'**
+  String get mockLocationMovistarArenaShort;
+
+  /// No description provided for @mockTime2200Hrs.
+  ///
+  /// In en, this message translates to:
+  /// **'10:00 PM'**
+  String get mockTime2200Hrs;
+
+  /// No description provided for @mockTime2300Hrs.
+  ///
+  /// In en, this message translates to:
+  /// **'11:00 PM'**
+  String get mockTime2300Hrs;
+
+  /// No description provided for @mockTime2130Hrs.
+  ///
+  /// In en, this message translates to:
+  /// **'9:30 PM'**
+  String get mockTime2130Hrs;
+
+  /// No description provided for @mockPriceFrom50000.
+  ///
+  /// In en, this message translates to:
+  /// **'From \$50,000 CLP'**
+  String get mockPriceFrom50000;
+
+  /// No description provided for @mockLocationSkyCostanera.
+  ///
+  /// In en, this message translates to:
+  /// **'Sky Costanera'**
+  String get mockLocationSkyCostanera;
+
+  /// No description provided for @mockLocationClubOceano.
+  ///
+  /// In en, this message translates to:
+  /// **'Club Océano'**
+  String get mockLocationClubOceano;
+
+  /// No description provided for @mockDateSaturdayJuly4Short.
+  ///
+  /// In en, this message translates to:
+  /// **'Sat, Jul 4, 2026'**
+  String get mockDateSaturdayJuly4Short;
+
+  /// No description provided for @mockDateFridayAugust7Short.
+  ///
+  /// In en, this message translates to:
+  /// **'Fri, Aug 7, 2026'**
+  String get mockDateFridayAugust7Short;
+
+  /// No description provided for @mockDateSaturdaySeptember12Short.
+  ///
+  /// In en, this message translates to:
+  /// **'Sat, Sep 12, 2026'**
+  String get mockDateSaturdaySeptember12Short;
 }
 
 class _AppLocalizationsDelegate

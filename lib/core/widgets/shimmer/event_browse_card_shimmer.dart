@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/core/widgets/shimmer/youpass_shimmer_box.dart';
 import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
 
@@ -10,6 +11,7 @@ class EventBrowseCardShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = YouPassThemeExtension.of(context);
     final radius = FavoritesDesignSpec.px(context, FavoritesDesignSpec.cardRadius);
     final cardHeight = FavoritesDesignSpec.px(context, _designCardHeight);
     final imageWidth = FavoritesDesignSpec.px(context, _designImageWidth);
@@ -19,9 +21,9 @@ class EventBrowseCardShimmer extends StatelessWidget {
       margin: EdgeInsets.only(bottom: FavoritesDesignSpec.px(context, 14)),
       height: cardHeight,
       decoration: BoxDecoration(
-        color: FavoritesDesignSpec.screenBackground,
+        color: theme.cardBackground,
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: FavoritesDesignSpec.cardBorder),
+        border: Border.all(color: theme.cardBorder),
       ),
       clipBehavior: Clip.antiAlias,
       child: Row(

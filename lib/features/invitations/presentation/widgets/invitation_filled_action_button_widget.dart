@@ -8,12 +8,14 @@ class InvitationFilledActionButtonWidget extends StatelessWidget {
     this.onPressed,
     this.backgroundColor = InvitationsDesignSpec.primary,
     this.enabled = true,
+    this.isLoading = false,
   });
 
   final String label;
   final VoidCallback? onPressed;
   final Color backgroundColor;
   final bool enabled;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class InvitationFilledActionButtonWidget extends StatelessWidget {
       width: double.infinity,
       height: InvitationsDesignSpec.px(context, 38),
       child: ElevatedButton(
-        onPressed: enabled ? onPressed : null,
+        onPressed: enabled && !isLoading ? onPressed : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: effectiveColor,
           disabledBackgroundColor: InvitationsDesignSpec.attendanceConfirmedButton,
@@ -38,14 +40,23 @@ class InvitationFilledActionButtonWidget extends StatelessWidget {
             ),
           ),
         ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: InvitationsDesignSpec.px(context, 11),
-            fontWeight: FontWeight.w700,
-            letterSpacing: 0.3,
-          ),
-        ),
+        child: isLoading
+            ? SizedBox(
+                width: InvitationsDesignSpec.px(context, 18),
+                height: InvitationsDesignSpec.px(context, 18),
+                child: const CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
+              )
+            : Text(
+                label,
+                style: TextStyle(
+                  fontSize: InvitationsDesignSpec.px(context, 11),
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.3,
+                ),
+              ),
       ),
     );
   }

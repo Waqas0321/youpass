@@ -29,7 +29,7 @@ class EventBrowseCategoryFiltersWidget extends StatelessWidget {
           style: TextStyle(
             fontSize: FavoritesDesignSpec.px(context, 11),
             fontWeight: FontWeight.w600,
-            color: FavoritesDesignSpec.bodyText,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
             letterSpacing: 0.5,
           ),
         ),

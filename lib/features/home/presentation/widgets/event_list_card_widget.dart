@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_colors.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
@@ -7,6 +8,7 @@ import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/core/widgets/event_network_image.dart';
 import 'package:youpass/core/widgets/youpass_compact_button.dart';
+import 'package:youpass/features/home/presentation/widgets/event_meta_row_widget.dart';
 import 'package:youpass/features/events/domain/entities/event_entity.dart';
 
 class EventListCardWidget extends StatelessWidget {
@@ -26,6 +28,7 @@ class EventListCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final theme = YouPassThemeExtension.of(context);
     final cardHeight = layout.spacing(120);
     final cardRadius = layout.radius(16);
     final buttonHeight = layout.spacing(28);
@@ -33,9 +36,9 @@ class EventListCardWidget extends StatelessWidget {
     return Container(
       height: cardHeight,
       decoration: BoxDecoration(
-        color: AppColors.backgroundWhite,
+        color: theme.cardBackground,
         borderRadius: BorderRadius.circular(cardRadius),
-        border: Border.all(color: AppColors.homeDividerGrey),
+        border: Border.all(color: theme.cardBorder),
       ),
       clipBehavior: Clip.antiAlias,
       child: Row(
@@ -73,7 +76,7 @@ class EventListCardWidget extends StatelessWidget {
                               child: AppText(
                                 event.title,
                                 variant: AppTextVariant.listTitle,
-                                color: AppColors.homeBlack,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 fontSize: layout.fontSize(16),
                                 fontWeight: FontWeight.w700,
                                 maxLines: 1,
@@ -91,13 +94,13 @@ class EventListCardWidget extends StatelessWidget {
                                 size: layout.fontSize(18),
                                 color: event.isFavorite
                                     ? AppColors.favoriteActive
-                                    : AppColors.homeBlack,
+                                    : Theme.of(context).colorScheme.onSurface,
                               ),
                             ),
                           ],
                         ),
                         SizedBox(height: layout.spacing(4)),
-                        EventMetaRow(
+                        EventMetaRowWidget(
                           icon: Icons.calendar_today_outlined,
                           label: event.dateLabel,
                           iconColor: AppColors.homeAccentYellow,
@@ -106,7 +109,7 @@ class EventListCardWidget extends StatelessWidget {
                           maxLines: 1,
                         ),
                         SizedBox(height: layout.spacing(2)),
-                        EventMetaRow(
+                        EventMetaRowWidget(
                           icon: Icons.location_on_outlined,
                           label: event.locationLabel,
                           maxLines: 1,
@@ -131,55 +134,6 @@ class EventListCardWidget extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class EventMetaRow extends StatelessWidget {
-  const EventMetaRow({
-    super.key,
-    required this.icon,
-    required this.label,
-    this.iconColor,
-    this.labelColor,
-    this.fontWeight,
-    this.maxLines = 2,
-  });
-
-  final IconData icon;
-  final String label;
-  final Color? iconColor;
-  final Color? labelColor;
-  final FontWeight? fontWeight;
-  final int maxLines;
-
-  @override
-  Widget build(BuildContext context) {
-    final layout = ResponsiveLayout(context);
-    final resolvedIconColor = iconColor ?? AppColors.secondaryGrey;
-    final resolvedLabelColor = labelColor ?? AppColors.secondaryGrey;
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(
-          icon,
-          size: layout.fontSize(13),
-          color: resolvedIconColor,
-        ),
-        SizedBox(width: layout.spacing(5)),
-        Expanded(
-          child: AppText(
-            label,
-            variant: AppTextVariant.body,
-            color: resolvedLabelColor,
-            fontSize: layout.fontSize(11),
-            fontWeight: fontWeight ?? FontWeight.w400,
-            maxLines: maxLines,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
     );
   }
 }

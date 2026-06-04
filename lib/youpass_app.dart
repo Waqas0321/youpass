@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/locale/app_locale.dart';
 import 'package:youpass/core/locale/locale_provider.dart';
+import 'package:youpass/core/theme/domain/repositories/theme_preference_repository.dart';
+import 'package:youpass/core/theme/presentation/providers/app_theme_provider.dart';
+import 'package:youpass/core/theme/youpass_theme.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
 import 'package:youpass/l10n/app_localizations.dart';
-import 'package:youpass/core/theme/youpass_button_theme.dart';
 import 'package:youpass/routes/app_routes.dart';
 import 'package:youpass/routes/route_generator.dart';
 
@@ -24,6 +26,9 @@ class YouPassApp extends StatelessWidget {
         ChangeNotifierProvider<LocaleProvider>(
           create: (_) => sl<LocaleProvider>(),
         ),
+        ChangeNotifierProvider<AppThemeProvider>(
+          create: (_) => AppThemeProvider(sl<ThemePreferenceRepository>()),
+        ),
         ChangeNotifierProvider<AuthProvider>(
           create: (_) => sl<AuthProvider>(),
         ),
@@ -34,8 +39,10 @@ class YouPassApp extends StatelessWidget {
           create: (_) => sl<InvitationsProvider>(),
         ),
       ],
-      child: Consumer<LocaleProvider>(
-        builder: (context, localeProvider, _) {
+      child: Consumer2<LocaleProvider, AppThemeProvider>(
+        builder: (context, localeProvider, themeProvider, _) {
+          final isDark = themeProvider.themeMode == ThemeMode.dark;
+
           return MaterialApp(
             title: AppConstants.appName,
             debugShowCheckedModeBanner: false,
@@ -47,27 +54,30 @@ class YouPassApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: AppColors.primaryMustard,
-              ),
-              scaffoldBackgroundColor: AppColors.backgroundWhite,
-              useMaterial3: true,
-              fontFamily: 'Roboto',
-              elevatedButtonTheme: ElevatedButtonThemeData(
-                style: YouPassButtonTheme.outlineElevatedStyle(),
-              ),
-            ),
+            theme: YouPassTheme.light(),
+            darkTheme: YouPassTheme.dark(),
+            themeMode: themeProvider.themeMode,
             builder: (context, child) {
               final mediaQuery = MediaQuery.of(context);
-              return MediaQuery(
-                data: mediaQuery.copyWith(
-                  textScaler: mediaQuery.textScaler.clamp(
-                    minScaleFactor: 0.9,
-                    maxScaleFactor: 1.15,
-                  ),
+              return AnnotatedRegion<SystemUiOverlayStyle>(
+                value: SystemUiOverlayStyle(
+                  statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+                  statusBarIconBrightness:
+                      isDark ? Brightness.light : Brightness.dark,
+                  systemNavigationBarColor:
+                      Theme.of(context).scaffoldBackgroundColor,
+                  systemNavigationBarIconBrightness:
+                      isDark ? Brightness.light : Brightness.dark,
                 ),
-                child: child ?? const SizedBox.shrink(),
+                child: MediaQuery(
+                  data: mediaQuery.copyWith(
+                    textScaler: mediaQuery.textScaler.clamp(
+                      minScaleFactor: 0.9,
+                      maxScaleFactor: 1.15,
+                    ),
+                  ),
+                  child: child ?? const SizedBox.shrink(),
+                ),
               );
             },
             initialRoute: AppRoutes.splash,

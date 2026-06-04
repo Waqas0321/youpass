@@ -41,7 +41,7 @@ class GenderApiMapper {
       case 'prefer_not_to_say':
         return l10n.genderPreferNotToSay;
       default:
-        return normalized.isEmpty ? '' : apiValue;
+        return normalized.isEmpty ? '' : l10n.genderOther;
     }
   }
 }

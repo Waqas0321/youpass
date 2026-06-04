@@ -102,17 +102,22 @@ class AuthMessageLocalizer {
         return l10n.errorBlocked;
       case 'VALIDATION_ERROR':
         return l10n.errorValidation;
+      case 'UNKNOWN_ERROR':
+      case 'REQUEST_FAILED':
+        return l10n.errorGeneric;
+      case 'MISSING_ACCESS_TOKEN':
+        return l10n.errorMissingAccessToken;
+      case 'UNAUTHORIZED':
+      case 'SESSION_INVALID':
+      case 'AUTHENTICATION_REQUIRED':
+        return l10n.errorAuthenticationRequired;
     }
 
     if (_isIncorrectCodeMessage(fallbackMessage)) {
       return l10n.errorIncorrectCode;
     }
 
-    if (fallbackMessage == null || fallbackMessage.trim().isEmpty) {
-      return l10n.errorGeneric;
-    }
-
-    return fallbackMessage;
+    return l10n.errorGeneric;
   }
 
   static bool _isIncorrectCodeMessage(String? message) {

@@ -17,11 +17,7 @@ class InvitationsSearchFieldWidget extends StatelessWidget {
     return YouPassSearchFieldWidget(
       hintText: hintText,
       onChanged: onChanged,
-      fillColor: const Color(0xFFF5F5F5),
-      borderColor: InvitationsDesignSpec.cardBorder,
       focusedBorderColor: InvitationsDesignSpec.primary,
-      hintColor: InvitationsDesignSpec.bodyText,
-      iconColor: InvitationsDesignSpec.metaIcon,
     );
   }
 }

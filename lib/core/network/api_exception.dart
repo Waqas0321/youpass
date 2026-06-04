@@ -20,8 +20,8 @@ class ApiException implements Exception {
     final error = body['error'];
     if (error is! Map<String, dynamic>) {
       return ApiException(
-        code: 'UNKNOWN_ERROR',
-        message: 'Request failed',
+        code: 'REQUEST_FAILED',
+        message: 'REQUEST_FAILED',
         statusCode: statusCode,
       );
     }
@@ -40,7 +40,7 @@ class ApiException implements Exception {
 
     return ApiException(
       code: error['code'] as String? ?? 'UNKNOWN_ERROR',
-      message: error['message'] as String? ?? 'Request failed',
+      message: error['message'] as String? ?? 'REQUEST_FAILED',
       statusCode: statusCode,
       retryAfterSeconds: retryAfterSeconds,
       details: details is Map<String, dynamic> ? details : null,

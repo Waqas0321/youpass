@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
+import 'package:youpass/core/theme/youpass_themed_colors.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
-import 'package:youpass/core/widgets/event_network_image.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_status.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 import 'package:youpass/features/invitations/presentation/utils/invitations_text_factory.dart';
+import 'package:youpass/features/invitations/presentation/widgets/invitation_card_event_image_widget.dart';
+import 'package:youpass/features/invitations/presentation/widgets/invitation_card_secondary_actions_widget.dart';
 import 'package:youpass/features/invitations/presentation/widgets/invitation_filled_action_button_widget.dart';
 import 'package:youpass/features/invitations/presentation/widgets/invitation_meta_row_widget.dart';
-import 'package:youpass/features/invitations/presentation/widgets/invitation_outline_action_button_widget.dart';
 import 'package:youpass/features/invitations/presentation/widgets/invitation_status_icon_widget.dart';
 import 'package:youpass/features/invitations/presentation/widgets/invitation_status_line_widget.dart';
 
@@ -20,6 +22,9 @@ class InvitationCardWidget extends StatelessWidget {
     this.onReject,
     this.onCancel,
     this.onViewQr,
+    this.isConfirmLoading = false,
+    this.isRejectLoading = false,
+    this.isViewQrLoading = false,
   });
 
   final InvitationEntity invitation;
@@ -27,10 +32,14 @@ class InvitationCardWidget extends StatelessWidget {
   final VoidCallback? onReject;
   final VoidCallback? onCancel;
   final VoidCallback? onViewQr;
+  final bool isConfirmLoading;
+  final bool isRejectLoading;
+  final bool isViewQrLoading;
 
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
+    final theme = YouPassThemeExtension.of(context);
     final isPending = invitation.status == InvitationStatus.pending;
     final isConfirmed = invitation.status == InvitationStatus.confirmed;
     final imageSize = InvitationsDesignSpec.px(context, 96);
@@ -39,11 +48,11 @@ class InvitationCardWidget extends StatelessWidget {
       margin: EdgeInsets.only(bottom: InvitationsDesignSpec.px(context, 14)),
       padding: EdgeInsets.all(InvitationsDesignSpec.px(context, 12)),
       decoration: BoxDecoration(
-        color: InvitationsDesignSpec.screenBackground,
+        color: theme.cardBackground,
         borderRadius: BorderRadius.circular(
           InvitationsDesignSpec.px(context, InvitationsDesignSpec.cardRadius),
         ),
-        border: Border.all(color: InvitationsDesignSpec.cardBorder),
+        border: Border.all(color: theme.cardBorder),
         boxShadow: const [
           BoxShadow(
             color: InvitationsDesignSpec.cardShadow,
@@ -55,7 +64,10 @@ class InvitationCardWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildEventImage(context, imageSize),
+          InvitationCardEventImageWidget(
+            invitation: invitation,
+            imageSize: imageSize,
+          ),
           SizedBox(width: InvitationsDesignSpec.px(context, 12)),
           Expanded(
             child: Column(
@@ -70,7 +82,7 @@ class InvitationCardWidget extends StatelessWidget {
                         style: TextStyle(
                           fontSize: InvitationsDesignSpec.px(context, 15),
                           fontWeight: FontWeight.w700,
-                          color: InvitationsDesignSpec.titleText,
+                          color: YouPassThemedColors.primaryText(context),
                           height: 1.2,
                         ),
                       ),
@@ -98,19 +110,22 @@ class InvitationCardWidget extends StatelessWidget {
                 Divider(
                   height: 1,
                   thickness: 1,
-                  color: InvitationsDesignSpec.cardBorder,
+                  color: theme.cardBorder,
                 ),
                 SizedBox(height: InvitationsDesignSpec.px(context, 10)),
                 if (isPending) ...[
                   InvitationFilledActionButtonWidget(
                     label: AppStrings.invitationsConfirmAttendance(strings),
                     onPressed: onConfirm,
+                    isLoading: isConfirmLoading,
                   ),
                   SizedBox(height: InvitationsDesignSpec.px(context, 8)),
-                  _buildSecondaryActions(
-                    context,
+                  InvitationCardSecondaryActionsWidget(
                     leftLabel: AppStrings.invitationsReject(strings),
                     onLeftPressed: onReject,
+                    onViewQr: onViewQr,
+                    isLeftLoading: isRejectLoading,
+                    isViewQrLoading: isViewQrLoading,
                   ),
                 ],
                 if (isConfirmed) ...[
@@ -119,10 +134,12 @@ class InvitationCardWidget extends StatelessWidget {
                     enabled: false,
                   ),
                   SizedBox(height: InvitationsDesignSpec.px(context, 8)),
-                  _buildSecondaryActions(
-                    context,
+                  InvitationCardSecondaryActionsWidget(
                     leftLabel: AppStrings.invitationsCancel(strings),
                     onLeftPressed: onCancel,
+                    onViewQr: onViewQr,
+                    isLeftLoading: isRejectLoading,
+                    isViewQrLoading: isViewQrLoading,
                   ),
                 ],
               ],
@@ -130,57 +147,6 @@ class InvitationCardWidget extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildSecondaryActions(
-    BuildContext context, {
-    required String leftLabel,
-    VoidCallback? onLeftPressed,
-  }) {
-    final strings = context.l10n;
-
-    return Row(
-      children: [
-        Expanded(
-          child: InvitationOutlineActionButtonWidget(
-            label: leftLabel,
-            onPressed: onLeftPressed,
-          ),
-        ),
-        SizedBox(width: InvitationsDesignSpec.px(context, 8)),
-        Expanded(
-          child: InvitationOutlineActionButtonWidget(
-            label: AppStrings.invitationsViewQr(strings),
-            icon: Icons.qr_code_2_outlined,
-            onPressed: onViewQr,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildEventImage(BuildContext context, double imageSize) {
-    final borderRadius = BorderRadius.circular(
-      InvitationsDesignSpec.px(
-        context,
-        InvitationsDesignSpec.imageRadius,
-      ),
-    );
-
-    if (invitation.usesNetworkImage) {
-      return EventNetworkImage(
-        imageUrl: invitation.imageAssetPath,
-        width: imageSize,
-        height: imageSize,
-        borderRadius: borderRadius,
-      );
-    }
-
-    return EventNetworkImage(
-      width: imageSize,
-      height: imageSize,
-      borderRadius: borderRadius,
     );
   }
 }

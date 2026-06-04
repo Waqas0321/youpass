@@ -22,6 +22,9 @@ class InvitationsListContentWidget extends StatelessWidget {
     required this.onRejectInvitation,
     required this.onCancelInvitation,
     required this.onViewTicket,
+    this.isConfirmLoading,
+    this.isRejectLoading,
+    this.isViewQrLoading,
   });
 
   final List<InvitationEntity> invitations;
@@ -32,6 +35,9 @@ class InvitationsListContentWidget extends StatelessWidget {
   final ValueChanged<String> onRejectInvitation;
   final ValueChanged<String> onCancelInvitation;
   final ValueChanged<InvitationEntity> onViewTicket;
+  final bool Function(String invitationId)? isConfirmLoading;
+  final bool Function(String invitationId)? isRejectLoading;
+  final bool Function(String invitationId)? isViewQrLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +81,10 @@ class InvitationsListContentWidget extends StatelessWidget {
                 ? () => onCancelInvitation(invitation.id)
                 : null,
             onViewQr: () => onViewTicket(invitation),
+            isConfirmLoading:
+                isConfirmLoading?.call(invitation.id) ?? false,
+            isRejectLoading: isRejectLoading?.call(invitation.id) ?? false,
+            isViewQrLoading: isViewQrLoading?.call(invitation.id) ?? false,
           ),
         ),
         SizedBox(height: InvitationsDesignSpec.px(context, 8)),

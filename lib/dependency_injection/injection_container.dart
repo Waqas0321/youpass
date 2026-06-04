@@ -7,6 +7,8 @@ import 'package:youpass/core/constants/country_code_list.dart';
 import 'package:youpass/core/network/api_client.dart';
 import 'package:youpass/core/network/config_api_service.dart';
 import 'package:youpass/core/services/storage_service.dart';
+import 'package:youpass/core/theme/data/repositories/theme_preference_repository_impl.dart';
+import 'package:youpass/core/theme/domain/repositories/theme_preference_repository.dart';
 import 'package:youpass/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:youpass/features/auth/data/datasources/auth_local_datasource_impl.dart';
 import 'package:youpass/features/auth/data/datasources/auth_remote_datasource.dart';
@@ -125,6 +127,9 @@ Future<void> initDependencies() async {
       () => UploadProfilePhotoUseCase(sl<AuthRepository>()),
     )
     ..registerLazySingleton<LocaleProvider>(LocaleProvider.new)
+    ..registerLazySingleton<ThemePreferenceRepository>(
+      () => ThemePreferenceRepositoryImpl(sl<StorageService>()),
+    )
     ..registerFactory<AuthProvider>(
       () => AuthProvider(
         sendCodeUseCase: sl<SendCodeUseCase>(),
@@ -186,7 +191,10 @@ Future<void> initDependencies() async {
       () => InvitationsApiService(sl<ApiClient>()),
     )
     ..registerLazySingleton<InvitationsRemoteDataSource>(
-      () => InvitationsRemoteDataSourceImpl(sl<InvitationsApiService>()),
+      () => InvitationsRemoteDataSourceImpl(
+        apiService: sl<InvitationsApiService>(),
+        localeProvider: sl<LocaleProvider>(),
+      ),
     )
     ..registerLazySingleton<InvitationsRepository>(
       () => InvitationsRepositoryImpl(sl<InvitationsRemoteDataSource>()),

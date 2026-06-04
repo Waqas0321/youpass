@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/theme/youpass_themed_colors.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 
 class InvitationsSectionHeaderWidget extends StatelessWidget {
@@ -31,7 +32,7 @@ class InvitationsSectionHeaderWidget extends StatelessWidget {
                 style: TextStyle(
                   fontSize: InvitationsDesignSpec.px(context, 18),
                   fontWeight: FontWeight.w700,
-                  color: InvitationsDesignSpec.titleText,
+                  color: YouPassThemedColors.primaryText(context),
                   height: 1.2,
                 ),
               ),
@@ -40,7 +41,7 @@ class InvitationsSectionHeaderWidget extends StatelessWidget {
                 subtitle,
                 style: TextStyle(
                   fontSize: InvitationsDesignSpec.px(context, 13),
-                  color: InvitationsDesignSpec.bodyText,
+                  color: YouPassThemedColors.secondaryText(context),
                   height: 1.35,
                 ),
               ),

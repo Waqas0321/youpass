@@ -3,9 +3,12 @@ import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/theme/youpass_button_theme.dart';
+import 'package:youpass/core/theme/youpass_dialog_theme.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
-import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
+import 'package:youpass/core/widgets/dialogs/youpass_dialog_icon_badge.dart';
+import 'package:youpass/core/widgets/dialogs/youpass_themed_dialog_shell.dart';
 
 enum YouPassConfirmDialogVariant { logout, deleteAccount }
 
@@ -18,14 +21,14 @@ class YouPassConfirmDialog extends StatelessWidget {
   final YouPassConfirmDialogVariant variant;
 
   static Future<bool> showLogout(BuildContext context) {
-    return _show(context, YouPassConfirmDialogVariant.logout);
+    return showConfirm(context, YouPassConfirmDialogVariant.logout);
   }
 
   static Future<bool> showDeleteAccount(BuildContext context) {
-    return _show(context, YouPassConfirmDialogVariant.deleteAccount);
+    return showConfirm(context, YouPassConfirmDialogVariant.deleteAccount);
   }
 
-  static Future<bool> _show(
+  static Future<bool> showConfirm(
     BuildContext context,
     YouPassConfirmDialogVariant variant,
   ) async {
@@ -38,119 +41,97 @@ class YouPassConfirmDialog extends StatelessWidget {
     return result ?? false;
   }
 
-  bool get _isDestructive => variant == YouPassConfirmDialogVariant.deleteAccount;
+  bool get isDestructive => variant == YouPassConfirmDialogVariant.deleteAccount;
 
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    final title = _isDestructive
+    final title = isDestructive
         ? AppStrings.confirmDeleteAccountTitle(strings)
         : AppStrings.confirmLogoutTitle(strings);
-    final message = _isDestructive
+    final message = isDestructive
         ? AppStrings.confirmDeleteAccountMessage(strings)
         : AppStrings.confirmLogoutMessage(strings);
-    final confirmLabel = _isDestructive
+    final confirmLabel = isDestructive
         ? AppStrings.confirmDeleteAccountAction(strings)
         : AppStrings.confirmLogoutAction(strings);
     final cancelLabel = AppStrings.confirmDialogCancel(strings);
 
     final iconData =
-        _isDestructive ? Icons.warning_amber_rounded : Icons.logout_rounded;
-    final iconColor =
-        _isDestructive ? AppColors.profileDeleteRed : ProfileDesignSpec.primary;
-    final iconBackground = _isDestructive
-        ? AppColors.profileDeleteRed.withValues(alpha: 0.12)
-        : ProfileDesignSpec.iconCircleBackground;
+        isDestructive ? Icons.warning_amber_rounded : Icons.logout_rounded;
+    final iconColor = isDestructive
+        ? AppColors.profileDeleteRed
+        : YouPassDialogTheme.iconColor(context);
+    final iconBackground = isDestructive
+        ? YouPassDialogTheme.destructiveIconBackground(context)
+        : YouPassDialogTheme.iconBadgeBackground(context);
 
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 28),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: AppColors.profileCardBackground,
-          borderRadius: BorderRadius.circular(ProfileDesignSpec.cardRadius),
-          border: Border.all(
-            color: AppColors.profileCardBorder,
-            width: ProfileDesignSpec.cardBorderWidth,
+    return YouPassThemedDialogShell(
+      padding: const EdgeInsets.fromLTRB(24, 28, 24, 24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          YouPassDialogIconBadge(
+            icon: iconData,
+            iconSize: 28,
+            backgroundColor: iconBackground,
+            iconColor: iconColor,
           ),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.scrimBase.withValues(alpha: 0.12),
-              blurRadius: 24,
-              offset: const Offset(0, 8),
+          const SizedBox(height: 20),
+          AppText(
+            title,
+            variant: AppTextVariant.title,
+            textAlign: TextAlign.center,
+            color: YouPassDialogTheme.title(context),
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+          ),
+          const SizedBox(height: 12),
+          AppText(
+            message,
+            variant: AppTextVariant.body,
+            textAlign: TextAlign.center,
+            color: YouPassDialogTheme.body(context),
+            fontSize: 14,
+            height: 1.45,
+          ),
+          const SizedBox(height: 28),
+          SizedBox(
+            width: double.infinity,
+            child: YouPassConfirmActionButton(
+              label: confirmLabel,
+              isDestructive: isDestructive,
+              onPressed: () => Navigator.of(context).pop(true),
             ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 28, 24, 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 56,
-                height: 56,
-                decoration: BoxDecoration(
-                  color: iconBackground,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(iconData, size: 28, color: iconColor),
-              ),
-              const SizedBox(height: 20),
-              AppText(
-                title,
-                variant: AppTextVariant.title,
-                textAlign: TextAlign.center,
-                color: AppColors.darkNavy,
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-              ),
-              const SizedBox(height: 12),
-              AppText(
-                message,
-                variant: AppTextVariant.body,
-                textAlign: TextAlign.center,
-                color: AppColors.profileLabelGrey,
-                fontSize: 14,
-                height: 1.45,
-              ),
-              const SizedBox(height: 28),
-              SizedBox(
-                width: double.infinity,
-                child: _ConfirmActionButton(
-                  label: confirmLabel,
-                  isDestructive: _isDestructive,
-                  onPressed: () => Navigator.of(context).pop(true),
-                ),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  style: YouPassButtonTheme.outlineElevatedStyle().copyWith(
-                    elevation: WidgetStateProperty.all(0),
-                  ),
-                  child: Text(
-                    cancelLabel,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.outlineButtonForeground,
-                    ),
-                  ),
-                ),
-              ),
-            ],
           ),
-        ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              style: YouPassButtonTheme.outlineElevatedStyle(context).copyWith(
+                elevation: WidgetStateProperty.all(0),
+              ),
+              child: Text(
+                cancelLabel,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: YouPassThemeExtension.of(context)
+                      .outlineButtonForeground,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class _ConfirmActionButton extends StatelessWidget {
-  const _ConfirmActionButton({
+class YouPassConfirmActionButton extends StatelessWidget {
+  const YouPassConfirmActionButton({
+    super.key,
     required this.label,
     required this.isDestructive,
     required this.onPressed,
@@ -164,9 +145,10 @@ class _ConfirmActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final backgroundColor = isDestructive
         ? AppColors.profileDeleteRed
-        : AppColors.primaryMustard;
-    final foregroundColor =
-        isDestructive ? AppColors.backgroundWhite : AppColors.darkNavy;
+        : YouPassDialogTheme.primaryButtonBackground(context);
+    final foregroundColor = isDestructive
+        ? AppColors.backgroundWhite
+        : YouPassDialogTheme.primaryButtonForeground(context);
 
     return ElevatedButton(
       onPressed: onPressed,

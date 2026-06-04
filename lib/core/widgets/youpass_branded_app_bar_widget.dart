@@ -8,15 +8,15 @@ class YouPassBrandedAppBarWidget extends StatelessWidget
     this.screenTitle,
     required this.onBack,
     this.primaryColor = const Color(0xFFE69D17),
-    this.backgroundColor = Colors.white,
-    this.subtitleColor = const Color(0xFF757575),
+    this.backgroundColor,
+    this.subtitleColor,
   });
 
   final String? screenTitle;
   final VoidCallback onBack;
   final Color primaryColor;
-  final Color backgroundColor;
-  final Color subtitleColor;
+  final Color? backgroundColor;
+  final Color? subtitleColor;
 
   @override
   Size get preferredSize => Size.fromHeight(
@@ -25,9 +25,15 @@ class YouPassBrandedAppBarWidget extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final resolvedBackground =
+        backgroundColor ?? theme.scaffoldBackgroundColor;
+    final resolvedSubtitle =
+        subtitleColor ?? theme.colorScheme.onSurfaceVariant;
+
     return AppBar(
-      backgroundColor: backgroundColor,
-      surfaceTintColor: backgroundColor,
+      backgroundColor: resolvedBackground,
+      surfaceTintColor: resolvedBackground,
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: true,
@@ -44,7 +50,7 @@ class YouPassBrandedAppBarWidget extends StatelessWidget
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: subtitleColor,
+                color: resolvedSubtitle,
               ),
             ),
             const SizedBox(height: 2),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
@@ -30,7 +29,6 @@ class HomeGreetingWidget extends StatelessWidget {
         AppText(
           AppStrings.homeDiscoverSubtitle(l10n),
           variant: AppTextVariant.body,
-          color: AppColors.secondaryGrey,
         ),
       ],
     );

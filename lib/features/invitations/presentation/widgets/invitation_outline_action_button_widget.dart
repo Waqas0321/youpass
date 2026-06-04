@@ -7,18 +7,20 @@ class InvitationOutlineActionButtonWidget extends StatelessWidget {
     required this.label,
     this.onPressed,
     this.icon,
+    this.isLoading = false,
   });
 
   final String label;
   final VoidCallback? onPressed;
   final IconData? icon;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: InvitationsDesignSpec.px(context, 38),
       child: OutlinedButton(
-        onPressed: onPressed,
+        onPressed: isLoading ? null : onPressed,
         style: OutlinedButton.styleFrom(
           foregroundColor: InvitationsDesignSpec.primary,
           side: const BorderSide(
@@ -34,30 +36,39 @@ class InvitationOutlineActionButtonWidget extends StatelessWidget {
             ),
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(
-              child: Text(
-                label,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: InvitationsDesignSpec.px(context, 11),
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.3,
+        child: isLoading
+            ? SizedBox(
+                width: InvitationsDesignSpec.px(context, 18),
+                height: InvitationsDesignSpec.px(context, 18),
+                child: const CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: InvitationsDesignSpec.primary,
                 ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(
+                    child: Text(
+                      label,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: InvitationsDesignSpec.px(context, 11),
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.3,
+                      ),
+                    ),
+                  ),
+                  if (icon != null) ...[
+                    SizedBox(width: InvitationsDesignSpec.px(context, 4)),
+                    Icon(
+                      icon,
+                      size: InvitationsDesignSpec.px(context, 14),
+                    ),
+                  ],
+                ],
               ),
-            ),
-            if (icon != null) ...[
-              SizedBox(width: InvitationsDesignSpec.px(context, 4)),
-              Icon(
-                icon,
-                size: InvitationsDesignSpec.px(context, 14),
-              ),
-            ],
-          ],
-        ),
       ),
     );
   }

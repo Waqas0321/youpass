@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:youpass/core/network/api_exception.dart';
+import 'package:youpass/core/network/models/api_error_details_model.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_ticket_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/payment_method_request_entity.dart';
@@ -10,8 +11,8 @@ import 'package:youpass/features/invitations/domain/usecases/fetch_invitations_s
 import 'package:youpass/features/invitations/domain/usecases/fetch_invitations_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/reject_invitation_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/save_payment_method_usecase.dart';
-
-enum InvitationsStatus { initial, loading, ready, error }
+import 'package:youpass/features/invitations/presentation/providers/invitation_submit_action.dart';
+import 'package:youpass/features/invitations/presentation/providers/invitations_status.dart';
 
 class InvitationsProvider extends ChangeNotifier {
   InvitationsProvider({
@@ -35,9 +36,11 @@ class InvitationsProvider extends ChangeNotifier {
   InvitationsStatus status = InvitationsStatus.initial;
   List<InvitationEntity> invitations = const [];
   bool isSubmitting = false;
+  String? submittingInvitationId;
+  InvitationSubmitAction? submittingAction;
   String? errorMessage;
   String? errorCode;
-  Map<String, dynamic>? errorDetails;
+  ApiErrorDetailsModel? errorDetails;
   bool hasPaymentMethod = false;
   int invitationsBadgeCount = 0;
 
@@ -45,6 +48,8 @@ class InvitationsProvider extends ChangeNotifier {
     status = InvitationsStatus.initial;
     invitations = const [];
     isSubmitting = false;
+    submittingInvitationId = null;
+    submittingAction = null;
     errorMessage = null;
     errorCode = null;
     errorDetails = null;
@@ -91,7 +96,7 @@ class InvitationsProvider extends ChangeNotifier {
 
       final loadedInvitations = await invitationsFuture;
       final summary = await summaryFuture;
-      final savedPaymentMethods = await _loadHasPaymentMethodSafely(
+      final savedPaymentMethods = await loadHasPaymentMethodSafely(
         paymentMethodsFuture,
       );
 
@@ -112,7 +117,7 @@ class InvitationsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> _loadHasPaymentMethodSafely(Future<bool> future) async {
+  Future<bool> loadHasPaymentMethodSafely(Future<bool> future) async {
     try {
       return await future;
     } catch (_) {
@@ -120,8 +125,30 @@ class InvitationsProvider extends ChangeNotifier {
     }
   }
 
+  bool isActionLoading(String invitationId, InvitationSubmitAction action) {
+    return isSubmitting &&
+        submittingInvitationId == invitationId &&
+        submittingAction == action;
+  }
+
+  void beginSubmit(String invitationId, InvitationSubmitAction action) {
+    isSubmitting = true;
+    submittingInvitationId = invitationId;
+    submittingAction = action;
+    notifyListeners();
+  }
+
+  void endSubmit() {
+    isSubmitting = false;
+    submittingInvitationId = null;
+    submittingAction = null;
+    notifyListeners();
+  }
+
   Future<bool> savePaymentMethod(PaymentMethodRequestEntity request) async {
     isSubmitting = true;
+    submittingInvitationId = null;
+    submittingAction = null;
     errorMessage = null;
     errorCode = null;
     errorDetails = null;
@@ -139,14 +166,12 @@ class InvitationsProvider extends ChangeNotifier {
       errorMessage = error.toString();
       return false;
     } finally {
-      isSubmitting = false;
-      notifyListeners();
+      endSubmit();
     }
   }
 
   Future<bool> confirmInvitation(String invitationId) async {
-    isSubmitting = true;
-    notifyListeners();
+    beginSubmit(invitationId, InvitationSubmitAction.confirm);
 
     try {
       final updated = await confirmInvitationUseCase(invitationId);
@@ -161,14 +186,12 @@ class InvitationsProvider extends ChangeNotifier {
       errorMessage = error.toString();
       return false;
     } finally {
-      isSubmitting = false;
-      notifyListeners();
+      endSubmit();
     }
   }
 
   Future<bool> rejectInvitation(String invitationId) async {
-    isSubmitting = true;
-    notifyListeners();
+    beginSubmit(invitationId, InvitationSubmitAction.reject);
 
     try {
       final updated = await rejectInvitationUseCase(invitationId);
@@ -183,28 +206,25 @@ class InvitationsProvider extends ChangeNotifier {
       errorMessage = error.toString();
       return false;
     } finally {
-      isSubmitting = false;
-      notifyListeners();
+      endSubmit();
     }
   }
 
   Future<InvitationTicketEntity?> loadTicket(String invitationId) async {
-    isSubmitting = true;
-    notifyListeners();
+    beginSubmit(invitationId, InvitationSubmitAction.viewQr);
 
     try {
       return await fetchInvitationTicketUseCase(invitationId);
     } on ApiException catch (error) {
       errorCode = error.code;
       errorMessage = error.message;
-      errorDetails = error.details;
+      errorDetails = ApiErrorDetailsModel.fromMap(error.details);
       return null;
     } catch (error) {
       errorMessage = error.toString();
       return null;
     } finally {
-      isSubmitting = false;
-      notifyListeners();
+      endSubmit();
     }
   }
 

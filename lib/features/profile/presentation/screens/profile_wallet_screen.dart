@@ -14,10 +14,9 @@ class ProfileWalletScreen extends StatelessWidget {
         ProfileDesignSpec.px(context, ProfileDesignSpec.horizontalPadding);
 
     return Scaffold(
-      backgroundColor: ProfileDesignSpec.screenBackground,
       appBar: AppBar(
-        backgroundColor: ProfileDesignSpec.screenBackground,
-        surfaceTintColor: ProfileDesignSpec.screenBackground,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
         leading: IconButton(

@@ -3,6 +3,7 @@ import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/constants/country_code_list.dart';
+import 'package:youpass/core/l10n/country_code_display_helper.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/models/country_code.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
@@ -123,7 +124,7 @@ class CountryCodePickerSheetState extends State<CountryCodePickerSheet> {
             variant: AppTextVariant.emojiLarge,
           ),
           title: AppText(
-            country.name,
+            CountryCodeDisplayHelper.localizedName(country, context.l10n),
             variant: AppTextVariant.listTitle,
           ),
           trailing: AppText(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/app_strings.dart';
+import 'package:youpass/core/l10n/home_error_extension.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
@@ -71,7 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: AppColors.backgroundWhite,
       drawer: HomeDrawerWidget(
         fullName: drawerFullName,
         profilePhotoUrl: authProvider.userProfile?.profilePhotoUrl,
@@ -125,7 +124,8 @@ class _HomeScreenState extends State<HomeScreen> {
     if (homeProvider.status == HomeStatus.error && homeProvider.homeFeed == null) {
       return Center(
         child: AppText(
-          homeProvider.errorMessage ?? AppStrings.errorGeneric(context.l10n),
+          homeProvider.localizedErrorMessage(context.l10n) ??
+              AppStrings.errorGeneric(context.l10n),
           variant: AppTextVariant.error,
         ),
       );

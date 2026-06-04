@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/core/theme/youpass_themed_colors.dart';
 import 'package:youpass/features/home/domain/entities/drawer_menu_id.dart';
 import 'package:youpass/features/home/presentation/utils/drawer_menu_factory.dart';
 import 'package:youpass/features/home/presentation/widgets/drawer/drawer_design_spec.dart';
@@ -33,7 +34,7 @@ class HomeDrawerWidget extends StatelessWidget {
 
     return Drawer(
       width: screenWidth,
-      backgroundColor: DrawerDesignSpec.screenBackground,
+      backgroundColor: YouPassThemedColors.screenBackground(context),
       elevation: 0,
       shadowColor: Colors.transparent,
       child: SafeArea(

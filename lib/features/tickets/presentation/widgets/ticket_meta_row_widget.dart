@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/theme/youpass_themed_colors.dart';
 import 'package:youpass/features/tickets/presentation/tickets_design_spec.dart';
 
 class TicketMetaRowWidget extends StatelessWidget {
@@ -13,24 +14,26 @@ class TicketMetaRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = YouPassThemedColors.secondaryText(context);
+
     return Padding(
-      padding: EdgeInsets.only(bottom: TicketsDesignSpec.px(context, 6)),
+      padding: EdgeInsets.only(bottom: TicketsDesignSpec.px(context, 4)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
             icon,
-            size: TicketsDesignSpec.px(context, 16),
-            color: TicketsDesignSpec.metaIcon,
+            size: TicketsDesignSpec.px(context, 14),
+            color: textColor,
           ),
-          SizedBox(width: TicketsDesignSpec.px(context, 8)),
+          SizedBox(width: TicketsDesignSpec.px(context, 6)),
           Expanded(
             child: Text(
               label,
               style: TextStyle(
-                fontSize: TicketsDesignSpec.px(context, 13),
+                fontSize: TicketsDesignSpec.px(context, 12),
                 fontWeight: FontWeight.w400,
-                color: TicketsDesignSpec.bodyText,
+                color: textColor,
                 height: 1.3,
               ),
             ),

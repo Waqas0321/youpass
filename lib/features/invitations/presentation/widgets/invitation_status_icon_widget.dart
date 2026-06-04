@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_status.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
+import 'package:youpass/features/invitations/presentation/widgets/bold_check_painter.dart';
 
 class InvitationStatusIconWidget extends StatelessWidget {
   const InvitationStatusIconWidget({
@@ -26,7 +27,7 @@ class InvitationStatusIconWidget extends StatelessWidget {
         alignment: Alignment.center,
         child: CustomPaint(
           size: Size.square(InvitationsDesignSpec.px(context, 14)),
-          painter: _BoldCheckPainter(
+          painter: BoldCheckPainter(
             color: InvitationsDesignSpec.confirmedStatusIcon,
           ),
         ),
@@ -46,33 +47,5 @@ class InvitationStatusIconWidget extends StatelessWidget {
         color: InvitationsDesignSpec.pendingStatusIcon,
       ),
     );
-  }
-}
-
-class _BoldCheckPainter extends CustomPainter {
-  const _BoldCheckPainter({required this.color});
-
-  final Color color;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = size.width * 0.18
-      ..strokeCap = StrokeCap.round
-      ..strokeJoin = StrokeJoin.round
-      ..style = PaintingStyle.stroke;
-
-    final path = Path()
-      ..moveTo(size.width * 0.18, size.height * 0.54)
-      ..lineTo(size.width * 0.42, size.height * 0.78)
-      ..lineTo(size.width * 0.82, size.height * 0.28);
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant _BoldCheckPainter oldDelegate) {
-    return oldDelegate.color != color;
   }
 }

@@ -8,6 +8,7 @@ class InvitationTicketModel extends InvitationTicketEntity {
     required super.locationLabel,
     required super.entryCode,
     required super.qrPayload,
+    super.seatLabel,
   });
 
   factory InvitationTicketModel.fromJson(
@@ -36,6 +37,10 @@ class InvitationTicketModel extends InvitationTicketEntity {
           json['qrPayload']?.toString() ??
           json['qr_data']?.toString() ??
           entryCode,
+      seatLabel: json['seat_label']?.toString() ??
+          json['seatLabel']?.toString() ??
+          json['ticket_type_label']?.toString() ??
+          json['ticketTypeLabel']?.toString(),
     );
   }
 }

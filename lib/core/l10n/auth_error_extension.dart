@@ -8,11 +8,6 @@ extension AuthProviderErrorExtension on AuthProvider {
       return null;
     }
 
-    final apiMessage = errorMessage?.trim();
-    if (apiMessage != null && apiMessage.isNotEmpty) {
-      return apiMessage;
-    }
-
     return AuthMessageLocalizer.fromApiError(
       l10n,
       code: errorCode,

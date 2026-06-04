@@ -9,6 +9,13 @@ class AppStrings {
 
   static String brandBadgeOff(AppLocalizations l10n) => l10n.brandBadgeOff;
 
+  static String brandBadgeOn(AppLocalizations l10n) => l10n.brandBadgeOn;
+
+  static String brandModeProduction(AppLocalizations l10n) =>
+      l10n.brandModeProduction;
+
+  static String brandModeFiesta(AppLocalizations l10n) => l10n.brandModeFiesta;
+
   static String homeGreeting(AppLocalizations l10n, String name) =>
       l10n.homeGreeting(name);
 
@@ -213,6 +220,29 @@ class AppStrings {
 
   static String ticketsFilterConcerts(AppLocalizations l10n) =>
       l10n.ticketsFilterConcerts;
+
+  static String ticketsFilterBar(AppLocalizations l10n) => l10n.ticketsFilterBar;
+
+  static String ticketsYearlySummaryAttended(
+    AppLocalizations l10n, {
+    required int count,
+    required int year,
+  }) =>
+      l10n.ticketsYearlySummaryAttended(count, year);
+
+  static String ticketsYearlySummaryProducer(
+    AppLocalizations l10n, {
+    required String name,
+    required int count,
+  }) =>
+      l10n.ticketsYearlySummaryProducer(name, count);
+
+  static String ticketsEmptyUpcoming(AppLocalizations l10n) =>
+      l10n.ticketsEmptyUpcoming;
+
+  static String ticketsEmptyPast(AppLocalizations l10n) => l10n.ticketsEmptyPast;
+
+  static String ticketsRetry(AppLocalizations l10n) => l10n.ticketsRetry;
 
   static String ticketsStatistics(AppLocalizations l10n) =>
       l10n.ticketsStatistics;
@@ -445,6 +475,161 @@ class AppStrings {
 
   static String eventTicketManualIdLabel(AppLocalizations l10n) =>
       l10n.eventTicketManualIdLabel;
+
+  static String welcomeFallbackTitle(AppLocalizations l10n) =>
+      l10n.welcomeFallbackTitle;
+
+  static String welcomeFallbackSubtitle(AppLocalizations l10n) =>
+      l10n.welcomeFallbackSubtitle;
+
+  static String paymentBrandVisa(AppLocalizations l10n) => l10n.paymentBrandVisa;
+
+  static String paymentBrandMastercard(AppLocalizations l10n) =>
+      l10n.paymentBrandMastercard;
+
+  static String errorMissingAccessToken(AppLocalizations l10n) =>
+      l10n.errorMissingAccessToken;
+
+  static String errorAuthenticationRequired(AppLocalizations l10n) =>
+      l10n.errorAuthenticationRequired;
+
+  static String emailRequired(AppLocalizations l10n) => l10n.emailRequired;
+
+  static String emailInvalid(AppLocalizations l10n) => l10n.emailInvalid;
+
+  static String passwordRequired(AppLocalizations l10n) => l10n.passwordRequired;
+
+  static String passwordMinLength(AppLocalizations l10n) =>
+      l10n.passwordMinLength;
+
+  static String phoneHintChile(AppLocalizations l10n) => l10n.phoneHintChile;
+
+  static String phoneHintGeneric(AppLocalizations l10n) => l10n.phoneHintGeneric;
+
+  static String phoneHintPakistan(AppLocalizations l10n) =>
+      l10n.phoneHintPakistan;
+
+  static String mockEventFestivalVerano2026(AppLocalizations l10n) =>
+      l10n.mockEventFestivalVerano2026;
+
+  static String mockEventConciertoX(AppLocalizations l10n) =>
+      l10n.mockEventConciertoX;
+
+  static String mockEventYoufest2026(AppLocalizations l10n) =>
+      l10n.mockEventYoufest2026;
+
+  static String mockEventIguanaSummer(AppLocalizations l10n) =>
+      l10n.mockEventIguanaSummer;
+
+  static String mockEventYoufestWinter2026(AppLocalizations l10n) =>
+      l10n.mockEventYoufestWinter2026;
+
+  static String mockEventNeonRooftopSessions(AppLocalizations l10n) =>
+      l10n.mockEventNeonRooftopSessions;
+
+  static String mockEventSummerClosingParty(AppLocalizations l10n) =>
+      l10n.mockEventSummerClosingParty;
+
+  static String mockDateSaturdayMay15(AppLocalizations l10n) =>
+      l10n.mockDateSaturdayMay15;
+
+  static String mockDateSaturdayMay15Long(AppLocalizations l10n) =>
+      l10n.mockDateSaturdayMay15Long;
+
+  static String mockDateSaturdayJuly4(AppLocalizations l10n) =>
+      l10n.mockDateSaturdayJuly4;
+
+  static String mockLocationClubAmanda(AppLocalizations l10n) =>
+      l10n.mockLocationClubAmanda;
+
+  static String mockLocationClubAmandaShort(AppLocalizations l10n) =>
+      l10n.mockLocationClubAmandaShort;
+
+  static String mockLocationMovistarArena(AppLocalizations l10n) =>
+      l10n.mockLocationMovistarArena;
+
+  static String mockLocationCentroEventosHilaria(AppLocalizations l10n) =>
+      l10n.mockLocationCentroEventosHilaria;
+
+  static String mockTicketGeneralOne(AppLocalizations l10n) =>
+      l10n.mockTicketGeneralOne;
+
+  static String mockTicketVipTwo(AppLocalizations l10n) =>
+      l10n.mockTicketVipTwo;
+
+  static String mockStayDuration5h14m(AppLocalizations l10n) =>
+      l10n.mockStayDuration5h14m;
+
+  static String mockSeatVipTable(AppLocalizations l10n) => l10n.mockSeatVipTable;
+
+  static String mockProducerYoufest(AppLocalizations l10n) =>
+      l10n.mockProducerYoufest;
+
+  static String mockProducerIguana(AppLocalizations l10n) =>
+      l10n.mockProducerIguana;
+
+  static String mockPriceFrom35000(AppLocalizations l10n) =>
+      l10n.mockPriceFrom35000;
+
+  static String mockPriceFrom28000(AppLocalizations l10n) =>
+      l10n.mockPriceFrom28000;
+
+  static String mockPriceFrom42000(AppLocalizations l10n) =>
+      l10n.mockPriceFrom42000;
+
+  static String mockPriceFrom55000(AppLocalizations l10n) =>
+      l10n.mockPriceFrom55000;
+
+  static String mockPriceFrom32000(AppLocalizations l10n) =>
+      l10n.mockPriceFrom32000;
+
+  static String mockPriceFrom50000(AppLocalizations l10n) =>
+      l10n.mockPriceFrom50000;
+
+  static String mockDateSaturdayJuly18(AppLocalizations l10n) =>
+      l10n.mockDateSaturdayJuly18;
+
+  static String mockDateFridayAugust7(AppLocalizations l10n) =>
+      l10n.mockDateFridayAugust7;
+
+  static String mockDateSaturdaySeptember12(AppLocalizations l10n) =>
+      l10n.mockDateSaturdaySeptember12;
+
+  static String mockDateSaturdayAugust22(AppLocalizations l10n) =>
+      l10n.mockDateSaturdayAugust22;
+
+  static String mockDateSaturdayJuly4Short(AppLocalizations l10n) =>
+      l10n.mockDateSaturdayJuly4Short;
+
+  static String mockDateFridayAugust7Short(AppLocalizations l10n) =>
+      l10n.mockDateFridayAugust7Short;
+
+  static String mockDateSaturdaySeptember12Short(AppLocalizations l10n) =>
+      l10n.mockDateSaturdaySeptember12Short;
+
+  static String mockLocationParqueBicentenario(AppLocalizations l10n) =>
+      l10n.mockLocationParqueBicentenario;
+
+  static String mockLocationTerrazaNeon(AppLocalizations l10n) =>
+      l10n.mockLocationTerrazaNeon;
+
+  static String mockLocationClubAmandaValparaiso(AppLocalizations l10n) =>
+      l10n.mockLocationClubAmandaValparaiso;
+
+  static String mockLocationMovistarArenaShort(AppLocalizations l10n) =>
+      l10n.mockLocationMovistarArenaShort;
+
+  static String mockLocationSkyCostanera(AppLocalizations l10n) =>
+      l10n.mockLocationSkyCostanera;
+
+  static String mockLocationClubOceano(AppLocalizations l10n) =>
+      l10n.mockLocationClubOceano;
+
+  static String mockTime2200Hrs(AppLocalizations l10n) => l10n.mockTime2200Hrs;
+
+  static String mockTime2300Hrs(AppLocalizations l10n) => l10n.mockTime2300Hrs;
+
+  static String mockTime2130Hrs(AppLocalizations l10n) => l10n.mockTime2130Hrs;
 
   static HomeFeedLabels homeFeedLabels(AppLocalizations l10n) {
     return HomeFeedLabels(

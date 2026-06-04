@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/features/home/presentation/widgets/drawer/drawer_profile_avatar_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/drawer/drawer_design_spec.dart';
 import 'package:youpass/features/home/presentation/widgets/drawer/drawer_profile_waves_painter.dart';
 
@@ -64,7 +66,7 @@ class DrawerProfileCardWidget extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  _DrawerProfileAvatar(
+                  DrawerProfileAvatarWidget(
                     size: avatarSize,
                     profilePhotoUrl: profilePhotoUrl,
                   ),
@@ -126,7 +128,7 @@ class DrawerProfileCardWidget extends StatelessWidget {
                                   context,
                                   DrawerDesignSpec.tierIconSize,
                                 ),
-                                color: DrawerDesignSpec.screenBackground,
+                                color: AppColors.backgroundWhite,
                               ),
                               SizedBox(
                                 width: DrawerDesignSpec.px(context, 5),
@@ -139,7 +141,7 @@ class DrawerProfileCardWidget extends StatelessWidget {
                                     DrawerDesignSpec.tierFontSize,
                                   ),
                                   fontWeight: FontWeight.w700,
-                                  color: DrawerDesignSpec.screenBackground,
+                                  color: AppColors.backgroundWhite,
                                   letterSpacing:
                                       DrawerDesignSpec.tierLetterSpacing,
                                   height: 1,
@@ -156,58 +158,6 @@ class DrawerProfileCardWidget extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _DrawerProfileAvatar extends StatelessWidget {
-  const _DrawerProfileAvatar({
-    required this.size,
-    this.profilePhotoUrl,
-  });
-
-  final double size;
-  final String? profilePhotoUrl;
-
-  @override
-  Widget build(BuildContext context) {
-    final resolvedUrl = profilePhotoUrl?.trim();
-    final hasPhoto = resolvedUrl != null && resolvedUrl.isNotEmpty;
-
-    return Container(
-      width: size,
-      height: size,
-      decoration: const BoxDecoration(
-        color: DrawerDesignSpec.avatarBackground,
-        shape: BoxShape.circle,
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: hasPhoto
-          ? Image.network(
-              resolvedUrl,
-              fit: BoxFit.cover,
-              width: size,
-              height: size,
-              errorBuilder: (context, error, stackTrace) =>
-                  _buildPlaceholder(context),
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return _buildPlaceholder(context);
-              },
-            )
-          : _buildPlaceholder(context),
-    );
-  }
-
-  Widget _buildPlaceholder(BuildContext context) {
-    return Center(
-      child: Icon(
-        Icons.person,
-        size: DrawerDesignSpec.px(context, DrawerDesignSpec.avatarIconSize),
-        color: DrawerDesignSpec.avatarIcon,
       ),
     );
   }

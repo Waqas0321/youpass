@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/theme/youpass_themed_colors.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_icon_badge_widget.dart';
 
@@ -22,6 +24,10 @@ class ProfileInfoRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = YouPassThemeExtension.of(context);
+    final labelColor = YouPassThemedColors.secondaryText(context);
+    final valueColor = YouPassThemedColors.primaryText(context);
+
     return Column(
       children: [
         Padding(
@@ -66,7 +72,7 @@ class ProfileInfoRowWidget extends StatelessWidget {
                           ProfileDesignSpec.infoLabelFontSize,
                         ),
                         fontWeight: FontWeight.w400,
-                        color: ProfileDesignSpec.labelText,
+                        color: labelColor,
                         height: 1.2,
                       ),
                     ),
@@ -84,7 +90,7 @@ class ProfileInfoRowWidget extends StatelessWidget {
                           ProfileDesignSpec.infoValueFontSize,
                         ),
                         fontWeight: FontWeight.w700,
-                        color: ProfileDesignSpec.valueText,
+                        color: valueColor,
                         height: 1.25,
                       ),
                     ),
@@ -95,10 +101,10 @@ class ProfileInfoRowWidget extends StatelessWidget {
           ),
         ),
         if (showDivider)
-          const Divider(
+          Divider(
             height: 1,
             thickness: 1,
-            color: ProfileDesignSpec.rowDivider,
+            color: theme.profileRowDivider,
           ),
       ],
     );

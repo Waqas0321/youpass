@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/country_code_list.dart';
+import 'package:youpass/core/l10n/country_code_display_helper.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/models/country_code.dart';
 import 'package:youpass/core/widgets/app_text_field.dart';
@@ -46,8 +47,10 @@ class PhoneInputWidgetState extends State<PhoneInputWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.l10n;
+
     return AuthLabeledFieldWidget(
-      label: context.l10n.phoneNumberLabel,
+      label: strings.phoneNumberLabel,
       child: AuthFieldContainer(
         child: Row(
           children: [
@@ -61,7 +64,10 @@ class PhoneInputWidgetState extends State<PhoneInputWidget> {
                 controller: widget.phoneController,
                 variant: AppTextFieldVariant.borderless,
                 keyboardType: TextInputType.phone,
-                hintText: selectedCountry.phoneHint,
+                hintText: CountryCodeDisplayHelper.localizedPhoneHint(
+                  selectedCountry,
+                  strings,
+                ),
               ),
             ),
           ],

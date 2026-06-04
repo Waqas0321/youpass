@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/constants/app_strings.dart';
+import 'package:youpass/core/l10n/app_message_localizer.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/widgets/shimmer/event_browse_list_shimmer.dart';
 import 'package:youpass/core/widgets/app_text.dart';
@@ -74,7 +75,7 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
       }
       setState(() {
         isLoading = false;
-        errorMessage = error.toString();
+        errorMessage = AppMessageLocalizer.fromError(context.l10n, error);
       });
     }
   }
@@ -127,7 +128,9 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
       });
     } catch (error) {
       if (mounted) {
-        setState(() => errorMessage = error.toString());
+        setState(
+          () => errorMessage = AppMessageLocalizer.fromError(context.l10n, error),
+        );
       }
     } finally {
       favoritePendingIds.remove(eventId);
@@ -149,11 +152,9 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
     final strings = context.l10n;
 
     return Scaffold(
-      backgroundColor: FavoritesDesignSpec.screenBackground,
       appBar: YouPassBrandedAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
         primaryColor: FavoritesDesignSpec.primary,
-        backgroundColor: FavoritesDesignSpec.screenBackground,
       ),
       body: isLoading
           ? const EventBrowseListShimmer()

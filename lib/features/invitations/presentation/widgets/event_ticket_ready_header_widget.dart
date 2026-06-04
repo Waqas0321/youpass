@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/core/theme/qr_screen_theme.dart';
+import 'package:youpass/core/widgets/qr/youpass_qr_success_badge_widget.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 
 class EventTicketReadyHeaderWidget extends StatelessWidget {
@@ -12,39 +14,26 @@ class EventTicketReadyHeaderWidget extends StatelessWidget {
 
     return Column(
       children: [
-        Center(
-          child: Container(
-            width: InvitationsDesignSpec.px(context, 72),
-            height: InvitationsDesignSpec.px(context, 72),
-            decoration: const BoxDecoration(
-              color: InvitationsDesignSpec.primary,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.check,
-              color: Colors.white,
-              size: InvitationsDesignSpec.px(context, 40),
-            ),
-          ),
-        ),
-        SizedBox(height: InvitationsDesignSpec.px(context, 16)),
+        const YouPassQrSuccessBadgeWidget(),
+        SizedBox(height: InvitationsDesignSpec.px(context, 20)),
         Text(
           AppStrings.eventTicketReadyTitle(strings),
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: InvitationsDesignSpec.px(context, 20),
+            fontSize: InvitationsDesignSpec.px(context, 22),
             fontWeight: FontWeight.w700,
-            color: InvitationsDesignSpec.titleText,
+            color: QrScreenTheme.headline(context),
+            height: 1.2,
           ),
         ),
-        SizedBox(height: InvitationsDesignSpec.px(context, 8)),
+        SizedBox(height: InvitationsDesignSpec.px(context, 10)),
         Text(
           AppStrings.eventTicketReadySubtitle(strings),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: InvitationsDesignSpec.px(context, 14),
-            color: InvitationsDesignSpec.bodyText,
-            height: 1.4,
+            color: QrScreenTheme.subtitle(context),
+            height: 1.45,
           ),
         ),
       ],

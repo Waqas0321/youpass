@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
+import 'package:youpass/core/theme/youpass_dialog_theme.dart';
 
 class PaymentSavedReminderRowWidget extends StatelessWidget {
   const PaymentSavedReminderRowWidget({
@@ -16,14 +16,14 @@ class PaymentSavedReminderRowWidget extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 18, color: InvitationsDesignSpec.primary),
+        Icon(icon, size: 18, color: YouPassDialogTheme.iconColor(context)),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
-              color: InvitationsDesignSpec.bodyText,
+              color: YouPassDialogTheme.body(context),
               height: 1.35,
             ),
           ),

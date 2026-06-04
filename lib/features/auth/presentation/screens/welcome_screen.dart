@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_colors.dart';
+import 'package:youpass/core/constants/app_strings.dart';
+import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/widgets/app_scaffold.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
@@ -50,7 +52,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.l10n;
     final welcome = widget.args.welcome;
+    final title = welcome.title.trim().isEmpty
+        ? AppStrings.welcomeFallbackTitle(strings)
+        : welcome.title;
+    final subtitle = welcome.subtitle.trim().isEmpty
+        ? AppStrings.welcomeFallbackSubtitle(strings)
+        : welcome.subtitle;
 
     return AppScaffold(
       body: SafeArea(
@@ -62,7 +71,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               const YouPassLogo(),
               const SizedBox(height: 40),
               AppText(
-                welcome.title,
+                title,
                 variant: AppTextVariant.title,
                 textAlign: TextAlign.center,
                 color: AppColors.darkNavy,
@@ -71,7 +80,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
               const SizedBox(height: 16),
               AppText(
-                welcome.subtitle,
+                subtitle,
                 variant: AppTextVariant.body,
                 textAlign: TextAlign.center,
                 color: AppColors.profileLabelGrey,

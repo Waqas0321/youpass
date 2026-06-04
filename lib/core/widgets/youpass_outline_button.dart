@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/theme/youpass_button_theme.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 
 class YouPassOutlineButton extends StatelessWidget {
   const YouPassOutlineButton({
@@ -22,18 +22,19 @@ class YouPassOutlineButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = YouPassButtonTheme.outlineElevatedStyle();
+    final theme = YouPassThemeExtension.of(context);
+    final style = YouPassButtonTheme.outlineElevatedStyle(context);
     final effectiveOnPressed =
         isEnabled && !isLoading ? onPressed : null;
 
     final Widget child;
     if (isLoading) {
-      child = const SizedBox(
+      child = SizedBox(
         height: 20,
         width: 20,
         child: CircularProgressIndicator(
           strokeWidth: 2,
-          color: AppColors.outlineButtonForeground,
+          color: theme.outlineButtonForeground,
         ),
       );
     } else if (icon != null) {

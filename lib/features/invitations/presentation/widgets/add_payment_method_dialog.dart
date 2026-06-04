@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/core/theme/youpass_dialog_theme.dart';
+import 'package:youpass/core/widgets/dialogs/youpass_dialog_primary_button.dart';
+import 'package:youpass/core/widgets/dialogs/youpass_themed_dialog_shell.dart';
 import 'package:youpass/features/invitations/domain/entities/payment_method_request_entity.dart';
-import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 import 'package:youpass/features/invitations/presentation/widgets/payment_method_field_widget.dart';
 
 class AddPaymentMethodDialog extends StatefulWidget {
@@ -70,133 +72,99 @@ class AddPaymentMethodDialogState extends State<AddPaymentMethodDialog> {
   Widget build(BuildContext context) {
     final strings = context.l10n;
 
-    return Dialog(
-      backgroundColor: Colors.transparent,
+    return YouPassThemedDialogShell(
       insetPadding: const EdgeInsets.symmetric(horizontal: 20),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: InvitationsDesignSpec.dialogBackground,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: InvitationsDesignSpec.dialogBorder),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      AppStrings.invitationsPaymentTitle(strings),
-                      style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                        color: InvitationsDesignSpec.titleText,
-                      ),
-                    ),
+              Expanded(
+                child: Text(
+                  AppStrings.invitationsPaymentTitle(strings),
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                    color: YouPassDialogTheme.title(context),
                   ),
-                  IconButton(
-                    onPressed: isSaving
-                        ? null
-                        : () => Navigator.of(context).pop(false),
-                    icon: const Icon(Icons.close),
-                    color: InvitationsDesignSpec.bodyText,
-                  ),
-                ],
-              ),
-              Text(
-                AppStrings.invitationsPaymentSubtitle(strings),
-                style: const TextStyle(
-                  fontSize: 13,
-                  color: InvitationsDesignSpec.bodyText,
                 ),
               ),
-              const SizedBox(height: 16),
-              PaymentMethodFieldWidget(
-                label: AppStrings.invitationsCardNumber(strings),
-                controller: cardNumberController,
-                hint: AppStrings.invitationsCardNumberHint(strings),
-                icon: Icons.credit_card_outlined,
+              IconButton(
+                onPressed: isSaving ? null : () => Navigator.of(context).pop(false),
+                icon: const Icon(Icons.close),
+                color: YouPassDialogTheme.body(context),
               ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: PaymentMethodFieldWidget(
-                      label: AppStrings.invitationsCardExpiry(strings),
-                      controller: expiryController,
-                      hint: AppStrings.invitationsCardExpiryHint(strings),
-                      icon: Icons.calendar_today_outlined,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: PaymentMethodFieldWidget(
-                      label: AppStrings.invitationsCardCvv(strings),
-                      controller: cvvController,
-                      hint: AppStrings.invitationsCardCvvHint(strings),
-                      icon: Icons.info_outline,
-                    ),
-                  ),
-                ],
+            ],
+          ),
+          Text(
+            AppStrings.invitationsPaymentSubtitle(strings),
+            style: TextStyle(
+              fontSize: 13,
+              color: YouPassDialogTheme.body(context),
+            ),
+          ),
+          const SizedBox(height: 16),
+          PaymentMethodFieldWidget(
+            label: AppStrings.invitationsCardNumber(strings),
+            controller: cardNumberController,
+            hint: AppStrings.invitationsCardNumberHint(strings),
+            icon: Icons.credit_card_outlined,
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: PaymentMethodFieldWidget(
+                  label: AppStrings.invitationsCardExpiry(strings),
+                  controller: expiryController,
+                  hint: AppStrings.invitationsCardExpiryHint(strings),
+                  icon: Icons.calendar_today_outlined,
+                ),
               ),
-              const SizedBox(height: 12),
-              PaymentMethodFieldWidget(
-                label: AppStrings.invitationsCardholderName(strings),
-                controller: nameController,
-                hint: AppStrings.invitationsCardholderNameHint(strings),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.lock_outline,
-                    size: 16,
-                    color: InvitationsDesignSpec.metaIcon,
-                  ),
-                  const SizedBox(width: 6),
-                  Text(
-                    AppStrings.invitationsPaymentSecureNote(strings),
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: InvitationsDesignSpec.bodyText,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                height: 44,
-                child: ElevatedButton(
-                  onPressed: isSaving ? null : handleSave,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: InvitationsDesignSpec.primary,
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: isSaving
-                      ? const SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : Text(
-                          AppStrings.invitationsSaveCard(strings),
-                          style: const TextStyle(fontWeight: FontWeight.w700),
-                        ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: PaymentMethodFieldWidget(
+                  label: AppStrings.invitationsCardCvv(strings),
+                  controller: cvvController,
+                  hint: AppStrings.invitationsCardCvvHint(strings),
+                  icon: Icons.info_outline,
                 ),
               ),
             ],
           ),
-        ),
+          const SizedBox(height: 12),
+          PaymentMethodFieldWidget(
+            label: AppStrings.invitationsCardholderName(strings),
+            controller: nameController,
+            hint: AppStrings.invitationsCardholderNameHint(strings),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Icon(
+                Icons.lock_outline,
+                size: 16,
+                color: YouPassDialogTheme.body(context),
+              ),
+              const SizedBox(width: 6),
+              Text(
+                AppStrings.invitationsPaymentSecureNote(strings),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: YouPassDialogTheme.body(context),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          YouPassDialogPrimaryButton(
+            label: AppStrings.invitationsSaveCard(strings),
+            onPressed: handleSave,
+            isLoading: isSaving,
+          ),
+        ],
       ),
     );
   }

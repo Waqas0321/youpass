@@ -21,7 +21,10 @@ void main() {
               );
             },
           ),
-          drawer: const HomeDrawerWidget(fullName: 'Alejandro'),
+          drawer: const HomeDrawerWidget(
+            fullName: 'Alejandro',
+            invitationsBadgeCount: 3,
+          ),
         ),
       ),
     );

@@ -8,6 +8,7 @@ class InvitationTicketEntity extends Equatable {
     required this.locationLabel,
     required this.entryCode,
     required this.qrPayload,
+    this.seatLabel,
   });
 
   final String invitationId;
@@ -16,6 +17,7 @@ class InvitationTicketEntity extends Equatable {
   final String locationLabel;
   final String entryCode;
   final String qrPayload;
+  final String? seatLabel;
 
   @override
   List<Object?> get props => [
@@ -25,5 +27,6 @@ class InvitationTicketEntity extends Equatable {
         locationLabel,
         entryCode,
         qrPayload,
+        seatLabel,
       ];
 }

@@ -25,22 +25,21 @@ class EventTicketScreen extends StatelessWidget {
         InvitationsDesignSpec.px(context, InvitationsDesignSpec.horizontalPadding);
 
     return Scaffold(
-      backgroundColor: InvitationsDesignSpec.screenBackground,
       appBar: EventTicketAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
       ),
       body: ListView(
         padding: EdgeInsets.fromLTRB(
           horizontalPadding,
-          InvitationsDesignSpec.px(context, 8),
+          InvitationsDesignSpec.px(context, 12),
           horizontalPadding,
           InvitationsDesignSpec.px(context, 32),
         ),
         children: [
           const EventTicketReadyHeaderWidget(),
-          SizedBox(height: InvitationsDesignSpec.px(context, 20)),
-          EventTicketSummaryCardWidget(ticket: ticket),
           SizedBox(height: InvitationsDesignSpec.px(context, 24)),
+          EventTicketSummaryCardWidget(ticket: ticket),
+          SizedBox(height: InvitationsDesignSpec.px(context, 28)),
           EventTicketQrSectionWidget(ticket: ticket),
         ],
       ),

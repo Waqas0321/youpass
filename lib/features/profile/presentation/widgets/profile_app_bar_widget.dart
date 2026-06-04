@@ -19,8 +19,8 @@ class ProfileAppBarWidget extends StatelessWidget implements PreferredSizeWidget
     final strings = context.l10n;
 
     return AppBar(
-      backgroundColor: ProfileDesignSpec.screenBackground,
-      surfaceTintColor: ProfileDesignSpec.screenBackground,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: true,

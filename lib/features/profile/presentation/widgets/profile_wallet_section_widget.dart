@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/core/theme/youpass_themed_colors.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
@@ -31,18 +32,18 @@ class ProfileWalletSectionWidget extends StatelessWidget {
         AppText(
           AppStrings.profilePaymentMethods(strings),
           variant: AppTextVariant.body,
-          color: AppColors.secondaryGrey,
+          color: YouPassThemedColors.secondaryText(context),
           fontSize: layout.fontSize(13),
         ),
         SizedBox(height: layout.spacing(12)),
         ProfilePaymentCardTile(
-          brandLabel: 'VISA',
+          brandLabel: AppStrings.paymentBrandVisa(strings),
           brandColor: AppColors.profileVisaBrand,
           cardLabel: AppStrings.profileCardVisa(strings),
           isDefault: true,
         ),
         ProfilePaymentCardTile(
-          brandLabel: 'MC',
+          brandLabel: AppStrings.paymentBrandMastercard(strings),
           brandColor: AppColors.profileMastercardBrand,
           cardLabel: AppStrings.profileCardMastercard(strings),
         ),
@@ -115,6 +116,7 @@ class ProfilePaymentCardTile extends StatelessWidget {
             child: AppText(
               cardLabel,
               variant: AppTextVariant.bodyEmphasis,
+              color: YouPassThemedColors.primaryText(context),
               fontSize: layout.fontSize(14),
             ),
           ),

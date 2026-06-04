@@ -1,4 +1,5 @@
 import 'package:youpass/core/constants/app_constants.dart';
+import 'package:youpass/core/locale/locale_provider.dart';
 import 'package:youpass/features/invitations/data/datasources/invitations_mock_data.dart';
 import 'package:youpass/features/invitations/data/datasources/invitations_remote_datasource.dart';
 import 'package:youpass/features/invitations/data/services/invitations_api_service.dart';
@@ -6,16 +7,25 @@ import 'package:youpass/features/invitations/domain/entities/invitation_entity.d
 import 'package:youpass/features/invitations/domain/entities/invitation_ticket_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitations_summary_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/payment_method_request_entity.dart';
+import 'package:youpass/l10n/app_localizations.dart';
 
 class InvitationsRemoteDataSourceImpl implements InvitationsRemoteDataSource {
-  InvitationsRemoteDataSourceImpl(this.apiService);
+  InvitationsRemoteDataSourceImpl({
+    required this.apiService,
+    required this.localeProvider,
+  });
 
   final InvitationsApiService apiService;
+  final LocaleProvider localeProvider;
+
+  AppLocalizations get _l10n => lookupAppLocalizations(localeProvider.locale);
 
   @override
   Future<List<InvitationEntity>> fetchInvitations() async {
     if (AppConstants.useInvitationsMockData) {
-      return List<InvitationEntity>.from(InvitationsMockData.invitations);
+      return List<InvitationEntity>.from(
+        InvitationsMockData.invitationsFor(_l10n),
+      );
     }
 
     return apiService.fetchInvitations();
@@ -24,13 +34,14 @@ class InvitationsRemoteDataSourceImpl implements InvitationsRemoteDataSource {
   @override
   Future<InvitationsSummaryEntity> fetchSummary() async {
     if (AppConstants.useInvitationsMockData) {
-      final pending = InvitationsMockData.invitations
+      final invitations = InvitationsMockData.invitationsFor(_l10n);
+      final pending = invitations
           .where((item) => item.status.name == 'pending')
           .length;
       return InvitationsSummaryEntity(
         pendingCount: pending,
         newCount: pending,
-        totalCount: InvitationsMockData.invitations.length,
+        totalCount: invitations.length,
       );
     }
 
@@ -49,7 +60,7 @@ class InvitationsRemoteDataSourceImpl implements InvitationsRemoteDataSource {
   @override
   Future<InvitationEntity> fetchInvitationDetail(String invitationId) async {
     if (AppConstants.useInvitationsMockData) {
-      return InvitationsMockData.invitations
+      return InvitationsMockData.invitationsFor(_l10n)
           .firstWhere((item) => item.id == invitationId);
     }
 
@@ -59,7 +70,7 @@ class InvitationsRemoteDataSourceImpl implements InvitationsRemoteDataSource {
   @override
   Future<InvitationEntity> confirmInvitation(String invitationId) async {
     if (AppConstants.useInvitationsMockData) {
-      return InvitationsMockData.confirm(invitationId);
+      return InvitationsMockData.confirm(invitationId, _l10n);
     }
 
     return apiService.confirmInvitation(invitationId);
@@ -68,7 +79,7 @@ class InvitationsRemoteDataSourceImpl implements InvitationsRemoteDataSource {
   @override
   Future<InvitationEntity> rejectInvitation(String invitationId) async {
     if (AppConstants.useInvitationsMockData) {
-      return InvitationsMockData.reject(invitationId);
+      return InvitationsMockData.reject(invitationId, _l10n);
     }
 
     return apiService.rejectInvitation(invitationId);
@@ -77,7 +88,7 @@ class InvitationsRemoteDataSourceImpl implements InvitationsRemoteDataSource {
   @override
   Future<InvitationTicketEntity> fetchTicket(String invitationId) async {
     if (AppConstants.useInvitationsMockData) {
-      return InvitationsMockData.ticketFor(invitationId);
+      return InvitationsMockData.ticketFor(invitationId, _l10n);
     }
 
     return apiService.fetchTicket(invitationId);

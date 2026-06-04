@@ -6,6 +6,7 @@ import 'package:youpass/features/favorites/domain/entities/producer_event_catego
 import 'package:youpass/features/favorites/domain/entities/producer_event_entity.dart';
 import 'package:youpass/features/favorites/presentation/data/favorites_mock_data.dart';
 import 'package:youpass/core/widgets/youpass_branded_app_bar_widget.dart';
+import 'package:youpass/core/theme/youpass_themed_colors.dart';
 import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
 import 'package:youpass/features/favorites/presentation/routes/producer_events_route_args.dart';
 import 'package:youpass/features/favorites/presentation/widgets/favorites_search_field_widget.dart';
@@ -28,16 +29,26 @@ class ProducerEventsScreen extends StatefulWidget {
 class _ProducerEventsScreenState extends State<ProducerEventsScreen> {
   ProducerEventCategory? selectedCategory;
   String searchQuery = '';
-  late List<ProducerEventEntity> allEvents;
-  late List<ProducerEventEntity> visibleEvents;
+  List<ProducerEventEntity> allEvents = const [];
+  List<ProducerEventEntity> visibleEvents = const [];
+  bool hasLoadedEvents = false;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (hasLoadedEvents) {
+      return;
+    }
+
     allEvents = List<ProducerEventEntity>.from(
-      FavoritesMockData.eventsForProducer(widget.args.producerId),
+      FavoritesMockData.eventsForProducer(
+        widget.args.producerId,
+        context.l10n,
+      ),
     );
+    hasLoadedEvents = true;
     applyFilters();
+    setState(() {});
   }
 
   void applyFilters() {
@@ -73,11 +84,9 @@ class _ProducerEventsScreenState extends State<ProducerEventsScreen> {
     final logoSize = FavoritesDesignSpec.px(context, 56);
 
     return Scaffold(
-      backgroundColor: FavoritesDesignSpec.screenBackground,
       appBar: YouPassBrandedAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
         primaryColor: FavoritesDesignSpec.primary,
-        backgroundColor: FavoritesDesignSpec.screenBackground,
       ),
       body: ListView(
         padding: EdgeInsets.fromLTRB(
@@ -107,7 +116,7 @@ class _ProducerEventsScreenState extends State<ProducerEventsScreen> {
                       style: TextStyle(
                         fontSize: FavoritesDesignSpec.px(context, 18),
                         fontWeight: FontWeight.w700,
-                        color: FavoritesDesignSpec.titleText,
+                        color: YouPassThemedColors.primaryText(context),
                       ),
                     ),
                     SizedBox(height: FavoritesDesignSpec.px(context, 4)),
@@ -115,7 +124,7 @@ class _ProducerEventsScreenState extends State<ProducerEventsScreen> {
                       AppStrings.favoritesProducerType(strings),
                       style: TextStyle(
                         fontSize: FavoritesDesignSpec.px(context, 13),
-                        color: FavoritesDesignSpec.bodyText,
+                        color: YouPassThemedColors.secondaryText(context),
                       ),
                     ),
                   ],
@@ -166,7 +175,7 @@ class _ProducerEventsScreenState extends State<ProducerEventsScreen> {
                 ),
                 style: TextStyle(
                   fontSize: FavoritesDesignSpec.px(context, 12),
-                  color: FavoritesDesignSpec.bodyText,
+                  color: YouPassThemedColors.secondaryText(context),
                 ),
               ),
             ],

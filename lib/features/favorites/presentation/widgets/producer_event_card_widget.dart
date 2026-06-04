@@ -3,8 +3,11 @@ import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/widgets/app_asset_image.dart';
 import 'package:youpass/features/favorites/domain/entities/producer_event_entity.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
+import 'package:youpass/core/theme/youpass_themed_colors.dart';
 import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
 import 'package:youpass/features/favorites/presentation/widgets/favorites_event_meta_row_widget.dart';
+import 'package:youpass/features/favorites/presentation/widgets/producer_event_buy_ticket_button_widget.dart';
 
 class ProducerEventCardWidget extends StatelessWidget {
   const ProducerEventCardWidget({
@@ -19,6 +22,7 @@ class ProducerEventCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
+    final theme = YouPassThemeExtension.of(context);
     final radius = FavoritesDesignSpec.px(context, FavoritesDesignSpec.cardRadius);
     final imageWidth = FavoritesDesignSpec.px(context, 110);
     final imageHeight = FavoritesDesignSpec.px(context, 130);
@@ -27,9 +31,9 @@ class ProducerEventCardWidget extends StatelessWidget {
       margin: EdgeInsets.only(bottom: FavoritesDesignSpec.px(context, 14)),
       padding: EdgeInsets.all(FavoritesDesignSpec.px(context, 12)),
       decoration: BoxDecoration(
-        color: FavoritesDesignSpec.screenBackground,
+        color: theme.cardBackground,
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: FavoritesDesignSpec.cardBorder),
+        border: Border.all(color: theme.cardBorder),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +47,7 @@ class ProducerEventCardWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: FavoritesDesignSpec.px(context, 15),
                     fontWeight: FontWeight.w700,
-                    color: FavoritesDesignSpec.titleText,
+                    color: YouPassThemedColors.primaryText(context),
                     height: 1.2,
                   ),
                 ),
@@ -65,7 +69,7 @@ class ProducerEventCardWidget extends StatelessWidget {
                   text: TextSpan(
                     style: TextStyle(
                       fontSize: FavoritesDesignSpec.px(context, 12),
-                      color: FavoritesDesignSpec.bodyText,
+                      color: YouPassThemedColors.secondaryText(context),
                     ),
                     children: [
                       TextSpan(text: '${AppStrings.producerEventFromPrice(strings)} '),
@@ -80,7 +84,7 @@ class ProducerEventCardWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: FavoritesDesignSpec.px(context, 10)),
-                _BuyTicketButton(
+                ProducerEventBuyTicketButtonWidget(
                   label: AppStrings.producerEventBuyTicket(strings),
                   onPressed: onBuyTicket,
                 ),
@@ -97,45 +101,6 @@ class ProducerEventCardWidget extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _BuyTicketButton extends StatelessWidget {
-  const _BuyTicketButton({
-    required this.label,
-    this.onPressed,
-  });
-
-  final String label;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: FavoritesDesignSpec.px(context, 38),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: FavoritesDesignSpec.buyAccent,
-          foregroundColor: Colors.white,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              FavoritesDesignSpec.px(context, 10),
-            ),
-          ),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: FavoritesDesignSpec.px(context, 11),
-            fontWeight: FontWeight.w700,
-            letterSpacing: 0.3,
-          ),
-        ),
       ),
     );
   }

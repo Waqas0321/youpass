@@ -56,8 +56,8 @@ class RouteGenerator {
             ? args
             : const WelcomeRouteArgs(
                 welcome: WelcomeEntity(
-                  title: 'Welcome to YouPass',
-                  subtitle: 'Your access to the best events starts here',
+                  title: '',
+                  subtitle: '',
                   durationSeconds: 2,
                 ),
               );

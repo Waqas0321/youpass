@@ -16,7 +16,7 @@ class AppTextStyleResolver {
     double? height,
   }) {
     final layout = ResponsiveLayout(context);
-    final base = _baseStyle(layout, variant);
+    final base = _baseStyle(context, layout, variant);
 
     return base.copyWith(
       color: color ?? base.color,
@@ -27,40 +27,48 @@ class AppTextStyleResolver {
     );
   }
 
-  static TextStyle _baseStyle(ResponsiveLayout layout, AppTextVariant variant) {
+  static TextStyle _baseStyle(
+    BuildContext context,
+    ResponsiveLayout layout,
+    AppTextVariant variant,
+  ) {
+    final scheme = Theme.of(context).colorScheme;
+    final primaryText = scheme.onSurface;
+    final secondaryText = scheme.onSurfaceVariant;
+
     switch (variant) {
       case AppTextVariant.title:
         return TextStyle(
           fontSize: layout.titleFontSize,
           fontWeight: FontWeight.w800,
-          color: AppColors.darkNavy,
+          color: primaryText,
           letterSpacing: 0.5,
         );
       case AppTextVariant.body:
         return TextStyle(
           fontSize: layout.bodyFontSize,
           height: 1.4,
-          color: AppColors.secondaryGrey,
+          color: secondaryText,
         );
       case AppTextVariant.bodyEmphasis:
         return TextStyle(
           fontSize: layout.bodyFontSize,
           height: 1.4,
           fontWeight: FontWeight.w700,
-          color: AppColors.darkNavy,
+          color: primaryText,
         );
       case AppTextVariant.label:
         return TextStyle(
           fontSize: layout.labelFontSize,
           fontWeight: FontWeight.w700,
-          color: AppColors.darkNavy,
+          color: primaryText,
           letterSpacing: 0.8,
         );
       case AppTextVariant.button:
         return TextStyle(
           fontSize: layout.fontSize(15),
           fontWeight: FontWeight.w800,
-          color: AppColors.darkNavy,
+          color: primaryText,
           letterSpacing: 0.5,
         );
       case AppTextVariant.link:
@@ -73,43 +81,43 @@ class AppTextStyleResolver {
         return TextStyle(
           fontSize: layout.fontSize(11),
           fontWeight: FontWeight.w600,
-          color: AppColors.secondaryGrey,
+          color: secondaryText,
           letterSpacing: 0.5,
         );
       case AppTextVariant.headline:
         return TextStyle(
           fontSize: layout.fontSize(28),
           fontWeight: FontWeight.w700,
-          color: AppColors.darkNavy,
+          color: primaryText,
         );
       case AppTextVariant.bodyLarge:
         return TextStyle(
           fontSize: layout.fontSize(16),
-          color: AppColors.secondaryGrey,
+          color: secondaryText,
         );
       case AppTextVariant.appBar:
         return TextStyle(
           fontSize: layout.fontSize(18),
           fontWeight: FontWeight.w600,
-          color: AppColors.darkNavy,
+          color: primaryText,
         );
       case AppTextVariant.listTitle:
         return TextStyle(
           fontSize: layout.fontSize(16),
           fontWeight: FontWeight.w600,
-          color: AppColors.darkNavy,
+          color: primaryText,
         );
       case AppTextVariant.listTrailing:
         return TextStyle(
           fontSize: layout.fontSize(15),
           fontWeight: FontWeight.w700,
-          color: AppColors.secondaryGrey,
+          color: secondaryText,
         );
       case AppTextVariant.dialCode:
         return TextStyle(
           fontSize: layout.fontSize(15),
           fontWeight: FontWeight.w600,
-          color: AppColors.darkNavy,
+          color: primaryText,
         );
       case AppTextVariant.emojiMedium:
         return TextStyle(fontSize: layout.fontSize(20));
@@ -118,12 +126,12 @@ class AppTextStyleResolver {
       case AppTextVariant.otpPlaceholder:
         return TextStyle(
           fontSize: layout.fontSize(18),
-          color: AppColors.secondaryGrey.withValues(alpha: 0.5),
+          color: secondaryText.withValues(alpha: 0.5),
         );
       case AppTextVariant.error:
         return TextStyle(
           fontSize: layout.bodyFontSize,
-          color: AppColors.darkNavy,
+          color: primaryText,
         );
       case AppTextVariant.timer:
         return TextStyle(
@@ -135,13 +143,13 @@ class AppTextStyleResolver {
         return TextStyle(
           fontSize: layout.fontSize(28),
           fontWeight: FontWeight.w800,
-          color: AppColors.homeBlack,
+          color: primaryText,
         );
       case AppTextVariant.sectionTitle:
         return TextStyle(
           fontSize: layout.fontSize(18),
           fontWeight: FontWeight.w800,
-          color: AppColors.homeBlack,
+          color: primaryText,
         );
     }
   }

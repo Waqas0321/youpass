@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/features/home/domain/entities/drawer_menu_id.dart';
 import 'package:youpass/features/home/presentation/models/drawer_menu_item.dart';
+import 'package:youpass/features/home/presentation/widgets/drawer/drawer_sparkle_icons_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/drawer/drawer_design_spec.dart';
 
 class DrawerMenuTileWidget extends StatelessWidget {
@@ -15,20 +17,20 @@ class DrawerMenuTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = YouPassThemeExtension.of(context);
     final isInvitations = item.id == DrawerMenuId.invitations;
     final radius = DrawerDesignSpec.px(context, DrawerDesignSpec.menuTileRadius);
 
     final backgroundColor = isInvitations
-        ? DrawerDesignSpec.invitationsBackground
-        : DrawerDesignSpec.menuTileBackground;
+        ? theme.drawerInvitationsTileBackground
+        : theme.drawerMenuTileBackground;
 
     final titleColor = isInvitations
-        ? DrawerDesignSpec.invitationsTitle
-        : DrawerDesignSpec.menuTitle;
+        ? YouPassThemeExtension.invitationsTitle
+        : theme.drawerMenuTitle;
 
-    final chevronColor = isInvitations
-        ? DrawerDesignSpec.gold
-        : DrawerDesignSpec.menuTitle;
+    final chevronColor =
+        isInvitations ? YouPassThemeExtension.drawerGold : theme.drawerMenuTitle;
 
     final titleWeight = isInvitations ? FontWeight.w700 : FontWeight.w500;
 
@@ -43,8 +45,8 @@ class DrawerMenuTileWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius),
             border: Border.all(
               color: isInvitations
-                  ? DrawerDesignSpec.invitationsBackground
-                  : DrawerDesignSpec.menuBorder,
+                  ? theme.drawerInvitationsTileBackground
+                  : theme.drawerMenuBorder,
               width: 1,
             ),
           ),
@@ -62,11 +64,11 @@ class DrawerMenuTileWidget extends StatelessWidget {
             child: Row(
               children: [
                 if (isInvitations)
-                  const _DrawerSparkleIcons()
+                  const DrawerSparkleIconsWidget()
                 else
                   Icon(
                     item.icon,
-                    color: DrawerDesignSpec.menuTitle,
+                    color: theme.drawerMenuTitle,
                     size: DrawerDesignSpec.px(
                       context,
                       DrawerDesignSpec.menuIconSize,
@@ -106,7 +108,7 @@ class DrawerMenuTileWidget extends StatelessWidget {
                       ),
                     ),
                     decoration: BoxDecoration(
-                      color: DrawerDesignSpec.invitationsBadgeBackground,
+                      color: theme.drawerInvitationsBadgeBackground,
                       borderRadius: BorderRadius.circular(
                         DrawerDesignSpec.px(
                           context,
@@ -122,7 +124,7 @@ class DrawerMenuTileWidget extends StatelessWidget {
                           DrawerDesignSpec.badgeFontSize,
                         ),
                         fontWeight: FontWeight.w600,
-                        color: DrawerDesignSpec.invitationsBadgeText,
+                        color: theme.drawerInvitationsBadgeText,
                         height: 1,
                       ),
                     ),
@@ -146,37 +148,6 @@ class DrawerMenuTileWidget extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _DrawerSparkleIcons extends StatelessWidget {
-  const _DrawerSparkleIcons();
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: DrawerDesignSpec.px(context, DrawerDesignSpec.sparkleSlotWidth),
-      height: DrawerDesignSpec.px(context, DrawerDesignSpec.menuIconSize),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Icon(
-            Icons.auto_awesome,
-            color: DrawerDesignSpec.gold,
-            size: DrawerDesignSpec.px(context, DrawerDesignSpec.sparkleLarge),
-          ),
-          Positioned(
-            left: DrawerDesignSpec.px(context, DrawerDesignSpec.sparkleOffsetX),
-            top: DrawerDesignSpec.px(context, DrawerDesignSpec.sparkleOffsetY),
-            child: Icon(
-              Icons.auto_awesome,
-              color: DrawerDesignSpec.goldSparkleSecondary,
-              size: DrawerDesignSpec.px(context, DrawerDesignSpec.sparkleSmall),
-            ),
-          ),
-        ],
       ),
     );
   }

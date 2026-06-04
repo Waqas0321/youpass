@@ -15,6 +15,7 @@ import 'package:youpass/features/events/domain/usecases/toggle_event_favorite_us
 import 'package:youpass/features/events/presentation/routes/all_events_route_args.dart';
 import 'package:youpass/features/events/presentation/utils/event_browse_favorite_helper.dart';
 import 'package:youpass/features/events/presentation/utils/event_browse_filter_helper.dart';
+import 'package:youpass/core/l10n/app_message_localizer.dart';
 import 'package:youpass/features/events/presentation/widgets/event_browse_list_content.dart';
 import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
 import 'package:youpass/features/home/domain/entities/event_category_entity.dart';
@@ -41,7 +42,8 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
   List<EventEntity> visibleEvents = [];
   String selectedCategoryId = AppConstants.categoryIdAll;
   String searchQuery = '';
-  bool isLoading = true;
+  bool isInitialLoading = true;
+  bool isListLoading = false;
   String? errorMessage;
   final Set<String> favoritePendingIds = {};
 
@@ -56,9 +58,13 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
     loadEvents();
   }
 
-  Future<void> loadEvents() async {
+  Future<void> loadEvents({bool listOnly = false}) async {
     setState(() {
-      isLoading = true;
+      if (listOnly) {
+        isListLoading = true;
+      } else {
+        isInitialLoading = true;
+      }
       errorMessage = null;
     });
 
@@ -77,7 +83,8 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
       setState(() {
         categories = loadedCategories;
         allEvents = events;
-        isLoading = false;
+        isInitialLoading = false;
+        isListLoading = false;
         applyFilters();
       });
     } catch (error) {
@@ -85,8 +92,9 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
         return;
       }
       setState(() {
-        isLoading = false;
-        errorMessage = error.toString();
+        isInitialLoading = false;
+        isListLoading = false;
+        errorMessage = AppMessageLocalizer.fromError(context.l10n, error);
       });
     }
   }
@@ -106,7 +114,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
     }
 
     setState(() => selectedCategoryId = categoryId);
-    await loadEvents();
+    await loadEvents(listOnly: true);
   }
 
   void updateSearch(String value) {
@@ -159,15 +167,13 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
     final strings = context.l10n;
 
     return Scaffold(
-      backgroundColor: FavoritesDesignSpec.screenBackground,
       appBar: YouPassBrandedAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
         primaryColor: FavoritesDesignSpec.primary,
-        backgroundColor: FavoritesDesignSpec.screenBackground,
       ),
-      body: isLoading
+      body: isInitialLoading
           ? const EventBrowseListShimmer()
-          : errorMessage != null
+          : errorMessage != null && categories.isEmpty
               ? Center(
                   child: AppText(
                     errorMessage!,
@@ -185,6 +191,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                   selectedCategoryId: selectedCategoryId,
                   onCategorySelected: selectCategory,
                   visibleEvents: visibleEvents,
+                  isListLoading: isListLoading,
                   emptyMessage: AppStrings.homeNoEventsFound(strings),
                   footerIcon: Icons.event_note_outlined,
                   footerIconColor: FavoritesDesignSpec.buyAccent,

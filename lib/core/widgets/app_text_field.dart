@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:youpass/core/constants/app_colors.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_field_variant.dart';
@@ -45,16 +46,18 @@ class AppTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final theme = YouPassThemeExtension.of(context);
+    final scheme = Theme.of(context).colorScheme;
     final fieldStyle = TextStyle(
       fontSize: layout.fontSize(16),
-      color: AppColors.darkNavy,
+      color: scheme.onSurface,
       fontWeight: FontWeight.w500,
     );
     final hintStyle = TextStyle(
       fontSize: layout.fontSize(16),
-      color: AppColors.secondaryGrey.withValues(alpha: 0.6),
+      color: scheme.onSurfaceVariant.withValues(alpha: 0.6),
     );
-    final decoration = _buildDecoration(layout, hintStyle);
+    final decoration = _buildDecoration(context, layout, theme, hintStyle);
     final field = TextFormField(
       controller: controller,
       validator: validator,
@@ -86,7 +89,9 @@ class AppTextField extends StatelessWidget {
   }
 
   InputDecoration _buildDecoration(
+    BuildContext context,
     ResponsiveLayout layout,
+    YouPassThemeExtension theme,
     TextStyle hintStyle,
   ) {
     final radius = BorderRadius.circular(layout.radius(12));
@@ -113,15 +118,15 @@ class AppTextField extends StatelessWidget {
           hintText: hintText,
           hintStyle: hintStyle,
           filled: true,
-          fillColor: AppColors.backgroundWhite,
+          fillColor: theme.inputFill,
           contentPadding: padding,
           border: OutlineInputBorder(
             borderRadius: radius,
-            borderSide: const BorderSide(color: AppColors.lightGreyBorder),
+            borderSide: BorderSide(color: theme.cardBorder),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: radius,
-            borderSide: const BorderSide(color: AppColors.lightGreyBorder),
+            borderSide: BorderSide(color: theme.cardBorder),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: radius,

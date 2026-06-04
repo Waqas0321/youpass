@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_colors.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 
 class AuthFieldContainer extends StatelessWidget {
@@ -13,12 +13,13 @@ class AuthFieldContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final theme = YouPassThemeExtension.of(context);
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.backgroundWhite,
+        color: theme.inputFill,
         borderRadius: BorderRadius.circular(layout.radius(12)),
-        border: Border.all(color: AppColors.lightGreyBorder),
+        border: Border.all(color: theme.cardBorder),
       ),
       child: child,
     );

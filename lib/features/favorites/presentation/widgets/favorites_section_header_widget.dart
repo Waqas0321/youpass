@@ -35,7 +35,7 @@ class FavoritesSectionHeaderWidget extends StatelessWidget {
                 style: TextStyle(
                   fontSize: FavoritesDesignSpec.px(context, 18),
                   fontWeight: FontWeight.w700,
-                  color: FavoritesDesignSpec.titleText,
+                  color: Theme.of(context).colorScheme.onSurface,
                   height: 1.2,
                 ),
               ),
@@ -44,7 +44,7 @@ class FavoritesSectionHeaderWidget extends StatelessWidget {
                 subtitle,
                 style: TextStyle(
                   fontSize: FavoritesDesignSpec.px(context, 13),
-                  color: FavoritesDesignSpec.bodyText,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   height: 1.35,
                 ),
               ),

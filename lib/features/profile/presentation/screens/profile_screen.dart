@@ -109,7 +109,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ProfileDesignSpec.px(context, ProfileDesignSpec.horizontalPadding);
 
     return Scaffold(
-      backgroundColor: ProfileDesignSpec.screenBackground,
       appBar: ProfileAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
       ),

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:youpass/core/constants/app_strings.dart';
+import 'package:youpass/core/network/models/api_error_details_model.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
 class InvitationsQrHelper {
-  InvitationsQrHelper._();
-
   static String pendingTitle(AppLocalizations strings) =>
       AppStrings.invitationsQrPendingTitle(strings);
 
@@ -27,23 +26,22 @@ class InvitationsQrHelper {
   static String? unlockSubtitle(
     AppLocalizations strings,
     BuildContext context,
-    Map<String, dynamic>? details,
+    ApiErrorDetailsModel? details,
   ) {
-    final unlockAt = details?['unlock_at'] ?? details?['unlockAt'];
-    final formatted = formatUnlockAt(context, unlockAt);
+    final formatted = formatUnlockAt(context, details?.unlockAt);
     if (formatted == null) {
       return null;
     }
     return AppStrings.invitationsQrUnlockAt(strings, formatted);
   }
 
-  static String? formatUnlockAt(BuildContext context, Object? unlockAt) {
+  static String? formatUnlockAt(BuildContext context, DateTime? unlockAt) {
     if (unlockAt == null) {
       return null;
     }
 
     try {
-      final date = DateTime.parse(unlockAt.toString()).toLocal();
+      final date = unlockAt.toLocal();
       final locale = Localizations.localeOf(context).toString();
       return DateFormat.yMMMMd(locale).add_jm().format(date);
     } catch (_) {

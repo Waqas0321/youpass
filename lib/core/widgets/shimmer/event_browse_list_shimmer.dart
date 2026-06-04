@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/widgets/shimmer/event_browse_card_shimmer.dart';
+import 'package:youpass/core/widgets/shimmer/event_browse_cards_shimmer.dart';
 import 'package:youpass/core/widgets/shimmer/youpass_shimmer.dart';
 import 'package:youpass/core/widgets/shimmer/youpass_shimmer_box.dart';
 import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
 
 class EventBrowseListShimmer extends StatelessWidget {
-  const EventBrowseListShimmer({
-    super.key,
-    this.cardCount = 3,
-  });
-
-  final int cardCount;
+  const EventBrowseListShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +62,7 @@ class EventBrowseListShimmer extends StatelessWidget {
             ),
           ),
           SizedBox(height: FavoritesDesignSpec.px(context, 16)),
-          for (var index = 0; index < cardCount; index++)
-            const EventBrowseCardShimmer(),
+          const EventBrowseCardsShimmer(wrapWithShimmer: false),
         ],
       ),
     );

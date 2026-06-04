@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/core/widgets/event_network_image.dart';
 import 'package:youpass/features/events/domain/entities/event_entity.dart';
+import 'package:youpass/features/events/presentation/utils/event_browse_card_label_formatter.dart';
+import 'package:youpass/features/events/presentation/widgets/event_browse_card_action_button_widget.dart';
+import 'package:youpass/features/events/presentation/widgets/event_browse_card_layout.dart';
 import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
 import 'package:youpass/features/favorites/presentation/widgets/favorites_event_meta_row_widget.dart';
 
@@ -22,26 +26,27 @@ class EventBrowseCardWidget extends StatelessWidget {
   final bool isFavoritePending;
   final bool showFavorite;
 
-  static const double _designCardHeight = 156;
-  static const double _designImageWidth = 120;
-
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
+    final theme = YouPassThemeExtension.of(context);
     final radius = FavoritesDesignSpec.px(context, FavoritesDesignSpec.cardRadius);
-    final cardHeight = FavoritesDesignSpec.px(context, _designCardHeight);
-    final imageWidth = FavoritesDesignSpec.px(context, _designImageWidth);
+    final cardHeight =
+        FavoritesDesignSpec.px(context, EventBrowseCardLayout.designCardHeight);
+    final imageWidth =
+        FavoritesDesignSpec.px(context, EventBrowseCardLayout.designImageWidth);
     final horizontalPadding = FavoritesDesignSpec.px(context, 12);
     final verticalPadding = FavoritesDesignSpec.px(context, 10);
-    final description = _descriptionText(event);
-    final scheduleLabel = _scheduleLabel(event);
+    final description = EventBrowseCardLabelFormatter.descriptionText(event);
+    final scheduleLabel = EventBrowseCardLabelFormatter.scheduleLabel(event);
 
     return Container(
       margin: EdgeInsets.only(bottom: FavoritesDesignSpec.px(context, 14)),
       height: cardHeight,
       decoration: BoxDecoration(
-        color: FavoritesDesignSpec.screenBackground,
+        color: theme.cardBackground,
         borderRadius: BorderRadius.circular(radius),
+        border: Border.all(color: theme.cardBorder),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.08),
@@ -86,7 +91,7 @@ class EventBrowseCardWidget extends StatelessWidget {
                           style: TextStyle(
                             fontSize: FavoritesDesignSpec.px(context, 15),
                             fontWeight: FontWeight.w700,
-                            color: FavoritesDesignSpec.titleText,
+                            color: Theme.of(context).colorScheme.onSurface,
                             height: 1.15,
                             letterSpacing: 0.2,
                           ),
@@ -104,7 +109,7 @@ class EventBrowseCardWidget extends StatelessWidget {
                             size: FavoritesDesignSpec.px(context, 20),
                             color: event.isFavorite
                                 ? FavoritesDesignSpec.favoriteActive
-                                : FavoritesDesignSpec.titleText,
+                                : Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       ],
@@ -134,7 +139,9 @@ class EventBrowseCardWidget extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: FavoritesDesignSpec.px(context, 11),
-                                  color: FavoritesDesignSpec.bodyText,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
                                   height: 1.35,
                                 ),
                               ),
@@ -145,7 +152,7 @@ class EventBrowseCardWidget extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: FavoritesDesignSpec.px(context, 4)),
-                  _BrowseCardActionButton(
+                  EventBrowseCardActionButtonWidget(
                     label: AppStrings.buyTickets(strings),
                     onPressed: onBuyTicket,
                   ),
@@ -154,70 +161,6 @@ class EventBrowseCardWidget extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  static String _scheduleLabel(EventEntity event) {
-    final date = event.dateLabel.trim();
-    final time = event.timeLabel?.trim();
-    if (time != null && time.isNotEmpty) {
-      if (date.isEmpty) {
-        return time;
-      }
-      return '$date · $time';
-    }
-    return date;
-  }
-
-  static String? _descriptionText(EventEntity event) {
-    final dateTime = event.dateTimeLabel.trim();
-    final date = event.dateLabel.trim();
-    if (dateTime.isEmpty || dateTime == date) {
-      return null;
-    }
-    return dateTime;
-  }
-}
-
-class _BrowseCardActionButton extends StatelessWidget {
-  const _BrowseCardActionButton({
-    required this.label,
-    this.onPressed,
-  });
-
-  final String label;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final radius = BorderRadius.circular(
-      FavoritesDesignSpec.px(context, 8),
-    );
-
-    return Material(
-      elevation: FavoritesDesignSpec.px(context, 2),
-      shadowColor: Colors.black.withValues(alpha: 0.18),
-      color: FavoritesDesignSpec.primary,
-      borderRadius: radius,
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: radius,
-        child: SizedBox(
-          width: double.infinity,
-          height: FavoritesDesignSpec.px(context, 36),
-          child: Center(
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: FavoritesDesignSpec.px(context, 11),
-                fontWeight: FontWeight.w700,
-                letterSpacing: 0.4,
-                color: FavoritesDesignSpec.titleText,
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }

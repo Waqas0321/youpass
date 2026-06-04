@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/widgets/shimmer/event_browse_cards_shimmer.dart';
 import 'package:youpass/features/events/domain/entities/event_entity.dart';
 import 'package:youpass/features/events/presentation/widgets/event_browse_card_widget.dart';
 import 'package:youpass/features/events/presentation/widgets/event_browse_category_filters_widget.dart';
@@ -26,6 +27,7 @@ class EventBrowseListContent extends StatelessWidget {
     required this.footerText,
     required this.onFavoriteTap,
     required this.favoritePendingIds,
+    this.isListLoading = false,
     this.markAllAsFavorite = false,
     this.scrollPhysics = const AlwaysScrollableScrollPhysics(),
   });
@@ -46,6 +48,7 @@ class EventBrowseListContent extends StatelessWidget {
   final String footerText;
   final ValueChanged<String> onFavoriteTap;
   final Set<String> favoritePendingIds;
+  final bool isListLoading;
   final bool markAllAsFavorite;
   final ScrollPhysics scrollPhysics;
 
@@ -83,7 +86,9 @@ class EventBrowseListContent extends StatelessWidget {
           ),
         ],
         SizedBox(height: FavoritesDesignSpec.px(context, 16)),
-        if (visibleEvents.isEmpty)
+        if (isListLoading)
+          const EventBrowseCardsShimmer()
+        else if (visibleEvents.isEmpty)
           Padding(
             padding: EdgeInsets.symmetric(
               vertical: FavoritesDesignSpec.px(context, 32),
@@ -93,7 +98,7 @@ class EventBrowseListContent extends StatelessWidget {
                 emptyMessage,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: FavoritesDesignSpec.bodyText,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   fontSize: FavoritesDesignSpec.px(context, 14),
                 ),
               ),
@@ -112,24 +117,26 @@ class EventBrowseListContent extends StatelessWidget {
               );
             },
           ),
-        SizedBox(height: FavoritesDesignSpec.px(context, 8)),
-        Row(
-          children: [
-            Icon(
-              footerIcon,
-              size: FavoritesDesignSpec.px(context, 16),
-              color: footerIconColor,
-            ),
-            SizedBox(width: FavoritesDesignSpec.px(context, 8)),
-            Text(
-              footerText,
-              style: TextStyle(
-                fontSize: FavoritesDesignSpec.px(context, 12),
-                color: FavoritesDesignSpec.bodyText,
+        if (!isListLoading) ...[
+          SizedBox(height: FavoritesDesignSpec.px(context, 8)),
+          Row(
+            children: [
+              Icon(
+                footerIcon,
+                size: FavoritesDesignSpec.px(context, 16),
+                color: footerIconColor,
               ),
-            ),
-          ],
-        ),
+              SizedBox(width: FavoritesDesignSpec.px(context, 8)),
+              Text(
+                footerText,
+                style: TextStyle(
+                  fontSize: FavoritesDesignSpec.px(context, 12),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+        ],
       ],
     );
   }

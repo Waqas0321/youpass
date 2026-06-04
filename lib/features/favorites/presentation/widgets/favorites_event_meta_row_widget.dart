@@ -23,7 +23,7 @@ class FavoritesEventMetaRowWidget extends StatelessWidget {
           Icon(
             icon,
             size: FavoritesDesignSpec.px(context, 14),
-            color: labelColor ?? FavoritesDesignSpec.metaIcon,
+            color: labelColor ?? Theme.of(context).colorScheme.onSurfaceVariant,
           ),
           SizedBox(width: FavoritesDesignSpec.px(context, 6)),
           Expanded(
@@ -34,7 +34,8 @@ class FavoritesEventMetaRowWidget extends StatelessWidget {
               style: TextStyle(
                 fontSize: FavoritesDesignSpec.px(context, 12),
                 fontWeight: FontWeight.w400,
-                color: labelColor ?? FavoritesDesignSpec.bodyText,
+                color: labelColor ??
+                    Theme.of(context).colorScheme.onSurfaceVariant,
                 height: 1.3,
               ),
             ),

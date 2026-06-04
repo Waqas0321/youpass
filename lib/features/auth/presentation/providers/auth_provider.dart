@@ -535,7 +535,7 @@ class AuthProvider extends ChangeNotifier {
 
     throw ApiException(
       code: 'UNAUTHORIZED',
-      message: 'Authentication required',
+      message: 'UNAUTHORIZED',
       statusCode: 401,
     );
   }

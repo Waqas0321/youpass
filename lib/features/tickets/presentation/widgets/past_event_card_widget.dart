@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
-import 'package:youpass/core/widgets/app_asset_image.dart';
+import 'package:youpass/core/theme/tickets_screen_theme.dart';
 import 'package:youpass/features/tickets/domain/entities/past_event_entity.dart';
 import 'package:youpass/features/tickets/presentation/tickets_design_spec.dart';
+import 'package:youpass/features/tickets/presentation/widgets/ticket_event_image_widget.dart';
 import 'package:youpass/features/tickets/presentation/widgets/ticket_meta_row_widget.dart';
+import 'package:youpass/features/tickets/presentation/widgets/ticket_stat_column_widget.dart';
 
 class PastEventCardWidget extends StatelessWidget {
   const PastEventCardWidget({
@@ -20,170 +22,144 @@ class PastEventCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = context.l10n;
     final radius = TicketsDesignSpec.px(context, TicketsDesignSpec.cardRadius);
-    final imageHeight = TicketsDesignSpec.px(context, 140);
+    final imageHeight = TicketsDesignSpec.px(context, 160);
+    final contentPadding = TicketsDesignSpec.px(context, 16);
 
     return Container(
       margin: EdgeInsets.only(bottom: TicketsDesignSpec.px(context, 16)),
-      padding: EdgeInsets.all(TicketsDesignSpec.px(context, 14)),
       decoration: BoxDecoration(
-        color: TicketsDesignSpec.cardBackground,
+        color: TicketsScreenTheme.cardBackground(context),
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: TicketsDesignSpec.divider),
+        border: Border.all(color: TicketsScreenTheme.cardBorder(context)),
+        boxShadow: TicketsScreenTheme.cardShadow(context),
       ),
+      clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(
-              TicketsDesignSpec.px(context, TicketsDesignSpec.imageRadius),
-            ),
-            child: Stack(
-              children: [
-                AppAssetImage(
-                  assetPath: event.imageAssetPath,
-                  width: double.infinity,
-                  height: imageHeight,
-                  fit: BoxFit.cover,
-                ),
-                Positioned(
-                  top: TicketsDesignSpec.px(context, 10),
-                  right: TicketsDesignSpec.px(context, 10),
-                  child: Material(
-                    color: Colors.white.withValues(alpha: 0.92),
-                    shape: const CircleBorder(),
-                    child: InkWell(
-                      onTap: onFavoriteToggle,
-                      customBorder: const CircleBorder(),
-                      child: Padding(
-                        padding: EdgeInsets.all(
-                          TicketsDesignSpec.px(context, 8),
-                        ),
-                        child: Icon(
-                          event.isFavorite
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          size: TicketsDesignSpec.px(context, 20),
-                          color: event.isFavorite
-                              ? TicketsDesignSpec.favoriteActive
-                              : TicketsDesignSpec.titleText,
-                        ),
+          Stack(
+            children: [
+              TicketEventImageWidget(
+                imagePath: event.imageAssetPath,
+                width: double.infinity,
+                height: imageHeight,
+                fit: BoxFit.cover,
+              ),
+              Positioned(
+                top: TicketsDesignSpec.px(context, 12),
+                right: TicketsDesignSpec.px(context, 12),
+                child: Material(
+                  color: TicketsScreenTheme.favoriteToggleBackground(context),
+                  shape: const CircleBorder(),
+                  elevation: TicketsScreenTheme.isDark(context) ? 0 : 2,
+                  shadowColor: const Color(0x33000000),
+                  child: InkWell(
+                    onTap: onFavoriteToggle,
+                    customBorder: const CircleBorder(),
+                    child: SizedBox(
+                      width: TicketsDesignSpec.px(context, 36),
+                      height: TicketsDesignSpec.px(context, 36),
+                      child: Icon(
+                        event.isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        size: TicketsDesignSpec.px(context, 20),
+                        color: event.isFavorite
+                            ? TicketsScreenTheme.favoriteActive(context)
+                            : TicketsScreenTheme.favoriteToggleIcon(context),
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
-          ),
-          SizedBox(height: TicketsDesignSpec.px(context, 12)),
-          Text(
-            event.title,
-            style: TextStyle(
-              fontSize: TicketsDesignSpec.px(context, 17),
-              fontWeight: FontWeight.w700,
-              color: TicketsDesignSpec.titleText,
-            ),
-          ),
-          SizedBox(height: TicketsDesignSpec.px(context, 8)),
-          TicketMetaRowWidget(
-            icon: Icons.location_on_outlined,
-            label: event.locationLabel,
-          ),
-          TicketMetaRowWidget(
-            icon: Icons.calendar_today_outlined,
-            label: event.dateLabel,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: TicketsDesignSpec.px(context, 12),
-            ),
-            child: const Divider(
-              height: 1,
-              thickness: 1,
-              color: TicketsDesignSpec.divider,
-            ),
-          ),
-          Text(
-            AppStrings.ticketsStatistics(strings),
-            style: TextStyle(
-              fontSize: TicketsDesignSpec.px(context, 11),
-              fontWeight: FontWeight.w600,
-              color: TicketsDesignSpec.bodyText,
-              letterSpacing: 0.6,
-            ),
-          ),
-          SizedBox(height: TicketsDesignSpec.px(context, 10)),
-          Row(
-            children: [
-              Expanded(
-                child: _StatColumn(
-                  icon: Icons.schedule_outlined,
-                  label: AppStrings.ticketsStatEntry(strings),
-                  value: event.entryTime,
-                ),
-              ),
-              Expanded(
-                child: _StatColumn(
-                  icon: Icons.local_bar_outlined,
-                  label: AppStrings.ticketsStatConsumption(strings),
-                  value: '${event.consumptionCount}',
-                ),
-              ),
-              Expanded(
-                child: _StatColumn(
-                  icon: Icons.timer_outlined,
-                  label: AppStrings.ticketsStatStay(strings),
-                  value: event.stayDurationLabel,
-                ),
               ),
             ],
           ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+              contentPadding,
+              contentPadding,
+              contentPadding,
+              TicketsDesignSpec.px(context, 14),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  event.title,
+                  style: TextStyle(
+                    fontSize: TicketsDesignSpec.px(context, 18),
+                    fontWeight: FontWeight.w700,
+                    color: TicketsScreenTheme.title(context),
+                    height: 1.2,
+                  ),
+                ),
+                SizedBox(height: TicketsDesignSpec.px(context, 8)),
+                TicketMetaRowWidget(
+                  icon: Icons.location_on_outlined,
+                  label: event.locationLabel,
+                ),
+                TicketMetaRowWidget(
+                  icon: Icons.calendar_today_outlined,
+                  label: event.dateLabel,
+                ),
+                if (event.showStatistics) ...[
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: TicketsDesignSpec.px(context, 8),
+                      bottom: TicketsDesignSpec.px(context, 10),
+                    ),
+                    child: Divider(
+                      height: 1,
+                      thickness: 1,
+                      color: TicketsScreenTheme.divider(context),
+                    ),
+                  ),
+                  Text(
+                    AppStrings.ticketsStatistics(strings).toUpperCase(),
+                    style: TextStyle(
+                      fontSize: TicketsDesignSpec.px(context, 11),
+                      fontWeight: FontWeight.w600,
+                      color: TicketsScreenTheme.body(context),
+                      letterSpacing: 0.8,
+                      height: 1.2,
+                    ),
+                  ),
+                  SizedBox(height: TicketsDesignSpec.px(context, 12)),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (event.entryTime != null)
+                        Expanded(
+                          child: TicketStatColumnWidget(
+                            icon: Icons.schedule_outlined,
+                            label: AppStrings.ticketsStatEntry(strings),
+                            value: event.entryTime!,
+                          ),
+                        ),
+                      if (event.consumptionCount != null)
+                        Expanded(
+                          child: TicketStatColumnWidget(
+                            icon: Icons.local_bar_outlined,
+                            label: AppStrings.ticketsStatConsumption(strings),
+                            value: '${event.consumptionCount}',
+                          ),
+                        ),
+                      if (event.stayDurationLabel != null)
+                        Expanded(
+                          child: TicketStatColumnWidget(
+                            icon: Icons.timer_outlined,
+                            label: AppStrings.ticketsStatStay(strings),
+                            value: event.stayDurationLabel!,
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ],
+            ),
+          ),
         ],
       ),
-    );
-  }
-}
-
-class _StatColumn extends StatelessWidget {
-  const _StatColumn({
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
-
-  final IconData icon;
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Icon(
-          icon,
-          size: TicketsDesignSpec.px(context, 18),
-          color: TicketsDesignSpec.primary,
-        ),
-        SizedBox(height: TicketsDesignSpec.px(context, 4)),
-        Text(
-          label,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: TicketsDesignSpec.px(context, 10),
-            color: TicketsDesignSpec.bodyText,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        SizedBox(height: TicketsDesignSpec.px(context, 2)),
-        Text(
-          value,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: TicketsDesignSpec.px(context, 14),
-            fontWeight: FontWeight.w700,
-            color: TicketsDesignSpec.primary,
-          ),
-        ),
-      ],
     );
   }
 }

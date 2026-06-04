@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/core/l10n/invitations_error_extension.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_qr_status.dart';
@@ -82,7 +83,7 @@ class InvitationsScreenActions {
         await InvitationQrUnavailableDialog.show(
           context,
           title: InvitationsQrHelper.lockedTitle(strings),
-          message: provider.errorMessage ??
+          message: provider.localizedErrorMessage(strings) ??
               InvitationsQrHelper.lockedMessage(strings),
           subtitle: InvitationsQrHelper.unlockSubtitle(
             strings,
@@ -93,8 +94,9 @@ class InvitationsScreenActions {
         return;
       }
 
-      if (provider.errorMessage != null) {
-        showError(provider.errorMessage!);
+      final error = provider.localizedErrorMessage(strings);
+      if (error != null) {
+        showError(error);
       }
       return;
     }
@@ -119,8 +121,11 @@ class InvitationsScreenActions {
         (item) => item.id == invitationId,
       );
       await openTicket(updated);
-    } else if (provider.errorMessage != null) {
-      showError(provider.errorMessage!);
+    } else {
+      final error = provider.localizedErrorMessage(context.l10n);
+      if (error != null) {
+        showError(error);
+      }
     }
   }
 
@@ -163,8 +168,11 @@ class InvitationsScreenActions {
       return;
     }
 
-    if (!rejected && provider.errorMessage != null) {
-      showError(provider.errorMessage!);
+    if (!rejected) {
+      final error = provider.localizedErrorMessage(context.l10n);
+      if (error != null) {
+        showError(error);
+      }
     }
   }
 

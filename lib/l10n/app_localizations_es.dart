@@ -163,6 +163,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get brandBadgeOff => 'OFF';
 
   @override
+  String get brandBadgeOn => 'ON';
+
+  @override
+  String get brandModeProduction => 'PRODUCCIÓN';
+
+  @override
+  String get brandModeFiesta => 'MODO FIESTA';
+
+  @override
   String get featuredEventSummerTitle => 'SUMMER BEATS 2026';
 
   @override
@@ -500,6 +509,28 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ticketsFilterConcerts => 'Conciertos';
 
   @override
+  String get ticketsFilterBar => 'Bar';
+
+  @override
+  String ticketsYearlySummaryAttended(int count, int year) {
+    return '$count eventos asistidos en $year';
+  }
+
+  @override
+  String ticketsYearlySummaryProducer(String name, int count) {
+    return 'Productora favorita: $name ($count eventos)';
+  }
+
+  @override
+  String get ticketsEmptyUpcoming => 'Aún no tienes entradas próximas.';
+
+  @override
+  String get ticketsEmptyPast => 'No se encontraron eventos pasados.';
+
+  @override
+  String get ticketsRetry => 'Reintentar';
+
+  @override
   String get ticketsStatistics => 'ESTADÍSTICAS';
 
   @override
@@ -760,4 +791,173 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get eventTicketManualIdLabel => 'ID de ingreso manual';
+
+  @override
+  String get welcomeFallbackTitle => 'Bienvenido a YouPass';
+
+  @override
+  String get welcomeFallbackSubtitle =>
+      'Tu acceso a los mejores eventos comienza aquí';
+
+  @override
+  String get paymentBrandVisa => 'VISA';
+
+  @override
+  String get paymentBrandMastercard => 'MC';
+
+  @override
+  String get errorMissingAccessToken =>
+      'No se pudo completar el inicio de sesión. Inténtalo de nuevo.';
+
+  @override
+  String get errorAuthenticationRequired => 'Inicia sesión para continuar.';
+
+  @override
+  String get emailRequired => 'El correo es obligatorio';
+
+  @override
+  String get emailInvalid => 'Ingresa un correo válido';
+
+  @override
+  String get passwordRequired => 'La contraseña es obligatoria';
+
+  @override
+  String get passwordMinLength =>
+      'La contraseña debe tener al menos 6 caracteres';
+
+  @override
+  String get phoneHintChile => '9 1234 5678';
+
+  @override
+  String get phoneHintGeneric => '123 456 7890';
+
+  @override
+  String get phoneHintPakistan => '321 6548001';
+
+  @override
+  String get mockEventFestivalVerano2026 => 'Festival Verano 2026';
+
+  @override
+  String get mockEventConciertoX => 'Concierto X';
+
+  @override
+  String get mockEventYoufest2026 => 'YouFest 2026';
+
+  @override
+  String get mockEventIguanaSummer => 'IGUANA SUMMER';
+
+  @override
+  String get mockEventYoufestWinter2026 => 'YouFest Winter 2026';
+
+  @override
+  String get mockEventNeonRooftopSessions => 'Neon Rooftop Sessions';
+
+  @override
+  String get mockEventSummerClosingParty => 'Summer Closing Party';
+
+  @override
+  String get mockDateSaturdayMay15 => 'Sábado 15 May · 22:00';
+
+  @override
+  String get mockDateSaturdayMay15Long =>
+      'Sábado, 15 de mayo de 2026 - 22:00 hrs';
+
+  @override
+  String get mockDateSaturdayJuly4 => 'Sáb 4 Julio · 22:00';
+
+  @override
+  String get mockLocationClubAmanda => 'Club Amanda, Santiago';
+
+  @override
+  String get mockLocationClubAmandaShort => 'Club Amanda';
+
+  @override
+  String get mockLocationMovistarArena => 'Movistar Arena';
+
+  @override
+  String get mockLocationCentroEventosHilaria => 'Centro Eventos Hilaria';
+
+  @override
+  String get mockTicketGeneralOne => 'General · 1 entrada';
+
+  @override
+  String get mockTicketVipTwo => 'VIP · 2 entradas';
+
+  @override
+  String get mockStayDuration5h14m => '5h 14m';
+
+  @override
+  String get mockSeatVipTable => 'Mesa 1 - VIP 1 | 10 personas';
+
+  @override
+  String get mockProducerYoufest => 'YouFest';
+
+  @override
+  String get mockProducerIguana => 'IGUANA';
+
+  @override
+  String get mockPriceFrom35000 => 'Desde \$35.000 CLP';
+
+  @override
+  String get mockPriceFrom28000 => 'Desde \$28.000 CLP';
+
+  @override
+  String get mockPriceFrom42000 => 'Desde \$42.000 CLP';
+
+  @override
+  String get mockPriceFrom55000 => 'Desde \$55.000 CLP';
+
+  @override
+  String get mockPriceFrom32000 => 'Desde \$32.000 CLP';
+
+  @override
+  String get mockDateSaturdayJuly18 => 'Sáb 18 Julio 2026';
+
+  @override
+  String get mockDateFridayAugust7 => 'Vie 7 Agosto 2026';
+
+  @override
+  String get mockDateSaturdaySeptember12 => 'Sáb 12 Septiembre 2026';
+
+  @override
+  String get mockDateSaturdayAugust22 => 'Sáb 22 Agosto 2026';
+
+  @override
+  String get mockLocationParqueBicentenario => 'Parque Bicentenario, Santiago';
+
+  @override
+  String get mockLocationTerrazaNeon => 'Terraza Neon, Santiago';
+
+  @override
+  String get mockLocationClubAmandaValparaiso => 'Club Amanda, Valparaíso';
+
+  @override
+  String get mockLocationMovistarArenaShort => 'Movistar Arena, Santiago';
+
+  @override
+  String get mockTime2200Hrs => '22:00 hrs';
+
+  @override
+  String get mockTime2300Hrs => '23:00 hrs';
+
+  @override
+  String get mockTime2130Hrs => '21:30 hrs';
+
+  @override
+  String get mockPriceFrom50000 => 'Desde \$50.000 CLP';
+
+  @override
+  String get mockLocationSkyCostanera => 'Sky Costanera';
+
+  @override
+  String get mockLocationClubOceano => 'Club Océano';
+
+  @override
+  String get mockDateSaturdayJuly4Short => 'Sáb 4 Julio 2026';
+
+  @override
+  String get mockDateFridayAugust7Short => 'Vie 7 Agosto 2026';
+
+  @override
+  String get mockDateSaturdaySeptember12Short => 'Sáb 12 Septiembre 2026';
 }

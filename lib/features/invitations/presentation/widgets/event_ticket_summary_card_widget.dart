@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/theme/qr_screen_theme.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_ticket_entity.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
+import 'package:youpass/features/invitations/presentation/widgets/event_ticket_meta_row_widget.dart';
 
 class EventTicketSummaryCardWidget extends StatelessWidget {
   const EventTicketSummaryCardWidget({
@@ -12,21 +14,32 @@ class EventTicketSummaryCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final iconCircleSize = InvitationsDesignSpec.px(context, 44);
+
     return Container(
-      padding: EdgeInsets.all(InvitationsDesignSpec.px(context, 12)),
+      padding: EdgeInsets.all(InvitationsDesignSpec.px(context, 14)),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF8E8),
+        color: QrScreenTheme.eventSummaryBackground(context),
         borderRadius: BorderRadius.circular(
-          InvitationsDesignSpec.px(context, 12),
+          InvitationsDesignSpec.px(context, 14),
         ),
-        border: Border.all(color: InvitationsDesignSpec.dialogBorder),
+        border: Border.all(color: QrScreenTheme.eventSummaryBorder(context)),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            Icons.confirmation_number_outlined,
-            color: InvitationsDesignSpec.primary,
-            size: InvitationsDesignSpec.px(context, 28),
+          Container(
+            width: iconCircleSize,
+            height: iconCircleSize,
+            decoration: BoxDecoration(
+              color: QrScreenTheme.eventSummaryIconCircle(context),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.confirmation_number_outlined,
+              color: QrScreenTheme.accent(context),
+              size: InvitationsDesignSpec.px(context, 22),
+            ),
           ),
           SizedBox(width: InvitationsDesignSpec.px(context, 12)),
           Expanded(
@@ -36,25 +49,24 @@ class EventTicketSummaryCardWidget extends StatelessWidget {
                 Text(
                   ticket.eventTitle,
                   style: TextStyle(
-                    fontSize: InvitationsDesignSpec.px(context, 14),
+                    fontSize: InvitationsDesignSpec.px(context, 15),
                     fontWeight: FontWeight.w700,
-                    color: InvitationsDesignSpec.titleText,
+                    color: QrScreenTheme.eventTitle(context),
                   ),
                 ),
-                SizedBox(height: InvitationsDesignSpec.px(context, 4)),
-                Text(
-                  ticket.dateTimeLabel,
-                  style: TextStyle(
-                    fontSize: InvitationsDesignSpec.px(context, 12),
-                    color: InvitationsDesignSpec.bodyText,
+                SizedBox(height: InvitationsDesignSpec.px(context, 8)),
+                if (ticket.seatLabel != null)
+                  EventTicketMetaRowWidget(
+                    icon: Icons.event_seat_outlined,
+                    label: ticket.seatLabel!,
                   ),
+                EventTicketMetaRowWidget(
+                  icon: Icons.calendar_today_outlined,
+                  label: ticket.dateTimeLabel,
                 ),
-                Text(
-                  ticket.locationLabel,
-                  style: TextStyle(
-                    fontSize: InvitationsDesignSpec.px(context, 12),
-                    color: InvitationsDesignSpec.bodyText,
-                  ),
+                EventTicketMetaRowWidget(
+                  icon: Icons.location_on_outlined,
+                  label: ticket.locationLabel,
                 ),
               ],
             ),

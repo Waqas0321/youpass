@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_instagram_icon.dart';
 
@@ -18,6 +19,7 @@ class ProfileIconBadgeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = YouPassThemeExtension.of(context);
     final circleSize = size ??
         ProfileDesignSpec.px(context, ProfileDesignSpec.infoIconCircleSize);
     final innerIconSize = iconSize ??
@@ -26,8 +28,8 @@ class ProfileIconBadgeWidget extends StatelessWidget {
     return Container(
       width: circleSize,
       height: circleSize,
-      decoration: const BoxDecoration(
-        color: ProfileDesignSpec.iconCircleBackground,
+      decoration: BoxDecoration(
+        color: theme.profileIconBadgeBackground,
         shape: BoxShape.circle,
       ),
       alignment: Alignment.center,

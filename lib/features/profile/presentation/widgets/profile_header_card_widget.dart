@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/features/home/presentation/widgets/drawer/drawer_design_spec.dart';
+import 'package:youpass/features/home/presentation/widgets/drawer/drawer_profile_waves_painter.dart';
 import 'package:youpass/features/profile/presentation/models/profile_view_data.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_avatar_widget.dart';
-import 'package:youpass/features/profile/presentation/widgets/profile_card_waves_painter.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
 
 class ProfileHeaderCardWidget extends StatelessWidget {
@@ -25,6 +28,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
+    final theme = YouPassThemeExtension.of(context);
     final radius = ProfileDesignSpec.px(context, ProfileDesignSpec.cardRadius);
     final waveWidth = ProfileDesignSpec.px(context, ProfileDesignSpec.cardWaveWidth);
     final waveHeight = ProfileDesignSpec.px(context, ProfileDesignSpec.cardWaveHeight);
@@ -37,10 +41,10 @@ class ProfileHeaderCardWidget extends StatelessWidget {
         child: Ink(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: ProfileDesignSpec.cardBackground,
+            color: theme.profileCardBackground,
             borderRadius: BorderRadius.circular(radius),
             border: Border.all(
-              color: ProfileDesignSpec.cardBorder,
+              color: theme.profileCardBorder,
               width: ProfileDesignSpec.cardBorderWidth,
             ),
           ),
@@ -54,7 +58,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                   height: waveHeight,
                   width: waveWidth,
                   child: CustomPaint(
-                    painter: ProfileCardWavesPainter(),
+                    painter: DrawerProfileWavesPainter(),
                     size: Size(waveWidth, waveHeight),
                   ),
                 ),
@@ -93,7 +97,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                             ProfileDesignSpec.nameFontSize,
                           ),
                           fontWeight: FontWeight.w700,
-                          color: ProfileDesignSpec.valueText,
+                          color: DrawerDesignSpec.profileName,
                           height: 1.2,
                         ),
                       ),
@@ -112,7 +116,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                               context,
                               ProfileDesignSpec.phoneIconSize,
                             ),
-                            color: ProfileDesignSpec.phoneIcon,
+                            color: AppColors.profileLabelGrey,
                           ),
                           SizedBox(width: ProfileDesignSpec.px(context, 6)),
                           Text(
@@ -123,7 +127,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                                 ProfileDesignSpec.phoneFontSize,
                               ),
                               fontWeight: FontWeight.w400,
-                              color: ProfileDesignSpec.labelText,
+                              color: AppColors.profileLabelGrey,
                               height: 1.2,
                             ),
                           ),
@@ -142,10 +146,10 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                             ProfileDesignSpec.dividerHorizontalInset,
                           ),
                         ),
-                        child: const Divider(
+                        child: Divider(
                           height: 1,
                           thickness: 1,
-                          color: ProfileDesignSpec.divider,
+                          color: AppColors.profileLabelGrey.withValues(alpha: 0.35),
                         ),
                       ),
                       SizedBox(
@@ -166,7 +170,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                           ),
                         ),
                         decoration: BoxDecoration(
-                          color: ProfileDesignSpec.tierBadge,
+                          color: DrawerDesignSpec.tierBadgeBackground,
                           borderRadius: BorderRadius.circular(
                             ProfileDesignSpec.px(
                               context,
@@ -183,7 +187,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                                 context,
                                 ProfileDesignSpec.tierIconSize,
                               ),
-                              color: ProfileDesignSpec.avatarInner,
+                              color: AppColors.backgroundWhite,
                             ),
                             SizedBox(width: ProfileDesignSpec.px(context, 6)),
                             Text(
@@ -194,7 +198,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                                   ProfileDesignSpec.tierFontSize,
                                 ),
                                 fontWeight: FontWeight.w700,
-                                color: ProfileDesignSpec.avatarInner,
+                                color: AppColors.backgroundWhite,
                                 letterSpacing: 0.5,
                                 height: 1,
                               ),

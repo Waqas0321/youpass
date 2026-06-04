@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
 
 class ProfileSectionHeaderWidget extends StatelessWidget {
@@ -13,6 +14,8 @@ class ProfileSectionHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = YouPassThemeExtension.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -53,10 +56,10 @@ class ProfileSectionHeaderWidget extends StatelessWidget {
             ProfileDesignSpec.sectionHeaderBottomGap,
           ),
         ),
-        const Divider(
+        Divider(
           height: 1,
           thickness: 1,
-          color: ProfileDesignSpec.divider,
+          color: theme.profileSectionDivider,
         ),
       ],
     );

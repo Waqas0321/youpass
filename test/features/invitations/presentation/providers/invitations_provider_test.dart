@@ -12,6 +12,7 @@ import 'package:youpass/features/invitations/domain/usecases/fetch_invitations_u
 import 'package:youpass/features/invitations/domain/usecases/reject_invitation_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/save_payment_method_usecase.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
+import 'package:youpass/features/invitations/presentation/providers/invitations_status.dart';
 
 import '../../mocks/mock_invitations_repository.dart';
 

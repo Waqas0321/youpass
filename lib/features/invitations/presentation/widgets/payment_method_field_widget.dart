@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
+import 'package:youpass/core/theme/youpass_dialog_theme.dart';
+import 'package:youpass/core/theme/youpass_themed_colors.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 
 class PaymentMethodFieldWidget extends StatelessWidget {
   const PaymentMethodFieldWidget({
@@ -17,38 +19,42 @@ class PaymentMethodFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = YouPassThemeExtension.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            color: InvitationsDesignSpec.titleText,
+            color: YouPassDialogTheme.title(context),
           ),
         ),
         const SizedBox(height: 6),
         TextField(
           controller: controller,
+          style: TextStyle(color: YouPassThemedColors.primaryText(context)),
           decoration: InputDecoration(
             hintText: hint,
+            hintStyle: TextStyle(color: YouPassThemedColors.secondaryText(context)),
             prefixIcon: icon == null
                 ? null
-                : Icon(icon, size: 18, color: InvitationsDesignSpec.metaIcon),
+                : Icon(
+                    icon,
+                    size: 18,
+                    color: YouPassThemedColors.secondaryText(context),
+                  ),
             filled: true,
-            fillColor: Colors.white,
+            fillColor: theme.inputFill,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(
-                color: InvitationsDesignSpec.cardBorder,
-              ),
+              borderSide: BorderSide(color: theme.cardBorder),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(
-                color: InvitationsDesignSpec.cardBorder,
-              ),
+              borderSide: BorderSide(color: theme.cardBorder),
             ),
           ),
         ),

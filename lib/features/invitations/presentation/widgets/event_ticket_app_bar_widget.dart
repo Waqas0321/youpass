@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_strings.dart';
-import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/core/theme/qr_screen_theme.dart';
+import 'package:youpass/core/theme/youpass_themed_colors.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 
 class EventTicketAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -16,27 +16,20 @@ class EventTicketAppBarWidget extends StatelessWidget implements PreferredSizeWi
 
   @override
   Widget build(BuildContext context) {
-    final strings = context.l10n;
+    final background = YouPassThemedColors.screenBackground(context);
 
     return AppBar(
-      backgroundColor: InvitationsDesignSpec.screenBackground,
-      surfaceTintColor: InvitationsDesignSpec.screenBackground,
+      backgroundColor: background,
+      surfaceTintColor: background,
       elevation: 0,
       scrolledUnderElevation: 0,
+      automaticallyImplyLeading: false,
       leading: IconButton(
         onPressed: onBack,
         icon: Icon(
           Icons.arrow_back,
-          color: InvitationsDesignSpec.primary,
+          color: QrScreenTheme.accent(context),
           size: InvitationsDesignSpec.px(context, 24),
-        ),
-      ),
-      title: Text(
-        AppStrings.eventTicketScreenTitle(strings),
-        style: TextStyle(
-          fontSize: InvitationsDesignSpec.px(context, 16),
-          fontWeight: FontWeight.w700,
-          color: InvitationsDesignSpec.titleText,
         ),
       ),
     );

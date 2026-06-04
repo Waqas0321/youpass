@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/auth_curve_background.dart';
 
@@ -20,7 +19,6 @@ class AuthScaffold extends StatelessWidget {
     final layout = ResponsiveLayout(context);
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundWhite,
       body: SafeArea(
         child: Stack(
           children: [
@@ -36,7 +34,7 @@ class AuthScaffold extends StatelessWidget {
                           onBackPressed ?? () => Navigator.of(context).pop(),
                       icon: Icon(
                         Icons.arrow_back,
-                        color: AppColors.darkNavy,
+                        color: Theme.of(context).colorScheme.onSurface,
                         size: layout.iconSize,
                       ),
                     ),

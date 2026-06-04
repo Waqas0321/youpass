@@ -176,7 +176,7 @@ class AuthRepositoryImpl implements AuthRepository {
     if (token == null || token.isEmpty) {
       throw ApiException(
         code: 'MISSING_ACCESS_TOKEN',
-        message: 'Login response did not include a valid access token',
+        message: 'MISSING_ACCESS_TOKEN',
         statusCode: 500,
       );
     }
@@ -208,7 +208,7 @@ class AuthRepositoryImpl implements AuthRepository {
     if (token == null || token.isEmpty) {
       throw ApiException(
         code: 'UNAUTHORIZED',
-        message: 'Authentication required',
+        message: 'UNAUTHORIZED',
         statusCode: 401,
       );
     }

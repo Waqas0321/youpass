@@ -14,9 +14,7 @@ import 'package:youpass/features/profile/presentation/screens/profile_screen.dar
 import 'package:youpass/features/profile/presentation/screens/profile_wallet_screen.dart';
 import 'package:youpass/features/events/presentation/routes/all_events_route_args.dart';
 import 'package:youpass/features/events/presentation/screens/all_events_screen.dart';
-import 'package:youpass/features/favorites/presentation/routes/producer_events_route_args.dart';
 import 'package:youpass/features/favorites/presentation/screens/my_favorites_screen.dart';
-import 'package:youpass/features/favorites/presentation/screens/producer_events_screen.dart';
 import 'package:youpass/features/tickets/presentation/screens/my_tickets_screen.dart';
 import 'package:youpass/features/ticket_assignment/presentation/routes/assign_tickets_route_args.dart';
 import 'package:youpass/features/ticket_assignment/presentation/routes/invitation_claim_route_args.dart';
@@ -86,14 +84,6 @@ class RouteGenerator {
                 ? args
                 : const AllEventsRouteArgs(),
           ),
-        );
-      case AppRoutes.producerEvents:
-        final args = settings.arguments;
-        if (args is! ProducerEventsRouteArgs) {
-          return MaterialPageRoute(builder: (_) => const MyFavoritesScreen());
-        }
-        return MaterialPageRoute(
-          builder: (_) => ProducerEventsScreen(args: args),
         );
       case AppRoutes.myInvitations:
         return MaterialPageRoute(builder: (_) => const MyInvitationsScreen());

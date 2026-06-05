@@ -368,54 +368,6 @@ class AppStrings {
   static String favoritesFilterUpcoming(AppLocalizations l10n) =>
       l10n.favoritesFilterUpcoming;
 
-  static String favoritesFilterParties(AppLocalizations l10n) =>
-      l10n.favoritesFilterParties;
-
-  static String favoritesFilterVip(AppLocalizations l10n) =>
-      l10n.favoritesFilterVip;
-
-  static String favoritesProducerType(AppLocalizations l10n) =>
-      l10n.favoritesProducerType;
-
-  static String favoritesProducerCoverage(AppLocalizations l10n) =>
-      l10n.favoritesProducerCoverage;
-
-  static String favoritesViewEvents(AppLocalizations l10n) =>
-      l10n.favoritesViewEvents;
-
-  static String favoritesSavedProducersCount(AppLocalizations l10n, int count) =>
-      l10n.favoritesSavedProducersCount(count);
-
-  static String producerEventsUpcomingTitle(AppLocalizations l10n) =>
-      l10n.producerEventsUpcomingTitle;
-
-  static String producerEventsUpcomingSubtitle(
-    AppLocalizations l10n,
-    String producerName,
-  ) =>
-      l10n.producerEventsUpcomingSubtitle(producerName);
-
-  static String producerEventsSearchHint(AppLocalizations l10n) =>
-      l10n.producerEventsSearchHint;
-
-  static String producerEventCategoryParties(AppLocalizations l10n) =>
-      l10n.producerEventCategoryParties;
-
-  static String producerEventCategoryFestivals(AppLocalizations l10n) =>
-      l10n.producerEventCategoryFestivals;
-
-  static String producerEventCategoryConcerts(AppLocalizations l10n) =>
-      l10n.producerEventCategoryConcerts;
-
-  static String producerEventFromPrice(AppLocalizations l10n) =>
-      l10n.producerEventFromPrice;
-
-  static String producerEventBuyTicket(AppLocalizations l10n) =>
-      l10n.producerEventBuyTicket;
-
-  static String producerEventsAvailableCount(AppLocalizations l10n, int count) =>
-      l10n.producerEventsAvailableCount(count);
-
   static String drawerMyInvitations(AppLocalizations l10n) =>
       l10n.drawerMyInvitations;
 

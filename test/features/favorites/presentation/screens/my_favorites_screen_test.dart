@@ -45,18 +45,6 @@ void main() {
           label: 'Todas',
           icon: Icons.apps_outlined,
         ),
-        EventCategoryEntity(
-          id: AppConstants.categoryIdChile,
-          label: 'Chile',
-          icon: Icons.location_on_outlined,
-          countryCode: 'CL',
-        ),
-        EventCategoryEntity(
-          id: AppConstants.categoryIdConcerts,
-          label: 'Conciertos',
-          icon: Icons.music_note_outlined,
-          eventTypeSlug: 'concerts',
-        ),
       ],
     );
 
@@ -66,7 +54,6 @@ void main() {
     sl.registerLazySingleton<events_usecases.ToggleEventFavoriteUseCase>(
       () => events_usecases.ToggleEventFavoriteUseCase(mockEventsRepository),
     );
-
     sl.registerLazySingleton<EventsRepository>(() => mockEventsRepository);
   });
 
@@ -74,7 +61,8 @@ void main() {
     await sl.reset();
   });
 
-  testWidgets('MyFavoritesScreen shows localized favorites UI', (tester) async {
+  testWidgets('MyFavoritesScreen loads favorite events from API only',
+      (tester) async {
     final strings = lookupAppLocalizations(AppLocale.spanish);
 
     await tester.pumpWidget(
@@ -88,18 +76,13 @@ void main() {
 
     await tester.pumpAndSettle();
 
+    verify(() => mockEventsRepository.fetchFavoriteEvents()).called(1);
     expect(find.text(strings.drawerMyFavorites), findsWidgets);
     expect(find.text(strings.favoritesEventsSubtitle), findsOneWidget);
     expect(find.text('SUMMER FESTIVAL'), findsOneWidget);
-    expect(
-      find.text(strings.favoritesEventsSearchHint),
-      findsOneWidget,
-    );
-    expect(
-      find.text(strings.favoritesSavedEventsCount(1)),
-      findsOneWidget,
-    );
-    expect(find.text(strings.favoritesFiltersLabel), findsOneWidget);
-    expect(find.text('Todas'), findsOneWidget);
+    expect(find.text(strings.favoritesEventsSearchHint), findsOneWidget);
+    expect(find.text(strings.favoritesSavedEventsCount(1)), findsOneWidget);
+    expect(find.text('YouFest'), findsNothing);
+    expect(find.text(strings.favoritesViewEvents), findsNothing);
   });
 }

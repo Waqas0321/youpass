@@ -46,7 +46,11 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
     eventsRepository = sl<EventsRepository>();
     getFavoriteEventsUseCase = sl<GetFavoriteEventsUseCase>();
     toggleEventFavoriteUseCase = sl<events_usecases.ToggleEventFavoriteUseCase>();
-    loadFavorites();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        loadFavorites();
+      }
+    });
   }
 
   Future<void> loadFavorites() async {
@@ -113,6 +117,7 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
     }
 
     favoritePendingIds.add(eventId);
+    setState(() {});
 
     try {
       await toggleEventFavoriteUseCase(

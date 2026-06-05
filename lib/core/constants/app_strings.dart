@@ -244,6 +244,102 @@ class AppStrings {
 
   static String ticketsRetry(AppLocalizations l10n) => l10n.ticketsRetry;
 
+  static String ticketAssignmentTitle(AppLocalizations l10n) =>
+      l10n.ticketAssignmentTitle;
+
+  static String ticketAssignmentHeading(AppLocalizations l10n) =>
+      l10n.ticketAssignmentHeading;
+
+  static String ticketAssignmentSlotLabel(AppLocalizations l10n, int number) =>
+      l10n.ticketAssignmentSlotLabel(number);
+
+  static String ticketAssignmentSummarySubtitle(
+    AppLocalizations l10n,
+    int count,
+  ) =>
+      l10n.ticketAssignmentSummarySubtitle(count);
+
+  static String ticketAssignmentAvailableCount(AppLocalizations l10n, int count) =>
+      l10n.ticketAssignmentAvailableCount(count);
+
+  static String ticketAssignmentPendingCount(AppLocalizations l10n, int count) =>
+      l10n.ticketAssignmentPendingCount(count);
+
+  static String ticketAssignmentOwnerTicket(AppLocalizations l10n) =>
+      l10n.ticketAssignmentOwnerTicket;
+
+  static String ticketAssignmentClaimedTicket(AppLocalizations l10n) =>
+      l10n.ticketAssignmentClaimedTicket;
+
+  static String ticketAssignmentPendingBadge(AppLocalizations l10n) =>
+      l10n.ticketAssignmentPendingBadge;
+
+  static String ticketAssignmentAvailableBadge(AppLocalizations l10n) =>
+      l10n.ticketAssignmentAvailableBadge;
+
+  static String ticketAssignmentGuestNameLabel(AppLocalizations l10n) =>
+      l10n.ticketAssignmentGuestNameLabel;
+
+  static String ticketAssignmentGuestNameHint(AppLocalizations l10n) =>
+      l10n.ticketAssignmentGuestNameHint;
+
+  static String ticketAssignmentGuestPhoneLabel(AppLocalizations l10n) =>
+      l10n.ticketAssignmentGuestPhoneLabel;
+
+  static String ticketAssignmentGuestPhoneHint(AppLocalizations l10n) =>
+      l10n.ticketAssignmentGuestPhoneHint;
+
+  static String ticketAssignmentPickContact(AppLocalizations l10n) =>
+      l10n.ticketAssignmentPickContact;
+
+  static String ticketAssignmentSendTicket(AppLocalizations l10n) =>
+      l10n.ticketAssignmentSendTicket;
+
+  static String ticketAssignmentCancelTicket(AppLocalizations l10n) =>
+      l10n.ticketAssignmentCancelTicket;
+
+  static String ticketAssignmentResendWhatsApp(AppLocalizations l10n) =>
+      l10n.ticketAssignmentResendWhatsApp;
+
+  static String ticketAssignmentSentSuccess(AppLocalizations l10n) =>
+      l10n.ticketAssignmentSentSuccess;
+
+  static String ticketAssignmentContactsPermissionDenied(AppLocalizations l10n) =>
+      l10n.ticketAssignmentContactsPermissionDenied;
+
+  static String ticketAssignmentMissingOrder(AppLocalizations l10n) =>
+      l10n.ticketAssignmentMissingOrder;
+
+  static String ticketAssignmentNoAssignableTickets(AppLocalizations l10n) =>
+      l10n.ticketAssignmentNoAssignableTickets;
+
+  static String ticketAssignmentRetry(AppLocalizations l10n) =>
+      l10n.ticketAssignmentRetry;
+
+  static String ticketAssignmentWhatsAppInfo(AppLocalizations l10n) =>
+      l10n.ticketAssignmentWhatsAppInfo;
+
+  static String ticketAssignmentPrivacyNote(AppLocalizations l10n) =>
+      l10n.ticketAssignmentPrivacyNote;
+
+  static String invitationClaimTitle(AppLocalizations l10n) =>
+      l10n.invitationClaimTitle;
+
+  static String invitationClaimGuestLabel(AppLocalizations l10n) =>
+      l10n.invitationClaimGuestLabel;
+
+  static String invitationClaimInvitedByLabel(AppLocalizations l10n) =>
+      l10n.invitationClaimInvitedByLabel;
+
+  static String invitationClaimStepsTitle(AppLocalizations l10n) =>
+      l10n.invitationClaimStepsTitle;
+
+  static String invitationClaimOpenInvitations(AppLocalizations l10n) =>
+      l10n.invitationClaimOpenInvitations;
+
+  static String invitationClaimLoginRegister(AppLocalizations l10n) =>
+      l10n.invitationClaimLoginRegister;
+
   static String ticketsStatistics(AppLocalizations l10n) =>
       l10n.ticketsStatistics;
 

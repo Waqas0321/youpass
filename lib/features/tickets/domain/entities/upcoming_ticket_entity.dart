@@ -16,6 +16,9 @@ class UpcomingTicketEntity extends Equatable {
     this.canViewQr = false,
     this.canAssignTickets = false,
     this.qrStatus,
+    this.ticketOrderId,
+    this.assignableCount,
+    this.origin,
   });
 
   final String id;
@@ -30,10 +33,38 @@ class UpcomingTicketEntity extends Equatable {
   final bool canViewQr;
   final bool canAssignTickets;
   final InvitationQrStatus? qrStatus;
+  final String? ticketOrderId;
+  final int? assignableCount;
+  final String? origin;
 
   bool get usesNetworkImage {
     final value = imageAssetPath.trim().toLowerCase();
     return value.startsWith('http://') || value.startsWith('https://');
+  }
+
+  bool get hasTicketOrderId {
+    final value = ticketOrderId?.trim();
+    return value != null && value.isNotEmpty;
+  }
+
+  bool get showsAssignAction {
+    if (canAssignTickets) {
+      return true;
+    }
+    if (hasTicketOrderId) {
+      return true;
+    }
+    if ((assignableCount ?? 0) > 0) {
+      return true;
+    }
+    return origin == 'purchase';
+  }
+
+  String? get assignmentOrderId {
+    if (!hasTicketOrderId) {
+      return null;
+    }
+    return ticketOrderId!.trim();
   }
 
   @override
@@ -50,5 +81,8 @@ class UpcomingTicketEntity extends Equatable {
         canViewQr,
         canAssignTickets,
         qrStatus,
+        ticketOrderId,
+        assignableCount,
+        origin,
       ];
 }

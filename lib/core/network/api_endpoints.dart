@@ -50,4 +50,36 @@ class ApiEndpoints {
 
   static String invitationTicket(String invitationId) =>
       '$apiV1/invitations/$invitationId/ticket';
+
+  static String ticketById(String ticketId) =>
+      '$apiV1/users/me/tickets/$ticketId';
+
+  static String ticketQr(String ticketId) =>
+      '$apiV1/users/me/tickets/$ticketId/qr';
+
+  static const String ticketsUpcoming = '$apiV1/users/me/tickets/upcoming';
+  static const String ticketsPast = '$apiV1/users/me/tickets/past';
+  static const String ticketsYearlySummary =
+      '$apiV1/users/me/tickets/yearly-summary';
+
+  static String eventCheckout(String eventId) =>
+      '$apiV1/events/$eventId/checkout';
+
+  static String ticketOrderAssignments(String orderId) =>
+      '$apiV1/users/me/ticket-orders/$orderId/assignments';
+
+  static String ticketAssignments(String ticketId) =>
+      '$apiV1/users/me/tickets/$ticketId/assignments';
+
+  static String assignTicketSlot(String orderId, String slotId) =>
+      '$apiV1/users/me/ticket-orders/$orderId/slots/$slotId/assign';
+
+  static String cancelTicketAssignment(String orderId, String slotId) =>
+      '$apiV1/users/me/ticket-orders/$orderId/slots/$slotId/assign';
+
+  static String resendTicketAssignment(String orderId, String slotId) =>
+      '$apiV1/users/me/ticket-orders/$orderId/slots/$slotId/resend';
+
+  static String invitationClaim(String token) =>
+      '$apiV1/invitations/claim/$token';
 }

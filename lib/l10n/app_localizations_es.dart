@@ -813,6 +813,33 @@ class AppLocalizationsEs extends AppLocalizations {
   String get errorAuthenticationRequired => 'Inicia sesión para continuar.';
 
   @override
+  String get errorTicketOrderNotFound => 'No se encontró la orden de entradas.';
+
+  @override
+  String get errorTicketSlotNotFound =>
+      'No se encontró esta entrada para asignar.';
+
+  @override
+  String get errorTicketSlotNotAvailable =>
+      'Esta entrada ya no está disponible para asignar.';
+
+  @override
+  String get errorWhatsAppSendFailed =>
+      'No se pudo enviar la invitación por WhatsApp. Inténtalo de nuevo.';
+
+  @override
+  String get errorCannotAssignToSelf =>
+      'No puedes asignar una entrada a tu propio número.';
+
+  @override
+  String get errorClaimNotFound =>
+      'Este enlace de invitación no es válido o expiró.';
+
+  @override
+  String get errorInvitationForbidden =>
+      'No tienes permiso para gestionar esta invitación.';
+
+  @override
   String get emailRequired => 'El correo es obligatorio';
 
   @override
@@ -960,4 +987,128 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get mockDateSaturdaySeptember12Short => 'Sáb 12 Septiembre 2026';
+
+  @override
+  String get ticketAssignmentTitle => 'Asignar entradas';
+
+  @override
+  String get ticketAssignmentHeading => 'Asigna las entradas';
+
+  @override
+  String ticketAssignmentSlotLabel(int number) {
+    return 'Entrada $number';
+  }
+
+  @override
+  String ticketAssignmentSummarySubtitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entradas disponibles • Puedes hacerlo en partes',
+      one: '1 entrada disponible • Puedes hacerlo en partes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ticketAssignmentAvailableCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entradas disponibles para asignar',
+      one: '1 entrada disponible para asignar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ticketAssignmentPendingCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pendientes',
+      one: '1 pendiente',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get ticketAssignmentOwnerTicket => 'Tu entrada';
+
+  @override
+  String get ticketAssignmentClaimedTicket => 'Entrada reclamada';
+
+  @override
+  String get ticketAssignmentPendingBadge => 'PENDIENTE';
+
+  @override
+  String get ticketAssignmentAvailableBadge => 'DISPONIBLE';
+
+  @override
+  String get ticketAssignmentGuestNameLabel => 'Nombre del invitado';
+
+  @override
+  String get ticketAssignmentGuestNameHint => 'Nombre completo';
+
+  @override
+  String get ticketAssignmentGuestPhoneLabel => 'Teléfono del invitado';
+
+  @override
+  String get ticketAssignmentGuestPhoneHint => 'Teléfono (ej. +56 9 1234 5678)';
+
+  @override
+  String get ticketAssignmentPickContact => 'Buscar desde contactos';
+
+  @override
+  String get ticketAssignmentSendTicket => 'Enviar entrada';
+
+  @override
+  String get ticketAssignmentCancelTicket => 'Cancelar entrada';
+
+  @override
+  String get ticketAssignmentResendWhatsApp => 'Reenviar WhatsApp';
+
+  @override
+  String get ticketAssignmentSentSuccess => 'Invitación enviada por WhatsApp';
+
+  @override
+  String get ticketAssignmentContactsPermissionDenied =>
+      'Se requiere permiso de contactos para elegir un invitado';
+
+  @override
+  String get ticketAssignmentMissingOrder =>
+      'Esta entrada aún no se puede asignar';
+
+  @override
+  String get ticketAssignmentNoAssignableTickets =>
+      'No hay entradas disponibles para asignar en este momento';
+
+  @override
+  String get ticketAssignmentRetry => 'Reintentar';
+
+  @override
+  String get ticketAssignmentWhatsAppInfo =>
+      'Se enviará un link con instrucciones para descargar y registrarse en YouPass a través de WhatsApp, una vez les envíes la entrada.';
+
+  @override
+  String get ticketAssignmentPrivacyNote =>
+      'Tus datos y los de tus invitados están protegidos';
+
+  @override
+  String get invitationClaimTitle => 'Tienes una invitación de entrada';
+
+  @override
+  String get invitationClaimGuestLabel => 'Invitado';
+
+  @override
+  String get invitationClaimInvitedByLabel => 'Invitado por';
+
+  @override
+  String get invitationClaimStepsTitle => 'Cómo reclamar tu entrada';
+
+  @override
+  String get invitationClaimOpenInvitations => 'Abrir Invitaciones';
+
+  @override
+  String get invitationClaimLoginRegister => 'Iniciar sesión o registrarse';
 }

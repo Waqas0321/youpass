@@ -47,5 +47,7 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to choose your profile photo.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>We need access to your contacts so you can assign tickets to guests.</string>
 </dict>
 </plist>

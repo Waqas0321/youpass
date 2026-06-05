@@ -102,22 +102,24 @@ class UpcomingTicketCardWidget extends StatelessWidget {
                   onPressed: onViewQr,
                   isLoading: isViewQrLoading,
                 ),
-                SizedBox(height: TicketsDesignSpec.px(context, 10)),
-                if (ticket.tier == TicketTier.vip)
-                  TicketFilledButtonWidget(
-                    label: AppStrings.ticketsAssignVip(strings),
-                    icon: Icons.confirmation_number_outlined,
-                    backgroundColor:
-                        TicketsScreenTheme.vipButtonBackground(context),
-                    foregroundColor: AppColors.backgroundWhite,
-                    onPressed: onAssignTickets,
-                  )
-                else
-                  TicketOutlineButtonWidget(
-                    label: AppStrings.ticketsAssignEntries(strings),
-                    icon: Icons.people_outline,
-                    onPressed: onAssignTickets,
-                  ),
+                if (onAssignTickets != null && ticket.showsAssignAction) ...[
+                  SizedBox(height: TicketsDesignSpec.px(context, 10)),
+                  if (ticket.tier == TicketTier.vip)
+                    TicketFilledButtonWidget(
+                      label: AppStrings.ticketsAssignVip(strings),
+                      icon: Icons.confirmation_number_outlined,
+                      backgroundColor:
+                          TicketsScreenTheme.vipButtonBackground(context),
+                      foregroundColor: AppColors.backgroundWhite,
+                      onPressed: onAssignTickets,
+                    )
+                  else
+                    TicketOutlineButtonWidget(
+                      label: AppStrings.ticketsAssignEntries(strings),
+                      icon: Icons.people_outline,
+                      onPressed: onAssignTickets,
+                    ),
+                ],
               ],
             ),
           ),

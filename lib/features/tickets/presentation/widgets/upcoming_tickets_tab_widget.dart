@@ -7,9 +7,15 @@ class UpcomingTicketsTabWidget extends StatelessWidget {
   const UpcomingTicketsTabWidget({
     super.key,
     required this.tickets,
+    required this.onViewQr,
+    this.onAssignTickets,
+    this.isViewQrLoading,
   });
 
   final List<UpcomingTicketEntity> tickets;
+  final Future<void> Function(UpcomingTicketEntity ticket) onViewQr;
+  final Future<void> Function(UpcomingTicketEntity ticket)? onAssignTickets;
+  final bool Function(String ticketId)? isViewQrLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +34,11 @@ class UpcomingTicketsTabWidget extends StatelessWidget {
         final ticket = tickets[index];
         return UpcomingTicketCardWidget(
           ticket: ticket,
-          onViewQr: () {},
-          onAssignTickets: () {},
+          onViewQr: () => onViewQr(ticket),
+          onAssignTickets: onAssignTickets == null
+              ? null
+              : () => onAssignTickets!(ticket),
+          isViewQrLoading: isViewQrLoading?.call(ticket.id) ?? false,
         );
       },
     );

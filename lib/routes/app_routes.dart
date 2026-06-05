@@ -13,4 +13,6 @@ class AppRoutes {
   static const String producerEvents = '/favorites/producer-events';
   static const String myInvitations = '/invitations';
   static const String eventTicket = '/invitations/ticket';
+  static const String assignTickets = '/tickets/assign';
+  static const String invitationClaim = '/claim';
 }

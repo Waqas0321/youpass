@@ -9,18 +9,28 @@ class TicketOutlineButtonWidget extends StatelessWidget {
     required this.icon,
     this.onPressed,
     this.isLoading = false,
+    this.foregroundColor,
+    this.borderColor,
+    this.fontSize,
   });
 
   final String label;
   final IconData icon;
   final VoidCallback? onPressed;
   final bool isLoading;
+  final Color? foregroundColor;
+  final Color? borderColor;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
     final height = TicketsDesignSpec.px(context, 44);
     final radius = TicketsDesignSpec.px(context, 10);
-    final foregroundColor = TicketsScreenTheme.outlineButtonForeground(context);
+    final resolvedForegroundColor =
+        foregroundColor ?? TicketsScreenTheme.outlineButtonForeground(context);
+    final resolvedBorderColor =
+        borderColor ?? TicketsScreenTheme.outlineButtonBorder(context);
+    final resolvedFontSize = fontSize ?? TicketsDesignSpec.px(context, 13);
 
     return SizedBox(
       width: double.infinity,
@@ -28,14 +38,17 @@ class TicketOutlineButtonWidget extends StatelessWidget {
       child: OutlinedButton(
         onPressed: isLoading ? null : onPressed,
         style: OutlinedButton.styleFrom(
-          foregroundColor: foregroundColor,
+          foregroundColor: resolvedForegroundColor,
           side: BorderSide(
-            color: TicketsScreenTheme.outlineButtonBorder(context),
+            color: resolvedBorderColor,
             width: 1.5,
           ),
           backgroundColor: TicketsScreenTheme.outlineButtonFill(context),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius),
+          ),
+          padding: EdgeInsets.symmetric(
+            horizontal: TicketsDesignSpec.px(context, 8),
           ),
         ),
         child: isLoading
@@ -44,20 +57,25 @@ class TicketOutlineButtonWidget extends StatelessWidget {
                 height: TicketsDesignSpec.px(context, 22),
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: foregroundColor,
+                  color: resolvedForegroundColor,
                 ),
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(icon, size: TicketsDesignSpec.px(context, 18)),
-                  SizedBox(width: TicketsDesignSpec.px(context, 8)),
-                  Text(
-                    label,
-                    style: TextStyle(
-                      fontSize: TicketsDesignSpec.px(context, 13),
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.3,
+                  SizedBox(width: TicketsDesignSpec.px(context, 6)),
+                  Flexible(
+                    child: Text(
+                      label,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: resolvedFontSize,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.2,
+                      ),
                     ),
                   ),
                 ],

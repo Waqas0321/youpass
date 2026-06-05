@@ -318,6 +318,13 @@
   "paymentBrandMastercard": "MC",
   "errorMissingAccessToken": "No se pudo completar el inicio de sesión. Inténtalo de nuevo.",
   "errorAuthenticationRequired": "Inicia sesión para continuar.",
+  "errorTicketOrderNotFound": "No se encontró la orden de entradas.",
+  "errorTicketSlotNotFound": "No se encontró esta entrada para asignar.",
+  "errorTicketSlotNotAvailable": "Esta entrada ya no está disponible para asignar.",
+  "errorWhatsAppSendFailed": "No se pudo enviar la invitación por WhatsApp. Inténtalo de nuevo.",
+  "errorCannotAssignToSelf": "No puedes asignar una entrada a tu propio número.",
+  "errorClaimNotFound": "Este enlace de invitación no es válido o expiró.",
+  "errorInvitationForbidden": "No tienes permiso para gestionar esta invitación.",
   "emailRequired": "El correo es obligatorio",
   "emailInvalid": "Ingresa un correo válido",
   "passwordRequired": "La contraseña es obligatoria",
@@ -366,5 +373,56 @@
   "mockLocationClubOceano": "Club Océano",
   "mockDateSaturdayJuly4Short": "Sáb 4 Julio 2026",
   "mockDateFridayAugust7Short": "Vie 7 Agosto 2026",
-  "mockDateSaturdaySeptember12Short": "Sáb 12 Septiembre 2026"
+  "mockDateSaturdaySeptember12Short": "Sáb 12 Septiembre 2026",
+  "ticketAssignmentTitle": "Asignar entradas",
+  "ticketAssignmentHeading": "Asigna las entradas",
+  "ticketAssignmentSlotLabel": "Entrada {number}",
+  "@ticketAssignmentSlotLabel": {
+    "placeholders": {
+      "number": {"type": "int"}
+    }
+  },
+  "ticketAssignmentSummarySubtitle": "{count, plural, =1{1 entrada disponible • Puedes hacerlo en partes} other{{count} entradas disponibles • Puedes hacerlo en partes}}",
+  "@ticketAssignmentSummarySubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "ticketAssignmentAvailableCount": "{count, plural, =1{1 entrada disponible para asignar} other{{count} entradas disponibles para asignar}}",
+  "@ticketAssignmentAvailableCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "ticketAssignmentPendingCount": "{count, plural, =1{1 pendiente} other{{count} pendientes}}",
+  "@ticketAssignmentPendingCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "ticketAssignmentOwnerTicket": "Tu entrada",
+  "ticketAssignmentClaimedTicket": "Entrada reclamada",
+  "ticketAssignmentPendingBadge": "PENDIENTE",
+  "ticketAssignmentAvailableBadge": "DISPONIBLE",
+  "ticketAssignmentGuestNameLabel": "Nombre del invitado",
+  "ticketAssignmentGuestNameHint": "Nombre completo",
+  "ticketAssignmentGuestPhoneLabel": "Teléfono del invitado",
+  "ticketAssignmentGuestPhoneHint": "Teléfono (ej. +56 9 1234 5678)",
+  "ticketAssignmentPickContact": "Buscar desde contactos",
+  "ticketAssignmentSendTicket": "Enviar entrada",
+  "ticketAssignmentCancelTicket": "Cancelar entrada",
+  "ticketAssignmentResendWhatsApp": "Reenviar WhatsApp",
+  "ticketAssignmentSentSuccess": "Invitación enviada por WhatsApp",
+  "ticketAssignmentContactsPermissionDenied": "Se requiere permiso de contactos para elegir un invitado",
+  "ticketAssignmentMissingOrder": "Esta entrada aún no se puede asignar",
+  "ticketAssignmentNoAssignableTickets": "No hay entradas disponibles para asignar en este momento",
+  "ticketAssignmentRetry": "Reintentar",
+  "ticketAssignmentWhatsAppInfo": "Se enviará un link con instrucciones para descargar y registrarse en YouPass a través de WhatsApp, una vez les envíes la entrada.",
+  "ticketAssignmentPrivacyNote": "Tus datos y los de tus invitados están protegidos",
+  "invitationClaimTitle": "Tienes una invitación de entrada",
+  "invitationClaimGuestLabel": "Invitado",
+  "invitationClaimInvitedByLabel": "Invitado por",
+  "invitationClaimStepsTitle": "Cómo reclamar tu entrada",
+  "invitationClaimOpenInvitations": "Abrir Invitaciones",
+  "invitationClaimLoginRegister": "Iniciar sesión o registrarse"
 }

@@ -55,6 +55,29 @@ import 'package:youpass/features/invitations/domain/usecases/fetch_invitations_u
 import 'package:youpass/features/invitations/domain/usecases/reject_invitation_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/save_payment_method_usecase.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
+import 'package:youpass/features/tickets/data/datasources/tickets_remote_datasource.dart';
+import 'package:youpass/features/tickets/data/datasources/tickets_remote_datasource_impl.dart';
+import 'package:youpass/features/tickets/data/repositories/tickets_repository_impl.dart';
+import 'package:youpass/features/tickets/data/services/tickets_api_service.dart';
+import 'package:youpass/features/tickets/domain/repositories/tickets_repository.dart';
+import 'package:youpass/features/tickets/domain/usecases/fetch_past_tickets_usecase.dart';
+import 'package:youpass/features/tickets/domain/usecases/fetch_ticket_order_id_usecase.dart';
+import 'package:youpass/features/tickets/domain/usecases/fetch_ticket_qr_usecase.dart';
+import 'package:youpass/features/tickets/domain/usecases/fetch_tickets_yearly_summary_usecase.dart';
+import 'package:youpass/features/tickets/domain/usecases/fetch_upcoming_tickets_usecase.dart';
+import 'package:youpass/features/tickets/presentation/providers/tickets_provider.dart';
+import 'package:youpass/features/ticket_assignment/data/datasources/ticket_assignment_remote_datasource.dart';
+import 'package:youpass/features/ticket_assignment/data/datasources/ticket_assignment_remote_datasource_impl.dart';
+import 'package:youpass/features/ticket_assignment/data/repositories/ticket_assignment_repository_impl.dart';
+import 'package:youpass/features/ticket_assignment/data/services/ticket_assignment_api_service.dart';
+import 'package:youpass/features/ticket_assignment/domain/repositories/ticket_assignment_repository.dart';
+import 'package:youpass/features/ticket_assignment/domain/usecases/assign_ticket_guest_usecase.dart';
+import 'package:youpass/features/ticket_assignment/domain/usecases/cancel_ticket_assignment_usecase.dart';
+import 'package:youpass/features/ticket_assignment/domain/usecases/checkout_event_tickets_usecase.dart';
+import 'package:youpass/features/ticket_assignment/domain/usecases/fetch_invitation_claim_usecase.dart';
+import 'package:youpass/features/ticket_assignment/domain/usecases/fetch_ticket_order_assignments_usecase.dart';
+import 'package:youpass/features/ticket_assignment/domain/usecases/resend_ticket_assignment_usecase.dart';
+import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_provider.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -229,6 +252,85 @@ Future<void> initDependencies() async {
         rejectInvitationUseCase: sl<RejectInvitationUseCase>(),
         fetchInvitationTicketUseCase: sl<FetchInvitationTicketUseCase>(),
         savePaymentMethodUseCase: sl<SavePaymentMethodUseCase>(),
+      ),
+    )
+    ..registerLazySingleton<TicketsApiService>(
+      () => TicketsApiService(sl<ApiClient>()),
+    )
+    ..registerLazySingleton<TicketsRemoteDataSource>(
+      () => TicketsRemoteDataSourceImpl(
+        apiService: sl<TicketsApiService>(),
+        localeProvider: sl<LocaleProvider>(),
+      ),
+    )
+    ..registerLazySingleton<TicketsRepository>(
+      () => TicketsRepositoryImpl(sl<TicketsRemoteDataSource>()),
+    )
+    ..registerLazySingleton<FetchUpcomingTicketsUseCase>(
+      () => FetchUpcomingTicketsUseCase(sl<TicketsRepository>()),
+    )
+    ..registerLazySingleton<FetchPastTicketsUseCase>(
+      () => FetchPastTicketsUseCase(sl<TicketsRepository>()),
+    )
+    ..registerLazySingleton<FetchTicketsYearlySummaryUseCase>(
+      () => FetchTicketsYearlySummaryUseCase(sl<TicketsRepository>()),
+    )
+    ..registerLazySingleton<FetchTicketQrUseCase>(
+      () => FetchTicketQrUseCase(sl<TicketsRepository>()),
+    )
+    ..registerLazySingleton<FetchTicketOrderIdUseCase>(
+      () => FetchTicketOrderIdUseCase(sl<TicketsRepository>()),
+    )
+    ..registerLazySingleton<TicketsProvider>(
+      () => TicketsProvider(
+        fetchUpcomingTicketsUseCase: sl<FetchUpcomingTicketsUseCase>(),
+        fetchPastTicketsUseCase: sl<FetchPastTicketsUseCase>(),
+        fetchTicketsYearlySummaryUseCase: sl<FetchTicketsYearlySummaryUseCase>(),
+        fetchTicketQrUseCase: sl<FetchTicketQrUseCase>(),
+        fetchTicketOrderIdUseCase: sl<FetchTicketOrderIdUseCase>(),
+        toggleEventFavoriteUseCase:
+            sl<events_usecases.ToggleEventFavoriteUseCase>(),
+      ),
+    )
+    ..registerLazySingleton<TicketAssignmentApiService>(
+      () => TicketAssignmentApiService(sl<ApiClient>()),
+    )
+    ..registerLazySingleton<TicketAssignmentRemoteDataSource>(
+      () => TicketAssignmentRemoteDataSourceImpl(
+        apiService: sl<TicketAssignmentApiService>(),
+        localeProvider: sl<LocaleProvider>(),
+      ),
+    )
+    ..registerLazySingleton<TicketAssignmentRepository>(
+      () => TicketAssignmentRepositoryImpl(sl<TicketAssignmentRemoteDataSource>()),
+    )
+    ..registerLazySingleton<CheckoutEventTicketsUseCase>(
+      () => CheckoutEventTicketsUseCase(sl<TicketAssignmentRepository>()),
+    )
+    ..registerLazySingleton<FetchTicketOrderAssignmentsUseCase>(
+      () => FetchTicketOrderAssignmentsUseCase(sl<TicketAssignmentRepository>()),
+    )
+    ..registerLazySingleton<AssignTicketGuestUseCase>(
+      () => AssignTicketGuestUseCase(sl<TicketAssignmentRepository>()),
+    )
+    ..registerLazySingleton<CancelTicketAssignmentUseCase>(
+      () => CancelTicketAssignmentUseCase(sl<TicketAssignmentRepository>()),
+    )
+    ..registerLazySingleton<ResendTicketAssignmentUseCase>(
+      () => ResendTicketAssignmentUseCase(sl<TicketAssignmentRepository>()),
+    )
+    ..registerLazySingleton<FetchInvitationClaimUseCase>(
+      () => FetchInvitationClaimUseCase(sl<TicketAssignmentRepository>()),
+    )
+    ..registerLazySingleton<TicketAssignmentProvider>(
+      () => TicketAssignmentProvider(
+        checkoutEventTicketsUseCase: sl<CheckoutEventTicketsUseCase>(),
+        fetchTicketOrderAssignmentsUseCase:
+            sl<FetchTicketOrderAssignmentsUseCase>(),
+        assignTicketGuestUseCase: sl<AssignTicketGuestUseCase>(),
+        cancelTicketAssignmentUseCase: sl<CancelTicketAssignmentUseCase>(),
+        resendTicketAssignmentUseCase: sl<ResendTicketAssignmentUseCase>(),
+        fetchInvitationClaimUseCase: sl<FetchInvitationClaimUseCase>(),
       ),
     );
 

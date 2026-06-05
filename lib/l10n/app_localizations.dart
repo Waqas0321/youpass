@@ -1598,6 +1598,48 @@ abstract class AppLocalizations {
   /// **'Please sign in to continue.'**
   String get errorAuthenticationRequired;
 
+  /// No description provided for @errorTicketOrderNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This ticket order could not be found.'**
+  String get errorTicketOrderNotFound;
+
+  /// No description provided for @errorTicketSlotNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This ticket slot could not be found.'**
+  String get errorTicketSlotNotFound;
+
+  /// No description provided for @errorTicketSlotNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This ticket is no longer available to assign.'**
+  String get errorTicketSlotNotAvailable;
+
+  /// No description provided for @errorWhatsAppSendFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send the WhatsApp invitation. Try again.'**
+  String get errorWhatsAppSendFailed;
+
+  /// No description provided for @errorCannotAssignToSelf.
+  ///
+  /// In en, this message translates to:
+  /// **'You cannot assign a ticket to your own phone number.'**
+  String get errorCannotAssignToSelf;
+
+  /// No description provided for @errorClaimNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This invitation link is invalid or has expired.'**
+  String get errorClaimNotFound;
+
+  /// No description provided for @errorInvitationForbidden.
+  ///
+  /// In en, this message translates to:
+  /// **'You are not allowed to manage this invitation.'**
+  String get errorInvitationForbidden;
+
   /// No description provided for @emailRequired.
   ///
   /// In en, this message translates to:
@@ -1891,6 +1933,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sat, Sep 12, 2026'**
   String get mockDateSaturdaySeptember12Short;
+
+  /// No description provided for @ticketAssignmentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign tickets'**
+  String get ticketAssignmentTitle;
+
+  /// No description provided for @ticketAssignmentHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign tickets'**
+  String get ticketAssignmentHeading;
+
+  /// No description provided for @ticketAssignmentSlotLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket {number}'**
+  String ticketAssignmentSlotLabel(int number);
+
+  /// No description provided for @ticketAssignmentSummarySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 ticket available • You can do it in parts} other{{count} tickets available • You can do it in parts}}'**
+  String ticketAssignmentSummarySubtitle(int count);
+
+  /// No description provided for @ticketAssignmentAvailableCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 ticket available to assign} other{{count} tickets available to assign}}'**
+  String ticketAssignmentAvailableCount(int count);
+
+  /// No description provided for @ticketAssignmentPendingCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 pending} other{{count} pending}}'**
+  String ticketAssignmentPendingCount(int count);
+
+  /// No description provided for @ticketAssignmentOwnerTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'Your ticket'**
+  String get ticketAssignmentOwnerTicket;
+
+  /// No description provided for @ticketAssignmentClaimedTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket claimed'**
+  String get ticketAssignmentClaimedTicket;
+
+  /// No description provided for @ticketAssignmentPendingBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'PENDING'**
+  String get ticketAssignmentPendingBadge;
+
+  /// No description provided for @ticketAssignmentAvailableBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'AVAILABLE'**
+  String get ticketAssignmentAvailableBadge;
+
+  /// No description provided for @ticketAssignmentGuestNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest name'**
+  String get ticketAssignmentGuestNameLabel;
+
+  /// No description provided for @ticketAssignmentGuestNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get ticketAssignmentGuestNameHint;
+
+  /// No description provided for @ticketAssignmentGuestPhoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest phone'**
+  String get ticketAssignmentGuestPhoneLabel;
+
+  /// No description provided for @ticketAssignmentGuestPhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone (e.g. +56 9 1234 5678)'**
+  String get ticketAssignmentGuestPhoneHint;
+
+  /// No description provided for @ticketAssignmentPickContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Search from contacts'**
+  String get ticketAssignmentPickContact;
+
+  /// No description provided for @ticketAssignmentSendTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'Send ticket'**
+  String get ticketAssignmentSendTicket;
+
+  /// No description provided for @ticketAssignmentCancelTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel ticket'**
+  String get ticketAssignmentCancelTicket;
+
+  /// No description provided for @ticketAssignmentResendWhatsApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend WhatsApp'**
+  String get ticketAssignmentResendWhatsApp;
+
+  /// No description provided for @ticketAssignmentSentSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitation sent via WhatsApp'**
+  String get ticketAssignmentSentSuccess;
+
+  /// No description provided for @ticketAssignmentContactsPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts permission is required to pick a guest'**
+  String get ticketAssignmentContactsPermissionDenied;
+
+  /// No description provided for @ticketAssignmentMissingOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'This ticket cannot be assigned yet'**
+  String get ticketAssignmentMissingOrder;
+
+  /// No description provided for @ticketAssignmentNoAssignableTickets.
+  ///
+  /// In en, this message translates to:
+  /// **'No tickets available to assign right now'**
+  String get ticketAssignmentNoAssignableTickets;
+
+  /// No description provided for @ticketAssignmentRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get ticketAssignmentRetry;
+
+  /// No description provided for @ticketAssignmentWhatsAppInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'A link with instructions to download and register in YouPass will be sent via WhatsApp once you send them the ticket.'**
+  String get ticketAssignmentWhatsAppInfo;
+
+  /// No description provided for @ticketAssignmentPrivacyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data and your guests\' data are protected'**
+  String get ticketAssignmentPrivacyNote;
+
+  /// No description provided for @invitationClaimTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You have a ticket invitation'**
+  String get invitationClaimTitle;
+
+  /// No description provided for @invitationClaimGuestLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest'**
+  String get invitationClaimGuestLabel;
+
+  /// No description provided for @invitationClaimInvitedByLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Invited by'**
+  String get invitationClaimInvitedByLabel;
+
+  /// No description provided for @invitationClaimStepsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How to claim your ticket'**
+  String get invitationClaimStepsTitle;
+
+  /// No description provided for @invitationClaimOpenInvitations.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Invitations'**
+  String get invitationClaimOpenInvitations;
+
+  /// No description provided for @invitationClaimLoginRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in or register'**
+  String get invitationClaimLoginRegister;
 }
 
 class _AppLocalizationsDelegate

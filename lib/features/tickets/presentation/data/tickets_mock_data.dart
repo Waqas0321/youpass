@@ -22,6 +22,9 @@ class TicketsMockData {
           tier: TicketTier.general,
           canViewQr: true,
           canAssignTickets: true,
+          ticketOrderId: 'mock-order-upcoming-1',
+          assignableCount: 9,
+          origin: 'purchase',
         ),
         UpcomingTicketEntity(
           id: 'upcoming-2',
@@ -34,6 +37,9 @@ class TicketsMockData {
           tier: TicketTier.vip,
           canViewQr: true,
           canAssignTickets: true,
+          ticketOrderId: 'mock-order-upcoming-2',
+          assignableCount: 4,
+          origin: 'purchase',
         ),
       ];
 

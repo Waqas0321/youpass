@@ -339,6 +339,13 @@
   "paymentBrandMastercard": "MC",
   "errorMissingAccessToken": "Could not complete sign in. Please try again.",
   "errorAuthenticationRequired": "Please sign in to continue.",
+  "errorTicketOrderNotFound": "This ticket order could not be found.",
+  "errorTicketSlotNotFound": "This ticket slot could not be found.",
+  "errorTicketSlotNotAvailable": "This ticket is no longer available to assign.",
+  "errorWhatsAppSendFailed": "Could not send the WhatsApp invitation. Try again.",
+  "errorCannotAssignToSelf": "You cannot assign a ticket to your own phone number.",
+  "errorClaimNotFound": "This invitation link is invalid or has expired.",
+  "errorInvitationForbidden": "You are not allowed to manage this invitation.",
   "emailRequired": "Email is required",
   "emailInvalid": "Enter a valid email",
   "passwordRequired": "Password is required",
@@ -387,5 +394,56 @@
   "mockLocationClubOceano": "Club Océano",
   "mockDateSaturdayJuly4Short": "Sat, Jul 4, 2026",
   "mockDateFridayAugust7Short": "Fri, Aug 7, 2026",
-  "mockDateSaturdaySeptember12Short": "Sat, Sep 12, 2026"
+  "mockDateSaturdaySeptember12Short": "Sat, Sep 12, 2026",
+  "ticketAssignmentTitle": "Assign tickets",
+  "ticketAssignmentHeading": "Assign tickets",
+  "ticketAssignmentSlotLabel": "Ticket {number}",
+  "@ticketAssignmentSlotLabel": {
+    "placeholders": {
+      "number": {"type": "int"}
+    }
+  },
+  "ticketAssignmentSummarySubtitle": "{count, plural, =1{1 ticket available • You can do it in parts} other{{count} tickets available • You can do it in parts}}",
+  "@ticketAssignmentSummarySubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "ticketAssignmentAvailableCount": "{count, plural, =1{1 ticket available to assign} other{{count} tickets available to assign}}",
+  "@ticketAssignmentAvailableCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "ticketAssignmentPendingCount": "{count, plural, =1{1 pending} other{{count} pending}}",
+  "@ticketAssignmentPendingCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "ticketAssignmentOwnerTicket": "Your ticket",
+  "ticketAssignmentClaimedTicket": "Ticket claimed",
+  "ticketAssignmentPendingBadge": "PENDING",
+  "ticketAssignmentAvailableBadge": "AVAILABLE",
+  "ticketAssignmentGuestNameLabel": "Guest name",
+  "ticketAssignmentGuestNameHint": "Full name",
+  "ticketAssignmentGuestPhoneLabel": "Guest phone",
+  "ticketAssignmentGuestPhoneHint": "Phone (e.g. +56 9 1234 5678)",
+  "ticketAssignmentPickContact": "Search from contacts",
+  "ticketAssignmentSendTicket": "Send ticket",
+  "ticketAssignmentCancelTicket": "Cancel ticket",
+  "ticketAssignmentResendWhatsApp": "Resend WhatsApp",
+  "ticketAssignmentSentSuccess": "Invitation sent via WhatsApp",
+  "ticketAssignmentContactsPermissionDenied": "Contacts permission is required to pick a guest",
+  "ticketAssignmentMissingOrder": "This ticket cannot be assigned yet",
+  "ticketAssignmentNoAssignableTickets": "No tickets available to assign right now",
+  "ticketAssignmentRetry": "Retry",
+  "ticketAssignmentWhatsAppInfo": "A link with instructions to download and register in YouPass will be sent via WhatsApp once you send them the ticket.",
+  "ticketAssignmentPrivacyNote": "Your data and your guests' data are protected",
+  "invitationClaimTitle": "You have a ticket invitation",
+  "invitationClaimGuestLabel": "Guest",
+  "invitationClaimInvitedByLabel": "Invited by",
+  "invitationClaimStepsTitle": "How to claim your ticket",
+  "invitationClaimOpenInvitations": "Open Invitations",
+  "invitationClaimLoginRegister": "Log in or register"
 }

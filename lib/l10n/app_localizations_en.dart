@@ -808,6 +808,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorAuthenticationRequired => 'Please sign in to continue.';
 
   @override
+  String get errorTicketOrderNotFound =>
+      'This ticket order could not be found.';
+
+  @override
+  String get errorTicketSlotNotFound => 'This ticket slot could not be found.';
+
+  @override
+  String get errorTicketSlotNotAvailable =>
+      'This ticket is no longer available to assign.';
+
+  @override
+  String get errorWhatsAppSendFailed =>
+      'Could not send the WhatsApp invitation. Try again.';
+
+  @override
+  String get errorCannotAssignToSelf =>
+      'You cannot assign a ticket to your own phone number.';
+
+  @override
+  String get errorClaimNotFound =>
+      'This invitation link is invalid or has expired.';
+
+  @override
+  String get errorInvitationForbidden =>
+      'You are not allowed to manage this invitation.';
+
+  @override
   String get emailRequired => 'Email is required';
 
   @override
@@ -953,4 +980,128 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mockDateSaturdaySeptember12Short => 'Sat, Sep 12, 2026';
+
+  @override
+  String get ticketAssignmentTitle => 'Assign tickets';
+
+  @override
+  String get ticketAssignmentHeading => 'Assign tickets';
+
+  @override
+  String ticketAssignmentSlotLabel(int number) {
+    return 'Ticket $number';
+  }
+
+  @override
+  String ticketAssignmentSummarySubtitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tickets available • You can do it in parts',
+      one: '1 ticket available • You can do it in parts',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ticketAssignmentAvailableCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tickets available to assign',
+      one: '1 ticket available to assign',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ticketAssignmentPendingCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pending',
+      one: '1 pending',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get ticketAssignmentOwnerTicket => 'Your ticket';
+
+  @override
+  String get ticketAssignmentClaimedTicket => 'Ticket claimed';
+
+  @override
+  String get ticketAssignmentPendingBadge => 'PENDING';
+
+  @override
+  String get ticketAssignmentAvailableBadge => 'AVAILABLE';
+
+  @override
+  String get ticketAssignmentGuestNameLabel => 'Guest name';
+
+  @override
+  String get ticketAssignmentGuestNameHint => 'Full name';
+
+  @override
+  String get ticketAssignmentGuestPhoneLabel => 'Guest phone';
+
+  @override
+  String get ticketAssignmentGuestPhoneHint => 'Phone (e.g. +56 9 1234 5678)';
+
+  @override
+  String get ticketAssignmentPickContact => 'Search from contacts';
+
+  @override
+  String get ticketAssignmentSendTicket => 'Send ticket';
+
+  @override
+  String get ticketAssignmentCancelTicket => 'Cancel ticket';
+
+  @override
+  String get ticketAssignmentResendWhatsApp => 'Resend WhatsApp';
+
+  @override
+  String get ticketAssignmentSentSuccess => 'Invitation sent via WhatsApp';
+
+  @override
+  String get ticketAssignmentContactsPermissionDenied =>
+      'Contacts permission is required to pick a guest';
+
+  @override
+  String get ticketAssignmentMissingOrder =>
+      'This ticket cannot be assigned yet';
+
+  @override
+  String get ticketAssignmentNoAssignableTickets =>
+      'No tickets available to assign right now';
+
+  @override
+  String get ticketAssignmentRetry => 'Retry';
+
+  @override
+  String get ticketAssignmentWhatsAppInfo =>
+      'A link with instructions to download and register in YouPass will be sent via WhatsApp once you send them the ticket.';
+
+  @override
+  String get ticketAssignmentPrivacyNote =>
+      'Your data and your guests\' data are protected';
+
+  @override
+  String get invitationClaimTitle => 'You have a ticket invitation';
+
+  @override
+  String get invitationClaimGuestLabel => 'Guest';
+
+  @override
+  String get invitationClaimInvitedByLabel => 'Invited by';
+
+  @override
+  String get invitationClaimStepsTitle => 'How to claim your ticket';
+
+  @override
+  String get invitationClaimOpenInvitations => 'Open Invitations';
+
+  @override
+  String get invitationClaimLoginRegister => 'Log in or register';
 }

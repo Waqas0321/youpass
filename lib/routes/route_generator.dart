@@ -18,6 +18,10 @@ import 'package:youpass/features/favorites/presentation/routes/producer_events_r
 import 'package:youpass/features/favorites/presentation/screens/my_favorites_screen.dart';
 import 'package:youpass/features/favorites/presentation/screens/producer_events_screen.dart';
 import 'package:youpass/features/tickets/presentation/screens/my_tickets_screen.dart';
+import 'package:youpass/features/ticket_assignment/presentation/routes/assign_tickets_route_args.dart';
+import 'package:youpass/features/ticket_assignment/presentation/routes/invitation_claim_route_args.dart';
+import 'package:youpass/features/ticket_assignment/presentation/screens/assign_tickets_screen.dart';
+import 'package:youpass/features/ticket_assignment/presentation/screens/invitation_claim_screen.dart';
 import 'package:youpass/features/invitations/presentation/routes/event_ticket_route_args.dart';
 import 'package:youpass/features/invitations/presentation/screens/event_ticket_screen.dart';
 import 'package:youpass/features/invitations/presentation/screens/my_invitations_screen.dart';
@@ -101,6 +105,25 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => EventTicketScreen.fromRouteArgs(args),
         );
+      case AppRoutes.assignTickets:
+        final args = settings.arguments;
+        if (args is AssignTicketsRouteArgs) {
+          return MaterialPageRoute(
+            builder: (_) => AssignTicketsScreen(
+              ticketId: args.ticketId,
+              orderId: args.orderId,
+            ),
+          );
+        }
+        return MaterialPageRoute(builder: (_) => const RouteNotFoundScreen());
+      case AppRoutes.invitationClaim:
+        final args = settings.arguments;
+        if (args is InvitationClaimRouteArgs) {
+          return MaterialPageRoute(
+            builder: (_) => InvitationClaimScreen(token: args.token),
+          );
+        }
+        return MaterialPageRoute(builder: (_) => const RouteNotFoundScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => const RouteNotFoundScreen(),

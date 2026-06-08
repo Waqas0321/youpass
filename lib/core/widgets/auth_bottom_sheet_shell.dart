@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_colors.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
@@ -41,6 +41,7 @@ class AuthBottomSheetShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final theme = YouPassThemeExtension.of(context);
     final maxHeight = MediaQuery.sizeOf(context).height * maxHeightFactor;
 
     return SafeArea(
@@ -55,7 +56,7 @@ class AuthBottomSheetShell extends StatelessWidget {
                 width: layout.spacing(40),
                 height: layout.spacing(4),
                 decoration: BoxDecoration(
-                  color: AppColors.lightGreyBorder,
+                  color: theme.cardBorder,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),

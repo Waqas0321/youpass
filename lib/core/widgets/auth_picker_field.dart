@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
@@ -26,6 +25,7 @@ class AuthPickerField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final scheme = Theme.of(context).colorScheme;
     final hasValue = value != null && value!.isNotEmpty;
 
     return AuthLabeledFieldWidget(
@@ -50,8 +50,8 @@ class AuthPickerField extends StatelessWidget {
                       hasValue ? value! : hintText,
                       variant: AppTextVariant.body,
                       color: hasValue
-                          ? AppColors.darkNavy
-                          : AppColors.secondaryGrey.withValues(alpha: 0.6),
+                          ? scheme.onSurface
+                          : scheme.onSurfaceVariant.withValues(alpha: 0.6),
                       fontWeight:
                           hasValue ? FontWeight.w500 : FontWeight.w400,
                     ),
@@ -59,7 +59,7 @@ class AuthPickerField extends StatelessWidget {
                   Icon(
                     Icons.keyboard_arrow_down,
                     size: layout.fontSize(22),
-                    color: AppColors.secondaryGrey.withValues(alpha: 0.8),
+                    color: scheme.onSurfaceVariant.withValues(alpha: 0.8),
                   ),
                 ],
               ),

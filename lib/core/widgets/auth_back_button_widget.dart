@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
@@ -16,6 +15,7 @@ class AuthBackButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final scheme = Theme.of(context).colorScheme;
 
     return Align(
       alignment: Alignment.centerLeft,
@@ -33,7 +33,7 @@ class AuthBackButtonWidget extends StatelessWidget {
               Icon(
                 Icons.arrow_back_ios_new,
                 size: layout.fontSize(16),
-                color: AppColors.darkNavy,
+                color: scheme.onSurface,
               ),
               SizedBox(width: layout.spacing(4)),
               AppText(

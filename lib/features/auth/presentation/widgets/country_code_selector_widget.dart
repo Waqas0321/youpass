@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/models/country_code.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
@@ -30,6 +29,7 @@ class CountryCodeSelectorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final scheme = Theme.of(context).colorScheme;
 
     return InkWell(
       onTap: () => openCountryPicker(context),
@@ -55,7 +55,7 @@ class CountryCodeSelectorWidget extends StatelessWidget {
             Icon(
               Icons.keyboard_arrow_down,
               size: layout.fontSize(20),
-              color: AppColors.secondaryGrey.withValues(alpha: 0.8),
+              color: scheme.onSurfaceVariant.withValues(alpha: 0.8),
             ),
           ],
         ),

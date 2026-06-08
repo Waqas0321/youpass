@@ -6,6 +6,7 @@ import 'package:youpass/core/constants/country_code_list.dart';
 import 'package:youpass/core/l10n/country_code_display_helper.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/models/country_code.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_field.dart';
@@ -94,12 +95,15 @@ class CountryCodePickerSheetState extends State<CountryCodePickerSheet> {
   }
 
   Widget buildCountryList(ResponsiveLayout layout) {
+    final scheme = Theme.of(context).colorScheme;
+    final theme = YouPassThemeExtension.of(context);
+
     if (filteredCountries.isEmpty) {
       return Center(
         child: AppText(
           AppStrings.searchCountryEmpty(context.l10n),
           variant: AppTextVariant.body,
-          color: AppColors.secondaryGrey,
+          color: scheme.onSurfaceVariant,
         ),
       );
     }
@@ -107,9 +111,9 @@ class CountryCodePickerSheetState extends State<CountryCodePickerSheet> {
     return ListView.separated(
       padding: EdgeInsets.symmetric(horizontal: layout.spacing(16)),
       itemCount: filteredCountries.length,
-      separatorBuilder: (_, index) => const Divider(
+      separatorBuilder: (_, index) => Divider(
         height: 1,
-        color: AppColors.homeDividerGrey,
+        color: theme.cardBorder,
       ),
       itemBuilder: (context, index) {
         final country = filteredCountries[index];
@@ -132,7 +136,7 @@ class CountryCodePickerSheetState extends State<CountryCodePickerSheet> {
             variant: AppTextVariant.listTrailing,
             color: isSelected
                 ? AppColors.primaryMustard
-                : AppColors.secondaryGrey,
+                : scheme.onSurfaceVariant,
           ),
           selected: isSelected,
           selectedTileColor: AppColors.primaryMustard.withValues(alpha: 0.12),

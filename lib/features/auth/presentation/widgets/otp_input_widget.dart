@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/otp_constants.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
@@ -87,6 +88,7 @@ class OtpInputWidgetState extends State<OtpInputWidget> {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final theme = YouPassThemeExtension.of(context);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -112,12 +114,12 @@ class OtpInputWidgetState extends State<OtpInputWidget> {
                     height: boxHeight,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: AppColors.backgroundWhite,
+                      color: theme.inputFill,
                       borderRadius: BorderRadius.circular(boxRadius),
                       border: Border.all(
                         color: isActive
                             ? AppColors.primaryMustard
-                            : AppColors.lightGreyBorder,
+                            : theme.cardBorder,
                         width: isActive ? 1.5 : 1,
                       ),
                     ),

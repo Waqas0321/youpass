@@ -31,6 +31,7 @@ class YouPassThemeExtension extends ThemeExtension<YouPassThemeExtension> {
     required this.outlineButtonBorder,
     required this.outlineButtonForeground,
     required this.inputFill,
+    required this.authCurveAccent,
   });
 
   final Color cardBackground;
@@ -60,6 +61,7 @@ class YouPassThemeExtension extends ThemeExtension<YouPassThemeExtension> {
   final Color outlineButtonBorder;
   final Color outlineButtonForeground;
   final Color inputFill;
+  final Color authCurveAccent;
 
   static const Color invitationsTitle = AppColors.drawerGold;
   static const Color drawerGold = AppColors.drawerGold;
@@ -92,6 +94,7 @@ class YouPassThemeExtension extends ThemeExtension<YouPassThemeExtension> {
     outlineButtonBorder: AppColors.outlineButtonBorder,
     outlineButtonForeground: AppColors.outlineButtonForeground,
     inputFill: AppColors.backgroundWhite,
+    authCurveAccent: AppColors.curveAccent,
   );
 
   static const dark = YouPassThemeExtension(
@@ -122,6 +125,7 @@ class YouPassThemeExtension extends ThemeExtension<YouPassThemeExtension> {
     outlineButtonBorder: AppColors.homeAccentYellow,
     outlineButtonForeground: AppColors.homeAccentYellow,
     inputFill: Color(0xFF1A1A1A),
+    authCurveAccent: Color(0xFF2A2210),
   );
 
   static YouPassThemeExtension of(BuildContext context) {
@@ -157,6 +161,7 @@ class YouPassThemeExtension extends ThemeExtension<YouPassThemeExtension> {
     Color? outlineButtonBorder,
     Color? outlineButtonForeground,
     Color? inputFill,
+    Color? authCurveAccent,
   }) {
     return YouPassThemeExtension(
       cardBackground: cardBackground ?? this.cardBackground,
@@ -199,6 +204,7 @@ class YouPassThemeExtension extends ThemeExtension<YouPassThemeExtension> {
       outlineButtonForeground:
           outlineButtonForeground ?? this.outlineButtonForeground,
       inputFill: inputFill ?? this.inputFill,
+      authCurveAccent: authCurveAccent ?? this.authCurveAccent,
     );
   }
 
@@ -261,6 +267,7 @@ class YouPassThemeExtension extends ThemeExtension<YouPassThemeExtension> {
       outlineButtonForeground:
           blend(outlineButtonForeground, other.outlineButtonForeground),
       inputFill: blend(inputFill, other.inputFill),
+      authCurveAccent: blend(authCurveAccent, other.authCurveAccent),
     );
   }
 }

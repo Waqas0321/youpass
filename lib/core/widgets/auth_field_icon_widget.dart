@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 
 class AuthFieldIconWidget extends StatelessWidget {
@@ -13,11 +12,12 @@ class AuthFieldIconWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final scheme = Theme.of(context).colorScheme;
 
     return Icon(
       icon,
       size: layout.fontSize(22),
-      color: AppColors.secondaryGrey.withValues(alpha: 0.7),
+      color: scheme.onSurfaceVariant.withValues(alpha: 0.7),
     );
   }
 }

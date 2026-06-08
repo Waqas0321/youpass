@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_colors.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 
 class AuthCurveBackground extends StatelessWidget {
@@ -8,6 +8,7 @@ class AuthCurveBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final theme = YouPassThemeExtension.of(context);
     final curveSize = layout.curveSize;
 
     return Positioned(
@@ -16,8 +17,8 @@ class AuthCurveBackground extends StatelessWidget {
       child: Container(
         width: curveSize,
         height: curveSize,
-        decoration: const BoxDecoration(
-          color: AppColors.curveAccent,
+        decoration: BoxDecoration(
+          color: theme.authCurveAccent,
           shape: BoxShape.circle,
         ),
       ),

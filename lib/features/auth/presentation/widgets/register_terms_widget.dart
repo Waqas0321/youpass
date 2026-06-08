@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_rich_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
@@ -19,6 +20,7 @@ class RegisterTermsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
     final strings = context.l10n;
+    final theme = YouPassThemeExtension.of(context);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +33,7 @@ class RegisterTermsWidget extends StatelessWidget {
             onChanged: (value) => onChanged(value ?? false),
             activeColor: AppColors.primaryMustard,
             checkColor: AppColors.darkNavy,
-            side: const BorderSide(color: AppColors.lightGreyBorder),
+            side: BorderSide(color: theme.cardBorder),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(layout.radius(4)),
             ),

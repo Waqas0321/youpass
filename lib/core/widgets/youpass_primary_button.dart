@@ -46,7 +46,11 @@ class YouPassPrimaryButton extends StatelessWidget {
                   color: AppColors.darkNavy,
                 ),
               )
-            : AppText(label, variant: AppTextVariant.button),
+            : AppText(
+                label,
+                variant: AppTextVariant.button,
+                color: AppColors.darkNavy,
+              ),
       ),
     );
   }

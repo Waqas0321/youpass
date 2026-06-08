@@ -55,6 +55,11 @@ class AppStrings {
 
   static String buyTickets(AppLocalizations l10n) => l10n.buyTickets;
 
+  static String eventDetailTitle(AppLocalizations l10n) => l10n.eventDetailTitle;
+
+  static String eventDetailAboutSection(AppLocalizations l10n) =>
+      l10n.eventDetailAboutSection;
+
   static String homeCategoryLabel(AppLocalizations l10n, String categoryId) {
     switch (categoryId) {
       case AppConstants.categoryIdAll:
@@ -339,6 +344,261 @@ class AppStrings {
 
   static String invitationClaimLoginRegister(AppLocalizations l10n) =>
       l10n.invitationClaimLoginRegister;
+
+  static String vipTicketSelectionTitle(AppLocalizations l10n) =>
+      l10n.vipTicketSelectionTitle;
+
+  static String vipTicketSelectionHeading(AppLocalizations l10n) =>
+      l10n.vipTicketSelectionHeading;
+
+  static String vipSectionGeneralTickets(AppLocalizations l10n) =>
+      l10n.vipSectionGeneralTickets;
+
+  static String vipSectionVipTickets(AppLocalizations l10n) =>
+      l10n.vipSectionVipTickets;
+
+  static String vipOfferingPreventa1(AppLocalizations l10n) =>
+      l10n.vipOfferingPreventa1;
+
+  static String vipOfferingPreventa2(AppLocalizations l10n) =>
+      l10n.vipOfferingPreventa2;
+
+  static String vipOfferingGeneral(AppLocalizations l10n) =>
+      l10n.vipOfferingGeneral;
+
+  static String vipOfferingGeneralCover(AppLocalizations l10n) =>
+      l10n.vipOfferingGeneralCover;
+
+  static String vipOfferingVipGeneral(AppLocalizations l10n) =>
+      l10n.vipOfferingVipGeneral;
+
+  static String vipOfferingWithoutTable(AppLocalizations l10n) =>
+      l10n.vipOfferingWithoutTable;
+
+  static String vipOfferingGeneralAccessDescription(AppLocalizations l10n) =>
+      l10n.vipOfferingGeneralAccessDescription;
+
+  static String vipTicketCount(AppLocalizations l10n, int count) =>
+      l10n.vipTicketCount(count);
+
+  static String vipTicketSelectionSummaryLine(
+    AppLocalizations l10n,
+    String ticketCount,
+    String amount,
+  ) =>
+      l10n.vipTicketSelectionSummaryLine(ticketCount, amount);
+
+  static String vipContinueWithTickets(
+    AppLocalizations l10n,
+    String ticketCount,
+  ) =>
+      l10n.vipContinueWithTickets(ticketCount);
+
+  static String vipSecurePayment(AppLocalizations l10n) => l10n.vipSecurePayment;
+
+  static String vipMesasVipTitle(AppLocalizations l10n) =>
+      l10n.vipMesasVipTitle;
+
+  static String vipMesasVipSubtitle(AppLocalizations l10n) =>
+      l10n.vipMesasVipSubtitle;
+
+  static String vipFloorPlanTitle(AppLocalizations l10n) =>
+      l10n.vipFloorPlanTitle;
+
+  static String vipFloorPlanHeading(AppLocalizations l10n) =>
+      l10n.vipFloorPlanHeading;
+
+  static String vipFloorPlanVenueName(AppLocalizations l10n) =>
+      l10n.vipFloorPlanVenueName;
+
+  static String vipFloorPlanDimensions(AppLocalizations l10n) =>
+      l10n.vipFloorPlanDimensions;
+
+  static String vipFloorPlanSize(AppLocalizations l10n) => l10n.vipFloorPlanSize;
+
+  static String vipFloorPlanSubtitle(
+    AppLocalizations l10n,
+    String venue,
+    String size,
+  ) =>
+      l10n.vipFloorPlanSubtitle(venue, size);
+
+  static String vipTapVipZoneTitle(AppLocalizations l10n) =>
+      l10n.vipTapVipZoneTitle;
+
+  static String vipTapVipZoneSubtitle(AppLocalizations l10n) =>
+      l10n.vipTapVipZoneSubtitle;
+
+  static String vipYouFestBrand(AppLocalizations l10n) => l10n.vipYouFestBrand;
+
+  static String vipLegendAvailable(AppLocalizations l10n) =>
+      l10n.vipLegendAvailable;
+
+  static String vipLegendPremium(AppLocalizations l10n) =>
+      l10n.vipLegendPremium;
+
+  static String vipLegendSold(AppLocalizations l10n) => l10n.vipLegendSold;
+
+  static String vipTablesZoneTitle(AppLocalizations l10n) =>
+      l10n.vipTablesZoneTitle;
+
+  static String vipTablesCapacitySubtitle(AppLocalizations l10n, int count) =>
+      l10n.vipTablesCapacitySubtitle(count);
+
+  static String vipPurchaseOfferingLine(
+    AppLocalizations l10n,
+    String label,
+    int quantity,
+  ) =>
+      l10n.vipPurchaseOfferingLine(label, quantity);
+
+  static String vipTableReserve(AppLocalizations l10n, String table) =>
+      l10n.vipTableReserve(table);
+
+  static String vipTableDetailTitle(
+    AppLocalizations l10n,
+    String table,
+    String zone,
+  ) =>
+      l10n.vipTableDetailTitle(table, zone);
+
+  static String vipTableCapacity(AppLocalizations l10n, int count) =>
+      l10n.vipTableCapacity(count);
+
+  static String vipTableIncludes(
+    AppLocalizations l10n,
+    int bottles,
+    int vouchers,
+  ) =>
+      l10n.vipTableIncludes(bottles, vouchers);
+
+  static String vipTableBottles(AppLocalizations l10n, int count) =>
+      l10n.vipTableBottles(count);
+
+  static String vipTableVouchers(AppLocalizations l10n, int count) =>
+      l10n.vipTableVouchers(count);
+
+  static String vipPurchaseSummaryTitle(AppLocalizations l10n) =>
+      l10n.vipPurchaseSummaryTitle;
+
+  static String vipServiceFee(AppLocalizations l10n) => l10n.vipServiceFee;
+
+  static String vipPurchaseSubtotal(AppLocalizations l10n) =>
+      l10n.vipPurchaseSubtotal;
+
+  static String vipPurchaseServiceCharge(AppLocalizations l10n) =>
+      l10n.vipPurchaseServiceCharge;
+
+  static String vipGeneralAccessLabel(AppLocalizations l10n) =>
+      l10n.vipGeneralAccessLabel;
+
+  static String vipVoucherCount(AppLocalizations l10n, int count) =>
+      l10n.vipVoucherCount(count);
+
+  static String vipPurchaseTicketDetailsLine(
+    AppLocalizations l10n,
+    String entries,
+    String access,
+    String vouchers,
+  ) =>
+      l10n.vipPurchaseTicketDetailsLine(entries, access, vouchers);
+
+  static String vipTotal(AppLocalizations l10n) => l10n.vipPurchaseTotal;
+
+  static String vipPaymentMethod(AppLocalizations l10n) =>
+      l10n.vipPaymentMethod;
+
+  static String vipSavedCard(AppLocalizations l10n) => l10n.vipSavedCard;
+
+  static String vipAddPaymentMethod(AppLocalizations l10n) =>
+      l10n.vipAddPaymentMethod;
+
+  static String vipPayButton(AppLocalizations l10n, String amount) =>
+      l10n.vipPayButton(amount);
+
+  static String vipPurchaseSuccessTitle(AppLocalizations l10n) =>
+      l10n.vipPurchaseSuccessTitle;
+
+  static String vipPurchaseSuccessMessage(AppLocalizations l10n) =>
+      l10n.vipPurchaseSuccessMessage;
+
+  static String vipTableLockCountdown(AppLocalizations l10n, String time) =>
+      l10n.vipTableLockCountdown(time);
+
+  static String vipTableLockExpired(AppLocalizations l10n) =>
+      l10n.vipTableLockExpired;
+
+  static String eventDetailTicketsUnavailable(AppLocalizations l10n) =>
+      l10n.eventDetailTicketsUnavailable;
+
+  static String vipViewQr(AppLocalizations l10n) => l10n.vipViewQr;
+
+  static String vipZoneLabel(AppLocalizations l10n) => l10n.vipZoneLabel;
+
+  static String vipZone1Name(AppLocalizations l10n) => l10n.vipZone1Name;
+
+  static String vipZone2Name(AppLocalizations l10n) => l10n.vipZone2Name;
+
+  static String vipZoneDj(AppLocalizations l10n) => l10n.vipZoneDj;
+
+  static String vipZoneStage(AppLocalizations l10n) => l10n.vipZoneStage;
+
+  static String vipZoneDanceFloor(AppLocalizations l10n) =>
+      l10n.vipZoneDanceFloor;
+
+  static String vipZoneCapacity(AppLocalizations l10n, int count) =>
+      l10n.vipZoneCapacity(count);
+
+  static String vipEmergencyExit(AppLocalizations l10n) =>
+      l10n.vipEmergencyExit;
+
+  static String vipLegendAvailableShort(AppLocalizations l10n) =>
+      l10n.vipLegendAvailableShort;
+
+  static String vipDanceFloorGeneral(AppLocalizations l10n) =>
+      l10n.vipDanceFloorGeneral;
+
+  static String vipTableDistributionTitle(
+    AppLocalizations l10n,
+    String zone,
+  ) =>
+      l10n.vipTableDistributionTitle(zone);
+
+  static String vipTableDistributionStage(AppLocalizations l10n) =>
+      l10n.vipTableDistributionStage;
+
+  static String vipLegendTableAvailable(AppLocalizations l10n) =>
+      l10n.vipLegendTableAvailable;
+
+  static String vipLegendTableSelection(AppLocalizations l10n) =>
+      l10n.vipLegendTableSelection;
+
+  static String vipLegendTableSold(AppLocalizations l10n) =>
+      l10n.vipLegendTableSold;
+
+  static String vipTableIncludesShort(
+    AppLocalizations l10n,
+    String people,
+    String bottles,
+    String vouchers,
+  ) =>
+      l10n.vipTableIncludesShort(people, bottles, vouchers);
+
+  static String vipPurchaseSummaryItemTitle(
+    AppLocalizations l10n,
+    String table,
+    String zone,
+    String event,
+  ) =>
+      l10n.vipPurchaseSummaryItemTitle(table, zone, event);
+
+  static String vipPurchaseTotal(AppLocalizations l10n) => l10n.vipPurchaseTotal;
+
+  static String vipPurchaseAssignTicketsInfo(
+    AppLocalizations l10n,
+    String myTickets,
+  ) =>
+      l10n.vipPurchaseAssignTicketsInfo(myTickets);
 
   static String ticketsStatistics(AppLocalizations l10n) =>
       l10n.ticketsStatistics;

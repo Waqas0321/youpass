@@ -62,6 +62,24 @@ class ApiEndpoints {
   static const String ticketsYearlySummary =
       '$apiV1/users/me/tickets/yearly-summary';
 
+  static String eventTicketTypes(String eventId) =>
+      '$apiV1/events/$eventId/ticket-types';
+
+  static String eventVenueLayout(String eventId) =>
+      '$apiV1/events/$eventId/venue-layout';
+
+  static String eventZoneTables(String eventId, String zoneId) =>
+      '$apiV1/events/$eventId/zones/$zoneId/tables';
+
+  static String eventTableById(String eventId, String tableId) =>
+      '$apiV1/events/$eventId/tables/$tableId';
+
+  static String eventTableLock(String eventId, String tableId) =>
+      '$apiV1/events/$eventId/tables/$tableId/lock';
+
+  static String eventTablesAvailabilityRealtime(String eventId) =>
+      '$apiV1/events/$eventId/tables/availability/realtime';
+
   static String eventCheckout(String eventId) =>
       '$apiV1/events/$eventId/checkout';
 

@@ -1,5 +1,6 @@
 import 'package:youpass/core/locale/locale_provider.dart';
 import 'package:youpass/features/events/data/services/events_api_service.dart';
+import 'package:youpass/features/events/domain/entities/event_detail_entity.dart';
 import 'package:youpass/features/events/domain/entities/event_entity.dart';
 import 'package:youpass/features/events/domain/entities/event_type_entity.dart';
 import 'package:youpass/features/events/domain/entities/home_events_query.dart';
@@ -61,6 +62,11 @@ class EventsRepositoryImpl implements EventsRepository {
   @override
   Future<List<EventEntity>> fetchFavoriteEvents() {
     return eventsApiService.fetchFavoriteEvents();
+  }
+
+  @override
+  Future<EventDetailEntity> fetchEventDetail(String eventId) {
+    return eventsApiService.fetchEventById(eventId);
   }
 
   @override

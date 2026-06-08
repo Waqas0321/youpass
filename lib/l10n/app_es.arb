@@ -56,6 +56,8 @@
   },
   "seeAll": "Ver todos",
   "buyTickets": "COMPRAR ENTRADAS",
+  "eventDetailTitle": "Detalle del evento",
+  "eventDetailAboutSection": "Sobre este evento",
   "eventCaribeDate": "Sábado, 31 de enero, 2026",
   "eventCaribeLocation": "Club Océano, Viña del Mar",
   "eventRockDate": "Domingo, 15 de febrero, 2026",
@@ -424,5 +426,195 @@
   "invitationClaimInvitedByLabel": "Invitado por",
   "invitationClaimStepsTitle": "Cómo reclamar tu entrada",
   "invitationClaimOpenInvitations": "Abrir Invitaciones",
-  "invitationClaimLoginRegister": "Iniciar sesión o registrarse"
+  "invitationClaimLoginRegister": "Iniciar sesión o registrarse",
+  "vipTicketSelectionTitle": "Comprar entradas",
+  "vipTicketSelectionHeading": "Elige tu entrada",
+  "vipSectionGeneralTickets": "ENTRADAS GENERALES",
+  "vipSectionVipTickets": "ENTRADAS VIP",
+  "vipOfferingPreventa1": "PREVENTA 1",
+  "vipOfferingPreventa2": "PREVENTA 2",
+  "vipOfferingGeneralCover": "GENERAL + COVER",
+  "vipOfferingVipGeneral": "VIP GENERAL",
+  "vipOfferingWithoutTable": "Sin mesa",
+  "vipOfferingGeneralAccessDescription": "Acceso general al evento",
+  "vipTicketCount": "{count, plural, =1{1 entrada} other{{count} entradas}}",
+  "@vipTicketCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "vipTicketSelectionSummaryLine": "{ticketCount} • {amount}",
+  "@vipTicketSelectionSummaryLine": {
+    "placeholders": {
+      "ticketCount": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+  "vipContinueWithTickets": "Continuar - {ticketCount}",
+  "@vipContinueWithTickets": {
+    "placeholders": {
+      "ticketCount": {"type": "String"}
+    }
+  },
+  "vipSecurePayment": "Pago 100% seguro",
+  "vipOfferingGeneral": "GENERAL - COMÚN",
+  "vipMesasVipTitle": "Mesas VIP",
+  "vipMesasVipSubtitle": "Reserva tu mesa y vive la experiencia completa.",
+  "vipFloorPlanTitle": "Plano del salón",
+  "vipFloorPlanHeading": "Plano del salón",
+  "vipFloorPlanVenueName": "Salón principal",
+  "vipFloorPlanSize": "36 x 18 m",
+  "vipFloorPlanSubtitle": "{venue} • {size}",
+  "@vipFloorPlanSubtitle": {
+    "placeholders": {
+      "venue": {"type": "String"},
+      "size": {"type": "String"}
+    }
+  },
+  "vipFloorPlanDimensions": "Salón principal - 36 x 18 m",
+  "vipTapVipZoneTitle": "Toca una zona VIP",
+  "vipTapVipZoneSubtitle": "Selecciona una zona para ver las mesas disponibles",
+  "vipYouFestBrand": "YouFest",
+  "vipLegendAvailable": "Disponible",
+  "vipLegendPremium": "Premium",
+  "vipLegendSold": "Vendido",
+  "vipZone1Name": "VIP 1",
+  "vipZone2Name": "VIP 2",
+  "vipZoneDj": "VIP DJ",
+  "vipZoneStage": "ESCENARIO DJ",
+  "vipZoneDanceFloor": "PISTA DE BAILE",
+  "vipZoneLabel": "ZONA",
+  "vipZoneCapacity": "{count} cupos/mesa",
+  "@vipZoneCapacity": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "vipEmergencyExit": "SALIDA EMERGENCIA",
+  "vipLegendAvailableShort": "Disp.",
+  "vipDanceFloorGeneral": "General",
+  "vipTableDistributionTitle": "DISTRIBUCIÓN ZONA {zone}",
+  "@vipTableDistributionTitle": {
+    "placeholders": {
+      "zone": {"type": "String"}
+    }
+  },
+  "vipTableDistributionStage": "Escenario DJ",
+  "vipLegendTableAvailable": "Disponible",
+  "vipLegendTableSelection": "Seleccion",
+  "vipLegendTableSold": "Vendida",
+  "vipTablesZoneTitle": "Mesas VIP 1",
+  "vipTablesCapacitySubtitle": "{count} personas por mesa",
+  "@vipTablesCapacitySubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "vipPurchaseOfferingLine": "{label} x{quantity}",
+  "@vipPurchaseOfferingLine": {
+    "placeholders": {
+      "label": {"type": "String"},
+      "quantity": {"type": "int"}
+    }
+  },
+  "vipTableReserve": "Reservar Mesa {table}",
+  "@vipTableReserve": {
+    "placeholders": {
+      "table": {"type": "String"}
+    }
+  },
+  "vipTableDetailTitle": "Mesa {table} - {zone}",
+  "@vipTableDetailTitle": {
+    "placeholders": {
+      "table": {"type": "String"},
+      "zone": {"type": "String"}
+    }
+  },
+  "vipTableCapacity": "{count} personas",
+  "@vipTableCapacity": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "vipTableIncludes": "{bottles} botellas · {vouchers} vouchers",
+  "@vipTableIncludes": {
+    "placeholders": {
+      "bottles": {"type": "int"},
+      "vouchers": {"type": "int"}
+    }
+  },
+  "vipTableBottles": "{count} botellas",
+  "@vipTableBottles": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "vipTableVouchers": "{count} vouchers",
+  "@vipTableVouchers": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "vipTableIncludesShort": "{people} • {bottles} • {vouchers}",
+  "@vipTableIncludesShort": {
+    "placeholders": {
+      "people": {"type": "String"},
+      "bottles": {"type": "String"},
+      "vouchers": {"type": "String"}
+    }
+  },
+  "vipPurchaseSummaryTitle": "Resumen de compra",
+  "vipPurchaseSummaryItemTitle": "Mesa {table} - {zone} | {event}",
+  "@vipPurchaseSummaryItemTitle": {
+    "placeholders": {
+      "table": {"type": "String"},
+      "zone": {"type": "String"},
+      "event": {"type": "String"}
+    }
+  },
+  "vipServiceFee": "Servicio",
+  "vipPurchaseSubtotal": "Subtotal",
+  "vipPurchaseServiceCharge": "Cargo por servicio",
+  "vipGeneralAccessLabel": "Acceso general",
+  "vipVoucherCount": "{count, plural, =1{1 voucher} other{{count} vouchers}}",
+  "@vipVoucherCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "vipPurchaseTicketDetailsLine": "{entries} • {access} • {vouchers}",
+  "@vipPurchaseTicketDetailsLine": {
+    "placeholders": {
+      "entries": {"type": "String"},
+      "access": {"type": "String"},
+      "vouchers": {"type": "String"}
+    }
+  },
+  "vipPurchaseTotal": "Total",
+  "vipPaymentMethod": "MEDIO DE PAGO",
+  "vipSavedCard": "Visa terminada en 4205",
+  "vipAddPaymentMethod": "Agregar medio de pago",
+  "vipPurchaseAssignTicketsInfo": "Después del pago, podrás asignar las entradas a tus invitados o hacerlo más tarde desde {myTickets}.",
+  "@vipPurchaseAssignTicketsInfo": {
+    "placeholders": {
+      "myTickets": {"type": "String"}
+    }
+  },
+  "vipPayButton": "Pagar {amount}",
+  "@vipPayButton": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "vipPurchaseSuccessTitle": "¡Compra exitosa!",
+  "vipPurchaseSuccessMessage": "Tu pago ha sido procesado correctamente.",
+  "vipTableLockCountdown": "Completa el pago en {time}",
+  "@vipTableLockCountdown": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "vipTableLockExpired": "Tu reserva de mesa expiró. Selecciona una mesa nuevamente.",
+  "eventDetailTicketsUnavailable": "Las entradas aún no están disponibles para este evento.",
+  "vipViewQr": "Ver QR"
 }

@@ -15,6 +15,7 @@ class EventBrowseCardWidget extends StatelessWidget {
     super.key,
     required this.event,
     this.onBuyTicket,
+    this.onEventTap,
     this.onFavoriteTap,
     this.isFavoritePending = false,
     this.showFavorite = true,
@@ -22,6 +23,7 @@ class EventBrowseCardWidget extends StatelessWidget {
 
   final EventEntity event;
   final VoidCallback? onBuyTicket;
+  final VoidCallback? onEventTap;
   final VoidCallback? onFavoriteTap;
   final bool isFavoritePending;
   final bool showFavorite;
@@ -40,7 +42,12 @@ class EventBrowseCardWidget extends StatelessWidget {
     final description = EventBrowseCardLabelFormatter.descriptionText(event);
     final scheduleLabel = EventBrowseCardLabelFormatter.scheduleLabel(event);
 
-    return Container(
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onEventTap,
+        borderRadius: BorderRadius.circular(radius),
+        child: Container(
       margin: EdgeInsets.only(bottom: FavoritesDesignSpec.px(context, 14)),
       height: cardHeight,
       decoration: BoxDecoration(
@@ -161,6 +168,8 @@ class EventBrowseCardWidget extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    ),
       ),
     );
   }

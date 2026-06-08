@@ -1,0 +1,4 @@
+enum TicketOfferingSection {
+  general,
+  vip,
+}

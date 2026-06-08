@@ -10,6 +10,7 @@ class YouPassBrandedAppBarWidget extends StatelessWidget
     this.primaryColor = const Color(0xFFE69D17),
     this.backgroundColor,
     this.subtitleColor,
+    this.actions,
   });
 
   final String? screenTitle;
@@ -17,6 +18,7 @@ class YouPassBrandedAppBarWidget extends StatelessWidget
   final Color primaryColor;
   final Color? backgroundColor;
   final Color? subtitleColor;
+  final List<Widget>? actions;
 
   @override
   Size get preferredSize => Size.fromHeight(
@@ -41,6 +43,7 @@ class YouPassBrandedAppBarWidget extends StatelessWidget
         onPressed: onBack,
         icon: Icon(Icons.arrow_back, color: primaryColor, size: 24),
       ),
+      actions: actions,
       title: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

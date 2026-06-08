@@ -19,6 +19,10 @@ class TicketAssignmentApiService extends BaseApiService {
       tier: request.tier,
       type: request.type,
       paymentMethodId: request.paymentMethodId,
+      offeringId: request.offeringId,
+      items: request.items,
+      tableId: request.tableId,
+      zoneId: request.zoneId,
     );
 
     return postModel(

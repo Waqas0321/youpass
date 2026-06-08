@@ -16,12 +16,14 @@ class EventListCardWidget extends StatelessWidget {
     super.key,
     required this.event,
     this.onBuyTickets,
+    this.onEventTap,
     this.onFavoriteTap,
     this.isFavoritePending = false,
   });
 
   final EventEntity event;
   final VoidCallback? onBuyTickets;
+  final VoidCallback? onEventTap;
   final VoidCallback? onFavoriteTap;
   final bool isFavoritePending;
 
@@ -41,7 +43,11 @@ class EventListCardWidget extends StatelessWidget {
         border: Border.all(color: theme.cardBorder),
       ),
       clipBehavior: Clip.antiAlias,
-      child: Row(
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onEventTap,
+          child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SizedBox(
@@ -133,6 +139,8 @@ class EventListCardWidget extends StatelessWidget {
             ),
           ),
         ],
+      ),
+        ),
       ),
     );
   }

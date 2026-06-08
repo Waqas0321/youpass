@@ -1,5 +1,6 @@
 import 'package:youpass/core/network/api_endpoints.dart';
 import 'package:youpass/core/network/base_api_service.dart';
+import 'package:youpass/features/events/data/models/event_detail_model.dart';
 import 'package:youpass/features/events/data/models/event_model.dart';
 import 'package:youpass/features/events/data/models/event_type_list_response_model.dart';
 import 'package:youpass/features/events/data/models/event_type_model.dart';
@@ -74,6 +75,14 @@ class EventsApiService extends BaseApiService {
   Future<void> removeFavorite(String eventId) {
     return deleteVoid(
       ApiEndpoints.favoriteEvent(eventId),
+      authenticated: true,
+    );
+  }
+
+  Future<EventDetailModel> fetchEventById(String eventId) {
+    return getModel(
+      ApiEndpoints.eventById(eventId),
+      fromJson: EventDetailModel.fromJson,
       authenticated: true,
     );
   }

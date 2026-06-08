@@ -54,13 +54,18 @@ class AssignTicketSlotCardWidgetState extends State<AssignTicketSlotCardWidget> 
   void didUpdateWidget(covariant AssignTicketSlotCardWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.slot.id != widget.slot.id ||
-        oldWidget.slot.guestName != widget.slot.guestName) {
+        oldWidget.slot.guestName != widget.slot.guestName ||
+        oldWidget.slot.guestPhone != widget.slot.guestPhone) {
       syncGuestFields(widget.slot);
     }
   }
 
   void syncGuestFields(TicketAssignmentSlotEntity slot) {
     nameController.text = slot.guestName ?? '';
+    final guestPhone = slot.guestPhone?.trim() ?? '';
+    if (guestPhone.isNotEmpty) {
+      phoneController.text = guestPhone;
+    }
   }
 
   @override

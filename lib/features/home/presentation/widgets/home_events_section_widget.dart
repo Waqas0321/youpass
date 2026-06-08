@@ -13,12 +13,16 @@ class HomeEventsSectionWidget extends StatelessWidget {
     this.onFavoriteTap,
     this.isFavoritePending,
     this.onSeeAllTap,
+    this.onBuyTickets,
+    this.onEventTap,
   });
 
   final List<EventEntity> events;
   final ValueChanged<String>? onFavoriteTap;
   final bool Function(String eventId)? isFavoritePending;
   final VoidCallback? onSeeAllTap;
+  final ValueChanged<EventEntity>? onBuyTickets;
+  final ValueChanged<EventEntity>? onEventTap;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +57,11 @@ class HomeEventsSectionWidget extends StatelessWidget {
               padding: EdgeInsets.only(bottom: layout.spacing(12)),
               child: EventListCardWidget(
                 event: event,
+                onEventTap:
+                    onEventTap == null ? null : () => onEventTap!(event),
+                onBuyTickets: onBuyTickets == null
+                    ? null
+                    : () => onBuyTickets!(event),
                 onFavoriteTap: onFavoriteTap == null
                     ? null
                     : () => onFavoriteTap!(event.id),

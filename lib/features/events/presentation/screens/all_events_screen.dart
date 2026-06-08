@@ -18,6 +18,8 @@ import 'package:youpass/features/events/presentation/utils/event_browse_filter_h
 import 'package:youpass/core/l10n/app_message_localizer.dart';
 import 'package:youpass/features/events/presentation/widgets/event_browse_list_content.dart';
 import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
+import 'package:youpass/features/events/presentation/utils/event_detail_screen_actions.dart';
+import 'package:youpass/features/vip_venue/presentation/utils/vip_purchase_screen_actions.dart';
 import 'package:youpass/features/home/domain/entities/event_category_entity.dart';
 
 class AllEventsScreen extends StatefulWidget {
@@ -201,6 +203,14 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
                   ),
                   onFavoriteTap: toggleFavorite,
                   favoritePendingIds: favoritePendingIds,
+                  onEventTap: (event) =>
+                      EventDetailScreenActions(context).openEventDetail(
+                    event: event,
+                  ),
+                  onBuyTicket: (event) =>
+                      VipPurchaseScreenActions(context).openTicketSelection(
+                    event: event,
+                  ),
                 ),
     );
   }

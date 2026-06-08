@@ -8,7 +8,9 @@ import 'package:youpass/features/home/presentation/widgets/home_category_filters
 import 'package:youpass/features/home/presentation/widgets/home_events_section_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/home_greeting_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:youpass/features/events/presentation/utils/event_detail_screen_actions.dart';
 import 'package:youpass/features/events/presentation/routes/all_events_route_args.dart';
+import 'package:youpass/features/vip_venue/presentation/utils/vip_purchase_screen_actions.dart';
 import 'package:youpass/routes/app_routes.dart';
 
 class HomeFeedWidget extends StatelessWidget {
@@ -40,12 +42,20 @@ class HomeFeedWidget extends StatelessWidget {
         if (homeProvider.isFilteringEvents)
           const HomeEventsSectionShimmer()
         else ...[
-          FeaturedEventCarouselWidget(events: feed.carouselEvents),
+          FeaturedEventCarouselWidget(
+            events: feed.carouselEvents,
+            onEventTap: (event) =>
+                EventDetailScreenActions(context).openEventDetail(event: event),
+          ),
           SizedBox(height: layout.spacing(24)),
           HomeEventsSectionWidget(
             events: feed.featuredEvents,
             onFavoriteTap: homeProvider.toggleFavorite,
             isFavoritePending: homeProvider.isFavoritePending,
+            onEventTap: (event) =>
+                EventDetailScreenActions(context).openEventDetail(event: event),
+            onBuyTickets: (event) =>
+                VipPurchaseScreenActions(context).openTicketSelection(event: event),
             onSeeAllTap: () => Navigator.of(context).pushNamed(
               AppRoutes.allEvents,
               arguments: AllEventsRouteArgs(

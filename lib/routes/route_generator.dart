@@ -12,9 +12,16 @@ import 'package:youpass/features/auth/routes/verification_route_args.dart';
 import 'package:youpass/features/home/presentation/screens/home_screen.dart';
 import 'package:youpass/features/profile/presentation/screens/profile_screen.dart';
 import 'package:youpass/features/profile/presentation/screens/profile_wallet_screen.dart';
+import 'package:youpass/features/events/presentation/routes/event_detail_route_args.dart';
+import 'package:youpass/features/events/presentation/screens/event_detail_screen.dart';
 import 'package:youpass/features/events/presentation/routes/all_events_route_args.dart';
 import 'package:youpass/features/events/presentation/screens/all_events_screen.dart';
 import 'package:youpass/features/favorites/presentation/screens/my_favorites_screen.dart';
+import 'package:youpass/features/vip_venue/presentation/routes/vip_purchase_route_args.dart';
+import 'package:youpass/features/vip_venue/presentation/screens/floor_plan_screen.dart';
+import 'package:youpass/features/vip_venue/presentation/screens/purchase_summary_screen.dart';
+import 'package:youpass/features/vip_venue/presentation/screens/table_selection_screen.dart';
+import 'package:youpass/features/vip_venue/presentation/screens/ticket_selection_screen.dart';
 import 'package:youpass/features/tickets/presentation/screens/my_tickets_screen.dart';
 import 'package:youpass/features/ticket_assignment/presentation/routes/assign_tickets_route_args.dart';
 import 'package:youpass/features/ticket_assignment/presentation/routes/invitation_claim_route_args.dart';
@@ -67,7 +74,10 @@ class RouteGenerator {
           builder: (_) => WelcomeScreen(args: welcomeArgs),
         );
       case AppRoutes.home:
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const HomeScreen(),
+        );
       case AppRoutes.profile:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
       case AppRoutes.profileWallet:
@@ -84,6 +94,46 @@ class RouteGenerator {
                 ? args
                 : const AllEventsRouteArgs(),
           ),
+        );
+      case AppRoutes.eventDetail:
+        final args = settings.arguments;
+        if (args is! EventDetailRouteArgs) {
+          return MaterialPageRoute(builder: (_) => const HomeScreen());
+        }
+        return MaterialPageRoute(
+          builder: (_) => EventDetailScreen.fromRouteArgs(args),
+        );
+      case AppRoutes.vipTicketSelection:
+        final args = settings.arguments;
+        if (args is! VipPurchaseRouteArgs) {
+          return MaterialPageRoute(builder: (_) => const HomeScreen());
+        }
+        return MaterialPageRoute(
+          builder: (_) => TicketSelectionScreen.fromRouteArgs(args),
+        );
+      case AppRoutes.vipFloorPlan:
+        final args = settings.arguments;
+        if (args is! VipPurchaseRouteArgs) {
+          return MaterialPageRoute(builder: (_) => const HomeScreen());
+        }
+        return MaterialPageRoute(
+          builder: (_) => FloorPlanScreen.fromRouteArgs(args),
+        );
+      case AppRoutes.vipTableSelection:
+        final args = settings.arguments;
+        if (args is! VipPurchaseRouteArgs) {
+          return MaterialPageRoute(builder: (_) => const HomeScreen());
+        }
+        return MaterialPageRoute(
+          builder: (_) => TableSelectionScreen.fromRouteArgs(args),
+        );
+      case AppRoutes.vipPurchaseSummary:
+        final args = settings.arguments;
+        if (args is! VipPurchaseRouteArgs) {
+          return MaterialPageRoute(builder: (_) => const HomeScreen());
+        }
+        return MaterialPageRoute(
+          builder: (_) => PurchaseSummaryScreen.fromRouteArgs(args),
         );
       case AppRoutes.myInvitations:
         return MaterialPageRoute(builder: (_) => const MyInvitationsScreen());

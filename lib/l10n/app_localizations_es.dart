@@ -145,6 +145,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get buyTickets => 'COMPRAR ENTRADAS';
 
   @override
+  String get eventDetailTitle => 'Detalle del evento';
+
+  @override
+  String get eventDetailAboutSection => 'Sobre este evento';
+
+  @override
   String get eventCaribeDate => 'Sábado, 31 de enero, 2026';
 
   @override
@@ -1111,4 +1117,289 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get invitationClaimLoginRegister => 'Iniciar sesión o registrarse';
+
+  @override
+  String get vipTicketSelectionTitle => 'Comprar entradas';
+
+  @override
+  String get vipTicketSelectionHeading => 'Elige tu entrada';
+
+  @override
+  String get vipSectionGeneralTickets => 'ENTRADAS GENERALES';
+
+  @override
+  String get vipSectionVipTickets => 'ENTRADAS VIP';
+
+  @override
+  String get vipOfferingPreventa1 => 'PREVENTA 1';
+
+  @override
+  String get vipOfferingPreventa2 => 'PREVENTA 2';
+
+  @override
+  String get vipOfferingGeneralCover => 'GENERAL + COVER';
+
+  @override
+  String get vipOfferingVipGeneral => 'VIP GENERAL';
+
+  @override
+  String get vipOfferingWithoutTable => 'Sin mesa';
+
+  @override
+  String get vipOfferingGeneralAccessDescription => 'Acceso general al evento';
+
+  @override
+  String vipTicketCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entradas',
+      one: '1 entrada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String vipTicketSelectionSummaryLine(String ticketCount, String amount) {
+    return '$ticketCount • $amount';
+  }
+
+  @override
+  String vipContinueWithTickets(String ticketCount) {
+    return 'Continuar - $ticketCount';
+  }
+
+  @override
+  String get vipSecurePayment => 'Pago 100% seguro';
+
+  @override
+  String get vipOfferingGeneral => 'GENERAL - COMÚN';
+
+  @override
+  String get vipMesasVipTitle => 'Mesas VIP';
+
+  @override
+  String get vipMesasVipSubtitle =>
+      'Reserva tu mesa y vive la experiencia completa.';
+
+  @override
+  String get vipFloorPlanTitle => 'Plano del salón';
+
+  @override
+  String get vipFloorPlanHeading => 'Plano del salón';
+
+  @override
+  String get vipFloorPlanVenueName => 'Salón principal';
+
+  @override
+  String get vipFloorPlanSize => '36 x 18 m';
+
+  @override
+  String vipFloorPlanSubtitle(String venue, String size) {
+    return '$venue • $size';
+  }
+
+  @override
+  String get vipFloorPlanDimensions => 'Salón principal - 36 x 18 m';
+
+  @override
+  String get vipTapVipZoneTitle => 'Toca una zona VIP';
+
+  @override
+  String get vipTapVipZoneSubtitle =>
+      'Selecciona una zona para ver las mesas disponibles';
+
+  @override
+  String get vipYouFestBrand => 'YouFest';
+
+  @override
+  String get vipLegendAvailable => 'Disponible';
+
+  @override
+  String get vipLegendPremium => 'Premium';
+
+  @override
+  String get vipLegendSold => 'Vendido';
+
+  @override
+  String get vipZone1Name => 'VIP 1';
+
+  @override
+  String get vipZone2Name => 'VIP 2';
+
+  @override
+  String get vipZoneDj => 'VIP DJ';
+
+  @override
+  String get vipZoneStage => 'ESCENARIO DJ';
+
+  @override
+  String get vipZoneDanceFloor => 'PISTA DE BAILE';
+
+  @override
+  String get vipZoneLabel => 'ZONA';
+
+  @override
+  String vipZoneCapacity(int count) {
+    return '$count cupos/mesa';
+  }
+
+  @override
+  String get vipEmergencyExit => 'SALIDA EMERGENCIA';
+
+  @override
+  String get vipLegendAvailableShort => 'Disp.';
+
+  @override
+  String get vipDanceFloorGeneral => 'General';
+
+  @override
+  String vipTableDistributionTitle(String zone) {
+    return 'DISTRIBUCIÓN ZONA $zone';
+  }
+
+  @override
+  String get vipTableDistributionStage => 'Escenario DJ';
+
+  @override
+  String get vipLegendTableAvailable => 'Disponible';
+
+  @override
+  String get vipLegendTableSelection => 'Seleccion';
+
+  @override
+  String get vipLegendTableSold => 'Vendida';
+
+  @override
+  String get vipTablesZoneTitle => 'Mesas VIP 1';
+
+  @override
+  String vipTablesCapacitySubtitle(int count) {
+    return '$count personas por mesa';
+  }
+
+  @override
+  String vipPurchaseOfferingLine(String label, int quantity) {
+    return '$label x$quantity';
+  }
+
+  @override
+  String vipTableReserve(String table) {
+    return 'Reservar Mesa $table';
+  }
+
+  @override
+  String vipTableDetailTitle(String table, String zone) {
+    return 'Mesa $table - $zone';
+  }
+
+  @override
+  String vipTableCapacity(int count) {
+    return '$count personas';
+  }
+
+  @override
+  String vipTableIncludes(int bottles, int vouchers) {
+    return '$bottles botellas · $vouchers vouchers';
+  }
+
+  @override
+  String vipTableBottles(int count) {
+    return '$count botellas';
+  }
+
+  @override
+  String vipTableVouchers(int count) {
+    return '$count vouchers';
+  }
+
+  @override
+  String vipTableIncludesShort(String people, String bottles, String vouchers) {
+    return '$people • $bottles • $vouchers';
+  }
+
+  @override
+  String get vipPurchaseSummaryTitle => 'Resumen de compra';
+
+  @override
+  String vipPurchaseSummaryItemTitle(String table, String zone, String event) {
+    return 'Mesa $table - $zone | $event';
+  }
+
+  @override
+  String get vipServiceFee => 'Servicio';
+
+  @override
+  String get vipPurchaseSubtotal => 'Subtotal';
+
+  @override
+  String get vipPurchaseServiceCharge => 'Cargo por servicio';
+
+  @override
+  String get vipGeneralAccessLabel => 'Acceso general';
+
+  @override
+  String vipVoucherCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count vouchers',
+      one: '1 voucher',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String vipPurchaseTicketDetailsLine(
+    String entries,
+    String access,
+    String vouchers,
+  ) {
+    return '$entries • $access • $vouchers';
+  }
+
+  @override
+  String get vipPurchaseTotal => 'Total';
+
+  @override
+  String get vipPaymentMethod => 'MEDIO DE PAGO';
+
+  @override
+  String get vipSavedCard => 'Visa terminada en 4205';
+
+  @override
+  String get vipAddPaymentMethod => 'Agregar medio de pago';
+
+  @override
+  String vipPurchaseAssignTicketsInfo(String myTickets) {
+    return 'Después del pago, podrás asignar las entradas a tus invitados o hacerlo más tarde desde $myTickets.';
+  }
+
+  @override
+  String vipPayButton(String amount) {
+    return 'Pagar $amount';
+  }
+
+  @override
+  String get vipPurchaseSuccessTitle => '¡Compra exitosa!';
+
+  @override
+  String get vipPurchaseSuccessMessage =>
+      'Tu pago ha sido procesado correctamente.';
+
+  @override
+  String vipTableLockCountdown(String time) {
+    return 'Completa el pago en $time';
+  }
+
+  @override
+  String get vipTableLockExpired =>
+      'Tu reserva de mesa expiró. Selecciona una mesa nuevamente.';
+
+  @override
+  String get eventDetailTicketsUnavailable =>
+      'Las entradas aún no están disponibles para este evento.';
+
+  @override
+  String get vipViewQr => 'Ver QR';
 }

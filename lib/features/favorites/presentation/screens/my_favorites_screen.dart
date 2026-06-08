@@ -14,6 +14,7 @@ import 'package:youpass/features/events/domain/usecases/get_favorite_events_usec
 import 'package:youpass/features/events/domain/usecases/toggle_event_favorite_usecase.dart'
     as events_usecases;
 import 'package:youpass/features/events/presentation/utils/event_browse_filter_helper.dart';
+import 'package:youpass/features/events/presentation/utils/event_detail_screen_actions.dart';
 import 'package:youpass/features/events/presentation/widgets/event_browse_list_content.dart';
 import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
 import 'package:youpass/features/home/domain/entities/event_category_entity.dart';
@@ -192,6 +193,10 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
                     ),
                     onFavoriteTap: toggleFavorite,
                     favoritePendingIds: favoritePendingIds,
+                    onEventTap: (event) =>
+                        EventDetailScreenActions(context).openEventDetail(
+                      event: event,
+                    ),
                     markAllAsFavorite: true,
                   ),
                 ),

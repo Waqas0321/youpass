@@ -8,6 +8,11 @@ class EventCheckoutResultEntity extends Equatable {
     required this.totalAmount,
     required this.currency,
     required this.availableToAssign,
+    this.ticketId,
+    this.seatLabel,
+    this.qrUnlockAt,
+    this.subtotalAmount,
+    this.serviceFeeAmount,
   });
 
   final String orderId;
@@ -16,6 +21,11 @@ class EventCheckoutResultEntity extends Equatable {
   final num totalAmount;
   final String currency;
   final int availableToAssign;
+  final String? ticketId;
+  final String? seatLabel;
+  final DateTime? qrUnlockAt;
+  final num? subtotalAmount;
+  final num? serviceFeeAmount;
 
   @override
   List<Object?> get props => [
@@ -25,5 +35,10 @@ class EventCheckoutResultEntity extends Equatable {
         totalAmount,
         currency,
         availableToAssign,
+        ticketId,
+        seatLabel,
+        qrUnlockAt,
+        subtotalAmount,
+        serviceFeeAmount,
       ];
 }

@@ -27,6 +27,8 @@ class EventBrowseListContent extends StatelessWidget {
     required this.footerText,
     required this.onFavoriteTap,
     required this.favoritePendingIds,
+    this.onBuyTicket,
+    this.onEventTap,
     this.isListLoading = false,
     this.markAllAsFavorite = false,
     this.scrollPhysics = const AlwaysScrollableScrollPhysics(),
@@ -48,6 +50,8 @@ class EventBrowseListContent extends StatelessWidget {
   final String footerText;
   final ValueChanged<String> onFavoriteTap;
   final Set<String> favoritePendingIds;
+  final ValueChanged<EventEntity>? onBuyTicket;
+  final ValueChanged<EventEntity>? onEventTap;
   final bool isListLoading;
   final bool markAllAsFavorite;
   final ScrollPhysics scrollPhysics;
@@ -112,6 +116,11 @@ class EventBrowseListContent extends StatelessWidget {
 
               return EventBrowseCardWidget(
                 event: cardEvent,
+                onEventTap:
+                    onEventTap == null ? null : () => onEventTap!(event),
+                onBuyTicket: onBuyTicket == null
+                    ? null
+                    : () => onBuyTicket!(event),
                 onFavoriteTap: () => onFavoriteTap(event.id),
                 isFavoritePending: favoritePendingIds.contains(event.id),
               );

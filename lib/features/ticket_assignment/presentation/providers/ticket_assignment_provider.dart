@@ -45,10 +45,7 @@ class TicketAssignmentProvider extends ChangeNotifier {
 
   Future<EventCheckoutResultEntity?> checkoutEvent({
     required String eventId,
-    required int quantity,
-    required String tier,
-    String type = 'general',
-    String? paymentMethodId,
+    required EventCheckoutRequestEntity request,
   }) async {
     isCheckoutSubmitting = true;
     errorMessage = null;
@@ -58,12 +55,7 @@ class TicketAssignmentProvider extends ChangeNotifier {
     try {
       return await checkoutEventTicketsUseCase(
         eventId: eventId,
-        request: EventCheckoutRequestEntity(
-          quantity: quantity,
-          tier: tier,
-          type: type,
-          paymentMethodId: paymentMethodId,
-        ),
+        request: request,
       );
     } on ApiException catch (error) {
       errorCode = error.code;

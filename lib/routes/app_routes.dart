@@ -10,6 +10,11 @@ class AppRoutes {
   static const String myTickets = '/tickets';
   static const String myFavorites = '/favorites';
   static const String allEvents = '/events/all';
+  static const String eventDetail = '/events/detail';
+  static const String vipTicketSelection = '/events/tickets';
+  static const String vipFloorPlan = '/events/vip/floor-plan';
+  static const String vipTableSelection = '/events/vip/tables';
+  static const String vipPurchaseSummary = '/events/vip/summary';
   static const String myInvitations = '/invitations';
   static const String eventTicket = '/invitations/ticket';
   static const String assignTickets = '/tickets/assign';

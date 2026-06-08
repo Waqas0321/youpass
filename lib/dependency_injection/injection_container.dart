@@ -33,6 +33,7 @@ import 'package:youpass/features/events/domain/repositories/events_repository.da
 import 'package:youpass/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:youpass/features/home/data/datasources/home_remote_datasource_impl.dart';
 import 'package:youpass/features/events/domain/usecases/get_all_events_usecase.dart';
+import 'package:youpass/features/events/domain/usecases/get_event_detail_usecase.dart';
 import 'package:youpass/features/events/domain/usecases/get_favorite_events_usecase.dart';
 import 'package:youpass/features/events/domain/usecases/toggle_event_favorite_usecase.dart'
     as events_usecases;
@@ -78,6 +79,18 @@ import 'package:youpass/features/ticket_assignment/domain/usecases/fetch_invitat
 import 'package:youpass/features/ticket_assignment/domain/usecases/fetch_ticket_order_assignments_usecase.dart';
 import 'package:youpass/features/ticket_assignment/domain/usecases/resend_ticket_assignment_usecase.dart';
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_provider.dart';
+import 'package:youpass/features/vip_venue/data/datasources/vip_venue_remote_datasource.dart';
+import 'package:youpass/features/vip_venue/data/datasources/vip_venue_remote_datasource_impl.dart';
+import 'package:youpass/features/vip_venue/data/repositories/vip_venue_repository_impl.dart';
+import 'package:youpass/features/vip_venue/data/services/vip_venue_api_service.dart';
+import 'package:youpass/features/vip_venue/domain/repositories/vip_venue_repository.dart';
+import 'package:youpass/features/vip_venue/domain/usecases/fetch_table_availability_realtime_usecase.dart';
+import 'package:youpass/features/vip_venue/domain/usecases/fetch_ticket_types_usecase.dart';
+import 'package:youpass/features/vip_venue/domain/usecases/fetch_venue_layout_usecase.dart';
+import 'package:youpass/features/vip_venue/domain/usecases/fetch_zone_tables_usecase.dart';
+import 'package:youpass/features/vip_venue/domain/usecases/lock_venue_table_usecase.dart';
+import 'package:youpass/features/vip_venue/domain/usecases/release_venue_table_lock_usecase.dart';
+import 'package:youpass/features/vip_venue/presentation/providers/vip_venue_provider.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -179,6 +192,9 @@ Future<void> initDependencies() async {
     )
     ..registerLazySingleton<GetAllEventsUseCase>(
       () => GetAllEventsUseCase(sl<EventsRepository>()),
+    )
+    ..registerLazySingleton<GetEventDetailUseCase>(
+      () => GetEventDetailUseCase(sl<EventsRepository>()),
     )
     ..registerLazySingleton<GetFavoriteEventsUseCase>(
       () => GetFavoriteEventsUseCase(sl<EventsRepository>()),
@@ -331,6 +347,47 @@ Future<void> initDependencies() async {
         cancelTicketAssignmentUseCase: sl<CancelTicketAssignmentUseCase>(),
         resendTicketAssignmentUseCase: sl<ResendTicketAssignmentUseCase>(),
         fetchInvitationClaimUseCase: sl<FetchInvitationClaimUseCase>(),
+      ),
+    )
+    ..registerLazySingleton<VipVenueApiService>(
+      () => VipVenueApiService(sl<ApiClient>()),
+    )
+    ..registerLazySingleton<VipVenueRemoteDataSource>(
+      () => VipVenueRemoteDataSourceImpl(
+        apiService: sl<VipVenueApiService>(),
+        localeProvider: sl<LocaleProvider>(),
+      ),
+    )
+    ..registerLazySingleton<VipVenueRepository>(
+      () => VipVenueRepositoryImpl(sl<VipVenueRemoteDataSource>()),
+    )
+    ..registerLazySingleton<FetchTicketTypesUseCase>(
+      () => FetchTicketTypesUseCase(sl<VipVenueRepository>()),
+    )
+    ..registerLazySingleton<FetchVenueLayoutUseCase>(
+      () => FetchVenueLayoutUseCase(sl<VipVenueRepository>()),
+    )
+    ..registerLazySingleton<FetchZoneTablesUseCase>(
+      () => FetchZoneTablesUseCase(sl<VipVenueRepository>()),
+    )
+    ..registerLazySingleton<LockVenueTableUseCase>(
+      () => LockVenueTableUseCase(sl<VipVenueRepository>()),
+    )
+    ..registerLazySingleton<ReleaseVenueTableLockUseCase>(
+      () => ReleaseVenueTableLockUseCase(sl<VipVenueRepository>()),
+    )
+    ..registerLazySingleton<FetchTableAvailabilityRealtimeUseCase>(
+      () => FetchTableAvailabilityRealtimeUseCase(sl<VipVenueRepository>()),
+    )
+    ..registerLazySingleton<VipVenueProvider>(
+      () => VipVenueProvider(
+        fetchTicketTypesUseCase: sl<FetchTicketTypesUseCase>(),
+        fetchVenueLayoutUseCase: sl<FetchVenueLayoutUseCase>(),
+        fetchZoneTablesUseCase: sl<FetchZoneTablesUseCase>(),
+        lockVenueTableUseCase: sl<LockVenueTableUseCase>(),
+        releaseVenueTableLockUseCase: sl<ReleaseVenueTableLockUseCase>(),
+        fetchTableAvailabilityRealtimeUseCase:
+            sl<FetchTableAvailabilityRealtimeUseCase>(),
       ),
     );
 

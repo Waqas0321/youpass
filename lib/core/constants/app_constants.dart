@@ -8,6 +8,9 @@ class AppConstants {
   /// Uses mock tickets when the tickets API is unavailable.
   static const bool useTicketsMockData = false;
 
+  /// Uses mock VIP venue data when the VIP venue API is unavailable.
+  static const bool useVipVenueMockData = false;
+
   /// Prints request/response JSON to the IDE / `flutter run` console (debug builds only).
   static const bool logApiResponsesToConsole = true;
 

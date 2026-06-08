@@ -1,3 +1,4 @@
+import 'package:youpass/features/events/domain/entities/event_detail_entity.dart';
 import 'package:youpass/features/events/domain/entities/event_entity.dart';
 import 'package:youpass/features/events/domain/entities/event_type_entity.dart';
 import 'package:youpass/features/events/domain/entities/home_events_query.dart';
@@ -14,6 +15,8 @@ abstract class EventsRepository {
   Future<List<EventTypeEntity>> fetchEventTypes();
 
   Future<List<EventEntity>> fetchFavoriteEvents();
+
+  Future<EventDetailEntity> fetchEventDetail(String eventId);
 
   Future<List<EventCategoryEntity>> fetchBrowseCategories();
 

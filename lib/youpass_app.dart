@@ -12,8 +12,9 @@ import 'package:youpass/dependency_injection/injection_container.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
-import 'package:youpass/features/tickets/presentation/providers/tickets_provider.dart';
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_provider.dart';
+import 'package:youpass/features/tickets/presentation/providers/tickets_provider.dart';
+import 'package:youpass/features/vip_venue/presentation/providers/vip_venue_provider.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 import 'package:youpass/routes/app_routes.dart';
 import 'package:youpass/routes/route_generator.dart';
@@ -45,6 +46,9 @@ class YouPassApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<TicketAssignmentProvider>(
           create: (_) => sl<TicketAssignmentProvider>(),
+        ),
+        ChangeNotifierProvider<VipVenueProvider>(
+          create: (_) => sl<VipVenueProvider>(),
         ),
       ],
       child: Consumer2<LocaleProvider, AppThemeProvider>(

@@ -63,6 +63,8 @@
   },
   "seeAll": "See all",
   "buyTickets": "BUY TICKETS",
+  "eventDetailTitle": "Event details",
+  "eventDetailAboutSection": "About this event",
   "eventCaribeDate": "Saturday, January 31, 2026",
   "eventCaribeLocation": "Club Océano, Viña del Mar",
   "eventRockDate": "Sunday, February 15, 2026",
@@ -445,5 +447,195 @@
   "invitationClaimInvitedByLabel": "Invited by",
   "invitationClaimStepsTitle": "How to claim your ticket",
   "invitationClaimOpenInvitations": "Open Invitations",
-  "invitationClaimLoginRegister": "Log in or register"
+  "invitationClaimLoginRegister": "Log in or register",
+  "vipTicketSelectionTitle": "Buy tickets",
+  "vipTicketSelectionHeading": "Choose your ticket",
+  "vipSectionGeneralTickets": "GENERAL ADMISSION",
+  "vipSectionVipTickets": "VIP ADMISSION",
+  "vipOfferingPreventa1": "PRE-SALE 1",
+  "vipOfferingPreventa2": "PRE-SALE 2",
+  "vipOfferingGeneralCover": "GENERAL + COVER",
+  "vipOfferingVipGeneral": "VIP GENERAL",
+  "vipOfferingWithoutTable": "Without table",
+  "vipOfferingGeneralAccessDescription": "General event access",
+  "vipTicketCount": "{count, plural, =1{1 ticket} other{{count} tickets}}",
+  "@vipTicketCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "vipTicketSelectionSummaryLine": "{ticketCount} • {amount}",
+  "@vipTicketSelectionSummaryLine": {
+    "placeholders": {
+      "ticketCount": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+  "vipContinueWithTickets": "Continue - {ticketCount}",
+  "@vipContinueWithTickets": {
+    "placeholders": {
+      "ticketCount": {"type": "String"}
+    }
+  },
+  "vipSecurePayment": "100% secure payment",
+  "vipOfferingGeneral": "GENERAL - STANDARD",
+  "vipMesasVipTitle": "VIP Tables",
+  "vipMesasVipSubtitle": "Reserve your table and live the full experience.",
+  "vipFloorPlanTitle": "Venue floor plan",
+  "vipFloorPlanHeading": "Venue floor plan",
+  "vipFloorPlanVenueName": "Main hall",
+  "vipFloorPlanSize": "36 x 18 m",
+  "vipFloorPlanSubtitle": "{venue} • {size}",
+  "@vipFloorPlanSubtitle": {
+    "placeholders": {
+      "venue": {"type": "String"},
+      "size": {"type": "String"}
+    }
+  },
+  "vipFloorPlanDimensions": "Main hall - 36 x 18 m",
+  "vipTapVipZoneTitle": "Tap a VIP zone",
+  "vipTapVipZoneSubtitle": "Select a zone to see available tables",
+  "vipYouFestBrand": "YouFest",
+  "vipLegendAvailable": "Available",
+  "vipLegendPremium": "Premium",
+  "vipLegendSold": "Sold",
+  "vipZone1Name": "VIP 1",
+  "vipZone2Name": "VIP 2",
+  "vipZoneDj": "VIP DJ",
+  "vipZoneStage": "DJ STAGE",
+  "vipZoneDanceFloor": "DANCE FLOOR",
+  "vipZoneLabel": "ZONE",
+  "vipZoneCapacity": "{count} spots/table",
+  "@vipZoneCapacity": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "vipEmergencyExit": "EMERGENCY EXIT",
+  "vipLegendAvailableShort": "Avail.",
+  "vipDanceFloorGeneral": "General",
+  "vipTableDistributionTitle": "ZONE {zone} DISTRIBUTION",
+  "@vipTableDistributionTitle": {
+    "placeholders": {
+      "zone": {"type": "String"}
+    }
+  },
+  "vipTableDistributionStage": "DJ Stage",
+  "vipLegendTableAvailable": "Available",
+  "vipLegendTableSelection": "Selected",
+  "vipLegendTableSold": "Sold",
+  "vipTablesZoneTitle": "VIP Tables 1",
+  "vipTablesCapacitySubtitle": "{count} people per table",
+  "@vipTablesCapacitySubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "vipPurchaseOfferingLine": "{label} x{quantity}",
+  "@vipPurchaseOfferingLine": {
+    "placeholders": {
+      "label": {"type": "String"},
+      "quantity": {"type": "int"}
+    }
+  },
+  "vipTableReserve": "Reserve Table {table}",
+  "@vipTableReserve": {
+    "placeholders": {
+      "table": {"type": "String"}
+    }
+  },
+  "vipTableDetailTitle": "Table {table} - {zone}",
+  "@vipTableDetailTitle": {
+    "placeholders": {
+      "table": {"type": "String"},
+      "zone": {"type": "String"}
+    }
+  },
+  "vipTableCapacity": "{count} guests",
+  "@vipTableCapacity": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "vipTableIncludes": "{bottles} bottles · {vouchers} vouchers",
+  "@vipTableIncludes": {
+    "placeholders": {
+      "bottles": {"type": "int"},
+      "vouchers": {"type": "int"}
+    }
+  },
+  "vipTableBottles": "{count} bottles",
+  "@vipTableBottles": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "vipTableVouchers": "{count} vouchers",
+  "@vipTableVouchers": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "vipTableIncludesShort": "{people} • {bottles} • {vouchers}",
+  "@vipTableIncludesShort": {
+    "placeholders": {
+      "people": {"type": "String"},
+      "bottles": {"type": "String"},
+      "vouchers": {"type": "String"}
+    }
+  },
+  "vipPurchaseSummaryTitle": "Purchase summary",
+  "vipPurchaseSummaryItemTitle": "Table {table} - {zone} | {event}",
+  "@vipPurchaseSummaryItemTitle": {
+    "placeholders": {
+      "table": {"type": "String"},
+      "zone": {"type": "String"},
+      "event": {"type": "String"}
+    }
+  },
+  "vipServiceFee": "Service",
+  "vipPurchaseSubtotal": "Subtotal",
+  "vipPurchaseServiceCharge": "Service charge",
+  "vipGeneralAccessLabel": "General access",
+  "vipVoucherCount": "{count, plural, =1{1 voucher} other{{count} vouchers}}",
+  "@vipVoucherCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "vipPurchaseTicketDetailsLine": "{entries} • {access} • {vouchers}",
+  "@vipPurchaseTicketDetailsLine": {
+    "placeholders": {
+      "entries": {"type": "String"},
+      "access": {"type": "String"},
+      "vouchers": {"type": "String"}
+    }
+  },
+  "vipPurchaseTotal": "Total",
+  "vipPaymentMethod": "PAYMENT METHOD",
+  "vipSavedCard": "Visa ending in 4205",
+  "vipAddPaymentMethod": "Add payment method",
+  "vipPurchaseAssignTicketsInfo": "After payment, you can assign tickets to your guests or do it later from {myTickets}.",
+  "@vipPurchaseAssignTicketsInfo": {
+    "placeholders": {
+      "myTickets": {"type": "String"}
+    }
+  },
+  "vipPayButton": "Pay {amount}",
+  "@vipPayButton": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "vipPurchaseSuccessTitle": "Purchase successful!",
+  "vipPurchaseSuccessMessage": "Your payment has been processed correctly.",
+  "vipTableLockCountdown": "Complete payment in {time}",
+  "@vipTableLockCountdown": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "vipTableLockExpired": "Your table reservation expired. Please select a table again.",
+  "eventDetailTicketsUnavailable": "Tickets are not available for this event yet.",
+  "vipViewQr": "View QR"
 }

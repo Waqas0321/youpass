@@ -143,6 +143,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get buyTickets => 'BUY TICKETS';
 
   @override
+  String get eventDetailTitle => 'Event details';
+
+  @override
+  String get eventDetailAboutSection => 'About this event';
+
+  @override
   String get eventCaribeDate => 'Saturday, January 31, 2026';
 
   @override
@@ -1104,4 +1110,288 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invitationClaimLoginRegister => 'Log in or register';
+
+  @override
+  String get vipTicketSelectionTitle => 'Buy tickets';
+
+  @override
+  String get vipTicketSelectionHeading => 'Choose your ticket';
+
+  @override
+  String get vipSectionGeneralTickets => 'GENERAL ADMISSION';
+
+  @override
+  String get vipSectionVipTickets => 'VIP ADMISSION';
+
+  @override
+  String get vipOfferingPreventa1 => 'PRE-SALE 1';
+
+  @override
+  String get vipOfferingPreventa2 => 'PRE-SALE 2';
+
+  @override
+  String get vipOfferingGeneralCover => 'GENERAL + COVER';
+
+  @override
+  String get vipOfferingVipGeneral => 'VIP GENERAL';
+
+  @override
+  String get vipOfferingWithoutTable => 'Without table';
+
+  @override
+  String get vipOfferingGeneralAccessDescription => 'General event access';
+
+  @override
+  String vipTicketCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tickets',
+      one: '1 ticket',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String vipTicketSelectionSummaryLine(String ticketCount, String amount) {
+    return '$ticketCount • $amount';
+  }
+
+  @override
+  String vipContinueWithTickets(String ticketCount) {
+    return 'Continue - $ticketCount';
+  }
+
+  @override
+  String get vipSecurePayment => '100% secure payment';
+
+  @override
+  String get vipOfferingGeneral => 'GENERAL - STANDARD';
+
+  @override
+  String get vipMesasVipTitle => 'VIP Tables';
+
+  @override
+  String get vipMesasVipSubtitle =>
+      'Reserve your table and live the full experience.';
+
+  @override
+  String get vipFloorPlanTitle => 'Venue floor plan';
+
+  @override
+  String get vipFloorPlanHeading => 'Venue floor plan';
+
+  @override
+  String get vipFloorPlanVenueName => 'Main hall';
+
+  @override
+  String get vipFloorPlanSize => '36 x 18 m';
+
+  @override
+  String vipFloorPlanSubtitle(String venue, String size) {
+    return '$venue • $size';
+  }
+
+  @override
+  String get vipFloorPlanDimensions => 'Main hall - 36 x 18 m';
+
+  @override
+  String get vipTapVipZoneTitle => 'Tap a VIP zone';
+
+  @override
+  String get vipTapVipZoneSubtitle => 'Select a zone to see available tables';
+
+  @override
+  String get vipYouFestBrand => 'YouFest';
+
+  @override
+  String get vipLegendAvailable => 'Available';
+
+  @override
+  String get vipLegendPremium => 'Premium';
+
+  @override
+  String get vipLegendSold => 'Sold';
+
+  @override
+  String get vipZone1Name => 'VIP 1';
+
+  @override
+  String get vipZone2Name => 'VIP 2';
+
+  @override
+  String get vipZoneDj => 'VIP DJ';
+
+  @override
+  String get vipZoneStage => 'DJ STAGE';
+
+  @override
+  String get vipZoneDanceFloor => 'DANCE FLOOR';
+
+  @override
+  String get vipZoneLabel => 'ZONE';
+
+  @override
+  String vipZoneCapacity(int count) {
+    return '$count spots/table';
+  }
+
+  @override
+  String get vipEmergencyExit => 'EMERGENCY EXIT';
+
+  @override
+  String get vipLegendAvailableShort => 'Avail.';
+
+  @override
+  String get vipDanceFloorGeneral => 'General';
+
+  @override
+  String vipTableDistributionTitle(String zone) {
+    return 'ZONE $zone DISTRIBUTION';
+  }
+
+  @override
+  String get vipTableDistributionStage => 'DJ Stage';
+
+  @override
+  String get vipLegendTableAvailable => 'Available';
+
+  @override
+  String get vipLegendTableSelection => 'Selected';
+
+  @override
+  String get vipLegendTableSold => 'Sold';
+
+  @override
+  String get vipTablesZoneTitle => 'VIP Tables 1';
+
+  @override
+  String vipTablesCapacitySubtitle(int count) {
+    return '$count people per table';
+  }
+
+  @override
+  String vipPurchaseOfferingLine(String label, int quantity) {
+    return '$label x$quantity';
+  }
+
+  @override
+  String vipTableReserve(String table) {
+    return 'Reserve Table $table';
+  }
+
+  @override
+  String vipTableDetailTitle(String table, String zone) {
+    return 'Table $table - $zone';
+  }
+
+  @override
+  String vipTableCapacity(int count) {
+    return '$count guests';
+  }
+
+  @override
+  String vipTableIncludes(int bottles, int vouchers) {
+    return '$bottles bottles · $vouchers vouchers';
+  }
+
+  @override
+  String vipTableBottles(int count) {
+    return '$count bottles';
+  }
+
+  @override
+  String vipTableVouchers(int count) {
+    return '$count vouchers';
+  }
+
+  @override
+  String vipTableIncludesShort(String people, String bottles, String vouchers) {
+    return '$people • $bottles • $vouchers';
+  }
+
+  @override
+  String get vipPurchaseSummaryTitle => 'Purchase summary';
+
+  @override
+  String vipPurchaseSummaryItemTitle(String table, String zone, String event) {
+    return 'Table $table - $zone | $event';
+  }
+
+  @override
+  String get vipServiceFee => 'Service';
+
+  @override
+  String get vipPurchaseSubtotal => 'Subtotal';
+
+  @override
+  String get vipPurchaseServiceCharge => 'Service charge';
+
+  @override
+  String get vipGeneralAccessLabel => 'General access';
+
+  @override
+  String vipVoucherCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count vouchers',
+      one: '1 voucher',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String vipPurchaseTicketDetailsLine(
+    String entries,
+    String access,
+    String vouchers,
+  ) {
+    return '$entries • $access • $vouchers';
+  }
+
+  @override
+  String get vipPurchaseTotal => 'Total';
+
+  @override
+  String get vipPaymentMethod => 'PAYMENT METHOD';
+
+  @override
+  String get vipSavedCard => 'Visa ending in 4205';
+
+  @override
+  String get vipAddPaymentMethod => 'Add payment method';
+
+  @override
+  String vipPurchaseAssignTicketsInfo(String myTickets) {
+    return 'After payment, you can assign tickets to your guests or do it later from $myTickets.';
+  }
+
+  @override
+  String vipPayButton(String amount) {
+    return 'Pay $amount';
+  }
+
+  @override
+  String get vipPurchaseSuccessTitle => 'Purchase successful!';
+
+  @override
+  String get vipPurchaseSuccessMessage =>
+      'Your payment has been processed correctly.';
+
+  @override
+  String vipTableLockCountdown(String time) {
+    return 'Complete payment in $time';
+  }
+
+  @override
+  String get vipTableLockExpired =>
+      'Your table reservation expired. Please select a table again.';
+
+  @override
+  String get eventDetailTicketsUnavailable =>
+      'Tickets are not available for this event yet.';
+
+  @override
+  String get vipViewQr => 'View QR';
 }

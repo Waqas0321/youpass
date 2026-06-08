@@ -350,6 +350,18 @@ abstract class AppLocalizations {
   /// **'BUY TICKETS'**
   String get buyTickets;
 
+  /// No description provided for @eventDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Event details'**
+  String get eventDetailTitle;
+
+  /// No description provided for @eventDetailAboutSection.
+  ///
+  /// In en, this message translates to:
+  /// **'About this event'**
+  String get eventDetailAboutSection;
+
   /// No description provided for @eventCaribeDate.
   ///
   /// In en, this message translates to:
@@ -2119,6 +2131,454 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log in or register'**
   String get invitationClaimLoginRegister;
+
+  /// No description provided for @vipTicketSelectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy tickets'**
+  String get vipTicketSelectionTitle;
+
+  /// No description provided for @vipTicketSelectionHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your ticket'**
+  String get vipTicketSelectionHeading;
+
+  /// No description provided for @vipSectionGeneralTickets.
+  ///
+  /// In en, this message translates to:
+  /// **'GENERAL ADMISSION'**
+  String get vipSectionGeneralTickets;
+
+  /// No description provided for @vipSectionVipTickets.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP ADMISSION'**
+  String get vipSectionVipTickets;
+
+  /// No description provided for @vipOfferingPreventa1.
+  ///
+  /// In en, this message translates to:
+  /// **'PRE-SALE 1'**
+  String get vipOfferingPreventa1;
+
+  /// No description provided for @vipOfferingPreventa2.
+  ///
+  /// In en, this message translates to:
+  /// **'PRE-SALE 2'**
+  String get vipOfferingPreventa2;
+
+  /// No description provided for @vipOfferingGeneralCover.
+  ///
+  /// In en, this message translates to:
+  /// **'GENERAL + COVER'**
+  String get vipOfferingGeneralCover;
+
+  /// No description provided for @vipOfferingVipGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP GENERAL'**
+  String get vipOfferingVipGeneral;
+
+  /// No description provided for @vipOfferingWithoutTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Without table'**
+  String get vipOfferingWithoutTable;
+
+  /// No description provided for @vipOfferingGeneralAccessDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'General event access'**
+  String get vipOfferingGeneralAccessDescription;
+
+  /// No description provided for @vipTicketCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 ticket} other{{count} tickets}}'**
+  String vipTicketCount(int count);
+
+  /// No description provided for @vipTicketSelectionSummaryLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{ticketCount} • {amount}'**
+  String vipTicketSelectionSummaryLine(String ticketCount, String amount);
+
+  /// No description provided for @vipContinueWithTickets.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue - {ticketCount}'**
+  String vipContinueWithTickets(String ticketCount);
+
+  /// No description provided for @vipSecurePayment.
+  ///
+  /// In en, this message translates to:
+  /// **'100% secure payment'**
+  String get vipSecurePayment;
+
+  /// No description provided for @vipOfferingGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'GENERAL - STANDARD'**
+  String get vipOfferingGeneral;
+
+  /// No description provided for @vipMesasVipTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP Tables'**
+  String get vipMesasVipTitle;
+
+  /// No description provided for @vipMesasVipSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reserve your table and live the full experience.'**
+  String get vipMesasVipSubtitle;
+
+  /// No description provided for @vipFloorPlanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue floor plan'**
+  String get vipFloorPlanTitle;
+
+  /// No description provided for @vipFloorPlanHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue floor plan'**
+  String get vipFloorPlanHeading;
+
+  /// No description provided for @vipFloorPlanVenueName.
+  ///
+  /// In en, this message translates to:
+  /// **'Main hall'**
+  String get vipFloorPlanVenueName;
+
+  /// No description provided for @vipFloorPlanSize.
+  ///
+  /// In en, this message translates to:
+  /// **'36 x 18 m'**
+  String get vipFloorPlanSize;
+
+  /// No description provided for @vipFloorPlanSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{venue} • {size}'**
+  String vipFloorPlanSubtitle(String venue, String size);
+
+  /// No description provided for @vipFloorPlanDimensions.
+  ///
+  /// In en, this message translates to:
+  /// **'Main hall - 36 x 18 m'**
+  String get vipFloorPlanDimensions;
+
+  /// No description provided for @vipTapVipZoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a VIP zone'**
+  String get vipTapVipZoneTitle;
+
+  /// No description provided for @vipTapVipZoneSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a zone to see available tables'**
+  String get vipTapVipZoneSubtitle;
+
+  /// No description provided for @vipYouFestBrand.
+  ///
+  /// In en, this message translates to:
+  /// **'YouFest'**
+  String get vipYouFestBrand;
+
+  /// No description provided for @vipLegendAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get vipLegendAvailable;
+
+  /// No description provided for @vipLegendPremium.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium'**
+  String get vipLegendPremium;
+
+  /// No description provided for @vipLegendSold.
+  ///
+  /// In en, this message translates to:
+  /// **'Sold'**
+  String get vipLegendSold;
+
+  /// No description provided for @vipZone1Name.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP 1'**
+  String get vipZone1Name;
+
+  /// No description provided for @vipZone2Name.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP 2'**
+  String get vipZone2Name;
+
+  /// No description provided for @vipZoneDj.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP DJ'**
+  String get vipZoneDj;
+
+  /// No description provided for @vipZoneStage.
+  ///
+  /// In en, this message translates to:
+  /// **'DJ STAGE'**
+  String get vipZoneStage;
+
+  /// No description provided for @vipZoneDanceFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'DANCE FLOOR'**
+  String get vipZoneDanceFloor;
+
+  /// No description provided for @vipZoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'ZONE'**
+  String get vipZoneLabel;
+
+  /// No description provided for @vipZoneCapacity.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} spots/table'**
+  String vipZoneCapacity(int count);
+
+  /// No description provided for @vipEmergencyExit.
+  ///
+  /// In en, this message translates to:
+  /// **'EMERGENCY EXIT'**
+  String get vipEmergencyExit;
+
+  /// No description provided for @vipLegendAvailableShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Avail.'**
+  String get vipLegendAvailableShort;
+
+  /// No description provided for @vipDanceFloorGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get vipDanceFloorGeneral;
+
+  /// No description provided for @vipTableDistributionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ZONE {zone} DISTRIBUTION'**
+  String vipTableDistributionTitle(String zone);
+
+  /// No description provided for @vipTableDistributionStage.
+  ///
+  /// In en, this message translates to:
+  /// **'DJ Stage'**
+  String get vipTableDistributionStage;
+
+  /// No description provided for @vipLegendTableAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get vipLegendTableAvailable;
+
+  /// No description provided for @vipLegendTableSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected'**
+  String get vipLegendTableSelection;
+
+  /// No description provided for @vipLegendTableSold.
+  ///
+  /// In en, this message translates to:
+  /// **'Sold'**
+  String get vipLegendTableSold;
+
+  /// No description provided for @vipTablesZoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP Tables 1'**
+  String get vipTablesZoneTitle;
+
+  /// No description provided for @vipTablesCapacitySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} people per table'**
+  String vipTablesCapacitySubtitle(int count);
+
+  /// No description provided for @vipPurchaseOfferingLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} x{quantity}'**
+  String vipPurchaseOfferingLine(String label, int quantity);
+
+  /// No description provided for @vipTableReserve.
+  ///
+  /// In en, this message translates to:
+  /// **'Reserve Table {table}'**
+  String vipTableReserve(String table);
+
+  /// No description provided for @vipTableDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Table {table} - {zone}'**
+  String vipTableDetailTitle(String table, String zone);
+
+  /// No description provided for @vipTableCapacity.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} guests'**
+  String vipTableCapacity(int count);
+
+  /// No description provided for @vipTableIncludes.
+  ///
+  /// In en, this message translates to:
+  /// **'{bottles} bottles · {vouchers} vouchers'**
+  String vipTableIncludes(int bottles, int vouchers);
+
+  /// No description provided for @vipTableBottles.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} bottles'**
+  String vipTableBottles(int count);
+
+  /// No description provided for @vipTableVouchers.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} vouchers'**
+  String vipTableVouchers(int count);
+
+  /// No description provided for @vipTableIncludesShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{people} • {bottles} • {vouchers}'**
+  String vipTableIncludesShort(String people, String bottles, String vouchers);
+
+  /// No description provided for @vipPurchaseSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase summary'**
+  String get vipPurchaseSummaryTitle;
+
+  /// No description provided for @vipPurchaseSummaryItemTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Table {table} - {zone} | {event}'**
+  String vipPurchaseSummaryItemTitle(String table, String zone, String event);
+
+  /// No description provided for @vipServiceFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Service'**
+  String get vipServiceFee;
+
+  /// No description provided for @vipPurchaseSubtotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtotal'**
+  String get vipPurchaseSubtotal;
+
+  /// No description provided for @vipPurchaseServiceCharge.
+  ///
+  /// In en, this message translates to:
+  /// **'Service charge'**
+  String get vipPurchaseServiceCharge;
+
+  /// No description provided for @vipGeneralAccessLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'General access'**
+  String get vipGeneralAccessLabel;
+
+  /// No description provided for @vipVoucherCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 voucher} other{{count} vouchers}}'**
+  String vipVoucherCount(int count);
+
+  /// No description provided for @vipPurchaseTicketDetailsLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{entries} • {access} • {vouchers}'**
+  String vipPurchaseTicketDetailsLine(
+    String entries,
+    String access,
+    String vouchers,
+  );
+
+  /// No description provided for @vipPurchaseTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get vipPurchaseTotal;
+
+  /// No description provided for @vipPaymentMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'PAYMENT METHOD'**
+  String get vipPaymentMethod;
+
+  /// No description provided for @vipSavedCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Visa ending in 4205'**
+  String get vipSavedCard;
+
+  /// No description provided for @vipAddPaymentMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Add payment method'**
+  String get vipAddPaymentMethod;
+
+  /// No description provided for @vipPurchaseAssignTicketsInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'After payment, you can assign tickets to your guests or do it later from {myTickets}.'**
+  String vipPurchaseAssignTicketsInfo(String myTickets);
+
+  /// No description provided for @vipPayButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay {amount}'**
+  String vipPayButton(String amount);
+
+  /// No description provided for @vipPurchaseSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase successful!'**
+  String get vipPurchaseSuccessTitle;
+
+  /// No description provided for @vipPurchaseSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your payment has been processed correctly.'**
+  String get vipPurchaseSuccessMessage;
+
+  /// No description provided for @vipTableLockCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete payment in {time}'**
+  String vipTableLockCountdown(String time);
+
+  /// No description provided for @vipTableLockExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Your table reservation expired. Please select a table again.'**
+  String get vipTableLockExpired;
+
+  /// No description provided for @eventDetailTicketsUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Tickets are not available for this event yet.'**
+  String get eventDetailTicketsUnavailable;
+
+  /// No description provided for @vipViewQr.
+  ///
+  /// In en, this message translates to:
+  /// **'View QR'**
+  String get vipViewQr;
 }
 
 class _AppLocalizationsDelegate

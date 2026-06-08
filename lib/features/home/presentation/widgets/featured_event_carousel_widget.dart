@@ -11,9 +11,11 @@ class FeaturedEventCarouselWidget extends StatefulWidget {
   const FeaturedEventCarouselWidget({
     super.key,
     required this.events,
+    this.onEventTap,
   });
 
   final List<EventEntity> events;
+  final ValueChanged<EventEntity>? onEventTap;
 
   @override
   State<FeaturedEventCarouselWidget> createState() =>
@@ -48,7 +50,13 @@ class FeaturedEventCarouselWidgetState extends State<FeaturedEventCarouselWidget
             itemCount: widget.events.length,
             onPageChanged: (index) => setState(() => activeIndex = index),
             itemBuilder: (context, index) {
-              return FeaturedEventCardWidget(event: widget.events[index]);
+              final event = widget.events[index];
+              return FeaturedEventCardWidget(
+                event: event,
+                onTap: widget.onEventTap == null
+                    ? null
+                    : () => widget.onEventTap!(event),
+              );
             },
           ),
         ),
@@ -66,69 +74,74 @@ class FeaturedEventCardWidget extends StatelessWidget {
   const FeaturedEventCardWidget({
     super.key,
     required this.event,
+    this.onTap,
   });
 
   final EventEntity event;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
 
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: layout.spacing(2)),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(layout.radius(16)),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            EventNetworkImage(
-              imageUrl: event.imageUrl,
-              fit: BoxFit.cover,
-            ),
-            DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    AppColors.homeCardScrimTop,
-                    AppColors.homeCardScrimBottom,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: layout.spacing(2)),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(layout.radius(16)),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              EventNetworkImage(
+                imageUrl: event.imageUrl,
+                fit: BoxFit.cover,
+              ),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      AppColors.homeCardScrimTop,
+                      AppColors.homeCardScrimBottom,
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(layout.spacing(18)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Spacer(),
+                    ShaderMask(
+                      shaderCallback: (bounds) => const LinearGradient(
+                        colors: AppColors.homeFeaturedTitleGradient,
+                      ).createShader(bounds),
+                      child: AppText(
+                        event.title,
+                        variant: AppTextVariant.title,
+                        color: AppColors.backgroundWhite,
+                        fontSize: layout.fontSize(22),
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    SizedBox(height: layout.spacing(10)),
+                    FeaturedEventMetaRow(
+                      icon: Icons.calendar_today_outlined,
+                      label: event.dateTimeLabel,
+                    ),
+                    SizedBox(height: layout.spacing(6)),
+                    FeaturedEventMetaRow(
+                      icon: Icons.location_on_outlined,
+                      label: event.locationLabel,
+                    ),
                   ],
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(layout.spacing(18)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Spacer(),
-                  ShaderMask(
-                    shaderCallback: (bounds) => const LinearGradient(
-                      colors: AppColors.homeFeaturedTitleGradient,
-                    ).createShader(bounds),
-                    child: AppText(
-                      event.title,
-                      variant: AppTextVariant.title,
-                      color: AppColors.backgroundWhite,
-                      fontSize: layout.fontSize(22),
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  SizedBox(height: layout.spacing(10)),
-                  FeaturedEventMetaRow(
-                    icon: Icons.calendar_today_outlined,
-                    label: event.dateTimeLabel,
-                  ),
-                  SizedBox(height: layout.spacing(6)),
-                  FeaturedEventMetaRow(
-                    icon: Icons.location_on_outlined,
-                    label: event.locationLabel,
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

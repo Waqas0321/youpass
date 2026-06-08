@@ -33,14 +33,15 @@ class TicketAssignmentRemoteDataSourceImpl
     EventCheckoutRequestEntity request,
   ) {
     if (AppConstants.useTicketsMockData) {
+      final quantity = request.quantity ?? 1;
       return Future.value(
         EventCheckoutResultEntity(
           orderId: 'mock-order-$eventId',
           eventTitle: 'Mock Event',
-          quantity: request.quantity,
+          quantity: quantity,
           totalAmount: 0,
           currency: 'CLP',
-          availableToAssign: request.quantity > 1 ? request.quantity - 1 : 0,
+          availableToAssign: quantity > 1 ? quantity - 1 : 0,
         ),
       );
     }

@@ -71,7 +71,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String homeGreeting(String name) {
-    return 'Hello, $name!';
+    return 'Hi, $name!';
   }
 
   @override
@@ -246,10 +246,50 @@ class AppLocalizationsEn extends AppLocalizations {
       'Could not send the code. Try again later.';
 
   @override
+  String get errorWhatsAppRequired =>
+      'This number cannot receive WhatsApp. YouPass uses WhatsApp Business only for verification.';
+
+  @override
+  String otpCodeExpiresIn(int seconds) {
+    return 'Code expires in ${seconds}s';
+  }
+
+  @override
+  String get phoneChangeSuccess => 'Phone number updated successfully.';
+
+  @override
   String get errorInvalidCode => 'Invalid code. Request a new one.';
 
   @override
   String get errorIncorrectCode => 'Incorrect code';
+
+  @override
+  String errorIncorrectCodeRemaining(int attempts) {
+    return 'Incorrect code. $attempts attempt(s) remaining.';
+  }
+
+  @override
+  String errorBlockedCountdown(int seconds) {
+    return 'Too many failed attempts. Try again in $seconds seconds.';
+  }
+
+  @override
+  String errorMaxResendsCountdown(int seconds) {
+    return 'Too many resend attempts. Try again in $seconds seconds.';
+  }
+
+  @override
+  String get errorRecaptchaFailed =>
+      'Security verification failed. Please try again.';
+
+  @override
+  String get errorCardTokenizationRequired =>
+      'Card details must be tokenized. Please use the secure payment form.';
+
+  @override
+  String changePhoneOtpMessage(String phone) {
+    return 'Enter the code we sent to your NEW WhatsApp number $phone.';
+  }
 
   @override
   String get errorCodeExpired => 'The code expired. Request a new one.';
@@ -342,6 +382,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get termsLink => 'terms and conditions';
 
   @override
+  String get termsAnd => 'and';
+
+  @override
+  String get privacyLink => 'privacy policy';
+
+  @override
   String get createAccountButton => 'CREATE ACCOUNT';
 
   @override
@@ -396,6 +442,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileInstagram => 'Instagram username';
+
+  @override
+  String get profilePhone => 'PHONE';
+
+  @override
+  String get profileChangePhone => 'Change phone number';
+
+  @override
+  String get changePhoneTitle => 'Change phone';
+
+  @override
+  String get changePhoneSubtitle =>
+      'Enter your new number. We will send a verification code to your NEW WhatsApp number.';
+
+  @override
+  String get changePhoneCurrentLabel => 'Current number';
+
+  @override
+  String get changePhoneNewLabel => 'New number';
+
+  @override
+  String get changePhoneContinueButton => 'Send verification code';
+
+  @override
+  String get changePhoneSameNumber => 'That is already your current number.';
 
   @override
   String get profileEditData => 'Edit details';

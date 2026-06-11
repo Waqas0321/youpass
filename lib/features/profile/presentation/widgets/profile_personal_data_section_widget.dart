@@ -12,10 +12,12 @@ class ProfilePersonalDataSectionWidget extends StatelessWidget {
     super.key,
     required this.data,
     this.onEditTap,
+    this.onChangePhoneTap,
   });
 
   final ProfileViewData data;
   final VoidCallback? onEditTap;
+  final VoidCallback? onChangePhoneTap;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,13 @@ class ProfilePersonalDataSectionWidget extends StatelessWidget {
           value: data.fullName,
           showIconCircle: true,
         ),
+        if (data.phone.isNotEmpty)
+          ProfileInfoRowWidget(
+            icon: Icons.phone_outlined,
+            label: AppStrings.profilePhone(strings),
+            value: data.phone,
+            showIconCircle: true,
+          ),
         ProfileInfoRowWidget(
           icon: Icons.mail_outline,
           label: AppStrings.profileEmail(strings),
@@ -65,6 +74,19 @@ class ProfilePersonalDataSectionWidget extends StatelessWidget {
             ProfileDesignSpec.editButtonTopGap,
           ),
         ),
+        if (onChangePhoneTap != null) ...[
+          YouPassOutlineButton(
+            label: AppStrings.profileChangePhone(strings),
+            icon: Icons.swap_horiz,
+            onPressed: onChangePhoneTap,
+          ),
+          SizedBox(
+            height: ProfileDesignSpec.px(
+              context,
+              ProfileDesignSpec.editButtonTopGap,
+            ),
+          ),
+        ],
         YouPassOutlineButton(
           label: AppStrings.profileEditData(strings),
           icon: Icons.edit_outlined,

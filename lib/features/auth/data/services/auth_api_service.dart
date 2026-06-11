@@ -2,8 +2,11 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:youpass/core/network/api_endpoints.dart';
 import 'package:youpass/core/network/base_api_service.dart';
+import 'package:youpass/core/security/recaptcha_service.dart';
 import 'package:youpass/core/utils/image_mime_utils.dart';
 import 'package:youpass/features/auth/data/models/auth_session_model.dart';
+import 'package:youpass/features/auth/data/models/change_phone_models.dart';
+import 'package:youpass/features/auth/data/models/change_phone_result_model.dart';
 import 'package:youpass/features/auth/data/models/check_whatsapp_request_model.dart';
 import 'package:youpass/features/auth/data/models/delete_account_result_model.dart';
 import 'package:youpass/features/auth/data/models/delete_account_verify_request_model.dart';
@@ -18,7 +21,12 @@ import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
 import 'package:youpass/features/auth/domain/entities/register_request_entity.dart';
 
 class AuthApiService extends BaseApiService {
-  AuthApiService(super.apiClient);
+  AuthApiService(
+    super.apiClient, {
+    RecaptchaService? recaptchaService,
+  }) : _recaptchaService = recaptchaService ?? RecaptchaServiceImpl();
+
+  final RecaptchaService _recaptchaService;
 
   Future<WhatsAppCheckResultModel> checkWhatsApp({
     required String phone,
@@ -40,14 +48,17 @@ class AuthApiService extends BaseApiService {
     required String phone,
     required String countryIsoCode,
     required OtpPurpose purpose,
-  }) {
+  }) async {
     return postModel(
       ApiEndpoints.sendCode,
-      body: _otpRequest(
-        phone: phone,
-        countryIsoCode: countryIsoCode,
-        purpose: purpose,
-      ).toJson(),
+      body: await _withRecaptcha(
+        'send_code',
+        _otpRequest(
+          phone: phone,
+          countryIsoCode: countryIsoCode,
+          purpose: purpose,
+        ).toJson(),
+      ),
       fromJson: SendCodeResponseModel.fromJson,
     );
   }
@@ -56,14 +67,17 @@ class AuthApiService extends BaseApiService {
     required String phone,
     required String countryIsoCode,
     required OtpPurpose purpose,
-  }) {
+  }) async {
     return postModel(
       ApiEndpoints.resendCode,
-      body: _otpRequest(
-        phone: phone,
-        countryIsoCode: countryIsoCode,
-        purpose: purpose,
-      ).toJson(),
+      body: await _withRecaptcha(
+        'resend_code',
+        _otpRequest(
+          phone: phone,
+          countryIsoCode: countryIsoCode,
+          purpose: purpose,
+        ).toJson(),
+      ),
       fromJson: SendCodeResponseModel.fromJson,
     );
   }
@@ -72,22 +86,28 @@ class AuthApiService extends BaseApiService {
     required String phone,
     required String countryIsoCode,
     required String code,
-  }) {
+  }) async {
     return postModel(
       ApiEndpoints.login,
-      body: LoginRequestModel(
-        phone: phone,
-        countryIsoCode: countryIsoCode,
-        code: code,
-      ).toJson(),
+      body: await _withRecaptcha(
+        'login',
+        LoginRequestModel(
+          phone: phone,
+          countryIsoCode: countryIsoCode,
+          code: code,
+        ).toJson(),
+      ),
       fromJson: AuthSessionModel.fromJson,
     );
   }
 
-  Future<AuthSessionModel> register(RegisterRequestEntity request) {
+  Future<AuthSessionModel> register(RegisterRequestEntity request) async {
     return postModel(
       ApiEndpoints.register,
-      body: RegisterRequestModel.fromEntity(request).toJson(),
+      body: await _withRecaptcha(
+        'register',
+        RegisterRequestModel.fromEntity(request).toJson(),
+      ),
       fromJson: AuthSessionModel.fromJson,
     );
   }
@@ -150,6 +170,38 @@ class AuthApiService extends BaseApiService {
     );
   }
 
+  Future<OtpDeliveryResultModel> requestChangePhone({
+    required String newPhone,
+    required String newCountryCode,
+  }) {
+    return postModel(
+      ApiEndpoints.changePhoneRequest,
+      body: ChangePhoneRequestModel(
+        newPhone: newPhone,
+        newCountryCode: newCountryCode,
+      ).toJson(),
+      fromJson: OtpDeliveryResultModel.fromJson,
+      authenticated: true,
+    );
+  }
+
+  Future<ChangePhoneResultModel> verifyChangePhone({
+    required String newPhone,
+    required String newCountryCode,
+    required String code,
+  }) {
+    return postModel(
+      ApiEndpoints.changePhoneVerify,
+      body: ChangePhoneVerifyRequestModel(
+        newPhone: newPhone,
+        newCountryCode: newCountryCode,
+        code: code,
+      ).toJson(),
+      fromJson: ChangePhoneResultModel.fromJson,
+      authenticated: true,
+    );
+  }
+
   OtpRequestModel _otpRequest({
     required String phone,
     required String countryIsoCode,
@@ -160,5 +212,20 @@ class AuthApiService extends BaseApiService {
       countryIsoCode: countryIsoCode,
       purpose: purpose,
     );
+  }
+
+  Future<Map<String, dynamic>> _withRecaptcha(
+    String action,
+    Map<String, dynamic> body,
+  ) async {
+    final token = await _recaptchaService.tokenFor(action);
+    if (token == null || token.isEmpty) {
+      return body;
+    }
+
+    return {
+      ...body,
+      'recaptcha_token': token,
+    };
   }
 }

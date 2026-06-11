@@ -1,3 +1,4 @@
+import 'package:youpass/core/utils/json_readers.dart';
 import 'package:youpass/features/auth/domain/entities/send_code_result_entity.dart';
 
 class SendCodeResponseModel extends SendCodeResultEntity {
@@ -10,28 +11,36 @@ class SendCodeResponseModel extends SendCodeResultEntity {
     required super.resendAvailableInSeconds,
     required super.phoneDisplay,
     super.accountExists,
+    super.otpLength,
+    super.maxResendsPerHour,
+    super.maxFailedAttempts,
+    super.blockMinutes,
+    super.whatsappAvailable,
   });
 
   factory SendCodeResponseModel.fromJson(Map<String, dynamic> json) {
     return SendCodeResponseModel(
-      message: json['message'] as String? ?? '',
-      phone: json['phone'] as String? ?? '',
-      purpose: json['purpose'] as String? ?? '',
-      channel: json['channel'] as String? ?? 'whatsapp',
-      expiresInSeconds: _readInt(json['expires_in_seconds']),
-      resendAvailableInSeconds: _readInt(json['resend_available_in_seconds']),
-      phoneDisplay: json['phone_display'] as String? ?? json['phone'] as String? ?? '',
+      message: JsonReaders.string(json, 'message'),
+      phone: JsonReaders.string(json, 'phone'),
+      purpose: JsonReaders.string(json, 'purpose'),
+      channel: JsonReaders.string(json, 'channel', fallback: 'whatsapp'),
+      expiresInSeconds: JsonReaders.integer(json, 'expires_in_seconds', fallback: 180),
+      resendAvailableInSeconds: JsonReaders.integer(
+        json,
+        'resend_available_in_seconds',
+        fallback: 60,
+      ),
+      phoneDisplay: JsonReaders.string(
+        json,
+        'phone_display',
+        fallback: JsonReaders.string(json, 'phone'),
+      ),
       accountExists: json['account_exists'] as bool?,
+      otpLength: JsonReaders.integer(json, 'otp_length', fallback: 6),
+      maxResendsPerHour: JsonReaders.integer(json, 'max_resends_per_hour', fallback: 5),
+      maxFailedAttempts: JsonReaders.integer(json, 'max_failed_attempts', fallback: 3),
+      blockMinutes: JsonReaders.integer(json, 'block_minutes', fallback: 15),
+      whatsappAvailable: json['whatsapp_available'] as bool? ?? true,
     );
-  }
-
-  static int _readInt(Object? value) {
-    if (value is int) {
-      return value;
-    }
-    if (value is num) {
-      return value.toInt();
-    }
-    return 0;
   }
 }

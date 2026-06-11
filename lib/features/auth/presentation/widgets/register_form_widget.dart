@@ -3,7 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/auth_layout_constants.dart';
 import 'package:youpass/core/auth/gender_api_mapper.dart';
+import 'package:youpass/core/config/app_product_config.dart';
 import 'package:youpass/core/constants/country_code_list.dart';
+import 'package:youpass/core/locale/locale_provider.dart';
+import 'package:youpass/core/locale/locale_sync_helper.dart';
 import 'package:youpass/core/l10n/otp_delivery_message.dart';
 import 'package:youpass/core/models/country_code.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
@@ -18,7 +21,10 @@ import 'package:youpass/core/widgets/auth_icon_text_field.dart';
 import 'package:youpass/core/widgets/auth_picker_field.dart';
 import 'package:youpass/core/widgets/youpass_primary_button.dart';
 import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
+import 'package:youpass/features/auth/domain/entities/register_request_entity.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
+import 'package:youpass/features/auth/presentation/utils/auth_navigation.dart';
+import 'package:youpass/features/auth/presentation/utils/whatsapp_auth_gate.dart';
 import 'package:youpass/features/auth/presentation/widgets/gender_picker_sheet.dart';
 import 'package:youpass/features/auth/presentation/widgets/phone_input_widget.dart';
 import 'package:youpass/features/auth/presentation/widgets/register_terms_widget.dart';
@@ -59,6 +65,15 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
     if (prefill != null && prefill.isNotEmpty) {
       phoneController.text = prefill;
     }
+
+    final initialCountry = widget.routeArgs?.countryIsoCode;
+    if (initialCountry != null && initialCountry.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          LocaleSyncHelper.applyCountryIso(context, initialCountry);
+        }
+      });
+    }
   }
 
   @override
@@ -71,12 +86,13 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
     super.dispose();
   }
 
-  String? formatBirthDate() {
+  String? formatBirthDate(BuildContext context) {
     if (birthDate == null) {
       return null;
     }
 
-    return DateFormat.yMMMd().format(birthDate!);
+    final locale = Localizations.localeOf(context).toString();
+    return DateFormat.yMMMd(locale).format(birthDate!);
   }
 
   String formatBirthDateApi() {
@@ -89,11 +105,13 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
 
   Future<void> pickBirthDate() async {
     final now = DateTime.now();
+    final minAge = AppProductConfig.registration.minAgeYears;
+    final maxBirthDate = DateTime(now.year - minAge, now.month, now.day);
     final pickedDate = await showDatePicker(
       context: context,
-      initialDate: birthDate ?? DateTime(now.year - 18, now.month, now.day),
+      initialDate: birthDate ?? maxBirthDate,
       firstDate: DateTime(1900),
-      lastDate: now,
+      lastDate: maxBirthDate,
     );
 
     if (pickedDate != null) {
@@ -144,6 +162,46 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
     return null;
   }
 
+  Future<void> submitRegistrationWithCode({
+    required AuthProvider authProvider,
+    required String phoneDigits,
+    required String countryIsoCode,
+    required String code,
+  }) async {
+    final l10n = context.l10n;
+    final success = await authProvider.registerAccount(
+      RegisterRequestEntity(
+        phone: phoneDigits,
+        countryIsoCode: countryIsoCode,
+        code: code,
+        fullName: fullNameController.text.trim(),
+        documentId: idDocumentController.text.trim(),
+        birthDate: formatBirthDateApi(),
+        gender: selectedGender!,
+        email: emailController.text.trim(),
+        instagram: instagramController.text.trim(),
+        acceptTerms: termsAccepted,
+        preferredLanguage: context.read<LocaleProvider>().locale.languageCode,
+      ),
+    );
+
+    if (!mounted) {
+      return;
+    }
+
+    if (success) {
+      AuthNavigation.completeOneTimeLogin(
+        context,
+        purpose: OtpPurpose.register,
+      );
+      return;
+    }
+
+    final message =
+        authProvider.localizedErrorMessage(l10n) ?? l10n.errorGeneric;
+    AppSnackBar.show(context, message);
+  }
+
   Future<void> sendCodeAndNavigate() async {
     final l10n = context.l10n;
     final validationError = validateForm(l10n);
@@ -156,11 +214,26 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
         CountryCodeList.defaultCountry;
     final phoneDigits = PhoneFormatter.digitsOnly(phoneController.text);
     final authProvider = context.read<AuthProvider>();
+    final pendingOtpCode = widget.routeArgs?.otpCode;
+
+    if (pendingOtpCode != null && pendingOtpCode.isNotEmpty) {
+      authProvider.markRegistrationStarted();
+      await submitRegistrationWithCode(
+        authProvider: authProvider,
+        phoneDigits: phoneDigits,
+        countryIsoCode: country.isoCode,
+        code: pendingOtpCode,
+      );
+      return;
+    }
+
+    authProvider.markRegistrationStarted();
+
     final draft = RegisterDraft(
       fullName: fullNameController.text.trim(),
       documentId: idDocumentController.text.trim(),
       birthDate: formatBirthDateApi(),
-      gender: GenderApiMapper.toApiValue(selectedGender!, l10n),
+      gender: selectedGender!,
       email: emailController.text.trim(),
       instagram: instagramController.text.trim(),
       acceptTerms: termsAccepted,
@@ -206,6 +279,15 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
       return;
     }
 
+    if (!WhatsAppAuthGate.canSendOtp(whatsAppCheck)) {
+      final message = WhatsAppAuthGate.unavailableMessage(whatsAppCheck);
+      AppSnackBar.show(
+        context,
+        message.isNotEmpty ? message : l10n.errorWhatsAppRequired,
+      );
+      return;
+    }
+
     final result = await authProvider.sendVerificationCode(
       phone: phoneDigits,
       countryIsoCode: country.isoCode,
@@ -223,17 +305,17 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
       return;
     }
 
-    final deliveryChannel =
-        result.channel.isNotEmpty ? result.channel : whatsAppCheck.deliveryChannel;
-
     final args = VerificationRouteArgs(
       phone: phoneDigits,
       countryIsoCode: country.isoCode,
       purpose: result.effectivePurpose,
       phoneDisplay: result.phoneDisplay,
       resendCooldownSeconds: result.resendAvailableInSeconds,
-      deliveryChannel: deliveryChannel,
-      statusMessage: OtpDeliveryMessage.sentConfirmation(l10n, deliveryChannel),
+      expiresInSeconds: result.expiresInSeconds,
+      deliveryChannel: 'whatsapp',
+      statusMessage: whatsAppCheck.message.isNotEmpty
+          ? whatsAppCheck.message
+          : OtpDeliveryMessage.sentConfirmation(l10n),
       registerDraft: draft,
     );
 
@@ -278,7 +360,7 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
           label: strings.birthDateLabel,
           hintText: strings.birthDateHint,
           icon: Icons.calendar_today_outlined,
-          value: formatBirthDate(),
+          value: formatBirthDate(context),
           onTap: pickBirthDate,
         ),
         SizedBox(height: fieldGap),
@@ -286,7 +368,9 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
           label: strings.genderLabel,
           hintText: strings.genderHint,
           icon: Icons.person_outline,
-          value: selectedGender,
+          value: selectedGender == null
+              ? null
+              : GenderApiMapper.toDisplayLabel(selectedGender!, strings),
           onTap: pickGender,
         ),
         SizedBox(height: fieldGap),
@@ -294,6 +378,7 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
           key: phoneInputKey,
           phoneController: phoneController,
           initialCountryIsoCode: widget.routeArgs?.countryIsoCode,
+          onCountryChanged: (country) => LocaleSyncHelper.applyCountry(context, country),
         ),
         SizedBox(height: fieldGap),
         AuthIconTextField(

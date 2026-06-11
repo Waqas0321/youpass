@@ -1,3 +1,4 @@
+import 'package:youpass/core/locale/country_format_helper.dart';
 import 'package:youpass/features/events/domain/entities/event_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/ticket_offering_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/venue_table_entity.dart';
@@ -48,6 +49,20 @@ class VipPurchaseSession {
   bool get isVipTablePurchase => selectedTable != null;
 
   bool get isGeneralTicketPurchase => !isVipTablePurchase && hasSelectedTickets;
+
+  String get countryIsoCode => event.countryCode ?? 'CL';
+
+  String get currency {
+    for (final offering in offerings) {
+      if (offering.currency.isNotEmpty) {
+        return offering.currency;
+      }
+    }
+
+    return CountryFormatHelper.countryFor(
+      countryIsoCode: countryIsoCode,
+    ).defaultCurrency;
+  }
 
   String? get seatLabel {
     final table = selectedTable;

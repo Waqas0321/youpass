@@ -72,16 +72,26 @@ class EventCheckoutResultModel extends EventCheckoutResultEntity {
     required super.totalAmount,
     required super.currency,
     required super.availableToAssign,
+    super.status = 'paid',
+    super.gateway,
     super.ticketId,
     super.seatLabel,
     super.qrUnlockAt,
     super.subtotalAmount,
     super.serviceFeeAmount,
+    super.paymentUrl,
+    super.stripeClientSecret,
   });
 
   factory EventCheckoutResultModel.fromJson(Map<String, dynamic> json) {
     final qrUnlockRaw =
         json['qr_unlock_at']?.toString() ?? json['qrUnlockAt']?.toString();
+    final stripeRaw = json['stripe'];
+    String? stripeClientSecret;
+    if (stripeRaw is Map<String, dynamic>) {
+      stripeClientSecret = stripeRaw['client_secret']?.toString() ??
+          stripeRaw['clientSecret']?.toString();
+    }
 
     return EventCheckoutResultModel(
       orderId: json['order_id']?.toString() ?? json['orderId']?.toString() ?? '',
@@ -93,6 +103,8 @@ class EventCheckoutResultModel extends EventCheckoutResultEntity {
       availableToAssign: _readInt(
         json['available_to_assign'] ?? json['availableToAssign'],
       ),
+      status: json['status']?.toString() ?? 'paid',
+      gateway: json['gateway']?.toString(),
       ticketId: json['ticket_id']?.toString() ?? json['ticketId']?.toString(),
       seatLabel:
           json['seat_label']?.toString() ?? json['seatLabel']?.toString(),
@@ -100,6 +112,8 @@ class EventCheckoutResultModel extends EventCheckoutResultEntity {
           qrUnlockRaw == null ? null : DateTime.tryParse(qrUnlockRaw),
       subtotalAmount: json['subtotal_amount'] ?? json['subtotalAmount'],
       serviceFeeAmount: json['service_fee_amount'] ?? json['serviceFeeAmount'],
+      paymentUrl: json['payment_url']?.toString() ?? json['paymentUrl']?.toString(),
+      stripeClientSecret: stripeClientSecret,
     );
   }
 
@@ -108,5 +122,23 @@ class EventCheckoutResultModel extends EventCheckoutResultEntity {
       return value.toInt();
     }
     return int.tryParse(value?.toString() ?? '') ?? 0;
+  }
+}
+
+class EventCheckoutConfirmRequestModel {
+  const EventCheckoutConfirmRequestModel({
+    required this.orderId,
+    this.paymentIntentId,
+  });
+
+  final String orderId;
+  final String? paymentIntentId;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'order_id': orderId,
+      if (paymentIntentId != null && paymentIntentId!.isNotEmpty)
+        'payment_intent_id': paymentIntentId,
+    };
   }
 }

@@ -19,6 +19,7 @@ class UserProfileEntity extends Equatable {
     required this.profileCompleteness,
     this.instagramUsername,
     this.profilePhotoUrl,
+    this.preferredLanguage,
   });
 
   final String id;
@@ -32,6 +33,7 @@ class UserProfileEntity extends Equatable {
   final String rutOrPassport;
   final String? instagramUsername;
   final String? profilePhotoUrl;
+  final String? preferredLanguage;
   final String category;
   final String accountStatus;
   final DateTime createdAt;
@@ -58,6 +60,7 @@ class UserProfileEntity extends Equatable {
         rutOrPassport,
         instagramUsername,
         profilePhotoUrl,
+        preferredLanguage,
         category,
         accountStatus,
         createdAt,

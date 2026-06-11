@@ -15,6 +15,10 @@ class CountryCodeDisplayHelper {
   }
 
   static String localizedPhoneHint(CountryCode country, AppLocalizations l10n) {
+    if (country.phoneHint.trim().isNotEmpty) {
+      return country.phoneHint;
+    }
+
     switch (country.isoCode.toUpperCase()) {
       case 'CL':
         return AppStrings.phoneHintChile(l10n);

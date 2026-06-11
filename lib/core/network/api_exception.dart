@@ -13,6 +13,17 @@ class ApiException implements Exception {
   final int? retryAfterSeconds;
   final Map<String, dynamic>? details;
 
+  int? get remainingAttempts {
+    final value = details?['remaining_attempts'];
+    if (value is int) {
+      return value;
+    }
+    if (value is num) {
+      return value.toInt();
+    }
+    return null;
+  }
+
   factory ApiException.fromResponse({
     required int statusCode,
     required Map<String, dynamic> body,

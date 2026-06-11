@@ -2,10 +2,16 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youpass/core/auth/access_token_storage.dart';
 import 'package:youpass/core/auth/auth_session_storage.dart';
+import 'package:youpass/core/locale/data/repositories/locale_preference_repository_impl.dart';
+import 'package:youpass/core/locale/domain/repositories/locale_preference_repository.dart';
 import 'package:youpass/core/locale/locale_provider.dart';
 import 'package:youpass/core/constants/country_code_list.dart';
 import 'package:youpass/core/network/api_client.dart';
+import 'package:youpass/core/network/analytics_api_service.dart';
 import 'package:youpass/core/network/config_api_service.dart';
+import 'package:youpass/core/security/client_request_headers.dart';
+import 'package:youpass/core/security/device_id_service.dart';
+import 'package:youpass/core/security/recaptcha_service.dart';
 import 'package:youpass/core/services/storage_service.dart';
 import 'package:youpass/core/theme/data/repositories/theme_preference_repository_impl.dart';
 import 'package:youpass/core/theme/domain/repositories/theme_preference_repository.dart';
@@ -102,20 +108,35 @@ Future<void> initDependencies() async {
   );
   await AuthSessionStorage.hydrate(accessTokenStorage);
 
+  final deviceIdService = DeviceIdService(preferences: preferences);
+  await deviceIdService.getId();
+
   sl
     ..registerLazySingleton<SharedPreferences>(() => preferences)
     ..registerLazySingleton<StorageService>(() => storageService)
     ..registerLazySingleton<AccessTokenStorage>(() => accessTokenStorage)
+    ..registerLazySingleton<DeviceIdService>(() => deviceIdService)
+    ..registerLazySingleton<ClientRequestHeaders>(
+      () => ClientRequestHeaders(deviceIdService: sl<DeviceIdService>()),
+    )
+    ..registerLazySingleton<RecaptchaService>(() => RecaptchaServiceImpl())
     ..registerLazySingleton<ApiClient>(
       () => ApiClient(
         authTokenProvider: () => sl<AccessTokenStorage>().read(),
+        clientRequestHeaders: sl<ClientRequestHeaders>(),
       ),
     )
     ..registerLazySingleton<ConfigApiService>(
       () => ConfigApiService(sl<ApiClient>()),
     )
+    ..registerLazySingleton<AnalyticsApiService>(
+      () => AnalyticsApiService(sl<ApiClient>()),
+    )
     ..registerLazySingleton<AuthApiService>(
-      () => AuthApiService(sl<ApiClient>()),
+      () => AuthApiService(
+        sl<ApiClient>(),
+        recaptchaService: sl<RecaptchaService>(),
+      ),
     )
     ..registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(sl<AuthApiService>()),
@@ -162,7 +183,12 @@ Future<void> initDependencies() async {
     ..registerLazySingleton<UploadProfilePhotoUseCase>(
       () => UploadProfilePhotoUseCase(sl<AuthRepository>()),
     )
-    ..registerLazySingleton<LocaleProvider>(LocaleProvider.new)
+    ..registerLazySingleton<LocalePreferenceRepository>(
+      () => LocalePreferenceRepositoryImpl(sl<StorageService>()),
+    )
+    ..registerLazySingleton<LocaleProvider>(
+      () => LocaleProvider(sl<LocalePreferenceRepository>()),
+    )
     ..registerLazySingleton<ThemePreferenceRepository>(
       () => ThemePreferenceRepositoryImpl(sl<StorageService>()),
     )
@@ -187,6 +213,7 @@ Future<void> initDependencies() async {
     ..registerLazySingleton<EventsRepository>(
       () => createEventsRepository(
         eventsApiService: sl<EventsApiService>(),
+        configApiService: sl<ConfigApiService>(),
         localeProvider: sl<LocaleProvider>(),
       ),
     )
@@ -224,6 +251,7 @@ Future<void> initDependencies() async {
         getHomeFeedUseCase: sl<GetHomeFeedUseCase>(),
         getFilteredHomeEventsUseCase: sl<GetFilteredHomeEventsUseCase>(),
         toggleEventFavoriteUseCase: sl<ToggleEventFavoriteUseCase>(),
+        analyticsApiService: sl<AnalyticsApiService>(),
       ),
     )
     ..registerLazySingleton<InvitationsApiService>(
@@ -309,7 +337,10 @@ Future<void> initDependencies() async {
       ),
     )
     ..registerLazySingleton<TicketAssignmentApiService>(
-      () => TicketAssignmentApiService(sl<ApiClient>()),
+      () => TicketAssignmentApiService(
+        sl<ApiClient>(),
+        recaptchaService: sl<RecaptchaService>(),
+      ),
     )
     ..registerLazySingleton<TicketAssignmentRemoteDataSource>(
       () => TicketAssignmentRemoteDataSourceImpl(

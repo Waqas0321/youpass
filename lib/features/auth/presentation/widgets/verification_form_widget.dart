@@ -12,6 +12,7 @@ class VerificationFormWidget extends StatelessWidget {
     required this.onOtpChanged,
     required this.onValidate,
     this.isLoading = false,
+    this.isBlocked = false,
   });
 
   final TextEditingController otpController;
@@ -19,6 +20,7 @@ class VerificationFormWidget extends StatelessWidget {
   final ValueChanged<String> onOtpChanged;
   final VoidCallback onValidate;
   final bool isLoading;
+  final bool isBlocked;
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +36,8 @@ class VerificationFormWidget extends StatelessWidget {
         SizedBox(height: layout.spacing(28)),
         YouPassPrimaryButton(
           label: context.l10n.validateCodeButton,
-          onPressed: isCodeComplete ? onValidate : null,
-          isEnabled: isCodeComplete,
+          onPressed: isCodeComplete && !isBlocked ? onValidate : null,
+          isEnabled: isCodeComplete && !isBlocked,
           isLoading: isLoading,
         ),
       ],

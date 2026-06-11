@@ -1,6 +1,8 @@
 import 'package:youpass/core/constants/country_codes_data.dart';
 import 'package:youpass/core/models/country_code.dart';
 import 'package:youpass/core/network/config_api_service.dart';
+import 'package:youpass/core/config/app_product_config.dart';
+import 'package:youpass/core/security/app_security_config.dart';
 import 'package:youpass/core/utils/app_logger.dart';
 
 /// Supported countries from API with static fallback.
@@ -8,16 +10,39 @@ class CountryCodeRegistry {
   CountryCodeRegistry._();
 
   static List<CountryCode> _countries = fallbackCountries;
+  static String _defaultCountryCode = 'CL';
 
   static List<CountryCode> get countries => _countries;
 
+  static String get defaultCountryCode => _defaultCountryCode;
+
   static CountryCode get defaultCountry {
-    final chile = _countries.where((c) => c.isoCode == 'CL').firstOrNull;
-    return chile ?? fallbackCountries.first;
+    return findByIsoCode(_defaultCountryCode);
   }
 
   static Future<void> loadFromApi(ConfigApiService configApiService) async {
     try {
+      final productConfig = await configApiService.fetchAuthProductConfig();
+      AppProductConfig.apply(productConfig);
+
+      final appConfig = await configApiService.fetchAppConfig();
+      if (appConfig != null) {
+        final security = appConfig.security ??
+            await configApiService.fetchSecurityConfig();
+        AppSecurityConfig.apply(security);
+        if (appConfig.countries.isNotEmpty) {
+          _applyCountries(
+            appConfig.countries,
+            defaultCountryCode: appConfig.defaultCountryCode,
+          );
+          AppLogger.info(
+            'Loaded ${_countries.length} countries from /config',
+            tag: 'Config',
+          );
+          return;
+        }
+      }
+
       final apiCountries = await configApiService.fetchSupportedCountries();
       if (apiCountries.isEmpty) {
         AppLogger.warning(
@@ -27,7 +52,7 @@ class CountryCodeRegistry {
         return;
       }
 
-      _countries = _sortWithChileFirst(apiCountries);
+      _applyCountries(apiCountries);
       AppLogger.info(
         'Loaded ${_countries.length} supported countries from API',
         tag: 'Config',
@@ -42,14 +67,26 @@ class CountryCodeRegistry {
     }
   }
 
-  static List<CountryCode> _sortWithChileFirst(List<CountryCode> list) {
+  static void _applyCountries(
+    List<CountryCode> list, {
+    String? defaultCountryCode,
+  }) {
+    _countries = _sortWithDefaultFirst(list, defaultCountryCode ?? 'CL');
+    _defaultCountryCode = defaultCountryCode ?? _countries.first.isoCode;
+  }
+
+  static List<CountryCode> _sortWithDefaultFirst(
+    List<CountryCode> list,
+    String preferredIso,
+  ) {
     final sorted = List<CountryCode>.from(list);
     sorted.sort((a, b) => a.name.compareTo(b.name));
 
-    final chileIndex = sorted.indexWhere((c) => c.isoCode == 'CL');
-    if (chileIndex > 0) {
-      final chile = sorted.removeAt(chileIndex);
-      sorted.insert(0, chile);
+    final preferredIndex =
+        sorted.indexWhere((country) => country.isoCode == preferredIso);
+    if (preferredIndex > 0) {
+      final preferred = sorted.removeAt(preferredIndex);
+      sorted.insert(0, preferred);
     }
 
     return sorted;
@@ -57,9 +94,19 @@ class CountryCodeRegistry {
 
   static CountryCode findByIsoCode(String isoCode) {
     return _countries.firstWhere(
-      (country) => country.isoCode == isoCode,
+      (country) => country.isoCode == isoCode.toUpperCase(),
       orElse: () => defaultCountry,
     );
+  }
+
+  static CountryCode? findByCurrency(String currencyCode) {
+    final normalized = currencyCode.toUpperCase();
+    for (final country in _countries) {
+      if (country.defaultCurrency == normalized) {
+        return country;
+      }
+    }
+    return null;
   }
 
   static List<CountryCode> search(String query) {
@@ -82,23 +129,18 @@ class CountryCodeRegistry {
     dialCode: '56',
     flagEmoji: '🇨🇱',
     phoneHint: '9 1234 5678',
+    defaultLanguage: 'es',
+    defaultCurrency: 'CLP',
+    timezone: 'America/Santiago',
+    paymentGateway: 'klap',
+    currencyDecimals: 0,
+    currencySymbol: r'$',
   );
 
-  /// Full static list when API is unavailable (dev / offline).
   static List<CountryCode> get fallbackCountries => [
         _defaultCountry,
         ...CountryCodesData.all.where(
           (country) => country.isoCode != _defaultCountry.isoCode,
         ),
       ];
-}
-
-extension _FirstOrNull<E> on Iterable<E> {
-  E? get firstOrNull {
-    final iterator = this.iterator;
-    if (!iterator.moveNext()) {
-      return null;
-    }
-    return iterator.current;
-  }
 }

@@ -8,7 +8,8 @@ class VerificationRouteArgs {
     required this.purpose,
     required this.phoneDisplay,
     required this.resendCooldownSeconds,
-    this.deliveryChannel = 'sms',
+    this.expiresInSeconds,
+    this.deliveryChannel = 'whatsapp',
     this.statusMessage,
     this.registerDraft,
   });
@@ -18,9 +19,8 @@ class VerificationRouteArgs {
   final OtpPurpose purpose;
   final String phoneDisplay;
   final int resendCooldownSeconds;
+  final int? expiresInSeconds;
   final String deliveryChannel;
   final String? statusMessage;
   final RegisterDraft? registerDraft;
-
-  bool get isSmsChannel => deliveryChannel.toLowerCase() == 'sms';
 }

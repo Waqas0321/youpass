@@ -26,9 +26,11 @@ class TicketSelectionBottomBarWidget extends StatelessWidget {
     final strings = context.l10n;
     final padding = VipVenueDesignSpec.px(context, VipVenueDesignSpec.horizontalPadding);
     final ticketCountLabel = AppStrings.vipTicketCount(strings, session.selectedTicketCount);
-    final summaryAmount = VipCurrencyFormatter.formatClpCompact(
+    final summaryAmount = VipCurrencyFormatter.formatAmountCompact(
       context,
       session.generalTicketsTotal,
+      currencyCode: session.currency,
+      countryIsoCode: session.countryIsoCode,
     );
     final canContinue = session.hasSelectedTickets;
 

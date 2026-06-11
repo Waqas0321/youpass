@@ -9,6 +9,7 @@ import 'package:youpass/features/auth/data/datasources/auth_remote_datasource.da
 import 'package:youpass/features/auth/data/models/user_model.dart';
 import 'package:youpass/features/auth/data/models/user_profile_model.dart';
 import 'package:youpass/features/auth/domain/entities/auth_session_entity.dart';
+import 'package:youpass/features/auth/domain/entities/change_phone_result_entity.dart';
 import 'package:youpass/features/auth/domain/entities/delete_account_result_entity.dart';
 import 'package:youpass/features/auth/domain/entities/otp_delivery_result_entity.dart';
 import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
@@ -168,6 +169,35 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     final result = await remoteDataSource.confirmDeleteAccount(code: code);
     await localDataSource.clearCache();
+    return result;
+  }
+
+  @override
+  Future<OtpDeliveryResultEntity> requestChangePhone({
+    required String newPhone,
+    required String newCountryCode,
+  }) {
+    return remoteDataSource.requestChangePhone(
+      newPhone: newPhone,
+      newCountryCode: newCountryCode,
+    );
+  }
+
+  @override
+  Future<ChangePhoneResultEntity> verifyChangePhone({
+    required String newPhone,
+    required String newCountryCode,
+    required String code,
+  }) async {
+    final result = await remoteDataSource.verifyChangePhone(
+      newPhone: newPhone,
+      newCountryCode: newCountryCode,
+      code: code,
+    );
+    final profile = result.profile;
+    if (profile is UserProfileModel) {
+      await localDataSource.cacheUserProfile(profile);
+    }
     return result;
   }
 

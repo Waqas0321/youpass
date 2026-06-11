@@ -88,7 +88,12 @@ class VipGeneralTicketSummaryCardWidget extends StatelessWidget {
                 ),
               ),
               AppText(
-                VipCurrencyFormatter.formatClp(context, offering.lineTotal),
+                VipCurrencyFormatter.formatAmount(
+                  context,
+                  offering.lineTotal,
+                  currencyCode: offering.currency,
+                  countryIsoCode: null,
+                ),
                 variant: AppTextVariant.bodyEmphasis,
                 color: VipVenueScreenTheme.title(context),
                 fontSize: VipVenueDesignSpec.px(context, 14),
@@ -117,6 +122,8 @@ class VipPurchaseSummaryItemRowWidget extends StatelessWidget {
     required this.bottlesLabel,
     required this.vouchersLabel,
     required this.amount,
+    this.currencyCode = 'CLP',
+    this.countryIsoCode = 'CL',
   });
 
   final String tableNumber;
@@ -126,6 +133,8 @@ class VipPurchaseSummaryItemRowWidget extends StatelessWidget {
   final String bottlesLabel;
   final String vouchersLabel;
   final int amount;
+  final String currencyCode;
+  final String countryIsoCode;
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +184,12 @@ class VipPurchaseSummaryItemRowWidget extends StatelessWidget {
         ),
         SizedBox(width: VipVenueDesignSpec.px(context, 8)),
         AppText(
-          VipCurrencyFormatter.formatClp(context, amount),
+          VipCurrencyFormatter.formatAmount(
+            context,
+            amount,
+            currencyCode: currencyCode,
+            countryIsoCode: countryIsoCode,
+          ),
           variant: AppTextVariant.bodyEmphasis,
           color: VipVenueScreenTheme.title(context),
           fontSize: VipVenueDesignSpec.px(context, 14),

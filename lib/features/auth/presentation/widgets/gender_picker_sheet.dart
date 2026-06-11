@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/config/app_product_config.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
@@ -19,28 +20,48 @@ class GenderPickerSheet extends StatelessWidget {
       isScrollControlled: false,
       maxHeightFactor: 0.4,
       child: GenderPickerSheet(
-        onGenderSelected: (gender) => Navigator.of(context).pop(gender),
+        onGenderSelected: (apiValue) => Navigator.of(context).pop(apiValue),
       ),
     );
   }
 
+  static List<({String value, String label})> _resolveOptions(
+    BuildContext context,
+  ) {
+    final strings = context.l10n;
+    final locale = Localizations.localeOf(context).languageCode;
+    final configured = AppProductConfig.registration.genderOptions;
+
+    if (configured.isNotEmpty) {
+      return configured
+          .map(
+            (option) => (
+              value: option.value,
+              label: option.labelFor(locale),
+            ),
+          )
+          .toList();
+    }
+
+    return [
+      (value: 'male', label: strings.genderMale),
+      (value: 'female', label: strings.genderFemale),
+      (value: 'other', label: strings.genderOther),
+      (value: 'prefer_not_to_say', label: strings.genderPreferNotToSay),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
-    final strings = context.l10n;
-    final options = [
-      strings.genderMale,
-      strings.genderFemale,
-      strings.genderOther,
-      strings.genderPreferNotToSay,
-    ];
+    final options = _resolveOptions(context);
 
     return ListView(
       shrinkWrap: true,
       children: options
           .map(
             (option) => ListTile(
-              title: AppText(option, variant: AppTextVariant.listTitle),
-              onTap: () => onGenderSelected(option),
+              title: AppText(option.label, variant: AppTextVariant.listTitle),
+              onTap: () => onGenderSelected(option.value),
             ),
           )
           .toList(),

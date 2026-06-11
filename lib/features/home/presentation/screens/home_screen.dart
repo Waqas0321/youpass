@@ -35,7 +35,11 @@ class _HomeScreenState extends State<HomeScreen> {
       if (!mounted) {
         return;
       }
-      context.read<HomeProvider>().loadHomeDataIfNeeded();
+      final homeProvider = context.read<HomeProvider>();
+      if (homeProvider.homeFeed == null) {
+        homeProvider.loadHomeDataIfNeeded();
+      }
+      homeProvider.trackRegistrationCompletedIfNeeded();
     });
   }
 
@@ -66,8 +70,12 @@ class _HomeScreenState extends State<HomeScreen> {
     final layout = ResponsiveLayout(context);
     final drawerFullName =
         HomeUserDisplayHelper.drawerFullName(authProvider, context.l10n);
-    final greetingName =
-        HomeUserDisplayHelper.greetingName(authProvider, context.l10n);
+    final headerGreeting = HomeUserDisplayHelper.headerGreetingText(
+      authProvider,
+      context.l10n,
+      apiGreeting: homeProvider.resolveHeaderGreetingFromApi(),
+    );
+    final upcomingSectionTitle = homeProvider.resolveUpcomingSectionTitle();
 
     return Scaffold(
       key: scaffoldKey,
@@ -78,7 +86,12 @@ class _HomeScreenState extends State<HomeScreen> {
         onMenuSelected: handleDrawerMenuSelected,
       ),
       body: SafeArea(
-        child: buildBody(homeProvider, layout, greetingName),
+        child:         buildBody(
+          homeProvider,
+          layout,
+          headerGreeting: headerGreeting,
+          upcomingSectionTitle: upcomingSectionTitle,
+        ),
       ),
     );
   }
@@ -104,13 +117,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget buildBody(
     HomeProvider homeProvider,
-    ResponsiveLayout layout,
-    String greetingName,
-  ) {
+    ResponsiveLayout layout, {
+    required String headerGreeting,
+    String? upcomingSectionTitle,
+  }) {
     if (homeProvider.status == HomeStatus.loading && homeProvider.homeFeed == null) {
       return Column(
         children: [
-          HomeTopBarWidget(onMenuTap: openDrawer),
+          HomeTopBarWidget(
+            onMenuTap: openDrawer,
+            greetingText: headerGreeting,
+            showPartyModeBanner: homeProvider.showPartyModeBanner,
+          ),
           Expanded(
             child: SingleChildScrollView(
               padding: layout.screenPadding,
@@ -122,12 +140,23 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     if (homeProvider.status == HomeStatus.error && homeProvider.homeFeed == null) {
-      return Center(
-        child: AppText(
-          homeProvider.localizedErrorMessage(context.l10n) ??
-              AppStrings.errorGeneric(context.l10n),
-          variant: AppTextVariant.error,
-        ),
+      return Column(
+        children: [
+          HomeTopBarWidget(
+            onMenuTap: openDrawer,
+            greetingText: headerGreeting,
+            showPartyModeBanner: homeProvider.showPartyModeBanner,
+          ),
+          Expanded(
+            child: Center(
+              child: AppText(
+                homeProvider.localizedErrorMessage(context.l10n) ??
+                    AppStrings.errorGeneric(context.l10n),
+                variant: AppTextVariant.error,
+              ),
+            ),
+          ),
+        ],
       );
     }
 
@@ -135,7 +164,11 @@ class _HomeScreenState extends State<HomeScreen> {
     if (feed == null) {
       return Column(
         children: [
-          HomeTopBarWidget(onMenuTap: openDrawer),
+          HomeTopBarWidget(
+            onMenuTap: openDrawer,
+            greetingText: headerGreeting,
+            showPartyModeBanner: homeProvider.showPartyModeBanner,
+          ),
           Expanded(
             child: SingleChildScrollView(
               padding: layout.screenPadding,
@@ -150,13 +183,21 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         HomeTopBarWidget(
           onMenuTap: openDrawer,
+          greetingText: headerGreeting,
+          showPartyModeBanner: homeProvider.showPartyModeBanner,
         ),
         Expanded(
           child: SingleChildScrollView(
             padding: layout.screenPadding,
             child: HomeFeedWidget(
-              userName: greetingName,
+              upcomingSectionTitle: upcomingSectionTitle,
               feed: feed,
+              highlightPendingInvitation: homeProvider.highlightPendingInvitation,
+              pendingInvitationCount: homeProvider.highlightedInvitationCount,
+              pendingInvitationTitle: homeProvider.highlightedInvitationTitle,
+              onPendingInvitationTap: homeProvider.highlightPendingInvitation
+                  ? () => Navigator.of(context).pushNamed(AppRoutes.myInvitations)
+                  : null,
             ),
           ),
         ),

@@ -7,7 +7,11 @@ class ApiEndpoints {
   static const String apiV1 = '$baseUrl/api/v1';
 
   static const String health = '$apiV1/health';
+  static const String config = '$apiV1/config';
+  static const String configAuth = '$apiV1/config/auth';
+  static const String configSecurity = '$apiV1/config/security';
   static const String configCountries = '$apiV1/config/countries';
+  static const String configCategories = '$apiV1/config/categories';
   static const String sendCode = '$apiV1/auth/send-code';
   static const String resendCode = '$apiV1/auth/resend-code';
   static const String verifyCode = '$apiV1/auth/verify-code';
@@ -21,8 +25,12 @@ class ApiEndpoints {
   static const String deleteAccountRequest = '$apiV1/auth/delete-account/request';
   static const String deleteAccountVerify = '$apiV1/auth/delete-account/verify';
   static const String checkWhatsApp = '$apiV1/auth/check-whatsapp';
+  static const String changePhoneRequest = '$apiV1/auth/change-phone/request';
+  static const String changePhoneVerify = '$apiV1/auth/change-phone/verify';
 
   static const String homeInitialFeed = '$apiV1/home/initial-feed';
+  static const String analyticsRegistrationCompleted =
+      '$apiV1/analytics/event/registration-completed';
   static const String eventsFeatured = '$apiV1/events/featured';
   static const String events = '$apiV1/events';
   static const String eventTypes = '$apiV1/events/types';
@@ -82,6 +90,9 @@ class ApiEndpoints {
 
   static String eventCheckout(String eventId) =>
       '$apiV1/events/$eventId/checkout';
+
+  static String eventCheckoutConfirm(String eventId) =>
+      '$apiV1/events/$eventId/checkout/confirm';
 
   static String ticketOrderAssignments(String orderId) =>
       '$apiV1/users/me/ticket-orders/$orderId/assignments';

@@ -89,8 +89,52 @@
   "errorInvalidPhone": "Número telefónico inválido",
   "errorUnsupportedCountry": "Este país no está disponible",
   "errorOtpDeliveryFailed": "No se pudo enviar el código. Inténtalo más tarde.",
+  "errorWhatsAppRequired": "Este número no puede recibir WhatsApp. YouPass usa solo WhatsApp Business para la verificación.",
+  "otpCodeExpiresIn": "El código expira en {seconds}s",
+  "@otpCodeExpiresIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "phoneChangeSuccess": "Número de teléfono actualizado correctamente.",
   "errorInvalidCode": "Código inválido. Solicita uno nuevo.",
   "errorIncorrectCode": "Código incorrecto",
+  "errorIncorrectCodeRemaining": "Código incorrecto. Te quedan {attempts} intento(s).",
+  "@errorIncorrectCodeRemaining": {
+    "placeholders": {
+      "attempts": {
+        "type": "int"
+      }
+    }
+  },
+  "errorBlockedCountdown": "Demasiados intentos fallidos. Inténtalo en {seconds} segundos.",
+  "@errorBlockedCountdown": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "errorMaxResendsCountdown": "Demasiados reenvíos. Inténtalo en {seconds} segundos.",
+  "@errorMaxResendsCountdown": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "errorRecaptchaFailed": "La verificación de seguridad falló. Inténtalo de nuevo.",
+  "errorCardTokenizationRequired": "Los datos de la tarjeta deben tokenizarse. Usa el formulario de pago seguro.",
+  "changePhoneOtpMessage": "Ingresa el código que enviamos a tu NUEVO número de WhatsApp {phone}.",
+  "@changePhoneOtpMessage": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
   "errorCodeExpired": "El código expiró. Solicita uno nuevo.",
   "errorUserNotFound": "No existe una cuenta con este número",
   "errorUserExists": "Este número ya está registrado",
@@ -120,6 +164,8 @@
   "instagramHint": "@usuarioinstagram",
   "termsPrefix": "Acepto los ",
   "termsLink": "términos y condiciones",
+  "termsAnd": "y la",
+  "privacyLink": "política de privacidad",
   "createAccountButton": "CREAR CUENTA",
   "alreadyHaveAccountQuestion": "¿YA TIENES CUENTA?",
   "signInLink": "INICIAR SESIÓN",
@@ -145,6 +191,14 @@
   "profileGender": "Género",
   "profileGenderMaleValue": "Hombre",
   "profileInstagram": "Nick de Instagram",
+  "profilePhone": "TELÉFONO",
+  "profileChangePhone": "Cambiar número",
+  "changePhoneTitle": "Cambiar teléfono",
+  "changePhoneSubtitle": "Ingresa tu nuevo número. Enviaremos un código de verificación a tu NUEVO WhatsApp.",
+  "changePhoneCurrentLabel": "Número actual",
+  "changePhoneNewLabel": "Nuevo número",
+  "changePhoneContinueButton": "Enviar código de verificación",
+  "changePhoneSameNumber": "Ese ya es tu número actual.",
   "profileEditData": "Editar datos",
   "profileWalletSection": "BILLETERA YOUPASS",
   "profilePaymentMethods": "Mis métodos de pago",

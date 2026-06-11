@@ -14,12 +14,14 @@ class AuthMessageLocalizer {
     String? code,
     String? fallbackMessage,
     int? retryAfterSeconds,
+    int? remainingAttempts,
   }) {
     return fromApiError(
       _englishL10n,
       code: code,
       fallbackMessage: fallbackMessage,
       retryAfterSeconds: retryAfterSeconds,
+      remainingAttempts: remainingAttempts,
     );
   }
 
@@ -78,28 +80,53 @@ class AuthMessageLocalizer {
     String? code,
     String? fallbackMessage,
     int? retryAfterSeconds,
+    int? remainingAttempts,
   }) {
     switch (code) {
       case 'INVALID_PHONE':
+      case 'PHONE_INVALID':
         return l10n.errorInvalidPhone;
       case 'UNSUPPORTED_COUNTRY':
+      case 'PHONE_UNSUPPORTED_COUNTRY':
         return l10n.errorUnsupportedCountry;
       case 'OTP_DELIVERY_FAILED':
         return l10n.errorOtpDeliveryFailed;
+      case 'WHATSAPP_NOT_AVAILABLE':
+      case 'WHATSAPP_REQUIRED':
+        return l10n.errorWhatsAppRequired;
       case 'INVALID_CODE':
-        return l10n.errorInvalidCode;
+        if (remainingAttempts != null && remainingAttempts > 0) {
+          return l10n.errorIncorrectCodeRemaining(remainingAttempts);
+        }
+        return l10n.errorIncorrectCode;
+      case 'RECAPTCHA_REQUIRED':
+      case 'RECAPTCHA_FAILED':
+        return l10n.errorRecaptchaFailed;
+      case 'CARD_TOKENIZATION_REQUIRED':
+        return l10n.errorCardTokenizationRequired;
       case 'CODE_EXPIRED':
         return l10n.errorCodeExpired;
       case 'USER_NOT_FOUND':
         return l10n.errorUserNotFound;
       case 'USER_EXISTS':
         return l10n.errorUserExists;
+      case 'UNDERAGE':
+      case 'INVALID_BIRTHDATE':
+        return fallbackMessage?.isNotEmpty == true
+            ? fallbackMessage!
+            : l10n.errorValidation;
       case 'RESEND_COOLDOWN':
         return l10n.errorResendCooldown(retryAfterSeconds ?? 0);
-      case 'MAX_RESENDS':
-        return l10n.errorMaxResends;
       case 'BLOCKED':
+        if (retryAfterSeconds != null && retryAfterSeconds > 0) {
+          return l10n.errorBlockedCountdown(retryAfterSeconds);
+        }
         return l10n.errorBlocked;
+      case 'MAX_RESENDS':
+        if (retryAfterSeconds != null && retryAfterSeconds > 0) {
+          return l10n.errorMaxResendsCountdown(retryAfterSeconds);
+        }
+        return l10n.errorMaxResends;
       case 'VALIDATION_ERROR':
         return l10n.errorValidation;
       case 'UNKNOWN_ERROR':
@@ -115,6 +142,10 @@ class AuthMessageLocalizer {
 
     if (_isIncorrectCodeMessage(fallbackMessage)) {
       return l10n.errorIncorrectCode;
+    }
+
+    if (fallbackMessage != null && fallbackMessage.isNotEmpty) {
+      return fallbackMessage;
     }
 
     return l10n.errorGeneric;

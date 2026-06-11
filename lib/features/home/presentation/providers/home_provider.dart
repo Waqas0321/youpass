@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:youpass/core/constants/app_constants.dart';
+import 'package:youpass/core/network/analytics_api_service.dart';
 import 'package:youpass/core/network/api_exception.dart';
+import 'package:youpass/core/utils/app_logger.dart';
 import 'package:youpass/features/events/domain/entities/event_entity.dart';
 import 'package:youpass/features/home/domain/entities/event_category_entity.dart';
 import 'package:youpass/features/home/domain/entities/home_feed_entity.dart';
@@ -15,17 +17,26 @@ class HomeProvider extends ChangeNotifier {
     required this.getHomeFeedUseCase,
     required this.getFilteredHomeEventsUseCase,
     required this.toggleEventFavoriteUseCase,
-  });
+    AnalyticsApiService? analyticsApiService,
+  }) : _analyticsApiService = analyticsApiService;
 
   final GetHomeFeedUseCase getHomeFeedUseCase;
   final GetFilteredHomeEventsUseCase getFilteredHomeEventsUseCase;
   final ToggleEventFavoriteUseCase toggleEventFavoriteUseCase;
+  final AnalyticsApiService? _analyticsApiService;
 
   HomeStatus status = HomeStatus.initial;
   HomeFeedEntity? homeFeed;
   String? errorMessage;
   String selectedCategoryId = AppConstants.defaultHomeCategoryId;
   bool isFilteringEvents = false;
+  bool showPartyModeBanner = true;
+  bool highlightPendingInvitation = false;
+  String? highlightedInvitationTitle;
+  int highlightedInvitationCount = 0;
+  bool _trackRegistrationAnalytics = false;
+  int? _registrationStartedAtMs;
+  String _registrationAnalyticsSource = 'organic';
   final Set<String> _favoritePendingIds = {};
 
   Future<void> loadHomeData() async {
@@ -37,6 +48,7 @@ class HomeProvider extends ChangeNotifier {
       homeFeed = await getHomeFeedUseCase();
       selectedCategoryId = AppConstants.defaultHomeCategoryId;
       status = HomeStatus.loaded;
+      await _applyCategoryFilter();
     } catch (error) {
       status = HomeStatus.error;
       errorMessage = error.toString();
@@ -46,6 +58,9 @@ class HomeProvider extends ChangeNotifier {
 
   Future<void> loadHomeDataIfNeeded() async {
     if (homeFeed != null && status == HomeStatus.loaded) {
+      if (!_hasVisibleEvents(homeFeed!) && !isFilteringEvents) {
+        await _applyCategoryFilter();
+      }
       return;
     }
     if (status == HomeStatus.loading) {
@@ -104,12 +119,127 @@ class HomeProvider extends ChangeNotifier {
     return _favoritePendingIds.contains(eventId);
   }
 
+  void beginPostRegistrationSession({
+    required int? registrationStartedAtMs,
+    String analyticsSource = 'organic',
+    bool highlightInvitation = false,
+  }) {
+    _trackRegistrationAnalytics = true;
+    _registrationStartedAtMs = registrationStartedAtMs;
+    _registrationAnalyticsSource = analyticsSource;
+    highlightPendingInvitation = highlightInvitation;
+  }
+
+  Future<HomeFeedEntity?> preloadPostRegistrationFeed() async {
+    try {
+      return await getHomeFeedUseCase(feedContext: 'post_register');
+    } catch (error, stackTrace) {
+      AppLogger.error(
+        'Failed to preload post-registration home feed',
+        tag: 'Home',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      return null;
+    }
+  }
+
+  Future<void> applyPreloadedFeed(
+    HomeFeedEntity feed, {
+    bool? highlightInvitation,
+  }) async {
+    homeFeed = feed;
+    selectedCategoryId = AppConstants.defaultHomeCategoryId;
+    status = HomeStatus.loaded;
+    errorMessage = null;
+    _applyPostRegistrationPresentation(
+      feed,
+      highlightInvitation: highlightInvitation,
+    );
+    await _applyCategoryFilter();
+  }
+
+  void _applyPostRegistrationPresentation(
+    HomeFeedEntity feed, {
+    bool? highlightInvitation,
+  }) {
+    if (feed.postRegistration) {
+      showPartyModeBanner = feed.partyMode?.bannerVisible ?? false;
+    } else if (feed.partyMode != null) {
+      showPartyModeBanner = feed.partyMode!.bannerVisible;
+    }
+    final invitations = feed.invitations;
+    highlightPendingInvitation =
+        highlightInvitation ?? invitations?.highlight ?? highlightPendingInvitation;
+    highlightedInvitationCount = invitations?.pendingCount ?? 0;
+    highlightedInvitationTitle = invitations?.featured?.eventTitle;
+  }
+
+  String? resolveGreetingMessage() {
+    final header = homeFeed?.headerGreeting?.trim();
+    if (header != null && header.isNotEmpty) {
+      return header;
+    }
+
+    final message = homeFeed?.greeting?.message.trim();
+    if (message != null && message.isNotEmpty) {
+      return message;
+    }
+
+    return null;
+  }
+
+  /// Pre-formatted header greeting from API (`layout.header.greeting` or legacy `greeting.message`).
+  String? resolveHeaderGreetingFromApi() => resolveGreetingMessage();
+
+  String? resolveUpcomingSectionTitle() {
+    final title = homeFeed?.upcomingSectionTitle?.trim();
+    if (title != null && title.isNotEmpty) {
+      return title;
+    }
+    return null;
+  }
+
+  Future<void> trackRegistrationCompletedIfNeeded() async {
+    if (!_trackRegistrationAnalytics || _registrationStartedAtMs == null) {
+      return;
+    }
+
+    _trackRegistrationAnalytics = false;
+    final analytics = _analyticsApiService;
+    if (analytics == null) {
+      return;
+    }
+
+    final elapsed = DateTime.now().millisecondsSinceEpoch - _registrationStartedAtMs!;
+    try {
+      await analytics.trackRegistrationCompleted(
+        source: _registrationAnalyticsSource,
+        timeToHomeMs: elapsed,
+      );
+    } catch (error, stackTrace) {
+      AppLogger.error(
+        'registration-completed analytics failed',
+        tag: 'Analytics',
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+  }
+
   void reset() {
     status = HomeStatus.initial;
     homeFeed = null;
     errorMessage = null;
     selectedCategoryId = AppConstants.defaultHomeCategoryId;
     isFilteringEvents = false;
+    showPartyModeBanner = true;
+    highlightPendingInvitation = false;
+    highlightedInvitationTitle = null;
+    highlightedInvitationCount = 0;
+    _trackRegistrationAnalytics = false;
+    _registrationStartedAtMs = null;
+    _registrationAnalyticsSource = 'organic';
     _favoritePendingIds.clear();
     notifyListeners();
   }
@@ -141,6 +271,10 @@ class HomeProvider extends ChangeNotifier {
       isFilteringEvents = false;
       notifyListeners();
     }
+  }
+
+  bool _hasVisibleEvents(HomeFeedEntity feed) {
+    return feed.featuredEvents.isNotEmpty || feed.carouselEvents.isNotEmpty;
   }
 
   EventCategoryEntity? _findCategory(HomeFeedEntity feed, String categoryId) {

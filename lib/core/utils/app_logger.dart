@@ -185,11 +185,19 @@ class AppLogger {
 
   static Map<String, dynamic> _sanitizeMapValue(Map<String, dynamic> map) {
     return map.map((key, value) {
-      if (key == 'access_token' || key == 'accessToken') {
+      if (key == 'access_token' ||
+          key == 'accessToken' ||
+          key == 'recaptcha_token') {
         return MapEntry(key, '******');
       }
 
       if (key == 'code' && _isSensitiveCodeValue(value)) {
+        return MapEntry(key, '******');
+      }
+
+      if (key == 'card_number' ||
+          key == 'cvv' ||
+          key == 'payment_method_id') {
         return MapEntry(key, '******');
       }
 

@@ -1,3 +1,4 @@
+import 'package:youpass/core/config/otp_policy.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
 class PhoneValidators {
@@ -8,12 +9,29 @@ class PhoneValidators {
     String value, {
     String isoCode = 'CL',
   }) {
-    if (isoCode == 'CL') {
-      return chileMobile(l10n, value);
+    switch (isoCode.toUpperCase()) {
+      case 'CL':
+        return chileMobile(l10n, value);
+      case 'PK':
+        return pakistanMobile(l10n, value);
+      case 'AR':
+        return argentinaMobile(l10n, value);
+      case 'BR':
+        return brazilMobile(l10n, value);
+      case 'MX':
+        return mexicoMobile(l10n, value);
+      case 'CO':
+        return colombiaMobile(l10n, value);
+      case 'PE':
+        return peruMobile(l10n, value);
+      default:
+        return genericMobile(l10n, value);
     }
+  }
 
-    if (isoCode == 'PK') {
-      return pakistanMobile(l10n, value);
+  static String? genericMobile(AppLocalizations l10n, String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return l10n.phoneRequired;
     }
 
     final digits = value.replaceAll(RegExp(r'\D'), '');
@@ -58,14 +76,79 @@ class PhoneValidators {
     return null;
   }
 
-  static final RegExp _otpPattern = RegExp(r'^\d{6}$');
+  static String? argentinaMobile(AppLocalizations l10n, String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return l10n.phoneRequired;
+    }
+
+    final digits = value.replaceAll(RegExp(r'\D'), '');
+    if (digits.length < 10 || digits.length > 11) {
+      return l10n.phoneInvalidGeneric;
+    }
+
+    return null;
+  }
+
+  static String? brazilMobile(AppLocalizations l10n, String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return l10n.phoneRequired;
+    }
+
+    final digits = value.replaceAll(RegExp(r'\D'), '');
+    if (digits.length < 10 || digits.length > 11) {
+      return l10n.phoneInvalidGeneric;
+    }
+
+    return null;
+  }
+
+  static String? mexicoMobile(AppLocalizations l10n, String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return l10n.phoneRequired;
+    }
+
+    final digits = value.replaceAll(RegExp(r'\D'), '');
+    if (digits.length != 10) {
+      return l10n.phoneInvalidGeneric;
+    }
+
+    return null;
+  }
+
+  static String? colombiaMobile(AppLocalizations l10n, String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return l10n.phoneRequired;
+    }
+
+    final digits = value.replaceAll(RegExp(r'\D'), '');
+    if (digits.length != 10) {
+      return l10n.phoneInvalidGeneric;
+    }
+
+    return null;
+  }
+
+  static String? peruMobile(AppLocalizations l10n, String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return l10n.phoneRequired;
+    }
+
+    final digits = value.replaceAll(RegExp(r'\D'), '');
+    if (digits.length != 9) {
+      return l10n.phoneInvalidGeneric;
+    }
+
+    return null;
+  }
 
   static String? otpCode(AppLocalizations l10n, String? value) {
     if (value == null || value.isEmpty) {
       return l10n.otpRequired;
     }
 
-    if (!_otpPattern.hasMatch(value)) {
+    final length = OtpPolicy.codeLength;
+    final pattern = RegExp('^\\d{$length}\$');
+    if (!pattern.hasMatch(value)) {
       return l10n.otpInvalidLength;
     }
 

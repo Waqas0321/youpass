@@ -20,7 +20,7 @@
   "searchCountryHint": "Search country or code",
   "searchCountryEmpty": "No countries found",
   "homeTitle": "Home",
-  "homeGreeting": "Hello, {name}!",
+  "homeGreeting": "Hi, {name}!",
   "@homeGreeting": {
     "placeholders": {
       "name": {
@@ -103,8 +103,52 @@
   "errorInvalidPhone": "Invalid phone number",
   "errorUnsupportedCountry": "This country is not supported",
   "errorOtpDeliveryFailed": "Could not send the code. Try again later.",
+  "errorWhatsAppRequired": "This number cannot receive WhatsApp. YouPass uses WhatsApp Business only for verification.",
+  "otpCodeExpiresIn": "Code expires in {seconds}s",
+  "@otpCodeExpiresIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "phoneChangeSuccess": "Phone number updated successfully.",
   "errorInvalidCode": "Invalid code. Request a new one.",
   "errorIncorrectCode": "Incorrect code",
+  "errorIncorrectCodeRemaining": "Incorrect code. {attempts} attempt(s) remaining.",
+  "@errorIncorrectCodeRemaining": {
+    "placeholders": {
+      "attempts": {
+        "type": "int"
+      }
+    }
+  },
+  "errorBlockedCountdown": "Too many failed attempts. Try again in {seconds} seconds.",
+  "@errorBlockedCountdown": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "errorMaxResendsCountdown": "Too many resend attempts. Try again in {seconds} seconds.",
+  "@errorMaxResendsCountdown": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "errorRecaptchaFailed": "Security verification failed. Please try again.",
+  "errorCardTokenizationRequired": "Card details must be tokenized. Please use the secure payment form.",
+  "changePhoneOtpMessage": "Enter the code we sent to your NEW WhatsApp number {phone}.",
+  "@changePhoneOtpMessage": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
   "errorCodeExpired": "The code expired. Request a new one.",
   "errorUserNotFound": "No account found for this number",
   "errorUserExists": "This number is already registered",
@@ -141,6 +185,8 @@
   "instagramHint": "@instagramuser",
   "termsPrefix": "I accept the ",
   "termsLink": "terms and conditions",
+  "termsAnd": "and",
+  "privacyLink": "privacy policy",
   "createAccountButton": "CREATE ACCOUNT",
   "alreadyHaveAccountQuestion": "ALREADY HAVE AN ACCOUNT?",
   "signInLink": "SIGN IN",
@@ -166,6 +212,14 @@
   "profileGender": "Gender",
   "profileGenderMaleValue": "Male",
   "profileInstagram": "Instagram username",
+  "profilePhone": "PHONE",
+  "profileChangePhone": "Change phone number",
+  "changePhoneTitle": "Change phone",
+  "changePhoneSubtitle": "Enter your new number. We will send a verification code to your NEW WhatsApp number.",
+  "changePhoneCurrentLabel": "Current number",
+  "changePhoneNewLabel": "New number",
+  "changePhoneContinueButton": "Send verification code",
+  "changePhoneSameNumber": "That is already your current number.",
   "profileEditData": "Edit details",
   "profileWalletSection": "YOUPASS WALLET",
   "profilePaymentMethods": "My payment methods",

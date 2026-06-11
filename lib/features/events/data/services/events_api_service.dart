@@ -17,9 +17,27 @@ class EventsApiService extends BaseApiService {
 
   Future<HomeInitialFeedResponseModel> fetchInitialFeed({
     bool includeAuth = true,
+    String? countryCode,
+    String? feedContext,
+    String? eventType,
   }) {
+    final params = <String, String>{};
+    if (countryCode != null && countryCode.isNotEmpty) {
+      params['country_code'] = countryCode;
+    }
+    if (feedContext != null && feedContext.isNotEmpty) {
+      params['context'] = feedContext;
+    }
+    if (eventType != null && eventType.isNotEmpty) {
+      params['event_type'] = eventType;
+    }
+
+    final endpoint = params.isEmpty
+        ? ApiEndpoints.homeInitialFeed
+        : '${ApiEndpoints.homeInitialFeed}?${Uri(queryParameters: params).query}';
+
     return getModel(
-      ApiEndpoints.homeInitialFeed,
+      endpoint,
       fromJson: HomeInitialFeedResponseModel.fromJson,
       authenticated: includeAuth,
     );
@@ -69,6 +87,7 @@ class EventsApiService extends BaseApiService {
     return postVoid(
       ApiEndpoints.favoriteEvent(eventId),
       authenticated: true,
+      body: null,
     );
   }
 

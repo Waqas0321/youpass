@@ -4,12 +4,14 @@ class HomeEventsQuery {
   const HomeEventsQuery({
     this.countryCode,
     this.eventTypeSlug,
+    this.searchQuery,
     this.page,
     this.limit,
   });
 
   final String? countryCode;
   final String? eventTypeSlug;
+  final String? searchQuery;
   final int? page;
   final int? limit;
 
@@ -27,6 +29,9 @@ class HomeEventsQuery {
     }
     if (eventTypeSlug != null && eventTypeSlug!.isNotEmpty) {
       params['event_type'] = eventTypeSlug!;
+    }
+    if (searchQuery != null && searchQuery!.trim().isNotEmpty) {
+      params['q'] = searchQuery!.trim();
     }
     if (page != null) {
       params['page'] = page.toString();

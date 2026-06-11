@@ -6,12 +6,16 @@ class EventPurchaseMetaEntity extends Equatable {
     required this.currency,
     required this.hasTicketOfferings,
     required this.hasVenueLayout,
+    this.paymentGateway = 'klap',
+    this.countryCode = 'CL',
   });
 
   final double serviceFeeRate;
   final String currency;
   final bool hasTicketOfferings;
   final bool hasVenueLayout;
+  final String paymentGateway;
+  final String countryCode;
 
   @override
   List<Object?> get props => [
@@ -19,5 +23,7 @@ class EventPurchaseMetaEntity extends Equatable {
         currency,
         hasTicketOfferings,
         hasVenueLayout,
+        paymentGateway,
+        countryCode,
       ];
 }

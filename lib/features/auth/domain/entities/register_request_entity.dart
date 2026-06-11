@@ -12,6 +12,7 @@ class RegisterRequestEntity extends Equatable {
     required this.email,
     this.instagram = '',
     this.acceptTerms = true,
+    this.preferredLanguage,
   });
 
   final String phone;
@@ -25,6 +26,7 @@ class RegisterRequestEntity extends Equatable {
   final String email;
   final String instagram;
   final bool acceptTerms;
+  final String? preferredLanguage;
 
   @override
   List<Object?> get props => [
@@ -38,5 +40,6 @@ class RegisterRequestEntity extends Equatable {
         email,
         instagram,
         acceptTerms,
+        preferredLanguage,
       ];
 }

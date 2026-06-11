@@ -12,6 +12,7 @@ class RegisterRequestModel {
     required this.email,
     this.instagram = '',
     this.acceptTerms = true,
+    this.preferredLanguage,
   });
 
   final String phone;
@@ -24,6 +25,7 @@ class RegisterRequestModel {
   final String email;
   final String instagram;
   final bool acceptTerms;
+  final String? preferredLanguage;
 
   factory RegisterRequestModel.fromEntity(RegisterRequestEntity entity) {
     return RegisterRequestModel(
@@ -37,6 +39,7 @@ class RegisterRequestModel {
       email: entity.email,
       instagram: entity.instagram,
       acceptTerms: entity.acceptTerms,
+      preferredLanguage: entity.preferredLanguage,
     );
   }
 
@@ -56,6 +59,11 @@ class RegisterRequestModel {
     final instagramUsername = instagram.trim();
     if (instagramUsername.isNotEmpty) {
       body['instagram_username'] = instagramUsername;
+    }
+
+    final preferredLanguageValue = preferredLanguage?.trim();
+    if (preferredLanguageValue != null && preferredLanguageValue.isNotEmpty) {
+      body['preferred_language'] = preferredLanguageValue;
     }
 
     return body;

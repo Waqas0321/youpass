@@ -39,12 +39,19 @@ void main() {
   test('loadHomeData sets loaded state with feed', () async {
     when(() => mockHomeRepository.getHomeFeed())
         .thenAnswer((_) async => TestFixtures.testHomeFeed);
+    when(() => mockHomeRepository.getFilteredEvents(any())).thenAnswer(
+      (_) async => TestFixtures.testFilteredHomeEvents,
+    );
 
     await homeProvider.loadHomeData();
 
     expect(homeProvider.status, HomeStatus.loaded);
-    expect(homeProvider.homeFeed, TestFixtures.testHomeFeed);
+    expect(homeProvider.homeFeed?.featuredEvents,
+        TestFixtures.testHomeFeed.featuredEvents);
+    expect(homeProvider.homeFeed?.carouselEvents,
+        TestFixtures.testHomeFeed.carouselEvents);
     expect(homeProvider.errorMessage, isNull);
+    verify(() => mockHomeRepository.getFilteredEvents(any())).called(1);
   });
 
   test('loadHomeData sets error state on failure', () async {
@@ -69,7 +76,7 @@ void main() {
     await homeProvider.selectCategory(AppConstants.categoryIdConcerts);
 
     expect(homeProvider.selectedCategoryId, AppConstants.categoryIdConcerts);
-    verify(() => mockHomeRepository.getFilteredEvents(any())).called(1);
+    verify(() => mockHomeRepository.getFilteredEvents(any())).called(2);
   });
 
   test('reset clears feed and restores initial state', () async {
@@ -88,17 +95,24 @@ void main() {
   test('loadHomeDataIfNeeded skips duplicate fetch when feed is loaded', () async {
     when(() => mockHomeRepository.getHomeFeed())
         .thenAnswer((_) async => TestFixtures.testHomeFeed);
+    when(() => mockHomeRepository.getFilteredEvents(any())).thenAnswer(
+      (_) async => TestFixtures.testFilteredHomeEvents,
+    );
 
     await homeProvider.loadHomeDataIfNeeded();
     await homeProvider.loadHomeDataIfNeeded();
 
     verify(() => mockHomeRepository.getHomeFeed()).called(1);
+    verify(() => mockHomeRepository.getFilteredEvents(any())).called(1);
     expect(homeProvider.status, HomeStatus.loaded);
   });
 
   test('selectCategory does not notify when same category', () async {
     when(() => mockHomeRepository.getHomeFeed())
         .thenAnswer((_) async => TestFixtures.testHomeFeed);
+    when(() => mockHomeRepository.getFilteredEvents(any())).thenAnswer(
+      (_) async => TestFixtures.testFilteredHomeEvents,
+    );
 
     await homeProvider.loadHomeData();
 
@@ -107,7 +121,7 @@ void main() {
     await homeProvider.selectCategory(AppConstants.defaultHomeCategoryId);
 
     expect(listener.callCount, 0);
-    verifyNever(() => mockHomeRepository.getFilteredEvents(any()));
+    verify(() => mockHomeRepository.getFilteredEvents(any())).called(1);
   });
 }
 

@@ -113,6 +113,10 @@ class AppStrings {
 
   static String profileFullName(AppLocalizations l10n) => l10n.profileFullName;
 
+  static String profilePhone(AppLocalizations l10n) => l10n.profilePhone;
+
+  static String profileChangePhone(AppLocalizations l10n) => l10n.profileChangePhone;
+
   static String profileEmail(AppLocalizations l10n) => l10n.profileEmail;
 
   static String profileBirthDate(AppLocalizations l10n) => l10n.profileBirthDate;

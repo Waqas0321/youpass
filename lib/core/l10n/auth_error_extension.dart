@@ -13,6 +13,7 @@ extension AuthProviderErrorExtension on AuthProvider {
       code: errorCode,
       fallbackMessage: errorMessage,
       retryAfterSeconds: lastRetryAfterSeconds,
+      remainingAttempts: remainingAttempts,
     );
   }
 }

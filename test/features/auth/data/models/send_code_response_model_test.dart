@@ -17,6 +17,7 @@ void main() {
 
     expect(model.accountExists, isFalse);
     expect(model.effectivePurpose, OtpPurpose.register);
-    expect(model.isSmsChannel, isFalse);
+    expect(model.channel, 'whatsapp');
+    expect(model.expiresInSeconds, 180);
   });
 }

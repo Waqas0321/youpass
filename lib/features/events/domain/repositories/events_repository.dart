@@ -6,7 +6,10 @@ import 'package:youpass/features/home/domain/entities/event_category_entity.dart
 import 'package:youpass/features/home/domain/entities/home_feed_entity.dart';
 
 abstract class EventsRepository {
-  Future<HomeFeedEntity> fetchHomeFeed();
+  Future<HomeFeedEntity> fetchHomeFeed({
+    String? countryCode,
+    String? feedContext,
+  });
 
   Future<HomeFeedEventsUpdate> fetchFilteredEvents(EventCategoryEntity category);
 

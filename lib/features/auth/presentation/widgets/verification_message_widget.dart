@@ -9,19 +9,14 @@ class VerificationMessageWidget extends StatelessWidget {
   const VerificationMessageWidget({
     super.key,
     required this.phoneDisplay,
-    this.isSmsChannel = true,
   });
 
   final String phoneDisplay;
-  final bool isSmsChannel;
 
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
     final strings = context.l10n;
-    final channelSuffix = isSmsChannel
-        ? strings.verificationCodeSentViaSms
-        : strings.verificationCodeSentViaWhatsApp;
 
     return AppRichText(
       textAlign: TextAlign.center,
@@ -33,19 +28,18 @@ class VerificationMessageWidget extends StatelessWidget {
           phoneDisplay,
           variant: AppTextVariant.bodyEmphasis,
         ),
-        AppRichText.span(context, channelSuffix),
-        if (!isSmsChannel)
-          WidgetSpan(
-            alignment: PlaceholderAlignment.middle,
-            child: Padding(
-              padding: EdgeInsets.only(left: layout.spacing(2)),
-              child: Icon(
-                Icons.chat,
-                size: layout.fontSize(16),
-                color: AppColors.whatsAppGreen,
-              ),
+        AppRichText.span(context, strings.verificationCodeSentViaWhatsApp),
+        WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
+          child: Padding(
+            padding: EdgeInsets.only(left: layout.spacing(2)),
+            child: Icon(
+              Icons.chat,
+              size: layout.fontSize(16),
+              color: AppColors.whatsAppGreen,
             ),
           ),
+        ),
       ],
     );
   }

@@ -6,6 +6,8 @@ import 'package:youpass/core/l10n/tickets_error_extension.dart';
 import 'package:youpass/features/invitations/presentation/routes/event_ticket_route_args.dart';
 import 'package:youpass/features/invitations/presentation/utils/invitations_qr_helper.dart';
 import 'package:youpass/features/invitations/presentation/widgets/invitation_qr_unavailable_dialog.dart';
+import 'package:youpass/core/utils/payment_url_launcher.dart';
+import 'package:youpass/features/ticket_assignment/domain/entities/event_checkout_result_entity.dart';
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_provider.dart';
 import 'package:youpass/features/tickets/presentation/providers/tickets_provider.dart';
 import 'package:youpass/features/vip_venue/domain/entities/vip_purchase_checkout.dart';
@@ -108,6 +110,11 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
       return;
     }
 
+    if (result.isPaymentPending) {
+      await handlePendingPayment(result);
+      return;
+    }
+
     paymentCompleted = true;
     checkoutTicketId = result.ticketId;
     checkoutSeatLabel = result.seatLabel;
@@ -115,6 +122,43 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
     await PurchaseSuccessDialog.show(
       context,
       onViewQr: () => openTicketQr(),
+    );
+  }
+
+  Future<void> handlePendingPayment(EventCheckoutResultEntity result) async {
+    final strings = context.l10n;
+
+    if (result.gateway == 'klap' &&
+        result.paymentUrl != null &&
+        result.paymentUrl!.isNotEmpty) {
+      final opened = await PaymentUrlLauncher.openExternalUrl(result.paymentUrl!);
+      if (!mounted) {
+        return;
+      }
+
+      if (!opened) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppStrings.errorGeneric(strings))),
+        );
+      }
+      return;
+    }
+
+    if (result.gateway == 'stripe' && result.stripeClientSecret != null) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppStrings.errorGeneric(strings))),
+      );
+      return;
+    }
+
+    if (!mounted) {
+      return;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(AppStrings.errorGeneric(strings))),
     );
   }
 
@@ -229,7 +273,12 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
         child: VipPrimaryButtonWidget(
           label: AppStrings.vipPayButton(
             strings,
-            VipCurrencyFormatter.formatClpCompact(context, session.totalAmount),
+            VipCurrencyFormatter.formatAmountCompact(
+              context,
+              session.totalAmount,
+              currencyCode: session.currency,
+              countryIsoCode: session.countryIsoCode,
+            ),
           ),
           onPressed: canPay ? submitPayment : null,
           isLoading: isSubmitting,

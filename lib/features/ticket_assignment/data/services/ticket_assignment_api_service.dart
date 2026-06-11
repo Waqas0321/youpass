@@ -1,5 +1,6 @@
 import 'package:youpass/core/network/api_endpoints.dart';
 import 'package:youpass/core/network/base_api_service.dart';
+import 'package:youpass/core/security/recaptcha_service.dart';
 import 'package:youpass/features/ticket_assignment/data/models/assign_ticket_guest_models.dart';
 import 'package:youpass/features/ticket_assignment/data/models/event_checkout_models.dart';
 import 'package:youpass/features/ticket_assignment/data/models/invitation_claim_model.dart';
@@ -8,12 +9,17 @@ import 'package:youpass/features/ticket_assignment/domain/entities/assign_ticket
 import 'package:youpass/features/ticket_assignment/domain/entities/event_checkout_request_entity.dart';
 
 class TicketAssignmentApiService extends BaseApiService {
-  TicketAssignmentApiService(super.apiClient);
+  TicketAssignmentApiService(
+    super.apiClient, {
+    RecaptchaService? recaptchaService,
+  }) : _recaptchaService = recaptchaService ?? RecaptchaServiceImpl();
+
+  final RecaptchaService _recaptchaService;
 
   Future<EventCheckoutResultModel> checkoutEvent(
     String eventId,
     EventCheckoutRequestEntity request,
-  ) {
+  ) async {
     final body = EventCheckoutRequestModel(
       quantity: request.quantity,
       tier: request.tier,
@@ -23,10 +29,33 @@ class TicketAssignmentApiService extends BaseApiService {
       items: request.items,
       tableId: request.tableId,
       zoneId: request.zoneId,
-    );
+    ).toJson();
+
+    final recaptchaToken = await _recaptchaService.tokenFor('checkout');
+    if (recaptchaToken != null && recaptchaToken.isNotEmpty) {
+      body['recaptcha_token'] = recaptchaToken;
+    }
 
     return postModel(
       ApiEndpoints.eventCheckout(eventId),
+      body: body,
+      fromJson: EventCheckoutResultModel.fromJson,
+      authenticated: true,
+    );
+  }
+
+  Future<EventCheckoutResultModel> confirmCheckout(
+    String eventId, {
+    required String orderId,
+    String? paymentIntentId,
+  }) {
+    final body = EventCheckoutConfirmRequestModel(
+      orderId: orderId,
+      paymentIntentId: paymentIntentId,
+    );
+
+    return postModel(
+      ApiEndpoints.eventCheckoutConfirm(eventId),
       body: body.toJson(),
       fromJson: EventCheckoutResultModel.fromJson,
       authenticated: true,

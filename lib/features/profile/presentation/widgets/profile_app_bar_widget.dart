@@ -7,9 +7,11 @@ class ProfileAppBarWidget extends StatelessWidget implements PreferredSizeWidget
   const ProfileAppBarWidget({
     super.key,
     required this.onBack,
+    this.title,
   });
 
   final VoidCallback onBack;
+  final String? title;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -33,7 +35,7 @@ class ProfileAppBarWidget extends StatelessWidget implements PreferredSizeWidget
         ),
       ),
       title: Text(
-        AppStrings.profileTitle(strings),
+        title ?? AppStrings.profileTitle(strings),
         style: TextStyle(
           fontSize: ProfileDesignSpec.px(context, ProfileDesignSpec.appBarTitleSize),
           fontWeight: FontWeight.w700,

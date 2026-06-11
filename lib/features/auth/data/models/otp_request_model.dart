@@ -11,7 +11,7 @@ class OtpRequestModel {
   final String countryIsoCode;
   final OtpPurpose purpose;
 
-  Map<String, String> toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'phone': phone,
       'country_code': countryIsoCode,

@@ -32,8 +32,12 @@ class EventModel extends EventEntity {
       ),
       dateLabel: JsonReaders.string(
         json,
-        'starts_at_display',
-        fallback: JsonReaders.string(json, 'date_time_display'),
+        'date_display',
+        fallback: JsonReaders.string(
+          json,
+          'starts_at_display',
+          fallback: JsonReaders.string(json, 'date_time_display'),
+        ),
       ),
       locationLabel: location,
       timeLabel: JsonReaders.nullableString(json, 'starts_at_time'),

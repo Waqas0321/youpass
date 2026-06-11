@@ -8,11 +8,15 @@ class EventCheckoutResultEntity extends Equatable {
     required this.totalAmount,
     required this.currency,
     required this.availableToAssign,
+    this.status = 'paid',
+    this.gateway,
     this.ticketId,
     this.seatLabel,
     this.qrUnlockAt,
     this.subtotalAmount,
     this.serviceFeeAmount,
+    this.paymentUrl,
+    this.stripeClientSecret,
   });
 
   final String orderId;
@@ -21,11 +25,19 @@ class EventCheckoutResultEntity extends Equatable {
   final num totalAmount;
   final String currency;
   final int availableToAssign;
+  final String status;
+  final String? gateway;
   final String? ticketId;
   final String? seatLabel;
   final DateTime? qrUnlockAt;
   final num? subtotalAmount;
   final num? serviceFeeAmount;
+  final String? paymentUrl;
+  final String? stripeClientSecret;
+
+  bool get isPaid => status == 'paid';
+
+  bool get isPaymentPending => status == 'payment_pending';
 
   @override
   List<Object?> get props => [
@@ -35,10 +47,14 @@ class EventCheckoutResultEntity extends Equatable {
         totalAmount,
         currency,
         availableToAssign,
+        status,
+        gateway,
         ticketId,
         seatLabel,
         qrUnlockAt,
         subtotalAmount,
         serviceFeeAmount,
+        paymentUrl,
+        stripeClientSecret,
       ];
 }

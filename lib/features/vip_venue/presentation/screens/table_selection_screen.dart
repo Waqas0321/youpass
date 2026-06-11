@@ -231,6 +231,8 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
                   VipTableDetailCardWidget(
                     table: activeTable,
                     zone: zone,
+                    currencyCode: widget.args.session.currency,
+                    countryIsoCode: widget.args.session.countryIsoCode,
                   ),
                 ],
               ],

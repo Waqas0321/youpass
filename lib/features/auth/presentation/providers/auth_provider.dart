@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:youpass/core/auth/auth_token_store.dart';
 import 'package:youpass/core/auth/jwt_utils.dart';
 import 'package:youpass/core/network/api_exception.dart';
+import 'package:youpass/core/config/app_product_config.dart';
 import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/l10n/auth_message_localizer.dart';
 import 'package:youpass/core/utils/app_logger.dart';
@@ -63,11 +64,15 @@ class AuthProvider extends ChangeNotifier {
   UserEntity? currentUser;
   UserProfileEntity? userProfile;
   WelcomeEntity? pendingWelcome;
+  AuthSessionEntity? _lastRegistrationSession;
+  int? registrationStartedAtMs;
+  String registrationAnalyticsSource = 'organic';
   String? errorMessage;
   String? errorCode;
   bool isSubmitting = false;
   bool isUploadingProfilePhoto = false;
   int? lastRetryAfterSeconds;
+  int? remainingAttempts;
   String? _pinnedAccessToken;
 
   Future<void> checkAuthStatus() async {
@@ -81,7 +86,8 @@ class AuthProvider extends ChangeNotifier {
       return;
     }
 
-    if (JwtUtils.isExpired(token)) {
+    final enforceJwtExpiry = !AppProductConfig.auth.sessionIndefinite;
+    if (enforceJwtExpiry && JwtUtils.isExpired(token)) {
       AppLogger.auth('Stored access token expired — clearing session');
       await authRepository.logout(notifyServer: false);
       await _setUnauthenticated();
@@ -136,6 +142,18 @@ class AuthProvider extends ChangeNotifier {
     final welcome = pendingWelcome;
     pendingWelcome = null;
     return welcome;
+  }
+
+  void markRegistrationStarted({String analyticsSource = 'organic'}) {
+    registrationStartedAtMs = DateTime.now().millisecondsSinceEpoch;
+    registrationAnalyticsSource = analyticsSource;
+  }
+
+  AuthSessionEntity? consumeLastRegistrationSession() {
+    final session = _lastRegistrationSession;
+    _lastRegistrationSession = null;
+    pendingWelcome = null;
+    return session;
   }
 
   Future<WhatsAppCheckResultEntity?> checkWhatsApp({
@@ -250,6 +268,9 @@ class AuthProvider extends ChangeNotifier {
   }) async {
     currentUser = session.user;
     pendingWelcome = session.welcome;
+    if (session.isNewUser) {
+      _lastRegistrationSession = session;
+    }
     status = AuthStatus.authenticated;
 
     final token = AuthTokenStore.accessToken ??
@@ -325,6 +346,45 @@ class AuthProvider extends ChangeNotifier {
       actionName: 'delete-account-request',
       action: () => requestDeleteAccountUseCase(),
     );
+  }
+
+  Future<OtpDeliveryResultEntity?> requestChangePhone({
+    required String newPhone,
+    required String newCountryCode,
+  }) async {
+    return runAuthAction(
+      actionName: 'change-phone-request',
+      action: () => authRepository.requestChangePhone(
+        newPhone: newPhone,
+        newCountryCode: newCountryCode,
+      ),
+      logContext: 'country=$newCountryCode phone=$newPhone',
+    );
+  }
+
+  Future<bool> verifyChangePhone({
+    required String newPhone,
+    required String newCountryCode,
+    required String code,
+  }) async {
+    final result = await runAuthAction(
+      actionName: 'change-phone-verify',
+      action: () => authRepository.verifyChangePhone(
+        newPhone: newPhone,
+        newCountryCode: newCountryCode,
+        code: code,
+      ),
+      logContext: 'country=$newCountryCode phone=$newPhone code=******',
+    );
+
+    if (result == null) {
+      return false;
+    }
+
+    userProfile = result.profile;
+    currentUser = result.profile.toUserEntity();
+    notifyListeners();
+    return true;
   }
 
   Future<bool> confirmDeleteAccount(String code) async {
@@ -416,6 +476,7 @@ class AuthProvider extends ChangeNotifier {
     errorMessage = null;
     errorCode = null;
     lastRetryAfterSeconds = null;
+    remainingAttempts = null;
     notifyListeners();
 
     try {
@@ -428,12 +489,14 @@ class AuthProvider extends ChangeNotifier {
       errorCode = error.code;
       errorMessage = error.message;
       lastRetryAfterSeconds = error.retryAfterSeconds;
+      remainingAttempts = error.remainingAttempts;
       AppLogger.warning(
         '${actionName ?? 'auth'} failed: ${error.code} — '
         '${AuthMessageLocalizer.forDebugLog(
           code: error.code,
           fallbackMessage: error.message,
           retryAfterSeconds: error.retryAfterSeconds,
+          remainingAttempts: error.remainingAttempts,
         )}',
         tag: 'Auth',
       );
@@ -507,6 +570,9 @@ class AuthProvider extends ChangeNotifier {
     currentUser = null;
     userProfile = null;
     pendingWelcome = null;
+    _lastRegistrationSession = null;
+    registrationStartedAtMs = null;
+    registrationAnalyticsSource = 'organic';
     status = AuthStatus.unauthenticated;
     errorMessage = null;
     errorCode = null;

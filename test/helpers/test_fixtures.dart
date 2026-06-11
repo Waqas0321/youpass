@@ -66,6 +66,7 @@ class TestFixtures {
       WhatsAppCheckResultEntity(
     phone: '+56912345678',
     whatsappAvailable: true,
+    canReceiveOtp: true,
     deliveryChannel: 'whatsapp',
     message: 'Number is WhatsApp compatible',
   );

@@ -6,7 +6,7 @@ class GetHomeFeedUseCase {
 
   final HomeRepository homeRepository;
 
-  Future<HomeFeedEntity> call() {
-    return homeRepository.getHomeFeed();
+  Future<HomeFeedEntity> call({String? feedContext}) {
+    return homeRepository.getHomeFeed(feedContext: feedContext);
   }
 }

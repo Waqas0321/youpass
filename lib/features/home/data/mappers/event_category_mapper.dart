@@ -17,12 +17,6 @@ class EventCategoryMapper {
         label: l10n.categoryAll,
         icon: Icons.apps_outlined,
       ),
-      EventCategoryEntity(
-        id: AppConstants.categoryIdChile,
-        label: l10n.categoryChile,
-        icon: Icons.location_on_outlined,
-        countryCode: 'CL',
-      ),
       ...eventTypes.map(
         (type) => EventCategoryEntity(
           id: type.slug,

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
@@ -9,6 +10,7 @@ import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/core/widgets/youpass_logo.dart';
 import 'package:youpass/features/auth/routes/welcome_route_args.dart';
+import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/routes/app_routes.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -22,15 +24,42 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   Timer? _navigationTimer;
+  Future<void>? _homeTransitionFuture;
 
   @override
   void initState() {
     super.initState();
-    final seconds = widget.args.welcome.durationSeconds;
+    final navigation = widget.args.navigation;
+    final seconds = widget.args.welcome.durationSeconds > 0
+        ? widget.args.welcome.durationSeconds
+        : navigation.welcomeDurationSeconds;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final homeProvider = context.read<HomeProvider>();
+      homeProvider.beginPostRegistrationSession(
+        registrationStartedAtMs: widget.args.registrationStartedAtMs,
+        analyticsSource: widget.args.analyticsSource,
+        highlightInvitation: navigation.highlightPendingInvitation ||
+            navigation.linkedInvitationsCount > 0,
+      );
+      _homeTransitionFuture = _prepareHome(homeProvider);
+    });
+
     _navigationTimer = Timer(
       Duration(seconds: seconds > 0 ? seconds : 2),
       _openHome,
     );
+  }
+
+  Future<void> _prepareHome(HomeProvider homeProvider) async {
+    final feed = await homeProvider.preloadPostRegistrationFeed();
+    if (feed != null) {
+      await homeProvider.applyPreloadedFeed(
+        feed,
+        highlightInvitation: widget.args.navigation.highlightPendingInvitation ||
+            widget.args.navigation.linkedInvitationsCount > 0,
+      );
+    }
   }
 
   @override
@@ -39,10 +68,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     super.dispose();
   }
 
-  void _openHome() {
+  Future<void> _openHome() async {
     if (!mounted) {
       return;
     }
+
+    final homeProvider = context.read<HomeProvider>();
+    await (_homeTransitionFuture ?? Future.value());
+    if (homeProvider.homeFeed == null) {
+      await homeProvider.loadHomeData();
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    assert(!widget.args.navigation.openProfile);
+    assert(!widget.args.navigation.openHamburgerMenu);
 
     Navigator.of(context).pushNamedAndRemoveUntil(
       AppRoutes.home,

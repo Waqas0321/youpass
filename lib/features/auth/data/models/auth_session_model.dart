@@ -1,7 +1,9 @@
+import 'package:youpass/features/auth/data/models/post_registration_navigation_model.dart';
 import 'package:youpass/features/auth/data/models/user_model.dart';
 import 'package:youpass/features/auth/data/models/user_profile_model.dart';
 import 'package:youpass/features/auth/data/models/welcome_model.dart';
 import 'package:youpass/features/auth/domain/entities/auth_session_entity.dart';
+import 'package:youpass/features/auth/domain/entities/post_registration_navigation_entity.dart';
 import 'package:youpass/features/auth/domain/entities/welcome_entity.dart';
 
 class AuthSessionModel extends AuthSessionEntity {
@@ -11,6 +13,8 @@ class AuthSessionModel extends AuthSessionEntity {
     super.sessionId,
     super.isNewUser,
     super.welcome,
+    super.navigation,
+    super.linkedInvitations,
     this.cachedLoginProfile,
   });
 
@@ -32,8 +36,42 @@ class AuthSessionModel extends AuthSessionEntity {
       sessionId: json['session_id']?.toString().trim(),
       isNewUser: json['is_new_user'] as bool? ?? false,
       welcome: _parseWelcome(json['welcome']),
+      navigation: _parseNavigation(json['navigation']),
+      linkedInvitations: _readLinkedInvitations(json),
       cachedLoginProfile: cachedProfile,
     );
+  }
+
+  static int _readLinkedInvitations(Map<String, dynamic> json) {
+    final direct = json['linked_invitations'] ?? json['linkedInvitations'];
+    if (direct is int) {
+      return direct;
+    }
+    if (direct is num) {
+      return direct.toInt();
+    }
+
+    final navigation = json['navigation'];
+    if (navigation is Map<String, dynamic>) {
+      final nested = navigation['linked_invitations_count'] ??
+          navigation['linkedInvitationsCount'];
+      if (nested is int) {
+        return nested;
+      }
+      if (nested is num) {
+        return nested.toInt();
+      }
+    }
+
+    return 0;
+  }
+
+  static PostRegistrationNavigationEntity? _parseNavigation(Object? value) {
+    if (value is! Map<String, dynamic>) {
+      return null;
+    }
+
+    return PostRegistrationNavigationModel.fromJson(value);
   }
 
   static String _readAccessToken(Map<String, dynamic> json) {
@@ -49,11 +87,6 @@ class AuthSessionModel extends AuthSessionEntity {
       return null;
     }
 
-    final welcome = WelcomeModel.fromJson(value);
-    if (welcome.title.isEmpty || welcome.subtitle.isEmpty) {
-      return null;
-    }
-
-    return welcome;
+    return WelcomeModel.fromJson(value);
   }
 }

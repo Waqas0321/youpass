@@ -17,10 +17,14 @@ class VipTableDetailCardWidget extends StatelessWidget {
     super.key,
     required this.table,
     required this.zone,
+    this.currencyCode = 'CLP',
+    this.countryIsoCode = 'CL',
   });
 
   final VenueTableEntity table;
   final VenueZoneEntity zone;
+  final String currencyCode;
+  final String countryIsoCode;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +74,13 @@ class VipTableDetailCardWidget extends StatelessWidget {
             ),
           ),
           VipPriceColumnWidget(
-            amount: VipCurrencyFormatter.formatClpCompact(context, table.price),
+            amount: VipCurrencyFormatter.formatAmountCompact(
+              context,
+              table.price,
+              currencyCode: currencyCode,
+              countryIsoCode: countryIsoCode,
+            ),
+            currencyLabel: currencyCode,
           ),
         ],
       ),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/config/app_product_config.dart';
 import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/theme/youpass_theme_extension.dart';
+import 'package:youpass/core/utils/payment_url_launcher.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
-import 'package:youpass/core/widgets/app_rich_text.dart';
+import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
 
 class RegisterTermsWidget extends StatelessWidget {
@@ -21,6 +23,8 @@ class RegisterTermsWidget extends StatelessWidget {
     final layout = ResponsiveLayout(context);
     final strings = context.l10n;
     final theme = YouPassThemeExtension.of(context);
+    final termsUrl = AppProductConfig.registration.termsUrl;
+    final privacyUrl = AppProductConfig.registration.privacyUrl;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,20 +47,50 @@ class RegisterTermsWidget extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: EdgeInsets.only(top: layout.spacing(2)),
-            child: AppRichText(
-              variant: AppTextVariant.body,
+            child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                AppRichText.span(context, strings.termsPrefix),
-                AppRichText.span(
-                  context,
-                  strings.termsLink,
-                  variant: AppTextVariant.timer,
+                AppText(strings.termsPrefix, variant: AppTextVariant.body),
+                _TermsLink(
+                  label: strings.termsLink,
+                  url: termsUrl,
                 ),
+                if (privacyUrl != null && privacyUrl.isNotEmpty) ...[
+                  AppText(' ${strings.termsAnd} ', variant: AppTextVariant.body),
+                  _TermsLink(
+                    label: strings.privacyLink,
+                    url: privacyUrl,
+                  ),
+                ],
               ],
             ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class _TermsLink extends StatelessWidget {
+  const _TermsLink({
+    required this.label,
+    required this.url,
+  });
+
+  final String label;
+  final String? url;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasUrl = url != null && url!.isNotEmpty;
+
+    if (!hasUrl) {
+      return AppText(label, variant: AppTextVariant.timer);
+    }
+
+    return GestureDetector(
+      onTap: () => PaymentUrlLauncher.openExternalUrl(url!),
+      child: AppText(label, variant: AppTextVariant.timer),
     );
   }
 }

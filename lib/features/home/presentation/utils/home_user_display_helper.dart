@@ -1,5 +1,6 @@
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
+import 'package:youpass/features/home/presentation/utils/home_greeting_formatter.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
 class HomeUserDisplayHelper {
@@ -26,18 +27,40 @@ class HomeUserDisplayHelper {
     AuthProvider authProvider,
     AppLocalizations strings,
   ) {
-    final rawName = authProvider.currentUser?.name.trim() ??
-        authProvider.userProfile?.fullName.trim();
+    final rawName = _rawFullName(authProvider);
 
     if (rawName == null || rawName.isEmpty) {
       return AppStrings.defaultGuestName(strings);
     }
 
-    final firstName = rawName.split(RegExp(r'\s+')).first;
-    if (firstName.length == 1) {
-      return firstName.toUpperCase();
+    return HomeGreetingFormatter.abbreviatedName(rawName);
+  }
+
+  /// Header row: `Hi, {name}!` — API pre-formatted string wins, else local abbreviation.
+  static String headerGreetingText(
+    AuthProvider authProvider,
+    AppLocalizations strings, {
+    String? apiGreeting,
+  }) {
+    final fromApi = apiGreeting?.trim();
+    if (fromApi != null && fromApi.isNotEmpty) {
+      return fromApi;
     }
 
-    return firstName[0].toUpperCase() + firstName.substring(1);
+    return AppStrings.homeGreeting(strings, greetingName(authProvider, strings));
+  }
+
+  static String? _rawFullName(AuthProvider authProvider) {
+    final profileName = authProvider.userProfile?.fullName.trim();
+    if (profileName != null && profileName.isNotEmpty) {
+      return profileName;
+    }
+
+    final userName = authProvider.currentUser?.name.trim();
+    if (userName != null && userName.isNotEmpty) {
+      return userName;
+    }
+
+    return null;
   }
 }

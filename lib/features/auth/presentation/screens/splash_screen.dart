@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/app_colors.dart';
+import 'package:youpass/core/locale/locale_sync_helper.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
@@ -36,6 +37,13 @@ class _SplashScreenState extends State<SplashScreen> {
     await authProvider.checkAuthStatus();
     if (!mounted) {
       return;
+    }
+
+    final profileCountry = authProvider.userProfile?.countryCode;
+    if (authProvider.userProfile != null) {
+      LocaleSyncHelper.applyProfile(context, authProvider.userProfile!);
+    } else if (profileCountry != null && profileCountry.isNotEmpty) {
+      LocaleSyncHelper.applyCountryIso(context, profileCountry);
     }
 
     if (authProvider.status == AuthStatus.authenticated) {

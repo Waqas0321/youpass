@@ -21,6 +21,7 @@ class UserProfileModel extends UserProfileEntity {
     required super.profileCompleteness,
     super.instagramUsername,
     super.profilePhotoUrl,
+    super.preferredLanguage,
   });
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) {
@@ -72,6 +73,11 @@ class UserProfileModel extends UserProfileEntity {
         data,
         'profile_photo_url',
         altKeys: const ['profilePhotoUrl', 'avatar_url'],
+      ),
+      preferredLanguage: JsonReaders.nullableStringWithAlt(
+        data,
+        'preferred_language',
+        altKeys: const ['preferredLanguage'],
       ),
       category: JsonReaders.string(data, 'category', fallback: 'bronze'),
       accountStatus: JsonReaders.string(data, 'account_status', fallback: 'active'),

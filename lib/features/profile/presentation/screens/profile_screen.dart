@@ -57,6 +57,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Navigator.of(context).pushNamed(AppRoutes.profileWallet);
   }
 
+  Future<void> openChangePhoneScreen() async {
+    final updated = await Navigator.of(context).pushNamed<bool>(
+      AppRoutes.profileChangePhone,
+    );
+    if (updated == true && mounted) {
+      await loadProfile();
+    }
+  }
+
   Future<void> handlePhotoUpdate() async {
     await ProfilePhotoActions(context).pickAndUploadFromGallery();
   }
@@ -132,7 +141,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ProfileDesignSpec.cardToSectionGap,
                     ),
                   ),
-                  ProfilePersonalDataSectionWidget(data: profileData),
+                  ProfilePersonalDataSectionWidget(
+                    data: profileData,
+                    onChangePhoneTap: openChangePhoneScreen,
+                  ),
                   SizedBox(
                     height: ProfileDesignSpec.px(
                       context,

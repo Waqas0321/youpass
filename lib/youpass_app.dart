@@ -55,11 +55,16 @@ class YouPassApp extends StatelessWidget {
         builder: (context, localeProvider, themeProvider, _) {
           final isDark = themeProvider.themeMode == ThemeMode.dark;
 
+          final materialLocale = _resolveMaterialLocale(localeProvider.locale);
+
           return MaterialApp(
             title: AppConstants.appName,
             debugShowCheckedModeBanner: false,
-            locale: localeProvider.locale,
+            locale: materialLocale,
             supportedLocales: AppLocale.supported,
+            localeResolutionCallback: (deviceLocale, supportedLocales) {
+              return materialLocale;
+            },
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -98,5 +103,12 @@ class YouPassApp extends StatelessWidget {
         },
       ),
     );
+  }
+
+  static Locale _resolveMaterialLocale(Locale locale) {
+    if (locale.languageCode == 'pt') {
+      return AppLocale.spanish;
+    }
+    return AppLocale.resolveSupported(locale);
   }
 }

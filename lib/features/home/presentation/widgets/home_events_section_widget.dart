@@ -10,6 +10,7 @@ class HomeEventsSectionWidget extends StatelessWidget {
   const HomeEventsSectionWidget({
     super.key,
     required this.events,
+    this.sectionTitle,
     this.onFavoriteTap,
     this.isFavoritePending,
     this.onSeeAllTap,
@@ -18,6 +19,7 @@ class HomeEventsSectionWidget extends StatelessWidget {
   });
 
   final List<EventEntity> events;
+  final String? sectionTitle;
   final ValueChanged<String>? onFavoriteTap;
   final bool Function(String eventId)? isFavoritePending;
   final VoidCallback? onSeeAllTap;
@@ -33,7 +35,7 @@ class HomeEventsSectionWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SectionHeaderWidget(
-          title: AppStrings.eventsSectionTitle(l10n),
+          title: sectionTitle ?? AppStrings.eventsSectionTitle(l10n),
           actionLabel: AppStrings.seeAll(l10n),
           onActionTap: onSeeAllTap,
         ),

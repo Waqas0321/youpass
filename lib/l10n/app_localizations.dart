@@ -221,7 +221,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeGreeting.
   ///
   /// In en, this message translates to:
-  /// **'Hello, {name}!'**
+  /// **'Hi, {name}!'**
   String homeGreeting(String name);
 
   /// No description provided for @homeDiscoverSubtitle.
@@ -548,6 +548,24 @@ abstract class AppLocalizations {
   /// **'Could not send the code. Try again later.'**
   String get errorOtpDeliveryFailed;
 
+  /// No description provided for @errorWhatsAppRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'This number cannot receive WhatsApp. YouPass uses WhatsApp Business only for verification.'**
+  String get errorWhatsAppRequired;
+
+  /// No description provided for @otpCodeExpiresIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Code expires in {seconds}s'**
+  String otpCodeExpiresIn(int seconds);
+
+  /// No description provided for @phoneChangeSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number updated successfully.'**
+  String get phoneChangeSuccess;
+
   /// No description provided for @errorInvalidCode.
   ///
   /// In en, this message translates to:
@@ -559,6 +577,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Incorrect code'**
   String get errorIncorrectCode;
+
+  /// No description provided for @errorIncorrectCodeRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect code. {attempts} attempt(s) remaining.'**
+  String errorIncorrectCodeRemaining(int attempts);
+
+  /// No description provided for @errorBlockedCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many failed attempts. Try again in {seconds} seconds.'**
+  String errorBlockedCountdown(int seconds);
+
+  /// No description provided for @errorMaxResendsCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many resend attempts. Try again in {seconds} seconds.'**
+  String errorMaxResendsCountdown(int seconds);
+
+  /// No description provided for @errorRecaptchaFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Security verification failed. Please try again.'**
+  String get errorRecaptchaFailed;
+
+  /// No description provided for @errorCardTokenizationRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Card details must be tokenized. Please use the secure payment form.'**
+  String get errorCardTokenizationRequired;
+
+  /// No description provided for @changePhoneOtpMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the code we sent to your NEW WhatsApp number {phone}.'**
+  String changePhoneOtpMessage(String phone);
 
   /// No description provided for @errorCodeExpired.
   ///
@@ -734,6 +788,18 @@ abstract class AppLocalizations {
   /// **'terms and conditions'**
   String get termsLink;
 
+  /// No description provided for @termsAnd.
+  ///
+  /// In en, this message translates to:
+  /// **'and'**
+  String get termsAnd;
+
+  /// No description provided for @privacyLink.
+  ///
+  /// In en, this message translates to:
+  /// **'privacy policy'**
+  String get privacyLink;
+
   /// No description provided for @createAccountButton.
   ///
   /// In en, this message translates to:
@@ -841,6 +907,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Instagram username'**
   String get profileInstagram;
+
+  /// No description provided for @profilePhone.
+  ///
+  /// In en, this message translates to:
+  /// **'PHONE'**
+  String get profilePhone;
+
+  /// No description provided for @profileChangePhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Change phone number'**
+  String get profileChangePhone;
+
+  /// No description provided for @changePhoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change phone'**
+  String get changePhoneTitle;
+
+  /// No description provided for @changePhoneSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your new number. We will send a verification code to your NEW WhatsApp number.'**
+  String get changePhoneSubtitle;
+
+  /// No description provided for @changePhoneCurrentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current number'**
+  String get changePhoneCurrentLabel;
+
+  /// No description provided for @changePhoneNewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New number'**
+  String get changePhoneNewLabel;
+
+  /// No description provided for @changePhoneContinueButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Send verification code'**
+  String get changePhoneContinueButton;
+
+  /// No description provided for @changePhoneSameNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'That is already your current number.'**
+  String get changePhoneSameNumber;
 
   /// No description provided for @profileEditData.
   ///

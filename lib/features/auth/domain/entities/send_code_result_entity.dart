@@ -11,21 +11,28 @@ class SendCodeResultEntity extends Equatable {
     required this.resendAvailableInSeconds,
     required this.phoneDisplay,
     this.accountExists,
+    this.otpLength,
+    this.maxResendsPerHour,
+    this.maxFailedAttempts,
+    this.blockMinutes,
+    this.whatsappAvailable,
   });
 
   final String message;
   final String phone;
-  /// Effective purpose from API (`login` or `register` after send-code).
   final String purpose;
   final String channel;
   final int expiresInSeconds;
   final int resendAvailableInSeconds;
   final String phoneDisplay;
   final bool? accountExists;
+  final int? otpLength;
+  final int? maxResendsPerHour;
+  final int? maxFailedAttempts;
+  final int? blockMinutes;
+  final bool? whatsappAvailable;
 
   OtpPurpose get effectivePurpose => OtpPurposeParsing.fromApiValue(purpose);
-
-  bool get isSmsChannel => channel.toLowerCase() == 'sms';
 
   @override
   List<Object?> get props => [
@@ -37,5 +44,10 @@ class SendCodeResultEntity extends Equatable {
         resendAvailableInSeconds,
         phoneDisplay,
         accountExists,
+        otpLength,
+        maxResendsPerHour,
+        maxFailedAttempts,
+        blockMinutes,
+        whatsappAvailable,
       ];
 }

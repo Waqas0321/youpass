@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/constants/country_code_list.dart';
+import 'package:youpass/core/locale/locale_sync_helper.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/l10n/auth_error_extension.dart';
 import 'package:youpass/core/l10n/otp_delivery_message.dart';
@@ -14,8 +15,8 @@ import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/core/widgets/youpass_primary_button.dart';
 import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
+import 'package:youpass/features/auth/presentation/utils/whatsapp_auth_gate.dart';
 import 'package:youpass/features/auth/presentation/widgets/phone_input_widget.dart';
-import 'package:youpass/features/auth/routes/register_route_args.dart';
 import 'package:youpass/features/auth/routes/verification_route_args.dart';
 import 'package:youpass/routes/app_routes.dart';
 
@@ -85,6 +86,15 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
       return;
     }
 
+    if (!WhatsAppAuthGate.canSendOtp(whatsAppCheck)) {
+      final message = WhatsAppAuthGate.unavailableMessage(whatsAppCheck);
+      AppSnackBar.show(
+        context,
+        message.isNotEmpty ? message : l10n.errorWhatsAppRequired,
+      );
+      return;
+    }
+
     final result = await authProvider.sendVerificationCode(
       phone: phoneDigits,
       countryIsoCode: country.isoCode,
@@ -106,20 +116,22 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
 
     if (effectivePurpose == OtpPurpose.register) {
       Navigator.of(context).pushNamed(
-        AppRoutes.register,
-        arguments: RegisterRouteArgs(
+        AppRoutes.verification,
+        arguments: VerificationRouteArgs(
           phone: phoneDigits,
           countryIsoCode: country.isoCode,
+          purpose: OtpPurpose.register,
           phoneDisplay: result.phoneDisplay,
           resendCooldownSeconds: result.resendAvailableInSeconds,
-          codeAlreadySent: true,
+          expiresInSeconds: result.expiresInSeconds,
+          deliveryChannel: 'whatsapp',
+          statusMessage: whatsAppCheck.message.isNotEmpty
+              ? whatsAppCheck.message
+              : OtpDeliveryMessage.sentConfirmation(l10n),
         ),
       );
       return;
     }
-
-    final deliveryChannel =
-        result.channel.isNotEmpty ? result.channel : whatsAppCheck.deliveryChannel;
 
     final args = VerificationRouteArgs(
       phone: phoneDigits,
@@ -127,8 +139,11 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
       purpose: effectivePurpose,
       phoneDisplay: result.phoneDisplay,
       resendCooldownSeconds: result.resendAvailableInSeconds,
-      deliveryChannel: deliveryChannel,
-      statusMessage: OtpDeliveryMessage.sentConfirmation(l10n, deliveryChannel),
+      expiresInSeconds: result.expiresInSeconds,
+      deliveryChannel: 'whatsapp',
+      statusMessage: whatsAppCheck.message.isNotEmpty
+          ? whatsAppCheck.message
+          : OtpDeliveryMessage.sentConfirmation(l10n),
     );
 
     Navigator.of(context).pushNamed(
@@ -150,6 +165,7 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
         PhoneInputWidget(
           key: phoneInputKey,
           phoneController: phoneController,
+          onCountryChanged: (country) => LocaleSyncHelper.applyCountry(context, country),
         ),
         if (localizedError != null) ...[
           SizedBox(height: layout.spacing(12)),

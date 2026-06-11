@@ -48,7 +48,11 @@ class TicketOfferingRowWidget extends StatelessWidget {
           ],
           SizedBox(height: VipVenueDesignSpec.px(context, 6)),
           AppText(
-            VipCurrencyFormatter.formatClp(context, offering.price),
+            VipCurrencyFormatter.formatAmount(
+              context,
+              offering.price,
+              currencyCode: offering.currency,
+            ),
             variant: AppTextVariant.bodyEmphasis,
             color: VipVenueScreenTheme.title(context),
             fontSize: VipVenueDesignSpec.px(context, 16),

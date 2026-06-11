@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/country_code_list.dart';
 import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
+import 'package:youpass/features/auth/domain/entities/post_registration_navigation_entity.dart';
 import 'package:youpass/features/auth/domain/entities/welcome_entity.dart';
 import 'package:youpass/features/auth/presentation/screens/login_screen.dart';
 import 'package:youpass/features/auth/presentation/screens/register_screen.dart';
@@ -11,6 +12,7 @@ import 'package:youpass/features/auth/routes/welcome_route_args.dart';
 import 'package:youpass/features/auth/routes/verification_route_args.dart';
 import 'package:youpass/features/home/presentation/screens/home_screen.dart';
 import 'package:youpass/features/profile/presentation/screens/profile_screen.dart';
+import 'package:youpass/features/profile/presentation/screens/change_phone_screen.dart';
 import 'package:youpass/features/profile/presentation/screens/profile_wallet_screen.dart';
 import 'package:youpass/features/events/presentation/routes/event_detail_route_args.dart';
 import 'package:youpass/features/events/presentation/screens/event_detail_screen.dart';
@@ -56,7 +58,8 @@ class RouteGenerator {
                 phoneDisplay: '+56 9 1234 5678',
                 resendCooldownSeconds: 60,
               );
-        return MaterialPageRoute(
+        return MaterialPageRoute<bool>(
+          settings: settings,
           builder: (_) => VerificationScreen(args: verificationArgs),
         );
       case AppRoutes.welcome:
@@ -69,6 +72,7 @@ class RouteGenerator {
                   subtitle: '',
                   durationSeconds: 2,
                 ),
+                navigation: PostRegistrationNavigationEntity(),
               );
         return MaterialPageRoute(
           builder: (_) => WelcomeScreen(args: welcomeArgs),
@@ -82,6 +86,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
       case AppRoutes.profileWallet:
         return MaterialPageRoute(builder: (_) => const ProfileWalletScreen());
+      case AppRoutes.profileChangePhone:
+        return MaterialPageRoute<bool>(
+          settings: settings,
+          builder: (_) => const ChangePhoneScreen(),
+        );
       case AppRoutes.myTickets:
         return MaterialPageRoute(builder: (_) => const MyTicketsScreen());
       case AppRoutes.myFavorites:

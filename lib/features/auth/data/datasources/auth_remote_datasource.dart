@@ -1,4 +1,5 @@
 import 'package:youpass/features/auth/domain/entities/auth_session_entity.dart';
+import 'package:youpass/features/auth/domain/entities/change_phone_result_entity.dart';
 import 'package:youpass/features/auth/domain/entities/delete_account_result_entity.dart';
 import 'package:youpass/features/auth/domain/entities/otp_delivery_result_entity.dart';
 import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
@@ -46,6 +47,17 @@ abstract class AuthRemoteDataSource {
   Future<OtpDeliveryResultEntity> requestDeleteAccount();
 
   Future<DeleteAccountResultEntity> confirmDeleteAccount({
+    required String code,
+  });
+
+  Future<OtpDeliveryResultEntity> requestChangePhone({
+    required String newPhone,
+    required String newCountryCode,
+  });
+
+  Future<ChangePhoneResultEntity> verifyChangePhone({
+    required String newPhone,
+    required String newCountryCode,
     required String code,
   });
 }

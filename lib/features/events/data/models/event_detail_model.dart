@@ -52,6 +52,10 @@ class EventDetailModel extends EventDetailEntity {
     return EventPurchaseMetaEntity(
       serviceFeeRate: rate is num ? rate.toDouble() : 0.05,
       currency: JsonReaders.string(json, 'currency', fallback: 'CLP'),
+      paymentGateway: JsonReaders.string(json, 'payment_gateway',
+          fallback: JsonReaders.string(json, 'paymentGateway', fallback: 'klap')),
+      countryCode: JsonReaders.string(json, 'country_code',
+          fallback: JsonReaders.string(json, 'countryCode', fallback: 'CL')),
       hasTicketOfferings: _readBool(json, 'has_ticket_offerings') ||
           _readBool(json, 'hasTicketOfferings'),
       hasVenueLayout: _readBool(json, 'has_venue_layout') ||

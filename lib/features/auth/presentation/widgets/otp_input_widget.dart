@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:youpass/core/constants/app_colors.dart';
-import 'package:youpass/core/constants/otp_constants.dart';
+import 'package:youpass/core/config/otp_policy.dart';
 import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
@@ -59,16 +59,16 @@ class OtpInputWidgetState extends State<OtpInputWidget> {
 
   int get activeIndex {
     final length = otpValue.length;
-    if (length >= OtpConstants.codeLength) {
-      return OtpConstants.codeLength - 1;
+    if (length >= OtpPolicy.codeLength) {
+      return OtpPolicy.codeLength - 1;
     }
     return length;
   }
 
   void handleOtpChanged(String value) {
     final digitsOnly = value.replaceAll(RegExp(r'\D'), '');
-    final trimmed = digitsOnly.length > OtpConstants.codeLength
-        ? digitsOnly.substring(0, OtpConstants.codeLength)
+    final trimmed = digitsOnly.length > OtpPolicy.codeLength
+        ? digitsOnly.substring(0, OtpPolicy.codeLength)
         : digitsOnly;
 
     if (trimmed != widget.controller.text) {
@@ -80,7 +80,7 @@ class OtpInputWidgetState extends State<OtpInputWidget> {
 
     widget.onChanged?.call(trimmed);
 
-    if (trimmed.length == OtpConstants.codeLength) {
+    if (trimmed.length == OtpPolicy.codeLength) {
       widget.onCompleted?.call();
     }
   }
@@ -103,7 +103,7 @@ class OtpInputWidgetState extends State<OtpInputWidget> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(OtpConstants.codeLength, (index) {
+                children: List.generate(OtpPolicy.codeLength, (index) {
                   final digit = index < otpValue.length ? otpValue[index] : '';
                   final isActive =
                       focusNode.hasFocus && index == activeIndex;
@@ -144,7 +144,7 @@ class OtpInputWidgetState extends State<OtpInputWidget> {
                     autofocus: widget.autofocus,
                     keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.done,
-                    maxLength: OtpConstants.codeLength,
+                    maxLength: OtpPolicy.codeLength,
                     onChanged: handleOtpChanged,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,

@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:youpass/core/auth/auth_headers.dart';
 import 'package:youpass/core/auth/auth_token_store.dart';
 import 'package:youpass/core/constants/app_constants.dart';
+import 'package:youpass/core/security/client_request_headers.dart';
 import 'package:youpass/core/utils/app_logger.dart';
 
 typedef AuthTokenProvider = Future<String?> Function();
@@ -12,10 +14,13 @@ class ApiClient {
   ApiClient({
     http.Client? client,
     this.authTokenProvider,
-  }) : httpClient = client ?? http.Client();
+    ClientRequestHeaders? clientRequestHeaders,
+  })  : httpClient = client ?? http.Client(),
+        _clientRequestHeaders = clientRequestHeaders;
 
   final http.Client httpClient;
   final AuthTokenProvider? authTokenProvider;
+  final ClientRequestHeaders? _clientRequestHeaders;
 
   Future<http.Response> get(
     String url, {
@@ -46,12 +51,16 @@ class ApiClient {
     bool authenticated = false,
     String? accessTokenOverride,
   }) async {
-    final encodedBody = body is String ? body : jsonEncode(body);
+    final hasBody = body != null;
+    final encodedBody = hasBody
+        ? (body is String ? body : jsonEncode(body))
+        : null;
     final resolvedHeaders = await _resolveHeaders(
       headers: headers,
       authenticated: authenticated,
       accessTokenOverride: accessTokenOverride,
       multipart: false,
+      includeJsonContentType: hasBody,
     );
 
     return _send(
@@ -131,9 +140,12 @@ class ApiClient {
     required bool authenticated,
     String? accessTokenOverride,
     required bool multipart,
+    bool includeJsonContentType = true,
   }) async {
+    final clientHeaders = await _clientRequestHeaders?.build() ?? const {};
     final resolved = <String, String>{
-      if (!multipart) 'Content-Type': 'application/json',
+      if (!multipart && includeJsonContentType) 'Content-Type': 'application/json',
+      ...clientHeaders,
       ...?headers,
     };
 
@@ -157,11 +169,12 @@ class ApiClient {
         multipart ? authHeadersMultipart(token) : authHeaders(token),
       );
       final source = override != null ? 'override' : 'store';
-      AppLogger.debug(
-        'Authorization attached from $source (${token.length} chars, '
-        'prefix=${token.substring(0, token.length.clamp(0, 12))}...)',
-        tag: 'API',
-      );
+      if (kDebugMode) {
+        AppLogger.debug(
+          'Authorization attached from $source',
+          tag: 'API',
+        );
+      }
     } else {
       AppLogger.warning(
         'Authenticated request without access token',

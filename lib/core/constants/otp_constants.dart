@@ -1,6 +1,7 @@
 class OtpConstants {
   OtpConstants._();
 
-  static const int codeLength = 6;
-  static const int resendCooldownSeconds = 60;
+  static const int fallbackCodeLength = 6;
+  static const int fallbackResendCooldownSeconds = 60;
+  static const int fallbackOtpTtlSeconds = 180;
 }

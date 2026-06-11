@@ -47,19 +47,34 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
               children: [
                 VipAmountRowWidget(
                   label: AppStrings.vipPurchaseSubtotal(strings),
-                  amount: VipCurrencyFormatter.formatClp(context, session.subtotal),
+                  amount: VipCurrencyFormatter.formatAmount(
+                    context,
+                    session.subtotal,
+                    currencyCode: session.currency,
+                    countryIsoCode: session.countryIsoCode,
+                  ),
                   amountColor: VipVenueScreenTheme.title(context),
                 ),
                 const VipCardDividerWidget(),
                 VipAmountRowWidget(
                   label: AppStrings.vipPurchaseServiceCharge(strings),
-                  amount: VipCurrencyFormatter.formatClp(context, session.serviceFee),
+                  amount: VipCurrencyFormatter.formatAmount(
+                    context,
+                    session.serviceFee,
+                    currencyCode: session.currency,
+                    countryIsoCode: session.countryIsoCode,
+                  ),
                   amountColor: VipVenueScreenTheme.title(context),
                 ),
                 const VipCardDividerWidget(),
                 VipAmountRowWidget(
                   label: AppStrings.vipPurchaseTotal(strings),
-                  amount: VipCurrencyFormatter.formatClp(context, session.totalAmount),
+                  amount: VipCurrencyFormatter.formatAmount(
+                    context,
+                    session.totalAmount,
+                    currencyCode: session.currency,
+                    countryIsoCode: session.countryIsoCode,
+                  ),
                   amountColor: accent,
                   amountSize: 22,
                   labelWeight: FontWeight.w700,
@@ -86,19 +101,29 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
                     vouchersLabel:
                         AppStrings.vipTableVouchers(strings, table.voucherCount),
                     amount: table.price,
+                    currencyCode: session.currency,
+                    countryIsoCode: session.countryIsoCode,
                   ),
                   const VipCardDividerWidget(),
                   VipAmountRowWidget(
                     label: AppStrings.vipServiceFee(strings),
-                    amount:
-                        VipCurrencyFormatter.formatClp(context, session.serviceFee),
+                    amount: VipCurrencyFormatter.formatAmount(
+                      context,
+                      session.serviceFee,
+                      currencyCode: session.currency,
+                      countryIsoCode: session.countryIsoCode,
+                    ),
                     amountColor: VipVenueScreenTheme.title(context),
                   ),
                   const VipCardDividerWidget(),
                   VipAmountRowWidget(
                     label: AppStrings.vipPurchaseTotal(strings),
-                    amount:
-                        VipCurrencyFormatter.formatClp(context, session.totalAmount),
+                    amount: VipCurrencyFormatter.formatAmount(
+                      context,
+                      session.totalAmount,
+                      currencyCode: session.currency,
+                      countryIsoCode: session.countryIsoCode,
+                    ),
                     amountColor: accent,
                     amountSize: 22,
                     labelWeight: FontWeight.w700,

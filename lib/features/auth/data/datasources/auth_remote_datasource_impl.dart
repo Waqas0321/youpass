@@ -1,6 +1,7 @@
 import 'package:youpass/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:youpass/features/auth/data/services/auth_api_service.dart';
 import 'package:youpass/features/auth/domain/entities/auth_session_entity.dart';
+import 'package:youpass/features/auth/domain/entities/change_phone_result_entity.dart';
 import 'package:youpass/features/auth/domain/entities/delete_account_result_entity.dart';
 import 'package:youpass/features/auth/domain/entities/otp_delivery_result_entity.dart';
 import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
@@ -106,5 +107,29 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String code,
   }) {
     return authApiService.confirmDeleteAccount(code: code);
+  }
+
+  @override
+  Future<OtpDeliveryResultEntity> requestChangePhone({
+    required String newPhone,
+    required String newCountryCode,
+  }) {
+    return authApiService.requestChangePhone(
+      newPhone: newPhone,
+      newCountryCode: newCountryCode,
+    );
+  }
+
+  @override
+  Future<ChangePhoneResultEntity> verifyChangePhone({
+    required String newPhone,
+    required String newCountryCode,
+    required String code,
+  }) {
+    return authApiService.verifyChangePhone(
+      newPhone: newPhone,
+      newCountryCode: newCountryCode,
+      code: code,
+    );
   }
 }

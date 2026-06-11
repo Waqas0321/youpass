@@ -248,10 +248,51 @@ class AppLocalizationsEs extends AppLocalizations {
       'No se pudo enviar el código. Inténtalo más tarde.';
 
   @override
+  String get errorWhatsAppRequired =>
+      'Este número no puede recibir WhatsApp. YouPass usa solo WhatsApp Business para la verificación.';
+
+  @override
+  String otpCodeExpiresIn(int seconds) {
+    return 'El código expira en ${seconds}s';
+  }
+
+  @override
+  String get phoneChangeSuccess =>
+      'Número de teléfono actualizado correctamente.';
+
+  @override
   String get errorInvalidCode => 'Código inválido. Solicita uno nuevo.';
 
   @override
   String get errorIncorrectCode => 'Código incorrecto';
+
+  @override
+  String errorIncorrectCodeRemaining(int attempts) {
+    return 'Código incorrecto. Te quedan $attempts intento(s).';
+  }
+
+  @override
+  String errorBlockedCountdown(int seconds) {
+    return 'Demasiados intentos fallidos. Inténtalo en $seconds segundos.';
+  }
+
+  @override
+  String errorMaxResendsCountdown(int seconds) {
+    return 'Demasiados reenvíos. Inténtalo en $seconds segundos.';
+  }
+
+  @override
+  String get errorRecaptchaFailed =>
+      'La verificación de seguridad falló. Inténtalo de nuevo.';
+
+  @override
+  String get errorCardTokenizationRequired =>
+      'Los datos de la tarjeta deben tokenizarse. Usa el formulario de pago seguro.';
+
+  @override
+  String changePhoneOtpMessage(String phone) {
+    return 'Ingresa el código que enviamos a tu NUEVO número de WhatsApp $phone.';
+  }
 
   @override
   String get errorCodeExpired => 'El código expiró. Solicita uno nuevo.';
@@ -345,6 +386,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get termsLink => 'términos y condiciones';
 
   @override
+  String get termsAnd => 'y la';
+
+  @override
+  String get privacyLink => 'política de privacidad';
+
+  @override
   String get createAccountButton => 'CREAR CUENTA';
 
   @override
@@ -399,6 +446,31 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get profileInstagram => 'Nick de Instagram';
+
+  @override
+  String get profilePhone => 'TELÉFONO';
+
+  @override
+  String get profileChangePhone => 'Cambiar número';
+
+  @override
+  String get changePhoneTitle => 'Cambiar teléfono';
+
+  @override
+  String get changePhoneSubtitle =>
+      'Ingresa tu nuevo número. Enviaremos un código de verificación a tu NUEVO WhatsApp.';
+
+  @override
+  String get changePhoneCurrentLabel => 'Número actual';
+
+  @override
+  String get changePhoneNewLabel => 'Nuevo número';
+
+  @override
+  String get changePhoneContinueButton => 'Enviar código de verificación';
+
+  @override
+  String get changePhoneSameNumber => 'Ese ya es tu número actual.';
 
   @override
   String get profileEditData => 'Editar datos';

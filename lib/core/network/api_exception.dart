@@ -24,6 +24,21 @@ class ApiException implements Exception {
     return null;
   }
 
+  /// API codes that represent normal empty states, not actionable failures.
+  static const quietLogCodes = <String>{
+    'VENUE_LAYOUT_NOT_FOUND',
+  };
+
+  bool get isVenueLayoutNotConfigured => code == 'VENUE_LAYOUT_NOT_FOUND';
+
+  /// Backend may return 404 or 500 when an event has no configured floor plan.
+  bool get isVenueLayoutUnavailable =>
+      isVenueLayoutNotConfigured ||
+      statusCode == 404 ||
+      (statusCode == 500 && code == 'INTERNAL_ERROR');
+
+  bool get shouldLogAsWarning => !quietLogCodes.contains(code);
+
   factory ApiException.fromResponse({
     required int statusCode,
     required Map<String, dynamic> body,

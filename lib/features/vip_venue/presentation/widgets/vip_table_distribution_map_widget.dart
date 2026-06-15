@@ -106,6 +106,7 @@ class VipTableSeatWidget extends StatelessWidget {
       case VenueTableStatus.sold:
         return VipVenueMapTheme.tableOccupied;
       case VenueTableStatus.locked:
+      case VenueTableStatus.reserved:
         return VipVenueMapTheme.tableBlocked;
       case VenueTableStatus.selected:
         return VipVenueMapTheme.tableSelected;

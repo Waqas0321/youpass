@@ -31,37 +31,57 @@ class VipVenueMockData {
 
     return [
       TicketOfferingEntity(
-        id: 'preventa-1',
+        id: 'early_bird',
+        type: 'early_bird',
+        name: AppStrings.vipOfferingPreventa1(l10n),
+        offeringId: 'mock-offering-early-bird',
         label: AppStrings.vipOfferingPreventa1(l10n),
         price: 10000,
         section: TicketOfferingSection.general,
         description: description,
+        mapsToType: 'general',
+        mapsToTier: 'general',
       ),
       TicketOfferingEntity(
-        id: 'preventa-2',
+        id: 'preventa_2',
+        type: 'preventa_2',
+        name: AppStrings.vipOfferingPreventa2(l10n),
+        offeringId: 'mock-offering-preventa-2',
         label: AppStrings.vipOfferingPreventa2(l10n),
         price: 13000,
         section: TicketOfferingSection.general,
         description: description,
+        mapsToType: 'general',
+        mapsToTier: 'general',
       ),
       TicketOfferingEntity(
-        id: 'general-cover',
+        id: 'general',
+        type: 'general',
+        name: AppStrings.vipOfferingGeneralCover(l10n),
+        offeringId: 'mock-offering-general',
         label: AppStrings.vipOfferingGeneralCover(l10n),
         price: 18000,
         section: TicketOfferingSection.general,
         description: description,
+        mapsToType: 'general',
+        mapsToTier: 'general',
       ),
     ];
   }
 
   static TicketOfferingEntity vipGeneralTicketOffering(AppLocalizations l10n) {
     return TicketOfferingEntity(
-      id: 'vip-general',
+      id: 'vip_general',
+      type: 'vip_general',
+      name: AppStrings.vipOfferingVipGeneral(l10n),
+      offeringId: 'mock-offering-vip-general',
       label: AppStrings.vipOfferingVipGeneral(l10n),
       price: 35000,
       section: TicketOfferingSection.vip,
       description: AppStrings.vipOfferingGeneralAccessDescription(l10n),
       badgeLabel: AppStrings.vipOfferingWithoutTable(l10n),
+      mapsToType: 'vip',
+      mapsToTier: 'vip',
     );
   }
 

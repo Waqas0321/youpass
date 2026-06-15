@@ -1939,6 +1939,30 @@ class AppLocalizationsEs extends AppLocalizations {
       'Todas las entradas de este evento están agotadas.';
 
   @override
+  String get errorCheckoutInsufficientStock =>
+      'No hay suficientes entradas. Reduce la cantidad o elige otra opción.';
+
+  @override
+  String get errorCheckoutOfferingSoldOut =>
+      'Esta opción se acaba de agotar. Elige otra.';
+
+  @override
+  String get errorCheckoutTableLockRequired =>
+      'Tu reserva de mesa expiró. Vuelve a reservar la mesa.';
+
+  @override
+  String get errorCheckoutTableNotAvailable =>
+      'Esta mesa ya no está disponible.';
+
+  @override
+  String get errorCheckoutTableLocked =>
+      'Esta mesa está reservada por otro usuario.';
+
+  @override
+  String get errorCheckoutOfferingNotFound =>
+      'Esta opción de entrada ya no está disponible.';
+
+  @override
   String get vipSecurePayment => 'Pago 100% seguro';
 
   @override

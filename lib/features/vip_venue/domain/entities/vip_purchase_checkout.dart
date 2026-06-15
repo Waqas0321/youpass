@@ -12,6 +12,7 @@ extension VipPurchaseSessionCheckout on VipPurchaseSession {
         zoneId: zone.id,
         tier: 'vip',
         type: 'vip_table',
+        lockId: tableLockId,
       );
     }
 
@@ -19,7 +20,7 @@ extension VipPurchaseSessionCheckout on VipPurchaseSession {
     if (selected.length == 1) {
       final offering = selected.first;
       return EventCheckoutRequestEntity(
-        offeringId: offering.offeringId ?? offering.id,
+        offeringId: offering.checkoutOfferingId,
         quantity: offering.quantity,
         tier: offering.mapsToTier ?? 'general',
         type: offering.mapsToType ?? 'general',
@@ -30,7 +31,7 @@ extension VipPurchaseSessionCheckout on VipPurchaseSession {
       items: selected
           .map(
             (offering) => EventCheckoutOfferingItemEntity(
-              offeringId: offering.offeringId ?? offering.id,
+              offeringId: offering.checkoutOfferingId,
               quantity: offering.quantity,
             ),
           )

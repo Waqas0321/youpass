@@ -44,10 +44,20 @@ class VipVenueProvider extends ChangeNotifier {
   VenueFloorPlanEntity? venueLayout;
   ZoneTablesBundleEntity? zoneTables;
 
+  String? _cachedVenueLayoutEventId;
+
   String? errorMessage;
   String? errorCode;
 
   Future<TicketTypesBundleEntity?> loadTicketTypes(String eventId) async {
+    if (eventId.isEmpty) {
+      ticketTypesStatus = VipVenueLoadStatus.error;
+      errorCode = 'EVENT_NOT_FOUND';
+      errorMessage = 'Event not found';
+      notifyListeners();
+      return null;
+    }
+
     ticketTypesStatus = VipVenueLoadStatus.loading;
     errorMessage = null;
     errorCode = null;
@@ -73,6 +83,19 @@ class VipVenueProvider extends ChangeNotifier {
   }
 
   Future<VenueFloorPlanEntity?> loadVenueLayout(String eventId) async {
+    if (eventId.isEmpty) {
+      venueLayout = null;
+      venueLayoutStatus = VipVenueLoadStatus.ready;
+      _cachedVenueLayoutEventId = eventId;
+      notifyListeners();
+      return null;
+    }
+
+    if (_cachedVenueLayoutEventId == eventId &&
+        venueLayoutStatus == VipVenueLoadStatus.ready) {
+      return venueLayout;
+    }
+
     venueLayoutStatus = VipVenueLoadStatus.loading;
     errorMessage = null;
     errorCode = null;
@@ -81,9 +104,20 @@ class VipVenueProvider extends ChangeNotifier {
     try {
       venueLayout = await fetchVenueLayoutUseCase(eventId);
       venueLayoutStatus = VipVenueLoadStatus.ready;
+      _cachedVenueLayoutEventId = eventId;
       notifyListeners();
       return venueLayout;
     } on ApiException catch (error) {
+      if (error.isVenueLayoutUnavailable) {
+        venueLayout = null;
+        venueLayoutStatus = VipVenueLoadStatus.ready;
+        _cachedVenueLayoutEventId = eventId;
+        errorMessage = null;
+        errorCode = null;
+        notifyListeners();
+        return null;
+      }
+
       venueLayoutStatus = VipVenueLoadStatus.error;
       errorCode = error.code;
       errorMessage = error.message;

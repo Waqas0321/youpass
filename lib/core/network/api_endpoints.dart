@@ -55,6 +55,10 @@ class ApiEndpoints {
   static const String events = '$apiV1/events';
   static const String eventTypes = '$apiV1/events/types';
 
+  static const String venues = '$apiV1/venues';
+
+  static String venueById(String venueId) => '$apiV1/venues/$venueId';
+
   static const String favoriteEvents = '$apiV1/users/me/favorites/events';
   static const String favoritesCombined = '$apiV1/users/me/favorites';
   static const String favoriteProducers = '$apiV1/users/me/favorites/producers';

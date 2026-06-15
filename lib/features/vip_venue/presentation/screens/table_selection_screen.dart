@@ -117,7 +117,8 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
   }
 
   void selectTable(VenueTableEntity table) {
-    if (table.status == VenueTableStatus.locked) {
+    if (table.status == VenueTableStatus.locked ||
+        table.status == VenueTableStatus.reserved) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppStrings.vipTableBlockedMessage(context.l10n)),
@@ -166,6 +167,7 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
 
     widget.args.session.selectedTable = lock.table;
     widget.args.session.tableLockExpiresAt = lock.expiresAt;
+    widget.args.session.tableLockId = lock.lockId;
 
     if (!mounted) {
       return;

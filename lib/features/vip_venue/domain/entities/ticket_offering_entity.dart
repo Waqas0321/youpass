@@ -7,6 +7,9 @@ class TicketOfferingEntity extends Equatable {
     required this.label,
     required this.price,
     required this.section,
+    this.type,
+    this.name,
+    this.status,
     this.offeringId,
     this.mapsToTier,
     this.mapsToType,
@@ -23,6 +26,9 @@ class TicketOfferingEntity extends Equatable {
   final String label;
   final int price;
   final TicketOfferingSection section;
+  final String? type;
+  final String? name;
+  final String? status;
   final String? offeringId;
   final String? mapsToTier;
   final String? mapsToType;
@@ -33,6 +39,17 @@ class TicketOfferingEntity extends Equatable {
   final int vouchersPerTicket;
   final bool isSoldOut;
   final bool isSelectable;
+
+  String get displayName => (name?.trim().isNotEmpty == true ? name!.trim() : label);
+
+  /// MongoDB / checkout id — never use legacy slug alone when offering_id exists.
+  String get checkoutOfferingId {
+    final mongoId = offeringId?.trim();
+    if (mongoId != null && mongoId.isNotEmpty) {
+      return mongoId;
+    }
+    return id;
+  }
 
   bool get isQuantitySelectable => isSelectable && !isSoldOut;
 
@@ -50,6 +67,9 @@ class TicketOfferingEntity extends Equatable {
       label: label,
       price: price,
       section: section,
+      type: type,
+      name: name,
+      status: status,
       offeringId: offeringId,
       mapsToTier: mapsToTier,
       mapsToType: mapsToType,
@@ -69,6 +89,9 @@ class TicketOfferingEntity extends Equatable {
         label,
         price,
         section,
+        type,
+        name,
+        status,
         offeringId,
         mapsToTier,
         mapsToType,

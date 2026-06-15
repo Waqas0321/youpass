@@ -35,7 +35,33 @@ void main() {
       throwsA(
         isA<ApiException>()
             .having((e) => e.code, 'code', 'RESEND_COOLDOWN')
-            .having((e) => e.retryAfterSeconds, 'retry', 51),
+            .having((e) => e.retryAfterSeconds, 'retry', 51)
+            .having((e) => e.shouldLogAsWarning, 'shouldLogAsWarning', isTrue),
+      ),
+    );
+  });
+
+  test('VENUE_LAYOUT_NOT_FOUND is treated as a quiet API error', () {
+    final response = http.Response(
+      '''
+      {
+        "success": false,
+        "error": {
+          "code": "VENUE_LAYOUT_NOT_FOUND",
+          "message": "Venue layout is not configured for this event"
+        }
+      }
+      ''',
+      404,
+    );
+
+    expect(
+      () => ApiResponseParser.parseData(response),
+      throwsA(
+        isA<ApiException>()
+            .having((e) => e.code, 'code', 'VENUE_LAYOUT_NOT_FOUND')
+            .having((e) => e.isVenueLayoutNotConfigured, 'isVenueLayoutNotConfigured', isTrue)
+            .having((e) => e.shouldLogAsWarning, 'shouldLogAsWarning', isFalse),
       ),
     );
   });

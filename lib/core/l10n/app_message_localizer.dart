@@ -1,5 +1,6 @@
 import 'package:youpass/core/l10n/auth_message_localizer.dart';
 import 'package:youpass/core/l10n/ticket_assignment_message_localizer.dart';
+import 'package:youpass/core/l10n/vip_checkout_message_localizer.dart';
 import 'package:youpass/core/network/api_exception.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
@@ -18,6 +19,14 @@ class AppMessageLocalizer {
     );
     if (ticketAssignmentMessage != null) {
       return ticketAssignmentMessage;
+    }
+
+    final vipCheckoutMessage = VipCheckoutMessageLocalizer.fromApiError(
+      l10n,
+      code: code,
+    );
+    if (vipCheckoutMessage != null) {
+      return vipCheckoutMessage;
     }
 
     return AuthMessageLocalizer.fromApiError(

@@ -1,5 +1,7 @@
 import 'package:youpass/features/vip_venue/data/datasources/vip_venue_remote_datasource.dart';
+import 'package:youpass/features/vip_venue/domain/entities/physical_venue_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/table_availability_snapshot_entity.dart';
+import 'package:youpass/features/vip_venue/domain/entities/venue_table_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/table_lock_result_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/table_lock_status_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/ticket_types_bundle_entity.dart';
@@ -23,11 +25,29 @@ class VipVenueRepositoryImpl implements VipVenueRepository {
   }
 
   @override
+  Future<List<PhysicalVenueEntity>> fetchVenues() {
+    return remoteDataSource.fetchVenues();
+  }
+
+  @override
+  Future<PhysicalVenueEntity> fetchVenueById(String venueId) {
+    return remoteDataSource.fetchVenueById(venueId);
+  }
+
+  @override
   Future<ZoneTablesBundleEntity> fetchZoneTables({
     required String eventId,
     required String zoneId,
   }) {
     return remoteDataSource.fetchZoneTables(eventId: eventId, zoneId: zoneId);
+  }
+
+  @override
+  Future<VenueTableEntity> fetchTableById({
+    required String eventId,
+    required String tableId,
+  }) {
+    return remoteDataSource.fetchTableById(eventId: eventId, tableId: tableId);
   }
 
   @override

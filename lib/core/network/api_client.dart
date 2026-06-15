@@ -156,9 +156,17 @@ class ApiClient {
       request.headers['Authorization'] = resolvedHeaders['Authorization']!;
     }
 
+    final multipartSummary = <String, Object?>{
+      if (fields != null && fields.isNotEmpty) 'fields': fields,
+      'files': files
+          .map((file) => file.filename ?? file.field ?? 'file')
+          .toList(growable: false),
+    };
+
     return _send(
       method: 'POST',
       url: url,
+      body: multipartSummary,
       request: () async {
         final streamed = await httpClient
             .send(request)

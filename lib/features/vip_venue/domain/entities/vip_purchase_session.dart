@@ -14,6 +14,9 @@ class VipPurchaseSession {
     this.hasVenueLayout = false,
     this.hasTicketOfferings = true,
     this.tableLockExpiresAt,
+    this.tableLockId,
+    this.purchaseCurrency,
+    this.tableLockMinutes = 10,
   }) : offerings = List.of(offerings ?? const []);
 
   final EventEntity event;
@@ -24,6 +27,9 @@ class VipPurchaseSession {
   bool hasVenueLayout;
   bool hasTicketOfferings;
   DateTime? tableLockExpiresAt;
+  String? tableLockId;
+  String? purchaseCurrency;
+  int tableLockMinutes;
 
   int get selectedTicketCount =>
       offerings.fold(0, (sum, offering) => sum + offering.quantity);
@@ -53,6 +59,11 @@ class VipPurchaseSession {
   String get countryIsoCode => event.countryCode ?? 'CL';
 
   String get currency {
+    final purchaseCurrencyCode = purchaseCurrency?.trim();
+    if (purchaseCurrencyCode != null && purchaseCurrencyCode.isNotEmpty) {
+      return purchaseCurrencyCode;
+    }
+
     for (final offering in offerings) {
       if (offering.currency.isNotEmpty) {
         return offering.currency;

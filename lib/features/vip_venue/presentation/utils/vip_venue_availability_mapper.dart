@@ -31,6 +31,11 @@ class VipVenueAvailabilityMapper {
       venueName: plan.venueName,
       dimensionsLabel: plan.dimensionsLabel,
       zones: zones,
+      venueId: plan.venueId,
+      layoutVenueId: plan.layoutVenueId,
+      eventId: plan.eventId,
+      physicalVenue: plan.physicalVenue,
+      tableLockMinutes: plan.tableLockMinutes,
     );
   }
 

@@ -15,6 +15,12 @@ class VenueTableEntity extends Equatable {
     this.positionX = 0,
     this.positionY = 0,
     this.isPremium = false,
+    this.currency = 'CLP',
+    this.tableNumber,
+    this.eventId,
+    this.internalTableId,
+    this.lockedUntil,
+    this.soldAt,
   });
 
   final String id;
@@ -29,6 +35,12 @@ class VenueTableEntity extends Equatable {
   final double positionX;
   final double positionY;
   final bool isPremium;
+  final String currency;
+  final int? tableNumber;
+  final String? eventId;
+  final String? internalTableId;
+  final DateTime? lockedUntil;
+  final DateTime? soldAt;
 
   bool get isSelectable =>
       status == VenueTableStatus.available ||
@@ -45,6 +57,7 @@ class VenueTableEntity extends Equatable {
     double? positionX,
     double? positionY,
     bool? isPremium,
+    DateTime? lockedUntil,
   }) {
     return VenueTableEntity(
       id: id,
@@ -59,6 +72,12 @@ class VenueTableEntity extends Equatable {
       positionX: positionX ?? this.positionX,
       positionY: positionY ?? this.positionY,
       isPremium: isPremium ?? this.isPremium,
+      currency: currency,
+      tableNumber: tableNumber,
+      eventId: eventId,
+      internalTableId: internalTableId,
+      lockedUntil: lockedUntil ?? this.lockedUntil,
+      soldAt: soldAt,
     );
   }
 
@@ -76,5 +95,11 @@ class VenueTableEntity extends Equatable {
         positionX,
         positionY,
         isPremium,
+        currency,
+        tableNumber,
+        eventId,
+        internalTableId,
+        lockedUntil,
+        soldAt,
       ];
 }

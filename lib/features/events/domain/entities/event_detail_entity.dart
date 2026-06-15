@@ -2,6 +2,7 @@ import 'package:youpass/features/events/domain/entities/event_availability_entit
 import 'package:youpass/features/events/domain/entities/event_entity.dart';
 import 'package:youpass/features/events/domain/entities/event_purchase_meta_entity.dart';
 import 'package:youpass/features/favorites/domain/entities/favorite_producer_entity.dart';
+import 'package:youpass/features/vip_venue/domain/entities/physical_venue_entity.dart';
 import 'package:youpass/features/waitlist/domain/entities/event_waitlist_status_entity.dart';
 
 class EventDetailEntity extends EventEntity {
@@ -28,6 +29,8 @@ class EventDetailEntity extends EventEntity {
     this.purchase,
     this.availability,
     this.scheduleDisplay,
+    this.venueId,
+    this.physicalVenue,
   });
 
   final String? description;
@@ -39,6 +42,8 @@ class EventDetailEntity extends EventEntity {
   final EventPurchaseMetaEntity? purchase;
   final EventAvailabilityEntity? availability;
   final String? scheduleDisplay;
+  final String? venueId;
+  final PhysicalVenueEntity? physicalVenue;
 
   String get addressLabel {
     final venue = venueName?.trim();
@@ -112,6 +117,8 @@ class EventDetailEntity extends EventEntity {
       purchase: purchase,
       availability: clearAvailability ? null : (availability ?? this.availability),
       scheduleDisplay: scheduleDisplay ?? this.scheduleDisplay,
+      venueId: venueId,
+      physicalVenue: physicalVenue,
     );
   }
 

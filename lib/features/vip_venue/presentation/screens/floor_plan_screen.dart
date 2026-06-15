@@ -84,6 +84,7 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
     widget.args.session.selectedZone = zone;
     widget.args.session.selectedTable = null;
     widget.args.session.tableLockExpiresAt = null;
+    widget.args.session.tableLockId = null;
 
     Navigator.of(context).pushNamed(
       AppRoutes.vipTableSelection,
@@ -108,11 +109,15 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
     }
 
     if (plan == null) {
+      final message = provider.venueLayoutStatus == VipVenueLoadStatus.error
+          ? (provider.errorMessage ?? AppStrings.errorGeneric(strings))
+          : AppStrings.vipTicketsNoneAvailable(strings);
+
       return VipFlowScaffold(
         title: AppStrings.vipFloorPlanTitle(strings),
         body: Center(
           child: Text(
-            provider.errorMessage ?? AppStrings.errorGeneric(strings),
+            message,
             textAlign: TextAlign.center,
           ),
         ),

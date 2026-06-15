@@ -11,6 +11,10 @@ class VipPurchaseScreenActions {
   final BuildContext context;
 
   void openTicketSelection({required EventEntity event}) {
+    if (event.id.isEmpty) {
+      return;
+    }
+
     final session = VipPurchaseSession(event: event);
 
     if (event is EventDetailEntity) {
@@ -19,6 +23,7 @@ class VipPurchaseScreenActions {
         session.serviceFeeRate = purchase.serviceFeeRate;
         session.hasVenueLayout = purchase.hasVenueLayout;
         session.hasTicketOfferings = purchase.hasTicketOfferings;
+        session.purchaseCurrency = purchase.currency;
       }
     }
 

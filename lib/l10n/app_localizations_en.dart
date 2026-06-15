@@ -1927,6 +1927,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get vipTicketsAllSoldOut => 'All tickets for this event are sold out.';
 
   @override
+  String get errorCheckoutInsufficientStock =>
+      'Not enough tickets available. Lower the quantity or choose another option.';
+
+  @override
+  String get errorCheckoutOfferingSoldOut =>
+      'This ticket option just sold out. Please choose another.';
+
+  @override
+  String get errorCheckoutTableLockRequired =>
+      'Your table reservation expired. Please reserve the table again.';
+
+  @override
+  String get errorCheckoutTableNotAvailable =>
+      'This table is no longer available.';
+
+  @override
+  String get errorCheckoutTableLocked => 'This table is held by another guest.';
+
+  @override
+  String get errorCheckoutOfferingNotFound =>
+      'This ticket option is no longer available.';
+
+  @override
   String get vipSecurePayment => '100% secure payment';
 
   @override

@@ -3524,6 +3524,42 @@ abstract class AppLocalizations {
   /// **'All tickets for this event are sold out.'**
   String get vipTicketsAllSoldOut;
 
+  /// No description provided for @errorCheckoutInsufficientStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough tickets available. Lower the quantity or choose another option.'**
+  String get errorCheckoutInsufficientStock;
+
+  /// No description provided for @errorCheckoutOfferingSoldOut.
+  ///
+  /// In en, this message translates to:
+  /// **'This ticket option just sold out. Please choose another.'**
+  String get errorCheckoutOfferingSoldOut;
+
+  /// No description provided for @errorCheckoutTableLockRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Your table reservation expired. Please reserve the table again.'**
+  String get errorCheckoutTableLockRequired;
+
+  /// No description provided for @errorCheckoutTableNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This table is no longer available.'**
+  String get errorCheckoutTableNotAvailable;
+
+  /// No description provided for @errorCheckoutTableLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'This table is held by another guest.'**
+  String get errorCheckoutTableLocked;
+
+  /// No description provided for @errorCheckoutOfferingNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This ticket option is no longer available.'**
+  String get errorCheckoutOfferingNotFound;
+
   /// No description provided for @vipSecurePayment.
   ///
   /// In en, this message translates to:

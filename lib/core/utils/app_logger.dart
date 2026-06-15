@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer' as developer;
 
 import 'package:flutter/foundation.dart';
 import 'package:youpass/core/constants/app_constants.dart';
@@ -9,13 +8,14 @@ class AppLogger {
   AppLogger._();
 
   static const String appTag = 'YouPass';
+  static const String apiTag = 'API';
 
   static void debug(String message, {String tag = appTag}) {
     if (!kDebugMode) {
       return;
     }
 
-    developer.log(message, name: tag);
+    _console('[$tag] $message');
   }
 
   static void info(String message, {String tag = appTag}) {
@@ -23,7 +23,11 @@ class AppLogger {
   }
 
   static void warning(String message, {String tag = appTag}) {
-    debug('⚠️ $message', tag: tag);
+    if (!kDebugMode) {
+      return;
+    }
+
+    _console('[$tag] ⚠️ $message');
   }
 
   static void error(
@@ -36,19 +40,15 @@ class AppLogger {
       return;
     }
 
-    final buffer = StringBuffer(message);
+    _console('[$tag] ✗ $message');
     if (error != null) {
-      buffer.writeln('\nError: $error');
+      _console('[$tag]   Error: $error');
     }
     if (stackTrace != null) {
-      buffer.writeln(stackTrace);
+      for (final line in stackTrace.toString().split('\n')) {
+        _console('[$tag]   $line');
+      }
     }
-
-    developer.log(
-      buffer.toString(),
-      name: tag,
-      level: 1000,
-    );
   }
 
   static void apiRequest({
@@ -56,12 +56,14 @@ class AppLogger {
     required String url,
     Object? body,
   }) {
-    final message = '→ $method $url\n${_formatBody(body)}';
-    if (kDebugMode && AppConstants.logApiResponsesToConsole) {
-      _printToConsole('API REQUEST', message);
+    if (!kDebugMode) {
       return;
     }
-    debug(message, tag: 'API');
+
+    _console('[$apiTag] → $method $url');
+    if (AppConstants.logApiResponsesToConsole) {
+      _consoleMultiline(_formatBody(body), tag: apiTag);
+    }
   }
 
   static void apiResponse({
@@ -71,14 +73,17 @@ class AppLogger {
     String? body,
     Duration? duration,
   }) {
-    final elapsed = duration == null ? '' : ' (${duration.inMilliseconds}ms)';
-    final message =
-        '← $statusCode $method $url$elapsed\n${_formatBody(body)}';
-    if (kDebugMode && AppConstants.logApiResponsesToConsole) {
-      _printToConsole('API RESPONSE', message);
+    if (!kDebugMode) {
       return;
     }
-    debug(message, tag: 'API');
+
+    final elapsed = duration == null ? '' : ' ${duration.inMilliseconds}ms';
+    final ok = statusCode >= 200 && statusCode < 300;
+    final marker = ok ? '✓' : '✗';
+    _console('[$apiTag] ← $marker $statusCode $method $url$elapsed');
+    if (AppConstants.logApiResponsesToConsole) {
+      _consoleMultiline(_formatBody(body), tag: apiTag);
+    }
   }
 
   static void apiFailure({
@@ -88,8 +93,8 @@ class AppLogger {
     StackTrace? stackTrace,
   }) {
     AppLogger.error(
-      '✗ $method $url failed',
-      tag: 'API',
+      '$method $url failed',
+      tag: apiTag,
       error: error,
       stackTrace: stackTrace,
     );
@@ -109,39 +114,30 @@ class AppLogger {
       return;
     }
 
-    _printToConsole(
-      'DEV OTP',
-      '[DEV OTP] phone=$phone purpose=$purpose code=$code',
-    );
+    _console('[$apiTag] [DEV OTP] phone=$phone purpose=$purpose code=$code');
   }
 
-  static void _printToConsole(String title, String message) {
-    if (!kDebugMode || !AppConstants.logApiResponsesToConsole) {
+  static void _console(String message) {
+    if (!kDebugMode) {
       return;
     }
 
-    final divider = '═' * 48;
-    debugPrint('');
-    debugPrint(divider);
-    debugPrint(' $title ');
-    debugPrint(divider);
-    for (final line in message.split('\n')) {
-      _debugPrintLine(line);
-    }
-    debugPrint(divider);
-    debugPrint('');
-  }
-
-  static void _debugPrintLine(String line) {
     const maxChunk = 900;
-    if (line.length <= maxChunk) {
-      debugPrint(line);
+    if (message.length <= maxChunk) {
+      debugPrint(message);
       return;
     }
 
-    for (var start = 0; start < line.length; start += maxChunk) {
-      final end = (start + maxChunk < line.length) ? start + maxChunk : line.length;
-      debugPrint(line.substring(start, end));
+    for (var start = 0; start < message.length; start += maxChunk) {
+      final end =
+          (start + maxChunk < message.length) ? start + maxChunk : message.length;
+      debugPrint(message.substring(start, end));
+    }
+  }
+
+  static void _consoleMultiline(String message, {String tag = apiTag}) {
+    for (final line in message.split('\n')) {
+      _console('[$tag]   $line');
     }
   }
 

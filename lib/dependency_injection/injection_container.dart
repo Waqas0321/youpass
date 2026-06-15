@@ -110,9 +110,12 @@ import 'package:youpass/features/vip_venue/data/repositories/vip_venue_repositor
 import 'package:youpass/features/vip_venue/data/services/vip_venue_api_service.dart';
 import 'package:youpass/features/vip_venue/domain/repositories/vip_venue_repository.dart';
 import 'package:youpass/features/vip_venue/domain/usecases/fetch_table_lock_status_usecase.dart';
+import 'package:youpass/features/vip_venue/domain/usecases/fetch_physical_venue_by_id_usecase.dart';
+import 'package:youpass/features/vip_venue/domain/usecases/fetch_physical_venues_usecase.dart';
 import 'package:youpass/features/vip_venue/domain/usecases/fetch_table_availability_realtime_usecase.dart';
 import 'package:youpass/features/vip_venue/domain/usecases/fetch_ticket_types_usecase.dart';
 import 'package:youpass/features/vip_venue/domain/usecases/fetch_venue_layout_usecase.dart';
+import 'package:youpass/features/vip_venue/domain/usecases/fetch_venue_table_by_id_usecase.dart';
 import 'package:youpass/features/vip_venue/domain/usecases/fetch_zone_tables_usecase.dart';
 import 'package:youpass/features/vip_venue/domain/usecases/lock_venue_table_usecase.dart';
 import 'package:youpass/features/vip_venue/domain/usecases/release_venue_table_lock_usecase.dart';
@@ -508,6 +511,15 @@ Future<void> initDependencies() async {
     )
     ..registerLazySingleton<FetchTableLockStatusUseCase>(
       () => FetchTableLockStatusUseCase(sl<VipVenueRepository>()),
+    )
+    ..registerLazySingleton<FetchPhysicalVenuesUseCase>(
+      () => FetchPhysicalVenuesUseCase(sl<VipVenueRepository>()),
+    )
+    ..registerLazySingleton<FetchPhysicalVenueByIdUseCase>(
+      () => FetchPhysicalVenueByIdUseCase(sl<VipVenueRepository>()),
+    )
+    ..registerLazySingleton<FetchVenueTableByIdUseCase>(
+      () => FetchVenueTableByIdUseCase(sl<VipVenueRepository>()),
     )
     ..registerLazySingleton<VipVenueProvider>(
       () => VipVenueProvider(

@@ -57,16 +57,20 @@ class ApiResponseParser {
       body: body,
     );
 
-    AppLogger.warning(
-      'API error ${exception.code}: '
-      '${AuthMessageLocalizer.forDebugLog(
-        code: exception.code,
-        fallbackMessage: exception.message,
-        retryAfterSeconds: exception.retryAfterSeconds,
-      )} '
-      '(status ${response.statusCode})',
-      tag: 'API',
-    );
+    final errorLine =
+        'API error ${exception.code}: '
+        '${AuthMessageLocalizer.forDebugLog(
+          code: exception.code,
+          fallbackMessage: exception.message,
+          retryAfterSeconds: exception.retryAfterSeconds,
+        )} '
+        '(status ${response.statusCode})';
+
+    if (exception.shouldLogAsWarning) {
+      AppLogger.warning(errorLine, tag: 'API');
+    } else {
+      AppLogger.debug(errorLine, tag: 'API');
+    }
 
     handleSessionAuthError(exception);
 

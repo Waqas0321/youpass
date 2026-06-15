@@ -1,4 +1,5 @@
 import 'package:youpass/core/utils/json_readers.dart';
+import 'package:youpass/features/vip_venue/data/models/physical_venue_model.dart';
 import 'package:youpass/features/vip_venue/domain/entities/table_availability_snapshot_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/table_lock_result_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/table_lock_status_entity.dart';
@@ -29,6 +30,9 @@ class TicketOfferingModel extends TicketOfferingEntity {
     super.vouchersPerTicket,
     super.isSoldOut,
     super.isSelectable,
+    super.type,
+    super.name,
+    super.status,
   });
 
   @override
@@ -52,22 +56,43 @@ class TicketOfferingModel extends TicketOfferingEntity {
       vouchersPerTicket: vouchersPerTicket,
       isSoldOut: isSoldOut ?? this.isSoldOut,
       isSelectable: isSelectable ?? this.isSelectable,
+      type: type,
+      name: name,
+      status: status,
     );
   }
 
   factory TicketOfferingModel.fromJson(Map<String, dynamic> json) {
     final sectionRaw =
         JsonReaders.string(json, 'section', fallback: 'general').toLowerCase();
-    final slug = JsonReaders.nullableString(json, 'slug') ??
-        JsonReaders.nullableString(json, 'id') ??
-        '';
+    final type = JsonReaders.nullableString(json, 'type');
+    final slug = JsonReaders.nullableString(json, 'slug');
+    final rawId = JsonReaders.nullableString(json, 'id');
+    final id = type ?? slug ?? rawId ?? '';
+    final name = JsonReaders.nullableString(json, 'name');
+    final label = JsonReaders.nullableString(json, 'label') ?? name ?? id;
+    final status =
+        JsonReaders.string(json, 'status', fallback: 'active').toLowerCase();
+    final soldOut = _readBool(json, 'is_sold_out') ||
+        _readBool(json, 'isSoldOut') ||
+        status == 'sold_out' ||
+        status == 'closed';
+    final paused = status == 'paused';
+    final selectable = json.containsKey('is_selectable') ||
+            json.containsKey('isSelectable')
+        ? (_readBool(json, 'is_selectable') || _readBool(json, 'isSelectable'))
+        : status == 'active' && !soldOut && !paused;
 
     return TicketOfferingModel(
-      id: slug,
+      id: id,
       offeringId: JsonReaders.nullableString(json, 'offering_id') ??
-          JsonReaders.nullableString(json, 'offeringId'),
-      label: JsonReaders.string(json, 'label'),
-      price: JsonReaders.integer(json, 'price'),
+          JsonReaders.nullableString(json, 'offeringId') ??
+          rawId,
+      type: type ?? slug ?? rawId,
+      name: name,
+      status: status,
+      label: label,
+      price: _readPrice(json['price']),
       section: sectionRaw == 'vip'
           ? TicketOfferingSection.vip
           : TicketOfferingSection.general,
@@ -79,10 +104,12 @@ class TicketOfferingModel extends TicketOfferingEntity {
       description: JsonReaders.nullableString(json, 'description'),
       badgeLabel: JsonReaders.nullableString(json, 'badge_label') ??
           JsonReaders.nullableString(json, 'badgeLabel'),
-      isSoldOut: _readBool(json, 'is_sold_out') || _readBool(json, 'isSoldOut'),
-      isSelectable: json.containsKey('is_selectable') || json.containsKey('isSelectable')
-          ? (_readBool(json, 'is_selectable') || _readBool(json, 'isSelectable'))
-          : !(_readBool(json, 'is_sold_out') || _readBool(json, 'isSoldOut')),
+      vouchersPerTicket: JsonReaders.integerValue(
+        json['vouchers_per_ticket'] ?? json['vouchersPerTicket'],
+        fallback: 1,
+      ),
+      isSoldOut: soldOut,
+      isSelectable: selectable,
     );
   }
 
@@ -100,25 +127,18 @@ class TicketTypesBundleModel extends TicketTypesBundleEntity {
     required super.eventId,
     required super.serviceFeeRate,
     required super.offerings,
+    super.currency,
   });
 
   factory TicketTypesBundleModel.fromJson(Map<String, dynamic> json) {
-    final offeringsRaw = json['offerings'];
-    final offerings = <TicketOfferingModel>[];
-    if (offeringsRaw is List) {
-      for (final item in offeringsRaw) {
-        if (item is Map<String, dynamic>) {
-          offerings.add(TicketOfferingModel.fromJson(item));
-        }
-      }
-    }
-
+    final offerings = _parseOfferings(json['offerings']);
     final rate = json['service_fee_rate'] ?? json['serviceFeeRate'];
     return TicketTypesBundleModel(
       eventId: JsonReaders.string(json, 'event_id', fallback: '') != ''
           ? JsonReaders.string(json, 'event_id')
           : JsonReaders.string(json, 'eventId'),
       serviceFeeRate: rate is num ? rate.toDouble() : 0.05,
+      currency: JsonReaders.string(json, 'currency', fallback: 'CLP'),
       offerings: List<TicketOfferingEntity>.from(offerings),
     );
   }
@@ -132,10 +152,16 @@ class VenueZoneModel extends VenueZoneEntity {
     required super.status,
     super.capacityPerTable,
     super.isSelectable,
+    super.internalZoneId,
+    super.availableTables,
+    super.totalTables,
   });
 
   factory VenueZoneModel.fromJson(Map<String, dynamic> json) {
-    final id = JsonReaders.string(json, 'id');
+    final externalId = JsonReaders.nullableString(json, 'id');
+    final internalId = JsonReaders.nullableString(json, 'zone_id') ??
+        JsonReaders.nullableString(json, 'zoneId');
+    final id = externalId ?? internalId ?? '';
     final type = JsonReaders.string(json, 'type', fallback: '') != ''
         ? JsonReaders.string(json, 'type')
         : JsonReaders.string(json, 'kind', fallback: 'vip_table_zone');
@@ -155,6 +181,9 @@ class VenueZoneModel extends VenueZoneEntity {
           ? null
           : JsonReaders.integerValue(json['table_capacity'] ?? json['tableCapacity']),
       isSelectable: selectable,
+      internalZoneId: internalId,
+      availableTables: _optionalCount(json, 'available_tables', 'availableTables'),
+      totalTables: _optionalCount(json, 'total_tables', 'totalTables'),
     );
   }
 }
@@ -164,9 +193,17 @@ class VenueFloorPlanModel extends VenueFloorPlanEntity {
     required super.venueName,
     required super.dimensionsLabel,
     required super.zones,
+    super.venueId,
+    super.layoutVenueId,
+    super.eventId,
+    super.physicalVenue,
+    super.tableLockMinutes,
   });
 
   factory VenueFloorPlanModel.fromJson(Map<String, dynamic> json) {
+    final physicalVenue = PhysicalVenueModel.maybeFromJson(
+      json['physical_venue'] ?? json['physicalVenue'],
+    );
     final zonesRaw = json['zones'];
     final zones = <VenueZoneModel>[];
     if (zonesRaw is List) {
@@ -179,12 +216,28 @@ class VenueFloorPlanModel extends VenueFloorPlanEntity {
 
     final dimensionsLabel = JsonReaders.nullableString(json, 'dimensions_label') ??
         JsonReaders.nullableString(json, 'dimensionsLabel') ??
+        physicalVenue?.dimensionsLabel ??
         _formatDimensions(json['dimensions']);
 
+    final venueName = JsonReaders.string(json, 'name', fallback: '') != ''
+        ? JsonReaders.string(json, 'name')
+        : (physicalVenue?.name ?? '');
+
     return VenueFloorPlanModel(
-      venueName: JsonReaders.string(json, 'name'),
+      venueName: venueName,
       dimensionsLabel: dimensionsLabel ?? '',
       zones: zones,
+      venueId: JsonReaders.nullableString(json, 'venue_id') ??
+          JsonReaders.nullableString(json, 'venueId'),
+      layoutVenueId: JsonReaders.nullableString(json, 'layout_venue_id') ??
+          JsonReaders.nullableString(json, 'layoutVenueId'),
+      eventId: JsonReaders.nullableString(json, 'event_id') ??
+          JsonReaders.nullableString(json, 'eventId'),
+      physicalVenue: physicalVenue,
+      tableLockMinutes: JsonReaders.integerValue(
+        json['table_lock_minutes'] ?? json['tableLockMinutes'],
+        fallback: 10,
+      ),
     );
   }
 
@@ -215,6 +268,12 @@ class VenueTableModel extends VenueTableEntity {
     super.positionX,
     super.positionY,
     super.isPremium,
+    super.currency,
+    super.tableNumber,
+    super.eventId,
+    super.internalTableId,
+    super.lockedUntil,
+    super.soldAt,
   });
 
   factory VenueTableModel.fromJson(Map<String, dynamic> json) {
@@ -252,19 +311,39 @@ class VenueTableModel extends VenueTableEntity {
         ? VenueTableStatus.premium
         : mappedStatus;
 
+    final tableNumber = JsonReaders.integerValue(
+      json['number'],
+      fallback: 0,
+    );
+    final labelRaw = JsonReaders.nullableString(json, 'label');
+    final externalId = JsonReaders.nullableString(json, 'id');
+    final internalId = JsonReaders.nullableString(json, 'table_id') ??
+        JsonReaders.nullableString(json, 'tableId');
+    final tableId = externalId ?? internalId ?? '';
+    final capacityFromApi = JsonReaders.integerValue(json['capacity'], fallback: 0);
+    final capacity = capacityFromApi > 0 ? capacityFromApi : people;
+
     return VenueTableModel(
-      id: JsonReaders.string(json, 'id'),
-      label: JsonReaders.string(json, 'label'),
+      id: tableId,
+      label: labelRaw ??
+          (tableNumber > 0 ? 'M$tableNumber' : tableId),
       zoneId: zoneId,
       status: status,
-      price: JsonReaders.integer(json, 'price'),
-      capacity: people,
+      price: _readPrice(json['price']),
+      capacity: capacity,
       bottleCount: bottles,
       voucherCount: vouchers,
       extras: extras,
       positionX: positionX,
       positionY: positionY,
       isPremium: isPremiumFlag || status == VenueTableStatus.premium,
+      currency: JsonReaders.string(json, 'currency', fallback: 'CLP'),
+      tableNumber: tableNumber > 0 ? tableNumber : null,
+      eventId: JsonReaders.nullableString(json, 'event_id') ??
+          JsonReaders.nullableString(json, 'eventId'),
+      internalTableId: internalId,
+      lockedUntil: _parseDateTime(json['locked_until'] ?? json['lockedUntil']),
+      soldAt: _parseDateTime(json['sold_at'] ?? json['soldAt']),
     );
   }
 }
@@ -497,6 +576,37 @@ List<String> _readStringList(Object? value) {
   return extras;
 }
 
+List<TicketOfferingModel> _parseOfferings(Object? raw) {
+  if (raw is List) {
+    final offerings = <TicketOfferingModel>[];
+    for (final item in raw) {
+      if (item is Map<String, dynamic>) {
+        offerings.add(TicketOfferingModel.fromJson(item));
+      }
+    }
+    return offerings;
+  }
+
+  if (raw is Map<String, dynamic>) {
+    final offerings = <TicketOfferingModel>[];
+    for (final key in const ['general', 'vip']) {
+      final section = raw[key];
+      if (section is List) {
+        for (final item in section) {
+          if (item is Map<String, dynamic>) {
+            offerings.add(TicketOfferingModel.fromJson(item));
+          }
+        }
+      }
+    }
+    if (offerings.isNotEmpty) {
+      return offerings;
+    }
+  }
+
+  return const [];
+}
+
 VenueZoneKind _mapZoneKind(String type, String id) {
   final normalizedType = type.toLowerCase();
   final normalizedId = id.toLowerCase();
@@ -534,6 +644,7 @@ VenueZoneStatus _mapZoneStatus(Map<String, dynamic> json) {
 }
 
 VenueTableStatus _mapTableStatus(Map<String, dynamic> json) {
+  // Use API `status` only — never `db_status`.
   final status = JsonReaders.string(json, 'status', fallback: '').toLowerCase();
   final lockedByMe = JsonReaders.boolean(json, 'locked_by_me') ||
       JsonReaders.boolean(json, 'lockedByMe');
@@ -544,6 +655,8 @@ VenueTableStatus _mapTableStatus(Map<String, dynamic> json) {
   switch (status) {
     case 'locked':
       return VenueTableStatus.locked;
+    case 'reserved':
+      return VenueTableStatus.reserved;
     case 'sold':
     case 'sold_out':
       return VenueTableStatus.sold;
@@ -552,4 +665,37 @@ VenueTableStatus _mapTableStatus(Map<String, dynamic> json) {
     default:
       return VenueTableStatus.available;
   }
+}
+
+int? _optionalCount(
+  Map<String, dynamic> json,
+  String snakeKey,
+  String camelKey,
+) {
+  final value = json[snakeKey] ?? json[camelKey];
+  if (value is! num) {
+    return null;
+  }
+  return value.toInt();
+}
+
+int _readPrice(Object? value) {
+  if (value is num) {
+    return value.round();
+  }
+  if (value is String) {
+    return double.tryParse(value)?.round() ?? 0;
+  }
+  return 0;
+}
+
+DateTime? _parseDateTime(Object? value) {
+  if (value == null) {
+    return null;
+  }
+  final raw = value.toString().trim();
+  if (raw.isEmpty) {
+    return null;
+  }
+  return DateTime.tryParse(raw);
 }

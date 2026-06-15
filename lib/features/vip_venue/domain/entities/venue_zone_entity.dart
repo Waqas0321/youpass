@@ -10,6 +10,9 @@ class VenueZoneEntity extends Equatable {
     required this.status,
     this.capacityPerTable,
     this.isSelectable = true,
+    this.internalZoneId,
+    this.availableTables,
+    this.totalTables,
   });
 
   final String id;
@@ -18,6 +21,9 @@ class VenueZoneEntity extends Equatable {
   final VenueZoneStatus status;
   final int? capacityPerTable;
   final bool isSelectable;
+  final String? internalZoneId;
+  final int? availableTables;
+  final int? totalTables;
 
   VenueZoneEntity copyWith({VenueZoneStatus? status}) {
     return VenueZoneEntity(
@@ -27,6 +33,9 @@ class VenueZoneEntity extends Equatable {
       status: status ?? this.status,
       capacityPerTable: capacityPerTable,
       isSelectable: isSelectable,
+      internalZoneId: internalZoneId,
+      availableTables: availableTables,
+      totalTables: totalTables,
     );
   }
 
@@ -38,5 +47,8 @@ class VenueZoneEntity extends Equatable {
         status,
         capacityPerTable,
         isSelectable,
+        internalZoneId,
+        availableTables,
+        totalTables,
       ];
 }

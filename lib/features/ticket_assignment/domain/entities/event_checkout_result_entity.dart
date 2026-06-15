@@ -17,6 +17,11 @@ class EventCheckoutResultEntity extends Equatable {
     this.serviceFeeAmount,
     this.paymentUrl,
     this.stripeClientSecret,
+    this.serviceFeeRate,
+    this.paymentReference,
+    this.eventId,
+    this.tableId,
+    this.zoneId,
   });
 
   final String orderId;
@@ -34,6 +39,11 @@ class EventCheckoutResultEntity extends Equatable {
   final num? serviceFeeAmount;
   final String? paymentUrl;
   final String? stripeClientSecret;
+  final double? serviceFeeRate;
+  final String? paymentReference;
+  final String? eventId;
+  final String? tableId;
+  final String? zoneId;
 
   bool get isPaid => status == 'paid';
 
@@ -56,5 +66,10 @@ class EventCheckoutResultEntity extends Equatable {
         serviceFeeAmount,
         paymentUrl,
         stripeClientSecret,
+        serviceFeeRate,
+        paymentReference,
+        eventId,
+        tableId,
+        zoneId,
       ];
 }

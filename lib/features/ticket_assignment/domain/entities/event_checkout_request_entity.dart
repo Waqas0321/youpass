@@ -11,6 +11,7 @@ class EventCheckoutRequestEntity extends Equatable {
     this.items,
     this.tableId,
     this.zoneId,
+    this.lockId,
   });
 
   final int? quantity;
@@ -21,6 +22,7 @@ class EventCheckoutRequestEntity extends Equatable {
   final List<EventCheckoutOfferingItemEntity>? items;
   final String? tableId;
   final String? zoneId;
+  final String? lockId;
 
   @override
   List<Object?> get props => [
@@ -32,5 +34,6 @@ class EventCheckoutRequestEntity extends Equatable {
         items,
         tableId,
         zoneId,
+        lockId,
       ];
 }

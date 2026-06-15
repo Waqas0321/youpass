@@ -57,7 +57,7 @@ class TicketOfferingRowWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppText(
-                      offering.label,
+                      offering.displayName,
                       variant: AppTextVariant.bodyEmphasis,
                       color: labelColor,
                       fontSize: VipVenueDesignSpec.px(context, 14),

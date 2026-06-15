@@ -4,6 +4,7 @@ import 'package:youpass/features/events/data/models/event_model.dart';
 import 'package:youpass/features/events/domain/entities/event_detail_entity.dart';
 import 'package:youpass/features/events/domain/entities/event_purchase_meta_entity.dart';
 import 'package:youpass/features/favorites/data/models/favorite_producer_model.dart';
+import 'package:youpass/features/vip_venue/data/models/physical_venue_model.dart';
 import 'package:youpass/features/waitlist/domain/entities/event_waitlist_status_entity.dart';
 
 class EventDetailModel extends EventDetailEntity {
@@ -28,12 +29,15 @@ class EventDetailModel extends EventDetailEntity {
     super.waitlist,
     super.availability,
     super.scheduleDisplay,
+    super.venueId,
+    super.physicalVenue,
   });
 
   factory EventDetailModel.fromJson(Map<String, dynamic> json) {
     final base = EventModel.fromJson(json);
     final purchaseRaw = json['purchase'];
     final producerRaw = json['producer'];
+    final physicalVenueRaw = json['physical_venue'] ?? json['physicalVenue'];
 
     return EventDetailModel(
       id: base.id,
@@ -49,8 +53,14 @@ class EventDetailModel extends EventDetailEntity {
       description: JsonReaders.nullableString(json, 'description') ??
           JsonReaders.nullableString(json, 'short_description'),
       venueName: JsonReaders.nullableString(json, 'venue_name') ??
-          JsonReaders.nullableString(json, 'venueName'),
-      city: JsonReaders.nullableString(json, 'city'),
+          JsonReaders.nullableString(json, 'venueName') ??
+          (physicalVenueRaw is Map<String, dynamic>
+              ? PhysicalVenueModel.fromJson(physicalVenueRaw).name
+              : null),
+      city: JsonReaders.nullableString(json, 'city') ??
+          (physicalVenueRaw is Map<String, dynamic>
+              ? PhysicalVenueModel.fromJson(physicalVenueRaw).city
+              : null),
       latitude: _readDouble(json, 'latitude'),
       longitude: _readDouble(json, 'longitude'),
       producer: producerRaw is Map<String, dynamic>
@@ -64,6 +74,11 @@ class EventDetailModel extends EventDetailEntity {
       ),
       scheduleDisplay: JsonReaders.nullableString(json, 'schedule_display') ??
           JsonReaders.nullableString(json, 'scheduleDisplay'),
+      venueId: JsonReaders.nullableString(json, 'venue_id') ??
+          JsonReaders.nullableString(json, 'venueId'),
+      physicalVenue: physicalVenueRaw is Map<String, dynamic>
+          ? PhysicalVenueModel.fromJson(physicalVenueRaw)
+          : null,
     );
   }
 
@@ -89,6 +104,8 @@ class EventDetailModel extends EventDetailEntity {
       waitlist: waitlist,
       availability: availability,
       scheduleDisplay: scheduleDisplay,
+      venueId: venueId,
+      physicalVenue: physicalVenue,
     );
   }
 

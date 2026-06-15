@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/core/l10n/app_message_localizer.dart';
 import 'package:youpass/core/l10n/tickets_error_extension.dart';
 import 'package:youpass/features/invitations/presentation/routes/event_ticket_route_args.dart';
 import 'package:youpass/features/invitations/presentation/utils/invitations_qr_helper.dart';
@@ -77,6 +78,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
     if (status.isLockedByMe && status.isActive && status.expiresAt != null) {
       setState(() {
         session.tableLockExpiresAt = status.expiresAt;
+        session.tableLockId = status.lockId;
         _lockExpired = false;
         _lockExpiredHandled = false;
       });
@@ -108,11 +110,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
 
     setState(() => isSubmitting = true);
 
-    final assignmentProvider = context.read<TicketAssignmentProvider>();
-    final result = await assignmentProvider.checkoutEvent(
-      eventId: session.event.id,
-      request: session.buildCheckoutRequest(),
-    );
+    final success = await _attemptCheckout(allowTableRelock: true);
 
     if (!mounted) {
       return;
@@ -120,20 +118,66 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
 
     setState(() => isSubmitting = false);
 
+    if (!success) {
+      return;
+    }
+  }
+
+  Future<bool> _attemptCheckout({required bool allowTableRelock}) async {
+    final assignmentProvider = context.read<TicketAssignmentProvider>();
+    final result = await assignmentProvider.checkoutEvent(
+      eventId: session.event.id,
+      request: session.buildCheckoutRequest(),
+    );
+
+    if (!mounted) {
+      return false;
+    }
+
     if (result == null) {
+      final code = assignmentProvider.errorCode;
+      if (code == 'TABLE_LOCK_REQUIRED' &&
+          allowTableRelock &&
+          session.isVipTablePurchase) {
+        final table = session.selectedTable;
+        if (table != null) {
+          final lock = await context.read<VipVenueProvider>().lockTable(
+                eventId: session.event.id,
+                tableId: table.id,
+              );
+          if (lock != null && mounted) {
+            session.tableLockId = lock.lockId;
+            session.tableLockExpiresAt = lock.expiresAt;
+            return _attemptCheckout(allowTableRelock: false);
+          }
+        }
+      }
+
+      if (code == 'INSUFFICIENT_STOCK' || code == 'TICKET_OFFERING_SOLD_OUT') {
+        await _refreshTicketTypes();
+      }
+
+      if (!mounted) {
+        return false;
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            assignmentProvider.errorMessage ?? AppStrings.errorGeneric(context.l10n),
+            AppMessageLocalizer.fromApiError(
+              context.l10n,
+              code: code,
+              fallbackMessage: assignmentProvider.errorMessage,
+            ),
           ),
         ),
       );
-      return;
+      return false;
     }
 
     if (result.isPaymentPending) {
       await handlePendingPayment(result);
-      return;
+      return false;
     }
 
     paymentCompleted = true;
@@ -144,6 +188,23 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
       context,
       onViewQr: () => openTicketQr(),
     );
+    return true;
+  }
+
+  Future<void> _refreshTicketTypes() async {
+    final bundle =
+        await context.read<VipVenueProvider>().loadTicketTypes(session.event.id);
+    if (!mounted || bundle == null) {
+      return;
+    }
+
+    setState(() {
+      session.offerings = List.from(bundle.offerings);
+      session.serviceFeeRate = bundle.serviceFeeRate;
+      if (bundle.currency.isNotEmpty) {
+        session.purchaseCurrency = bundle.currency;
+      }
+    });
   }
 
   Future<void> handlePendingPayment(EventCheckoutResultEntity result) async {
@@ -250,6 +311,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
 
   void returnToFloorPlan() {
     session.tableLockExpiresAt = null;
+    session.tableLockId = null;
     session.selectedTable = null;
     session.selectedZone = null;
 
@@ -266,6 +328,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
     _lockExpiredHandled = true;
     setState(() => _lockExpired = true);
     session.tableLockExpiresAt = null;
+    session.tableLockId = null;
     session.selectedTable = null;
 
     VipTableLockExpiredDialog.show(

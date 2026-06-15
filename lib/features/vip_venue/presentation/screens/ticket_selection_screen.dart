@@ -3,6 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/widgets/shimmer/vip_ticket_selection_shimmer.dart';
+import 'package:youpass/dependency_injection/injection_container.dart';
+import 'package:youpass/features/events/domain/entities/event_detail_entity.dart';
+import 'package:youpass/features/events/domain/usecases/get_event_detail_usecase.dart';
 import 'package:youpass/features/vip_venue/domain/entities/ticket_offering_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/ticket_offering_section.dart';
 import 'package:youpass/features/vip_venue/presentation/providers/vip_venue_provider.dart';
@@ -45,6 +48,14 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
   Future<void> _loadPurchaseData() async {
     final provider = context.read<VipVenueProvider>();
     final eventId = session.event.id;
+    if (eventId.isEmpty) {
+      return;
+    }
+
+    await _ensurePurchaseMeta();
+    if (!mounted) {
+      return;
+    }
 
     final bundle = await provider.loadTicketTypes(eventId);
     if (!mounted || bundle == null) {
@@ -54,7 +65,14 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
     setState(() {
       session.offerings = List<TicketOfferingEntity>.from(bundle.offerings);
       session.serviceFeeRate = bundle.serviceFeeRate;
+      if (bundle.currency.isNotEmpty) {
+        session.purchaseCurrency = bundle.currency;
+      }
     });
+
+    if (!session.hasVenueLayout) {
+      return;
+    }
 
     final layout = await provider.loadVenueLayout(eventId);
     if (!mounted) {
@@ -63,7 +81,35 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
 
     setState(() {
       session.hasVenueLayout = layout != null;
+      if (layout != null) {
+        session.tableLockMinutes = layout.tableLockMinutes;
+      }
     });
+  }
+
+  Future<void> _ensurePurchaseMeta() async {
+    if (session.event is EventDetailEntity) {
+      return;
+    }
+
+    try {
+      final detail = await sl<GetEventDetailUseCase>()(session.event.id);
+      if (!mounted) {
+        return;
+      }
+
+      final purchase = detail.purchase;
+      if (purchase == null) {
+        return;
+      }
+
+      session.serviceFeeRate = purchase.serviceFeeRate;
+      session.hasVenueLayout = purchase.hasVenueLayout;
+      session.hasTicketOfferings = purchase.hasTicketOfferings;
+      session.purchaseCurrency = purchase.currency;
+    } catch (_) {
+      // Ticket types can still load without purchase meta.
+    }
   }
 
   List<TicketOfferingEntity> get _generalOfferings =>
@@ -77,14 +123,11 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
   bool get _hasSelectableQuantity =>
       _quantityOfferings.any((offering) => offering.isQuantitySelectable);
 
-  bool get _allQuantityOfferingsSoldOut =>
-      _quantityOfferings.isNotEmpty && !_hasSelectableQuantity;
-
   bool get _showEmptyState =>
       _quantityOfferings.isEmpty && !session.hasVenueLayout;
 
-  bool get _showAllSoldOutState =>
-      _allQuantityOfferingsSoldOut && !session.hasVenueLayout;
+  bool get _allTicketWavesSoldOut =>
+      _quantityOfferings.isNotEmpty && !_hasSelectableQuantity;
 
   void onOfferingTap(TicketOfferingEntity offering) {
     if (!offering.isQuantitySelectable) {
@@ -136,6 +179,7 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
     session.selectedZone = null;
     session.selectedTable = null;
     session.tableLockExpiresAt = null;
+    session.tableLockId = null;
 
     Navigator.of(context).pushNamed(
       AppRoutes.vipPurchaseSummary,
@@ -190,11 +234,16 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
                   _EmptyStateMessage(
                     message: AppStrings.vipTicketsNoneAvailable(strings),
                   )
-                else if (_showAllSoldOutState)
-                  _EmptyStateMessage(
-                    message: AppStrings.vipTicketsAllSoldOut(strings),
-                  )
                 else ...[
+                  if (_allTicketWavesSoldOut && !session.hasVenueLayout)
+                    Padding(
+                      padding: EdgeInsets.only(
+                        bottom: VipVenueDesignSpec.px(context, 12),
+                      ),
+                      child: _EmptyStateMessage(
+                        message: AppStrings.vipTicketsAllSoldOut(strings),
+                      ),
+                    ),
                   if (_generalOfferings.isNotEmpty) ...[
                     VipSectionCaptionWidget(
                       label: AppStrings.vipSectionGeneralTickets(strings),

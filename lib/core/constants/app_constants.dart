@@ -11,11 +11,12 @@ class AppConstants {
   /// Uses mock VIP venue data when the VIP venue API is unavailable.
   static const bool useVipVenueMockData = false;
 
-  /// Prints request/response JSON to the IDE / `flutter run` console (debug builds only).
+  /// Logs every API call to the console in debug builds. When true, also prints
+  /// sanitized request/response JSON bodies.
   static const bool logApiResponsesToConsole = true;
 
   static const String appName = 'YouPass';
-  static const String apiBaseUrl = 'http://localhost:3000';
+  static const String apiBaseUrl = 'https://youpass-backend.vercel.app';
   static const String tokenKey = 'auth_token';
   static const String sessionIdKey = 'auth_session_id';
   static const String userKey = 'user_data';

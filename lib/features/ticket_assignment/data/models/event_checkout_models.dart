@@ -11,6 +11,7 @@ class EventCheckoutRequestModel extends EventCheckoutRequestEntity {
     super.items,
     super.tableId,
     super.zoneId,
+    super.lockId,
   });
 
   Map<String, dynamic> toJson() {
@@ -20,6 +21,7 @@ class EventCheckoutRequestModel extends EventCheckoutRequestEntity {
         if (zoneId != null && zoneId!.isNotEmpty) 'zone_id': zoneId,
         'tier': tier ?? 'vip',
         'type': type ?? 'vip_table',
+        if (lockId != null && lockId!.isNotEmpty) 'lock_id': lockId,
         if (paymentMethodId != null) 'payment_method_id': paymentMethodId,
       };
     }
@@ -81,6 +83,11 @@ class EventCheckoutResultModel extends EventCheckoutResultEntity {
     super.serviceFeeAmount,
     super.paymentUrl,
     super.stripeClientSecret,
+    super.serviceFeeRate,
+    super.paymentReference,
+    super.eventId,
+    super.tableId,
+    super.zoneId,
   });
 
   factory EventCheckoutResultModel.fromJson(Map<String, dynamic> json) {
@@ -114,7 +121,20 @@ class EventCheckoutResultModel extends EventCheckoutResultEntity {
       serviceFeeAmount: json['service_fee_amount'] ?? json['serviceFeeAmount'],
       paymentUrl: json['payment_url']?.toString() ?? json['paymentUrl']?.toString(),
       stripeClientSecret: stripeClientSecret,
+      serviceFeeRate: _readDouble(json['service_fee_rate'] ?? json['serviceFeeRate']),
+      paymentReference: json['payment_reference']?.toString() ??
+          json['paymentReference']?.toString(),
+      eventId: json['event_id']?.toString() ?? json['eventId']?.toString(),
+      tableId: json['table_id']?.toString() ?? json['tableId']?.toString(),
+      zoneId: json['zone_id']?.toString() ?? json['zoneId']?.toString(),
     );
+  }
+
+  static double? _readDouble(Object? value) {
+    if (value is num) {
+      return value.toDouble();
+    }
+    return null;
   }
 
   static int _readInt(Object? value) {

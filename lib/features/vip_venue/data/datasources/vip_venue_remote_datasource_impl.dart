@@ -3,10 +3,12 @@ import 'package:youpass/core/locale/locale_provider.dart';
 import 'package:youpass/features/vip_venue/data/datasources/vip_venue_remote_datasource.dart';
 import 'package:youpass/features/vip_venue/data/services/vip_venue_api_service.dart';
 import 'package:youpass/features/vip_venue/data/vip_venue_mock_data.dart';
+import 'package:youpass/features/vip_venue/domain/entities/physical_venue_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/table_availability_snapshot_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/table_lock_result_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/table_lock_status_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/ticket_types_bundle_entity.dart';
+import 'package:youpass/features/vip_venue/domain/entities/venue_table_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/venue_floor_plan_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/zone_tables_bundle_entity.dart';
 import 'package:youpass/l10n/app_localizations.dart';
@@ -45,6 +47,16 @@ class VipVenueRemoteDataSourceImpl implements VipVenueRemoteDataSource {
   }
 
   @override
+  Future<List<PhysicalVenueEntity>> fetchVenues() {
+    return apiService.fetchVenues();
+  }
+
+  @override
+  Future<PhysicalVenueEntity> fetchVenueById(String venueId) {
+    return apiService.fetchVenueById(venueId);
+  }
+
+  @override
   Future<ZoneTablesBundleEntity> fetchZoneTables({
     required String eventId,
     required String zoneId,
@@ -60,6 +72,24 @@ class VipVenueRemoteDataSourceImpl implements VipVenueRemoteDataSource {
     }
 
     return apiService.fetchZoneTables(eventId: eventId, zoneId: zoneId);
+  }
+
+  @override
+  Future<VenueTableEntity> fetchTableById({
+    required String eventId,
+    required String tableId,
+  }) {
+    if (AppConstants.useVipVenueMockData) {
+      final tables = VipVenueMockData.tablesForZone(VipVenueMockData.vipZone1Id);
+      return Future.value(
+        tables.firstWhere(
+          (item) => item.id == tableId,
+          orElse: () => tables.first,
+        ),
+      );
+    }
+
+    return apiService.fetchTableById(eventId: eventId, tableId: tableId);
   }
 
   @override

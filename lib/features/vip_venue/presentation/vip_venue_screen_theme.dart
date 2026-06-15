@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/theme/youpass_themed_colors.dart';
 import 'package:youpass/core/theme/youpass_theme_extension.dart';
-import 'package:youpass/features/tickets/presentation/tickets_design_spec.dart';
 import 'package:youpass/features/vip_venue/presentation/vip_venue_design_spec.dart';
 
 class VipVenueScreenTheme {
@@ -11,9 +10,10 @@ class VipVenueScreenTheme {
   static bool isDark(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark;
 
-  static Color accent(BuildContext context) => isDark(context)
-      ? AppColors.homeAccentYellow
-      : TicketsDesignSpec.primary;
+  static const Color brandGold = Color(0xFFE5A906);
+  static const Color brandButtonText = Color(0xFF0F0F14);
+
+  static Color accent(BuildContext context) => brandGold;
 
   static Color screenBackground(BuildContext context) =>
       YouPassThemedColors.screenBackground(context);
@@ -38,9 +38,7 @@ class VipVenueScreenTheme {
       ? const Color(0xFF252525)
       : const Color(0xFFF3F3F3);
 
-  static Color primaryButtonForeground(BuildContext context) => isDark(context)
-      ? AppColors.homeBlack
-      : AppColors.darkNavy;
+  static Color primaryButtonForeground(BuildContext context) => brandButtonText;
 
   static Color dialogBackground(BuildContext context) =>
       Theme.of(context).dialogTheme.backgroundColor ??

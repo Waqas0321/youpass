@@ -168,7 +168,9 @@ class AuthRepositoryImpl implements AuthRepository {
     required String code,
   }) async {
     final result = await remoteDataSource.confirmDeleteAccount(code: code);
-    await localDataSource.clearCache();
+    if (!result.isPendingDeletion) {
+      await localDataSource.clearCache();
+    }
     return result;
   }
 

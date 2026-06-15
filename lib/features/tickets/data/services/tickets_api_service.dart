@@ -1,19 +1,22 @@
 import 'package:youpass/core/network/api_endpoints.dart';
 import 'package:youpass/core/network/base_api_service.dart';
 import 'package:youpass/features/invitations/data/models/invitation_ticket_model.dart';
+import 'package:youpass/features/tickets/data/models/upcoming_ticket_model.dart';
 import 'package:youpass/features/tickets/data/models/past_ticket_model.dart';
 import 'package:youpass/features/tickets/data/models/past_tickets_list_response_model.dart';
 import 'package:youpass/features/tickets/data/models/tickets_list_response_model.dart';
 import 'package:youpass/features/tickets/data/models/tickets_yearly_summary_model.dart';
-import 'package:youpass/features/tickets/data/models/upcoming_ticket_model.dart';
+import 'package:youpass/features/tickets/domain/entities/past_event_entity.dart';
 import 'package:youpass/features/tickets/domain/entities/past_tickets_query.dart';
+import 'package:youpass/features/tickets/domain/entities/tickets_page_result.dart';
+import 'package:youpass/features/tickets/domain/entities/upcoming_ticket_entity.dart';
 
 class TicketsApiService extends BaseApiService {
   TicketsApiService(super.apiClient);
 
   static const int defaultPageSize = 20;
 
-  Future<List<UpcomingTicketModel>> fetchUpcomingTickets({
+  Future<TicketsPageResult<UpcomingTicketEntity>> fetchUpcomingTickets({
     int page = 1,
     int limit = defaultPageSize,
   }) async {
@@ -29,17 +32,28 @@ class TicketsApiService extends BaseApiService {
       authenticated: true,
     );
 
-    return response.tickets;
+    return response.toPageResult();
   }
 
-  Future<List<PastTicketModel>> fetchPastTickets(PastTicketsQuery query) async {
+  Future<TicketsPageResult<PastEventEntity>> fetchPastTicketsPage(
+    PastTicketsQuery query,
+  ) async {
     final response = await getModel(
       _withQuery(ApiEndpoints.ticketsPast, query.toQueryParameters()),
       fromJson: PastTicketsListResponseModel.fromJson,
       authenticated: true,
     );
 
-    return response.tickets;
+    return response.toPageResult();
+  }
+
+  Future<PastTicketModel> cancelTicket(String ticketId) async {
+    final data = await postData(
+      ApiEndpoints.ticketCancel(ticketId),
+      authenticated: true,
+    );
+
+    return PastTicketModel.fromJson(data);
   }
 
   Future<TicketsYearlySummaryModel> fetchYearlySummary() {

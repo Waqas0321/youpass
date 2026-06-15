@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:youpass/features/events/domain/entities/event_entity.dart';
 import 'package:youpass/features/home/domain/entities/event_category_entity.dart';
 import 'package:youpass/features/home/domain/entities/home_feed_meta_entity.dart';
+import 'package:youpass/features/home/domain/entities/home_search_filters_entity.dart';
+import 'package:youpass/features/home/domain/entities/main_banner_carousel_config_entity.dart';
 
 class HomeFeedEntity extends Equatable {
   const HomeFeedEntity({
@@ -14,7 +16,10 @@ class HomeFeedEntity extends Equatable {
     this.postRegistration = false,
     this.headerGreeting,
     this.upcomingSectionTitle,
+    this.upcomingHasMore = false,
     this.searchPlaceholder,
+    this.searchFiltersConfig,
+    this.mainBannerCarouselConfig,
   });
 
   final List<EventCategoryEntity> categories;
@@ -26,7 +31,16 @@ class HomeFeedEntity extends Equatable {
   final bool postRegistration;
   final String? headerGreeting;
   final String? upcomingSectionTitle;
+  final bool upcomingHasMore;
   final String? searchPlaceholder;
+  final HomeSearchFiltersConfigEntity? searchFiltersConfig;
+  final MainBannerCarouselConfigEntity? mainBannerCarouselConfig;
+
+  HomeSearchFiltersConfigEntity get searchConfig =>
+      searchFiltersConfig ?? HomeSearchFiltersConfigEntity.defaults;
+
+  MainBannerCarouselConfigEntity get carouselConfig =>
+      mainBannerCarouselConfig ?? MainBannerCarouselConfigEntity.defaults;
 
   HomeFeedEntity copyWith({
     List<EventCategoryEntity>? categories,
@@ -38,7 +52,10 @@ class HomeFeedEntity extends Equatable {
     bool? postRegistration,
     String? headerGreeting,
     String? upcomingSectionTitle,
+    bool? upcomingHasMore,
     String? searchPlaceholder,
+    HomeSearchFiltersConfigEntity? searchFiltersConfig,
+    MainBannerCarouselConfigEntity? mainBannerCarouselConfig,
   }) {
     return HomeFeedEntity(
       categories: categories ?? this.categories,
@@ -50,7 +67,11 @@ class HomeFeedEntity extends Equatable {
       postRegistration: postRegistration ?? this.postRegistration,
       headerGreeting: headerGreeting ?? this.headerGreeting,
       upcomingSectionTitle: upcomingSectionTitle ?? this.upcomingSectionTitle,
+      upcomingHasMore: upcomingHasMore ?? this.upcomingHasMore,
       searchPlaceholder: searchPlaceholder ?? this.searchPlaceholder,
+      searchFiltersConfig: searchFiltersConfig ?? this.searchFiltersConfig,
+      mainBannerCarouselConfig:
+          mainBannerCarouselConfig ?? this.mainBannerCarouselConfig,
     );
   }
 
@@ -89,6 +110,9 @@ class HomeFeedEntity extends Equatable {
         postRegistration,
         headerGreeting,
         upcomingSectionTitle,
+        upcomingHasMore,
         searchPlaceholder,
+        searchFiltersConfig,
+        mainBannerCarouselConfig,
       ];
 }

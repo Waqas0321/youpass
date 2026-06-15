@@ -35,5 +35,6 @@ void main() {
     expect(data.birthDate, '02 / 06 / 2003');
     expect(data.gender, strings.genderMale);
     expect(data.instagramHandle, '@Waqas0321');
+    expect(data.membershipCategory, 'bronze');
   });
 }

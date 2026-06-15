@@ -62,4 +62,15 @@ class VipVenueApiService extends BaseApiService {
       authenticated: true,
     );
   }
+
+  Future<TableLockStatusModel> fetchTableLockStatus({
+    required String eventId,
+    required String tableId,
+  }) {
+    return getModel(
+      ApiEndpoints.eventTableLockStatus(eventId, tableId),
+      fromJson: TableLockStatusModel.fromJson,
+      authenticated: true,
+    );
+  }
 }

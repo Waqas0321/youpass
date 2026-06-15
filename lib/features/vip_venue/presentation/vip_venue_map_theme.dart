@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/features/vip_venue/presentation/vip_venue_design_spec.dart';
 import 'package:youpass/features/vip_venue/presentation/vip_venue_screen_theme.dart';
 
 /// Figma-accurate colors for the YouFest venue map card.
@@ -36,9 +37,11 @@ class VipVenueMapTheme {
 
   static const Color tableDistributionCanvas = Color(0xFF0A0A0A);
   static const Color tableDistributionStageBar = Color(0xFF1E1E1E);
-  static const Color tableAvailable = Color(0xFF76B947);
-  static const Color tableSelected = Color(0xFFFF9800);
-  static const Color tableOccupied = Color(0xFFE53935);
+  static const Color tableAvailable = VipVenueDesignSpec.tableAvailable;
+  static const Color tablePremium = VipVenueDesignSpec.tablePremium;
+  static const Color tableSelected = VipVenueDesignSpec.tableSelected;
+  static const Color tableOccupied = VipVenueDesignSpec.tableSold;
+  static const Color tableBlocked = VipVenueDesignSpec.tableBlocked;
   static const Color tableDistributionTitleText = Colors.white;
   static const Color tableDistributionStageText = Colors.white;
 }

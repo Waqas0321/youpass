@@ -1,5 +1,4 @@
 import 'package:youpass/core/constants/app_strings.dart';
-import 'package:youpass/features/vip_venue/data/vip_venue_mock_data.dart';
 import 'package:youpass/features/vip_venue/domain/entities/venue_zone_entity.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
@@ -11,16 +10,7 @@ class VipVenueLabelHelper {
   }
 
   static String zoneScreenTitle(AppLocalizations l10n, VenueZoneEntity zone) {
-    switch (zone.id) {
-      case VipVenueMockData.vipZone1Id:
-        return AppStrings.vipTablesZoneTitle(l10n);
-      case VipVenueMockData.vipZone2Id:
-        return AppStrings.vipZone2Name(l10n);
-      case VipVenueMockData.vipDjZoneId:
-        return AppStrings.vipZoneDj(l10n);
-      default:
-        return zone.name;
-    }
+    return AppStrings.vipZoneTablesScreenTitle(l10n, zone.name);
   }
 
   static String tablesCapacitySubtitle(AppLocalizations l10n, VenueZoneEntity zone) {

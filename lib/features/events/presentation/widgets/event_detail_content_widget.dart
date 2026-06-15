@@ -1,95 +1,114 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_strings.dart';
-import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/core/utils/map_url_launcher.dart';
 import 'package:youpass/core/widgets/event_network_image.dart';
 import 'package:youpass/features/events/domain/entities/event_detail_entity.dart';
-import 'package:youpass/features/events/presentation/utils/event_browse_card_label_formatter.dart';
-import 'package:youpass/features/events/presentation/widgets/event_browse_card_action_button_widget.dart';
-import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
-import 'package:youpass/features/favorites/presentation/widgets/favorites_event_meta_row_widget.dart';
+import 'package:youpass/features/events/presentation/event_detail_design_spec.dart';
+import 'package:youpass/features/events/presentation/widgets/event_detail_about_section_widget.dart';
+import 'package:youpass/features/events/presentation/widgets/event_detail_promoter_card_widget.dart';
+import 'package:youpass/features/favorites/domain/entities/favorite_producer_entity.dart';
 
 class EventDetailContentWidget extends StatelessWidget {
   const EventDetailContentWidget({
     super.key,
     required this.event,
+    this.onPromoterTap,
+    this.onPromoterFollowToggle,
+    this.isFollowPending = false,
   });
 
   final EventDetailEntity event;
+  final void Function(FavoriteProducerEntity producer)? onPromoterTap;
+  final void Function(FavoriteProducerEntity producer)? onPromoterFollowToggle;
+  final bool isFollowPending;
+
+  Future<void> _openMaps(BuildContext context) async {
+    await MapUrlLauncher.openDirections(
+      addressLabel: event.addressLabel,
+      latitude: event.latitude,
+      longitude: event.longitude,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final strings = context.l10n;
     final horizontalPadding =
-        FavoritesDesignSpec.px(context, FavoritesDesignSpec.horizontalPadding);
-    final scheduleLabel = EventBrowseCardLabelFormatter.scheduleLabel(event);
-    final venueLabel = _venueLabel(event);
+        EventDetailDesignSpec.px(context, EventDetailDesignSpec.horizontalPadding);
+    final imageRadius =
+        EventDetailDesignSpec.px(context, EventDetailDesignSpec.imageBottomRadius);
+    final theme = EventDetailTheme.of(context);
 
     return ListView(
-      padding: EdgeInsets.zero,
+      padding: EdgeInsets.only(
+        bottom: EventDetailDesignSpec.px(context, 24),
+      ),
       children: [
-        SizedBox(
-          height: FavoritesDesignSpec.px(context, 240),
-          width: double.infinity,
-          child: EventNetworkImage(
-            imageUrl: event.imageUrl,
-            fit: BoxFit.cover,
+        ClipRRect(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(imageRadius),
+            bottomRight: Radius.circular(imageRadius),
+          ),
+          child: AspectRatio(
+            aspectRatio: 16 / 9,
+            child: EventNetworkImage(
+              imageUrl: event.imageUrl,
+              fit: BoxFit.cover,
+              useShimmerPlaceholder: true,
+            ),
           ),
         ),
         Padding(
           padding: EdgeInsets.fromLTRB(
             horizontalPadding,
-            FavoritesDesignSpec.px(context, 20),
+            EventDetailDesignSpec.px(context, 22),
             horizontalPadding,
-            FavoritesDesignSpec.px(context, 12),
+            0,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                event.title.toUpperCase(),
+                event.title,
                 style: TextStyle(
-                  fontSize: FavoritesDesignSpec.px(context, 20),
+                  fontSize: EventDetailDesignSpec.px(context, 28),
                   fontWeight: FontWeight.w800,
-                  color: Theme.of(context).colorScheme.onSurface,
-                  height: 1.2,
-                  letterSpacing: 0.3,
+                  color: theme.textPrimary,
+                  height: 1.15,
+                  letterSpacing: -0.2,
                 ),
               ),
-              SizedBox(height: FavoritesDesignSpec.px(context, 14)),
-              FavoritesEventMetaRowWidget(
+              SizedBox(height: EventDetailDesignSpec.px(context, 14)),
+              _MetaRow(
                 icon: Icons.calendar_today_outlined,
-                label: scheduleLabel,
-                iconColor: FavoritesDesignSpec.primary,
-                labelColor: Theme.of(context).colorScheme.onSurface,
-                fontSize: 13,
+                label: event.scheduleLabel,
+                theme: theme,
               ),
-              FavoritesEventMetaRowWidget(
-                icon: Icons.location_on_outlined,
-                label: venueLabel,
-                iconColor: FavoritesDesignSpec.primary,
-                labelColor: Theme.of(context).colorScheme.onSurface,
-                fontSize: 13,
-              ),
-              if (event.description != null &&
-                  event.description!.trim().isNotEmpty) ...[
-                SizedBox(height: FavoritesDesignSpec.px(context, 18)),
-                Text(
-                  AppStrings.eventDetailAboutSection(strings),
-                  style: TextStyle(
-                    fontSize: FavoritesDesignSpec.px(context, 13),
-                    fontWeight: FontWeight.w700,
-                    color: Theme.of(context).colorScheme.onSurface,
-                    letterSpacing: 0.4,
-                  ),
+              if (event.hasAddress) ...[
+                SizedBox(height: EventDetailDesignSpec.px(context, 10)),
+                _MetaRow(
+                  icon: Icons.location_on_outlined,
+                  label: event.addressLabel,
+                  onTap: () => _openMaps(context),
+                  underline: true,
+                  theme: theme,
                 ),
-                SizedBox(height: FavoritesDesignSpec.px(context, 8)),
-                Text(
-                  event.description!.trim(),
-                  style: TextStyle(
-                    fontSize: FavoritesDesignSpec.px(context, 13),
-                    color: FavoritesDesignSpec.bodyText,
-                    height: 1.5,
-                  ),
+              ],
+              if (event.hasProducer && event.producer != null) ...[
+                SizedBox(height: EventDetailDesignSpec.px(context, 20)),
+                EventDetailPromoterCardWidget(
+                  producer: event.producer!,
+                  isFollowPending: isFollowPending,
+                  onCardTap: onPromoterTap == null
+                      ? () {}
+                      : () => onPromoterTap!(event.producer!),
+                  onFollowToggle: onPromoterFollowToggle == null
+                      ? () {}
+                      : () => onPromoterFollowToggle!(event.producer!),
+                ),
+              ],
+              if (event.hasDescription) ...[
+                SizedBox(height: EventDetailDesignSpec.px(context, 24)),
+                EventDetailAboutSectionWidget(
+                  description: event.description!.trim(),
                 ),
               ],
             ],
@@ -98,56 +117,68 @@ class EventDetailContentWidget extends StatelessWidget {
       ],
     );
   }
-
-  String _venueLabel(EventDetailEntity event) {
-    final venue = event.venueName?.trim();
-    final city = event.city?.trim();
-    if (venue != null && venue.isNotEmpty) {
-      if (city != null && city.isNotEmpty) {
-        return '$venue, $city';
-      }
-      return venue;
-    }
-    return event.locationLabel;
-  }
 }
 
-class EventDetailBottomBarWidget extends StatelessWidget {
-  const EventDetailBottomBarWidget({
-    super.key,
-    required this.canBuyTickets,
-    required this.onBuyTickets,
+class _MetaRow extends StatelessWidget {
+  const _MetaRow({
+    required this.icon,
+    required this.label,
+    required this.theme,
+    this.onTap,
+    this.underline = false,
   });
 
-  final bool canBuyTickets;
-  final VoidCallback? onBuyTickets;
+  final IconData icon;
+  final String label;
+  final EventDetailTheme theme;
+  final VoidCallback? onTap;
+  final bool underline;
 
   @override
   Widget build(BuildContext context) {
-    final strings = context.l10n;
-    final horizontalPadding =
-        FavoritesDesignSpec.px(context, FavoritesDesignSpec.horizontalPadding);
+    final labelStyle = TextStyle(
+      fontSize: EventDetailDesignSpec.px(context, 15),
+      fontWeight: FontWeight.w500,
+      color: underline ? theme.gold : theme.textSecondary,
+      decoration: underline ? TextDecoration.underline : null,
+      decorationColor: theme.gold,
+      height: 1.35,
+    );
 
-    return SafeArea(
-      minimum: EdgeInsets.fromLTRB(
-        horizontalPadding,
-        FavoritesDesignSpec.px(context, 8),
-        horizontalPadding,
-        FavoritesDesignSpec.px(context, 16),
+    final content = Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          icon,
+          size: EventDetailDesignSpec.px(context, 18),
+          color: theme.gold,
+        ),
+        SizedBox(width: EventDetailDesignSpec.px(context, 10)),
+        Expanded(
+          child: Text(
+            label,
+            style: labelStyle,
+          ),
+        ),
+      ],
+    );
+
+    if (onTap == null) {
+      return content;
+    }
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: EventDetailDesignSpec.px(context, 2),
+          ),
+          child: content,
+        ),
       ),
-      child: canBuyTickets
-          ? EventBrowseCardActionButtonWidget(
-              label: AppStrings.buyTickets(strings).toUpperCase(),
-              onPressed: onBuyTickets,
-            )
-          : Text(
-              AppStrings.eventDetailTicketsUnavailable(strings),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: FavoritesDesignSpec.px(context, 13),
-                color: FavoritesDesignSpec.bodyText,
-              ),
-            ),
     );
   }
 }

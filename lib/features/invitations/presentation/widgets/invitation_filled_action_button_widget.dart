@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/theme/invitations_screen_theme.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 
 class InvitationFilledActionButtonWidget extends StatelessWidget {
@@ -21,7 +22,10 @@ class InvitationFilledActionButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final effectiveColor = enabled
         ? backgroundColor
-        : InvitationsDesignSpec.attendanceConfirmedButton;
+        : InvitationsScreenTheme.disabledButtonBackground(context);
+    final foregroundColor = enabled
+        ? Colors.white
+        : InvitationsScreenTheme.disabledButtonForeground(context);
 
     return SizedBox(
       width: double.infinity,
@@ -30,9 +34,10 @@ class InvitationFilledActionButtonWidget extends StatelessWidget {
         onPressed: enabled && !isLoading ? onPressed : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: effectiveColor,
-          disabledBackgroundColor: InvitationsDesignSpec.attendanceConfirmedButton,
-          foregroundColor: Colors.white,
-          disabledForegroundColor: Colors.white,
+          disabledBackgroundColor:
+              InvitationsScreenTheme.disabledButtonBackground(context),
+          foregroundColor: foregroundColor,
+          disabledForegroundColor: foregroundColor,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
@@ -44,9 +49,9 @@ class InvitationFilledActionButtonWidget extends StatelessWidget {
             ? SizedBox(
                 width: InvitationsDesignSpec.px(context, 18),
                 height: InvitationsDesignSpec.px(context, 18),
-                child: const CircularProgressIndicator(
+                child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: Colors.white,
+                  color: foregroundColor,
                 ),
               )
             : Text(

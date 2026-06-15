@@ -15,7 +15,7 @@ class AppConstants {
   static const bool logApiResponsesToConsole = true;
 
   static const String appName = 'YouPass';
-  static const String apiBaseUrl = 'https://youpass-backend.vercel.app';
+  static const String apiBaseUrl = 'http://localhost:3000';
   static const String tokenKey = 'auth_token';
   static const String sessionIdKey = 'auth_session_id';
   static const String userKey = 'user_data';
@@ -23,6 +23,7 @@ class AppConstants {
   static const Duration apiTimeout = Duration(seconds: 30);
 
   static const String categoryIdAll = 'all';
+  static const String categoryAllEmoji = '🌶️';
   static const String categoryIdChile = 'chile';
   static const String categoryIdParties = 'parties';
   static const String categoryIdConcerts = 'concerts';

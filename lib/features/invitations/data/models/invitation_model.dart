@@ -1,4 +1,5 @@
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
+import 'package:youpass/features/invitations/domain/entities/invitation_invited_by_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_qr_status.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_status.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_tier.dart';
@@ -14,10 +15,33 @@ class InvitationModel extends InvitationEntity {
     required super.status,
     super.eventId,
     super.type,
+    super.productKind,
+    super.productLabel,
+    super.typeColorHex,
     super.requiresPaymentMethod = false,
+    super.termsAcceptedRequired = false,
+    super.chargeAmount,
+    super.chargeCurrency,
+    super.discountPercent,
+    super.acceptAmount,
+    super.acceptAmountLabel,
+    super.noShowChargeAmount,
+    super.noShowChargeLabel,
+    super.customMessage,
+    super.cancellationDeadlineLabel,
     super.entryCode,
     super.qrPayload,
     super.qrStatus,
+    super.invitedBy,
+    super.expiresAtLabel,
+    super.assignedSlot,
+    super.statusLabel,
+    super.deepLink,
+    super.canConfirm = false,
+    super.canReject = false,
+    super.canCancel = false,
+    super.canViewQr = false,
+    super.preauthActive = false,
   });
 
   factory InvitationModel.fromJson(Map<String, dynamic> json) {
@@ -41,13 +65,68 @@ class InvitationModel extends InvitationEntity {
       ),
       tier: _parseTier(json['tier'] ?? json['ticket_tier']),
       type: json['type']?.toString(),
-      status: _parseStatus(json['status']),
+      productKind: json['product_kind']?.toString() ?? json['productKind']?.toString(),
+      productLabel: json['product_label']?.toString() ?? json['productLabel']?.toString(),
+      typeColorHex: json['type_color']?.toString() ?? json['typeColor']?.toString(),
+      status: _parseStatus(json['lifecycle_state'] ?? json['status']),
       requiresPaymentMethod: _parseBool(
         json['requires_payment_method'] ?? json['requiresPaymentMethod'],
       ),
+      termsAcceptedRequired: _parseBool(
+        json['terms_accepted_required'] ?? json['termsAcceptedRequired'],
+      ),
+      chargeAmount: _parseDouble(
+        json['entry_value'] ?? json['charge_amount'] ?? json['chargeAmount'],
+      ),
+      chargeCurrency: json['charge_currency']?.toString() ?? json['chargeCurrency']?.toString(),
+      discountPercent: _parseInt(
+        json['discount_percentage'] ?? json['discount_percent'] ?? json['discountPercent'],
+      ),
+      acceptAmount: _parseDouble(
+        json['amount_to_pay'] ?? json['accept_amount'] ?? json['acceptAmount'],
+      ),
+      acceptAmountLabel:
+          json['accept_amount_label']?.toString() ?? json['acceptAmountLabel']?.toString(),
+      noShowChargeAmount:
+          _parseDouble(json['no_show_charge_amount'] ?? json['noShowChargeAmount']),
+      noShowChargeLabel:
+          json['no_show_charge_label']?.toString() ?? json['noShowChargeLabel']?.toString(),
+      customMessage: json['custom_message']?.toString() ?? json['customMessage']?.toString(),
+      cancellationDeadlineLabel: json['cancellation_deadline_label']?.toString() ??
+          json['cancellationDeadlineLabel']?.toString(),
       entryCode: json['entry_code']?.toString() ?? json['entryCode']?.toString(),
       qrPayload: json['qr_payload']?.toString() ?? json['qrPayload']?.toString(),
       qrStatus: _parseQrStatus(json['qr_status'] ?? json['qrStatus']),
+      invitedBy: _parseInvitedBy(json['invited_by'] ?? json['invitedBy']),
+      expiresAtLabel: json['expires_at_label']?.toString() ??
+          json['expiresAtLabel']?.toString(),
+      assignedSlot:
+          json['assigned_slot']?.toString() ?? json['assignedSlot']?.toString(),
+      statusLabel:
+          json['status_label']?.toString() ?? json['statusLabel']?.toString(),
+      deepLink: json['deep_link']?.toString() ?? json['deepLink']?.toString(),
+      canConfirm: _parseBool(json['can_confirm'] ?? json['canConfirm']),
+      canReject: _parseBool(json['can_reject'] ?? json['canReject']),
+      canCancel: _parseBool(json['can_cancel'] ?? json['canCancel']),
+      canViewQr: _parseBool(json['can_view_qr'] ?? json['canViewQr']),
+      preauthActive:
+          _parseBool(json['preauth_active'] ?? json['preauthActive']),
+    );
+  }
+
+  static InvitationInvitedByEntity? _parseInvitedBy(Object? value) {
+    if (value is! Map<String, dynamic>) {
+      return null;
+    }
+
+    final name = value['name']?.toString();
+    if (name == null || name.isEmpty) {
+      return null;
+    }
+
+    return InvitationInvitedByEntity(
+      name: name,
+      role: value['role']?.toString() ?? 'producer',
     );
   }
 
@@ -76,6 +155,23 @@ class InvitationModel extends InvitationEntity {
     return normalized == 'true' || normalized == '1';
   }
 
+  static double? _parseDouble(Object? value) {
+    if (value is num) {
+      return value.toDouble();
+    }
+    return double.tryParse(value?.toString() ?? '');
+  }
+
+  static int? _parseInt(Object? value) {
+    if (value is int) {
+      return value;
+    }
+    if (value is num) {
+      return value.toInt();
+    }
+    return int.tryParse(value?.toString() ?? '');
+  }
+
   static InvitationTier _parseTier(Object? value) {
     final normalized = value?.toString().toLowerCase();
     if (normalized == 'vip') {
@@ -87,13 +183,31 @@ class InvitationModel extends InvitationEntity {
   static InvitationStatus _parseStatus(Object? value) {
     final normalized = value?.toString().toLowerCase();
     switch (normalized) {
+      case 'sent':
+        return InvitationStatus.sent;
+      case 'viewed':
+        return InvitationStatus.viewed;
+      case 'accepted':
       case 'confirmed':
-        return InvitationStatus.confirmed;
+        return InvitationStatus.accepted;
       case 'rejected':
       case 'declined':
         return InvitationStatus.rejected;
-      default:
+      case 'expired':
+        return InvitationStatus.expired;
+      case 'canceled':
+      case 'cancelled':
+        return InvitationStatus.canceled;
+      case 'validated':
+        return InvitationStatus.validated;
+      case 'charged':
+        return InvitationStatus.charged;
+      case 'failed':
+        return InvitationStatus.failed;
+      case 'pending':
         return InvitationStatus.pending;
+      default:
+        return InvitationStatus.sent;
     }
   }
 

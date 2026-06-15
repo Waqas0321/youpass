@@ -1,4 +1,3 @@
-import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/features/events/domain/entities/event_entity.dart';
 import 'package:youpass/features/home/domain/entities/event_category_entity.dart';
 
@@ -30,10 +29,6 @@ class EventBrowseFilterHelper {
     List<EventCategoryEntity> categories,
     String categoryId,
   ) {
-    if (categoryId == AppConstants.categoryIdAll) {
-      return null;
-    }
-
     for (final category in categories) {
       if (category.id == categoryId) {
         return category;

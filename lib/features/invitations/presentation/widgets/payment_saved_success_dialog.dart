@@ -3,6 +3,7 @@ import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/theme/youpass_dialog_theme.dart';
 import 'package:youpass/core/widgets/dialogs/youpass_dialog_icon_badge.dart';
+import 'package:youpass/core/widgets/dialogs/youpass_dialog_outline_button.dart';
 import 'package:youpass/core/widgets/dialogs/youpass_dialog_primary_button.dart';
 import 'package:youpass/core/widgets/dialogs/youpass_themed_dialog_shell.dart';
 import 'package:youpass/features/invitations/presentation/widgets/payment_saved_reminder_row_widget.dart';
@@ -53,7 +54,7 @@ class PaymentSavedSuccessDialog extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
-              color: YouPassDialogTheme.title(context),
+              color: YouPassDialogTheme.successTitle(context),
             ),
           ),
           const SizedBox(height: 12),
@@ -67,14 +68,38 @@ class PaymentSavedSuccessDialog extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          PaymentSavedReminderRowWidget(
-            icon: Icons.warning_amber_rounded,
-            text: AppStrings.invitationsCardSavedReminderCharge(strings),
-          ),
-          const SizedBox(height: 8),
-          PaymentSavedReminderRowWidget(
-            icon: Icons.schedule,
-            text: AppStrings.invitationsCardSavedReminderCancel(strings),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+              color: YouPassDialogTheme.infoPanelBackground(context),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: YouPassDialogTheme.border(context),
+              ),
+            ),
+            child: Column(
+              children: [
+                PaymentSavedReminderRowWidget(
+                  icon: Icons.warning_amber_rounded,
+                  text: AppStrings.invitationsCardSavedReminderCharge(strings),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: YouPassDialogTheme.border(context).withValues(
+                      alpha: YouPassDialogTheme.isDark(context) ? 0.6 : 1,
+                    ),
+                  ),
+                ),
+                PaymentSavedReminderRowWidget(
+                  icon: Icons.schedule,
+                  text: AppStrings.invitationsCardSavedReminderCancel(strings),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 20),
           YouPassDialogPrimaryButton(
@@ -84,18 +109,13 @@ class PaymentSavedSuccessDialog extends StatelessWidget {
               onConfirmAttendance();
             },
           ),
-          TextButton(
+          const SizedBox(height: 8),
+          YouPassDialogOutlineButton(
+            label: AppStrings.invitationsReject(strings),
             onPressed: () {
               Navigator.of(context).pop();
               onReject();
             },
-            child: Text(
-              AppStrings.invitationsReject(strings),
-              style: TextStyle(
-                color: YouPassDialogTheme.cancelText(context),
-                fontWeight: FontWeight.w600,
-              ),
-            ),
           ),
         ],
       ),

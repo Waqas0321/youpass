@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/app_strings.dart';
@@ -13,8 +15,12 @@ import 'package:youpass/features/invitations/presentation/providers/invitations_
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/features/home/domain/entities/drawer_menu_id.dart';
 import 'package:youpass/features/home/presentation/utils/home_user_display_helper.dart';
+import 'package:youpass/features/home/presentation/widgets/drawer/drawer_design_spec.dart';
 import 'package:youpass/features/home/presentation/widgets/drawer/home_drawer_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/home_feed_widget.dart';
+import 'package:youpass/features/profile/presentation/utils/account_deletion_actions.dart';
+import 'package:youpass/features/profile/presentation/widgets/account_deletion_pending_banner_widget.dart';
+import 'package:youpass/features/invitations/presentation/utils/invitation_detail_navigation.dart';
 import 'package:youpass/routes/app_routes.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,13 +30,21 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+  static const Duration _badgeRefreshInterval = Duration(seconds: 30);
+
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final ScrollController scrollController = ScrollController();
+  Timer? _badgeRefreshTimer;
   Locale? lastLocale;
+  bool _shownPendingDeletionNotice = false;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    scrollController.addListener(_handleScroll);
+    _startBadgeRefreshTimer();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
@@ -40,7 +54,16 @@ class _HomeScreenState extends State<HomeScreen> {
         homeProvider.loadHomeDataIfNeeded();
       }
       homeProvider.trackRegistrationCompletedIfNeeded();
+      _maybeShowPendingDeletionNotice();
+      _loadWaitlistOffersIfAuthenticated();
     });
+  }
+
+  void _loadWaitlistOffersIfAuthenticated() {
+    final authProvider = context.read<AuthProvider>();
+    if (authProvider.status == AuthStatus.authenticated) {
+      context.read<InvitationsProvider>().ensureLoaded();
+    }
   }
 
   @override
@@ -63,13 +86,96 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void dispose() {
+    _badgeRefreshTimer?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
+    scrollController.removeListener(_handleScroll);
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  void _startBadgeRefreshTimer() {
+    _badgeRefreshTimer?.cancel();
+    _badgeRefreshTimer = Timer.periodic(_badgeRefreshInterval, (_) {
+      _refreshInvitationsBadgeIfAuthenticated();
+    });
+  }
+
+  void _refreshInvitationsBadgeIfAuthenticated() {
+    if (!mounted) {
+      return;
+    }
+
+    final authProvider = context.read<AuthProvider>();
+    if (authProvider.status == AuthStatus.authenticated) {
+      context.read<InvitationsProvider>().refreshDrawerBadge();
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && mounted) {
+      _refreshInvitationsBadgeIfAuthenticated();
+      _loadWaitlistOffersIfAuthenticated();
+      _maybeShowPendingDeletionNotice();
+    }
+  }
+
+  void _maybeShowPendingDeletionNotice() {
+    final profile = context.read<AuthProvider>().userProfile;
+    if (profile?.isPendingDeletion != true || _shownPendingDeletionNotice) {
+      return;
+    }
+
+    _shownPendingDeletionNotice = true;
+    final strings = context.l10n;
+    final days = profile!.daysRemaining ?? 0;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppStrings.profileDeletePendingMessage(strings, days)),
+          action: SnackBarAction(
+            label: AppStrings.accountDeletionCancelAction(strings),
+            onPressed: _handleCancelPendingDeletion,
+          ),
+        ),
+      );
+    });
+  }
+
+  Future<void> _handleCancelPendingDeletion() async {
+    final cancelled = await AccountDeletionActions(context).cancelPendingDeletion();
+    if (!cancelled || !mounted) {
+      return;
+    }
+    await context.read<AuthProvider>().refreshUserProfile();
+    setState(() => _shownPendingDeletionNotice = false);
+  }
+
+  void _handleScroll() {
+    if (!scrollController.hasClients || !mounted) {
+      return;
+    }
+
+    final position = scrollController.position;
+    if (position.pixels >= position.maxScrollExtent - 240) {
+      context.read<HomeProvider>().loadMoreUpcomingIfNeeded();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final homeProvider = context.watch<HomeProvider>();
     final authProvider = context.watch<AuthProvider>();
     final invitationsProvider = context.watch<InvitationsProvider>();
     final layout = ResponsiveLayout(context);
-    final drawerFullName =
-        HomeUserDisplayHelper.drawerFullName(authProvider, context.l10n);
+    final drawerFirstName =
+        HomeUserDisplayHelper.drawerFirstName(authProvider, context.l10n);
+    final drawerMembershipTier =
+        HomeUserDisplayHelper.membershipTier(authProvider);
     final headerGreeting = HomeUserDisplayHelper.headerGreetingText(
       authProvider,
       context.l10n,
@@ -79,8 +185,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       key: scaffoldKey,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      drawerEnableOpenDragGesture: false,
+      drawerScrimColor: DrawerDesignSpec.drawerScrimColor,
       drawer: HomeDrawerWidget(
-        fullName: drawerFullName,
+        firstName: drawerFirstName,
+        tier: drawerMembershipTier,
         profilePhotoUrl: authProvider.userProfile?.profilePhotoUrl,
         invitationsBadgeCount: invitationsProvider.invitationsBadgeCount,
         onMenuSelected: handleDrawerMenuSelected,
@@ -111,7 +221,9 @@ class _HomeScreenState extends State<HomeScreen> {
       case DrawerMenuId.favorites:
         Navigator.of(context).pushNamed(AppRoutes.myFavorites);
       case DrawerMenuId.invitations:
-        Navigator.of(context).pushNamed(AppRoutes.myInvitations);
+        Navigator.of(context)
+            .pushNamed(AppRoutes.myInvitations)
+            .then((_) => _refreshInvitationsBadgeIfAuthenticated());
     }
   }
 
@@ -179,6 +291,10 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
 
+    final authProvider = context.watch<AuthProvider>();
+    final pendingProfile = authProvider.userProfile;
+    final showDeletionBanner = pendingProfile?.isPendingDeletion == true;
+
     return Column(
       children: [
         HomeTopBarWidget(
@@ -186,18 +302,46 @@ class _HomeScreenState extends State<HomeScreen> {
           greetingText: headerGreeting,
           showPartyModeBanner: homeProvider.showPartyModeBanner,
         ),
+        if (showDeletionBanner) ...[
+          Padding(
+            padding: layout.screenPadding.copyWith(top: 0, bottom: 0),
+            child: AccountDeletionPendingBannerWidget(
+              daysRemaining: pendingProfile!.daysRemaining ?? 0,
+              deletionScheduledAt: pendingProfile.deletionScheduledAt,
+              onCancelTap: _handleCancelPendingDeletion,
+            ),
+          ),
+          SizedBox(height: layout.spacing(12)),
+        ],
         Expanded(
-          child: SingleChildScrollView(
-            padding: layout.screenPadding,
-            child: HomeFeedWidget(
-              upcomingSectionTitle: upcomingSectionTitle,
-              feed: feed,
-              highlightPendingInvitation: homeProvider.highlightPendingInvitation,
-              pendingInvitationCount: homeProvider.highlightedInvitationCount,
-              pendingInvitationTitle: homeProvider.highlightedInvitationTitle,
-              onPendingInvitationTap: homeProvider.highlightPendingInvitation
-                  ? () => Navigator.of(context).pushNamed(AppRoutes.myInvitations)
-                  : null,
+          child: RefreshIndicator(
+            onRefresh: () => homeProvider.refreshHome(),
+            child: SingleChildScrollView(
+              controller: scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: layout.screenPadding,
+              child: HomeFeedWidget(
+                upcomingSectionTitle: upcomingSectionTitle,
+                feed: feed,
+                highlightPendingInvitation: homeProvider.highlightPendingInvitation,
+                pendingInvitationCount: homeProvider.highlightedInvitationCount,
+                pendingInvitationTitle: homeProvider.highlightedInvitationTitle,
+                onPendingInvitationTap: homeProvider.highlightPendingInvitation
+                    ? () {
+                        final invitationId = homeProvider.highlightedInvitationId;
+                        if (invitationId != null) {
+                          final destination =
+                              InvitationDetailNavigation.resolveById(invitationId);
+                          Navigator.of(context).pushNamed(
+                            destination.route,
+                            arguments: destination.args,
+                          );
+                          return;
+                        }
+                        Navigator.of(context).pushNamed(AppRoutes.myInvitations);
+                      }
+                    : null,
+              ),
             ),
           ),
         ),

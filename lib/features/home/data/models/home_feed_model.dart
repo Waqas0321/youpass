@@ -11,7 +11,10 @@ class HomeFeedModel extends HomeFeedEntity {
     super.postRegistration,
     super.headerGreeting,
     super.upcomingSectionTitle,
+    super.upcomingHasMore,
     super.searchPlaceholder,
+    super.searchFiltersConfig,
+    super.mainBannerCarouselConfig,
   });
 
   factory HomeFeedModel.fromEntity(HomeFeedEntity entity) {
@@ -25,7 +28,10 @@ class HomeFeedModel extends HomeFeedEntity {
       postRegistration: entity.postRegistration,
       headerGreeting: entity.headerGreeting,
       upcomingSectionTitle: entity.upcomingSectionTitle,
+      upcomingHasMore: entity.upcomingHasMore,
       searchPlaceholder: entity.searchPlaceholder,
+      searchFiltersConfig: entity.searchFiltersConfig,
+      mainBannerCarouselConfig: entity.mainBannerCarouselConfig,
     );
   }
 }

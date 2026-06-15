@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/features/home/presentation/widgets/drawer/drawer_design_spec.dart';
+import 'package:youpass/features/home/presentation/widgets/drawer/drawer_theme.dart';
 
 class DrawerSparkleIconsWidget extends StatelessWidget {
-  const DrawerSparkleIconsWidget({super.key});
+  const DrawerSparkleIconsWidget({
+    super.key,
+    this.primaryColor,
+    this.secondaryColor,
+  });
+
+  final Color? primaryColor;
+  final Color? secondaryColor;
 
   @override
   Widget build(BuildContext context) {
+    final theme = HomeDrawerTheme.of(context);
+    final primary = primaryColor ?? theme.gold;
+    final secondary = secondaryColor ?? theme.goldSecondary;
+
     return SizedBox(
       width: DrawerDesignSpec.px(context, DrawerDesignSpec.sparkleSlotWidth),
       height: DrawerDesignSpec.px(context, DrawerDesignSpec.menuIconSize),
@@ -14,7 +26,7 @@ class DrawerSparkleIconsWidget extends StatelessWidget {
         children: [
           Icon(
             Icons.auto_awesome,
-            color: DrawerDesignSpec.gold,
+            color: primary,
             size: DrawerDesignSpec.px(context, DrawerDesignSpec.sparkleLarge),
           ),
           Positioned(
@@ -22,7 +34,7 @@ class DrawerSparkleIconsWidget extends StatelessWidget {
             top: DrawerDesignSpec.px(context, DrawerDesignSpec.sparkleOffsetY),
             child: Icon(
               Icons.auto_awesome,
-              color: DrawerDesignSpec.goldSparkleSecondary,
+              color: secondary,
               size: DrawerDesignSpec.px(context, DrawerDesignSpec.sparkleSmall),
             ),
           ),

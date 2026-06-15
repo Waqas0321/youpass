@@ -82,6 +82,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<void> clearCache() async {
+    // Clears auth session only. Ticket caches and non-auth preferences are preserved.
     AuthTokenStore.clear();
     await accessTokenStorage.delete();
     await storageService.remove(AppConstants.userKey);

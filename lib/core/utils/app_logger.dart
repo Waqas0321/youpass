@@ -99,6 +99,22 @@ class AppLogger {
     debug(message, tag: 'Auth');
   }
 
+  /// Logs a mock OTP returned by the local backend (`TWILIO_MOCK=true`).
+  static void devOtp({
+    required String phone,
+    required String purpose,
+    required String code,
+  }) {
+    if (!kDebugMode) {
+      return;
+    }
+
+    _printToConsole(
+      'DEV OTP',
+      '[DEV OTP] phone=$phone purpose=$purpose code=$code',
+    );
+  }
+
   static void _printToConsole(String title, String message) {
     if (!kDebugMode || !AppConstants.logApiResponsesToConsole) {
       return;

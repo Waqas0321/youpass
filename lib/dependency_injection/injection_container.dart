@@ -10,8 +10,15 @@ import 'package:youpass/core/network/api_client.dart';
 import 'package:youpass/core/network/analytics_api_service.dart';
 import 'package:youpass/core/network/config_api_service.dart';
 import 'package:youpass/core/security/client_request_headers.dart';
+import 'package:youpass/core/security/device_auth_service.dart';
 import 'package:youpass/core/security/device_id_service.dart';
 import 'package:youpass/core/security/recaptcha_service.dart';
+import 'package:youpass/core/services/event_categories_cache.dart';
+import 'package:youpass/core/services/home_search_history_cache.dart';
+import 'package:youpass/core/services/screen_secure_service.dart';
+import 'package:youpass/core/services/ticket_qr_cache_service.dart';
+import 'package:youpass/core/services/tickets_cache.dart';
+import 'package:youpass/core/services/user_location_service.dart';
 import 'package:youpass/core/services/storage_service.dart';
 import 'package:youpass/core/theme/data/repositories/theme_preference_repository_impl.dart';
 import 'package:youpass/core/theme/domain/repositories/theme_preference_repository.dart';
@@ -41,12 +48,19 @@ import 'package:youpass/features/home/data/datasources/home_remote_datasource_im
 import 'package:youpass/features/events/domain/usecases/get_all_events_usecase.dart';
 import 'package:youpass/features/events/domain/usecases/get_event_detail_usecase.dart';
 import 'package:youpass/features/events/domain/usecases/get_favorite_events_usecase.dart';
+import 'package:youpass/features/events/domain/usecases/toggle_producer_follow_usecase.dart';
 import 'package:youpass/features/events/domain/usecases/toggle_event_favorite_usecase.dart'
     as events_usecases;
+import 'package:youpass/features/favorites/data/repositories/favorites_repository_impl.dart';
+import 'package:youpass/features/favorites/data/services/favorites_api_service.dart';
+import 'package:youpass/features/favorites/domain/repositories/favorites_repository.dart';
+import 'package:youpass/features/favorites/presentation/providers/favorites_provider.dart';
 import 'package:youpass/features/home/data/repositories/home_repository_impl.dart';
 import 'package:youpass/features/home/domain/repositories/home_repository.dart';
 import 'package:youpass/features/home/domain/usecases/get_filtered_home_events_usecase.dart';
 import 'package:youpass/features/home/domain/usecases/get_home_feed_usecase.dart';
+import 'package:youpass/features/home/domain/usecases/get_upcoming_home_events_usecase.dart';
+import 'package:youpass/features/home/domain/usecases/search_home_events_usecase.dart';
 import 'package:youpass/features/home/domain/usecases/toggle_event_favorite_usecase.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/features/invitations/data/datasources/invitations_remote_datasource.dart';
@@ -54,11 +68,15 @@ import 'package:youpass/features/invitations/data/datasources/invitations_remote
 import 'package:youpass/features/invitations/data/repositories/invitations_repository_impl.dart';
 import 'package:youpass/features/invitations/data/services/invitations_api_service.dart';
 import 'package:youpass/features/invitations/domain/repositories/invitations_repository.dart';
+import 'package:youpass/features/invitations/domain/usecases/cancel_invitation_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/check_saved_payment_methods_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/confirm_invitation_usecase.dart';
+import 'package:youpass/features/invitations/domain/usecases/fetch_invitation_detail_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/fetch_invitation_ticket_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/fetch_invitations_summary_usecase.dart';
+import 'package:youpass/features/invitations/domain/usecases/fetch_invitations_feed_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/fetch_invitations_usecase.dart';
+import 'package:youpass/features/waitlist/data/services/waitlist_api_service.dart';
 import 'package:youpass/features/invitations/domain/usecases/reject_invitation_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/save_payment_method_usecase.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
@@ -67,6 +85,7 @@ import 'package:youpass/features/tickets/data/datasources/tickets_remote_datasou
 import 'package:youpass/features/tickets/data/repositories/tickets_repository_impl.dart';
 import 'package:youpass/features/tickets/data/services/tickets_api_service.dart';
 import 'package:youpass/features/tickets/domain/repositories/tickets_repository.dart';
+import 'package:youpass/features/tickets/domain/usecases/cancel_ticket_usecase.dart';
 import 'package:youpass/features/tickets/domain/usecases/fetch_past_tickets_usecase.dart';
 import 'package:youpass/features/tickets/domain/usecases/fetch_ticket_order_id_usecase.dart';
 import 'package:youpass/features/tickets/domain/usecases/fetch_ticket_qr_usecase.dart';
@@ -90,6 +109,7 @@ import 'package:youpass/features/vip_venue/data/datasources/vip_venue_remote_dat
 import 'package:youpass/features/vip_venue/data/repositories/vip_venue_repository_impl.dart';
 import 'package:youpass/features/vip_venue/data/services/vip_venue_api_service.dart';
 import 'package:youpass/features/vip_venue/domain/repositories/vip_venue_repository.dart';
+import 'package:youpass/features/vip_venue/domain/usecases/fetch_table_lock_status_usecase.dart';
 import 'package:youpass/features/vip_venue/domain/usecases/fetch_table_availability_realtime_usecase.dart';
 import 'package:youpass/features/vip_venue/domain/usecases/fetch_ticket_types_usecase.dart';
 import 'package:youpass/features/vip_venue/domain/usecases/fetch_venue_layout_usecase.dart';
@@ -97,6 +117,7 @@ import 'package:youpass/features/vip_venue/domain/usecases/fetch_zone_tables_use
 import 'package:youpass/features/vip_venue/domain/usecases/lock_venue_table_usecase.dart';
 import 'package:youpass/features/vip_venue/domain/usecases/release_venue_table_lock_usecase.dart';
 import 'package:youpass/features/vip_venue/presentation/providers/vip_venue_provider.dart';
+import 'package:youpass/features/profile/data/services/profile_api_service.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -116,6 +137,7 @@ Future<void> initDependencies() async {
     ..registerLazySingleton<StorageService>(() => storageService)
     ..registerLazySingleton<AccessTokenStorage>(() => accessTokenStorage)
     ..registerLazySingleton<DeviceIdService>(() => deviceIdService)
+    ..registerLazySingleton<DeviceAuthService>(() => DeviceAuthService())
     ..registerLazySingleton<ClientRequestHeaders>(
       () => ClientRequestHeaders(deviceIdService: sl<DeviceIdService>()),
     )
@@ -128,6 +150,15 @@ Future<void> initDependencies() async {
     )
     ..registerLazySingleton<ConfigApiService>(
       () => ConfigApiService(sl<ApiClient>()),
+    )
+    ..registerLazySingleton<EventCategoriesCache>(
+      () => EventCategoriesCache(
+        configApiService: sl<ConfigApiService>(),
+        preferences: sl<SharedPreferences>(),
+      ),
+    )
+    ..registerLazySingleton<HomeSearchHistoryCache>(
+      () => HomeSearchHistoryCache(preferences: sl<SharedPreferences>()),
     )
     ..registerLazySingleton<AnalyticsApiService>(
       () => AnalyticsApiService(sl<ApiClient>()),
@@ -215,6 +246,7 @@ Future<void> initDependencies() async {
         eventsApiService: sl<EventsApiService>(),
         configApiService: sl<ConfigApiService>(),
         localeProvider: sl<LocaleProvider>(),
+        eventCategoriesCache: sl<EventCategoriesCache>(),
       ),
     )
     ..registerLazySingleton<GetAllEventsUseCase>(
@@ -228,6 +260,18 @@ Future<void> initDependencies() async {
     )
     ..registerLazySingleton<events_usecases.ToggleEventFavoriteUseCase>(
       () => events_usecases.ToggleEventFavoriteUseCase(sl<EventsRepository>()),
+    )
+    ..registerLazySingleton<ToggleProducerFollowUseCase>(
+      () => ToggleProducerFollowUseCase(sl<FavoritesRepository>()),
+    )
+    ..registerLazySingleton<FavoritesApiService>(
+      () => FavoritesApiService(sl<ApiClient>()),
+    )
+    ..registerLazySingleton<FavoritesRepository>(
+      () => FavoritesRepositoryImpl(sl<FavoritesApiService>()),
+    )
+    ..registerLazySingleton<FavoritesProvider>(
+      () => FavoritesProvider(repository: sl<FavoritesRepository>()),
     )
     ..registerLazySingleton<HomeRemoteDataSource>(
       () => HomeRemoteDataSourceImpl(
@@ -246,25 +290,48 @@ Future<void> initDependencies() async {
     ..registerLazySingleton<ToggleEventFavoriteUseCase>(
       () => ToggleEventFavoriteUseCase(sl<HomeRepository>()),
     )
+    ..registerLazySingleton<SearchHomeEventsUseCase>(
+      () => SearchHomeEventsUseCase(sl<EventsRepository>()),
+    )
+    ..registerLazySingleton<UserLocationService>(
+      () => UserLocationService(),
+    )
+    ..registerLazySingleton<GetUpcomingHomeEventsUseCase>(
+      () => GetUpcomingHomeEventsUseCase(sl<EventsRepository>()),
+    )
     ..registerLazySingleton<HomeProvider>(
       () => HomeProvider(
         getHomeFeedUseCase: sl<GetHomeFeedUseCase>(),
         getFilteredHomeEventsUseCase: sl<GetFilteredHomeEventsUseCase>(),
+        getUpcomingHomeEventsUseCase: sl<GetUpcomingHomeEventsUseCase>(),
+        searchHomeEventsUseCase: sl<SearchHomeEventsUseCase>(),
         toggleEventFavoriteUseCase: sl<ToggleEventFavoriteUseCase>(),
+        searchHistoryCache: sl<HomeSearchHistoryCache>(),
+        userLocationService: sl<UserLocationService>(),
         analyticsApiService: sl<AnalyticsApiService>(),
       ),
     )
     ..registerLazySingleton<InvitationsApiService>(
       () => InvitationsApiService(sl<ApiClient>()),
     )
+    ..registerLazySingleton<WaitlistApiService>(
+      () => WaitlistApiService(sl<ApiClient>()),
+    )
+    ..registerLazySingleton<ProfileApiService>(
+      () => ProfileApiService(sl<ApiClient>()),
+    )
     ..registerLazySingleton<InvitationsRemoteDataSource>(
       () => InvitationsRemoteDataSourceImpl(
         apiService: sl<InvitationsApiService>(),
+        waitlistApiService: sl<WaitlistApiService>(),
         localeProvider: sl<LocaleProvider>(),
       ),
     )
     ..registerLazySingleton<InvitationsRepository>(
       () => InvitationsRepositoryImpl(sl<InvitationsRemoteDataSource>()),
+    )
+    ..registerLazySingleton<FetchInvitationsFeedUseCase>(
+      () => FetchInvitationsFeedUseCase(sl<InvitationsRepository>()),
     )
     ..registerLazySingleton<FetchInvitationsUseCase>(
       () => FetchInvitationsUseCase(sl<InvitationsRepository>()),
@@ -274,6 +341,12 @@ Future<void> initDependencies() async {
     )
     ..registerLazySingleton<CheckSavedPaymentMethodsUseCase>(
       () => CheckSavedPaymentMethodsUseCase(sl<InvitationsRepository>()),
+    )
+    ..registerLazySingleton<FetchInvitationDetailUseCase>(
+      () => FetchInvitationDetailUseCase(sl<InvitationsRepository>()),
+    )
+    ..registerLazySingleton<CancelInvitationUseCase>(
+      () => CancelInvitationUseCase(sl<InvitationsRepository>()),
     )
     ..registerLazySingleton<ConfirmInvitationUseCase>(
       () => ConfirmInvitationUseCase(sl<InvitationsRepository>()),
@@ -289,14 +362,28 @@ Future<void> initDependencies() async {
     )
     ..registerLazySingleton<InvitationsProvider>(
       () => InvitationsProvider(
-        fetchInvitationsUseCase: sl<FetchInvitationsUseCase>(),
+        fetchInvitationsFeedUseCase: sl<FetchInvitationsFeedUseCase>(),
         fetchInvitationsSummaryUseCase: sl<FetchInvitationsSummaryUseCase>(),
+        fetchInvitationDetailUseCase: sl<FetchInvitationDetailUseCase>(),
         checkSavedPaymentMethodsUseCase: sl<CheckSavedPaymentMethodsUseCase>(),
         confirmInvitationUseCase: sl<ConfirmInvitationUseCase>(),
         rejectInvitationUseCase: sl<RejectInvitationUseCase>(),
+        cancelInvitationUseCase: sl<CancelInvitationUseCase>(),
         fetchInvitationTicketUseCase: sl<FetchInvitationTicketUseCase>(),
         savePaymentMethodUseCase: sl<SavePaymentMethodUseCase>(),
       ),
+    )
+    ..registerLazySingleton<TicketsCache>(
+      () => TicketsCache(sl<SharedPreferences>()),
+    )
+    ..registerLazySingleton<TicketQrCacheService>(
+      () => TicketQrCacheService(
+        ticketsApiService: sl<TicketsApiService>(),
+        preferences: sl<SharedPreferences>(),
+      ),
+    )
+    ..registerLazySingleton<ScreenSecureService>(
+      () => ScreenSecureService(),
     )
     ..registerLazySingleton<TicketsApiService>(
       () => TicketsApiService(sl<ApiClient>()),
@@ -325,6 +412,9 @@ Future<void> initDependencies() async {
     ..registerLazySingleton<FetchTicketOrderIdUseCase>(
       () => FetchTicketOrderIdUseCase(sl<TicketsRepository>()),
     )
+    ..registerLazySingleton<CancelTicketUseCase>(
+      () => CancelTicketUseCase(sl<TicketsRepository>()),
+    )
     ..registerLazySingleton<TicketsProvider>(
       () => TicketsProvider(
         fetchUpcomingTicketsUseCase: sl<FetchUpcomingTicketsUseCase>(),
@@ -334,6 +424,12 @@ Future<void> initDependencies() async {
         fetchTicketOrderIdUseCase: sl<FetchTicketOrderIdUseCase>(),
         toggleEventFavoriteUseCase:
             sl<events_usecases.ToggleEventFavoriteUseCase>(),
+        fetchInvitationsUseCase: sl<FetchInvitationsUseCase>(),
+        confirmInvitationUseCase: sl<ConfirmInvitationUseCase>(),
+        rejectInvitationUseCase: sl<RejectInvitationUseCase>(),
+        cancelTicketUseCase: sl<CancelTicketUseCase>(),
+        ticketsCache: sl<TicketsCache>(),
+        ticketQrCacheService: sl<TicketQrCacheService>(),
       ),
     )
     ..registerLazySingleton<TicketAssignmentApiService>(
@@ -410,6 +506,9 @@ Future<void> initDependencies() async {
     ..registerLazySingleton<FetchTableAvailabilityRealtimeUseCase>(
       () => FetchTableAvailabilityRealtimeUseCase(sl<VipVenueRepository>()),
     )
+    ..registerLazySingleton<FetchTableLockStatusUseCase>(
+      () => FetchTableLockStatusUseCase(sl<VipVenueRepository>()),
+    )
     ..registerLazySingleton<VipVenueProvider>(
       () => VipVenueProvider(
         fetchTicketTypesUseCase: sl<FetchTicketTypesUseCase>(),
@@ -419,8 +518,10 @@ Future<void> initDependencies() async {
         releaseVenueTableLockUseCase: sl<ReleaseVenueTableLockUseCase>(),
         fetchTableAvailabilityRealtimeUseCase:
             sl<FetchTableAvailabilityRealtimeUseCase>(),
+        fetchTableLockStatusUseCase: sl<FetchTableLockStatusUseCase>(),
       ),
     );
 
   await CountryCodeList.initialize(sl<ConfigApiService>());
+  await sl<EventCategoriesCache>().hydrate();
 }

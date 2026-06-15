@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
-import 'package:youpass/features/home/presentation/widgets/drawer/drawer_design_spec.dart';
-import 'package:youpass/features/home/presentation/widgets/drawer/drawer_profile_waves_painter.dart';
+import 'package:youpass/features/home/domain/entities/drawer_membership_tier.dart';
+import 'package:youpass/features/home/presentation/utils/drawer_tier_label_formatter.dart';
+import 'package:youpass/features/home/presentation/widgets/drawer/drawer_profile_tier_theme.dart';
 import 'package:youpass/features/profile/presentation/models/profile_view_data.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_avatar_widget.dart';
-import 'package:youpass/core/theme/youpass_theme_extension.dart';
+import 'package:youpass/features/profile/presentation/widgets/profile_card_waves_painter.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
+import 'package:youpass/features/profile/presentation/widgets/profile_theme.dart';
 
 class ProfileHeaderCardWidget extends StatelessWidget {
   const ProfileHeaderCardWidget({
@@ -25,44 +26,59 @@ class ProfileHeaderCardWidget extends StatelessWidget {
   final VoidCallback? onPhotoTap;
   final VoidCallback? onViewBenefitsTap;
 
+  Color _tierBadgeForeground(DrawerMembershipTier tier) {
+    return switch (tier) {
+      DrawerMembershipTier.platinum => const Color(0xFF3A3A44),
+      _ => Colors.white,
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    final theme = YouPassThemeExtension.of(context);
+    final tier = DrawerMembershipTierMapper.fromCategory(data.membershipCategory);
+    final tierTheme = DrawerProfileTierTheme.forTier(tier);
+    final tierLabel = DrawerTierLabelFormatter.label(strings, tier);
+    final tierBadgeForeground = _tierBadgeForeground(tier);
+    final theme = ProfileTheme.of(context);
     final radius = ProfileDesignSpec.px(context, ProfileDesignSpec.cardRadius);
     final waveWidth = ProfileDesignSpec.px(context, ProfileDesignSpec.cardWaveWidth);
     final waveHeight = ProfileDesignSpec.px(context, ProfileDesignSpec.cardWaveHeight);
 
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onHeaderTap,
+    final card = Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: theme.cardBackground,
         borderRadius: BorderRadius.circular(radius),
-        child: Ink(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: theme.profileCardBackground,
-            borderRadius: BorderRadius.circular(radius),
-            border: Border.all(
-              color: theme.profileCardBorder,
-              width: ProfileDesignSpec.cardBorderWidth,
-            ),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(radius),
-            child: Stack(
-              children: [
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  height: waveHeight,
-                  width: waveWidth,
-                  child: CustomPaint(
-                    painter: DrawerProfileWavesPainter(),
-                    size: Size(waveWidth, waveHeight),
-                  ),
+        border: Border.all(
+          color: theme.cardBorder,
+          width: ProfileDesignSpec.cardBorderWidth,
+        ),
+        boxShadow: theme.cardShadow == Colors.transparent
+            ? null
+            : [
+                BoxShadow(
+                  color: theme.cardShadow,
+                  blurRadius: 4,
+                  offset: const Offset(0, 1),
                 ),
-                Padding(
+              ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(radius),
+        child: Stack(
+          children: [
+            Positioned(
+              right: 0,
+              top: 0,
+              height: waveHeight,
+              width: waveWidth,
+              child: CustomPaint(
+                painter: ProfileCardWavesPainter(waveBands: theme.cardWaveBands),
+                size: Size(waveWidth, waveHeight),
+              ),
+            ),
+            Padding(
                   padding: EdgeInsets.fromLTRB(
                     ProfileDesignSpec.px(
                       context,
@@ -83,6 +99,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                       Center(
                         child: ProfileAvatarWidget(
                           photoUrl: data.profilePhotoUrl,
+                          displayName: data.fullName,
                           isUploading: isUploadingPhoto,
                           onPhotoTap: onPhotoTap,
                         ),
@@ -97,7 +114,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                             ProfileDesignSpec.nameFontSize,
                           ),
                           fontWeight: FontWeight.w700,
-                          color: DrawerDesignSpec.profileName,
+                          color: theme.valueText,
                           height: 1.2,
                         ),
                       ),
@@ -116,7 +133,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                               context,
                               ProfileDesignSpec.phoneIconSize,
                             ),
-                            color: AppColors.profileLabelGrey,
+                            color: theme.phoneIcon,
                           ),
                           SizedBox(width: ProfileDesignSpec.px(context, 6)),
                           Text(
@@ -127,7 +144,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                                 ProfileDesignSpec.phoneFontSize,
                               ),
                               fontWeight: FontWeight.w400,
-                              color: AppColors.profileLabelGrey,
+                              color: theme.labelText,
                               height: 1.2,
                             ),
                           ),
@@ -149,7 +166,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                         child: Divider(
                           height: 1,
                           thickness: 1,
-                          color: AppColors.profileLabelGrey.withValues(alpha: 0.35),
+                          color: theme.divider,
                         ),
                       ),
                       SizedBox(
@@ -170,13 +187,20 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                           ),
                         ),
                         decoration: BoxDecoration(
-                          color: DrawerDesignSpec.tierBadgeBackground,
+                          color: tierTheme.badgeBackground,
                           borderRadius: BorderRadius.circular(
                             ProfileDesignSpec.px(
                               context,
                               ProfileDesignSpec.tierBadgeRadius,
                             ),
                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: tierTheme.badgeBackground.withValues(alpha: 0.3),
+                              blurRadius: ProfileDesignSpec.px(context, 4),
+                              offset: Offset(0, ProfileDesignSpec.px(context, 1)),
+                            ),
+                          ],
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -187,18 +211,18 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                                 context,
                                 ProfileDesignSpec.tierIconSize,
                               ),
-                              color: AppColors.backgroundWhite,
+                              color: tierBadgeForeground,
                             ),
                             SizedBox(width: ProfileDesignSpec.px(context, 6)),
                             Text(
-                              AppStrings.drawerTierGold(strings),
+                              tierLabel,
                               style: TextStyle(
                                 fontSize: ProfileDesignSpec.px(
                                   context,
                                   ProfileDesignSpec.tierFontSize,
                                 ),
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.backgroundWhite,
+                                color: tierBadgeForeground,
                                 letterSpacing: 0.5,
                                 height: 1,
                               ),
@@ -227,7 +251,7 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                                   ProfileDesignSpec.benefitsFontSize,
                                 ),
                                 fontWeight: FontWeight.w600,
-                                color: ProfileDesignSpec.primary,
+                                color: theme.primary,
                                 height: 1.2,
                               ),
                             ),
@@ -245,10 +269,21 @@ class ProfileHeaderCardWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
+          ],
         ),
+      ),
+    );
+
+    if (onHeaderTap == null) {
+      return card;
+    }
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onHeaderTap,
+        borderRadius: BorderRadius.circular(radius),
+        child: card,
       ),
     );
   }

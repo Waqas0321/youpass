@@ -15,6 +15,8 @@ class TicketOfferingEntity extends Equatable {
     this.badgeLabel,
     this.quantity = 0,
     this.vouchersPerTicket = 1,
+    this.isSoldOut = false,
+    this.isSelectable = true,
   });
 
   final String id;
@@ -29,12 +31,20 @@ class TicketOfferingEntity extends Equatable {
   final String? badgeLabel;
   final int quantity;
   final int vouchersPerTicket;
+  final bool isSoldOut;
+  final bool isSelectable;
+
+  bool get isQuantitySelectable => isSelectable && !isSoldOut;
 
   int get lineTotal => price * quantity;
 
   int get totalVouchers => quantity * vouchersPerTicket;
 
-  TicketOfferingEntity copyWith({int? quantity}) {
+  TicketOfferingEntity copyWith({
+    int? quantity,
+    bool? isSoldOut,
+    bool? isSelectable,
+  }) {
     return TicketOfferingEntity(
       id: id,
       label: label,
@@ -48,6 +58,8 @@ class TicketOfferingEntity extends Equatable {
       badgeLabel: badgeLabel,
       quantity: quantity ?? this.quantity,
       vouchersPerTicket: vouchersPerTicket,
+      isSoldOut: isSoldOut ?? this.isSoldOut,
+      isSelectable: isSelectable ?? this.isSelectable,
     );
   }
 
@@ -65,5 +77,7 @@ class TicketOfferingEntity extends Equatable {
         badgeLabel,
         quantity,
         vouchersPerTicket,
+        isSoldOut,
+        isSelectable,
       ];
 }

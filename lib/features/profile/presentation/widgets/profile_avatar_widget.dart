@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
+import 'package:youpass/features/profile/presentation/widgets/profile_theme.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_photo_camera_badge_widget.dart';
 
 class ProfileAvatarWidget extends StatelessWidget {
   const ProfileAvatarWidget({
     super.key,
     this.photoUrl,
+    this.displayName,
     this.isUploading = false,
     this.onPhotoTap,
   });
 
   final String? photoUrl;
+  final String? displayName;
   final bool isUploading;
   final VoidCallback? onPhotoTap;
 
   @override
   Widget build(BuildContext context) {
+    final theme = ProfileTheme.of(context);
     final outerSize =
         ProfileDesignSpec.px(context, ProfileDesignSpec.avatarOuterSize);
     final ringWidth =
@@ -36,7 +40,7 @@ class ProfileAvatarWidget extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                color: ProfileDesignSpec.avatarRing,
+                color: theme.avatarRing,
                 width: ringWidth,
               ),
             ),
@@ -45,8 +49,8 @@ class ProfileAvatarWidget extends StatelessWidget {
               child: ClipOval(
                 child: SizedBox.expand(
                   child: ColoredBox(
-                    color: ProfileDesignSpec.avatarInner,
-                    child: buildAvatarContent(context, hasPhoto),
+                    color: theme.avatarInner,
+                    child: buildAvatarContent(context, hasPhoto, theme),
                   ),
                 ),
               ),
@@ -83,14 +87,14 @@ class ProfileAvatarWidget extends StatelessWidget {
     );
   }
 
-  Widget buildAvatarContent(BuildContext context, bool hasPhoto) {
+  Widget buildAvatarContent(BuildContext context, bool hasPhoto, ProfileTheme theme) {
     if (hasPhoto) {
       return Image.network(
         photoUrl!,
         fit: BoxFit.cover,
         alignment: Alignment.center,
         errorBuilder: (context, error, stackTrace) =>
-            buildPlaceholderIcon(context),
+            buildPlaceholderIcon(context, theme),
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) {
             return SizedBox.expand(child: child);
@@ -102,7 +106,7 @@ class ProfileAvatarWidget extends StatelessWidget {
               height: ProfileDesignSpec.px(context, 24),
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                color: ProfileDesignSpec.primary,
+                color: theme.primary,
                 value: loadingProgress.expectedTotalBytes == null
                     ? null
                     : loadingProgress.cumulativeBytesLoaded /
@@ -114,15 +118,15 @@ class ProfileAvatarWidget extends StatelessWidget {
       );
     }
 
-    return buildPlaceholderIcon(context);
+    return buildPlaceholderIcon(context, theme);
   }
 
-  Widget buildPlaceholderIcon(BuildContext context) {
+  Widget buildPlaceholderIcon(BuildContext context, ProfileTheme theme) {
     return Center(
       child: Icon(
         Icons.person,
         size: ProfileDesignSpec.px(context, ProfileDesignSpec.avatarIconSize),
-        color: ProfileDesignSpec.avatarIcon,
+        color: theme.avatarIcon,
       ),
     );
   }

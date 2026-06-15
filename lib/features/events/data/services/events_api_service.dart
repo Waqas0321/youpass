@@ -1,5 +1,6 @@
 import 'package:youpass/core/network/api_endpoints.dart';
 import 'package:youpass/core/network/base_api_service.dart';
+import 'package:youpass/features/events/data/models/event_availability_model.dart';
 import 'package:youpass/features/events/data/models/event_detail_model.dart';
 import 'package:youpass/features/events/data/models/event_model.dart';
 import 'package:youpass/features/events/data/models/event_type_list_response_model.dart';
@@ -7,6 +8,7 @@ import 'package:youpass/features/events/data/models/event_type_model.dart';
 import 'package:youpass/features/events/data/models/events_list_response_model.dart';
 import 'package:youpass/features/events/data/models/favorite_events_response_model.dart';
 import 'package:youpass/features/events/data/models/featured_events_response_model.dart';
+import 'package:youpass/features/events/data/models/upcoming_events_response_model.dart';
 import 'package:youpass/features/events/data/models/home_initial_feed_response_model.dart';
 import 'package:youpass/features/events/domain/entities/home_events_query.dart';
 
@@ -66,12 +68,30 @@ class EventsApiService extends BaseApiService {
     required HomeEventsQuery query,
     bool includeAuth = true,
   }) async {
-    final response = await getModel(
+    final response = await queryEvents(query: query, includeAuth: includeAuth);
+    return response.events;
+  }
+
+  Future<EventsListResponseModel> queryEvents({
+    required HomeEventsQuery query,
+    bool includeAuth = true,
+  }) {
+    return getModel(
       _withQuery(ApiEndpoints.events, query),
       fromJson: EventsListResponseModel.fromJson,
       authenticated: includeAuth,
     );
-    return response.events;
+  }
+
+  Future<UpcomingEventsResponseModel> fetchUpcomingEvents({
+    required HomeEventsQuery query,
+    bool includeAuth = true,
+  }) {
+    return getModel(
+      _withQuery(ApiEndpoints.homeUpcomingEvents, query),
+      fromJson: UpcomingEventsResponseModel.fromJson,
+      authenticated: includeAuth,
+    );
   }
 
   Future<List<EventModel>> fetchFavoriteEvents() async {
@@ -102,6 +122,14 @@ class EventsApiService extends BaseApiService {
     return getModel(
       ApiEndpoints.eventById(eventId),
       fromJson: EventDetailModel.fromJson,
+      authenticated: true,
+    );
+  }
+
+  Future<EventAvailabilityModel> fetchEventAvailability(String eventId) {
+    return getModel(
+      ApiEndpoints.eventAvailability(eventId),
+      fromJson: EventAvailabilityModel.fromJson,
       authenticated: true,
     );
   }

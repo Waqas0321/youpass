@@ -5,12 +5,20 @@ class YouPassSearchFieldWidget extends StatelessWidget {
   const YouPassSearchFieldWidget({
     super.key,
     required this.hintText,
+    this.controller,
+    this.focusNode,
     this.onChanged,
+    this.onSubmitted,
+    this.onTap,
     this.focusedBorderColor,
   });
 
   final String hintText;
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
   final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
+  final VoidCallback? onTap;
   final Color? focusedBorderColor;
 
   @override
@@ -29,7 +37,11 @@ class YouPassSearchFieldWidget extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: TextField(
+        controller: controller,
+        focusNode: focusNode,
         onChanged: onChanged,
+        onSubmitted: onSubmitted,
+        onTap: onTap,
         style: TextStyle(
           fontSize: 13,
           color: scheme.onSurface,

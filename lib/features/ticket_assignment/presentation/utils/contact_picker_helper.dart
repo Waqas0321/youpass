@@ -3,12 +3,15 @@ import 'package:youpass/features/ticket_assignment/presentation/utils/contact_pi
 
 class ContactPickerHelper {
   static Future<ContactPickResult?> pickContact() async {
-    final granted = await FlutterContacts.requestPermission(readonly: true);
-    if (!granted) {
+    final status = await FlutterContacts.permissions.request(PermissionType.read);
+    if (status != PermissionStatus.granted &&
+        status != PermissionStatus.limited) {
       return null;
     }
 
-    final contact = await FlutterContacts.openExternalPick();
+    final contact = await FlutterContacts.native.showPicker(
+      properties: {ContactProperty.phone},
+    );
     if (contact == null) {
       return null;
     }
@@ -18,10 +21,9 @@ class ContactPickerHelper {
       return null;
     }
 
+    final displayName = (contact.displayName ?? '').trim();
     return ContactPickResult(
-      displayName: contact.displayName.trim().isEmpty
-          ? phone
-          : contact.displayName.trim(),
+      displayName: displayName.isEmpty ? phone : displayName,
       phone: phone.trim(),
     );
   }

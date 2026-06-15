@@ -3,7 +3,7 @@ import 'dart:async';
 class VipVenueAvailabilityPoller {
   VipVenueAvailabilityPoller({
     required this.onPoll,
-    this.interval = const Duration(seconds: 20),
+    this.interval = const Duration(seconds: 15),
   });
 
   final Future<void> Function() onPoll;

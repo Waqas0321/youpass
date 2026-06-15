@@ -60,4 +60,14 @@ class TicketModelJsonReader {
         return null;
     }
   }
+
+  static DateTime? parseDateTime(Object? value) {
+    if (value == null) {
+      return null;
+    }
+    if (value is DateTime) {
+      return value;
+    }
+    return DateTime.tryParse(value.toString());
+  }
 }

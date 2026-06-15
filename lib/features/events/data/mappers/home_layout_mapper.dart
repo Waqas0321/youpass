@@ -2,6 +2,9 @@ import 'package:youpass/core/network/models/config_category_model.dart';
 import 'package:youpass/core/utils/json_readers.dart';
 import 'package:youpass/features/events/data/models/event_model.dart';
 import 'package:youpass/features/home/domain/entities/home_feed_meta_entity.dart';
+import 'package:youpass/features/home/domain/entities/home_search_filters_entity.dart';
+import 'package:youpass/features/home/domain/entities/main_banner_carousel_config_entity.dart';
+import 'package:youpass/features/home/data/mappers/home_search_filters_mapper.dart';
 
 class HomeLayoutParseResult {
   const HomeLayoutParseResult({
@@ -10,8 +13,13 @@ class HomeLayoutParseResult {
     this.carouselEvents = const [],
     this.upcomingEvents = const [],
     this.upcomingSectionTitle,
+    this.upcomingHasMore = false,
     this.searchPlaceholder,
+    this.searchFiltersConfig,
     this.greeting,
+    this.mainBannerCarouselConfig,
+    this.mainBannerTitle,
+    this.mainBannerCuratedBy,
   });
 
   final String? headerGreeting;
@@ -19,8 +27,13 @@ class HomeLayoutParseResult {
   final List<EventModel> carouselEvents;
   final List<EventModel> upcomingEvents;
   final String? upcomingSectionTitle;
+  final bool upcomingHasMore;
   final String? searchPlaceholder;
+  final HomeSearchFiltersConfigEntity? searchFiltersConfig;
   final HomeGreetingEntity? greeting;
+  final MainBannerCarouselConfigEntity? mainBannerCarouselConfig;
+  final String? mainBannerTitle;
+  final String? mainBannerCuratedBy;
 
   bool get hasData =>
       headerGreeting != null ||
@@ -29,7 +42,9 @@ class HomeLayoutParseResult {
       upcomingEvents.isNotEmpty ||
       upcomingSectionTitle != null ||
       searchPlaceholder != null ||
-      greeting != null;
+      searchFiltersConfig != null ||
+      greeting != null ||
+      mainBannerCarouselConfig != null;
 }
 
 class HomeLayoutMapper {
@@ -45,6 +60,7 @@ class HomeLayoutMapper {
     final mainBanner = value['main_banner'] ?? value['mainBanner'];
     final search = value['search'];
     final upcoming = value['upcoming_events'] ?? value['upcomingEvents'];
+    final upcomingParsed = _parseUpcomingItems(upcoming);
 
     String? headerGreeting;
     if (header is Map<String, dynamic>) {
@@ -55,14 +71,35 @@ class HomeLayoutMapper {
       headerGreeting: headerGreeting,
       layoutCategories: _parseLayoutCategories(categories),
       carouselEvents: _parseSlides(mainBanner),
-      upcomingEvents: _parseUpcomingItems(upcoming),
+      upcomingEvents: upcomingParsed.items,
       upcomingSectionTitle: upcoming is Map<String, dynamic>
           ? JsonReaders.nullableString(upcoming, 'title')
           : null,
+      upcomingHasMore: upcomingParsed.hasMore,
       searchPlaceholder:
           search is Map<String, dynamic> ? JsonReaders.nullableString(search, 'placeholder') : null,
+      searchFiltersConfig:
+          search is Map<String, dynamic> ? HomeSearchFiltersMapper.fromJson(search) : null,
       greeting: _greetingFromHeader(headerGreeting),
+      mainBannerCarouselConfig: _parseCarouselConfig(mainBanner),
+      mainBannerTitle: mainBanner is Map<String, dynamic>
+          ? JsonReaders.nullableString(mainBanner, 'title')
+          : null,
+      mainBannerCuratedBy: mainBanner is Map<String, dynamic>
+          ? JsonReaders.nullableString(mainBanner, 'curated_by')
+          : null,
     );
+  }
+
+  static MainBannerCarouselConfigEntity? _parseCarouselConfig(Object? value) {
+    if (value is! Map<String, dynamic>) {
+      return null;
+    }
+    final carousel = value['carousel'];
+    if (carousel == null) {
+      return MainBannerCarouselConfigEntity.defaults;
+    }
+    return MainBannerCarouselConfigEntity.fromJson(carousel);
   }
 
   static List<ConfigCategoryModel> _parseLayoutCategories(Object? value) {
@@ -78,8 +115,7 @@ class HomeLayoutMapper {
         categories.add(
           ConfigCategoryModel(
             id: 'country:$code',
-            label: JsonReaders.string(country, 'label',
-                fallback: JsonReaders.string(country, 'name', fallback: code)),
+            label: _countryTabLabel(country, code),
             countryCode: code,
           ),
         );
@@ -110,6 +146,13 @@ class HomeLayoutMapper {
     return categories;
   }
 
+  static String _countryTabLabel(Map<String, dynamic> country, String code) {
+    final label = JsonReaders.string(country, 'label',
+        fallback: JsonReaders.string(country, 'name', fallback: code));
+    final prefix = JsonReaders.string(country, 'prefix_icon', fallback: '📍');
+    return '$prefix $label';
+  }
+
   static List<EventModel> _parseSlides(Object? value) {
     if (value is! Map<String, dynamic>) {
       return const [];
@@ -118,12 +161,22 @@ class HomeLayoutMapper {
     return EventModel.listFromJson(value['slides']);
   }
 
-  static List<EventModel> _parseUpcomingItems(Object? value) {
+  static ({List<EventModel> items, bool hasMore}) _parseUpcomingItems(Object? value) {
     if (value is! Map<String, dynamic>) {
-      return const [];
+      return (items: const [], hasMore: false);
     }
 
-    return EventModel.listFromJson(value['items']);
+    var hasMore = false;
+    final pagination = value['pagination'];
+    if (pagination is Map<String, dynamic>) {
+      hasMore = JsonReaders.boolean(pagination, 'has_more', fallback: false) ||
+          JsonReaders.boolean(pagination, 'hasMore', fallback: false);
+    }
+
+    return (
+      items: EventModel.listFromJson(value['items']),
+      hasMore: hasMore,
+    );
   }
 
   static HomeGreetingEntity? _greetingFromHeader(String? greeting) {

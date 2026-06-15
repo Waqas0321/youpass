@@ -16,6 +16,7 @@ class SendCodeResultEntity extends Equatable {
     this.maxFailedAttempts,
     this.blockMinutes,
     this.whatsappAvailable,
+    this.devOtpCode,
   });
 
   final String message;
@@ -31,6 +32,8 @@ class SendCodeResultEntity extends Equatable {
   final int? maxFailedAttempts;
   final int? blockMinutes;
   final bool? whatsappAvailable;
+  /// Present only when the backend runs with TWILIO_MOCK=true (local dev).
+  final String? devOtpCode;
 
   OtpPurpose get effectivePurpose => OtpPurposeParsing.fromApiValue(purpose);
 
@@ -49,5 +52,6 @@ class SendCodeResultEntity extends Equatable {
         maxFailedAttempts,
         blockMinutes,
         whatsappAvailable,
+        devOtpCode,
       ];
 }

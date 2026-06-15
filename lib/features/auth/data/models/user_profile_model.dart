@@ -22,6 +22,9 @@ class UserProfileModel extends UserProfileEntity {
     super.instagramUsername,
     super.profilePhotoUrl,
     super.preferredLanguage,
+    super.pendingDeletion,
+    super.deletionScheduledAt,
+    super.daysRemaining,
   });
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) {
@@ -82,6 +85,11 @@ class UserProfileModel extends UserProfileEntity {
       category: JsonReaders.string(data, 'category', fallback: 'bronze'),
       accountStatus: JsonReaders.string(data, 'account_status', fallback: 'active'),
       createdAt: createdAt,
+      pendingDeletion: JsonReaders.boolean(data, 'pending_deletion'),
+      deletionScheduledAt: JsonReaders.dateTime(data, 'deletion_scheduled_at'),
+      daysRemaining: JsonReaders.boolean(data, 'pending_deletion')
+          ? JsonReaders.integer(data, 'days_remaining')
+          : null,
       profileCompleteness: completenessJson is Map<String, dynamic>
           ? ProfileCompletenessModel.fromJson(completenessJson)
           : const ProfileCompletenessModel(
@@ -158,6 +166,10 @@ class UserProfileModel extends UserProfileEntity {
       'profile_photo_url': profilePhotoUrl,
       'category': category,
       'account_status': accountStatus,
+      'pending_deletion': pendingDeletion,
+      if (deletionScheduledAt != null)
+        'deletion_scheduled_at': deletionScheduledAt!.toIso8601String(),
+      if (daysRemaining != null) 'days_remaining': daysRemaining,
       'created_at': createdAt.toIso8601String(),
       'profile_completeness': {
         'has_photo': profileCompleteness.hasPhoto,

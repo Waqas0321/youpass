@@ -7,18 +7,22 @@ import 'package:youpass/features/invitations/presentation/widgets/invitation_out
 class InvitationCardSecondaryActionsWidget extends StatelessWidget {
   const InvitationCardSecondaryActionsWidget({
     super.key,
-    required this.leftLabel,
+    this.leftLabel,
     this.onLeftPressed,
     this.onViewQr,
     this.isLeftLoading = false,
     this.isViewQrLoading = false,
+    this.isQrAvailable = true,
+    this.leftIsReject = false,
   });
 
-  final String leftLabel;
+  final String? leftLabel;
   final VoidCallback? onLeftPressed;
   final VoidCallback? onViewQr;
   final bool isLeftLoading;
   final bool isViewQrLoading;
+  final bool isQrAvailable;
+  final bool leftIsReject;
 
   @override
   Widget build(BuildContext context) {
@@ -26,20 +30,28 @@ class InvitationCardSecondaryActionsWidget extends StatelessWidget {
 
     return Row(
       children: [
-        Expanded(
-          child: InvitationOutlineActionButtonWidget(
-            label: leftLabel,
-            onPressed: onLeftPressed,
-            isLoading: isLeftLoading,
+        if (leftLabel != null) ...[
+          Expanded(
+            child: InvitationOutlineActionButtonWidget(
+              label: leftLabel!,
+              onPressed: onLeftPressed,
+              isLoading: isLeftLoading,
+              style: leftIsReject
+                  ? InvitationOutlineButtonStyle.reject
+                  : InvitationOutlineButtonStyle.primary,
+            ),
           ),
-        ),
-        SizedBox(width: InvitationsDesignSpec.px(context, 8)),
+          SizedBox(width: InvitationsDesignSpec.px(context, 8)),
+        ],
         Expanded(
           child: InvitationOutlineActionButtonWidget(
             label: AppStrings.invitationsViewQr(strings),
             icon: Icons.qr_code_2_outlined,
             onPressed: onViewQr,
             isLoading: isViewQrLoading,
+            style: isQrAvailable
+                ? InvitationOutlineButtonStyle.primary
+                : InvitationOutlineButtonStyle.muted,
           ),
         ),
       ],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_colors.dart';
+import 'package:youpass/core/widgets/shimmer/youpass_shimmer.dart';
+import 'package:youpass/core/widgets/shimmer/youpass_shimmer_box.dart';
 
 class EventNetworkImage extends StatelessWidget {
   const EventNetworkImage({
@@ -9,6 +11,7 @@ class EventNetworkImage extends StatelessWidget {
     this.height,
     this.fit = BoxFit.cover,
     this.borderRadius,
+    this.useShimmerPlaceholder = false,
   });
 
   final String? imageUrl;
@@ -16,6 +19,7 @@ class EventNetworkImage extends StatelessWidget {
   final double? height;
   final BoxFit fit;
   final BorderRadius? borderRadius;
+  final bool useShimmerPlaceholder;
 
   bool get _hasExplicitSize => width != null || height != null;
 
@@ -63,6 +67,20 @@ class EventNetworkImage extends StatelessWidget {
   }
 
   Widget _buildPlaceholder({bool showProgress = false}) {
+    if (showProgress && useShimmerPlaceholder) {
+      return YouPassShimmer(
+        child: _hasExplicitSize
+            ? YouPassShimmerBox(
+                width: width,
+                height: height,
+                borderRadius: 0,
+              )
+            : const SizedBox.expand(
+                child: YouPassShimmerBox(borderRadius: 0),
+              ),
+      );
+    }
+
     final content = Center(
       child: showProgress
           ? const SizedBox(

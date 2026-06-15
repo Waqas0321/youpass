@@ -1,5 +1,7 @@
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
+import 'package:youpass/features/home/domain/entities/drawer_membership_tier.dart';
+import 'package:youpass/features/home/presentation/utils/drawer_tier_label_formatter.dart';
 import 'package:youpass/features/home/presentation/utils/home_greeting_formatter.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
@@ -21,6 +23,38 @@ class HomeUserDisplayHelper {
     }
 
     return AppStrings.defaultGuestName(strings);
+  }
+
+  static String drawerFirstName(
+    AuthProvider authProvider,
+    AppLocalizations strings,
+  ) {
+    final fullName = drawerFullName(authProvider, strings);
+    final parts = fullName.trim().split(RegExp(r'\s+'));
+    if (parts.isEmpty || parts.first.isEmpty) {
+      return fullName;
+    }
+    final token = parts.first;
+    if (token.length == 1) {
+      return token.toUpperCase();
+    }
+    return token[0].toUpperCase() + token.substring(1).toLowerCase();
+  }
+
+  static DrawerMembershipTier membershipTier(AuthProvider authProvider) {
+    return DrawerMembershipTierMapper.fromCategory(
+      authProvider.userProfile?.category,
+    );
+  }
+
+  static String membershipTierLabel(
+    AuthProvider authProvider,
+    AppLocalizations strings,
+  ) {
+    return DrawerTierLabelFormatter.label(
+      strings,
+      membershipTier(authProvider),
+    );
   }
 
   static String greetingName(

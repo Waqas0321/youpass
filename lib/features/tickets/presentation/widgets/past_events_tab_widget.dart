@@ -22,6 +22,10 @@ class PastEventsTabWidget extends StatefulWidget {
     required this.onSearchChanged,
     required this.onFilterSelected,
     required this.onFavoriteToggle,
+    required this.onRefresh,
+    this.hasMore = false,
+    this.isLoadingMore = false,
+    this.onLoadMore,
   });
 
   final List<PastEventEntity> events;
@@ -30,6 +34,10 @@ class PastEventsTabWidget extends StatefulWidget {
   final Future<void> Function(String search) onSearchChanged;
   final Future<void> Function(PastEventFilter filter) onFilterSelected;
   final Future<bool> Function(PastEventEntity event) onFavoriteToggle;
+  final Future<void> Function() onRefresh;
+  final bool hasMore;
+  final bool isLoadingMore;
+  final VoidCallback? onLoadMore;
 
   @override
   State<PastEventsTabWidget> createState() => PastEventsTabWidgetState();
@@ -57,14 +65,17 @@ class PastEventsTabWidgetState extends State<PastEventsTabWidget> {
     final horizontalPadding =
         TicketsDesignSpec.px(context, TicketsDesignSpec.horizontalPadding);
 
-    return ListView(
-      padding: EdgeInsets.fromLTRB(
-        horizontalPadding,
-        TicketsDesignSpec.px(context, 12),
-        horizontalPadding,
-        TicketsDesignSpec.px(context, 24),
-      ),
-      children: [
+    return RefreshIndicator(
+      onRefresh: widget.onRefresh,
+      child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.fromLTRB(
+          horizontalPadding,
+          TicketsDesignSpec.px(context, 12),
+          horizontalPadding,
+          TicketsDesignSpec.px(context, 24),
+        ),
+        children: [
         PastEventsAttendedHeaderWidget(subtitle: widget.headerSubtitle),
         SizedBox(height: TicketsDesignSpec.px(context, 14)),
         YouPassSearchFieldWidget(
@@ -111,7 +122,24 @@ class PastEventsTabWidgetState extends State<PastEventsTabWidget> {
           ),
         SizedBox(height: TicketsDesignSpec.px(context, 8)),
         const PastEventsFavoritesTipWidget(),
+        if (widget.isLoadingMore)
+          Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: TicketsDesignSpec.px(context, 16),
+            ),
+            child: const Center(child: CircularProgressIndicator()),
+          )
+        else if (widget.hasMore)
+          Builder(
+            builder: (context) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                widget.onLoadMore?.call();
+              });
+              return const SizedBox.shrink();
+            },
+          ),
       ],
+      ),
     );
   }
 }

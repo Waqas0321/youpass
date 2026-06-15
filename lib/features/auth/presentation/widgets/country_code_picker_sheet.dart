@@ -18,14 +18,26 @@ class CountryCodePickerSheet extends StatefulWidget {
     super.key,
     required this.selectedCountry,
     required this.onCountrySelected,
+    this.countries,
+    this.showIsoCodeSubtitle = false,
+    this.autofocusSearch = true,
+    this.scrollToSelectedOnOpen = true,
   });
 
   final CountryCode selectedCountry;
   final ValueChanged<CountryCode> onCountrySelected;
+  final List<CountryCode>? countries;
+  final bool showIsoCodeSubtitle;
+  final bool autofocusSearch;
+  final bool scrollToSelectedOnOpen;
 
   static Future<CountryCode?> show({
     required BuildContext context,
     required CountryCode selectedCountry,
+    List<CountryCode>? countries,
+    bool showIsoCodeSubtitle = false,
+    bool autofocusSearch = true,
+    bool scrollToSelectedOnOpen = true,
   }) {
     return AuthBottomSheetShell.show<CountryCode>(
       context: context,
@@ -33,6 +45,10 @@ class CountryCodePickerSheet extends StatefulWidget {
       maxHeightFactor: AppConstants.countryPickerSheetHeightFactor,
       child: CountryCodePickerSheet(
         selectedCountry: selectedCountry,
+        countries: countries,
+        showIsoCodeSubtitle: showIsoCodeSubtitle,
+        autofocusSearch: autofocusSearch,
+        scrollToSelectedOnOpen: scrollToSelectedOnOpen,
         onCountrySelected: (country) {
           Navigator.of(context).pop(country);
         },
@@ -46,25 +62,73 @@ class CountryCodePickerSheet extends StatefulWidget {
 
 class CountryCodePickerSheetState extends State<CountryCodePickerSheet> {
   final TextEditingController searchController = TextEditingController();
-  List<CountryCode> filteredCountries = CountryCodeList.countries;
+  final ScrollController scrollController = ScrollController();
+  late List<CountryCode> filteredCountries;
+
+  List<CountryCode> get availableCountries =>
+      widget.countries ?? CountryCodeList.countries;
 
   @override
   void initState() {
     super.initState();
+    filteredCountries = availableCountries;
     searchController.addListener(updateFilteredCountries);
+    if (widget.scrollToSelectedOnOpen) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => scrollToSelectedCountry());
+    }
   }
 
   @override
   void dispose() {
     searchController.removeListener(updateFilteredCountries);
     searchController.dispose();
+    scrollController.dispose();
     super.dispose();
+  }
+
+  void scrollToSelectedCountry() {
+    final index = filteredCountries.indexWhere(
+      (country) => country.isoCode == widget.selectedCountry.isoCode,
+    );
+    if (index <= 0 || !scrollController.hasClients) {
+      return;
+    }
+
+    const estimatedTileHeight = 72.0;
+    final targetOffset = (index * estimatedTileHeight).clamp(
+      0.0,
+      scrollController.position.maxScrollExtent,
+    );
+    scrollController.jumpTo(targetOffset);
   }
 
   void updateFilteredCountries() {
     setState(() {
-      filteredCountries = CountryCodeList.search(searchController.text);
+      filteredCountries = searchCountries(
+        availableCountries,
+        searchController.text,
+      );
     });
+    if (widget.scrollToSelectedOnOpen) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => scrollToSelectedCountry());
+    }
+  }
+
+  static List<CountryCode> searchCountries(
+    List<CountryCode> source,
+    String query,
+  ) {
+    final normalized = query.trim().toLowerCase();
+    if (normalized.isEmpty) {
+      return source;
+    }
+
+    return source.where((country) {
+      return country.name.toLowerCase().contains(normalized) ||
+          country.isoCode.toLowerCase().contains(normalized) ||
+          country.dialCode.contains(normalized) ||
+          country.displayDialCode.contains(normalized);
+    }).toList();
   }
 
   @override
@@ -84,7 +148,7 @@ class CountryCodePickerSheetState extends State<CountryCodePickerSheet> {
           child: AppTextField(
             controller: searchController,
             hintText: AppStrings.searchCountryHint(l10n),
-            autofocus: true,
+            autofocus: widget.autofocusSearch,
           ),
         ),
         Expanded(
@@ -109,6 +173,8 @@ class CountryCodePickerSheetState extends State<CountryCodePickerSheet> {
     }
 
     return ListView.separated(
+      controller: scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: layout.spacing(16)),
       itemCount: filteredCountries.length,
       separatorBuilder: (_, index) => Divider(
@@ -131,13 +197,22 @@ class CountryCodePickerSheetState extends State<CountryCodePickerSheet> {
             CountryCodeDisplayHelper.localizedName(country, context.l10n),
             variant: AppTextVariant.listTitle,
           ),
-          trailing: AppText(
-            country.displayDialCode,
-            variant: AppTextVariant.listTrailing,
-            color: isSelected
-                ? AppColors.primaryMustard
-                : scheme.onSurfaceVariant,
-          ),
+          subtitle: widget.showIsoCodeSubtitle
+              ? AppText(
+                  country.isoCode,
+                  variant: AppTextVariant.body,
+                  color: scheme.onSurfaceVariant,
+                )
+              : null,
+          trailing: widget.showIsoCodeSubtitle
+              ? null
+              : AppText(
+                  country.displayDialCode,
+                  variant: AppTextVariant.listTrailing,
+                  color: isSelected
+                      ? AppColors.primaryMustard
+                      : scheme.onSurfaceVariant,
+                ),
           selected: isSelected,
           selectedTileColor: AppColors.primaryMustard.withValues(alpha: 0.12),
           shape: RoundedRectangleBorder(

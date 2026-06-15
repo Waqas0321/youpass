@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/core/l10n/invitations_error_extension.dart';
 import 'package:youpass/core/theme/youpass_dialog_theme.dart';
 import 'package:youpass/core/widgets/dialogs/youpass_dialog_primary_button.dart';
 import 'package:youpass/core/widgets/dialogs/youpass_themed_dialog_shell.dart';
 import 'package:youpass/features/invitations/domain/entities/payment_method_request_entity.dart';
+import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
+import 'package:flutter/services.dart';
+import 'package:youpass/features/invitations/presentation/utils/card_expiry_input_formatter.dart';
 import 'package:youpass/features/invitations/presentation/widgets/payment_method_field_widget.dart';
 
 class AddPaymentMethodDialog extends StatefulWidget {
@@ -37,6 +42,7 @@ class AddPaymentMethodDialogState extends State<AddPaymentMethodDialog> {
   final TextEditingController cvvController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   bool isSaving = false;
+  String? errorMessage;
 
   @override
   void dispose() {
@@ -48,7 +54,10 @@ class AddPaymentMethodDialogState extends State<AddPaymentMethodDialog> {
   }
 
   Future<void> handleSave() async {
-    setState(() => isSaving = true);
+    setState(() {
+      isSaving = true;
+      errorMessage = null;
+    });
 
     final request = PaymentMethodRequestEntity(
       cardNumber: cardNumberController.text,
@@ -62,10 +71,17 @@ class AddPaymentMethodDialogState extends State<AddPaymentMethodDialog> {
       return;
     }
 
-    setState(() => isSaving = false);
     if (saved) {
       Navigator.of(context).pop(true);
+      return;
     }
+
+    final provider = context.read<InvitationsProvider>();
+    setState(() {
+      isSaving = false;
+      errorMessage = provider.localizedErrorMessage(context.l10n) ??
+          context.l10n.errorGeneric;
+    });
   }
 
   @override
@@ -111,6 +127,11 @@ class AddPaymentMethodDialogState extends State<AddPaymentMethodDialog> {
             controller: cardNumberController,
             hint: AppStrings.invitationsCardNumberHint(strings),
             icon: Icons.credit_card_outlined,
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(16),
+            ],
           ),
           const SizedBox(height: 12),
           Row(
@@ -121,6 +142,9 @@ class AddPaymentMethodDialogState extends State<AddPaymentMethodDialog> {
                   controller: expiryController,
                   hint: AppStrings.invitationsCardExpiryHint(strings),
                   icon: Icons.calendar_today_outlined,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [CardExpiryInputFormatter()],
+                  maxLength: 5,
                 ),
               ),
               const SizedBox(width: 12),
@@ -129,7 +153,13 @@ class AddPaymentMethodDialogState extends State<AddPaymentMethodDialog> {
                   label: AppStrings.invitationsCardCvv(strings),
                   controller: cvvController,
                   hint: AppStrings.invitationsCardCvvHint(strings),
-                  icon: Icons.info_outline,
+                  icon: Icons.lock_clock_outlined,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(4),
+                  ],
+                  maxLength: 4,
                 ),
               ),
             ],
@@ -142,6 +172,7 @@ class AddPaymentMethodDialogState extends State<AddPaymentMethodDialog> {
           ),
           const SizedBox(height: 12),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(
                 Icons.lock_outline,
@@ -149,15 +180,29 @@ class AddPaymentMethodDialogState extends State<AddPaymentMethodDialog> {
                 color: YouPassDialogTheme.body(context),
               ),
               const SizedBox(width: 6),
-              Text(
-                AppStrings.invitationsPaymentSecureNote(strings),
-                style: TextStyle(
-                  fontSize: 12,
-                  color: YouPassDialogTheme.body(context),
+              Expanded(
+                child: Text(
+                  AppStrings.invitationsPaymentSecureNote(strings),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: YouPassDialogTheme.body(context),
+                    height: 1.35,
+                  ),
                 ),
               ),
             ],
           ),
+          if (errorMessage != null) ...[
+            const SizedBox(height: 12),
+            Text(
+              errorMessage!,
+              style: TextStyle(
+                fontSize: 13,
+                color: Theme.of(context).colorScheme.error,
+                height: 1.3,
+              ),
+            ),
+          ],
           const SizedBox(height: 16),
           YouPassDialogPrimaryButton(
             label: AppStrings.invitationsSaveCard(strings),

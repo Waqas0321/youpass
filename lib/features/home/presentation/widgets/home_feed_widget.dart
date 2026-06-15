@@ -1,20 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/constants/app_strings.dart';
+import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/shimmer/home_events_section_shimmer.dart';
 import 'package:youpass/features/home/domain/entities/home_feed_entity.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/features/home/presentation/widgets/featured_event_carousel_widget.dart';
+import 'package:youpass/features/home/presentation/widgets/home_active_filter_chips_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/home_category_filters_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/home_events_section_widget.dart';
+import 'package:youpass/features/home/presentation/widgets/home_country_picker_sheet.dart';
 import 'package:youpass/features/home/presentation/widgets/home_greeting_widget.dart';
+import 'package:youpass/features/home/presentation/widgets/home_search_bar_widget.dart';
+import 'package:youpass/features/home/presentation/widgets/home_search_filters_sheet.dart';
+import 'package:youpass/features/home/presentation/widgets/home_search_results_panel_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/pending_invitation_highlight_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:youpass/features/home/presentation/utils/banner_slide_actions.dart';
+import 'package:youpass/features/events/domain/entities/event_entity.dart';
 import 'package:youpass/features/events/presentation/utils/event_detail_screen_actions.dart';
 import 'package:youpass/features/events/presentation/routes/all_events_route_args.dart';
-import 'package:youpass/features/vip_venue/presentation/utils/vip_purchase_screen_actions.dart';
+import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
+import 'package:youpass/features/waitlist/domain/entities/waitlist_entry_entity.dart';
+import 'package:youpass/features/waitlist/presentation/utils/waitlist_flow_actions.dart';
+import 'package:youpass/features/waitlist/presentation/widgets/waitlist_offer_banner_widget.dart';
 import 'package:youpass/routes/app_routes.dart';
 
-class HomeFeedWidget extends StatelessWidget {
+class HomeFeedWidget extends StatefulWidget {
   const HomeFeedWidget({
     super.key,
     required this.feed,
@@ -35,58 +47,212 @@ class HomeFeedWidget extends StatelessWidget {
   final VoidCallback? onPendingInvitationTap;
 
   @override
+  State<HomeFeedWidget> createState() => _HomeFeedWidgetState();
+}
+
+class _HomeFeedWidgetState extends State<HomeFeedWidget> {
+  late final TextEditingController _searchController;
+  late final FocusNode _searchFocusNode;
+  late final HomeProvider _homeProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _homeProvider = context.read<HomeProvider>();
+    _searchController = TextEditingController(text: _homeProvider.searchQuery);
+    _searchFocusNode = FocusNode();
+    _homeProvider.addListener(_syncSearchControllerFromProvider);
+  }
+
+  void _syncSearchControllerFromProvider() {
+    if (_searchController.text == _homeProvider.searchQuery) {
+      return;
+    }
+    _searchController.value = TextEditingValue(
+      text: _homeProvider.searchQuery,
+      selection: TextSelection.collapsed(offset: _homeProvider.searchQuery.length),
+    );
+  }
+
+  @override
+  void dispose() {
+    _homeProvider.removeListener(_syncSearchControllerFromProvider);
+    _searchController.dispose();
+    _searchFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final l10n = context.l10n;
     final homeProvider = context.watch<HomeProvider>();
+    final invitationsProvider = context.watch<InvitationsProvider>();
+    final waitlistActions = WaitlistFlowActions(context);
+    final activeOffer = _findActiveWaitlistOffer(invitationsProvider.waitlistEntries);
+
+    void handleJoinWaitlist(EventEntity event) {
+      waitlistActions.openJoinScreen(
+        eventId: event.id,
+        eventTitle: event.title,
+      );
+    }
+
+    void handleLeaveWaitlist(EventEntity event) {
+      waitlistActions.leaveWaitlistForEvent(eventId: event.id);
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         HomeGreetingWidget(
-          subtitle: feedSubtitle,
+          subtitle: widget.feedSubtitle,
         ),
-        if (highlightPendingInvitation && onPendingInvitationTap != null) ...[
+        if (widget.highlightPendingInvitation && widget.onPendingInvitationTap != null) ...[
           SizedBox(height: layout.spacing(14)),
           PendingInvitationHighlightWidget(
-            pendingCount: pendingInvitationCount,
-            eventTitle: pendingInvitationTitle,
-            onTap: onPendingInvitationTap!,
+            pendingCount: widget.pendingInvitationCount,
+            eventTitle: widget.pendingInvitationTitle,
+            onTap: widget.onPendingInvitationTap!,
           ),
         ],
+        if (activeOffer != null) ...[
+          SizedBox(height: layout.spacing(14)),
+          WaitlistOfferBannerWidget(
+            expiresInLabel: activeOffer.expiresInLabel ?? activeOffer.expiresAtLabel ?? '',
+            onTap: () => waitlistActions.claimSlot(activeOffer),
+          ),
+        ],
+        SizedBox(height: layout.spacing(16)),
+        HomeSearchBarWidget(
+          hintText: widget.feed.searchPlaceholder ??
+              AppStrings.homeSearchPlaceholder(l10n),
+          controller: _searchController,
+          focusNode: _searchFocusNode,
+          onChanged: homeProvider.onSearchQueryChanged,
+          onSubmitted: homeProvider.submitSearch,
+          onFocusChanged: homeProvider.setSearchFocused,
+          onFilterTap: () => HomeSearchFiltersSheet.show(context),
+          filtersEnabled: widget.feed.searchConfig.filtersEnabled,
+        ),
+        SizedBox(height: layout.spacing(10)),
+        HomeActiveFilterChipsWidget(
+          chips: homeProvider.activeFilterChips(
+            freeOnlyLabel: AppStrings.homeFiltersFreeOnly(l10n),
+            customRangeLabel: AppStrings.homeFiltersCustomRange(l10n),
+          ),
+          onRemove: homeProvider.removeFilterChip,
+        ),
+        if (homeProvider.showSearchHistory)
+          HomeSearchResultsPanelWidget(
+            isFocused: true,
+            searchQuery: '',
+            isLoading: false,
+            results: const [],
+            history: homeProvider.searchHistory,
+            suggestions: const [],
+            emptyMessage: AppStrings.homeSearchEmpty(l10n),
+            onHistoryTap: homeProvider.selectHistoryTerm,
+            onSuggestionTap: homeProvider.submitSearch,
+            onClearHistory: homeProvider.clearSearchHistory,
+          ),
+        if (homeProvider.isSearchMode)
+          HomeSearchResultsPanelWidget(
+            isFocused: homeProvider.isSearchFocused,
+            searchQuery: homeProvider.searchQuery,
+            isLoading: homeProvider.isSearchLoading,
+            results: homeProvider.searchResults,
+            history: homeProvider.searchHistory,
+            suggestions: homeProvider.autocompleteSuggestions,
+            emptyMessage: homeProvider.resolveSearchEmptyMessage().isNotEmpty
+                ? homeProvider.resolveSearchEmptyMessage()
+                : AppStrings.homeSearchEmpty(l10n),
+            onHistoryTap: homeProvider.selectHistoryTerm,
+            onSuggestionTap: homeProvider.submitSearch,
+            onClearHistory: homeProvider.clearSearchHistory,
+            onEventTap: (event) =>
+                EventDetailScreenActions(context).openEventDetail(event: event),
+            onJoinWaitlist: handleJoinWaitlist,
+            onLeaveWaitlist: handleLeaveWaitlist,
+          ),
         SizedBox(height: layout.spacing(18)),
         HomeCategoryFiltersWidget(
-          categories: feed.categories,
-          selectedCategoryId: homeProvider.selectedCategoryId,
-          onCategorySelected: homeProvider.selectCategory,
+          categories: widget.feed.categories,
+          selectedCategoryId: homeProvider.selectedCategoryId ?? '',
+          onCategorySelected: (categoryId) => _handleCategoryTap(
+            context,
+            homeProvider: homeProvider,
+            feed: widget.feed,
+            categoryId: categoryId,
+          ),
         ),
         SizedBox(height: layout.spacing(20)),
         if (homeProvider.isFilteringEvents)
           const HomeEventsSectionShimmer()
         else ...[
           FeaturedEventCarouselWidget(
-            events: feed.carouselEvents,
-            onEventTap: (event) =>
-                EventDetailScreenActions(context).openEventDetail(event: event),
+            events: widget.feed.carouselEvents,
+            carouselConfig: widget.feed.carouselConfig,
+            onEventTap: (event) => BannerSlideActions(context).handleTap(event),
           ),
           SizedBox(height: layout.spacing(24)),
-          HomeEventsSectionWidget(
-            events: feed.featuredEvents,
-            sectionTitle: upcomingSectionTitle,
-            onFavoriteTap: homeProvider.toggleFavorite,
-            isFavoritePending: homeProvider.isFavoritePending,
-            onEventTap: (event) =>
-                EventDetailScreenActions(context).openEventDetail(event: event),
-            onBuyTickets: (event) =>
-                VipPurchaseScreenActions(context).openTicketSelection(event: event),
-            onSeeAllTap: () => Navigator.of(context).pushNamed(
-              AppRoutes.allEvents,
-              arguments: AllEventsRouteArgs(
-                initialCategoryId: homeProvider.selectedCategoryId,
+          if (!homeProvider.isSearchMode)
+            HomeEventsSectionWidget(
+              events: homeProvider.upcomingEvents,
+              sectionTitle: widget.upcomingSectionTitle,
+              isLoading: homeProvider.isLoadingUpcoming || homeProvider.isFilteringEvents,
+              isLoadingMore: homeProvider.isLoadingMoreUpcoming,
+              hasMore: homeProvider.upcomingHasMore,
+              showProximity: homeProvider.nearMeEnabled,
+              nearMeEnabled: homeProvider.nearMeEnabled,
+              onNearMeTap: homeProvider.toggleNearMeFilter,
+              nearMeLoading: homeProvider.isNearMeLoading,
+              onEventTap: (event) =>
+                  EventDetailScreenActions(context).openEventDetail(event: event),
+              onJoinWaitlist: handleJoinWaitlist,
+              onLeaveWaitlist: handleLeaveWaitlist,
+              onSeeAllTap: () => Navigator.of(context).pushNamed(
+                AppRoutes.allEvents,
+                arguments: AllEventsRouteArgs(
+                  initialCategoryId: homeProvider.selectedCategoryId,
+                ),
               ),
             ),
-          ),
         ],
       ],
     );
+  }
+
+  Future<void> _handleCategoryTap(
+    BuildContext context, {
+    required HomeProvider homeProvider,
+    required HomeFeedEntity feed,
+    required String categoryId,
+  }) async {
+    if (homeProvider.isCountryCategory(categoryId)) {
+      final currentCode = homeProvider.resolveSessionCountryCode() ?? 'CL';
+      final selected = await HomeCountryPickerSheet.show(
+        context,
+        selectedCountryCode: currentCode,
+      );
+      if (selected == null || !context.mounted) {
+        return;
+      }
+      await homeProvider.changeSessionCountry(selected);
+      return;
+    }
+
+    await homeProvider.selectCategory(categoryId);
+  }
+
+  WaitlistEntryEntity? _findActiveWaitlistOffer(
+    List<WaitlistEntryEntity> entries,
+  ) {
+    for (final entry in entries) {
+      if (entry.canClaim) {
+        return entry;
+      }
+    }
+    return null;
   }
 }

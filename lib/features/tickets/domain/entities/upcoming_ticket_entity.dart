@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_qr_status.dart';
+import 'package:youpass/features/tickets/domain/entities/ticket_display_status.dart';
 import 'package:youpass/features/tickets/domain/entities/ticket_tier.dart';
 
 class UpcomingTicketEntity extends Equatable {
@@ -12,13 +13,15 @@ class UpcomingTicketEntity extends Equatable {
     required this.imageAssetPath,
     this.eventId,
     this.tier = TicketTier.general,
-    this.isActive = true,
+    this.displayStatus = TicketDisplayStatus.active,
     this.canViewQr = false,
     this.canAssignTickets = false,
+    this.canCancel = false,
     this.qrStatus,
     this.ticketOrderId,
     this.assignableCount,
     this.origin,
+    this.eventStartsAt,
   });
 
   final String id;
@@ -29,13 +32,17 @@ class UpcomingTicketEntity extends Equatable {
   final String ticketTypeLabel;
   final String imageAssetPath;
   final TicketTier tier;
-  final bool isActive;
+  final TicketDisplayStatus displayStatus;
   final bool canViewQr;
   final bool canAssignTickets;
+  final bool canCancel;
   final InvitationQrStatus? qrStatus;
   final String? ticketOrderId;
   final int? assignableCount;
   final String? origin;
+  final DateTime? eventStartsAt;
+
+  bool get isActive => displayStatus == TicketDisplayStatus.active;
 
   bool get usesNetworkImage {
     final value = imageAssetPath.trim().toLowerCase();
@@ -77,12 +84,14 @@ class UpcomingTicketEntity extends Equatable {
         ticketTypeLabel,
         imageAssetPath,
         tier,
-        isActive,
+        displayStatus,
         canViewQr,
         canAssignTickets,
+        canCancel,
         qrStatus,
         ticketOrderId,
         assignableCount,
         origin,
+        eventStartsAt,
       ];
 }

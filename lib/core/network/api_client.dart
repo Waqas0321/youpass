@@ -99,6 +99,39 @@ class ApiClient {
     );
   }
 
+  Future<http.Response> patch(
+    String url, {
+    Map<String, String>? headers,
+    Object? body,
+    bool authenticated = false,
+    String? accessTokenOverride,
+  }) async {
+    final hasBody = body != null;
+    final encodedBody = hasBody
+        ? (body is String ? body : jsonEncode(body))
+        : null;
+    final resolvedHeaders = await _resolveHeaders(
+      headers: headers,
+      authenticated: authenticated,
+      accessTokenOverride: accessTokenOverride,
+      multipart: false,
+      includeJsonContentType: hasBody,
+    );
+
+    return _send(
+      method: 'PATCH',
+      url: url,
+      body: encodedBody,
+      request: () => httpClient
+          .patch(
+            Uri.parse(url),
+            headers: resolvedHeaders,
+            body: encodedBody,
+          )
+          .timeout(AppConstants.apiTimeout),
+    );
+  }
+
   Future<http.Response> postMultipart(
     String url, {
     required List<http.MultipartFile> files,

@@ -11,19 +11,33 @@ class YouPassOutlineButton extends StatelessWidget {
     this.isLoading = false,
     this.isEnabled = true,
     this.fullWidth = true,
+    this.backgroundColor,
+    this.trailingIcon,
   });
 
   final String label;
   final VoidCallback? onPressed;
   final IconData? icon;
+  final IconData? trailingIcon;
   final bool isLoading;
   final bool isEnabled;
   final bool fullWidth;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     final theme = YouPassThemeExtension.of(context);
-    final style = YouPassButtonTheme.outlineElevatedStyle(context);
+    final baseStyle = YouPassButtonTheme.outlineElevatedStyle(context);
+    final style = backgroundColor == null
+        ? baseStyle
+        : baseStyle.copyWith(
+            backgroundColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.disabled)) {
+                return backgroundColor!.withValues(alpha: 0.6);
+              }
+              return backgroundColor!;
+            }),
+          );
     final effectiveOnPressed =
         isEnabled && !isLoading ? onPressed : null;
 
@@ -37,14 +51,20 @@ class YouPassOutlineButton extends StatelessWidget {
           color: theme.outlineButtonForeground,
         ),
       );
-    } else if (icon != null) {
+    } else if (icon != null || trailingIcon != null) {
       child = Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 18),
-          const SizedBox(width: 8),
+          if (icon != null) ...[
+            Icon(icon, size: 18),
+            const SizedBox(width: 8),
+          ],
           Text(label),
+          if (trailingIcon != null) ...[
+            const SizedBox(width: 4),
+            Icon(trailingIcon, size: 18),
+          ],
         ],
       );
     } else {

@@ -4,12 +4,14 @@ import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/widgets/shimmer/vip_table_selection_shimmer.dart';
 import 'package:youpass/features/vip_venue/domain/entities/venue_table_entity.dart';
+import 'package:youpass/features/vip_venue/domain/entities/venue_table_status.dart';
 import 'package:youpass/features/vip_venue/presentation/providers/vip_venue_provider.dart';
 import 'package:youpass/features/vip_venue/presentation/routes/vip_purchase_route_args.dart';
 import 'package:youpass/features/vip_venue/presentation/utils/vip_venue_availability_mapper.dart';
 import 'package:youpass/features/vip_venue/presentation/utils/vip_venue_availability_poller.dart';
 import 'package:youpass/features/vip_venue/presentation/utils/vip_venue_label_helper.dart';
 import 'package:youpass/features/vip_venue/presentation/vip_venue_design_spec.dart';
+import 'package:youpass/features/vip_venue/presentation/vip_venue_screen_theme.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_primary_button_widget.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_flow_scaffold.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_table_detail_card_widget.dart';
@@ -115,6 +117,15 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
   }
 
   void selectTable(VenueTableEntity table) {
+    if (table.status == VenueTableStatus.locked) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppStrings.vipTableBlockedMessage(context.l10n)),
+        ),
+      );
+      return;
+    }
+
     if (!table.isSelectable) {
       return;
     }
@@ -143,10 +154,12 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
     }
 
     if (lock == null) {
+      final strings = context.l10n;
+      final message = provider.errorCode == 'TABLE_LOCKED'
+          ? AppStrings.vipTableBlockedReserve(strings)
+          : (provider.errorMessage ?? AppStrings.errorGeneric(strings));
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(provider.errorMessage ?? AppStrings.errorGeneric(context.l10n)),
-        ),
+        SnackBar(content: Text(message)),
       );
       return;
     }
@@ -187,6 +200,7 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
     final activeTable = selectedTable;
     final isLoading =
         provider.zoneTablesStatus == VipVenueLoadStatus.loading && tables.isEmpty;
+    final allSoldOut = tables.isNotEmpty && tables.every((table) => !table.isSelectable);
 
     return VipFlowScaffold(
       headerStyle: VipFlowHeaderStyle.branded,
@@ -204,7 +218,21 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
             ),
       body: isLoading
           ? const VipTableSelectionShimmer()
-          : ListView(
+          : allSoldOut
+              ? Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(padding),
+                    child: Text(
+                      AppStrings.vipTablesZoneSoldOut(strings),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: VipVenueDesignSpec.px(context, 15),
+                        color: VipVenueScreenTheme.body(context),
+                      ),
+                    ),
+                  ),
+                )
+              : ListView(
               padding: EdgeInsets.fromLTRB(padding, 0, padding, padding),
               children: [
                 if (provider.zoneTablesStatus == VipVenueLoadStatus.error)

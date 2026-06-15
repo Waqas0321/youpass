@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/theme/youpass_theme_extension.dart';
 
 class YouPassFilterChipWidget extends StatelessWidget {
   const YouPassFilterChipWidget({
@@ -6,20 +7,32 @@ class YouPassFilterChipWidget extends StatelessWidget {
     required this.label,
     required this.isSelected,
     required this.onTap,
-    this.selectedColor = const Color(0xFFE69D17),
-    this.unselectedTextColor = const Color(0xFF757575),
-    this.unselectedBorderColor = const Color(0xFFE0E0E0),
+    this.selectedColor,
+    this.unselectedTextColor,
+    this.unselectedBorderColor,
+    this.selectedTextColor,
   });
 
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
-  final Color selectedColor;
-  final Color unselectedTextColor;
-  final Color unselectedBorderColor;
+  final Color? selectedColor;
+  final Color? unselectedTextColor;
+  final Color? unselectedBorderColor;
+  final Color? selectedTextColor;
 
   @override
   Widget build(BuildContext context) {
+    final theme = YouPassThemeExtension.of(context);
+    final fillColor =
+        isSelected ? (selectedColor ?? theme.chipSelectedBackground) : theme.chipUnselectedBackground;
+    final borderColor = isSelected
+        ? (selectedColor ?? theme.chipSelectedBackground)
+        : (unselectedBorderColor ?? theme.chipUnselectedBorder);
+    final textColor = isSelected
+        ? (selectedTextColor ?? theme.chipSelectedForeground)
+        : (unselectedTextColor ?? theme.chipUnselectedForeground);
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -28,10 +41,10 @@ class YouPassFilterChipWidget extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
-            color: isSelected ? selectedColor : Colors.transparent,
+            color: fillColor,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: isSelected ? selectedColor : unselectedBorderColor,
+              color: borderColor,
               width: isSelected ? 1.5 : 1,
             ),
           ),
@@ -40,7 +53,7 @@ class YouPassFilterChipWidget extends StatelessWidget {
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: isSelected ? Colors.white : unselectedTextColor,
+              color: textColor,
             ),
           ),
         ),

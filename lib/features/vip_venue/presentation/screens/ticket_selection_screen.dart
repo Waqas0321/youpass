@@ -8,6 +8,7 @@ import 'package:youpass/features/vip_venue/domain/entities/ticket_offering_secti
 import 'package:youpass/features/vip_venue/presentation/providers/vip_venue_provider.dart';
 import 'package:youpass/features/vip_venue/presentation/routes/vip_purchase_route_args.dart';
 import 'package:youpass/features/vip_venue/presentation/vip_venue_design_spec.dart';
+import 'package:youpass/features/vip_venue/presentation/vip_venue_screen_theme.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/ticket_offering_row_widget.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/ticket_selection_bottom_bar_widget.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_surface_card_widget.dart';
@@ -33,6 +34,7 @@ class TicketSelectionScreen extends StatefulWidget {
 
 class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
   late final session = widget.args.session;
+  String? expandedOfferingId;
 
   @override
   void initState() {
@@ -64,14 +66,65 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
     });
   }
 
-  void updateOfferingQuantity(String offeringId, int quantity) {
+  List<TicketOfferingEntity> get _generalOfferings =>
+      session.offerings.where((o) => o.section == TicketOfferingSection.general).toList();
+
+  List<TicketOfferingEntity> get _vipGeneralOfferings =>
+      session.offerings.where((o) => o.section == TicketOfferingSection.vip).toList();
+
+  List<TicketOfferingEntity> get _quantityOfferings => session.offerings;
+
+  bool get _hasSelectableQuantity =>
+      _quantityOfferings.any((offering) => offering.isQuantitySelectable);
+
+  bool get _allQuantityOfferingsSoldOut =>
+      _quantityOfferings.isNotEmpty && !_hasSelectableQuantity;
+
+  bool get _showEmptyState =>
+      _quantityOfferings.isEmpty && !session.hasVenueLayout;
+
+  bool get _showAllSoldOutState =>
+      _allQuantityOfferingsSoldOut && !session.hasVenueLayout;
+
+  void onOfferingTap(TicketOfferingEntity offering) {
+    if (!offering.isQuantitySelectable) {
+      return;
+    }
+
     setState(() {
-      final index = session.offerings.indexWhere((item) => item.id == offeringId);
-      if (index == -1) {
+      if (expandedOfferingId == offering.id) {
+        expandedOfferingId = null;
+        session.offerings = session.offerings
+            .map((item) => item.copyWith(quantity: 0))
+            .toList();
         return;
       }
-      session.offerings[index] =
-          session.offerings[index].copyWith(quantity: quantity);
+
+      expandedOfferingId = offering.id;
+      session.offerings = session.offerings
+          .map(
+            (item) => item.id == offering.id
+                ? item.copyWith(quantity: 1)
+                : item.copyWith(quantity: 0),
+          )
+          .toList();
+    });
+  }
+
+  void updateOfferingQuantity(String offeringId, int quantity) {
+    if (quantity < 1) {
+      return;
+    }
+
+    setState(() {
+      expandedOfferingId = offeringId;
+      session.offerings = session.offerings
+          .map(
+            (item) => item.id == offeringId
+                ? item.copyWith(quantity: quantity)
+                : item.copyWith(quantity: 0),
+          )
+          .toList();
     });
   }
 
@@ -104,23 +157,19 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
     final padding = VipVenueDesignSpec.px(context, VipVenueDesignSpec.horizontalPadding);
     final isLoading = provider.ticketTypesStatus == VipVenueLoadStatus.loading &&
         session.offerings.isEmpty;
-    final generalOfferings = session.offerings
-        .where((offering) => offering.section == TicketOfferingSection.general)
-        .toList();
-    final vipOfferings = session.offerings
-        .where((offering) => offering.section == TicketOfferingSection.vip)
-        .toList();
+    final showBottomBar = !isLoading && !_showEmptyState;
 
     return VipFlowScaffold(
       title: AppStrings.vipTicketSelectionHeading(strings),
       subtitle: session.event.title,
-      bottomBar: isLoading
-          ? null
-          : TicketSelectionBottomBarWidget(
+      bottomBar: showBottomBar
+          ? TicketSelectionBottomBarWidget(
               session: session,
               onSummaryTap: openPurchaseSummary,
               onContinue: openPurchaseSummary,
-            ),
+              enabled: session.hasSelectedTickets,
+            )
+          : null,
       body: isLoading
           ? const VipTicketSelectionShimmer()
           : ListView(
@@ -137,33 +186,77 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
                       ),
                     ),
                   ),
-                VipSectionCaptionWidget(
-                  label: AppStrings.vipSectionGeneralTickets(strings),
-                ),
-                ...generalOfferings.map(
-                  (offering) => TicketOfferingRowWidget(
-                    offering: offering,
-                    onQuantityChanged: (quantity) =>
-                        updateOfferingQuantity(offering.id, quantity),
-                  ),
-                ),
-                SizedBox(height: VipVenueDesignSpec.px(context, 8)),
-                VipSectionCaptionWidget(
-                  label: AppStrings.vipSectionVipTickets(strings),
-                ),
-                ...vipOfferings.map(
-                  (offering) => TicketOfferingRowWidget(
-                    offering: offering,
-                    onQuantityChanged: (quantity) =>
-                        updateOfferingQuantity(offering.id, quantity),
-                  ),
-                ),
-                if (session.hasVenueLayout) ...[
-                  SizedBox(height: VipVenueDesignSpec.px(context, 12)),
-                  VipTablesEntryWidget(onTap: openFloorPlan),
+                if (_showEmptyState)
+                  _EmptyStateMessage(
+                    message: AppStrings.vipTicketsNoneAvailable(strings),
+                  )
+                else if (_showAllSoldOutState)
+                  _EmptyStateMessage(
+                    message: AppStrings.vipTicketsAllSoldOut(strings),
+                  )
+                else ...[
+                  if (_generalOfferings.isNotEmpty) ...[
+                    VipSectionCaptionWidget(
+                      label: AppStrings.vipSectionGeneralTickets(strings),
+                    ),
+                    ..._generalOfferings.map(
+                      (offering) => TicketOfferingRowWidget(
+                        offering: offering,
+                        isExpanded: expandedOfferingId == offering.id,
+                        onTap: () => onOfferingTap(offering),
+                        onQuantityChanged: (quantity) =>
+                            updateOfferingQuantity(offering.id, quantity),
+                      ),
+                    ),
+                  ],
+                  if (_vipGeneralOfferings.isNotEmpty) ...[
+                    SizedBox(height: VipVenueDesignSpec.px(context, 12)),
+                    VipSectionCaptionWidget(
+                      label: AppStrings.vipSectionVipTickets(strings),
+                    ),
+                    ..._vipGeneralOfferings.map(
+                      (offering) => TicketOfferingRowWidget(
+                        offering: offering,
+                        isExpanded: expandedOfferingId == offering.id,
+                        onTap: () => onOfferingTap(offering),
+                        onQuantityChanged: (quantity) =>
+                            updateOfferingQuantity(offering.id, quantity),
+                      ),
+                    ),
+                  ],
+                  if (session.hasVenueLayout) ...[
+                    SizedBox(height: VipVenueDesignSpec.px(context, 12)),
+                    VipSectionCaptionWidget(
+                      label: AppStrings.vipSectionVipTables(strings),
+                    ),
+                    VipTablesEntryWidget(onTap: openFloorPlan),
+                  ],
                 ],
               ],
             ),
+    );
+  }
+}
+
+class _EmptyStateMessage extends StatelessWidget {
+  const _EmptyStateMessage({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: VipVenueDesignSpec.px(context, 32),
+      ),
+      child: Text(
+        message,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: VipVenueDesignSpec.px(context, 14),
+          color: VipVenueScreenTheme.body(context),
+        ),
+      ),
     );
   }
 }

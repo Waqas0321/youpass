@@ -46,6 +46,20 @@ class PastTicketsQuery extends Equatable {
     return params;
   }
 
+  PastTicketsQuery copyWith({
+    String? search,
+    PastEventFilter? filter,
+    int? page,
+    int? limit,
+  }) {
+    return PastTicketsQuery(
+      search: search ?? this.search,
+      filter: filter ?? this.filter,
+      page: page ?? this.page,
+      limit: limit ?? this.limit,
+    );
+  }
+
   @override
   List<Object?> get props => [search, filter, page, limit];
 }

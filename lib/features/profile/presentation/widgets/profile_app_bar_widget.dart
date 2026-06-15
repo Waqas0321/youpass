@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
+import 'package:youpass/features/profile/presentation/widgets/profile_theme.dart';
 
 class ProfileAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const ProfileAppBarWidget({
@@ -19,10 +20,11 @@ class ProfileAppBarWidget extends StatelessWidget implements PreferredSizeWidget
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
+    final theme = ProfileTheme.of(context);
 
     return AppBar(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: theme.screenBackground,
+      surfaceTintColor: theme.screenBackground,
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: true,
@@ -30,7 +32,7 @@ class ProfileAppBarWidget extends StatelessWidget implements PreferredSizeWidget
         onPressed: onBack,
         icon: Icon(
           Icons.arrow_back,
-          color: ProfileDesignSpec.primary,
+          color: theme.primary,
           size: ProfileDesignSpec.px(context, ProfileDesignSpec.backIconSize),
         ),
       ),
@@ -39,7 +41,7 @@ class ProfileAppBarWidget extends StatelessWidget implements PreferredSizeWidget
         style: TextStyle(
           fontSize: ProfileDesignSpec.px(context, ProfileDesignSpec.appBarTitleSize),
           fontWeight: FontWeight.w700,
-          color: ProfileDesignSpec.primary,
+          color: theme.primary,
           height: 1.2,
         ),
       ),

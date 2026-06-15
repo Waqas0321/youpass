@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_colors.dart';
+import 'package:youpass/core/theme/youpass_themed_colors.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 
 /// Semantic colors for QR / ticket confirmation screens in light and dark mode.
@@ -82,6 +83,6 @@ class QrScreenTheme {
       : InvitationsDesignSpec.titleText;
 
   static Color eventMeta(BuildContext context) => isDark(context)
-      ? AppColors.secondaryGrey
+      ? YouPassThemedColors.secondaryText(context)
       : InvitationsDesignSpec.bodyText;
 }

@@ -1,4 +1,5 @@
 import 'package:youpass/features/tickets/data/utils/ticket_model_json_reader.dart';
+import 'package:youpass/features/tickets/domain/entities/ticket_display_status.dart';
 import 'package:youpass/features/tickets/domain/entities/ticket_tier.dart';
 import 'package:youpass/features/tickets/domain/entities/upcoming_ticket_entity.dart';
 
@@ -12,13 +13,15 @@ class UpcomingTicketModel extends UpcomingTicketEntity {
     required super.imageAssetPath,
     super.eventId,
     super.tier = TicketTier.general,
-    super.isActive = true,
+    super.displayStatus = TicketDisplayStatus.active,
     super.canViewQr = false,
     super.canAssignTickets = false,
+    super.canCancel = false,
     super.qrStatus,
     super.ticketOrderId,
     super.assignableCount,
     super.origin,
+    super.eventStartsAt,
   });
 
   factory UpcomingTicketModel.fromJson(Map<String, dynamic> json) {
@@ -36,7 +39,9 @@ class UpcomingTicketModel extends UpcomingTicketEntity {
         ? '$ticketCount'
         : '$ticketTypeLabel · $ticketCount';
 
-    final status = json['status']?.toString().toLowerCase();
+    final status = TicketDisplayStatusParsing.fromApi(
+      json['status']?.toString(),
+    );
     final ticketOrderId = readTicketOrderId(json);
     final assignableCount = TicketModelJsonReader.readInt(
       json['assignable_count'] ?? json['assignableCount'],
@@ -79,17 +84,23 @@ class UpcomingTicketModel extends UpcomingTicketEntity {
         'image_asset_path',
       ),
       tier: TicketModelJsonReader.parseTier(json['tier'] ?? json['type']),
-      isActive: status == 'active',
+      displayStatus: status ?? TicketDisplayStatus.active,
       canViewQr: TicketModelJsonReader.readBool(
         json['can_view_qr'] ?? json['canViewQr'],
       ),
       canAssignTickets: canAssignTickets,
+      canCancel: TicketModelJsonReader.readBool(
+        json['can_cancel'] ?? json['canCancel'],
+      ),
       qrStatus: TicketModelJsonReader.parseQrStatus(
         json['qr_status'] ?? json['qrStatus'],
       ),
       ticketOrderId: ticketOrderId,
       assignableCount: assignableCount,
       origin: origin,
+      eventStartsAt: TicketModelJsonReader.parseDateTime(
+        json['starts_at'] ?? json['startsAt'] ?? json['event_starts_at'],
+      ),
     );
   }
 

@@ -39,6 +39,20 @@ class YouPassDialogTheme {
       ? const Color(0xFF66BB6A)
       : InvitationsDesignSpec.successGreen;
 
+  static Color successTitle(BuildContext context) => successIconColor(context);
+
+  static Color infoPanelBackground(BuildContext context) => isDark(context)
+      ? const Color(0xFF2A2210)
+      : InvitationsDesignSpec.footerInfoBackground;
+
+  static Color infoPanelText(BuildContext context) => isDark(context)
+      ? const Color(0xFFE8E8E8)
+      : InvitationsDesignSpec.titleText;
+
+  static Color infoPanelIcon(BuildContext context) => isDark(context)
+      ? AppColors.homeAccentYellow
+      : InvitationsDesignSpec.primary;
+
   static Color primaryButtonBackground(BuildContext context) => isDark(context)
       ? AppColors.homeAccentYellow
       : InvitationsDesignSpec.primary;

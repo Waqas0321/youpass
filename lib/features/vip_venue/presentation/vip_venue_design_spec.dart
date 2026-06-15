@@ -8,10 +8,11 @@ class VipVenueDesignSpec {
   static const Color zoneAvailable = Color(0xFF4CAF50);
   static const Color zonePremium = Color(0xFFE91E8C);
   static const Color zoneSold = Color(0xFF7B1FA2);
-  static const Color tableAvailable = Color(0xFF76B947);
-  static const Color tableSelected = Color(0xFFFF9800);
-  static const Color tableSold = Color(0xFFE53935);
-  static const Color tablePremium = Color(0xFFE91E8C);
+  static const Color tableAvailable = Color(0xFF97C459);
+  static const Color tablePremium = Color(0xFFF2C94C);
+  static const Color tableSelected = Color(0xFFE5A906);
+  static const Color tableSold = Color(0xFFE24B4A);
+  static const Color tableBlocked = Color(0xFFF2994A);
   static const Color summaryCardBackground = Color(0xFFFFF6E8);
   static const Color hintCardBackground = Color(0xFFFFFBF2);
   static const Color hintCardBody = Color(0xFF8A7A62);

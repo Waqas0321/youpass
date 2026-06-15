@@ -13,6 +13,13 @@ class ConfigCategoryModel {
   final String? countryCode;
   final String? eventTypeSlug;
 
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'label': label,
+        if (countryCode != null) 'country_code': countryCode,
+        if (eventTypeSlug != null) 'event_type_slug': eventTypeSlug,
+      };
+
   factory ConfigCategoryModel.fromJson(Map<String, dynamic> json) {
     final id = JsonReaders.string(json, 'id');
     var countryCode = JsonReaders.nullableString(json, 'country_code') ??
@@ -32,6 +39,10 @@ class ConfigCategoryModel {
   }
 
   static List<ConfigCategoryModel> listFromRawData(Object? data) {
+    if (data is Map<String, dynamic>) {
+      return listFromRawData(data['categories'] ?? data['event_categories']);
+    }
+
     if (data is! List) {
       return const [];
     }
@@ -39,6 +50,30 @@ class ConfigCategoryModel {
     return data
         .whereType<Map<String, dynamic>>()
         .map(ConfigCategoryModel.fromJson)
+        .where((category) => category.id.isNotEmpty && category.label.isNotEmpty)
+        .toList();
+  }
+
+  static List<ConfigCategoryModel> fromEventCategoryPayload(Object? data) {
+    if (data is! Map<String, dynamic>) {
+      return const [];
+    }
+
+    final raw = data['event_categories'];
+    if (raw is! List) {
+      return const [];
+    }
+
+    return raw
+        .whereType<Map<String, dynamic>>()
+        .map((item) {
+          final slug = JsonReaders.string(item, 'slug', fallback: JsonReaders.string(item, 'id'));
+          return ConfigCategoryModel(
+            id: slug,
+            label: JsonReaders.string(item, 'label', fallback: JsonReaders.string(item, 'name')),
+            eventTypeSlug: slug,
+          );
+        })
         .where((category) => category.id.isNotEmpty && category.label.isNotEmpty)
         .toList();
   }

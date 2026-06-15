@@ -21,6 +21,7 @@ import 'package:youpass/features/vip_venue/presentation/widgets/purchase_summary
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_flow_scaffold.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_primary_button_widget.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_table_lock_countdown_widget.dart';
+import 'package:youpass/features/vip_venue/presentation/widgets/vip_table_lock_expired_dialog.dart';
 import 'package:youpass/routes/app_routes.dart';
 
 class PurchaseSummaryScreen extends StatefulWidget {
@@ -44,28 +45,47 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
   bool isSubmitting = false;
   bool paymentCompleted = false;
   bool _lockExpiredHandled = false;
+  bool _lockExpired = false;
   String? checkoutTicketId;
   String? checkoutSeatLabel;
-  VipVenueProvider? _vipVenueProvider;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _vipVenueProvider ??= context.read<VipVenueProvider>();
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _syncTableLockFromServer());
   }
 
-  @override
-  void dispose() {
-    if (!paymentCompleted && session.isVipTablePurchase) {
-      final table = session.selectedTable;
-      if (table != null) {
-        _vipVenueProvider?.releaseTableLock(
+  Future<void> _syncTableLockFromServer() async {
+    if (!session.isVipTablePurchase) {
+      return;
+    }
+
+    final table = session.selectedTable;
+    if (table == null) {
+      return;
+    }
+
+    final status = await context.read<VipVenueProvider>().fetchTableLockStatus(
           eventId: session.event.id,
           tableId: table.id,
         );
-      }
+
+    if (!mounted || status == null) {
+      return;
     }
-    super.dispose();
+
+    if (status.isLockedByMe && status.isActive && status.expiresAt != null) {
+      setState(() {
+        session.tableLockExpiresAt = status.expiresAt;
+        _lockExpired = false;
+        _lockExpiredHandled = false;
+      });
+      return;
+    }
+
+    if (session.tableLockExpiresAt != null) {
+      handleTableLockExpired();
+    }
   }
 
   void updateOfferingQuantity(String offeringId, int quantity) {
@@ -81,6 +101,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
 
   Future<void> submitPayment() async {
     if (isSubmitting ||
+        _lockExpired ||
         (!session.hasSelectedTickets && !session.isVipTablePurchase)) {
       return;
     }
@@ -227,26 +248,38 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
     );
   }
 
+  void returnToFloorPlan() {
+    session.tableLockExpiresAt = null;
+    session.selectedTable = null;
+    session.selectedZone = null;
+
+    Navigator.of(context).popUntil(
+      (route) => route.settings.name == AppRoutes.vipFloorPlan || route.isFirst,
+    );
+  }
+
   void handleTableLockExpired() {
     if (!mounted || paymentCompleted || _lockExpiredHandled) {
       return;
     }
 
     _lockExpiredHandled = true;
+    setState(() => _lockExpired = true);
     session.tableLockExpiresAt = null;
     session.selectedTable = null;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(AppStrings.vipTableLockExpired(context.l10n))),
+    VipTableLockExpiredDialog.show(
+      context,
+      onReturnToFloorPlan: returnToFloorPlan,
     );
-    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
     final padding = VipVenueDesignSpec.px(context, VipVenueDesignSpec.horizontalPadding);
-    final canPay = session.isVipTablePurchase || session.hasSelectedTickets;
+    final canPay = !_lockExpired &&
+        (session.isVipTablePurchase || session.hasSelectedTickets);
     final lockExpiresAt = session.tableLockExpiresAt;
 
     return VipFlowScaffold(
@@ -255,7 +288,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
       body: ListView(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, padding),
         children: [
-          if (session.isVipTablePurchase && lockExpiresAt != null) ...[
+          if (session.isVipTablePurchase && lockExpiresAt != null && !_lockExpired) ...[
             VipTableLockCountdownWidget(
               expiresAt: lockExpiresAt,
               onExpired: handleTableLockExpired,

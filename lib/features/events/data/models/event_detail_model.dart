@@ -1,7 +1,10 @@
 import 'package:youpass/core/utils/json_readers.dart';
+import 'package:youpass/features/events/domain/entities/event_availability_entity.dart';
 import 'package:youpass/features/events/data/models/event_model.dart';
 import 'package:youpass/features/events/domain/entities/event_detail_entity.dart';
 import 'package:youpass/features/events/domain/entities/event_purchase_meta_entity.dart';
+import 'package:youpass/features/favorites/data/models/favorite_producer_model.dart';
+import 'package:youpass/features/waitlist/domain/entities/event_waitlist_status_entity.dart';
 
 class EventDetailModel extends EventDetailEntity {
   const EventDetailModel({
@@ -18,12 +21,19 @@ class EventDetailModel extends EventDetailEntity {
     super.description,
     super.venueName,
     super.city,
+    super.latitude,
+    super.longitude,
+    super.producer,
     super.purchase,
+    super.waitlist,
+    super.availability,
+    super.scheduleDisplay,
   });
 
   factory EventDetailModel.fromJson(Map<String, dynamic> json) {
     final base = EventModel.fromJson(json);
     final purchaseRaw = json['purchase'];
+    final producerRaw = json['producer'];
 
     return EventDetailModel(
       id: base.id,
@@ -41,10 +51,53 @@ class EventDetailModel extends EventDetailEntity {
       venueName: JsonReaders.nullableString(json, 'venue_name') ??
           JsonReaders.nullableString(json, 'venueName'),
       city: JsonReaders.nullableString(json, 'city'),
+      latitude: _readDouble(json, 'latitude'),
+      longitude: _readDouble(json, 'longitude'),
+      producer: producerRaw is Map<String, dynamic>
+          ? FavoriteProducerModel.fromJson(producerRaw)
+          : null,
       purchase: purchaseRaw is Map<String, dynamic>
           ? _parsePurchase(purchaseRaw)
           : null,
+      waitlist: EventWaitlistStatusEntity.fromJson(
+        json['waitlist'] as Map<String, dynamic>?,
+      ),
+      scheduleDisplay: JsonReaders.nullableString(json, 'schedule_display') ??
+          JsonReaders.nullableString(json, 'scheduleDisplay'),
     );
+  }
+
+  EventDetailModel withAvailability(EventAvailabilityEntity availability) {
+    return EventDetailModel(
+      id: id,
+      title: title,
+      dateTimeLabel: dateTimeLabel,
+      dateLabel: dateLabel,
+      locationLabel: locationLabel,
+      timeLabel: timeLabel,
+      imageUrl: imageUrl,
+      eventTypeSlug: eventTypeSlug,
+      countryCode: countryCode,
+      isFavorite: isFavorite,
+      description: description,
+      venueName: venueName,
+      city: city,
+      latitude: latitude,
+      longitude: longitude,
+      producer: producer,
+      purchase: purchase,
+      waitlist: waitlist,
+      availability: availability,
+      scheduleDisplay: scheduleDisplay,
+    );
+  }
+
+  static double? _readDouble(Map<String, dynamic> json, String key) {
+    final value = json[key];
+    if (value is num) {
+      return value.toDouble();
+    }
+    return null;
   }
 
   static EventPurchaseMetaEntity _parsePurchase(Map<String, dynamic> json) {

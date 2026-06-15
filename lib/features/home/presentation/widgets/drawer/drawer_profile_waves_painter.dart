@@ -3,20 +3,24 @@ import 'package:youpass/features/home/presentation/widgets/drawer/drawer_design_
 
 /// Thick wavy bands on the right of the drawer profile header (mockup).
 class DrawerProfileWavesPainter extends CustomPainter {
+  DrawerProfileWavesPainter({List<Color>? waveBands})
+      : _waveBands = waveBands ??
+            const [
+              DrawerDesignSpec.profileWaveBand1,
+              DrawerDesignSpec.profileWaveBand2,
+              DrawerDesignSpec.profileWaveBand3,
+              DrawerDesignSpec.profileWaveBand4,
+            ];
+
+  final List<Color> _waveBands;
+
   @override
   void paint(Canvas canvas, Size size) {
-    final bands = [
-      DrawerDesignSpec.profileWaveBand1,
-      DrawerDesignSpec.profileWaveBand2,
-      DrawerDesignSpec.profileWaveBand3,
-      DrawerDesignSpec.profileWaveBand4,
-    ];
-
-    for (var index = 0; index < bands.length; index++) {
+    for (var index = 0; index < _waveBands.length; index++) {
       _drawBand(
         canvas,
         size,
-        color: bands[index],
+        color: _waveBands[index],
         insetFromRight: index * 18.0,
         curveDepth: 36 + (index * 8),
       );

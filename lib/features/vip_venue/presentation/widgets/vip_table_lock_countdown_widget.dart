@@ -34,6 +34,15 @@ class _VipTableLockCountdownWidgetState extends State<VipTableLockCountdownWidge
   }
 
   @override
+  void didUpdateWidget(covariant VipTableLockCountdownWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.expiresAt != widget.expiresAt) {
+      _notifiedExpiry = false;
+      _syncRemaining();
+    }
+  }
+
+  @override
   void dispose() {
     _timer?.cancel();
     super.dispose();
@@ -66,14 +75,17 @@ class _VipTableLockCountdownWidgetState extends State<VipTableLockCountdownWidge
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    final accent = VipVenueScreenTheme.accent(context);
+    final isUrgent = remaining <= const Duration(minutes: 2);
+    final accent = isUrgent
+        ? VipVenueDesignSpec.tableSold
+        : VipVenueScreenTheme.accent(context);
 
     return Container(
       padding: EdgeInsets.all(VipVenueDesignSpec.px(context, 14)),
       decoration: BoxDecoration(
         color: accent.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(VipVenueDesignSpec.px(context, 12)),
-        border: Border.all(color: accent.withValues(alpha: 0.35)),
+        border: Border.all(color: accent.withValues(alpha: isUrgent ? 0.75 : 0.35)),
       ),
       child: Row(
         children: [
@@ -85,11 +97,13 @@ class _VipTableLockCountdownWidgetState extends State<VipTableLockCountdownWidge
           SizedBox(width: VipVenueDesignSpec.px(context, 10)),
           Expanded(
             child: Text(
-              AppStrings.vipTableLockCountdown(strings, _format(remaining)),
+              AppStrings.vipTableLockReservedCountdown(strings, _format(remaining)),
               style: TextStyle(
                 fontSize: VipVenueDesignSpec.px(context, 13),
                 fontWeight: FontWeight.w600,
-                color: VipVenueScreenTheme.title(context),
+                color: isUrgent
+                    ? VipVenueDesignSpec.tableSold
+                    : VipVenueScreenTheme.title(context),
               ),
             ),
           ),

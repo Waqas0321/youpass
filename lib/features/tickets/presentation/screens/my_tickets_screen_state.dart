@@ -3,8 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/l10n/tickets_error_extension.dart';
+import 'package:youpass/core/services/screen_secure_service.dart';
 import 'package:youpass/core/theme/tickets_screen_theme.dart';
 import 'package:youpass/core/widgets/shimmer/tickets_tab_shimmer.dart';
+import 'package:youpass/dependency_injection/injection_container.dart';
+import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
+import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
+import 'package:youpass/features/invitations/presentation/utils/guaranteed_pass_flow_actions.dart';
+import 'package:youpass/features/invitations/presentation/utils/invitations_screen_actions.dart';
 import 'package:youpass/features/tickets/presentation/providers/tickets_load_status.dart';
 import 'package:youpass/features/tickets/presentation/providers/tickets_provider.dart';
 import 'package:youpass/features/tickets/presentation/screens/my_tickets_screen.dart';
@@ -20,12 +26,16 @@ import 'package:youpass/features/tickets/presentation/widgets/upcoming_tickets_t
 class MyTicketsScreenState extends State<MyTicketsScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+  ScreenSecureService? _screenSecureService;
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 2, vsync: this);
     tabController.addListener(handleTabChange);
+    _screenSecureService =
+        widget.screenSecureService ?? _tryResolveScreenSecureService();
+    _screenSecureService?.enable();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
@@ -45,7 +55,16 @@ class MyTicketsScreenState extends State<MyTicketsScreen>
   void dispose() {
     tabController.removeListener(handleTabChange);
     tabController.dispose();
+    _screenSecureService?.disable();
     super.dispose();
+  }
+
+  ScreenSecureService? _tryResolveScreenSecureService() {
+    try {
+      return sl<ScreenSecureService>();
+    } catch (_) {
+      return null;
+    }
   }
 
   @override
@@ -61,17 +80,20 @@ class MyTicketsScreenState extends State<MyTicketsScreen>
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(
-            Icons.arrow_back,
-            color: TicketsScreenTheme.accent(context),
-            size: TicketsDesignSpec.px(
-              context,
-              TicketsDesignSpec.backIconSize,
-            ),
-          ),
-        ),
+        automaticallyImplyLeading: !widget.embeddedInShell,
+        leading: widget.embeddedInShell
+            ? null
+            : IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: TicketsScreenTheme.accent(context),
+                  size: TicketsDesignSpec.px(
+                    context,
+                    TicketsDesignSpec.backIconSize,
+                  ),
+                ),
+              ),
         title: Text(
           AppStrings.drawerMyTickets(strings),
           style: TextStyle(
@@ -126,14 +148,17 @@ class MyTicketsScreenState extends State<MyTicketsScreen>
     TicketsScreenActions actions,
   ) {
     final strings = context.l10n;
+    final invitationsProvider = context.watch<InvitationsProvider>();
+    final hasContent = provider.pendingInvitations.isNotEmpty ||
+        provider.upcomingTickets.isNotEmpty;
 
     if (provider.upcomingStatus == TicketsLoadStatus.loading &&
-        provider.upcomingTickets.isEmpty) {
+        !hasContent) {
       return const UpcomingTicketsTabShimmer(cardCount: 2);
     }
 
     if (provider.upcomingStatus == TicketsLoadStatus.error &&
-        provider.upcomingTickets.isEmpty) {
+        !hasContent) {
       return MyTicketsErrorStateWidget(
         message: provider.localizedUpcomingErrorMessage(strings) ??
             AppStrings.errorGeneric(strings),
@@ -141,18 +166,145 @@ class MyTicketsScreenState extends State<MyTicketsScreen>
       );
     }
 
-    if (provider.upcomingTickets.isEmpty) {
-      return MyTicketsEmptyStateWidget(
-        message: AppStrings.ticketsEmptyUpcoming(strings),
+    if (!hasContent) {
+      return RefreshIndicator(
+        onRefresh: provider.refreshUpcoming,
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: [
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * 0.45,
+              child: MyTicketsEmptyStateWidget(
+                message: AppStrings.ticketsEmptyUpcoming(strings),
+              ),
+            ),
+          ],
+        ),
       );
     }
 
     return UpcomingTicketsTabWidget(
       tickets: provider.upcomingTickets,
+      pendingInvitations: provider.pendingInvitations,
+      onRefresh: provider.refreshUpcoming,
       onViewQr: actions.openTicketQr,
       onAssignTickets: actions.openAssignTickets,
+      onCancelTicket: (ticket) => _handleCancelTicket(provider, ticket.id, strings),
+      onAcceptInvitation: (invitationId) =>
+          _handleAcceptPendingInvitation(provider, invitationId),
+      onDeclineInvitation: (invitationId) =>
+          _handleDeclinePendingInvitation(provider, invitationId),
       isViewQrLoading: provider.isViewQrLoading,
+      isInvitationSubmitting: (invitationId) =>
+          provider.isInvitationSubmitting(invitationId) ||
+          invitationsProvider.submittingInvitationId == invitationId,
+      isTicketCancelling: provider.isTicketCancelling,
+      isLoadingMore: provider.isLoadingMoreUpcoming,
+      hasMore: provider.hasMoreUpcoming,
+      onLoadMore: provider.loadMoreUpcoming,
     );
+  }
+
+  Future<void> _handleCancelTicket(
+    TicketsProvider provider,
+    String ticketId,
+    dynamic strings,
+  ) async {
+    final invitationsProvider = context.read<InvitationsProvider>();
+    await invitationsProvider.ensureLoaded();
+    InvitationEntity? invitation;
+    for (final item in invitationsProvider.invitations) {
+      if (item.id == ticketId) {
+        invitation = item;
+        break;
+      }
+    }
+
+    if (invitation?.isGuaranteedPass == true && invitation!.canCancel) {
+      await GuaranteedPassFlowActions(context).cancelConfirmedPass(invitation);
+      if (!mounted) {
+        return;
+      }
+      await provider.refreshUpcoming();
+      return;
+    }
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(AppStrings.ticketsCancelTicketTitle(strings)),
+        content: Text(AppStrings.ticketsCancelTicketMessage(strings)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(AppStrings.confirmDialogCancel(strings)),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(AppStrings.ticketsCancelTicketConfirm(strings)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !mounted) {
+      return;
+    }
+
+    final cancelled = await provider.cancelTicket(ticketId);
+    if (!mounted) {
+      return;
+    }
+    if (!cancelled) {
+      final error = provider.localizedUpcomingErrorMessage(strings);
+      if (error != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(error)),
+        );
+      }
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(AppStrings.ticketsCancelTicketSuccess(strings))),
+    );
+  }
+
+  Future<bool> _handleAcceptPendingInvitation(
+    TicketsProvider provider,
+    String invitationId,
+  ) async {
+    InvitationEntity? invitation;
+    for (final item in provider.pendingInvitations) {
+      if (item.id == invitationId) {
+        invitation = item;
+        break;
+      }
+    }
+    if (invitation == null) {
+      return false;
+    }
+
+    await InvitationsScreenActions(context).confirmAttendance(invitation);
+    if (!mounted) {
+      return false;
+    }
+
+    await provider.refreshUpcoming();
+    return !provider.pendingInvitations.any((item) => item.id == invitationId);
+  }
+
+  Future<bool> _handleDeclinePendingInvitation(
+    TicketsProvider provider,
+    String invitationId,
+  ) async {
+    await InvitationsScreenActions(context).rejectInvitation(invitationId);
+    if (!mounted) {
+      return false;
+    }
+
+    await provider.refreshUpcoming();
+    return !provider.pendingInvitations.any((item) => item.id == invitationId);
   }
 
   Widget buildPastTab(BuildContext context, TicketsProvider provider) {
@@ -195,6 +347,10 @@ class MyTicketsScreenState extends State<MyTicketsScreen>
       onSearchChanged: provider.applyPastSearch,
       onFilterSelected: provider.applyPastFilter,
       onFavoriteToggle: provider.togglePastEventFavorite,
+      onRefresh: provider.refreshPast,
+      hasMore: provider.hasMorePast,
+      isLoadingMore: provider.isLoadingMorePast,
+      onLoadMore: provider.loadMorePast,
     );
   }
 }

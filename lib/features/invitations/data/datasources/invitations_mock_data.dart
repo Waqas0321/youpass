@@ -2,6 +2,7 @@ import 'package:youpass/core/constants/app_assets.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/features/invitations/data/models/invitation_model.dart';
 import 'package:youpass/features/invitations/data/models/invitation_ticket_model.dart';
+import 'package:youpass/features/invitations/domain/entities/invitation_invited_by_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_qr_status.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_status.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_tier.dart';
@@ -33,9 +34,19 @@ class InvitationsMockData {
           imageAssetPath: AppAssets.dummyImage,
           tier: InvitationTier.vip,
           type: 'courtesy',
+          productKind: 'guaranteed_pass',
+          typeColorHex: '#E5A024',
+          productLabel: 'Guaranteed Pass',
           status: InvitationStatus.pending,
           requiresPaymentMethod: true,
+          noShowChargeLabel: r'$45.000',
+          cancellationDeadlineLabel: 'Cancel by Thu 1 Jul, 11:59 pm',
           qrStatus: InvitationQrStatus.locked,
+          invitedBy: const InvitationInvitedByEntity(
+            name: 'Tebo Events',
+            role: 'producer',
+          ),
+          expiresAtLabel: 'Sun 15 Jun, 11:59 pm',
         ),
         InvitationModel(
           id: 'inv-concierto-x',
@@ -44,8 +55,38 @@ class InvitationsMockData {
           dateTimeLabel: AppStrings.mockDateSaturdayMay15(l10n),
           imageAssetPath: AppAssets.dummyImage,
           tier: InvitationTier.general,
+          type: 'free',
+          productKind: 'free',
+          typeColorHex: '#2E9E5B',
+          productLabel: 'Free Invitation',
           status: InvitationStatus.pending,
           qrStatus: InvitationQrStatus.locked,
+          invitedBy: const InvitationInvitedByEntity(
+            name: 'Alejandro',
+            role: 'guest',
+          ),
+          expiresAtLabel: 'Mon 16 Jun, 8:00 am',
+        ),
+        InvitationModel(
+          id: 'inv-techno-discount',
+          eventTitle: AppStrings.mockEventNeonRooftopSessions(l10n),
+          locationLabel: AppStrings.mockLocationClubAmanda(l10n),
+          dateTimeLabel: AppStrings.mockDateSaturdayAugust22(l10n),
+          imageAssetPath: AppAssets.dummyImage,
+          tier: InvitationTier.general,
+          type: 'discounted',
+          productKind: 'discounted',
+          typeColorHex: '#7B4FD6',
+          productLabel: '50% Off',
+          discountPercent: 50,
+          acceptAmountLabel: r'$12.500',
+          status: InvitationStatus.pending,
+          qrStatus: InvitationQrStatus.locked,
+          invitedBy: const InvitationInvitedByEntity(
+            name: 'Warehouse Crew',
+            role: 'producer',
+          ),
+          expiresAtLabel: 'Wed 18 Jun, 6:00 pm',
         ),
         InvitationModel(
           id: festivalVeranoId,
@@ -73,9 +114,14 @@ class InvitationsMockData {
                   dateTimeLabel: item.dateTimeLabel,
                   imageAssetPath: item.imageAssetPath,
                   tier: item.tier,
+                  type: item.type,
                   status: InvitationStatus.confirmed,
+                  requiresPaymentMethod: item.requiresPaymentMethod,
+                  invitedBy: item.invitedBy,
+                  expiresAtLabel: item.expiresAtLabel,
                   entryCode: item.entryCode ?? '8F7A2B',
                   qrPayload: item.qrPayload ?? 'YOUPASS-TICKET-8F7A2B',
+                  qrStatus: InvitationQrStatus.available,
                 )
               : item,
         )
@@ -84,25 +130,11 @@ class InvitationsMockData {
     return _invitations.firstWhere((item) => item.id == invitationId);
   }
 
-  static InvitationModel reject(String invitationId, AppLocalizations l10n) {
+  static void reject(String invitationId, AppLocalizations l10n) {
     final invitations = invitationsFor(l10n);
     _invitations = invitations
-        .map(
-          (item) => item.id == invitationId
-              ? InvitationModel(
-                  id: item.id,
-                  eventTitle: item.eventTitle,
-                  locationLabel: item.locationLabel,
-                  dateTimeLabel: item.dateTimeLabel,
-                  imageAssetPath: item.imageAssetPath,
-                  tier: item.tier,
-                  status: InvitationStatus.rejected,
-                )
-              : item,
-        )
+        .where((item) => item.id != invitationId)
         .toList();
-
-    return _invitations.firstWhere((item) => item.id == invitationId);
   }
 
   static InvitationTicketModel ticketFor(

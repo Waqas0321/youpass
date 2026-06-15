@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
 
-/// Subtle cream waves inside the profile summary card (top-right).
+/// Soft gold wave bands in the profile summary card (top-right), per mockup.
 class ProfileCardWavesPainter extends CustomPainter {
+  ProfileCardWavesPainter({List<Color>? waveBands})
+      : _waveBands = waveBands ??
+            const [
+              ProfileDesignSpec.cardWave1,
+              ProfileDesignSpec.cardWave2,
+              ProfileDesignSpec.cardWave3,
+              ProfileDesignSpec.cardWave4,
+            ];
+
+  final List<Color> _waveBands;
+
   @override
   void paint(Canvas canvas, Size size) {
-    final bands = [
-      ProfileDesignSpec.cardWave1,
-      ProfileDesignSpec.cardWave2,
-      ProfileDesignSpec.cardWave3,
-    ];
-
-    for (var index = 0; index < bands.length; index++) {
+    for (var index = 0; index < _waveBands.length; index++) {
       _drawBand(
         canvas,
         size,
-        color: bands[index],
-        insetFromRight: index * 16.0,
-        curveDepth: 30 + (index * 6),
+        color: _waveBands[index],
+        insetFromRight: index * 14.0,
+        curveDepth: 34 + (index * 8),
       );
     }
   }
@@ -36,10 +41,10 @@ class ProfileCardWavesPainter extends CustomPainter {
     path.lineTo(startX, 0);
     path.cubicTo(
       startX - curveDepth,
-      size.height * 0.25,
-      startX - curveDepth * 0.5,
-      size.height * 0.55,
-      startX - curveDepth * 0.2,
+      size.height * 0.22,
+      startX - curveDepth * 0.55,
+      size.height * 0.52,
+      startX - curveDepth * 0.22,
       size.height,
     );
     path.lineTo(size.width, size.height);

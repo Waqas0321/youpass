@@ -15,11 +15,13 @@ class TicketSelectionBottomBarWidget extends StatelessWidget {
     required this.session,
     required this.onSummaryTap,
     required this.onContinue,
+    this.enabled = true,
   });
 
   final VipPurchaseSession session;
   final VoidCallback onSummaryTap;
   final VoidCallback onContinue;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class TicketSelectionBottomBarWidget extends StatelessWidget {
       currencyCode: session.currency,
       countryIsoCode: session.countryIsoCode,
     );
-    final canContinue = session.hasSelectedTickets;
+    final canContinue = enabled && session.hasSelectedTickets;
 
     return Container(
       decoration: BoxDecoration(
@@ -61,7 +63,7 @@ class TicketSelectionBottomBarWidget extends StatelessWidget {
           ),
           SizedBox(height: VipVenueDesignSpec.px(context, 10)),
           VipPrimaryButtonWidget(
-            label: AppStrings.vipContinueWithTickets(strings, ticketCountLabel),
+            label: AppStrings.vipContinueWithAmount(strings, summaryAmount),
             onPressed: canContinue ? onContinue : null,
             trailingIcon: Icons.arrow_forward_rounded,
           ),

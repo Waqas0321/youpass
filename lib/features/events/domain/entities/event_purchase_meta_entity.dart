@@ -17,6 +17,8 @@ class EventPurchaseMetaEntity extends Equatable {
   final String paymentGateway;
   final String countryCode;
 
+  bool get canPurchase => hasTicketOfferings || hasVenueLayout;
+
   @override
   List<Object?> get props => [
         serviceFeeRate,

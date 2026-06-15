@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:youpass/core/theme/youpass_dialog_theme.dart';
 import 'package:youpass/core/theme/youpass_themed_colors.dart';
 import 'package:youpass/core/theme/youpass_theme_extension.dart';
@@ -10,12 +11,18 @@ class PaymentMethodFieldWidget extends StatelessWidget {
     required this.controller,
     required this.hint,
     this.icon,
+    this.keyboardType,
+    this.inputFormatters,
+    this.maxLength,
   });
 
   final String label;
   final TextEditingController controller;
   final String hint;
   final IconData? icon;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +42,13 @@ class PaymentMethodFieldWidget extends StatelessWidget {
         const SizedBox(height: 6),
         TextField(
           controller: controller,
+          keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
+          maxLength: maxLength,
           style: TextStyle(color: YouPassThemedColors.primaryText(context)),
           decoration: InputDecoration(
             hintText: hint,
+            counterText: '',
             hintStyle: TextStyle(color: YouPassThemedColors.secondaryText(context)),
             prefixIcon: icon == null
                 ? null

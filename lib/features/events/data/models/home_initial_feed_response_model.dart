@@ -4,6 +4,8 @@ import 'package:youpass/features/events/data/mappers/home_layout_mapper.dart';
 import 'package:youpass/features/events/data/models/event_model.dart';
 import 'package:youpass/features/events/data/models/event_type_model.dart';
 import 'package:youpass/features/home/domain/entities/home_feed_meta_entity.dart';
+import 'package:youpass/features/home/domain/entities/home_search_filters_entity.dart';
+import 'package:youpass/features/home/domain/entities/main_banner_carousel_config_entity.dart';
 
 class HomeInitialFeedResponseModel {
   const HomeInitialFeedResponseModel({
@@ -16,10 +18,13 @@ class HomeInitialFeedResponseModel {
     this.greeting,
     this.headerGreeting,
     this.upcomingSectionTitle,
+    this.upcomingHasMore = false,
     this.searchPlaceholder,
+    this.searchFiltersConfig,
     this.partyMode,
     this.invitations,
     this.postRegistration = false,
+    this.mainBannerCarouselConfig,
   });
 
   final List<EventTypeModel> eventTypes;
@@ -31,10 +36,13 @@ class HomeInitialFeedResponseModel {
   final HomeGreetingEntity? greeting;
   final String? headerGreeting;
   final String? upcomingSectionTitle;
+  final bool upcomingHasMore;
   final String? searchPlaceholder;
+  final HomeSearchFiltersConfigEntity? searchFiltersConfig;
   final HomePartyModeEntity? partyMode;
   final HomeInvitationsMetaEntity? invitations;
   final bool postRegistration;
+  final MainBannerCarouselConfigEntity? mainBannerCarouselConfig;
 
   factory HomeInitialFeedResponseModel.fromJson(Map<String, dynamic> json) {
     final categoriesRaw = json['categories'];
@@ -63,11 +71,14 @@ class HomeInitialFeedResponseModel {
       greeting: layout?.greeting ?? legacyGreeting,
       headerGreeting: layout?.headerGreeting,
       upcomingSectionTitle: layout?.upcomingSectionTitle,
+      upcomingHasMore: layout?.upcomingHasMore ?? false,
       searchPlaceholder: layout?.searchPlaceholder,
+      searchFiltersConfig: layout?.searchFiltersConfig,
       partyMode: _parsePartyMode(json['party_mode'] ?? json['partyMode']),
       invitations: _parseInvitations(json['invitations']),
       postRegistration: JsonReaders.boolean(json, 'post_registration', fallback: false) ||
           JsonReaders.boolean(json, 'postRegistration', fallback: false),
+      mainBannerCarouselConfig: layout?.mainBannerCarouselConfig,
     );
   }
 

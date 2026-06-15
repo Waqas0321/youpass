@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
-import 'package:youpass/features/vip_venue/data/vip_venue_mock_data.dart';
 import 'package:youpass/features/vip_venue/domain/entities/venue_zone_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/venue_zone_kind.dart';
 import 'package:youpass/features/vip_venue/domain/entities/venue_zone_status.dart';
@@ -57,12 +56,23 @@ class VenueFloorPlanWidget extends StatelessWidget {
     final strings = context.l10n;
     final padding = VipVenueDesignSpec.px(context, 12);
     final radius = VipVenueDesignSpec.px(context, 18);
-    final vip1 = VipVenueMockData.zoneByKind(zones, VenueZoneKind.vip1);
-    final vipDj = VipVenueMockData.zoneByKind(zones, VenueZoneKind.vipDj);
-    final vip2 = VipVenueMockData.zoneByKind(zones, VenueZoneKind.vip2);
-    final stage = VipVenueMockData.zoneByKind(zones, VenueZoneKind.stage);
-    final danceFloor =
-        VipVenueMockData.zoneByKind(zones, VenueZoneKind.danceFloor);
+    final tableZones = zones
+        .where(
+          (zone) =>
+              zone.isSelectable &&
+              zone.kind != VenueZoneKind.stage &&
+              zone.kind != VenueZoneKind.danceFloor,
+        )
+        .toList();
+    VenueZoneEntity? stage;
+    VenueZoneEntity? danceFloor;
+    for (final zone in zones) {
+      if (zone.kind == VenueZoneKind.stage) {
+        stage = zone;
+      } else if (zone.kind == VenueZoneKind.danceFloor) {
+        danceFloor = zone;
+      }
+    }
 
     return Container(
       decoration: BoxDecoration(
@@ -83,52 +93,55 @@ class VenueFloorPlanWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if (vip1 != null && vipDj != null && vip2 != null)
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: _VipZoneCard(
-                          zone: vip1,
-                          zonePrefix: AppStrings.vipZoneLabel(strings),
-                          capacityLabel: AppStrings.vipZoneCapacity(
-                            strings,
-                            vip1.capacityPerTable ?? 10,
-                          ),
-                          onTap: () => onZoneTap(vip1),
-                        ),
+                if (tableZones.isNotEmpty) ...[
+                  for (var rowStart = 0; rowStart < tableZones.length; rowStart += 3)
+                    Padding(
+                      padding: EdgeInsets.only(
+                        bottom: rowStart + 3 < tableZones.length
+                            ? VipVenueDesignSpec.px(context, 8)
+                            : 0,
                       ),
-                      SizedBox(width: VipVenueDesignSpec.px(context, 8)),
-                      Expanded(
-                        child: _VipZoneCard(
-                          zone: vipDj,
-                          zonePrefix: AppStrings.vipZoneLabel(strings),
-                          capacityLabel: AppStrings.vipZoneCapacity(
-                            strings,
-                            vipDj.capacityPerTable ?? 15,
-                          ),
-                          onTap: vipDj.isSelectable &&
-                                  vipDj.status != VenueZoneStatus.sold
-                              ? () => onZoneTap(vipDj)
-                              : null,
-                        ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (var offset = 0; offset < 3; offset++) ...[
+                            if (rowStart + offset < tableZones.length)
+                              Expanded(
+                                child: _VipZoneCard(
+                                  zone: tableZones[rowStart + offset],
+                                  zonePrefix: AppStrings.vipZoneLabel(strings),
+                                  capacityLabel: AppStrings.vipZoneCapacity(
+                                    strings,
+                                    tableZones[rowStart + offset].capacityPerTable ?? 10,
+                                  ),
+                                  onTap: tableZones[rowStart + offset].isSelectable &&
+                                          tableZones[rowStart + offset].status !=
+                                              VenueZoneStatus.sold
+                                      ? () => onZoneTap(tableZones[rowStart + offset])
+                                      : null,
+                                ),
+                              )
+                            else
+                              const Expanded(child: SizedBox()),
+                            if (offset < 2 && rowStart + offset + 1 < tableZones.length)
+                              SizedBox(width: VipVenueDesignSpec.px(context, 8)),
+                          ],
+                        ],
                       ),
-                      SizedBox(width: VipVenueDesignSpec.px(context, 8)),
-                      Expanded(
-                        child: _VipZoneCard(
-                          zone: vip2,
-                          zonePrefix: AppStrings.vipZoneLabel(strings),
-                          capacityLabel: AppStrings.vipZoneCapacity(
-                            strings,
-                            vip2.capacityPerTable ?? 10,
-                          ),
-                          onTap: vip2.isSelectable &&
-                                  vip2.status != VenueZoneStatus.sold
-                              ? () => onZoneTap(vip2)
-                              : null,
-                        ),
+                    ),
+                ] else
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: VipVenueDesignSpec.px(context, 24),
+                    ),
+                    child: Text(
+                      'No VIP zones configured for this event.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.7),
+                        fontSize: VipVenueDesignSpec.px(context, 13),
                       ),
-                    ],
+                    ),
                   ),
                 if (stage != null) ...[
                   SizedBox(height: VipVenueDesignSpec.px(context, 10)),

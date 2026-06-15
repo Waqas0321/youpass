@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_status.dart';
+import 'package:youpass/features/invitations/domain/entities/invitation_status_extensions.dart';
+import 'package:youpass/core/theme/invitations_screen_theme.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 import 'package:youpass/features/invitations/presentation/widgets/bold_check_painter.dart';
 
@@ -16,12 +18,12 @@ class InvitationStatusIconWidget extends StatelessWidget {
     final size = InvitationsDesignSpec.px(context, 28);
     final radius = InvitationsDesignSpec.px(context, 6);
 
-    if (status == InvitationStatus.confirmed) {
+    if (status.isAccepted) {
       return Container(
         width: size,
         height: size,
         decoration: BoxDecoration(
-          color: InvitationsDesignSpec.confirmedStatusIconBackground,
+          color: InvitationsScreenTheme.confirmedStatusIconBackground(context),
           borderRadius: BorderRadius.circular(radius),
         ),
         alignment: Alignment.center,
@@ -38,7 +40,7 @@ class InvitationStatusIconWidget extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: InvitationsDesignSpec.pendingStatusIconBackground,
+        color: InvitationsScreenTheme.pendingStatusIconBackground(context),
         borderRadius: BorderRadius.circular(radius),
       ),
       child: Icon(

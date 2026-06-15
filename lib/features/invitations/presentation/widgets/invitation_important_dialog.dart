@@ -3,8 +3,10 @@ import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/theme/youpass_dialog_theme.dart';
 import 'package:youpass/core/widgets/dialogs/youpass_dialog_icon_badge.dart';
+import 'package:youpass/core/widgets/dialogs/youpass_dialog_outline_button.dart';
 import 'package:youpass/core/widgets/dialogs/youpass_dialog_primary_button.dart';
 import 'package:youpass/core/widgets/dialogs/youpass_themed_dialog_shell.dart';
+import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 
 class InvitationImportantDialog extends StatelessWidget {
   const InvitationImportantDialog({super.key});
@@ -31,10 +33,10 @@ class InvitationImportantDialog extends StatelessWidget {
           Text(
             AppStrings.invitationsImportantTitle(strings),
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
-              color: YouPassDialogTheme.title(context),
+              color: InvitationsDesignSpec.primary,
             ),
           ),
           const SizedBox(height: 12),
@@ -52,15 +54,10 @@ class InvitationImportantDialog extends StatelessWidget {
             label: AppStrings.invitationsAddPaymentMethod(strings),
             onPressed: () => Navigator.of(context).pop(true),
           ),
-          TextButton(
+          const SizedBox(height: 8),
+          YouPassDialogOutlineButton(
+            label: AppStrings.invitationsDialogCancel(strings),
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text(
-              AppStrings.confirmDialogCancel(strings),
-              style: TextStyle(
-                color: YouPassDialogTheme.cancelText(context),
-                fontWeight: FontWeight.w600,
-              ),
-            ),
           ),
         ],
       ),

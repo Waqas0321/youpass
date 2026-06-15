@@ -3,10 +3,13 @@ import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/theme/tickets_screen_theme.dart';
 import 'package:youpass/features/tickets/domain/entities/past_event_entity.dart';
+import 'package:youpass/features/tickets/domain/entities/ticket_display_status.dart';
 import 'package:youpass/features/tickets/presentation/tickets_design_spec.dart';
+import 'package:youpass/features/tickets/presentation/utils/ticket_status_labels.dart';
 import 'package:youpass/features/tickets/presentation/widgets/ticket_event_image_widget.dart';
 import 'package:youpass/features/tickets/presentation/widgets/ticket_meta_row_widget.dart';
 import 'package:youpass/features/tickets/presentation/widgets/ticket_stat_column_widget.dart';
+import 'package:youpass/features/tickets/presentation/widgets/ticket_status_badge_widget.dart';
 
 class PastEventCardWidget extends StatelessWidget {
   const PastEventCardWidget({
@@ -44,6 +47,14 @@ class PastEventCardWidget extends StatelessWidget {
                 width: double.infinity,
                 height: imageHeight,
                 fit: BoxFit.cover,
+              ),
+              Positioned(
+                left: TicketsDesignSpec.px(context, 12),
+                top: TicketsDesignSpec.px(context, 12),
+                child: TicketStatusBadgeWidget(
+                  label: TicketStatusLabels.label(strings, event.displayStatus),
+                  variant: _badgeVariant(event.displayStatus),
+                ),
               ),
               Positioned(
                 top: TicketsDesignSpec.px(context, 12),
@@ -161,5 +172,20 @@ class PastEventCardWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  TicketStatusBadgeVariant _badgeVariant(TicketDisplayStatus status) {
+    switch (status) {
+      case TicketDisplayStatus.active:
+        return TicketStatusBadgeVariant.active;
+      case TicketDisplayStatus.validated:
+        return TicketStatusBadgeVariant.validated;
+      case TicketDisplayStatus.expired:
+        return TicketStatusBadgeVariant.expired;
+      case TicketDisplayStatus.cancelled:
+        return TicketStatusBadgeVariant.cancelled;
+      case TicketDisplayStatus.refunded:
+        return TicketStatusBadgeVariant.refunded;
+    }
   }
 }

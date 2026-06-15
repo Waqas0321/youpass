@@ -10,6 +10,9 @@ class PaymentMethodRequestModel {
     this.gateway,
     this.brand,
     this.lastFour,
+    this.expirationMonth,
+    this.expirationYear,
+    this.setAsDefault = true,
   });
 
   final String? cardNumber;
@@ -20,6 +23,9 @@ class PaymentMethodRequestModel {
   final String? gateway;
   final String? brand;
   final String? lastFour;
+  final int? expirationMonth;
+  final int? expirationYear;
+  final bool setAsDefault;
 
   factory PaymentMethodRequestModel.fromEntity(
     PaymentMethodRequestEntity entity,
@@ -33,6 +39,9 @@ class PaymentMethodRequestModel {
       gateway: entity.gateway,
       brand: entity.brand,
       lastFour: entity.lastFour,
+      expirationMonth: entity.expirationMonth,
+      expirationYear: entity.expirationYear,
+      setAsDefault: entity.setAsDefault,
     );
   }
 
@@ -45,6 +54,9 @@ class PaymentMethodRequestModel {
         if (lastFour != null && lastFour!.isNotEmpty) 'last_four': lastFour,
         if (cardholderName != null && cardholderName!.isNotEmpty)
           'cardholder_name': cardholderName,
+        if (expirationMonth != null) 'expiration_month': expirationMonth,
+        if (expirationYear != null) 'expiration_year': expirationYear,
+        'set_as_default': setAsDefault,
       };
     }
 

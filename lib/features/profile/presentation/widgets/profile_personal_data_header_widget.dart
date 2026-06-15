@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
+import 'package:youpass/features/profile/presentation/widgets/profile_theme.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_icon_badge_widget.dart';
 
 class ProfilePersonalDataHeaderWidget extends StatelessWidget {
@@ -13,7 +13,7 @@ class ProfilePersonalDataHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = YouPassThemeExtension.of(context);
+    final theme = ProfileTheme.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -45,7 +45,7 @@ class ProfilePersonalDataHeaderWidget extends StatelessWidget {
                   ProfileDesignSpec.sectionHeaderFontSize,
                 ),
                 fontWeight: FontWeight.w800,
-                color: ProfileDesignSpec.primary,
+                color: theme.primary,
                 letterSpacing: 0.6,
                 height: 1.2,
               ),
@@ -61,7 +61,7 @@ class ProfilePersonalDataHeaderWidget extends StatelessWidget {
         Divider(
           height: 1,
           thickness: 1,
-          color: theme.profileSectionDivider,
+          color: theme.sectionDivider,
         ),
       ],
     );

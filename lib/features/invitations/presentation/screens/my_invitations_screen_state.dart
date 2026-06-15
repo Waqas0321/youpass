@@ -8,17 +8,20 @@ import 'package:youpass/core/widgets/shimmer/invitations_list_shimmer.dart';
 import 'package:youpass/core/widgets/youpass_branded_app_bar_widget.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_filter.dart';
+import 'package:youpass/features/invitations/domain/entities/invitation_list_tab.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
-import 'package:youpass/features/invitations/presentation/providers/invitation_submit_action.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_status.dart';
 import 'package:youpass/features/invitations/presentation/screens/my_invitations_screen.dart';
 import 'package:youpass/features/invitations/presentation/utils/invitations_filter_helper.dart';
 import 'package:youpass/features/invitations/presentation/utils/invitations_screen_actions.dart';
 import 'package:youpass/features/invitations/presentation/widgets/invitations_list_content_widget.dart';
+import 'package:youpass/features/waitlist/domain/entities/waitlist_entry_entity.dart';
+import 'package:youpass/features/waitlist/presentation/utils/waitlist_flow_actions.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
 class MyInvitationsScreenState extends State<MyInvitationsScreen> {
+  InvitationListTab selectedTab = InvitationListTab.pending;
   InvitationFilter selectedFilter = InvitationFilter.all;
   String searchQuery = '';
 
@@ -41,6 +44,35 @@ class MyInvitationsScreenState extends State<MyInvitationsScreen> {
     setState(() => selectedFilter = filter);
   }
 
+  void updateTab(InvitationListTab tab) {
+    setState(() => selectedTab = tab);
+  }
+
+  List<WaitlistEntryEntity> _visibleWaitlistEntries(
+    List<WaitlistEntryEntity> entries,
+  ) {
+    if (selectedTab != InvitationListTab.pending) {
+      return const [];
+    }
+    if (selectedFilter != InvitationFilter.all &&
+        selectedFilter != InvitationFilter.courtesies) {
+      return const [];
+    }
+
+    final query = searchQuery.trim().toLowerCase();
+    if (query.isEmpty) {
+      return entries;
+    }
+
+    return entries
+        .where(
+          (entry) =>
+              entry.eventTitle.toLowerCase().contains(query) ||
+              entry.locationLabel.toLowerCase().contains(query),
+        )
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
@@ -48,16 +80,42 @@ class MyInvitationsScreenState extends State<MyInvitationsScreen> {
     final actions = InvitationsScreenActions(context);
     final visibleInvitations = InvitationsFilterHelper.filterInvitations(
       invitations: provider.invitations,
+      selectedTab: selectedTab,
       selectedFilter: selectedFilter,
       searchQuery: searchQuery,
     );
+    final visibleWaitlist = _visibleWaitlistEntries(provider.waitlistEntries);
 
     return Scaffold(
-      appBar: YouPassBrandedAppBarWidget(
-        onBack: () => Navigator.of(context).pop(),
-        primaryColor: InvitationsDesignSpec.primary,
+      appBar: widget.embeddedInShell
+          ? AppBar(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              centerTitle: true,
+              automaticallyImplyLeading: false,
+              title: Text(
+                AppStrings.drawerInvitations(strings),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: InvitationsDesignSpec.primary,
+                  letterSpacing: 0.4,
+                ),
+              ),
+            )
+          : YouPassBrandedAppBarWidget(
+              onBack: () => Navigator.of(context).pop(),
+              primaryColor: InvitationsDesignSpec.primary,
+            ),
+      body: buildBody(
+        strings,
+        provider,
+        actions,
+        visibleInvitations,
+        visibleWaitlist,
       ),
-      body: buildBody(strings, provider, actions, visibleInvitations),
     );
   }
 
@@ -66,14 +124,19 @@ class MyInvitationsScreenState extends State<MyInvitationsScreen> {
     InvitationsProvider provider,
     InvitationsScreenActions actions,
     List<InvitationEntity> visibleInvitations,
+    List<WaitlistEntryEntity> visibleWaitlist,
   ) {
+    final waitlistActions = WaitlistFlowActions(context);
+
     if (provider.status == InvitationsStatus.loading &&
-        provider.invitations.isEmpty) {
+        provider.invitations.isEmpty &&
+        provider.waitlistEntries.isEmpty) {
       return const InvitationsListShimmer();
     }
 
     if (provider.status == InvitationsStatus.error &&
-        provider.invitations.isEmpty) {
+        provider.invitations.isEmpty &&
+        provider.waitlistEntries.isEmpty) {
       return Center(
         child: AppText(
           provider.localizedErrorMessage(strings) ??
@@ -83,20 +146,26 @@ class MyInvitationsScreenState extends State<MyInvitationsScreen> {
     }
 
     return InvitationsListContentWidget(
+      selectedTab: selectedTab,
+      onTabSelected: updateTab,
       invitations: visibleInvitations,
+      waitlistEntries: visibleWaitlist,
+      totalInvitations: provider.invitations
+          .where((item) => !InvitationsFilterHelper.isHiddenFromLists(item))
+          .length,
+      searchQuery: searchQuery,
       selectedFilter: selectedFilter,
       onFilterSelected: updateFilter,
       onSearchChanged: updateSearch,
       onConfirmAttendance: actions.confirmAttendance,
       onRejectInvitation: actions.rejectInvitation,
-      onCancelInvitation: actions.rejectInvitation,
+      onCancelInvitation: actions.cancelInvitation,
       onViewTicket: actions.openTicket,
-      isConfirmLoading: (id) =>
-          provider.isActionLoading(id, InvitationSubmitAction.confirm),
-      isRejectLoading: (id) =>
-          provider.isActionLoading(id, InvitationSubmitAction.reject),
-      isViewQrLoading: (id) =>
-          provider.isActionLoading(id, InvitationSubmitAction.viewQr),
+      onOpenDetail: actions.openInvitationDetail,
+      onLeaveWaitlist: waitlistActions.leaveWaitlist,
+      onClaimWaitlistSlot: waitlistActions.claimSlot,
+      isActionLoading: provider.isActionLoading,
+      isAnyActionLoading: (id) => provider.isAnyActionLoading(id),
     );
   }
 }

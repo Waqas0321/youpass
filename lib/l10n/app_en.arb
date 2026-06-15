@@ -39,6 +39,78 @@
   "featuredEventLocation": "BICENTENNIAL PARK, SANTIAGO",
   "eventsSectionTitle": "Featured events",
   "homeNoEventsFound": "No events found for this filter",
+  "homeEventsEndOfList": "You've seen all available events.",
+  "homeNearMeButton": "See events near my location",
+  "homeEventDistanceKm": "{distance} km",
+  "@homeEventDistanceKm": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "homeEventTravelMinutes": "{minutes} min",
+  "@homeEventTravelMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "homeNearMePermissionDenied": "Location permission is required to show nearby events.",
+  "homeNearMeLocationDisabled": "Turn on location services to find events near you.",
+  "homeSearchPlaceholder": "Search events by name",
+  "homeSearchEmpty": "We couldn't find any events with that term.",
+  "homeSearchRecentTitle": "Recent searches",
+  "homeSearchClearHistory": "Clear",
+  "homeSearchSuggestionsTitle": "Suggestions",
+  "homeFiltersTitle": "Filters",
+  "homeFiltersDate": "Date",
+  "homeFiltersPrice": "Price",
+  "homeFiltersCityZone": "City / Zone",
+  "homeFiltersVenueType": "Venue type",
+  "homeFiltersFreeOnly": "Free events only",
+  "homeFiltersCityLabel": "City",
+  "homeFiltersZoneLabel": "Neighbourhood",
+  "homeFiltersClear": "Clear filters",
+  "homeFiltersApply": "Apply",
+  "homeFiltersApplyCount": "Apply ({count})",
+  "@homeFiltersApplyCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeFiltersCustomRange": "Custom range",
+  "homeFiltersDateFrom": "From {date}",
+  "@homeFiltersDateFrom": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "homeFiltersDateUntil": "Until {date}",
+  "@homeFiltersDateUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "homeFiltersDateRange": "{from} – {to}",
+  "@homeFiltersDateRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "homeFiltersAllCities": "All cities",
   "allEventsTitle": "All events",
   "allEventsSubtitle": "Browse every published event on YouPass",
   "allEventsSearchHint": "Search event",
@@ -65,6 +137,28 @@
   "buyTickets": "BUY TICKETS",
   "eventDetailTitle": "Event details",
   "eventDetailAboutSection": "About this event",
+  "eventDetailAboutHeading": "ABOUT THE EVENT",
+  "eventDetailReadMore": "See more",
+  "eventDetailReadLess": "Read less",
+  "eventDetailBuyTicketsLabel": "Buy tickets",
+  "eventDetailSoldOut": "Sold Out",
+  "eventDetailPromoterLabel": "Promoter",
+  "eventDetailFollowPromoter": "You are now following {name}",
+  "@eventDetailFollowPromoter": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "eventDetailUnfollowPromoter": "You unfollowed {name}",
+  "@eventDetailUnfollowPromoter": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "eventCaribeDate": "Saturday, January 31, 2026",
   "eventCaribeLocation": "Club Océano, Viña del Mar",
   "eventRockDate": "Sunday, February 15, 2026",
@@ -192,7 +286,7 @@
   "signInLink": "SIGN IN",
   "drawerMyProfile": "My Profile",
   "drawerMyTickets": "My Tickets",
-  "drawerMyFavorites": "My Favorites",
+  "drawerMyFavorites": "My Favourites",
   "drawerInvitations": "INVITATIONS",
   "drawerInvitationsNewBadge": "{count} new",
   "@drawerInvitationsNewBadge": {
@@ -202,7 +296,10 @@
       }
     }
   },
+  "drawerTierBronze": "BRONZE",
+  "drawerTierSilver": "SILVER",
   "drawerTierGold": "GOLD",
+  "drawerTierPlatinum": "PLATINUM",
   "profileTitle": "My Profile",
   "profileViewBenefits": "View my benefits",
   "profilePersonalData": "PERSONAL DATA",
@@ -226,27 +323,149 @@
   "profileCardVisa": "Visa ••••4205",
   "profileCardMastercard": "Mastercard ••••9988",
   "profileDefaultCard": "Default",
+  "profileSetDefaultCard": "Set as default",
+  "profileDeleteCard": "Delete card",
+  "profileDefaultCardUpdated": "Default payment method updated",
   "profileViewFullWallet": "View full wallet",
+  "profileWalletAvailableBalance": "Available balance",
+  "profileWalletCredits": "{amount} credits",
+  "@profileWalletCredits": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "profileWalletTransactionHistory": "Transaction history",
+  "profileWalletNoTransactions": "No transactions yet",
+  "profileWalletDefaultDeleteRequired": "Choose a new default card before deleting this one",
+  "profileWalletSelectNewDefault": "Select new default card",
+  "profileWalletAddCard": "Add new card",
   "profileNotifications": "NOTIFICATIONS",
   "profileReceiveNotifications": "Receive notifications",
   "profileNotificationChannels": "Email · Push · WhatsApp",
+  "profileNotificationChannelEmail": "Email",
+  "profileNotificationChannelEmailDesc": "Formal communications, order confirmations, receipts, and long reminders",
+  "profileNotificationChannelPush": "Push notification",
+  "profileNotificationChannelPushDesc": "Real-time alerts, invitations, short reminders, and urgent updates",
+  "profileNotificationChannelWhatsApp": "WhatsApp",
+  "profileNotificationChannelWhatsAppDesc": "Interactive bot messages, invitations, payment links, and conversational updates",
+  "profileNotificationAdvancedSettings": "Advanced settings",
+  "profileNotificationCriticalDisclaimer": "These notifications cannot be disabled as they are essential to your experience.",
+  "profileNotificationAdvancedTitle": "Advanced notification settings",
+  "profileNotificationByType": "By type",
+  "profileNotificationTypePurchases": "Purchases",
+  "profileNotificationTypeReminders": "Reminders",
+  "profileNotificationTypePromotions": "Promotions",
+  "profileNotificationTypeSocial": "Social",
+  "profileNotificationByChannel": "By channel",
+  "profileNotificationNightSilence": "Night silence",
+  "profileNotificationNightSilenceDesc": "No push notifications after the selected time (your local timezone)",
+  "profileNotificationNightSilenceFrom": "Silence push from",
+  "profileNotificationCriticalTitle": "Critical notifications",
+  "profileNotificationCriticalEventCancellation": "Event cancellation",
+  "profileNotificationCriticalEventDatetime": "Event date or time change",
+  "profileNotificationCriticalEventVenue": "Event venue or location change",
+  "profileNotificationCriticalSecurity": "Critical security alerts",
+  "profileNotificationCriticalPaymentReceipts": "Payment receipts / purchase confirmations",
+  "profileNotificationCriticalRefunds": "Processed refunds",
+  "profileNotificationUpdateFailed": "Could not update notification settings. Please try again.",
   "profileSupport": "SUPPORT",
   "profileWhatsAppSupport": "WhatsApp support",
   "profileWriteEmail": "Send email",
   "profileFaq": "Frequently asked questions",
-  "profileLogout": "Log out",
+  "profileLogout": "Sign out",
   "profileDeleteAccount": "Delete account",
+  "profileDeleteInfoIntro": "The following will be permanently deleted:",
+  "profileDeleteItemPersonalData": "Personal data",
+  "profileDeleteItemTickets": "Active and future tickets",
+  "profileDeleteItemPaymentMethods": "Payment methods",
+  "profileDeleteItemPoints": "Accumulated points",
+  "profileDeleteItemHistory": "Complete history",
+  "profileDeleteIrreversibleWarning": "This action is IRREVERSIBLE after 7 days.",
+  "accountDeletionBiometricReason": "Confirm your identity to continue with account deletion",
+  "accountDeletionBiometricFailed": "Authentication failed. Account deletion was not started.",
+  "accountDeletionPendingBannerTitle": "Account pending deletion",
+  "accountDeletionPendingBannerSubtitle": "Your account will be deleted on {date} ({days} days remaining). Tap to cancel.",
+  "@accountDeletionPendingBannerSubtitle": {
+    "placeholders": {
+      "date": { "type": "String" },
+      "days": { "type": "int" }
+    }
+  },
+  "accountDeletionCancelAction": "Cancel deletion",
+  "accountDeletionCancelled": "Your YOUPASS account is still active.",
   "profilePhotoUpdated": "Profile photo updated",
+  "profileCompleteBannerTitle": "Complete your profile",
+  "profileCompleteBannerSubtitleBoth": "Add your photo and Instagram to personalise your experience",
+  "profileCompleteBannerSubtitlePhoto": "Add your profile photo to be better identified",
+  "profileCompleteBannerSubtitleInstagram": "Add your Instagram to connect with other attendees",
+  "profileCompleteBannerButton": "COMPLETE",
+  "profilePhotoChooseSource": "Change profile photo",
+  "profilePhotoTake": "Take photo",
+  "profilePhotoGallery": "Choose from gallery",
+  "profileNotAdded": "Not added",
+  "profileEditTitle": "Edit details",
+  "profileSave": "Save",
+  "profileSaved": "Profile updated successfully",
+  "profileGenderFemaleValue": "Female",
+  "profileGenderOtherValue": "Other",
+  "profileGenderPreferNotSayValue": "Prefer not to say",
+  "profileCategoryBenefits": "My benefits",
+  "profileFaqTitle": "Frequently asked questions",
+  "profileFaqSearch": "Search",
+  "profileFaqHelpful": "Was this helpful?",
+  "profileFaqYes": "Yes",
+  "profileFaqNo": "No",
+  "profileFaqNoResults": "We couldn't find an answer. Contact us directly.",
+  "profileFaqContactWhatsApp": "Contact via WhatsApp",
+  "profileFaqContactEmail": "Send email",
+  "profileWhatsAppNotInstalled": "WhatsApp is not installed on this device. Please contact us by email instead.",
+  "profileDeleteInfoTitle": "Delete account",
+  "profileDeleteInfoMessage": "Your personal data, active and future tickets, payment methods, accumulated points, and full history will be deleted. This action is IRREVERSIBLE after 7 days.",
+  "profileDeleteContinue": "Continue with deletion",
+  "profileDeletePendingMessage": "Your account will be deleted in {days} days. Cancel deletion?",
+  "@profileDeletePendingMessage": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "profileEmailSubject": "YouPass support request",
+  "profileAdvancedNotifications": "Advanced settings",
   "confirmDialogCancel": "Cancel",
-  "confirmLogoutTitle": "Log out?",
-  "confirmLogoutMessage": "You will need to sign in again with your phone number to use YouPass.",
-  "confirmLogoutAction": "Log out",
+  "confirmLogoutTitle": "Are you sure you want to sign out?",
+  "confirmLogoutMessage": "Your account, tickets, wallet, and points will be saved. You can sign back in anytime with your phone number and OTP code.",
+  "confirmLogoutAction": "Yes, sign out",
   "confirmDeleteAccountTitle": "Delete your account?",
   "confirmDeleteAccountMessage": "This permanently removes your account, tickets, and profile data. We will send a verification code to confirm.",
   "confirmDeleteAccountAction": "Continue",
-  "ticketsTabUpcoming": "UPCOMING",
-  "ticketsTabPast": "PAST EVENTS",
+  "ticketsTabUpcoming": "Active / Upcoming",
+  "ticketsTabPast": "History",
   "ticketsStatusActive": "ACTIVE",
+  "ticketsStatusValidated": "VALIDATED",
+  "ticketsStatusExpired": "EXPIRED",
+  "ticketsStatusCancelled": "CANCELLED",
+  "ticketsStatusRefunded": "REFUNDED",
+  "ticketsInvitationPending": "INVITATION",
+  "ticketsInvitationExpires": "Respond before {deadline}",
+  "@ticketsInvitationExpires": {
+    "placeholders": {
+      "deadline": {"type": "String"}
+    }
+  },
+  "ticketsQrCountdown": "Your QR will be available on {eventDate}",
+  "@ticketsQrCountdown": {
+    "placeholders": {
+      "eventDate": {"type": "String"}
+    }
+  },
+  "ticketsQrUnavailable": "QR LOCKED",
+  "ticketsCancelTicket": "Cancel ticket",
+  "ticketsCancelTicketTitle": "Cancel this ticket?",
+  "ticketsCancelTicketMessage": "Your ticket will be cancelled and an automatic refund will be processed when applicable.",
+  "ticketsCancelTicketConfirm": "Yes, cancel",
+  "ticketsCancelTicketSuccess": "Ticket cancelled. Refund is being processed.",
+  "bottomNavHome": "Home",
+  "bottomNavInvitations": "Invites",
+  "bottomNavTickets": "Tickets",
   "ticketsViewQr": "VIEW QR",
   "ticketsAssignEntries": "ASSIGN TICKETS",
   "ticketsAssignVip": "ASSIGN VIP TICKETS",
@@ -300,6 +519,18 @@
   },
   "favoritesYoufestDescription": "The best festivals and live experiences.",
   "favoritesIguanaDescription": "Electronic music, parties and unique experiences.",
+  "favoritesFollowerCount": "{count} followers",
+  "@favoritesFollowerCount": {
+    "placeholders": {
+      "count": {"type": "String"}
+    }
+  },
+  "favoritesNoSearchResults": "No promoters or events found matching your search",
+  "favoritesExploreCta": "Explore events",
+  "favoritesSectionFollowedPromoters": "FOLLOWED PROMOTERS",
+  "favoritesSectionSavedEvents": "SAVED EVENTS",
+  "producerEventPresale": "PRE-SALE",
+  "producerEventPrepay": "PRE-PAY",
   "producerEventsUpcomingTitle": "UPCOMING EVENTS",
   "producerEventsUpcomingSubtitle": "Discover upcoming events from {producerName}",
   "@producerEventsUpcomingSubtitle": {
@@ -325,14 +556,117 @@
   },
   "drawerMyInvitations": "My Invitations",
   "invitationsScreenTitle": "MY INVITATIONS",
-  "invitationsSubtitle": "Manage your event access and invitations",
-  "invitationsSearchHint": "Search invitations / Events / promoters",
+  "invitationsSubtitle": "Manage your event accesses and invitations",
+  "invitationsSearchHint": "Search invitation · Event / promoter",
+  "invitationsFiltersLabel": "FILTERS",
+  "invitationsFilterCourtesy": "Courtesies",
   "invitationsFilterAll": "All",
+  "invitationsFilterFree": "Free",
+  "invitationsFilterGuaranteedPass": "Guaranteed Pass",
+  "invitationsFilterDiscounted": "Discounted",
+  "invitationsTypeFree": "Free Invitation",
+  "invitationsTypeGuaranteedPass": "Guaranteed Pass",
+  "invitationsTypeDiscounted": "Discounted Invitation",
+  "invitationsGuaranteedPassTitle": "Guaranteed Pass",
+  "invitationsGuaranteedPassMessage": "This pass is FREE if you attend. If you do not attend and do not cancel by {deadline}, {amount} will be charged to your card.",
+  "@invitationsGuaranteedPassMessage": {
+    "placeholders": {
+      "deadline": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+  "invitationsGuaranteedPassTerms": "I understand the attendance commitment and possible charge",
+  "invitationsGpTermsRequired": "Please accept the terms to continue",
+  "invitationsPreauthNotice": "Your card will be pre-authorised for {amount}. You will only be charged if you no-show.",
+  "@invitationsPreauthNotice": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "invitationsDiscountedPayTitle": "Discounted Invitation",
+  "invitationsDiscountedPayMessage": "Pay {amount} now to accept this invitation.",
+  "@invitationsDiscountedPayMessage": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "invitationsDiscountPercent": "{percent}% discount",
+  "@invitationsDiscountPercent": {
+    "placeholders": {
+      "percent": {"type": "int"}
+    }
+  },
+  "invitationsCancelBy": "Cancel by {deadline}",
+  "@invitationsCancelBy": {
+    "placeholders": {
+      "deadline": {"type": "String"}
+    }
+  },
+  "invitationsAcceptGuaranteed": "ACCEPT AND RESERVE",
+  "invitationsAcceptAndReserve": "ACCEPT AND RESERVE",
+  "invitationsGuaranteedPassDetailTitle": "Guaranteed Pass",
+  "invitationsDetailTitle": "Invitation details",
+  "invitationsGuaranteedBadge": "GUARANTEED",
+  "invitationsAssignedSlot": "Slot: {slot}",
+  "@invitationsAssignedSlot": {
+    "placeholders": {
+      "slot": {"type": "String"}
+    }
+  },
+  "invitationsPassStatus": "Status: {status}",
+  "@invitationsPassStatus": {
+    "placeholders": {
+      "status": {"type": "String"}
+    }
+  },
+  "invitationsGpWarningTitle": "⚠ IMPORTANT",
+  "invitationsGpWarningBody": "If you attend: 100% FREE\nIf you don't attend: {amount} will be charged to your card\n\nCANCELLATION DEADLINE\nUntil {deadline} without charge\n\nBy accepting, you authorise the charge to your card if you do not attend the event.",
+  "@invitationsGpWarningBody": {
+    "placeholders": {
+      "amount": {"type": "String"},
+      "deadline": {"type": "String"}
+    }
+  },
+  "invitationsBiometricReason": "Confirm your Guaranteed Pass acceptance",
+  "invitationsGpPaymentRequired": "You need to add a payment method to accept a Guaranteed Pass",
+  "invitationsGpActiveTitle": "Guaranteed Pass active",
+  "invitationsGpActiveMessage": "Your pass to {event} is reserved. Cancel before {deadline} without charge.",
+  "@invitationsGpActiveMessage": {
+    "placeholders": {
+      "event": {"type": "String"},
+      "deadline": {"type": "String"}
+    }
+  },
+  "invitationsGpActiveCta": "Go to My Tickets",
+  "invitationsCancelInvitation": "Cancel invitation",
+  "invitationsGpCancelTitle": "Cancel your Guaranteed Pass?",
+  "invitationsGpCancelMessage": "Your card hold will be released immediately. This cannot be undone.",
+  "invitationsGpCancelConfirm": "Yes, cancel",
+  "invitationsGpCancelSuccess": "Your Guaranteed Pass was cancelled without charge.",
+  "invitationsAcceptDiscounted": "PAY & ACCEPT",
   "invitationsFilterGeneral": "General",
   "invitationsFilterVip": "VIP",
+  "invitationsFilterTables": "Tables",
+  "invitationsTierVipDj": "VIP DJ",
   "invitationsTierVip": "VIP",
   "invitationsTierVipMesa": "VIP Table",
   "invitationsTierGeneral": "General",
+  "invitationsInvitedBy": "Invited by {name}",
+  "@invitationsInvitedBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationsAcceptBy": "Accept by {deadline}",
+  "@invitationsAcceptBy": {
+    "placeholders": {
+      "deadline": {
+        "type": "String"
+      }
+    }
+  },
   "invitationsStatusLine": "Status: {status}",
   "@invitationsStatusLine": {
     "placeholders": {
@@ -342,11 +676,30 @@
     }
   },
   "invitationsStatusPrefix": "Status:",
-  "invitationsStatusPending": "Awaiting confirmation",
+  "invitationsStatusPending": "Pending",
   "invitationsStatusConfirmed": "Confirmed",
   "invitationsStatusRejected": "Declined",
   "invitationsConfirmAttendance": "CONFIRM ATTENDANCE",
-  "invitationsReject": "DECLINE",
+  "invitationsTabPending": "Pending",
+  "invitationsTabConfirmed": "Confirmed",
+  "invitationsEmptyNone": "You have no invitations yet.",
+  "invitationsEmptySearch": "No invitations found for that search.",
+  "invitationsEmptyPending": "You have no pending invitations.",
+  "invitationsEmptyConfirmed": "You have no confirmed invitations yet.",
+  "invitationsRejectConfirmTitle": "Reject invitation?",
+  "invitationsRejectConfirmMessage": "Are you sure you want to reject this invitation?",
+  "invitationsRejectConfirmAction": "REJECT",
+  "invitationsCancellationDeadlinePassed": "Cancellation deadline has passed",
+  "invitationsWaitingConfirmation": "Waiting for confirmation…",
+  "invitationsQrAvailableOn": "Your QR will be available on {date}",
+  "@invitationsQrAvailableOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationsReject": "REJECT",
   "invitationsCancel": "CANCEL",
   "invitationsAttendanceConfirmed": "ATTENDANCE CONFIRMED",
   "invitationsViewQr": "VIEW QR",
@@ -365,10 +718,11 @@
     }
   },
   "invitationsQrGotIt": "GOT IT",
-  "invitationsFooterNote": "Confirmed invitations generate a unique, non-transferable QR code.",
-  "invitationsImportantTitle": "Important",
-  "invitationsImportantMessage": "By confirming, the ticket is reserved exclusively for you. If you do not attend, you may be charged the full ticket price.",
+  "invitationsFooterNote": "Confirmed invitations generate a unique and non-transferable QR code.",
+  "invitationsImportantTitle": "Important ⚠",
+  "invitationsImportantMessage": "By confirming your attendance, your ticket will be reserved exclusively for you. If you do not attend the event, you may be charged the full ticket price when this condition applies.",
   "invitationsAddPaymentMethod": "ADD PAYMENT METHOD",
+  "invitationsDialogCancel": "CANCEL",
   "invitationsPaymentTitle": "Add payment method",
   "invitationsPaymentSubtitle": "Enter your card details",
   "invitationsCardNumber": "Card number",
@@ -379,12 +733,12 @@
   "invitationsCardCvvHint": "123",
   "invitationsCardholderName": "Name on card",
   "invitationsCardholderNameHint": "As shown on the card",
-  "invitationsPaymentSecureNote": "for secure use",
+  "invitationsPaymentSecureNote": "Your information is protected and will be used securely.",
   "invitationsSaveCard": "SAVE CARD",
   "invitationsCardSavedTitle": "Card saved successfully!",
-  "invitationsCardSavedMessage": "Your card has been registered. Remember:",
-  "invitationsCardSavedReminderCharge": "If you do not attend the event, you may be charged the full ticket price.",
-  "invitationsCardSavedReminderCancel": "Cancellations must be made at least 48 hours in advance to avoid charges.",
+  "invitationsCardSavedMessage": "Your payment method has been registered correctly. Remember the following:",
+  "invitationsCardSavedReminderCharge": "If you confirm attendance and do not show up, you will be charged the full ticket price.",
+  "invitationsCardSavedReminderCancel": "If you wish to cancel your attendance, you must do so at least 48 hours in advance to avoid being charged.",
   "eventTicketScreenTitle": "Event ticket",
   "eventTicketReadyTitle": "Your ticket is ready!",
   "eventTicketReadySubtitle": "Show this code at the entrance to enter the event.",
@@ -504,7 +858,8 @@
   "invitationClaimLoginRegister": "Log in or register",
   "vipTicketSelectionTitle": "Buy tickets",
   "vipTicketSelectionHeading": "Choose your ticket",
-  "vipSectionGeneralTickets": "GENERAL ADMISSION",
+  "vipSectionGeneralTickets": "GENERAL TICKETS",
+  "vipSectionVipTables": "VIP TABLES",
   "vipSectionVipTickets": "VIP ADMISSION",
   "vipOfferingPreventa1": "PRE-SALE 1",
   "vipOfferingPreventa2": "PRE-SALE 2",
@@ -531,10 +886,19 @@
       "ticketCount": {"type": "String"}
     }
   },
+  "vipContinueWithAmount": "Continue · {amount}",
+  "@vipContinueWithAmount": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "vipTicketSoldOutBadge": "Sold out",
+  "vipTicketsNoneAvailable": "No tickets available for this event.",
+  "vipTicketsAllSoldOut": "All tickets for this event are sold out.",
   "vipSecurePayment": "100% secure payment",
   "vipOfferingGeneral": "GENERAL - STANDARD",
   "vipMesasVipTitle": "VIP Tables",
-  "vipMesasVipSubtitle": "Reserve your table and live the full experience.",
+  "vipMesasVipSubtitle": "Choose your table →",
   "vipFloorPlanTitle": "Venue floor plan",
   "vipFloorPlanHeading": "Venue floor plan",
   "vipFloorPlanVenueName": "Main hall",
@@ -568,7 +932,7 @@
   "vipEmergencyExit": "EMERGENCY EXIT",
   "vipLegendAvailableShort": "Avail.",
   "vipDanceFloorGeneral": "General",
-  "vipTableDistributionTitle": "ZONE {zone} DISTRIBUTION",
+  "vipTableDistributionTitle": "{zone} DISTRIBUTION",
   "@vipTableDistributionTitle": {
     "placeholders": {
       "zone": {"type": "String"}
@@ -576,8 +940,17 @@
   },
   "vipTableDistributionStage": "DJ Stage",
   "vipLegendTableAvailable": "Available",
+  "vipLegendTablePremium": "Premium",
   "vipLegendTableSelection": "Selected",
   "vipLegendTableSold": "Sold",
+  "vipZoneTablesScreenTitle": "Tables {zone}",
+  "@vipZoneTablesScreenTitle": {
+    "placeholders": {
+      "zone": {"type": "String"}
+    }
+  },
+  "vipTablesZoneSoldOut": "All tables in this zone are sold out.",
+  "vipTablePremiumBadge": "Premium",
   "vipTablesZoneTitle": "VIP Tables 1",
   "vipTablesCapacitySubtitle": "{count} people per table",
   "@vipTablesCapacitySubtitle": {
@@ -598,7 +971,7 @@
       "table": {"type": "String"}
     }
   },
-  "vipTableDetailTitle": "Table {table} - {zone}",
+  "vipTableDetailTitle": "Table {table} — {zone}",
   "@vipTableDetailTitle": {
     "placeholders": {
       "table": {"type": "String"},
@@ -689,7 +1062,45 @@
       "time": {"type": "String"}
     }
   },
+  "vipTableLockReservedCountdown": "Your table is reserved for {time}",
+  "@vipTableLockReservedCountdown": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
   "vipTableLockExpired": "Your table reservation expired. Please select a table again.",
+  "vipTableLockExpiredTitle": "Your reservation has expired",
+  "vipTableLockExpiredMessage": "The table has been released. Please return to the floor plan to select again.",
+  "vipTableLockExpiredReturnFloorPlan": "Return to floor plan",
+  "vipTableBlockedMessage": "This table is being reserved. Try again in a few minutes or choose another table.",
+  "vipTableBlockedReserve": "This table is being reserved. Try again in a few minutes or choose another table.",
+  "vipLegendTableBlocked": "Blocked",
   "eventDetailTicketsUnavailable": "Tickets are not available for this event yet.",
-  "vipViewQr": "View QR"
+  "vipViewQr": "View QR",
+  "waitlistJoinButton": "Join waiting list",
+  "waitlistLeaveButton": "Leave waiting list",
+  "waitlistJoinTitle": "Join waiting list",
+  "waitlistJoinConfirm": "Confirm join",
+  "waitlistJoinSuccess": "You are on the waiting list for {eventName}. We will notify you immediately if a slot opens up.",
+  "@waitlistJoinSuccess": {
+    "placeholders": {
+      "eventName": {"type": "String"}
+    }
+  },
+  "waitlistEstimatedPosition": "You are #{position} on the waiting list",
+  "@waitlistEstimatedPosition": {
+    "placeholders": {
+      "position": {"type": "String"}
+    }
+  },
+  "waitlistLeaveTitle": "Leave waiting list?",
+  "waitlistLeaveMessage": "Are you sure? You will lose your position in the queue.",
+  "waitlistLeaveConfirm": "Leave list",
+  "waitlistClaimSlot": "CLAIM MY SLOT",
+  "waitlistOfferBanner": "A slot is waiting for you! Confirm before {time}",
+  "@waitlistOfferBanner": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  }
 }

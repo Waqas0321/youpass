@@ -35,53 +35,86 @@ class VipTableDetailCardWidget extends StatelessWidget {
     return VipSurfaceCardWidget(
       borderColor: accent,
       borderWidth: 1.5,
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          VipIconBadgeWidget(
-            icon: Icons.table_restaurant_outlined,
-            size: 48,
-            iconSize: 24,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText(
+                      AppStrings.vipTableDetailTitle(strings, tableNumber, zone.name),
+                      variant: AppTextVariant.bodyEmphasis,
+                      color: VipVenueScreenTheme.title(context),
+                      fontSize: VipVenueDesignSpec.px(context, 16),
+                      fontWeight: FontWeight.w800,
+                    ),
+                    if (table.showsAsPremium) ...[
+                      SizedBox(height: VipVenueDesignSpec.px(context, 6)),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: VipVenueDesignSpec.px(context, 8),
+                          vertical: VipVenueDesignSpec.px(context, 4),
+                        ),
+                        decoration: BoxDecoration(
+                          color: VipVenueDesignSpec.tablePremium.withValues(alpha: 0.18),
+                          borderRadius: BorderRadius.circular(
+                            VipVenueDesignSpec.px(context, 8),
+                          ),
+                        ),
+                        child: Text(
+                          AppStrings.vipTablePremiumBadge(strings),
+                          style: TextStyle(
+                            color: VipVenueDesignSpec.tablePremium,
+                            fontSize: VipVenueDesignSpec.px(context, 11),
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              VipPriceColumnWidget(
+                amount: VipCurrencyFormatter.formatAmountCompact(
+                  context,
+                  table.price,
+                  currencyCode: currencyCode,
+                  countryIsoCode: countryIsoCode,
+                ),
+                currencyLabel: currencyCode,
+              ),
+            ],
           ),
-          SizedBox(width: VipVenueDesignSpec.px(context, 12)),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppText(
-                  AppStrings.vipTableDetailTitle(strings, tableNumber, zone.name),
-                  variant: AppTextVariant.bodyEmphasis,
-                  color: VipVenueScreenTheme.title(context),
-                  fontSize: VipVenueDesignSpec.px(context, 15),
-                  fontWeight: FontWeight.w800,
-                ),
-                SizedBox(height: VipVenueDesignSpec.px(context, 8)),
-                VipMetaRowWidget(
-                  icon: Icons.people_outline,
-                  label: AppStrings.vipTableCapacity(strings, table.capacity),
-                ),
-                SizedBox(height: VipVenueDesignSpec.px(context, 4)),
-                VipMetaRowWidget(
-                  icon: Icons.local_bar_outlined,
-                  label: AppStrings.vipTableBottles(strings, table.bottleCount),
-                ),
-                SizedBox(height: VipVenueDesignSpec.px(context, 4)),
-                VipMetaRowWidget(
-                  icon: Icons.confirmation_number_outlined,
-                  label: AppStrings.vipTableVouchers(strings, table.voucherCount),
-                ),
-              ],
+          SizedBox(height: VipVenueDesignSpec.px(context, 12)),
+          VipMetaRowWidget(
+            icon: Icons.people_outline,
+            label: AppStrings.vipTableCapacity(strings, table.capacity),
+          ),
+          if (table.bottleCount > 0) ...[
+            SizedBox(height: VipVenueDesignSpec.px(context, 4)),
+            VipMetaRowWidget(
+              icon: Icons.local_bar_outlined,
+              label: AppStrings.vipTableBottles(strings, table.bottleCount),
             ),
-          ),
-          VipPriceColumnWidget(
-            amount: VipCurrencyFormatter.formatAmountCompact(
-              context,
-              table.price,
-              currencyCode: currencyCode,
-              countryIsoCode: countryIsoCode,
+          ],
+          if (table.voucherCount > 0) ...[
+            SizedBox(height: VipVenueDesignSpec.px(context, 4)),
+            VipMetaRowWidget(
+              icon: Icons.confirmation_number_outlined,
+              label: AppStrings.vipTableVouchers(strings, table.voucherCount),
             ),
-            currencyLabel: currencyCode,
-          ),
+          ],
+          for (final extra in table.extras) ...[
+            SizedBox(height: VipVenueDesignSpec.px(context, 4)),
+            VipMetaRowWidget(
+              icon: Icons.star_outline,
+              label: extra,
+            ),
+          ],
         ],
       ),
     );

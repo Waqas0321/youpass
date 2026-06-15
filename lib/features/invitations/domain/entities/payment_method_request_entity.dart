@@ -10,6 +10,9 @@ class PaymentMethodRequestEntity extends Equatable {
     this.gateway,
     this.brand,
     this.lastFour,
+    this.expirationMonth,
+    this.expirationYear,
+    this.setAsDefault = true,
   });
 
   final String cardNumber;
@@ -20,6 +23,9 @@ class PaymentMethodRequestEntity extends Equatable {
   final String? gateway;
   final String? brand;
   final String? lastFour;
+  final int? expirationMonth;
+  final int? expirationYear;
+  final bool setAsDefault;
 
   bool get isTokenized =>
       paymentMethodId != null && paymentMethodId!.trim().isNotEmpty;
@@ -34,5 +40,8 @@ class PaymentMethodRequestEntity extends Equatable {
         gateway,
         brand,
         lastFour,
+        expirationMonth,
+        expirationYear,
+        setAsDefault,
       ];
 }

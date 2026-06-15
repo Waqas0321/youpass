@@ -1,4 +1,6 @@
 import 'package:youpass/features/invitations/data/datasources/invitations_remote_datasource.dart';
+import 'package:youpass/features/invitations/domain/entities/confirm_invitation_params.dart';
+import 'package:youpass/features/invitations/domain/entities/invitations_feed_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_ticket_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitations_summary_entity.dart';
@@ -9,6 +11,11 @@ class InvitationsRepositoryImpl implements InvitationsRepository {
   InvitationsRepositoryImpl(this.remoteDataSource);
 
   final InvitationsRemoteDataSource remoteDataSource;
+
+  @override
+  Future<InvitationsFeedEntity> fetchInvitationsFeed() {
+    return remoteDataSource.fetchInvitationsFeed();
+  }
 
   @override
   Future<List<InvitationEntity>> fetchInvitations() {
@@ -31,13 +38,21 @@ class InvitationsRepositoryImpl implements InvitationsRepository {
   }
 
   @override
-  Future<InvitationEntity> confirmInvitation(String invitationId) {
-    return remoteDataSource.confirmInvitation(invitationId);
+  Future<InvitationEntity> confirmInvitation(
+    String invitationId, {
+    ConfirmInvitationParams params = const ConfirmInvitationParams(),
+  }) {
+    return remoteDataSource.confirmInvitation(invitationId, params: params);
   }
 
   @override
-  Future<InvitationEntity> rejectInvitation(String invitationId) {
+  Future<void> rejectInvitation(String invitationId) {
     return remoteDataSource.rejectInvitation(invitationId);
+  }
+
+  @override
+  Future<void> cancelInvitation(String invitationId) {
+    return remoteDataSource.cancelInvitation(invitationId);
   }
 
   @override
@@ -48,5 +63,25 @@ class InvitationsRepositoryImpl implements InvitationsRepository {
   @override
   Future<void> savePaymentMethod(PaymentMethodRequestEntity request) {
     return remoteDataSource.savePaymentMethod(request);
+  }
+
+  @override
+  Future<Map<String, dynamic>> fetchWaitlistJoinPreview(String eventId) {
+    return remoteDataSource.fetchWaitlistJoinPreview(eventId);
+  }
+
+  @override
+  Future<Map<String, dynamic>> joinWaitlist(String eventId) {
+    return remoteDataSource.joinWaitlist(eventId);
+  }
+
+  @override
+  Future<void> leaveWaitlist(String eventId) {
+    return remoteDataSource.leaveWaitlist(eventId);
+  }
+
+  @override
+  Future<InvitationEntity> claimWaitlistOffer(String offerId) {
+    return remoteDataSource.claimWaitlistOffer(offerId);
   }
 }

@@ -65,7 +65,9 @@ class VipTableDistributionMapWidget extends StatelessWidget {
                 return VipTableSeatWidget(
                   table: table,
                   isSelected: table.id == selectedTableId,
-                  onTap: table.isSelectable ? () => onTableTap(table) : null,
+                  onTap: table.status == VenueTableStatus.sold
+                      ? null
+                      : () => onTableTap(table),
                 );
               },
             ),
@@ -96,11 +98,15 @@ class VipTableSeatWidget extends StatelessWidget {
     }
     switch (table.status) {
       case VenueTableStatus.available:
+        return table.showsAsPremium
+            ? VipVenueMapTheme.tablePremium
+            : VipVenueMapTheme.tableAvailable;
       case VenueTableStatus.premium:
-        return VipVenueMapTheme.tableAvailable;
+        return VipVenueMapTheme.tablePremium;
       case VenueTableStatus.sold:
-      case VenueTableStatus.locked:
         return VipVenueMapTheme.tableOccupied;
+      case VenueTableStatus.locked:
+        return VipVenueMapTheme.tableBlocked;
       case VenueTableStatus.selected:
         return VipVenueMapTheme.tableSelected;
     }

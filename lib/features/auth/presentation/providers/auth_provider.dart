@@ -177,7 +177,7 @@ class AuthProvider extends ChangeNotifier {
     required String countryIsoCode,
     required OtpPurpose purpose,
   }) async {
-    return runAuthAction(
+    final result = await runAuthAction(
       actionName: 'send-code',
       action: () => sendCodeUseCase(
         phone: phone,
@@ -187,6 +187,8 @@ class AuthProvider extends ChangeNotifier {
       logContext:
           'purpose=${purpose.apiValue} country=$countryIsoCode phone=$phone',
     );
+    _logDevOtpIfPresent(result);
+    return result;
   }
 
   Future<SendCodeResultEntity?> resendVerificationCode({
@@ -194,7 +196,7 @@ class AuthProvider extends ChangeNotifier {
     required String countryIsoCode,
     required OtpPurpose purpose,
   }) async {
-    return runAuthAction(
+    final result = await runAuthAction(
       actionName: 'resend-code',
       action: () => resendCodeUseCase(
         phone: phone,
@@ -203,6 +205,21 @@ class AuthProvider extends ChangeNotifier {
       ),
       logContext:
           'purpose=${purpose.apiValue} country=$countryIsoCode phone=$phone',
+    );
+    _logDevOtpIfPresent(result);
+    return result;
+  }
+
+  void _logDevOtpIfPresent(SendCodeResultEntity? result) {
+    final code = result?.devOtpCode;
+    if (code == null || code.isEmpty) {
+      return;
+    }
+
+    AppLogger.devOtp(
+      phone: result!.phoneDisplay,
+      purpose: result.purpose,
+      code: code,
     );
   }
 
@@ -396,6 +413,12 @@ class AuthProvider extends ChangeNotifier {
 
     if (result == null) {
       return false;
+    }
+
+    if (result.isPendingDeletion) {
+      await refreshUserProfile();
+      AppLogger.auth('Account pending deletion (${result.daysRemaining} days)');
+      return true;
     }
 
     await _setUnauthenticated();

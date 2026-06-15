@@ -1,6 +1,7 @@
 import 'package:youpass/core/utils/json_readers.dart';
 import 'package:youpass/features/vip_venue/domain/entities/table_availability_snapshot_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/table_lock_result_entity.dart';
+import 'package:youpass/features/vip_venue/domain/entities/table_lock_status_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/ticket_offering_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/ticket_offering_section.dart';
 import 'package:youpass/features/vip_venue/domain/entities/ticket_types_bundle_entity.dart';
@@ -26,10 +27,16 @@ class TicketOfferingModel extends TicketOfferingEntity {
     super.badgeLabel,
     super.quantity,
     super.vouchersPerTicket,
+    super.isSoldOut,
+    super.isSelectable,
   });
 
   @override
-  TicketOfferingModel copyWith({int? quantity}) {
+  TicketOfferingModel copyWith({
+    int? quantity,
+    bool? isSoldOut,
+    bool? isSelectable,
+  }) {
     return TicketOfferingModel(
       id: id,
       label: label,
@@ -43,6 +50,8 @@ class TicketOfferingModel extends TicketOfferingEntity {
       badgeLabel: badgeLabel,
       quantity: quantity ?? this.quantity,
       vouchersPerTicket: vouchersPerTicket,
+      isSoldOut: isSoldOut ?? this.isSoldOut,
+      isSelectable: isSelectable ?? this.isSelectable,
     );
   }
 
@@ -67,9 +76,22 @@ class TicketOfferingModel extends TicketOfferingEntity {
       mapsToType: JsonReaders.nullableString(json, 'maps_to_type') ??
           JsonReaders.nullableString(json, 'mapsToType'),
       currency: JsonReaders.string(json, 'currency', fallback: 'CLP'),
+      description: JsonReaders.nullableString(json, 'description'),
       badgeLabel: JsonReaders.nullableString(json, 'badge_label') ??
           JsonReaders.nullableString(json, 'badgeLabel'),
+      isSoldOut: _readBool(json, 'is_sold_out') || _readBool(json, 'isSoldOut'),
+      isSelectable: json.containsKey('is_selectable') || json.containsKey('isSelectable')
+          ? (_readBool(json, 'is_selectable') || _readBool(json, 'isSelectable'))
+          : !(_readBool(json, 'is_sold_out') || _readBool(json, 'isSoldOut')),
     );
+  }
+
+  static bool _readBool(Map<String, dynamic> json, String key) {
+    final value = json[key];
+    if (value is bool) {
+      return value;
+    }
+    return false;
   }
 }
 
@@ -189,6 +211,10 @@ class VenueTableModel extends VenueTableEntity {
     required super.capacity,
     required super.bottleCount,
     required super.voucherCount,
+    super.extras,
+    super.positionX,
+    super.positionY,
+    super.isPremium,
   });
 
   factory VenueTableModel.fromJson(Map<String, dynamic> json) {
@@ -205,20 +231,40 @@ class VenueTableModel extends VenueTableEntity {
             fallback: 0,
           )
         : 0;
+    final extras = includes is Map ? _readStringList(includes['extras']) : const <String>[];
 
     final zoneId = JsonReaders.string(json, 'zone_id', fallback: '') != ''
         ? JsonReaders.string(json, 'zone_id')
         : JsonReaders.string(json, 'zoneId');
 
+    final position = json['position'];
+    final positionX = position is Map
+        ? (position['x'] as num?)?.toDouble() ?? 0
+        : _readCoordinate(json['position_x'] ?? json['positionX']);
+    final positionY = position is Map
+        ? (position['y'] as num?)?.toDouble() ?? 0
+        : _readCoordinate(json['position_y'] ?? json['positionY']);
+
+    final mappedStatus = _mapTableStatus(json);
+    final isPremiumFlag = JsonReaders.boolean(json, 'is_premium') ||
+        JsonReaders.boolean(json, 'isPremium');
+    final status = isPremiumFlag && mappedStatus == VenueTableStatus.available
+        ? VenueTableStatus.premium
+        : mappedStatus;
+
     return VenueTableModel(
       id: JsonReaders.string(json, 'id'),
       label: JsonReaders.string(json, 'label'),
       zoneId: zoneId,
-      status: _mapTableStatus(json),
+      status: status,
       price: JsonReaders.integer(json, 'price'),
       capacity: people,
       bottleCount: bottles,
       voucherCount: vouchers,
+      extras: extras,
+      positionX: positionX,
+      positionY: positionY,
+      isPremium: isPremiumFlag || status == VenueTableStatus.premium,
     );
   }
 }
@@ -301,6 +347,43 @@ class TableLockResultModel extends TableLockResultEntity {
         fallback: 600,
       ),
       table: table,
+    );
+  }
+}
+
+class TableLockStatusModel extends TableLockStatusEntity {
+  const TableLockStatusModel({
+    super.lockId,
+    required super.status,
+    super.lockedAt,
+    super.expiresAt,
+    required super.remainingSeconds,
+    required super.isLockedByMe,
+  });
+
+  factory TableLockStatusModel.fromJson(Map<String, dynamic> json) {
+    final expiresAtRaw =
+        json['expires_at']?.toString() ?? json['expiresAt']?.toString();
+    final lockedAtRaw =
+        json['locked_at']?.toString() ?? json['lockedAt']?.toString();
+
+    return TableLockStatusModel(
+      lockId: JsonReaders.string(json, 'lock_id', fallback: '') != ''
+          ? JsonReaders.string(json, 'lock_id')
+          : JsonReaders.string(json, 'lockId', fallback: ''),
+      status: JsonReaders.string(json, 'status', fallback: 'NONE'),
+      lockedAt: lockedAtRaw != null && lockedAtRaw.isNotEmpty
+          ? DateTime.tryParse(lockedAtRaw)
+          : null,
+      expiresAt: expiresAtRaw != null && expiresAtRaw.isNotEmpty
+          ? DateTime.tryParse(expiresAtRaw)
+          : null,
+      remainingSeconds: JsonReaders.integerValue(
+        json['remaining_seconds'] ?? json['remainingSeconds'],
+        fallback: 0,
+      ),
+      isLockedByMe: JsonReaders.boolean(json, 'is_locked_by_me') ||
+          JsonReaders.boolean(json, 'isLockedByMe'),
     );
   }
 }
@@ -391,6 +474,27 @@ class TableAvailabilityItemModel extends TableAvailabilityItemEntity {
       status: _mapTableStatus(json),
     );
   }
+}
+
+double _readCoordinate(Object? value) {
+  if (value is num) {
+    return value.toDouble();
+  }
+  return 0;
+}
+
+List<String> _readStringList(Object? value) {
+  if (value is! List) {
+    return const [];
+  }
+
+  final extras = <String>[];
+  for (final item in value) {
+    if (item is String && item.trim().isNotEmpty) {
+      extras.add(item.trim());
+    }
+  }
+  return extras;
 }
 
 VenueZoneKind _mapZoneKind(String type, String id) {

@@ -9,7 +9,10 @@ class InvitationCardShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = YouPassThemeExtension.of(context);
-    final imageSize = InvitationsDesignSpec.px(context, 96);
+    final imageWidth = InvitationsDesignSpec.px(
+      context,
+      InvitationsDesignSpec.cardImageWidth,
+    );
     final radius = InvitationsDesignSpec.px(context, InvitationsDesignSpec.cardRadius);
     final spacing = InvitationsDesignSpec.px(context, 12);
 
@@ -21,85 +24,100 @@ class InvitationCardShimmer extends StatelessWidget {
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(color: theme.cardBorder),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          YouPassShimmerBox(
-            width: imageSize,
-            height: imageSize,
-            borderRadius: InvitationsDesignSpec.px(context, 12),
-          ),
-          SizedBox(width: spacing),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
+          Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: imageWidth + spacing),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded(
-                      child: YouPassShimmerBox(
-                        height: InvitationsDesignSpec.px(context, 16),
-                        borderRadius: InvitationsDesignSpec.px(context, 6),
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: YouPassShimmerBox(
+                            height: InvitationsDesignSpec.px(context, 16),
+                            borderRadius: InvitationsDesignSpec.px(context, 6),
+                          ),
+                        ),
+                        SizedBox(width: spacing),
+                        YouPassShimmerBox(
+                          width: InvitationsDesignSpec.px(context, 28),
+                          height: InvitationsDesignSpec.px(context, 28),
+                          borderRadius: InvitationsDesignSpec.px(context, 6),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: spacing),
+                    SizedBox(height: spacing),
                     YouPassShimmerBox(
-                      width: InvitationsDesignSpec.px(context, 28),
-                      height: InvitationsDesignSpec.px(context, 28),
+                      width: InvitationsDesignSpec.px(context, 140),
+                      height: InvitationsDesignSpec.px(context, 12),
                       borderRadius: InvitationsDesignSpec.px(context, 6),
                     ),
+                    SizedBox(height: InvitationsDesignSpec.px(context, 6)),
+                    YouPassShimmerBox(
+                      width: InvitationsDesignSpec.px(context, 120),
+                      height: InvitationsDesignSpec.px(context, 12),
+                      borderRadius: InvitationsDesignSpec.px(context, 6),
+                    ),
+                    SizedBox(height: InvitationsDesignSpec.px(context, 6)),
+                    YouPassShimmerBox(
+                      width: InvitationsDesignSpec.px(context, 80),
+                      height: InvitationsDesignSpec.px(context, 12),
+                      borderRadius: InvitationsDesignSpec.px(context, 6),
+                    ),
+                    YouPassShimmerBox(
+                      width: InvitationsDesignSpec.px(context, 100),
+                      height: InvitationsDesignSpec.px(context, 12),
+                      borderRadius: InvitationsDesignSpec.px(context, 6),
+                    ),
+                    SizedBox(height: InvitationsDesignSpec.px(context, 10)),
                   ],
                 ),
-                SizedBox(height: spacing),
-                YouPassShimmerBox(
-                  width: InvitationsDesignSpec.px(context, 140),
-                  height: InvitationsDesignSpec.px(context, 12),
-                  borderRadius: InvitationsDesignSpec.px(context, 6),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                bottom: 0,
+                width: imageWidth,
+                child: YouPassShimmerBox(
+                  width: imageWidth,
+                  height: double.infinity,
+                  borderRadius: InvitationsDesignSpec.px(context, 12),
                 ),
-                SizedBox(height: InvitationsDesignSpec.px(context, 6)),
-                YouPassShimmerBox(
-                  width: InvitationsDesignSpec.px(context, 120),
-                  height: InvitationsDesignSpec.px(context, 12),
-                  borderRadius: InvitationsDesignSpec.px(context, 6),
-                ),
-                SizedBox(height: InvitationsDesignSpec.px(context, 6)),
-                YouPassShimmerBox(
-                  width: InvitationsDesignSpec.px(context, 80),
-                  height: InvitationsDesignSpec.px(context, 12),
-                  borderRadius: InvitationsDesignSpec.px(context, 6),
-                ),
-                SizedBox(height: InvitationsDesignSpec.px(context, 10)),
-                YouPassShimmerBox(
-                  width: double.infinity,
-                  height: InvitationsDesignSpec.px(context, 1),
-                  borderRadius: 0,
-                ),
-                SizedBox(height: InvitationsDesignSpec.px(context, 10)),
-                YouPassShimmerBox(
-                  width: double.infinity,
+              ),
+            ],
+          ),
+          YouPassShimmerBox(
+            width: double.infinity,
+            height: InvitationsDesignSpec.px(context, 1),
+            borderRadius: 0,
+          ),
+          SizedBox(height: InvitationsDesignSpec.px(context, 10)),
+          YouPassShimmerBox(
+            width: double.infinity,
+            height: InvitationsDesignSpec.px(context, 38),
+            borderRadius: InvitationsDesignSpec.px(context, 10),
+          ),
+          SizedBox(height: InvitationsDesignSpec.px(context, 8)),
+          Row(
+            children: [
+              Expanded(
+                child: YouPassShimmerBox(
                   height: InvitationsDesignSpec.px(context, 38),
                   borderRadius: InvitationsDesignSpec.px(context, 10),
                 ),
-                SizedBox(height: InvitationsDesignSpec.px(context, 8)),
-                Row(
-                  children: [
-                    Expanded(
-                      child: YouPassShimmerBox(
-                        height: InvitationsDesignSpec.px(context, 38),
-                        borderRadius: InvitationsDesignSpec.px(context, 10),
-                      ),
-                    ),
-                    SizedBox(width: InvitationsDesignSpec.px(context, 8)),
-                    Expanded(
-                      child: YouPassShimmerBox(
-                        height: InvitationsDesignSpec.px(context, 38),
-                        borderRadius: InvitationsDesignSpec.px(context, 10),
-                      ),
-                    ),
-                  ],
+              ),
+              SizedBox(width: InvitationsDesignSpec.px(context, 8)),
+              Expanded(
+                child: YouPassShimmerBox(
+                  height: InvitationsDesignSpec.px(context, 38),
+                  borderRadius: InvitationsDesignSpec.px(context, 10),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

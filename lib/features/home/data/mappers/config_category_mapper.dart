@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/network/models/config_category_model.dart';
 import 'package:youpass/features/home/domain/entities/event_category_entity.dart';
 
@@ -21,10 +20,6 @@ class ConfigCategoryMapper {
   }
 
   static IconData _iconForCategory(ConfigCategoryModel category) {
-    if (category.id == AppConstants.categoryIdAll) {
-      return Icons.apps_outlined;
-    }
-
     if (category.countryCode != null && category.countryCode!.isNotEmpty) {
       return Icons.location_on_outlined;
     }
@@ -34,12 +29,26 @@ class ConfigCategoryMapper {
 
   static IconData _iconForSlug(String slug) {
     switch (slug) {
-      case AppConstants.categoryIdParties:
+      case 'parties':
         return Icons.celebration_outlined;
-      case AppConstants.categoryIdConcerts:
+      case 'concerts':
         return Icons.music_note_outlined;
-      case AppConstants.categoryIdSports:
+      case 'sports':
         return Icons.sports_soccer_outlined;
+      case 'humour':
+        return Icons.sentiment_very_satisfied_outlined;
+      case 'theatre':
+        return Icons.theater_comedy_outlined;
+      case 'cinema':
+        return Icons.movie_outlined;
+      case 'food':
+        return Icons.restaurant_outlined;
+      case 'culture-art':
+        return Icons.palette_outlined;
+      case 'family':
+        return Icons.family_restroom_outlined;
+      case 'conferences':
+        return Icons.record_voice_over_outlined;
       case 'bar':
         return Icons.local_bar_outlined;
       default:

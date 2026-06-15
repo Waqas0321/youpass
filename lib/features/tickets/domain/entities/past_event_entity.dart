@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:youpass/features/tickets/domain/entities/past_event_filter.dart';
+import 'package:youpass/features/tickets/domain/entities/ticket_display_status.dart';
 
 class PastEventEntity extends Equatable {
   const PastEventEntity({
@@ -10,6 +11,7 @@ class PastEventEntity extends Equatable {
     required this.imageAssetPath,
     required this.category,
     this.eventId,
+    this.displayStatus = TicketDisplayStatus.expired,
     this.isFavorite = false,
     this.showStatistics = false,
     this.entryTime,
@@ -24,6 +26,7 @@ class PastEventEntity extends Equatable {
   final String dateLabel;
   final String imageAssetPath;
   final PastEventFilter category;
+  final TicketDisplayStatus displayStatus;
   final bool isFavorite;
   final bool showStatistics;
   final String? entryTime;
@@ -63,6 +66,7 @@ class PastEventEntity extends Equatable {
         dateLabel,
         imageAssetPath,
         category,
+        displayStatus,
         isFavorite,
         showStatistics,
         entryTime,

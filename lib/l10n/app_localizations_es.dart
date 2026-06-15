@@ -108,6 +108,101 @@ class AppLocalizationsEs extends AppLocalizations {
   String get homeNoEventsFound => 'No hay eventos para este filtro';
 
   @override
+  String get homeEventsEndOfList => 'Has visto todos los eventos disponibles.';
+
+  @override
+  String get homeNearMeButton => 'Ver eventos cerca de mi ubicación';
+
+  @override
+  String homeEventDistanceKm(String distance) {
+    return '$distance km';
+  }
+
+  @override
+  String homeEventTravelMinutes(int minutes) {
+    return '$minutes min';
+  }
+
+  @override
+  String get homeNearMePermissionDenied =>
+      'Se necesita permiso de ubicación para mostrar eventos cercanos.';
+
+  @override
+  String get homeNearMeLocationDisabled =>
+      'Activa los servicios de ubicación para encontrar eventos cerca de ti.';
+
+  @override
+  String get homeSearchPlaceholder => 'Buscar eventos por nombre';
+
+  @override
+  String get homeSearchEmpty => 'No encontramos eventos con ese término.';
+
+  @override
+  String get homeSearchRecentTitle => 'Búsquedas recientes';
+
+  @override
+  String get homeSearchClearHistory => 'Borrar';
+
+  @override
+  String get homeSearchSuggestionsTitle => 'Sugerencias';
+
+  @override
+  String get homeFiltersTitle => 'Filtros';
+
+  @override
+  String get homeFiltersDate => 'Fecha';
+
+  @override
+  String get homeFiltersPrice => 'Precio';
+
+  @override
+  String get homeFiltersCityZone => 'Ciudad / Zona';
+
+  @override
+  String get homeFiltersVenueType => 'Tipo de venue';
+
+  @override
+  String get homeFiltersFreeOnly => 'Solo eventos gratis';
+
+  @override
+  String get homeFiltersCityLabel => 'Ciudad';
+
+  @override
+  String get homeFiltersZoneLabel => 'Barrio';
+
+  @override
+  String get homeFiltersClear => 'Limpiar filtros';
+
+  @override
+  String get homeFiltersApply => 'Aplicar';
+
+  @override
+  String homeFiltersApplyCount(int count) {
+    return 'Aplicar ($count)';
+  }
+
+  @override
+  String get homeFiltersCustomRange => 'Rango personalizado';
+
+  @override
+  String homeFiltersDateFrom(String date) {
+    return 'Desde $date';
+  }
+
+  @override
+  String homeFiltersDateUntil(String date) {
+    return 'Hasta $date';
+  }
+
+  @override
+  String homeFiltersDateRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get homeFiltersAllCities => 'Todas las ciudades';
+
+  @override
   String get allEventsTitle => 'Todos los eventos';
 
   @override
@@ -149,6 +244,34 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get eventDetailAboutSection => 'Sobre este evento';
+
+  @override
+  String get eventDetailAboutHeading => 'SOBRE EL EVENTO';
+
+  @override
+  String get eventDetailReadMore => 'Ver más';
+
+  @override
+  String get eventDetailReadLess => 'Leer menos';
+
+  @override
+  String get eventDetailBuyTicketsLabel => 'Comprar entradas';
+
+  @override
+  String get eventDetailSoldOut => 'Agotado';
+
+  @override
+  String get eventDetailPromoterLabel => 'Promotora';
+
+  @override
+  String eventDetailFollowPromoter(String name) {
+    return 'Ahora sigues a $name';
+  }
+
+  @override
+  String eventDetailUnfollowPromoter(String name) {
+    return 'Dejaste de seguir a $name';
+  }
 
   @override
   String get eventCaribeDate => 'Sábado, 31 de enero, 2026';
@@ -418,7 +541,16 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get drawerTierBronze => 'BRONZE';
+
+  @override
+  String get drawerTierSilver => 'SILVER';
+
+  @override
   String get drawerTierGold => 'GOLD';
+
+  @override
+  String get drawerTierPlatinum => 'PLATINUM';
 
   @override
   String get profileTitle => 'Mi Perfil';
@@ -491,7 +623,42 @@ class AppLocalizationsEs extends AppLocalizations {
   String get profileDefaultCard => 'Predeterminada';
 
   @override
+  String get profileSetDefaultCard => 'Establecer como predeterminada';
+
+  @override
+  String get profileDeleteCard => 'Eliminar tarjeta';
+
+  @override
+  String get profileDefaultCardUpdated =>
+      'Método de pago predeterminado actualizado';
+
+  @override
   String get profileViewFullWallet => 'Ver billetera completa';
+
+  @override
+  String get profileWalletAvailableBalance => 'Saldo disponible';
+
+  @override
+  String profileWalletCredits(String amount) {
+    return '$amount créditos';
+  }
+
+  @override
+  String get profileWalletTransactionHistory => 'Historial de transacciones';
+
+  @override
+  String get profileWalletNoTransactions => 'Aún no hay transacciones';
+
+  @override
+  String get profileWalletDefaultDeleteRequired =>
+      'Elige una nueva tarjeta predeterminada antes de eliminar esta';
+
+  @override
+  String get profileWalletSelectNewDefault =>
+      'Seleccionar nueva predeterminada';
+
+  @override
+  String get profileWalletAddCard => 'Agregar nueva tarjeta';
 
   @override
   String get profileNotifications => 'NOTIFICACIONES';
@@ -501,6 +668,96 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get profileNotificationChannels => 'Email · Push · WhatsApp';
+
+  @override
+  String get profileNotificationChannelEmail => 'Email';
+
+  @override
+  String get profileNotificationChannelEmailDesc =>
+      'Comunicaciones formales, confirmaciones de pedido, recibos y recordatorios largos';
+
+  @override
+  String get profileNotificationChannelPush => 'Notificación push';
+
+  @override
+  String get profileNotificationChannelPushDesc =>
+      'Alertas en tiempo real, invitaciones, recordatorios cortos y actualizaciones urgentes';
+
+  @override
+  String get profileNotificationChannelWhatsApp => 'WhatsApp';
+
+  @override
+  String get profileNotificationChannelWhatsAppDesc =>
+      'Mensajes del bot, invitaciones, enlaces de pago y actualizaciones conversacionales';
+
+  @override
+  String get profileNotificationAdvancedSettings => 'Configuración avanzada';
+
+  @override
+  String get profileNotificationCriticalDisclaimer =>
+      'Estas notificaciones no se pueden desactivar porque son esenciales para tu experiencia.';
+
+  @override
+  String get profileNotificationAdvancedTitle =>
+      'Configuración avanzada de notificaciones';
+
+  @override
+  String get profileNotificationByType => 'Por tipo';
+
+  @override
+  String get profileNotificationTypePurchases => 'Compras';
+
+  @override
+  String get profileNotificationTypeReminders => 'Recordatorios';
+
+  @override
+  String get profileNotificationTypePromotions => 'Promociones';
+
+  @override
+  String get profileNotificationTypeSocial => 'Social';
+
+  @override
+  String get profileNotificationByChannel => 'Por canal';
+
+  @override
+  String get profileNotificationNightSilence => 'Silencio nocturno';
+
+  @override
+  String get profileNotificationNightSilenceDesc =>
+      'Sin notificaciones push después de la hora seleccionada (tu zona horaria local)';
+
+  @override
+  String get profileNotificationNightSilenceFrom => 'Silenciar push desde';
+
+  @override
+  String get profileNotificationCriticalTitle => 'Notificaciones críticas';
+
+  @override
+  String get profileNotificationCriticalEventCancellation =>
+      'Cancelación de evento';
+
+  @override
+  String get profileNotificationCriticalEventDatetime =>
+      'Cambio de fecha u hora del evento';
+
+  @override
+  String get profileNotificationCriticalEventVenue =>
+      'Cambio de lugar o venue del evento';
+
+  @override
+  String get profileNotificationCriticalSecurity =>
+      'Alertas de seguridad críticas';
+
+  @override
+  String get profileNotificationCriticalPaymentReceipts =>
+      'Recibos de pago / confirmaciones de compra';
+
+  @override
+  String get profileNotificationCriticalRefunds => 'Reembolsos procesados';
+
+  @override
+  String get profileNotificationUpdateFailed =>
+      'No se pudieron actualizar las notificaciones. Inténtalo de nuevo.';
 
   @override
   String get profileSupport => 'SOPORTE';
@@ -521,20 +778,167 @@ class AppLocalizationsEs extends AppLocalizations {
   String get profileDeleteAccount => 'Eliminar cuenta';
 
   @override
+  String get profileDeleteInfoIntro =>
+      'Se eliminará permanentemente lo siguiente:';
+
+  @override
+  String get profileDeleteItemPersonalData => 'Datos personales';
+
+  @override
+  String get profileDeleteItemTickets => 'Entradas activas y futuras';
+
+  @override
+  String get profileDeleteItemPaymentMethods => 'Métodos de pago';
+
+  @override
+  String get profileDeleteItemPoints => 'Puntos acumulados';
+
+  @override
+  String get profileDeleteItemHistory => 'Historial completo';
+
+  @override
+  String get profileDeleteIrreversibleWarning =>
+      'Esta acción es IRREVERSIBLE después de 7 días.';
+
+  @override
+  String get accountDeletionBiometricReason =>
+      'Confirma tu identidad para continuar con la eliminación de cuenta';
+
+  @override
+  String get accountDeletionBiometricFailed =>
+      'Autenticación fallida. No se inició la eliminación de cuenta.';
+
+  @override
+  String get accountDeletionPendingBannerTitle =>
+      'Cuenta pendiente de eliminación';
+
+  @override
+  String accountDeletionPendingBannerSubtitle(String date, int days) {
+    return 'Tu cuenta se eliminará el $date ($days días restantes). Toca para cancelar.';
+  }
+
+  @override
+  String get accountDeletionCancelAction => 'Cancelar eliminación';
+
+  @override
+  String get accountDeletionCancelled => 'Tu cuenta YOUPASS sigue activa.';
+
+  @override
   String get profilePhotoUpdated => 'Foto de perfil actualizada';
+
+  @override
+  String get profileCompleteBannerTitle => 'Completa tu perfil';
+
+  @override
+  String get profileCompleteBannerSubtitleBoth =>
+      'Agrega tu foto e Instagram para personalizar tu experiencia';
+
+  @override
+  String get profileCompleteBannerSubtitlePhoto =>
+      'Agrega tu foto de perfil para ser mejor identificado';
+
+  @override
+  String get profileCompleteBannerSubtitleInstagram =>
+      'Agrega tu Instagram para conectar con otros asistentes';
+
+  @override
+  String get profileCompleteBannerButton => 'COMPLETAR';
+
+  @override
+  String get profilePhotoChooseSource => 'Cambiar foto de perfil';
+
+  @override
+  String get profilePhotoTake => 'Tomar foto';
+
+  @override
+  String get profilePhotoGallery => 'Elegir de la galería';
+
+  @override
+  String get profileNotAdded => 'No agregado';
+
+  @override
+  String get profileEditTitle => 'Editar datos';
+
+  @override
+  String get profileSave => 'Guardar';
+
+  @override
+  String get profileSaved => 'Datos actualizados correctamente';
+
+  @override
+  String get profileGenderFemaleValue => 'Mujer';
+
+  @override
+  String get profileGenderOtherValue => 'Otro';
+
+  @override
+  String get profileGenderPreferNotSayValue => 'Prefiero no decir';
+
+  @override
+  String get profileCategoryBenefits => 'Mis beneficios';
+
+  @override
+  String get profileFaqTitle => 'Preguntas frecuentes';
+
+  @override
+  String get profileFaqSearch => 'Buscar';
+
+  @override
+  String get profileFaqHelpful => '¿Te fue útil?';
+
+  @override
+  String get profileFaqYes => 'Sí';
+
+  @override
+  String get profileFaqNo => 'No';
+
+  @override
+  String get profileFaqNoResults =>
+      'No encontramos una respuesta. Contáctanos directamente.';
+
+  @override
+  String get profileFaqContactWhatsApp => 'Contactar por WhatsApp';
+
+  @override
+  String get profileFaqContactEmail => 'Enviar correo';
+
+  @override
+  String get profileWhatsAppNotInstalled =>
+      'WhatsApp no está instalado en este dispositivo. Por favor contáctanos por correo.';
+
+  @override
+  String get profileDeleteInfoTitle => 'Eliminar cuenta';
+
+  @override
+  String get profileDeleteInfoMessage =>
+      'Se eliminarán tus datos personales, entradas activas y futuras, métodos de pago, puntos acumulados e historial. Esta acción es IRREVERSIBLE después de 7 días.';
+
+  @override
+  String get profileDeleteContinue => 'Continuar con eliminación';
+
+  @override
+  String profileDeletePendingMessage(int days) {
+    return 'Tu cuenta se eliminará en $days días. ¿Deseas cancelar?';
+  }
+
+  @override
+  String get profileEmailSubject => 'Consulta YouPass';
+
+  @override
+  String get profileAdvancedNotifications => 'Configuración avanzada';
 
   @override
   String get confirmDialogCancel => 'Cancelar';
 
   @override
-  String get confirmLogoutTitle => '¿Cerrar sesión?';
+  String get confirmLogoutTitle => '¿Seguro que quieres cerrar sesión?';
 
   @override
   String get confirmLogoutMessage =>
-      'Deberás iniciar sesión nuevamente con tu número de teléfono para usar YouPass.';
+      'Tu cuenta, entradas, billetera y puntos se conservarán. Puedes volver a iniciar sesión en cualquier momento con tu teléfono y código OTP.';
 
   @override
-  String get confirmLogoutAction => 'Cerrar sesión';
+  String get confirmLogoutAction => 'Sí, cerrar sesión';
 
   @override
   String get confirmDeleteAccountTitle => '¿Eliminar tu cuenta?';
@@ -547,13 +951,67 @@ class AppLocalizationsEs extends AppLocalizations {
   String get confirmDeleteAccountAction => 'Continuar';
 
   @override
-  String get ticketsTabUpcoming => 'PRÓXIMOS';
+  String get ticketsTabUpcoming => 'Activas / Próximas';
 
   @override
-  String get ticketsTabPast => 'EVENTOS PASADOS';
+  String get ticketsTabPast => 'Historial';
 
   @override
   String get ticketsStatusActive => 'ACTIVO';
+
+  @override
+  String get ticketsStatusValidated => 'VALIDADO';
+
+  @override
+  String get ticketsStatusExpired => 'EXPIRADO';
+
+  @override
+  String get ticketsStatusCancelled => 'CANCELADO';
+
+  @override
+  String get ticketsStatusRefunded => 'REEMBOLSADO';
+
+  @override
+  String get ticketsInvitationPending => 'INVITACIÓN';
+
+  @override
+  String ticketsInvitationExpires(String deadline) {
+    return 'Responde antes del $deadline';
+  }
+
+  @override
+  String ticketsQrCountdown(String eventDate) {
+    return 'Tu QR estará disponible el $eventDate';
+  }
+
+  @override
+  String get ticketsQrUnavailable => 'QR BLOQUEADO';
+
+  @override
+  String get ticketsCancelTicket => 'Cancelar entrada';
+
+  @override
+  String get ticketsCancelTicketTitle => '¿Cancelar esta entrada?';
+
+  @override
+  String get ticketsCancelTicketMessage =>
+      'Tu entrada se cancelará y se procesará un reembolso automático cuando corresponda.';
+
+  @override
+  String get ticketsCancelTicketConfirm => 'Sí, cancelar';
+
+  @override
+  String get ticketsCancelTicketSuccess =>
+      'Entrada cancelada. El reembolso se está procesando.';
+
+  @override
+  String get bottomNavHome => 'Inicio';
+
+  @override
+  String get bottomNavInvitations => 'Invitaciones';
+
+  @override
+  String get bottomNavTickets => 'Entradas';
 
   @override
   String get ticketsViewQr => 'VER QR';
@@ -669,6 +1127,30 @@ class AppLocalizationsEs extends AppLocalizations {
       'Música electrónica, fiestas y experiencias únicas.';
 
   @override
+  String favoritesFollowerCount(String count) {
+    return '$count seguidores';
+  }
+
+  @override
+  String get favoritesNoSearchResults =>
+      'No se encontraron productoras o eventos que coincidan con tu búsqueda';
+
+  @override
+  String get favoritesExploreCta => 'Explorar eventos';
+
+  @override
+  String get favoritesSectionFollowedPromoters => 'PRODUCTORAS SEGUIDAS';
+
+  @override
+  String get favoritesSectionSavedEvents => 'EVENTOS GUARDADOS';
+
+  @override
+  String get producerEventPresale => 'PREVENTA';
+
+  @override
+  String get producerEventPrepay => 'PREPAGO';
+
+  @override
   String get producerEventsUpcomingTitle => 'PRÓXIMOS EVENTOS';
 
   @override
@@ -710,17 +1192,157 @@ class AppLocalizationsEs extends AppLocalizations {
       'Gestiona tus accesos e invitaciones a eventos';
 
   @override
-  String get invitationsSearchHint =>
-      'Buscar invitaciones / Eventos / productores';
+  String get invitationsSearchHint => 'Buscar invitación / Evento / productora';
 
   @override
-  String get invitationsFilterAll => 'Todas';
+  String get invitationsFiltersLabel => 'FILTROS';
+
+  @override
+  String get invitationsFilterCourtesy => 'Cortesías';
+
+  @override
+  String get invitationsFilterAll => 'Todos';
+
+  @override
+  String get invitationsFilterFree => 'Gratis';
+
+  @override
+  String get invitationsFilterGuaranteedPass => 'Pase Garantizado';
+
+  @override
+  String get invitationsFilterDiscounted => 'Con descuento';
+
+  @override
+  String get invitationsTypeFree => 'Invitación gratis';
+
+  @override
+  String get invitationsTypeGuaranteedPass => 'Pase garantizado';
+
+  @override
+  String get invitationsTypeDiscounted => 'Invitación con descuento';
+
+  @override
+  String get invitationsGuaranteedPassTitle => 'Pase garantizado';
+
+  @override
+  String invitationsGuaranteedPassMessage(String deadline, String amount) {
+    return 'Este pase es GRATIS si asistes. Si no asistes y no cancelas antes del $deadline, se cobrará $amount a tu tarjeta.';
+  }
+
+  @override
+  String get invitationsGuaranteedPassTerms =>
+      'Entiendo el compromiso de asistencia y el posible cobro';
+
+  @override
+  String get invitationsGpTermsRequired =>
+      'Debes aceptar los términos para continuar';
+
+  @override
+  String invitationsPreauthNotice(String amount) {
+    return 'Se preautorizará tu tarjeta por $amount. Solo se cobrará si no asistes.';
+  }
+
+  @override
+  String get invitationsDiscountedPayTitle => 'Invitación con descuento';
+
+  @override
+  String invitationsDiscountedPayMessage(String amount) {
+    return 'Paga $amount ahora para aceptar esta invitación.';
+  }
+
+  @override
+  String invitationsDiscountPercent(int percent) {
+    return '$percent% de descuento';
+  }
+
+  @override
+  String invitationsCancelBy(String deadline) {
+    return 'Cancelar antes del $deadline';
+  }
+
+  @override
+  String get invitationsAcceptGuaranteed => 'ACEPTAR Y RESERVAR';
+
+  @override
+  String get invitationsAcceptAndReserve => 'ACEPTAR Y RESERVAR';
+
+  @override
+  String get invitationsGuaranteedPassDetailTitle => 'Pase Garantizado';
+
+  @override
+  String get invitationsDetailTitle => 'Detalle de invitación';
+
+  @override
+  String get invitationsGuaranteedBadge => 'GARANTIZADO';
+
+  @override
+  String invitationsAssignedSlot(String slot) {
+    return 'Mesa/lugar: $slot';
+  }
+
+  @override
+  String invitationsPassStatus(String status) {
+    return 'Estado: $status';
+  }
+
+  @override
+  String get invitationsGpWarningTitle => '⚠ IMPORTANTE';
+
+  @override
+  String invitationsGpWarningBody(String amount, String deadline) {
+    return 'Si asistes: 100% GRATIS\nSi no asistes: se cobrará $amount a tu tarjeta\n\nPLAZO DE CANCELACIÓN\nHasta $deadline sin cargo\n\nAl aceptar, autorizas el cobro a tu tarjeta si no asistes al evento.';
+  }
+
+  @override
+  String get invitationsBiometricReason =>
+      'Confirma la aceptación de tu Pase Garantizado';
+
+  @override
+  String get invitationsGpPaymentRequired =>
+      'Debes agregar un método de pago para aceptar un Pase Garantizado';
+
+  @override
+  String get invitationsGpActiveTitle => 'Pase Garantizado activo';
+
+  @override
+  String invitationsGpActiveMessage(String event, String deadline) {
+    return 'Tu pase a $event está reservado. Cancela antes de $deadline sin cargo.';
+  }
+
+  @override
+  String get invitationsGpActiveCta => 'Ir a Mis Entradas';
+
+  @override
+  String get invitationsCancelInvitation => 'Cancelar invitación';
+
+  @override
+  String get invitationsGpCancelTitle => '¿Cancelar tu Pase Garantizado?';
+
+  @override
+  String get invitationsGpCancelMessage =>
+      'La retención de tu tarjeta se liberará de inmediato. Esta acción no se puede deshacer.';
+
+  @override
+  String get invitationsGpCancelConfirm => 'Sí, cancelar';
+
+  @override
+  String get invitationsGpCancelSuccess =>
+      'Tu Pase Garantizado fue cancelado sin cargo.';
+
+  @override
+  String get invitationsAcceptDiscounted => 'PAGAR Y ACEPTAR';
 
   @override
   String get invitationsFilterGeneral => 'General';
 
   @override
   String get invitationsFilterVip => 'VIP';
+
+  @override
+  String get invitationsFilterTables => 'Mesas';
+
+  @override
+  String get invitationsTierVipDj => 'VIP DJ';
 
   @override
   String get invitationsTierVip => 'VIP';
@@ -732,6 +1354,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get invitationsTierGeneral => 'General';
 
   @override
+  String invitationsInvitedBy(String name) {
+    return 'Invitado por $name';
+  }
+
+  @override
+  String invitationsAcceptBy(String deadline) {
+    return 'Aceptar antes del $deadline';
+  }
+
+  @override
   String invitationsStatusLine(String status) {
     return 'Estado: $status';
   }
@@ -740,7 +1372,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get invitationsStatusPrefix => 'Estado:';
 
   @override
-  String get invitationsStatusPending => 'Esperando confirmación';
+  String get invitationsStatusPending => 'Pendiente';
 
   @override
   String get invitationsStatusConfirmed => 'Confirmada';
@@ -750,6 +1382,48 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get invitationsConfirmAttendance => 'CONFIRMAR ASISTENCIA';
+
+  @override
+  String get invitationsTabPending => 'Pendientes';
+
+  @override
+  String get invitationsTabConfirmed => 'Confirmadas';
+
+  @override
+  String get invitationsEmptyNone => 'Aún no tienes invitaciones.';
+
+  @override
+  String get invitationsEmptySearch =>
+      'No se encontraron invitaciones para esa búsqueda.';
+
+  @override
+  String get invitationsEmptyPending => 'No tienes invitaciones pendientes.';
+
+  @override
+  String get invitationsEmptyConfirmed =>
+      'Aún no tienes invitaciones confirmadas.';
+
+  @override
+  String get invitationsRejectConfirmTitle => '¿Rechazar invitación?';
+
+  @override
+  String get invitationsRejectConfirmMessage =>
+      '¿Estás seguro de que deseas rechazar esta invitación?';
+
+  @override
+  String get invitationsRejectConfirmAction => 'RECHAZAR';
+
+  @override
+  String get invitationsCancellationDeadlinePassed =>
+      'El plazo de cancelación ha vencido';
+
+  @override
+  String get invitationsWaitingConfirmation => 'Esperando confirmación…';
+
+  @override
+  String invitationsQrAvailableOn(String date) {
+    return 'Tu QR estará disponible el $date';
+  }
 
   @override
   String get invitationsReject => 'RECHAZAR';
@@ -797,14 +1471,17 @@ class AppLocalizationsEs extends AppLocalizations {
       'Las invitaciones confirmadas generan un QR único e intransferible.';
 
   @override
-  String get invitationsImportantTitle => 'Importante';
+  String get invitationsImportantTitle => 'Importante ⚠';
 
   @override
   String get invitationsImportantMessage =>
-      'Al confirmar, la entrada queda reservada exclusivamente para ti. Si no asistes, podrías ser cobrado el valor total de la entrada.';
+      'Al confirmar tu asistencia, tu entrada quedará reservada exclusivamente para ti. En caso de no asistir al evento, podrá cobrarse el valor total de la entrada, si esta condición aplica.';
 
   @override
   String get invitationsAddPaymentMethod => 'AGREGAR MEDIO DE PAGO';
+
+  @override
+  String get invitationsDialogCancel => 'CANCELAR';
 
   @override
   String get invitationsPaymentTitle => 'Agregar medio de pago';
@@ -837,7 +1514,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get invitationsCardholderNameHint => 'Como aparece en la tarjeta';
 
   @override
-  String get invitationsPaymentSecureNote => 'para utilizar de forma segura';
+  String get invitationsPaymentSecureNote =>
+      'Tu información está protegida y será utilizada de forma segura.';
 
   @override
   String get invitationsSaveCard => 'GUARDAR TARJETA';
@@ -847,15 +1525,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get invitationsCardSavedMessage =>
-      'Tu tarjeta quedó registrada. Recuerda:';
+      'Tu medio de pago ha sido registrado correctamente. Recuerda lo siguiente:';
 
   @override
   String get invitationsCardSavedReminderCharge =>
-      'Si no asistes al evento, podrías ser cobrado el valor total de la entrada.';
+      'Si confirmas tu asistencia y no te presentas al evento, se te cobrará el valor total de la entrada.';
 
   @override
   String get invitationsCardSavedReminderCancel =>
-      'Las cancelaciones deben hacerse con al menos 48 horas de anticipación para evitar cargos.';
+      'Si deseas anular tu asistencia, debes hacerlo con al menos 48 horas de anticipación para evitar el cobro.';
 
   @override
   String get eventTicketScreenTitle => 'Entrada del evento';
@@ -1200,6 +1878,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get vipSectionGeneralTickets => 'ENTRADAS GENERALES';
 
   @override
+  String get vipSectionVipTables => 'MESAS VIP';
+
+  @override
   String get vipSectionVipTickets => 'ENTRADAS VIP';
 
   @override
@@ -1242,6 +1923,22 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String vipContinueWithAmount(String amount) {
+    return 'Continuar · $amount';
+  }
+
+  @override
+  String get vipTicketSoldOutBadge => 'Agotado';
+
+  @override
+  String get vipTicketsNoneAvailable =>
+      'No hay entradas disponibles para este evento.';
+
+  @override
+  String get vipTicketsAllSoldOut =>
+      'Todas las entradas de este evento están agotadas.';
+
+  @override
   String get vipSecurePayment => 'Pago 100% seguro';
 
   @override
@@ -1251,8 +1948,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get vipMesasVipTitle => 'Mesas VIP';
 
   @override
-  String get vipMesasVipSubtitle =>
-      'Reserva tu mesa y vive la experiencia completa.';
+  String get vipMesasVipSubtitle => 'Elige tu mesa →';
 
   @override
   String get vipFloorPlanTitle => 'Plano del salón';
@@ -1327,7 +2023,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String vipTableDistributionTitle(String zone) {
-    return 'DISTRIBUCIÓN ZONA $zone';
+    return 'DISTRIBUCIÓN $zone';
   }
 
   @override
@@ -1337,10 +2033,25 @@ class AppLocalizationsEs extends AppLocalizations {
   String get vipLegendTableAvailable => 'Disponible';
 
   @override
-  String get vipLegendTableSelection => 'Seleccion';
+  String get vipLegendTablePremium => 'Premium';
+
+  @override
+  String get vipLegendTableSelection => 'Seleccionada';
 
   @override
   String get vipLegendTableSold => 'Vendida';
+
+  @override
+  String vipZoneTablesScreenTitle(String zone) {
+    return 'Mesas $zone';
+  }
+
+  @override
+  String get vipTablesZoneSoldOut =>
+      'Todas las mesas de esta zona están agotadas.';
+
+  @override
+  String get vipTablePremiumBadge => 'Premium';
 
   @override
   String get vipTablesZoneTitle => 'Mesas VIP 1';
@@ -1362,7 +2073,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String vipTableDetailTitle(String table, String zone) {
-    return 'Mesa $table - $zone';
+    return 'Mesa $table — $zone';
   }
 
   @override
@@ -1465,8 +2176,34 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String vipTableLockReservedCountdown(String time) {
+    return 'Tu mesa está reservada por $time';
+  }
+
+  @override
   String get vipTableLockExpired =>
       'Tu reserva de mesa expiró. Selecciona una mesa nuevamente.';
+
+  @override
+  String get vipTableLockExpiredTitle => 'Tu reserva ha expirado';
+
+  @override
+  String get vipTableLockExpiredMessage =>
+      'La mesa ha sido liberada. Vuelve al plano del recinto para seleccionar nuevamente.';
+
+  @override
+  String get vipTableLockExpiredReturnFloorPlan => 'Volver al plano';
+
+  @override
+  String get vipTableBlockedMessage =>
+      'Esta mesa está siendo reservada. Intenta en unos minutos o elige otra mesa.';
+
+  @override
+  String get vipTableBlockedReserve =>
+      'Esta mesa está siendo reservada. Intenta en unos minutos o elige otra mesa.';
+
+  @override
+  String get vipLegendTableBlocked => 'Bloqueada';
 
   @override
   String get eventDetailTicketsUnavailable =>
@@ -1474,4 +2211,44 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get vipViewQr => 'Ver QR';
+
+  @override
+  String get waitlistJoinButton => 'Unirse a lista de espera';
+
+  @override
+  String get waitlistLeaveButton => 'Salir de lista de espera';
+
+  @override
+  String get waitlistJoinTitle => 'Unirse a lista de espera';
+
+  @override
+  String get waitlistJoinConfirm => 'Confirmar ingreso';
+
+  @override
+  String waitlistJoinSuccess(String eventName) {
+    return 'Estás en la lista de espera para $eventName. Te avisaremos de inmediato si se libera un cupo.';
+  }
+
+  @override
+  String waitlistEstimatedPosition(String position) {
+    return 'Eres el #$position en la lista de espera';
+  }
+
+  @override
+  String get waitlistLeaveTitle => '¿Salir de la lista de espera?';
+
+  @override
+  String get waitlistLeaveMessage =>
+      '¿Estás seguro? Perderás tu posición en la fila.';
+
+  @override
+  String get waitlistLeaveConfirm => 'Salir de la lista';
+
+  @override
+  String get waitlistClaimSlot => 'RECLAMAR MI CUPO';
+
+  @override
+  String waitlistOfferBanner(String time) {
+    return '¡Hay un cupo para ti! Confirma antes de $time';
+  }
 }

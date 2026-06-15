@@ -9,10 +9,12 @@ class VipTicketQuantityStepperWidget extends StatelessWidget {
     super.key,
     required this.quantity,
     required this.onChanged,
+    this.minQuantity = 0,
   });
 
   final int quantity;
   final ValueChanged<int> onChanged;
+  final int minQuantity;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,8 @@ class VipTicketQuantityStepperWidget extends StatelessWidget {
         children: [
           VipQuantityStepperButtonWidget(
             icon: Icons.remove,
-            onPressed: quantity > 0 ? () => onChanged(quantity - 1) : null,
+            onPressed:
+                quantity > minQuantity ? () => onChanged(quantity - 1) : null,
             size: buttonSize,
             filled: false,
           ),

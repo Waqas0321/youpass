@@ -149,4 +149,50 @@ abstract class BaseApiService {
     );
     return fromJson(data);
   }
+
+  Future<Map<String, dynamic>> patchData(
+    String endpoint, {
+    Object? body,
+    bool authenticated = false,
+    String? accessTokenOverride,
+  }) async {
+    final response = await apiClient.patch(
+      endpoint,
+      body: body,
+      authenticated: authenticated,
+      accessTokenOverride: accessTokenOverride,
+    );
+    return ApiResponseParser.parseData(response);
+  }
+
+  Future<T> patchModel<T>(
+    String endpoint, {
+    required T Function(Map<String, dynamic> json) fromJson,
+    Object? body,
+    bool authenticated = false,
+    String? accessTokenOverride,
+  }) async {
+    final data = await patchData(
+      endpoint,
+      body: body,
+      authenticated: authenticated,
+      accessTokenOverride: accessTokenOverride,
+    );
+    return fromJson(data);
+  }
+
+  Future<void> patchVoid(
+    String endpoint, {
+    Object? body,
+    bool authenticated = false,
+    String? accessTokenOverride,
+  }) async {
+    final response = await apiClient.patch(
+      endpoint,
+      body: body,
+      authenticated: authenticated,
+      accessTokenOverride: accessTokenOverride,
+    );
+    ApiResponseParser.parseSuccess(response);
+  }
 }

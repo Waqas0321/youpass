@@ -59,6 +59,24 @@ class ConfigApiService {
     return ConfigCategoryModel.listFromRawData(body['data']);
   }
 
+  Future<List<ConfigCategoryModel>> fetchEventCategories() async {
+    final response = await apiClient.get(ApiEndpoints.configEventCategories);
+    final body = ApiResponseParser.decodeBody(response);
+
+    if (response.statusCode < 200 ||
+        response.statusCode >= 300 ||
+        body['success'] != true) {
+      return [];
+    }
+
+    final data = body['data'];
+    if (data is! Map<String, dynamic>) {
+      return [];
+    }
+
+    return ConfigCategoryModel.fromEventCategoryPayload(data);
+  }
+
   Future<ProductConfigModel?> fetchAuthProductConfig() async {
     final response = await apiClient.get(ApiEndpoints.configAuth);
     final body = ApiResponseParser.decodeBody(response);

@@ -1,5 +1,7 @@
 import 'package:youpass/core/utils/json_readers.dart';
 import 'package:youpass/features/events/domain/entities/event_entity.dart';
+import 'package:youpass/features/home/domain/entities/banner_tap_action_entity.dart';
+import 'package:youpass/features/waitlist/domain/entities/event_waitlist_status_entity.dart';
 
 class EventModel extends EventEntity {
   const EventModel({
@@ -13,6 +15,14 @@ class EventModel extends EventEntity {
     super.eventTypeSlug,
     super.countryCode,
     super.isFavorite,
+    super.subtitle,
+    super.bannerId,
+    super.aspectRatio,
+    super.tapAction,
+    super.distanceKm,
+    super.travelTimeMinutes,
+    super.startsAt,
+    super.waitlist,
   });
 
   factory EventModel.fromJson(Map<String, dynamic> json) {
@@ -21,6 +31,7 @@ class EventModel extends EventEntity {
       'location_display',
       fallback: _buildLocationFallback(json),
     );
+    final tapActionRaw = json['tap_action'] ?? json['tapAction'];
 
     return EventModel(
       id: JsonReaders.readId(json),
@@ -45,7 +56,38 @@ class EventModel extends EventEntity {
       eventTypeSlug: _readEventTypeSlug(json),
       countryCode: JsonReaders.nullableString(json, 'country_code'),
       isFavorite: JsonReaders.boolean(json, 'is_favorite'),
+      subtitle: JsonReaders.nullableString(json, 'subtitle'),
+      bannerId: JsonReaders.nullableString(json, 'banner_id') ??
+          JsonReaders.nullableString(json, 'bannerId'),
+      aspectRatio: JsonReaders.nullableString(json, 'aspect_ratio') ??
+          JsonReaders.nullableString(json, 'aspectRatio'),
+      tapAction: tapActionRaw == null ? null : BannerTapActionEntity.fromJson(tapActionRaw),
+      distanceKm: _readDistanceKm(json),
+      travelTimeMinutes: _readTravelTimeMinutes(json),
+      startsAt: JsonReaders.dateTime(json, 'starts_at'),
+      waitlist: EventWaitlistStatusEntity.fromJson(
+        json['waitlist'] as Map<String, dynamic>?,
+      ),
     );
+  }
+
+  static double? _readDistanceKm(Map<String, dynamic> json) {
+    final raw = json['distance_km'] ?? json['distanceKm'];
+    if (raw is num) {
+      return raw.toDouble();
+    }
+    return null;
+  }
+
+  static int? _readTravelTimeMinutes(Map<String, dynamic> json) {
+    final raw = json['travel_time_minutes'] ?? json['travelTimeMinutes'];
+    if (raw is int) {
+      return raw;
+    }
+    if (raw is num) {
+      return raw.toInt();
+    }
+    return null;
   }
 
   static String? _readEventTypeSlug(Map<String, dynamic> json) {

@@ -34,6 +34,14 @@ class DrawerDesignSpec {
 
   static const Color screenBackground = Color(0xFFFFFFFF);
 
+  // Dark drawer panel (Section 9.1)
+  static const Color drawerPanelBackground = Color(0xFF1A2B4A);
+  static const Color drawerScrimColor = Color(0xB3000000);
+  static const double drawerWidthFactor = 0.78;
+  static const Color drawerMenuTileOnDark = Color(0xFF243B5C);
+  static const Color drawerMenuTitleOnDark = Color(0xFFFFFFFF);
+  static const Color drawerMenuBorderOnDark = Color(0xFF2E4A6E);
+
   // Layout (px @ 390w)
   static const double horizontalPadding = 16;
   static const double headerTopPadding = 12;
@@ -51,6 +59,7 @@ class DrawerDesignSpec {
   static const double profileWaveWidth = 150;
 
   static const double avatarSize = 64;
+  static const double avatarRingWidth = 1.25;
   static const double avatarIconSize = 40;
   static const double avatarToNameGap = 14;
   static const double nameFontSize = 20;
@@ -71,6 +80,8 @@ class DrawerDesignSpec {
   static const double menuIconSize = 22;
   static const double menuIconToTextGap = 12;
   static const double menuTitleFontSize = 15;
+  static const double invitationsMenuTitleFontSize = 17;
+  static const double invitationsTilePaddingVertical = 16;
   static const double menuChevronSize = 20;
 
   static const double sparkleSlotWidth = 28;
@@ -84,6 +95,10 @@ class DrawerDesignSpec {
   static const double badgeFontSize = 11;
   static const double badgeRadius = 10;
   static const double badgeToChevronGap = 8;
+  static const double invitationsBadgeDiameter = 22;
+  static const double invitationsBadgeFontSize = 11;
+  static const Color invitationsBadgeFill = Color(0xFFE8873A);
+  static const Color invitationsBadgeTextOnFill = Color(0xFFFFFFFF);
 
   static double scale(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;

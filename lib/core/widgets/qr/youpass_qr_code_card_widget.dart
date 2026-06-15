@@ -10,17 +10,21 @@ class YouPassQrCodeCardWidget extends StatelessWidget {
     required this.qrPayload,
     required this.entryCode,
     required this.manualIdLabel,
+    this.showQrCode = true,
+    this.lockedMessage,
   });
 
   final String qrPayload;
   final String entryCode;
   final String manualIdLabel;
+  final bool showQrCode;
+  final String? lockedMessage;
 
   @override
   Widget build(BuildContext context) {
     final borderRadius = InvitationsDesignSpec.px(context, 14);
-    final qrSize = InvitationsDesignSpec.px(context, 200);
-    final padding = InvitationsDesignSpec.px(context, 18);
+    final qrSize = InvitationsDesignSpec.px(context, 240);
+    final padding = InvitationsDesignSpec.px(context, 20);
 
     return Container(
       width: double.infinity,
@@ -35,20 +39,46 @@ class YouPassQrCodeCardWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          QrImageView(
-            data: qrPayload,
-            version: QrVersions.auto,
-            size: qrSize,
-            backgroundColor: QrScreenTheme.qrModuleBackground(context),
-            eyeStyle: QrEyeStyle(
-              eyeShape: QrEyeShape.square,
-              color: QrScreenTheme.qrModuleForeground(context),
+          if (showQrCode && qrPayload.isNotEmpty)
+            QrImageView(
+              data: qrPayload,
+              version: QrVersions.auto,
+              size: qrSize,
+              backgroundColor: QrScreenTheme.qrModuleBackground(context),
+              eyeStyle: QrEyeStyle(
+                eyeShape: QrEyeShape.square,
+                color: QrScreenTheme.qrModuleForeground(context),
+              ),
+              dataModuleStyle: QrDataModuleStyle(
+                dataModuleShape: QrDataModuleShape.square,
+                color: QrScreenTheme.qrModuleForeground(context),
+              ),
+            )
+          else
+            SizedBox(
+              width: qrSize,
+              height: qrSize,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.lock_clock_outlined,
+                    size: InvitationsDesignSpec.px(context, 40),
+                    color: QrScreenTheme.accent(context),
+                  ),
+                  SizedBox(height: InvitationsDesignSpec.px(context, 12)),
+                  Text(
+                    lockedMessage ?? '',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: InvitationsDesignSpec.px(context, 13),
+                      color: QrScreenTheme.manualIdLabel(context),
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            dataModuleStyle: QrDataModuleStyle(
-              dataModuleShape: QrDataModuleShape.square,
-              color: QrScreenTheme.qrModuleForeground(context),
-            ),
-          ),
           SizedBox(height: InvitationsDesignSpec.px(context, 16)),
           Divider(
             height: 1,

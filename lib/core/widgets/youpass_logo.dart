@@ -9,13 +9,16 @@ class YouPassLogo extends StatelessWidget {
   const YouPassLogo({
     super.key,
     this.fontStyle = FontStyle.normal,
+    this.color,
   });
 
   final FontStyle fontStyle;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final logoColor = color ?? AppColors.primaryMustard;
 
     return RichText(
       textAlign: TextAlign.center,
@@ -24,7 +27,7 @@ class YouPassLogo extends StatelessWidget {
           fontSize: layout.logoFontSize,
           fontWeight: FontWeight.w700,
           fontStyle: fontStyle,
-          color: AppColors.primaryMustard,
+          color: logoColor,
           letterSpacing: -0.5,
         ),
         children: [
@@ -38,7 +41,7 @@ class YouPassLogo extends StatelessWidget {
                 variant: AppTextVariant.body,
                 fontSize: layout.fontSize(14),
                 fontWeight: FontWeight.w600,
-                color: AppColors.primaryMustard,
+                color: logoColor,
               ),
             ),
           ),

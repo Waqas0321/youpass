@@ -2,6 +2,7 @@ import 'package:youpass/features/invitations/domain/entities/invitation_ticket_e
 import 'package:youpass/features/tickets/data/datasources/tickets_remote_datasource.dart';
 import 'package:youpass/features/tickets/domain/entities/past_event_entity.dart';
 import 'package:youpass/features/tickets/domain/entities/past_tickets_query.dart';
+import 'package:youpass/features/tickets/domain/entities/tickets_page_result.dart';
 import 'package:youpass/features/tickets/domain/entities/tickets_yearly_summary_entity.dart';
 import 'package:youpass/features/tickets/domain/entities/upcoming_ticket_entity.dart';
 import 'package:youpass/features/tickets/domain/repositories/tickets_repository.dart';
@@ -12,7 +13,7 @@ class TicketsRepositoryImpl implements TicketsRepository {
   final TicketsRemoteDataSource remoteDataSource;
 
   @override
-  Future<List<UpcomingTicketEntity>> fetchUpcomingTickets({
+  Future<TicketsPageResult<UpcomingTicketEntity>> fetchUpcomingTickets({
     int page = 1,
     int limit = 20,
   }) {
@@ -20,7 +21,9 @@ class TicketsRepositoryImpl implements TicketsRepository {
   }
 
   @override
-  Future<List<PastEventEntity>> fetchPastTickets(PastTicketsQuery query) {
+  Future<TicketsPageResult<PastEventEntity>> fetchPastTickets(
+    PastTicketsQuery query,
+  ) {
     return remoteDataSource.fetchPastTickets(query);
   }
 
@@ -37,5 +40,10 @@ class TicketsRepositoryImpl implements TicketsRepository {
   @override
   Future<String?> fetchTicketOrderId(String ticketId) {
     return remoteDataSource.fetchTicketOrderId(ticketId);
+  }
+
+  @override
+  Future<PastEventEntity> cancelTicket(String ticketId) {
+    return remoteDataSource.cancelTicket(ticketId);
   }
 }

@@ -7,11 +7,9 @@ class InvitationCardEventImageWidget extends StatelessWidget {
   const InvitationCardEventImageWidget({
     super.key,
     required this.invitation,
-    required this.imageSize,
   });
 
   final InvitationEntity invitation;
-  final double imageSize;
 
   @override
   Widget build(BuildContext context) {
@@ -22,19 +20,14 @@ class InvitationCardEventImageWidget extends StatelessWidget {
       ),
     );
 
-    if (invitation.usesNetworkImage) {
-      return EventNetworkImage(
-        imageUrl: invitation.imageAssetPath,
-        width: imageSize,
-        height: imageSize,
-        borderRadius: borderRadius,
-      );
-    }
-
-    return EventNetworkImage(
-      width: imageSize,
-      height: imageSize,
+    return ClipRRect(
       borderRadius: borderRadius,
+      child: SizedBox.expand(
+        child: EventNetworkImage(
+          imageUrl: invitation.usesNetworkImage ? invitation.imageAssetPath : null,
+          fit: BoxFit.cover,
+        ),
+      ),
     );
   }
 }

@@ -31,6 +31,7 @@ class HomeCategoryFiltersWidget extends StatelessWidget {
           return CategoryChipWidget(
             label: category.label,
             icon: category.icon,
+            leadingEmoji: category.leadingEmoji,
             isSelected: category.id == selectedCategoryId,
             onTap: () => onCategorySelected(category.id),
           );

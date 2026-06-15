@@ -5,17 +5,32 @@ import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/features/home/domain/entities/event_category_entity.dart';
 import 'package:youpass/features/home/domain/usecases/get_filtered_home_events_usecase.dart';
 import 'package:youpass/features/home/domain/usecases/get_home_feed_usecase.dart';
+import 'package:youpass/features/events/domain/entities/home_events_query.dart';
+import 'package:youpass/features/home/domain/usecases/search_home_events_usecase.dart';
 import 'package:youpass/features/home/domain/usecases/toggle_event_favorite_usecase.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 
 import '../../mocks/mock_home_repository.dart';
+import '../../mocks/mock_search_dependencies.dart';
 import '../../../../helpers/test_fixtures.dart';
 
 void main() {
   late MockHomeRepository mockHomeRepository;
+  late MockSearchHomeEventsUseCase mockSearchHomeEventsUseCase;
+  late MockGetUpcomingHomeEventsUseCase mockGetUpcomingHomeEventsUseCase;
+  late MockHomeSearchHistoryCache mockSearchHistoryCache;
+  late MockUserLocationService mockUserLocationService;
   late HomeProvider homeProvider;
 
+  UpcomingEventsPageResult upcomingResult() => UpcomingEventsPageResult(
+        events: TestFixtures.testHomeFeed.featuredEvents,
+        hasMore: false,
+        page: 1,
+        total: TestFixtures.testHomeFeed.featuredEvents.length,
+      );
+
   setUpAll(() {
+    registerSearchFallbacks();
     registerFallbackValue(
       const EventCategoryEntity(
         id: AppConstants.categoryIdChile,
@@ -28,11 +43,23 @@ void main() {
 
   setUp(() {
     mockHomeRepository = MockHomeRepository();
+    mockSearchHomeEventsUseCase = MockSearchHomeEventsUseCase();
+    mockGetUpcomingHomeEventsUseCase = MockGetUpcomingHomeEventsUseCase();
+    mockSearchHistoryCache = MockHomeSearchHistoryCache();
+    mockUserLocationService = MockUserLocationService();
+    when(() => mockSearchHistoryCache.read(limit: any(named: 'limit')))
+        .thenReturn(const []);
+    when(() => mockGetUpcomingHomeEventsUseCase(any()))
+        .thenAnswer((_) async => upcomingResult());
     homeProvider = HomeProvider(
       getHomeFeedUseCase: GetHomeFeedUseCase(mockHomeRepository),
       getFilteredHomeEventsUseCase:
           GetFilteredHomeEventsUseCase(mockHomeRepository),
+      getUpcomingHomeEventsUseCase: mockGetUpcomingHomeEventsUseCase,
+      searchHomeEventsUseCase: mockSearchHomeEventsUseCase,
       toggleEventFavoriteUseCase: ToggleEventFavoriteUseCase(mockHomeRepository),
+      searchHistoryCache: mockSearchHistoryCache,
+      userLocationService: mockUserLocationService,
     );
   });
 
@@ -46,12 +73,13 @@ void main() {
     await homeProvider.loadHomeData();
 
     expect(homeProvider.status, HomeStatus.loaded);
-    expect(homeProvider.homeFeed?.featuredEvents,
+    expect(homeProvider.upcomingEvents,
         TestFixtures.testHomeFeed.featuredEvents);
     expect(homeProvider.homeFeed?.carouselEvents,
         TestFixtures.testHomeFeed.carouselEvents);
     expect(homeProvider.errorMessage, isNull);
     verify(() => mockHomeRepository.getFilteredEvents(any())).called(1);
+    verify(() => mockGetUpcomingHomeEventsUseCase(any())).called(1);
   });
 
   test('loadHomeData sets error state on failure', () async {
@@ -77,6 +105,7 @@ void main() {
 
     expect(homeProvider.selectedCategoryId, AppConstants.categoryIdConcerts);
     verify(() => mockHomeRepository.getFilteredEvents(any())).called(2);
+    verify(() => mockGetUpcomingHomeEventsUseCase(any())).called(2);
   });
 
   test('reset clears feed and restores initial state', () async {
@@ -89,7 +118,8 @@ void main() {
 
     expect(homeProvider.status, HomeStatus.initial);
     expect(homeProvider.homeFeed, isNull);
-    expect(homeProvider.selectedCategoryId, AppConstants.defaultHomeCategoryId);
+    expect(homeProvider.selectedCategoryId, isNull);
+    expect(homeProvider.upcomingEvents, isEmpty);
   });
 
   test('loadHomeDataIfNeeded skips duplicate fetch when feed is loaded', () async {
@@ -118,10 +148,35 @@ void main() {
 
     final listener = Listener();
     homeProvider.addListener(listener.call);
-    await homeProvider.selectCategory(AppConstants.defaultHomeCategoryId);
+    await homeProvider.selectCategory(AppConstants.categoryIdAll);
 
     expect(listener.callCount, 0);
     verify(() => mockHomeRepository.getFilteredEvents(any())).called(1);
+  });
+  test('clearing search query exits search mode and restores default listing', () async {
+    when(() => mockHomeRepository.getHomeFeed())
+        .thenAnswer((_) async => TestFixtures.testHomeFeed);
+    when(() => mockHomeRepository.getFilteredEvents(any())).thenAnswer(
+      (_) async => TestFixtures.testFilteredHomeEvents,
+    );
+    when(() => mockSearchHomeEventsUseCase(any())).thenAnswer(
+      (_) async => const EventsQueryResult(events: [], total: 0),
+    );
+
+    await homeProvider.loadHomeData();
+    homeProvider.isSearchFocused = true;
+    homeProvider.onSearchQueryChanged('rock');
+
+    await Future<void>.delayed(const Duration(milliseconds: 350));
+
+    expect(homeProvider.isSearchMode, isTrue);
+
+    homeProvider.onSearchQueryChanged('');
+
+    expect(homeProvider.isSearchMode, isFalse);
+    expect(homeProvider.searchResults, isEmpty);
+    expect(homeProvider.showSearchHistory, isTrue);
+    expect(homeProvider.upcomingEvents, isNotEmpty);
   });
 }
 

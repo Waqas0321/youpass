@@ -11,12 +11,14 @@ class CategoryChipWidget extends StatelessWidget {
     required this.icon,
     required this.isSelected,
     required this.onTap,
+    this.leadingEmoji,
   });
 
   final String label;
   final IconData icon;
   final bool isSelected;
   final VoidCallback onTap;
+  final String? leadingEmoji;
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +54,18 @@ class CategoryChipWidget extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  icon,
-                  size: layout.fontSize(16),
-                  color: foregroundColor,
-                ),
+                if (leadingEmoji != null)
+                  AppText(
+                    leadingEmoji!,
+                    variant: AppTextVariant.emojiMedium,
+                    fontSize: layout.fontSize(16),
+                  )
+                else
+                  Icon(
+                    icon,
+                    size: layout.fontSize(16),
+                    color: foregroundColor,
+                  ),
                 SizedBox(width: layout.spacing(8)),
                 AppText(
                   label,

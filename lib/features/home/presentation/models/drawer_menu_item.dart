@@ -5,14 +5,12 @@ class DrawerMenuItem {
   const DrawerMenuItem({
     required this.id,
     required this.label,
-    required this.icon,
+    this.icon,
     this.isHighlighted = false,
-    this.badgeLabel,
   });
 
   final DrawerMenuId id;
   final String label;
-  final IconData icon;
+  final IconData? icon;
   final bool isHighlighted;
-  final String? badgeLabel;
 }

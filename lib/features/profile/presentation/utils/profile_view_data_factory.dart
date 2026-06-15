@@ -1,6 +1,7 @@
 import 'package:youpass/core/auth/gender_api_mapper.dart';
 import 'package:youpass/features/auth/domain/entities/user_entity.dart';
 import 'package:youpass/features/auth/domain/entities/user_profile_entity.dart';
+import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/features/profile/presentation/models/profile_view_data.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
@@ -19,8 +20,12 @@ class ProfileViewDataFactory {
         email: profile.email,
         birthDate: formatBirthdate(profile.birthdate),
         gender: GenderApiMapper.toDisplayLabel(profile.gender, l10n),
-        instagramHandle: formatInstagram(profile.instagramUsername),
+        instagramHandle: formatInstagram(
+          profile.instagramUsername,
+          notAddedLabel: AppStrings.profileNotAdded(l10n),
+        ),
         profilePhotoUrl: profile.profilePhotoUrl,
+        membershipCategory: profile.category,
       );
     }
 
@@ -60,9 +65,9 @@ class ProfileViewDataFactory {
     return trimmed;
   }
 
-  static String formatInstagram(String? username) {
+  static String formatInstagram(String? username, {String notAddedLabel = ''}) {
     if (username == null || username.isEmpty) {
-      return '';
+      return notAddedLabel;
     }
 
     return username.startsWith('@') ? username : '@$username';

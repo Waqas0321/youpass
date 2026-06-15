@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 /// Colors and dimensions from the Mi Perfil header card mockup (390×844).
@@ -7,28 +9,42 @@ class ProfileDesignSpec {
   static const double designWidth = 390;
 
   static const Color primary = Color(0xFFE69D17);
-  static const Color cardBackground = Color(0xFFFFFBF2);
+  static const Color cardBackground = Color(0xFFFFFFFF);
   static const Color cardBorder = Color(0xFFFDE6B0);
   static const Color cardWave1 = Color(0xFFFFF5E6);
   static const Color cardWave2 = Color(0xFFFFEFD8);
   static const Color cardWave3 = Color(0xFFFFE9CC);
+  static const Color cardWave4 = Color(0xFFFFE2BF);
   static const Color avatarRing = Color(0xFFE69D17);
   static const Color avatarInner = Color(0xFFFFFFFF);
   static const Color avatarIcon = Color(0xFFE69D17);
-  static const Color cameraBadgeBackground = Color(0xFFFFFFFF);
-  static const Color cameraIcon = Color(0xFFE69D17);
+  static const Color cameraBadgeBackground = Color(0xFFE69D17);
+  static const Color cameraIcon = Color(0xFFFFFFFF);
   static const Color cameraBadgeRing = Color(0xFFFFFFFF);
   static const Color valueText = Color(0xFF212121);
   static const Color labelText = Color(0xFF757575);
   static const Color phoneIcon = Color(0xFF757575);
-  static const Color divider = Color(0xFFE8E8E8);
+  static const Color divider = Color(0xFFFDE6B0);
   static const Color rowDivider = Color(0xFFEEEEEE);
   static const Color iconCircleBackground = Color(0xFFFFF0D6);
   static const Color sectionDividerOrange = Color(0xFFFDE6B0);
-  static const Color editButtonFill = Color(0xFFFFFBF0);
-  static const Color screenBackground = Color(0xFFFFFFFF);
+  static const Color editButtonFill = Color(0xFFFFFFFF);
+  static const Color screenBackground = Color(0xFFF5F5F5);
+  static const Color sectionCardBackground = Color(0xFFFFFFFF);
+  static const Color sectionCardBorder = Color(0xFFF0F0F0);
+  static const Color chevronMuted = Color(0xFFBDBDBD);
   static const Color tierBadge = Color(0xFFE69D17);
+  static const Color walletCardBackground = Color(0xFFFFFFFF);
+  static const Color walletCardBorder = Color(0xFFF0F0F0);
+  static const Color walletViewButtonFill = Color(0xFFFFF8EB);
+  static const Color logoutButtonFill = Color(0xFFFFF8EB);
+  static const Color deleteButtonFill = Color(0xFFFEECEC);
+  static const Color deleteButtonForeground = Color(0xFFDC2626);
 
+  static const double walletCardRadius = 12;
+  static const double sectionCardRadius = 16;
+  static const double footerButtonRadius = 28;
+  static const double footerButtonPaddingVertical = 14;
   static const double horizontalPadding = 20;
   static const double appBarTitleSize = 18;
   static const double backIconSize = 24;
@@ -38,8 +54,8 @@ class ProfileDesignSpec {
   static const double cardPaddingHorizontal = 20;
   static const double cardPaddingTop = 22;
   static const double cardPaddingBottom = 20;
-  static const double cardWaveWidth = 140;
-  static const double cardWaveHeight = 130;
+  static const double cardWaveWidth = 200;
+  static const double cardWaveHeight = 200;
 
   static const double avatarOuterSize = 92;
   static const double avatarRingWidth = 2;
@@ -89,6 +105,32 @@ class ProfileDesignSpec {
 
   static const double cardToSectionGap = 24;
   static const double sectionToNextGap = 28;
+  static const double footerSectionTopGap = 16;
+  static const double footerActionGap = 10;
+  static const double scrollBottomExtraPadding = 24;
+  static const double iosHomeIndicatorFallback = 34;
+  static const double androidNavBarFallback = 24;
+
+  /// System inset for iOS home indicator and Android nav/gesture bars.
+  static double systemBottomInset(BuildContext context) {
+    final media = MediaQuery.of(context);
+    final reported = math.max(media.padding.bottom, media.viewPadding.bottom);
+    if (reported > 0) {
+      return reported;
+    }
+
+    final platform = Theme.of(context).platform;
+    if (platform == TargetPlatform.iOS) {
+      return px(context, iosHomeIndicatorFallback);
+    }
+
+    return px(context, androidNavBarFallback);
+  }
+
+  /// Bottom padding for scrollable profile content above system UI.
+  static double scrollBottomPadding(BuildContext context) {
+    return systemBottomInset(context) + px(context, scrollBottomExtraPadding);
+  }
 
   static double scale(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;

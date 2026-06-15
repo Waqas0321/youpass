@@ -3,7 +3,10 @@ import 'package:youpass/features/home/domain/entities/event_category_entity.dart
 import 'package:youpass/features/home/domain/entities/home_feed_entity.dart';
 
 abstract class HomeRemoteDataSource {
-  Future<HomeFeedEntity> fetchHomeFeed({String? feedContext});
+  Future<HomeFeedEntity> fetchHomeFeed({
+    String? feedContext,
+    String? countryCode,
+  });
 
   Future<HomeFeedEventsUpdate> fetchFilteredEvents(EventCategoryEntity category);
 

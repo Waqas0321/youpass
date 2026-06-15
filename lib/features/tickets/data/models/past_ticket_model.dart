@@ -2,6 +2,7 @@ import 'package:youpass/features/tickets/data/models/past_ticket_event_type_mode
 import 'package:youpass/features/tickets/data/models/past_ticket_statistics_model.dart';
 import 'package:youpass/features/tickets/data/utils/ticket_model_json_reader.dart';
 import 'package:youpass/features/tickets/domain/entities/past_event_entity.dart';
+import 'package:youpass/features/tickets/domain/entities/ticket_display_status.dart';
 
 class PastTicketModel extends PastEventEntity {
   const PastTicketModel({
@@ -12,6 +13,7 @@ class PastTicketModel extends PastEventEntity {
     required super.imageAssetPath,
     required super.category,
     super.eventId,
+    super.displayStatus = TicketDisplayStatus.expired,
     super.isFavorite = false,
     super.showStatistics = false,
     super.entryTime,
@@ -20,14 +22,16 @@ class PastTicketModel extends PastEventEntity {
   });
 
   factory PastTicketModel.fromJson(Map<String, dynamic> json) {
-    final status = json['status']?.toString().toLowerCase();
+    final status = TicketDisplayStatusParsing.fromApi(
+      json['status']?.toString(),
+    );
     final statistics = PastTicketStatisticsModel.fromJson(json['statistics']);
     final eventType = PastTicketEventTypeModel.fromJson(
       json['event_type'] ?? json['eventType'],
     );
 
     final hasStatistics =
-        status == 'validated' && statistics.hasEntryTime;
+        status == TicketDisplayStatus.validated && statistics.hasEntryTime;
 
     return PastTicketModel(
       id: json['id']?.toString() ?? '',
@@ -57,6 +61,7 @@ class PastTicketModel extends PastEventEntity {
         'image_asset_path',
       ),
       category: eventType.toPastEventFilter(),
+      displayStatus: status ?? TicketDisplayStatus.expired,
       isFavorite: TicketModelJsonReader.readBool(
         json['is_favorite'] ?? json['isFavorite'],
       ),

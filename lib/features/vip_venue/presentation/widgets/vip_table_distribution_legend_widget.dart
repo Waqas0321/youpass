@@ -11,6 +11,7 @@ class VipTableDistributionLegendWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
+    final gap = VipVenueDesignSpec.px(context, 18);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -21,14 +22,21 @@ class VipTableDistributionLegendWidget extends StatelessWidget {
           shape: VipLegendIndicatorShape.dot,
           labelColor: VipVenueMapTheme.legendLabel(context),
         ),
-        SizedBox(width: VipVenueDesignSpec.px(context, 18)),
+        SizedBox(width: gap),
+        VipLegendItemWidget(
+          color: VipVenueMapTheme.tablePremium,
+          label: AppStrings.vipLegendTablePremium(strings),
+          shape: VipLegendIndicatorShape.dot,
+          labelColor: VipVenueMapTheme.legendLabel(context),
+        ),
+        SizedBox(width: gap),
         VipLegendItemWidget(
           color: VipVenueMapTheme.tableSelected,
           label: AppStrings.vipLegendTableSelection(strings),
           shape: VipLegendIndicatorShape.dot,
           labelColor: VipVenueMapTheme.legendLabel(context),
         ),
-        SizedBox(width: VipVenueDesignSpec.px(context, 18)),
+        SizedBox(width: gap),
         VipLegendItemWidget(
           color: VipVenueMapTheme.tableOccupied,
           label: AppStrings.vipLegendTableSold(strings),

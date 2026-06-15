@@ -16,6 +16,7 @@ class SendCodeResponseModel extends SendCodeResultEntity {
     super.maxFailedAttempts,
     super.blockMinutes,
     super.whatsappAvailable,
+    super.devOtpCode,
   });
 
   factory SendCodeResponseModel.fromJson(Map<String, dynamic> json) {
@@ -41,6 +42,7 @@ class SendCodeResponseModel extends SendCodeResultEntity {
       maxFailedAttempts: JsonReaders.integer(json, 'max_failed_attempts', fallback: 3),
       blockMinutes: JsonReaders.integer(json, 'block_minutes', fallback: 15),
       whatsappAvailable: json['whatsapp_available'] as bool? ?? true,
+      devOtpCode: json['dev_otp_code'] as String?,
     );
   }
 }

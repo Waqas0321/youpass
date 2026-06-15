@@ -6,6 +6,7 @@ import 'package:youpass/features/tickets/data/services/tickets_api_service.dart'
 import 'package:youpass/features/tickets/domain/entities/past_event_entity.dart';
 import 'package:youpass/features/tickets/domain/entities/past_event_filter.dart';
 import 'package:youpass/features/tickets/domain/entities/past_tickets_query.dart';
+import 'package:youpass/features/tickets/domain/entities/tickets_page_result.dart';
 import 'package:youpass/features/tickets/domain/entities/tickets_yearly_summary_entity.dart';
 import 'package:youpass/features/tickets/domain/entities/upcoming_ticket_entity.dart';
 import 'package:youpass/features/tickets/presentation/data/tickets_mock_data.dart';
@@ -23,24 +24,40 @@ class TicketsRemoteDataSourceImpl implements TicketsRemoteDataSource {
   AppLocalizations get _l10n => lookupAppLocalizations(localeProvider.locale);
 
   @override
-  Future<List<UpcomingTicketEntity>> fetchUpcomingTickets({
+  Future<TicketsPageResult<UpcomingTicketEntity>> fetchUpcomingTickets({
     int page = 1,
     int limit = 20,
   }) async {
     if (AppConstants.useTicketsMockData) {
-      return TicketsMockData.upcoming(_l10n);
+      final items = TicketsMockData.upcoming(_l10n);
+      return TicketsPageResult(
+        items: items,
+        total: items.length,
+        page: 1,
+        limit: limit,
+        totalPages: 1,
+      );
     }
 
     return apiService.fetchUpcomingTickets(page: page, limit: limit);
   }
 
   @override
-  Future<List<PastEventEntity>> fetchPastTickets(PastTicketsQuery query) async {
+  Future<TicketsPageResult<PastEventEntity>> fetchPastTickets(
+    PastTicketsQuery query,
+  ) async {
     if (AppConstants.useTicketsMockData) {
-      return _filterMockPast(TicketsMockData.past(_l10n), query);
+      final items = _filterMockPast(TicketsMockData.past(_l10n), query);
+      return TicketsPageResult(
+        items: items,
+        total: items.length,
+        page: 1,
+        limit: query.limit,
+        totalPages: 1,
+      );
     }
 
-    return apiService.fetchPastTickets(query);
+    return apiService.fetchPastTicketsPage(query);
   }
 
   List<PastEventEntity> _filterMockPast(
@@ -75,5 +92,10 @@ class TicketsRemoteDataSourceImpl implements TicketsRemoteDataSource {
   @override
   Future<String?> fetchTicketOrderId(String ticketId) {
     return apiService.fetchTicketOrderId(ticketId);
+  }
+
+  @override
+  Future<PastEventEntity> cancelTicket(String ticketId) {
+    return apiService.cancelTicket(ticketId);
   }
 }

@@ -8,24 +8,34 @@ class YouPassDialogPrimaryButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.isLoading = false,
+    this.enabled = true,
     this.height = 44,
   });
 
   final String label;
   final VoidCallback? onPressed;
   final bool isLoading;
+  final bool enabled;
   final double height;
 
   @override
   Widget build(BuildContext context) {
+    final isInteractive = enabled && !isLoading && onPressed != null;
+
     return SizedBox(
       width: double.infinity,
       height: height,
       child: ElevatedButton(
-        onPressed: isLoading ? null : onPressed,
+        onPressed: isInteractive ? onPressed : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: YouPassDialogTheme.primaryButtonBackground(context),
+          disabledBackgroundColor:
+              YouPassDialogTheme.primaryButtonBackground(context)
+                  .withValues(alpha: 0.35),
           foregroundColor: YouPassDialogTheme.primaryButtonForeground(context),
+          disabledForegroundColor:
+              YouPassDialogTheme.primaryButtonForeground(context)
+                  .withValues(alpha: 0.55),
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

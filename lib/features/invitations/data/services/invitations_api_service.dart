@@ -5,6 +5,7 @@ import 'package:youpass/features/invitations/data/models/invitation_ticket_model
 import 'package:youpass/features/invitations/data/models/invitations_list_response_model.dart';
 import 'package:youpass/features/invitations/data/models/invitations_summary_model.dart';
 import 'package:youpass/features/invitations/data/models/payment_method_request_model.dart';
+import 'package:youpass/features/invitations/domain/entities/confirm_invitation_params.dart';
 import 'package:youpass/features/invitations/domain/entities/payment_method_request_entity.dart';
 
 class InvitationsApiService extends BaseApiService {
@@ -62,20 +63,34 @@ class InvitationsApiService extends BaseApiService {
     return false;
   }
 
-  Future<InvitationModel> confirmInvitation(String invitationId) {
+  Future<InvitationModel> confirmInvitation(
+    String invitationId, {
+    ConfirmInvitationParams params = const ConfirmInvitationParams(),
+  }) {
     return postModel(
       ApiEndpoints.invitationConfirm(invitationId),
-      body: const <String, dynamic>{},
+      body: <String, dynamic>{
+        if (params.acceptChargeTerms) 'accept_charge_terms': true,
+        if (params.paymentMethodId != null)
+          'payment_method_id': params.paymentMethodId,
+      },
       fromJson: InvitationModel.fromJson,
       authenticated: true,
     );
   }
 
-  Future<InvitationModel> rejectInvitation(String invitationId) {
-    return postModel(
+  Future<void> rejectInvitation(String invitationId) {
+    return postVoid(
       ApiEndpoints.invitationReject(invitationId),
       body: const <String, dynamic>{},
-      fromJson: InvitationModel.fromJson,
+      authenticated: true,
+    );
+  }
+
+  Future<void> cancelInvitation(String invitationId) {
+    return postVoid(
+      ApiEndpoints.invitationCancel(invitationId),
+      body: const <String, dynamic>{},
       authenticated: true,
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:youpass/core/locale/app_locale.dart';
 import 'package:youpass/features/profile/presentation/screens/profile_screen.dart';
+import 'package:youpass/features/profile/presentation/widgets/profile_footer_actions_widget.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
 import '../../../../helpers/auth_test_helper.dart';
@@ -40,6 +41,9 @@ void main() {
     expect(find.text(strings.profileWalletSection), findsOneWidget);
     expect(find.text(strings.profileNotifications), findsOneWidget);
     expect(find.text(strings.profileSupport), findsOneWidget);
+    expect(find.text(strings.profileWhatsAppSupport), findsOneWidget);
+    expect(find.text(strings.profileWriteEmail), findsOneWidget);
+    expect(find.text(strings.profileFaq), findsOneWidget);
     expect(find.text(strings.profileLogout), findsOneWidget);
     expect(find.text('15 / 06 / 1995'), findsOneWidget);
     expect(find.text(strings.genderMale), findsOneWidget);

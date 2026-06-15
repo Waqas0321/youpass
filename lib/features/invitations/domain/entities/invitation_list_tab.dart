@@ -1,0 +1,4 @@
+enum InvitationListTab {
+  pending,
+  confirmed,
+}

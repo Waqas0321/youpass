@@ -49,9 +49,10 @@ class HomeMockData {
           id: AppConstants.categoryIdAll,
           label: labels.allLabel,
           icon: Icons.apps_outlined,
+          leadingEmoji: AppConstants.categoryAllEmoji,
         ),
         EventCategoryEntity(
-          id: AppConstants.categoryIdChile,
+          id: 'country:CL',
           label: labels.chileLabel,
           icon: Icons.location_on_outlined,
           countryCode: 'CL',

@@ -5,6 +5,7 @@ import 'package:youpass/features/vip_venue/data/services/vip_venue_api_service.d
 import 'package:youpass/features/vip_venue/data/vip_venue_mock_data.dart';
 import 'package:youpass/features/vip_venue/domain/entities/table_availability_snapshot_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/table_lock_result_entity.dart';
+import 'package:youpass/features/vip_venue/domain/entities/table_lock_status_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/ticket_types_bundle_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/venue_floor_plan_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/zone_tables_bundle_entity.dart';
@@ -113,5 +114,26 @@ class VipVenueRemoteDataSourceImpl implements VipVenueRemoteDataSource {
     }
 
     return apiService.fetchTableAvailabilityRealtime(eventId);
+  }
+
+  @override
+  Future<TableLockStatusEntity> fetchTableLockStatus({
+    required String eventId,
+    required String tableId,
+  }) {
+    if (AppConstants.useVipVenueMockData) {
+      return Future.value(
+        TableLockStatusEntity(
+          lockId: 'mock-lock',
+          status: 'ACTIVE',
+          lockedAt: DateTime.now(),
+          expiresAt: DateTime.now().add(const Duration(minutes: 10)),
+          remainingSeconds: 600,
+          isLockedByMe: true,
+        ),
+      );
+    }
+
+    return apiService.fetchTableLockStatus(eventId: eventId, tableId: tableId);
   }
 }

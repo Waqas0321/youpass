@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_colors.dart';
-import 'package:youpass/core/utils/responsive_layout.dart';
-import 'package:youpass/core/widgets/app_text.dart';
-import 'package:youpass/core/widgets/app_text_variant.dart';
+import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
+import 'package:youpass/features/profile/presentation/widgets/profile_theme.dart';
+import 'package:youpass/features/profile/presentation/widgets/profile_icon_badge_widget.dart';
 
 class ProfileActionTileWidget extends StatelessWidget {
   const ProfileActionTileWidget({
@@ -12,53 +11,79 @@ class ProfileActionTileWidget extends StatelessWidget {
     this.trailing,
     this.labelColor,
     this.onTap,
+    this.useIconBadge = false,
+    this.showDivider = false,
+    this.chevronColor,
   });
 
   final IconData icon;
   final String label;
   final Widget? trailing;
   final Color? labelColor;
+  final Color? chevronColor;
   final VoidCallback? onTap;
+  final bool useIconBadge;
+  final bool showDivider;
 
   @override
   Widget build(BuildContext context) {
-    final layout = ResponsiveLayout(context);
-    final textColor = labelColor ?? AppColors.primaryMustard;
+    final theme = ProfileTheme.of(context);
+    final textColor = labelColor ?? theme.valueText;
+    final arrowColor = chevronColor ?? theme.chevronMuted;
 
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(layout.radius(8)),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: layout.spacing(10)),
-          child: Row(
-            children: [
-              Icon(
-                icon,
-                size: layout.fontSize(20),
-                color: textColor,
+    return Column(
+      children: [
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(
+              ProfileDesignSpec.px(context, 8),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: ProfileDesignSpec.px(context, 12),
               ),
-              SizedBox(width: layout.spacing(12)),
-              Expanded(
-                child: AppText(
-                  label,
-                  variant: AppTextVariant.bodyEmphasis,
-                  color: textColor,
-                  fontSize: layout.fontSize(15),
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              trailing ??
-                  Icon(
-                    Icons.chevron_right,
-                    color: textColor,
-                    size: layout.fontSize(22),
+              child: Row(
+                children: [
+                  if (useIconBadge)
+                    ProfileIconBadgeWidget(icon: icon)
+                  else
+                    Icon(
+                      icon,
+                      size: ProfileDesignSpec.px(context, 20),
+                      color: textColor,
+                    ),
+                  SizedBox(width: ProfileDesignSpec.px(context, 12)),
+                  Expanded(
+                    child: Text(
+                      label,
+                      style: TextStyle(
+                        fontSize: ProfileDesignSpec.px(context, 15),
+                        fontWeight: FontWeight.w600,
+                        color: textColor,
+                        height: 1.2,
+                      ),
+                    ),
                   ),
-            ],
+                  trailing ??
+                      Icon(
+                        Icons.chevron_right,
+                        color: arrowColor,
+                        size: ProfileDesignSpec.px(context, 22),
+                      ),
+                ],
+              ),
+            ),
           ),
         ),
-      ),
+        if (showDivider)
+          Divider(
+            height: 1,
+            thickness: 1,
+            color: theme.rowDivider,
+          ),
+      ],
     );
   }
 }

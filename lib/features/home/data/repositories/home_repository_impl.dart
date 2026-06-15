@@ -10,8 +10,14 @@ class HomeRepositoryImpl implements HomeRepository {
   final HomeRemoteDataSource remoteDataSource;
 
   @override
-  Future<HomeFeedEntity> getHomeFeed({String? feedContext}) {
-    return remoteDataSource.fetchHomeFeed(feedContext: feedContext);
+  Future<HomeFeedEntity> getHomeFeed({
+    String? feedContext,
+    String? countryCode,
+  }) {
+    return remoteDataSource.fetchHomeFeed(
+      feedContext: feedContext,
+      countryCode: countryCode,
+    );
   }
 
   @override

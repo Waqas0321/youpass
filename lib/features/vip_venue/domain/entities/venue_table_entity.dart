@@ -11,6 +11,10 @@ class VenueTableEntity extends Equatable {
     required this.capacity,
     required this.bottleCount,
     required this.voucherCount,
+    this.extras = const [],
+    this.positionX = 0,
+    this.positionY = 0,
+    this.isPremium = false,
   });
 
   final String id;
@@ -21,13 +25,27 @@ class VenueTableEntity extends Equatable {
   final int capacity;
   final int bottleCount;
   final int voucherCount;
+  final List<String> extras;
+  final double positionX;
+  final double positionY;
+  final bool isPremium;
 
   bool get isSelectable =>
       status == VenueTableStatus.available ||
       status == VenueTableStatus.premium ||
       status == VenueTableStatus.selected;
 
-  VenueTableEntity copyWith({VenueTableStatus? status}) {
+  bool get showsAsPremium =>
+      isPremium || status == VenueTableStatus.premium;
+
+  bool get hasConfiguredPosition => positionX > 0 || positionY > 0;
+
+  VenueTableEntity copyWith({
+    VenueTableStatus? status,
+    double? positionX,
+    double? positionY,
+    bool? isPremium,
+  }) {
     return VenueTableEntity(
       id: id,
       label: label,
@@ -37,6 +55,10 @@ class VenueTableEntity extends Equatable {
       capacity: capacity,
       bottleCount: bottleCount,
       voucherCount: voucherCount,
+      extras: extras,
+      positionX: positionX ?? this.positionX,
+      positionY: positionY ?? this.positionY,
+      isPremium: isPremium ?? this.isPremium,
     );
   }
 
@@ -50,5 +72,9 @@ class VenueTableEntity extends Equatable {
         capacity,
         bottleCount,
         voucherCount,
+        extras,
+        positionX,
+        positionY,
+        isPremium,
       ];
 }

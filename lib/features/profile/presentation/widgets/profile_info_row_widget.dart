@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/theme/youpass_themed_colors.dart';
-import 'package:youpass/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
+import 'package:youpass/features/profile/presentation/widgets/profile_theme.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_icon_badge_widget.dart';
 
 class ProfileInfoRowWidget extends StatelessWidget {
@@ -24,9 +23,7 @@ class ProfileInfoRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = YouPassThemeExtension.of(context);
-    final labelColor = YouPassThemedColors.secondaryText(context);
-    final valueColor = YouPassThemedColors.primaryText(context);
+    final theme = ProfileTheme.of(context);
 
     return Column(
       children: [
@@ -52,7 +49,7 @@ class ProfileInfoRowWidget extends StatelessWidget {
                     context,
                     ProfileDesignSpec.infoIconInnerSize,
                   ),
-                  color: ProfileDesignSpec.primary,
+                  color: theme.primary,
                 ),
               SizedBox(
                 width: ProfileDesignSpec.px(
@@ -72,7 +69,7 @@ class ProfileInfoRowWidget extends StatelessWidget {
                           ProfileDesignSpec.infoLabelFontSize,
                         ),
                         fontWeight: FontWeight.w400,
-                        color: labelColor,
+                        color: theme.labelText,
                         height: 1.2,
                       ),
                     ),
@@ -90,7 +87,7 @@ class ProfileInfoRowWidget extends StatelessWidget {
                           ProfileDesignSpec.infoValueFontSize,
                         ),
                         fontWeight: FontWeight.w700,
-                        color: valueColor,
+                        color: theme.valueText,
                         height: 1.25,
                       ),
                     ),
@@ -104,7 +101,7 @@ class ProfileInfoRowWidget extends StatelessWidget {
           Divider(
             height: 1,
             thickness: 1,
-            color: theme.profileRowDivider,
+            color: theme.rowDivider,
           ),
       ],
     );

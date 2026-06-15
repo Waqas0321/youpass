@@ -11,8 +11,14 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   final EventsRepository eventsRepository;
 
   @override
-  Future<HomeFeedEntity> fetchHomeFeed({String? feedContext}) {
-    return eventsRepository.fetchHomeFeed(feedContext: feedContext);
+  Future<HomeFeedEntity> fetchHomeFeed({
+    String? feedContext,
+    String? countryCode,
+  }) {
+    return eventsRepository.fetchHomeFeed(
+      feedContext: feedContext,
+      countryCode: countryCode,
+    );
   }
 
   @override

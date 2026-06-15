@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/theme/invitations_screen_theme.dart';
 import 'package:youpass/core/widgets/youpass_search_field_widget.dart';
-import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 
 class InvitationsSearchFieldWidget extends StatelessWidget {
   const InvitationsSearchFieldWidget({
@@ -17,7 +17,7 @@ class InvitationsSearchFieldWidget extends StatelessWidget {
     return YouPassSearchFieldWidget(
       hintText: hintText,
       onChanged: onChanged,
-      focusedBorderColor: InvitationsDesignSpec.primary,
+      focusedBorderColor: InvitationsScreenTheme.accent(context),
     );
   }
 }

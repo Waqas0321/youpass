@@ -5,6 +5,7 @@ import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/widgets/shimmer/vip_floor_plan_shimmer.dart';
 import 'package:youpass/features/vip_venue/domain/entities/venue_floor_plan_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/venue_zone_entity.dart';
+import 'package:youpass/features/vip_venue/domain/entities/venue_zone_kind.dart';
 import 'package:youpass/features/vip_venue/presentation/providers/vip_venue_provider.dart';
 import 'package:youpass/features/vip_venue/presentation/routes/vip_purchase_route_args.dart';
 import 'package:youpass/features/vip_venue/presentation/utils/vip_venue_availability_mapper.dart';
@@ -126,6 +127,15 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
           : AppStrings.vipFloorPlanSize(strings),
     );
 
+    final selectableTableZones = plan.zones
+        .where(
+          (zone) =>
+              zone.isSelectable &&
+              zone.kind != VenueZoneKind.stage &&
+              zone.kind != VenueZoneKind.danceFloor,
+        )
+        .toList();
+
     return VipFlowScaffold(
       title: AppStrings.vipFloorPlanTitle(strings),
       subtitle: subtitle,
@@ -138,8 +148,10 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
           ),
           SizedBox(height: VipVenueDesignSpec.px(context, 16)),
           const VenueMapLegendWidget(),
-          SizedBox(height: VipVenueDesignSpec.px(context, 20)),
-          const VipFloorPlanHintCardWidget(),
+          if (selectableTableZones.isNotEmpty) ...[
+            SizedBox(height: VipVenueDesignSpec.px(context, 20)),
+            const VipFloorPlanHintCardWidget(),
+          ],
         ],
       ),
     );

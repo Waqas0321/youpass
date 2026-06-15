@@ -2,9 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:youpass/core/network/api_exception.dart';
 import 'package:youpass/features/vip_venue/domain/entities/table_availability_snapshot_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/table_lock_result_entity.dart';
+import 'package:youpass/features/vip_venue/domain/entities/table_lock_status_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/ticket_types_bundle_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/venue_floor_plan_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/zone_tables_bundle_entity.dart';
+import 'package:youpass/features/vip_venue/domain/usecases/fetch_table_lock_status_usecase.dart';
 import 'package:youpass/features/vip_venue/domain/usecases/fetch_table_availability_realtime_usecase.dart';
 import 'package:youpass/features/vip_venue/domain/usecases/fetch_ticket_types_usecase.dart';
 import 'package:youpass/features/vip_venue/domain/usecases/fetch_venue_layout_usecase.dart';
@@ -22,6 +24,7 @@ class VipVenueProvider extends ChangeNotifier {
     required this.lockVenueTableUseCase,
     required this.releaseVenueTableLockUseCase,
     required this.fetchTableAvailabilityRealtimeUseCase,
+    required this.fetchTableLockStatusUseCase,
   });
 
   final FetchTicketTypesUseCase fetchTicketTypesUseCase;
@@ -30,6 +33,7 @@ class VipVenueProvider extends ChangeNotifier {
   final LockVenueTableUseCase lockVenueTableUseCase;
   final ReleaseVenueTableLockUseCase releaseVenueTableLockUseCase;
   final FetchTableAvailabilityRealtimeUseCase fetchTableAvailabilityRealtimeUseCase;
+  final FetchTableLockStatusUseCase fetchTableLockStatusUseCase;
 
   VipVenueLoadStatus ticketTypesStatus = VipVenueLoadStatus.initial;
   VipVenueLoadStatus venueLayoutStatus = VipVenueLoadStatus.initial;
@@ -171,6 +175,17 @@ class VipVenueProvider extends ChangeNotifier {
   ) async {
     try {
       return await fetchTableAvailabilityRealtimeUseCase(eventId);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<TableLockStatusEntity?> fetchTableLockStatus({
+    required String eventId,
+    required String tableId,
+  }) async {
+    try {
+      return await fetchTableLockStatusUseCase(eventId: eventId, tableId: tableId);
     } catch (_) {
       return null;
     }

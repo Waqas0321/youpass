@@ -7,11 +7,13 @@ import 'package:youpass/l10n/app_localizations.dart';
 class DrawerMenuFactory {
   DrawerMenuFactory._();
 
-  static List<DrawerMenuItem> build(
-    AppLocalizations l10n, {
-    int invitationsBadgeCount = 0,
-  }) {
+  static List<DrawerMenuItem> build(AppLocalizations l10n) {
     return [
+      DrawerMenuItem(
+        id: DrawerMenuId.invitations,
+        label: AppStrings.drawerInvitations(l10n),
+        isHighlighted: true,
+      ),
       DrawerMenuItem(
         id: DrawerMenuId.profile,
         label: AppStrings.drawerMyProfile(l10n),
@@ -27,18 +29,15 @@ class DrawerMenuFactory {
         label: AppStrings.drawerMyFavorites(l10n),
         icon: Icons.favorite_border,
       ),
-      DrawerMenuItem(
-        id: DrawerMenuId.invitations,
-        label: AppStrings.drawerInvitations(l10n),
-        icon: Icons.auto_awesome_outlined,
-        isHighlighted: true,
-        badgeLabel: invitationsBadgeCount > 0
-            ? AppStrings.drawerInvitationsNewBadge(
-                l10n,
-                invitationsBadgeCount,
-              )
-            : null,
-      ),
     ];
+  }
+
+  static DrawerMenuItem invitationsItem(AppLocalizations l10n) {
+    return build(l10n).first;
+  }
+
+  static List<DrawerMenuItem> standardItems(AppLocalizations l10n) {
+    final items = build(l10n);
+    return items.sublist(1);
   }
 }

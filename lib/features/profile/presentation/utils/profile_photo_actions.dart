@@ -6,14 +6,24 @@ import 'package:youpass/core/l10n/auth_error_extension.dart';
 import 'package:youpass/core/widgets/app_snack_bar.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/profile/presentation/utils/profile_photo_picker.dart';
+import 'package:youpass/features/profile/presentation/utils/profile_photo_source_sheet.dart';
 
 class ProfilePhotoActions {
   const ProfilePhotoActions(this.context);
 
   final BuildContext context;
 
-  Future<void> pickAndUploadFromGallery() async {
-    final file = await ProfilePhotoPicker.pickFromGallery();
+  Future<void> pickAndUpload() async {
+    final source = await ProfilePhotoSourceSheet.show(context);
+    if (source == null || !context.mounted) {
+      return;
+    }
+
+    final file = switch (source) {
+      ProfilePhotoSource.camera => await ProfilePhotoPicker.pickFromCamera(),
+      ProfilePhotoSource.gallery => await ProfilePhotoPicker.pickFromGallery(),
+    };
+
     if (file == null || !context.mounted) {
       return;
     }

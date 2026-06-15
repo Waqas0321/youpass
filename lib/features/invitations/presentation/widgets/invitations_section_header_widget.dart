@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/theme/youpass_themed_colors.dart';
+import 'package:youpass/core/theme/invitations_screen_theme.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 
 class InvitationsSectionHeaderWidget extends StatelessWidget {
@@ -14,15 +14,28 @@ class InvitationsSectionHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final iconSize = InvitationsDesignSpec.px(context, 40);
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
-          Icons.mail_outline,
-          size: InvitationsDesignSpec.px(context, 22),
-          color: InvitationsDesignSpec.primary,
+        Container(
+          width: iconSize,
+          height: iconSize,
+          decoration: BoxDecoration(
+            color: InvitationsScreenTheme.sectionIconBackground(context),
+            borderRadius: BorderRadius.circular(
+              InvitationsDesignSpec.px(context, 10),
+            ),
+          ),
+          alignment: Alignment.center,
+          child: Icon(
+            Icons.mail_rounded,
+            size: InvitationsDesignSpec.px(context, 22),
+            color: InvitationsScreenTheme.accent(context),
+          ),
         ),
-        SizedBox(width: InvitationsDesignSpec.px(context, 8)),
+        SizedBox(width: InvitationsDesignSpec.px(context, 12)),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,8 +44,9 @@ class InvitationsSectionHeaderWidget extends StatelessWidget {
                 title,
                 style: TextStyle(
                   fontSize: InvitationsDesignSpec.px(context, 18),
-                  fontWeight: FontWeight.w700,
-                  color: YouPassThemedColors.primaryText(context),
+                  fontWeight: FontWeight.w800,
+                  color: InvitationsScreenTheme.title(context),
+                  letterSpacing: 0.4,
                   height: 1.2,
                 ),
               ),
@@ -41,7 +55,7 @@ class InvitationsSectionHeaderWidget extends StatelessWidget {
                 subtitle,
                 style: TextStyle(
                   fontSize: InvitationsDesignSpec.px(context, 13),
-                  color: YouPassThemedColors.secondaryText(context),
+                  color: InvitationsScreenTheme.body(context),
                   height: 1.35,
                 ),
               ),

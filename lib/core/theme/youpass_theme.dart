@@ -26,7 +26,7 @@ class YouPassTheme {
       brightness: Brightness.dark,
       surface: const Color(0xFF1A1A1A),
       onSurface: AppColors.backgroundWhite,
-      onSurfaceVariant: AppColors.secondaryGrey,
+      onSurfaceVariant: const Color(0xFFB0B0B0),
     );
 
     return _baseTheme(

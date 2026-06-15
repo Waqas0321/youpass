@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/constants/app_strings.dart';
-import 'package:youpass/core/l10n/app_message_localizer.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
-import 'package:youpass/core/widgets/shimmer/event_browse_list_shimmer.dart';
+import 'package:youpass/core/l10n/app_message_localizer.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/core/widgets/youpass_branded_app_bar_widget.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
-import 'package:youpass/features/events/domain/entities/event_entity.dart';
-import 'package:youpass/features/events/domain/repositories/events_repository.dart';
-import 'package:youpass/features/events/domain/usecases/get_favorite_events_usecase.dart';
-import 'package:youpass/features/events/domain/usecases/toggle_event_favorite_usecase.dart'
-    as events_usecases;
-import 'package:youpass/features/events/presentation/utils/event_browse_filter_helper.dart';
 import 'package:youpass/features/events/presentation/utils/event_detail_screen_actions.dart';
-import 'package:youpass/features/events/presentation/widgets/event_browse_list_content.dart';
+import 'package:youpass/features/events/presentation/widgets/event_browse_card_widget.dart';
 import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
-import 'package:youpass/features/home/domain/entities/event_category_entity.dart';
-import 'package:youpass/l10n/app_localizations.dart';
+import 'package:youpass/features/favorites/presentation/providers/favorites_provider.dart';
+import 'package:youpass/features/favorites/presentation/routes/producer_events_route_args.dart';
+import 'package:youpass/features/favorites/presentation/widgets/favorite_producer_card_widget.dart';
+import 'package:youpass/features/favorites/presentation/widgets/favorites_filter_pills_widget.dart';
+import 'package:youpass/features/favorites/presentation/widgets/favorites_footer_counters_widget.dart';
+import 'package:youpass/features/favorites/presentation/widgets/favorites_list_shimmer.dart';
+import 'package:youpass/features/favorites/presentation/widgets/favorites_search_field_widget.dart';
+import 'package:youpass/features/favorites/presentation/widgets/favorites_section_header_widget.dart';
+import 'package:youpass/features/vip_venue/presentation/utils/vip_purchase_screen_actions.dart';
+import 'package:youpass/routes/app_routes.dart';
 
 class MyFavoritesScreen extends StatefulWidget {
   const MyFavoritesScreen({super.key});
@@ -28,176 +28,186 @@ class MyFavoritesScreen extends StatefulWidget {
 }
 
 class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
-  late final EventsRepository eventsRepository;
-  late final GetFavoriteEventsUseCase getFavoriteEventsUseCase;
-  late final events_usecases.ToggleEventFavoriteUseCase toggleEventFavoriteUseCase;
-
-  List<EventCategoryEntity> categories = [];
-  List<EventEntity> allEvents = [];
-  List<EventEntity> visibleEvents = [];
-  String selectedCategoryId = AppConstants.categoryIdAll;
-  String searchQuery = '';
-  bool isLoading = true;
-  String? errorMessage;
-  final Set<String> favoritePendingIds = {};
+  late final FavoritesProvider favoritesProvider;
 
   @override
   void initState() {
     super.initState();
-    eventsRepository = sl<EventsRepository>();
-    getFavoriteEventsUseCase = sl<GetFavoriteEventsUseCase>();
-    toggleEventFavoriteUseCase = sl<events_usecases.ToggleEventFavoriteUseCase>();
+    favoritesProvider = sl<FavoritesProvider>();
+    favoritesProvider.addListener(_onProviderChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        loadFavorites();
+        favoritesProvider.loadFavorites();
       }
     });
   }
 
-  Future<void> loadFavorites() async {
-    setState(() {
-      isLoading = true;
-      errorMessage = null;
-    });
+  @override
+  void dispose() {
+    favoritesProvider.removeListener(_onProviderChanged);
+    super.dispose();
+  }
 
-    try {
-      final events = await getFavoriteEventsUseCase();
-      final loadedCategories = await eventsRepository.fetchBrowseCategories();
-
-      if (!mounted) {
-        return;
-      }
-
-      setState(() {
-        categories = loadedCategories;
-        allEvents = events;
-        isLoading = false;
-        applyFilters();
-      });
-    } catch (error) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        isLoading = false;
-        errorMessage = AppMessageLocalizer.fromError(context.l10n, error);
-      });
+  void _onProviderChanged() {
+    if (mounted) {
+      setState(() {});
     }
   }
 
-  void applyFilters() {
-    visibleEvents = EventBrowseFilterHelper.filter(
-      events: allEvents,
-      searchQuery: searchQuery,
-      selectedCategoryId: selectedCategoryId,
-      categories: categories,
-    );
-  }
-
-  void selectCategory(String categoryId) {
-    if (selectedCategoryId == categoryId) {
-      return;
-    }
-
-    setState(() {
-      selectedCategoryId = categoryId;
-      applyFilters();
-    });
-  }
-
-  void updateSearch(String value) {
-    setState(() {
-      searchQuery = value;
-      applyFilters();
-    });
-  }
-
-  Future<void> toggleFavorite(String eventId) async {
-    if (favoritePendingIds.contains(eventId)) {
-      return;
-    }
-
-    favoritePendingIds.add(eventId);
-    setState(() {});
-
-    try {
-      await toggleEventFavoriteUseCase(
-        eventId: eventId,
-        isFavorite: true,
-      );
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        allEvents = allEvents.where((event) => event.id != eventId).toList();
-        applyFilters();
-      });
-    } catch (error) {
-      if (mounted) {
-        setState(
-          () => errorMessage = AppMessageLocalizer.fromError(context.l10n, error),
-        );
-      }
-    } finally {
-      favoritePendingIds.remove(eventId);
-      if (mounted) {
-        setState(() {});
-      }
-    }
-  }
-
-  String emptyMessage(AppLocalizations strings) {
-    if (allEvents.isEmpty) {
+  String _emptyMessage() {
+    final strings = context.l10n;
+    if (favoritesProvider.isEmpty) {
       return AppStrings.favoritesEventsEmpty(strings);
     }
-    return AppStrings.homeNoEventsFound(strings);
+    if (!favoritesProvider.hasVisibleResults) {
+      return AppStrings.favoritesNoSearchResults(strings);
+    }
+    return AppStrings.favoritesEventsEmpty(strings);
   }
 
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
+    final horizontalPadding =
+        FavoritesDesignSpec.px(context, FavoritesDesignSpec.horizontalPadding);
 
     return Scaffold(
       appBar: YouPassBrandedAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
         primaryColor: FavoritesDesignSpec.primary,
       ),
-      body: isLoading
-          ? const EventBrowseListShimmer()
-          : errorMessage != null && allEvents.isEmpty
+      body: favoritesProvider.isLoading
+          ? const FavoritesListShimmer()
+          : favoritesProvider.errorMessage != null && favoritesProvider.isEmpty
               ? Center(
                   child: AppText(
-                    errorMessage!,
+                    AppMessageLocalizer.fromError(
+                      strings,
+                      favoritesProvider.errorMessage!,
+                    ),
                     variant: AppTextVariant.error,
                   ),
                 )
               : RefreshIndicator(
-                  onRefresh: loadFavorites,
-                  child: EventBrowseListContent(
-                    headerTitle: AppStrings.drawerMyFavorites(strings),
-                    headerSubtitle: AppStrings.favoritesEventsSubtitle(strings),
-                    headerIcon: Icons.favorite_outline,
-                    headerIconColor: FavoritesDesignSpec.favoriteActive,
-                    searchHint: AppStrings.favoritesEventsSearchHint(strings),
-                    onSearchChanged: updateSearch,
-                    categories: categories,
-                    selectedCategoryId: selectedCategoryId,
-                    onCategorySelected: selectCategory,
-                    visibleEvents: visibleEvents,
-                    emptyMessage: emptyMessage(strings),
-                    footerIcon: Icons.favorite,
-                    footerIconColor: FavoritesDesignSpec.favoriteActive,
-                    footerText: AppStrings.favoritesSavedEventsCount(
-                      strings,
-                      visibleEvents.length,
+                  onRefresh: favoritesProvider.loadFavorites,
+                  child: ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.fromLTRB(
+                      horizontalPadding,
+                      FavoritesDesignSpec.px(context, 8),
+                      horizontalPadding,
+                      FavoritesDesignSpec.px(context, 24),
                     ),
-                    onFavoriteTap: toggleFavorite,
-                    favoritePendingIds: favoritePendingIds,
-                    onEventTap: (event) =>
-                        EventDetailScreenActions(context).openEventDetail(
-                      event: event,
-                    ),
-                    markAllAsFavorite: true,
+                    children: [
+                      FavoritesSectionHeaderWidget(
+                        title: AppStrings.drawerMyFavorites(strings),
+                        subtitle: AppStrings.favoritesEventsSubtitle(strings),
+                        leadingIcon: Icons.favorite_outline,
+                        leadingIconColor: FavoritesDesignSpec.favoriteActive,
+                      ),
+                      SizedBox(height: FavoritesDesignSpec.px(context, 14)),
+                      FavoritesSearchFieldWidget(
+                        hintText: AppStrings.favoritesEventsSearchHint(strings),
+                        onChanged: favoritesProvider.setSearchQuery,
+                      ),
+                      SizedBox(height: FavoritesDesignSpec.px(context, 14)),
+                      FavoritesFilterPillsWidget(
+                        selectedFilter: favoritesProvider.selectedFilter,
+                        onFilterSelected: favoritesProvider.setFilter,
+                      ),
+                      SizedBox(height: FavoritesDesignSpec.px(context, 18)),
+                      if (favoritesProvider.visibleProducers.isNotEmpty) ...[
+                        Text(
+                          AppStrings.favoritesSectionFollowedPromoters(strings),
+                          style: TextStyle(
+                            fontSize: FavoritesDesignSpec.px(context, 12),
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.4,
+                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                        SizedBox(height: FavoritesDesignSpec.px(context, 10)),
+                        ...favoritesProvider.visibleProducers.map(
+                          (producer) => FavoriteProducerCardWidget(
+                            producer: producer,
+                            onViewEvents: () {
+                              Navigator.of(context).pushNamed(
+                                AppRoutes.producerEvents,
+                                arguments: ProducerEventsRouteArgs(
+                                  producer: producer,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(height: FavoritesDesignSpec.px(context, 8)),
+                      ],
+                      if (favoritesProvider.visibleEvents.isNotEmpty) ...[
+                        Text(
+                          AppStrings.favoritesSectionSavedEvents(strings),
+                          style: TextStyle(
+                            fontSize: FavoritesDesignSpec.px(context, 12),
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.4,
+                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                        SizedBox(height: FavoritesDesignSpec.px(context, 10)),
+                        ...favoritesProvider.visibleEvents.map(
+                          (event) => EventBrowseCardWidget(
+                            event: event,
+                            showFavorite: true,
+                            isFavoritePending: favoritesProvider.eventPendingIds
+                                .contains(event.id),
+                            onFavoriteTap: () =>
+                                favoritesProvider.removeSavedEvent(event.id),
+                            onBuyTicket: () => VipPurchaseScreenActions(context)
+                                .openTicketSelection(event: event),
+                            onEventTap: () =>
+                                EventDetailScreenActions(context).openEventDetail(
+                              event: event,
+                            ),
+                          ),
+                        ),
+                      ],
+                      if (!favoritesProvider.hasVisibleResults)
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: FavoritesDesignSpec.px(context, 32),
+                          ),
+                          child: Column(
+                            children: [
+                              Text(
+                                _emptyMessage(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
+                                ),
+                              ),
+                              if (favoritesProvider.isEmpty) ...[
+                                SizedBox(
+                                    height: FavoritesDesignSpec.px(context, 16)),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushNamed(AppRoutes.allEvents);
+                                  },
+                                  child: Text(
+                                    AppStrings.favoritesExploreCta(strings),
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      SizedBox(height: FavoritesDesignSpec.px(context, 16)),
+                      FavoritesFooterCountersWidget(
+                        eventsCount: favoritesProvider.eventsCount,
+                        producersCount: favoritesProvider.producersCount,
+                      ),
+                    ],
                   ),
                 ),
     );

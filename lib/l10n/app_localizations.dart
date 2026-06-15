@@ -290,6 +290,168 @@ abstract class AppLocalizations {
   /// **'No events found for this filter'**
   String get homeNoEventsFound;
 
+  /// No description provided for @homeEventsEndOfList.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve seen all available events.'**
+  String get homeEventsEndOfList;
+
+  /// No description provided for @homeNearMeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'See events near my location'**
+  String get homeNearMeButton;
+
+  /// No description provided for @homeEventDistanceKm.
+  ///
+  /// In en, this message translates to:
+  /// **'{distance} km'**
+  String homeEventDistanceKm(String distance);
+
+  /// No description provided for @homeEventTravelMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min'**
+  String homeEventTravelMinutes(int minutes);
+
+  /// No description provided for @homeNearMePermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission is required to show nearby events.'**
+  String get homeNearMePermissionDenied;
+
+  /// No description provided for @homeNearMeLocationDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on location services to find events near you.'**
+  String get homeNearMeLocationDisabled;
+
+  /// No description provided for @homeSearchPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Search events by name'**
+  String get homeSearchPlaceholder;
+
+  /// No description provided for @homeSearchEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t find any events with that term.'**
+  String get homeSearchEmpty;
+
+  /// No description provided for @homeSearchRecentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent searches'**
+  String get homeSearchRecentTitle;
+
+  /// No description provided for @homeSearchClearHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get homeSearchClearHistory;
+
+  /// No description provided for @homeSearchSuggestionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestions'**
+  String get homeSearchSuggestionsTitle;
+
+  /// No description provided for @homeFiltersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get homeFiltersTitle;
+
+  /// No description provided for @homeFiltersDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get homeFiltersDate;
+
+  /// No description provided for @homeFiltersPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get homeFiltersPrice;
+
+  /// No description provided for @homeFiltersCityZone.
+  ///
+  /// In en, this message translates to:
+  /// **'City / Zone'**
+  String get homeFiltersCityZone;
+
+  /// No description provided for @homeFiltersVenueType.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue type'**
+  String get homeFiltersVenueType;
+
+  /// No description provided for @homeFiltersFreeOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Free events only'**
+  String get homeFiltersFreeOnly;
+
+  /// No description provided for @homeFiltersCityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get homeFiltersCityLabel;
+
+  /// No description provided for @homeFiltersZoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Neighbourhood'**
+  String get homeFiltersZoneLabel;
+
+  /// No description provided for @homeFiltersClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get homeFiltersClear;
+
+  /// No description provided for @homeFiltersApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get homeFiltersApply;
+
+  /// No description provided for @homeFiltersApplyCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply ({count})'**
+  String homeFiltersApplyCount(int count);
+
+  /// No description provided for @homeFiltersCustomRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom range'**
+  String get homeFiltersCustomRange;
+
+  /// No description provided for @homeFiltersDateFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From {date}'**
+  String homeFiltersDateFrom(String date);
+
+  /// No description provided for @homeFiltersDateUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Until {date}'**
+  String homeFiltersDateUntil(String date);
+
+  /// No description provided for @homeFiltersDateRange.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to}'**
+  String homeFiltersDateRange(String from, String to);
+
+  /// No description provided for @homeFiltersAllCities.
+  ///
+  /// In en, this message translates to:
+  /// **'All cities'**
+  String get homeFiltersAllCities;
+
   /// No description provided for @allEventsTitle.
   ///
   /// In en, this message translates to:
@@ -361,6 +523,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'About this event'**
   String get eventDetailAboutSection;
+
+  /// No description provided for @eventDetailAboutHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'ABOUT THE EVENT'**
+  String get eventDetailAboutHeading;
+
+  /// No description provided for @eventDetailReadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'See more'**
+  String get eventDetailReadMore;
+
+  /// No description provided for @eventDetailReadLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Read less'**
+  String get eventDetailReadLess;
+
+  /// No description provided for @eventDetailBuyTicketsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy tickets'**
+  String get eventDetailBuyTicketsLabel;
+
+  /// No description provided for @eventDetailSoldOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sold Out'**
+  String get eventDetailSoldOut;
+
+  /// No description provided for @eventDetailPromoterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Promoter'**
+  String get eventDetailPromoterLabel;
+
+  /// No description provided for @eventDetailFollowPromoter.
+  ///
+  /// In en, this message translates to:
+  /// **'You are now following {name}'**
+  String eventDetailFollowPromoter(String name);
+
+  /// No description provided for @eventDetailUnfollowPromoter.
+  ///
+  /// In en, this message translates to:
+  /// **'You unfollowed {name}'**
+  String eventDetailUnfollowPromoter(String name);
 
   /// No description provided for @eventCaribeDate.
   ///
@@ -833,7 +1043,7 @@ abstract class AppLocalizations {
   /// No description provided for @drawerMyFavorites.
   ///
   /// In en, this message translates to:
-  /// **'My Favorites'**
+  /// **'My Favourites'**
   String get drawerMyFavorites;
 
   /// No description provided for @drawerInvitations.
@@ -848,11 +1058,29 @@ abstract class AppLocalizations {
   /// **'{count} new'**
   String drawerInvitationsNewBadge(int count);
 
+  /// No description provided for @drawerTierBronze.
+  ///
+  /// In en, this message translates to:
+  /// **'BRONZE'**
+  String get drawerTierBronze;
+
+  /// No description provided for @drawerTierSilver.
+  ///
+  /// In en, this message translates to:
+  /// **'SILVER'**
+  String get drawerTierSilver;
+
   /// No description provided for @drawerTierGold.
   ///
   /// In en, this message translates to:
   /// **'GOLD'**
   String get drawerTierGold;
+
+  /// No description provided for @drawerTierPlatinum.
+  ///
+  /// In en, this message translates to:
+  /// **'PLATINUM'**
+  String get drawerTierPlatinum;
 
   /// No description provided for @profileTitle.
   ///
@@ -992,11 +1220,71 @@ abstract class AppLocalizations {
   /// **'Default'**
   String get profileDefaultCard;
 
+  /// No description provided for @profileSetDefaultCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Set as default'**
+  String get profileSetDefaultCard;
+
+  /// No description provided for @profileDeleteCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete card'**
+  String get profileDeleteCard;
+
+  /// No description provided for @profileDefaultCardUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Default payment method updated'**
+  String get profileDefaultCardUpdated;
+
   /// No description provided for @profileViewFullWallet.
   ///
   /// In en, this message translates to:
   /// **'View full wallet'**
   String get profileViewFullWallet;
+
+  /// No description provided for @profileWalletAvailableBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Available balance'**
+  String get profileWalletAvailableBalance;
+
+  /// No description provided for @profileWalletCredits.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} credits'**
+  String profileWalletCredits(String amount);
+
+  /// No description provided for @profileWalletTransactionHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction history'**
+  String get profileWalletTransactionHistory;
+
+  /// No description provided for @profileWalletNoTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions yet'**
+  String get profileWalletNoTransactions;
+
+  /// No description provided for @profileWalletDefaultDeleteRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a new default card before deleting this one'**
+  String get profileWalletDefaultDeleteRequired;
+
+  /// No description provided for @profileWalletSelectNewDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Select new default card'**
+  String get profileWalletSelectNewDefault;
+
+  /// No description provided for @profileWalletAddCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new card'**
+  String get profileWalletAddCard;
 
   /// No description provided for @profileNotifications.
   ///
@@ -1015,6 +1303,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email · Push · WhatsApp'**
   String get profileNotificationChannels;
+
+  /// No description provided for @profileNotificationChannelEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get profileNotificationChannelEmail;
+
+  /// No description provided for @profileNotificationChannelEmailDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Formal communications, order confirmations, receipts, and long reminders'**
+  String get profileNotificationChannelEmailDesc;
+
+  /// No description provided for @profileNotificationChannelPush.
+  ///
+  /// In en, this message translates to:
+  /// **'Push notification'**
+  String get profileNotificationChannelPush;
+
+  /// No description provided for @profileNotificationChannelPushDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Real-time alerts, invitations, short reminders, and urgent updates'**
+  String get profileNotificationChannelPushDesc;
+
+  /// No description provided for @profileNotificationChannelWhatsApp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get profileNotificationChannelWhatsApp;
+
+  /// No description provided for @profileNotificationChannelWhatsAppDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Interactive bot messages, invitations, payment links, and conversational updates'**
+  String get profileNotificationChannelWhatsAppDesc;
+
+  /// No description provided for @profileNotificationAdvancedSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced settings'**
+  String get profileNotificationAdvancedSettings;
+
+  /// No description provided for @profileNotificationCriticalDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'These notifications cannot be disabled as they are essential to your experience.'**
+  String get profileNotificationCriticalDisclaimer;
+
+  /// No description provided for @profileNotificationAdvancedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced notification settings'**
+  String get profileNotificationAdvancedTitle;
+
+  /// No description provided for @profileNotificationByType.
+  ///
+  /// In en, this message translates to:
+  /// **'By type'**
+  String get profileNotificationByType;
+
+  /// No description provided for @profileNotificationTypePurchases.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchases'**
+  String get profileNotificationTypePurchases;
+
+  /// No description provided for @profileNotificationTypeReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get profileNotificationTypeReminders;
+
+  /// No description provided for @profileNotificationTypePromotions.
+  ///
+  /// In en, this message translates to:
+  /// **'Promotions'**
+  String get profileNotificationTypePromotions;
+
+  /// No description provided for @profileNotificationTypeSocial.
+  ///
+  /// In en, this message translates to:
+  /// **'Social'**
+  String get profileNotificationTypeSocial;
+
+  /// No description provided for @profileNotificationByChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'By channel'**
+  String get profileNotificationByChannel;
+
+  /// No description provided for @profileNotificationNightSilence.
+  ///
+  /// In en, this message translates to:
+  /// **'Night silence'**
+  String get profileNotificationNightSilence;
+
+  /// No description provided for @profileNotificationNightSilenceDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'No push notifications after the selected time (your local timezone)'**
+  String get profileNotificationNightSilenceDesc;
+
+  /// No description provided for @profileNotificationNightSilenceFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Silence push from'**
+  String get profileNotificationNightSilenceFrom;
+
+  /// No description provided for @profileNotificationCriticalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical notifications'**
+  String get profileNotificationCriticalTitle;
+
+  /// No description provided for @profileNotificationCriticalEventCancellation.
+  ///
+  /// In en, this message translates to:
+  /// **'Event cancellation'**
+  String get profileNotificationCriticalEventCancellation;
+
+  /// No description provided for @profileNotificationCriticalEventDatetime.
+  ///
+  /// In en, this message translates to:
+  /// **'Event date or time change'**
+  String get profileNotificationCriticalEventDatetime;
+
+  /// No description provided for @profileNotificationCriticalEventVenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Event venue or location change'**
+  String get profileNotificationCriticalEventVenue;
+
+  /// No description provided for @profileNotificationCriticalSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical security alerts'**
+  String get profileNotificationCriticalSecurity;
+
+  /// No description provided for @profileNotificationCriticalPaymentReceipts.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment receipts / purchase confirmations'**
+  String get profileNotificationCriticalPaymentReceipts;
+
+  /// No description provided for @profileNotificationCriticalRefunds.
+  ///
+  /// In en, this message translates to:
+  /// **'Processed refunds'**
+  String get profileNotificationCriticalRefunds;
+
+  /// No description provided for @profileNotificationUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update notification settings. Please try again.'**
+  String get profileNotificationUpdateFailed;
 
   /// No description provided for @profileSupport.
   ///
@@ -1043,7 +1487,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileLogout.
   ///
   /// In en, this message translates to:
-  /// **'Log out'**
+  /// **'Sign out'**
   String get profileLogout;
 
   /// No description provided for @profileDeleteAccount.
@@ -1052,11 +1496,275 @@ abstract class AppLocalizations {
   /// **'Delete account'**
   String get profileDeleteAccount;
 
+  /// No description provided for @profileDeleteInfoIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'The following will be permanently deleted:'**
+  String get profileDeleteInfoIntro;
+
+  /// No description provided for @profileDeleteItemPersonalData.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal data'**
+  String get profileDeleteItemPersonalData;
+
+  /// No description provided for @profileDeleteItemTickets.
+  ///
+  /// In en, this message translates to:
+  /// **'Active and future tickets'**
+  String get profileDeleteItemTickets;
+
+  /// No description provided for @profileDeleteItemPaymentMethods.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment methods'**
+  String get profileDeleteItemPaymentMethods;
+
+  /// No description provided for @profileDeleteItemPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Accumulated points'**
+  String get profileDeleteItemPoints;
+
+  /// No description provided for @profileDeleteItemHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete history'**
+  String get profileDeleteItemHistory;
+
+  /// No description provided for @profileDeleteIrreversibleWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This action is IRREVERSIBLE after 7 days.'**
+  String get profileDeleteIrreversibleWarning;
+
+  /// No description provided for @accountDeletionBiometricReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your identity to continue with account deletion'**
+  String get accountDeletionBiometricReason;
+
+  /// No description provided for @accountDeletionBiometricFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication failed. Account deletion was not started.'**
+  String get accountDeletionBiometricFailed;
+
+  /// No description provided for @accountDeletionPendingBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account pending deletion'**
+  String get accountDeletionPendingBannerTitle;
+
+  /// No description provided for @accountDeletionPendingBannerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account will be deleted on {date} ({days} days remaining). Tap to cancel.'**
+  String accountDeletionPendingBannerSubtitle(String date, int days);
+
+  /// No description provided for @accountDeletionCancelAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel deletion'**
+  String get accountDeletionCancelAction;
+
+  /// No description provided for @accountDeletionCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Your YOUPASS account is still active.'**
+  String get accountDeletionCancelled;
+
   /// No description provided for @profilePhotoUpdated.
   ///
   /// In en, this message translates to:
   /// **'Profile photo updated'**
   String get profilePhotoUpdated;
+
+  /// No description provided for @profileCompleteBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile'**
+  String get profileCompleteBannerTitle;
+
+  /// No description provided for @profileCompleteBannerSubtitleBoth.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your photo and Instagram to personalise your experience'**
+  String get profileCompleteBannerSubtitleBoth;
+
+  /// No description provided for @profileCompleteBannerSubtitlePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your profile photo to be better identified'**
+  String get profileCompleteBannerSubtitlePhoto;
+
+  /// No description provided for @profileCompleteBannerSubtitleInstagram.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your Instagram to connect with other attendees'**
+  String get profileCompleteBannerSubtitleInstagram;
+
+  /// No description provided for @profileCompleteBannerButton.
+  ///
+  /// In en, this message translates to:
+  /// **'COMPLETE'**
+  String get profileCompleteBannerButton;
+
+  /// No description provided for @profilePhotoChooseSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Change profile photo'**
+  String get profilePhotoChooseSource;
+
+  /// No description provided for @profilePhotoTake.
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo'**
+  String get profilePhotoTake;
+
+  /// No description provided for @profilePhotoGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get profilePhotoGallery;
+
+  /// No description provided for @profileNotAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Not added'**
+  String get profileNotAdded;
+
+  /// No description provided for @profileEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit details'**
+  String get profileEditTitle;
+
+  /// No description provided for @profileSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get profileSave;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated successfully'**
+  String get profileSaved;
+
+  /// No description provided for @profileGenderFemaleValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get profileGenderFemaleValue;
+
+  /// No description provided for @profileGenderOtherValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get profileGenderOtherValue;
+
+  /// No description provided for @profileGenderPreferNotSayValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer not to say'**
+  String get profileGenderPreferNotSayValue;
+
+  /// No description provided for @profileCategoryBenefits.
+  ///
+  /// In en, this message translates to:
+  /// **'My benefits'**
+  String get profileCategoryBenefits;
+
+  /// No description provided for @profileFaqTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequently asked questions'**
+  String get profileFaqTitle;
+
+  /// No description provided for @profileFaqSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get profileFaqSearch;
+
+  /// No description provided for @profileFaqHelpful.
+  ///
+  /// In en, this message translates to:
+  /// **'Was this helpful?'**
+  String get profileFaqHelpful;
+
+  /// No description provided for @profileFaqYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get profileFaqYes;
+
+  /// No description provided for @profileFaqNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get profileFaqNo;
+
+  /// No description provided for @profileFaqNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t find an answer. Contact us directly.'**
+  String get profileFaqNoResults;
+
+  /// No description provided for @profileFaqContactWhatsApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact via WhatsApp'**
+  String get profileFaqContactWhatsApp;
+
+  /// No description provided for @profileFaqContactEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Send email'**
+  String get profileFaqContactEmail;
+
+  /// No description provided for @profileWhatsAppNotInstalled.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp is not installed on this device. Please contact us by email instead.'**
+  String get profileWhatsAppNotInstalled;
+
+  /// No description provided for @profileDeleteInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get profileDeleteInfoTitle;
+
+  /// No description provided for @profileDeleteInfoMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your personal data, active and future tickets, payment methods, accumulated points, and full history will be deleted. This action is IRREVERSIBLE after 7 days.'**
+  String get profileDeleteInfoMessage;
+
+  /// No description provided for @profileDeleteContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with deletion'**
+  String get profileDeleteContinue;
+
+  /// No description provided for @profileDeletePendingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account will be deleted in {days} days. Cancel deletion?'**
+  String profileDeletePendingMessage(int days);
+
+  /// No description provided for @profileEmailSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'YouPass support request'**
+  String get profileEmailSubject;
+
+  /// No description provided for @profileAdvancedNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced settings'**
+  String get profileAdvancedNotifications;
 
   /// No description provided for @confirmDialogCancel.
   ///
@@ -1067,19 +1775,19 @@ abstract class AppLocalizations {
   /// No description provided for @confirmLogoutTitle.
   ///
   /// In en, this message translates to:
-  /// **'Log out?'**
+  /// **'Are you sure you want to sign out?'**
   String get confirmLogoutTitle;
 
   /// No description provided for @confirmLogoutMessage.
   ///
   /// In en, this message translates to:
-  /// **'You will need to sign in again with your phone number to use YouPass.'**
+  /// **'Your account, tickets, wallet, and points will be saved. You can sign back in anytime with your phone number and OTP code.'**
   String get confirmLogoutMessage;
 
   /// No description provided for @confirmLogoutAction.
   ///
   /// In en, this message translates to:
-  /// **'Log out'**
+  /// **'Yes, sign out'**
   String get confirmLogoutAction;
 
   /// No description provided for @confirmDeleteAccountTitle.
@@ -1103,13 +1811,13 @@ abstract class AppLocalizations {
   /// No description provided for @ticketsTabUpcoming.
   ///
   /// In en, this message translates to:
-  /// **'UPCOMING'**
+  /// **'Active / Upcoming'**
   String get ticketsTabUpcoming;
 
   /// No description provided for @ticketsTabPast.
   ///
   /// In en, this message translates to:
-  /// **'PAST EVENTS'**
+  /// **'History'**
   String get ticketsTabPast;
 
   /// No description provided for @ticketsStatusActive.
@@ -1117,6 +1825,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'ACTIVE'**
   String get ticketsStatusActive;
+
+  /// No description provided for @ticketsStatusValidated.
+  ///
+  /// In en, this message translates to:
+  /// **'VALIDATED'**
+  String get ticketsStatusValidated;
+
+  /// No description provided for @ticketsStatusExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'EXPIRED'**
+  String get ticketsStatusExpired;
+
+  /// No description provided for @ticketsStatusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'CANCELLED'**
+  String get ticketsStatusCancelled;
+
+  /// No description provided for @ticketsStatusRefunded.
+  ///
+  /// In en, this message translates to:
+  /// **'REFUNDED'**
+  String get ticketsStatusRefunded;
+
+  /// No description provided for @ticketsInvitationPending.
+  ///
+  /// In en, this message translates to:
+  /// **'INVITATION'**
+  String get ticketsInvitationPending;
+
+  /// No description provided for @ticketsInvitationExpires.
+  ///
+  /// In en, this message translates to:
+  /// **'Respond before {deadline}'**
+  String ticketsInvitationExpires(String deadline);
+
+  /// No description provided for @ticketsQrCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Your QR will be available on {eventDate}'**
+  String ticketsQrCountdown(String eventDate);
+
+  /// No description provided for @ticketsQrUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'QR LOCKED'**
+  String get ticketsQrUnavailable;
+
+  /// No description provided for @ticketsCancelTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel ticket'**
+  String get ticketsCancelTicket;
+
+  /// No description provided for @ticketsCancelTicketTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel this ticket?'**
+  String get ticketsCancelTicketTitle;
+
+  /// No description provided for @ticketsCancelTicketMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your ticket will be cancelled and an automatic refund will be processed when applicable.'**
+  String get ticketsCancelTicketMessage;
+
+  /// No description provided for @ticketsCancelTicketConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, cancel'**
+  String get ticketsCancelTicketConfirm;
+
+  /// No description provided for @ticketsCancelTicketSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket cancelled. Refund is being processed.'**
+  String get ticketsCancelTicketSuccess;
+
+  /// No description provided for @bottomNavHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get bottomNavHome;
+
+  /// No description provided for @bottomNavInvitations.
+  ///
+  /// In en, this message translates to:
+  /// **'Invites'**
+  String get bottomNavInvitations;
+
+  /// No description provided for @bottomNavTickets.
+  ///
+  /// In en, this message translates to:
+  /// **'Tickets'**
+  String get bottomNavTickets;
 
   /// No description provided for @ticketsViewQr.
   ///
@@ -1322,6 +2126,48 @@ abstract class AppLocalizations {
   /// **'Electronic music, parties and unique experiences.'**
   String get favoritesIguanaDescription;
 
+  /// No description provided for @favoritesFollowerCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} followers'**
+  String favoritesFollowerCount(String count);
+
+  /// No description provided for @favoritesNoSearchResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No promoters or events found matching your search'**
+  String get favoritesNoSearchResults;
+
+  /// No description provided for @favoritesExploreCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore events'**
+  String get favoritesExploreCta;
+
+  /// No description provided for @favoritesSectionFollowedPromoters.
+  ///
+  /// In en, this message translates to:
+  /// **'FOLLOWED PROMOTERS'**
+  String get favoritesSectionFollowedPromoters;
+
+  /// No description provided for @favoritesSectionSavedEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVED EVENTS'**
+  String get favoritesSectionSavedEvents;
+
+  /// No description provided for @producerEventPresale.
+  ///
+  /// In en, this message translates to:
+  /// **'PRE-SALE'**
+  String get producerEventPresale;
+
+  /// No description provided for @producerEventPrepay.
+  ///
+  /// In en, this message translates to:
+  /// **'PRE-PAY'**
+  String get producerEventPrepay;
+
   /// No description provided for @producerEventsUpcomingTitle.
   ///
   /// In en, this message translates to:
@@ -1391,20 +2237,242 @@ abstract class AppLocalizations {
   /// No description provided for @invitationsSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Manage your event access and invitations'**
+  /// **'Manage your event accesses and invitations'**
   String get invitationsSubtitle;
 
   /// No description provided for @invitationsSearchHint.
   ///
   /// In en, this message translates to:
-  /// **'Search invitations / Events / promoters'**
+  /// **'Search invitation · Event / promoter'**
   String get invitationsSearchHint;
+
+  /// No description provided for @invitationsFiltersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'FILTERS'**
+  String get invitationsFiltersLabel;
+
+  /// No description provided for @invitationsFilterCourtesy.
+  ///
+  /// In en, this message translates to:
+  /// **'Courtesies'**
+  String get invitationsFilterCourtesy;
 
   /// No description provided for @invitationsFilterAll.
   ///
   /// In en, this message translates to:
   /// **'All'**
   String get invitationsFilterAll;
+
+  /// No description provided for @invitationsFilterFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Free'**
+  String get invitationsFilterFree;
+
+  /// No description provided for @invitationsFilterGuaranteedPass.
+  ///
+  /// In en, this message translates to:
+  /// **'Guaranteed Pass'**
+  String get invitationsFilterGuaranteedPass;
+
+  /// No description provided for @invitationsFilterDiscounted.
+  ///
+  /// In en, this message translates to:
+  /// **'Discounted'**
+  String get invitationsFilterDiscounted;
+
+  /// No description provided for @invitationsTypeFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Free Invitation'**
+  String get invitationsTypeFree;
+
+  /// No description provided for @invitationsTypeGuaranteedPass.
+  ///
+  /// In en, this message translates to:
+  /// **'Guaranteed Pass'**
+  String get invitationsTypeGuaranteedPass;
+
+  /// No description provided for @invitationsTypeDiscounted.
+  ///
+  /// In en, this message translates to:
+  /// **'Discounted Invitation'**
+  String get invitationsTypeDiscounted;
+
+  /// No description provided for @invitationsGuaranteedPassTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Guaranteed Pass'**
+  String get invitationsGuaranteedPassTitle;
+
+  /// No description provided for @invitationsGuaranteedPassMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This pass is FREE if you attend. If you do not attend and do not cancel by {deadline}, {amount} will be charged to your card.'**
+  String invitationsGuaranteedPassMessage(String deadline, String amount);
+
+  /// No description provided for @invitationsGuaranteedPassTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'I understand the attendance commitment and possible charge'**
+  String get invitationsGuaranteedPassTerms;
+
+  /// No description provided for @invitationsGpTermsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please accept the terms to continue'**
+  String get invitationsGpTermsRequired;
+
+  /// No description provided for @invitationsPreauthNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Your card will be pre-authorised for {amount}. You will only be charged if you no-show.'**
+  String invitationsPreauthNotice(String amount);
+
+  /// No description provided for @invitationsDiscountedPayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discounted Invitation'**
+  String get invitationsDiscountedPayTitle;
+
+  /// No description provided for @invitationsDiscountedPayMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay {amount} now to accept this invitation.'**
+  String invitationsDiscountedPayMessage(String amount);
+
+  /// No description provided for @invitationsDiscountPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% discount'**
+  String invitationsDiscountPercent(int percent);
+
+  /// No description provided for @invitationsCancelBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel by {deadline}'**
+  String invitationsCancelBy(String deadline);
+
+  /// No description provided for @invitationsAcceptGuaranteed.
+  ///
+  /// In en, this message translates to:
+  /// **'ACCEPT AND RESERVE'**
+  String get invitationsAcceptGuaranteed;
+
+  /// No description provided for @invitationsAcceptAndReserve.
+  ///
+  /// In en, this message translates to:
+  /// **'ACCEPT AND RESERVE'**
+  String get invitationsAcceptAndReserve;
+
+  /// No description provided for @invitationsGuaranteedPassDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Guaranteed Pass'**
+  String get invitationsGuaranteedPassDetailTitle;
+
+  /// No description provided for @invitationsDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitation details'**
+  String get invitationsDetailTitle;
+
+  /// No description provided for @invitationsGuaranteedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'GUARANTEED'**
+  String get invitationsGuaranteedBadge;
+
+  /// No description provided for @invitationsAssignedSlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Slot: {slot}'**
+  String invitationsAssignedSlot(String slot);
+
+  /// No description provided for @invitationsPassStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status: {status}'**
+  String invitationsPassStatus(String status);
+
+  /// No description provided for @invitationsGpWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'⚠ IMPORTANT'**
+  String get invitationsGpWarningTitle;
+
+  /// No description provided for @invitationsGpWarningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'If you attend: 100% FREE\nIf you don\'t attend: {amount} will be charged to your card\n\nCANCELLATION DEADLINE\nUntil {deadline} without charge\n\nBy accepting, you authorise the charge to your card if you do not attend the event.'**
+  String invitationsGpWarningBody(String amount, String deadline);
+
+  /// No description provided for @invitationsBiometricReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your Guaranteed Pass acceptance'**
+  String get invitationsBiometricReason;
+
+  /// No description provided for @invitationsGpPaymentRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to add a payment method to accept a Guaranteed Pass'**
+  String get invitationsGpPaymentRequired;
+
+  /// No description provided for @invitationsGpActiveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Guaranteed Pass active'**
+  String get invitationsGpActiveTitle;
+
+  /// No description provided for @invitationsGpActiveMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your pass to {event} is reserved. Cancel before {deadline} without charge.'**
+  String invitationsGpActiveMessage(String event, String deadline);
+
+  /// No description provided for @invitationsGpActiveCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to My Tickets'**
+  String get invitationsGpActiveCta;
+
+  /// No description provided for @invitationsCancelInvitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel invitation'**
+  String get invitationsCancelInvitation;
+
+  /// No description provided for @invitationsGpCancelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel your Guaranteed Pass?'**
+  String get invitationsGpCancelTitle;
+
+  /// No description provided for @invitationsGpCancelMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your card hold will be released immediately. This cannot be undone.'**
+  String get invitationsGpCancelMessage;
+
+  /// No description provided for @invitationsGpCancelConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, cancel'**
+  String get invitationsGpCancelConfirm;
+
+  /// No description provided for @invitationsGpCancelSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Guaranteed Pass was cancelled without charge.'**
+  String get invitationsGpCancelSuccess;
+
+  /// No description provided for @invitationsAcceptDiscounted.
+  ///
+  /// In en, this message translates to:
+  /// **'PAY & ACCEPT'**
+  String get invitationsAcceptDiscounted;
 
   /// No description provided for @invitationsFilterGeneral.
   ///
@@ -1417,6 +2485,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'VIP'**
   String get invitationsFilterVip;
+
+  /// No description provided for @invitationsFilterTables.
+  ///
+  /// In en, this message translates to:
+  /// **'Tables'**
+  String get invitationsFilterTables;
+
+  /// No description provided for @invitationsTierVipDj.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP DJ'**
+  String get invitationsTierVipDj;
 
   /// No description provided for @invitationsTierVip.
   ///
@@ -1436,6 +2516,18 @@ abstract class AppLocalizations {
   /// **'General'**
   String get invitationsTierGeneral;
 
+  /// No description provided for @invitationsInvitedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Invited by {name}'**
+  String invitationsInvitedBy(String name);
+
+  /// No description provided for @invitationsAcceptBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept by {deadline}'**
+  String invitationsAcceptBy(String deadline);
+
   /// No description provided for @invitationsStatusLine.
   ///
   /// In en, this message translates to:
@@ -1451,7 +2543,7 @@ abstract class AppLocalizations {
   /// No description provided for @invitationsStatusPending.
   ///
   /// In en, this message translates to:
-  /// **'Awaiting confirmation'**
+  /// **'Pending'**
   String get invitationsStatusPending;
 
   /// No description provided for @invitationsStatusConfirmed.
@@ -1472,10 +2564,82 @@ abstract class AppLocalizations {
   /// **'CONFIRM ATTENDANCE'**
   String get invitationsConfirmAttendance;
 
+  /// No description provided for @invitationsTabPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get invitationsTabPending;
+
+  /// No description provided for @invitationsTabConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get invitationsTabConfirmed;
+
+  /// No description provided for @invitationsEmptyNone.
+  ///
+  /// In en, this message translates to:
+  /// **'You have no invitations yet.'**
+  String get invitationsEmptyNone;
+
+  /// No description provided for @invitationsEmptySearch.
+  ///
+  /// In en, this message translates to:
+  /// **'No invitations found for that search.'**
+  String get invitationsEmptySearch;
+
+  /// No description provided for @invitationsEmptyPending.
+  ///
+  /// In en, this message translates to:
+  /// **'You have no pending invitations.'**
+  String get invitationsEmptyPending;
+
+  /// No description provided for @invitationsEmptyConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'You have no confirmed invitations yet.'**
+  String get invitationsEmptyConfirmed;
+
+  /// No description provided for @invitationsRejectConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject invitation?'**
+  String get invitationsRejectConfirmTitle;
+
+  /// No description provided for @invitationsRejectConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to reject this invitation?'**
+  String get invitationsRejectConfirmMessage;
+
+  /// No description provided for @invitationsRejectConfirmAction.
+  ///
+  /// In en, this message translates to:
+  /// **'REJECT'**
+  String get invitationsRejectConfirmAction;
+
+  /// No description provided for @invitationsCancellationDeadlinePassed.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancellation deadline has passed'**
+  String get invitationsCancellationDeadlinePassed;
+
+  /// No description provided for @invitationsWaitingConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for confirmation…'**
+  String get invitationsWaitingConfirmation;
+
+  /// No description provided for @invitationsQrAvailableOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Your QR will be available on {date}'**
+  String invitationsQrAvailableOn(String date);
+
   /// No description provided for @invitationsReject.
   ///
   /// In en, this message translates to:
-  /// **'DECLINE'**
+  /// **'REJECT'**
   String get invitationsReject;
 
   /// No description provided for @invitationsCancel.
@@ -1547,19 +2711,19 @@ abstract class AppLocalizations {
   /// No description provided for @invitationsFooterNote.
   ///
   /// In en, this message translates to:
-  /// **'Confirmed invitations generate a unique, non-transferable QR code.'**
+  /// **'Confirmed invitations generate a unique and non-transferable QR code.'**
   String get invitationsFooterNote;
 
   /// No description provided for @invitationsImportantTitle.
   ///
   /// In en, this message translates to:
-  /// **'Important'**
+  /// **'Important ⚠'**
   String get invitationsImportantTitle;
 
   /// No description provided for @invitationsImportantMessage.
   ///
   /// In en, this message translates to:
-  /// **'By confirming, the ticket is reserved exclusively for you. If you do not attend, you may be charged the full ticket price.'**
+  /// **'By confirming your attendance, your ticket will be reserved exclusively for you. If you do not attend the event, you may be charged the full ticket price when this condition applies.'**
   String get invitationsImportantMessage;
 
   /// No description provided for @invitationsAddPaymentMethod.
@@ -1567,6 +2731,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'ADD PAYMENT METHOD'**
   String get invitationsAddPaymentMethod;
+
+  /// No description provided for @invitationsDialogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'CANCEL'**
+  String get invitationsDialogCancel;
 
   /// No description provided for @invitationsPaymentTitle.
   ///
@@ -1631,7 +2801,7 @@ abstract class AppLocalizations {
   /// No description provided for @invitationsPaymentSecureNote.
   ///
   /// In en, this message translates to:
-  /// **'for secure use'**
+  /// **'Your information is protected and will be used securely.'**
   String get invitationsPaymentSecureNote;
 
   /// No description provided for @invitationsSaveCard.
@@ -1649,19 +2819,19 @@ abstract class AppLocalizations {
   /// No description provided for @invitationsCardSavedMessage.
   ///
   /// In en, this message translates to:
-  /// **'Your card has been registered. Remember:'**
+  /// **'Your payment method has been registered correctly. Remember the following:'**
   String get invitationsCardSavedMessage;
 
   /// No description provided for @invitationsCardSavedReminderCharge.
   ///
   /// In en, this message translates to:
-  /// **'If you do not attend the event, you may be charged the full ticket price.'**
+  /// **'If you confirm attendance and do not show up, you will be charged the full ticket price.'**
   String get invitationsCardSavedReminderCharge;
 
   /// No description provided for @invitationsCardSavedReminderCancel.
   ///
   /// In en, this message translates to:
-  /// **'Cancellations must be made at least 48 hours in advance to avoid charges.'**
+  /// **'If you wish to cancel your attendance, you must do so at least 48 hours in advance to avoid being charged.'**
   String get invitationsCardSavedReminderCancel;
 
   /// No description provided for @eventTicketScreenTitle.
@@ -2261,8 +3431,14 @@ abstract class AppLocalizations {
   /// No description provided for @vipSectionGeneralTickets.
   ///
   /// In en, this message translates to:
-  /// **'GENERAL ADMISSION'**
+  /// **'GENERAL TICKETS'**
   String get vipSectionGeneralTickets;
+
+  /// No description provided for @vipSectionVipTables.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP TABLES'**
+  String get vipSectionVipTables;
 
   /// No description provided for @vipSectionVipTickets.
   ///
@@ -2324,6 +3500,30 @@ abstract class AppLocalizations {
   /// **'Continue - {ticketCount}'**
   String vipContinueWithTickets(String ticketCount);
 
+  /// No description provided for @vipContinueWithAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue · {amount}'**
+  String vipContinueWithAmount(String amount);
+
+  /// No description provided for @vipTicketSoldOutBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Sold out'**
+  String get vipTicketSoldOutBadge;
+
+  /// No description provided for @vipTicketsNoneAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No tickets available for this event.'**
+  String get vipTicketsNoneAvailable;
+
+  /// No description provided for @vipTicketsAllSoldOut.
+  ///
+  /// In en, this message translates to:
+  /// **'All tickets for this event are sold out.'**
+  String get vipTicketsAllSoldOut;
+
   /// No description provided for @vipSecurePayment.
   ///
   /// In en, this message translates to:
@@ -2345,7 +3545,7 @@ abstract class AppLocalizations {
   /// No description provided for @vipMesasVipSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Reserve your table and live the full experience.'**
+  /// **'Choose your table →'**
   String get vipMesasVipSubtitle;
 
   /// No description provided for @vipFloorPlanTitle.
@@ -2483,7 +3683,7 @@ abstract class AppLocalizations {
   /// No description provided for @vipTableDistributionTitle.
   ///
   /// In en, this message translates to:
-  /// **'ZONE {zone} DISTRIBUTION'**
+  /// **'{zone} DISTRIBUTION'**
   String vipTableDistributionTitle(String zone);
 
   /// No description provided for @vipTableDistributionStage.
@@ -2498,6 +3698,12 @@ abstract class AppLocalizations {
   /// **'Available'**
   String get vipLegendTableAvailable;
 
+  /// No description provided for @vipLegendTablePremium.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium'**
+  String get vipLegendTablePremium;
+
   /// No description provided for @vipLegendTableSelection.
   ///
   /// In en, this message translates to:
@@ -2509,6 +3715,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sold'**
   String get vipLegendTableSold;
+
+  /// No description provided for @vipZoneTablesScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tables {zone}'**
+  String vipZoneTablesScreenTitle(String zone);
+
+  /// No description provided for @vipTablesZoneSoldOut.
+  ///
+  /// In en, this message translates to:
+  /// **'All tables in this zone are sold out.'**
+  String get vipTablesZoneSoldOut;
+
+  /// No description provided for @vipTablePremiumBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium'**
+  String get vipTablePremiumBadge;
 
   /// No description provided for @vipTablesZoneTitle.
   ///
@@ -2537,7 +3761,7 @@ abstract class AppLocalizations {
   /// No description provided for @vipTableDetailTitle.
   ///
   /// In en, this message translates to:
-  /// **'Table {table} - {zone}'**
+  /// **'Table {table} — {zone}'**
   String vipTableDetailTitle(String table, String zone);
 
   /// No description provided for @vipTableCapacity.
@@ -2676,11 +3900,53 @@ abstract class AppLocalizations {
   /// **'Complete payment in {time}'**
   String vipTableLockCountdown(String time);
 
+  /// No description provided for @vipTableLockReservedCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Your table is reserved for {time}'**
+  String vipTableLockReservedCountdown(String time);
+
   /// No description provided for @vipTableLockExpired.
   ///
   /// In en, this message translates to:
   /// **'Your table reservation expired. Please select a table again.'**
   String get vipTableLockExpired;
+
+  /// No description provided for @vipTableLockExpiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your reservation has expired'**
+  String get vipTableLockExpiredTitle;
+
+  /// No description provided for @vipTableLockExpiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'The table has been released. Please return to the floor plan to select again.'**
+  String get vipTableLockExpiredMessage;
+
+  /// No description provided for @vipTableLockExpiredReturnFloorPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Return to floor plan'**
+  String get vipTableLockExpiredReturnFloorPlan;
+
+  /// No description provided for @vipTableBlockedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This table is being reserved. Try again in a few minutes or choose another table.'**
+  String get vipTableBlockedMessage;
+
+  /// No description provided for @vipTableBlockedReserve.
+  ///
+  /// In en, this message translates to:
+  /// **'This table is being reserved. Try again in a few minutes or choose another table.'**
+  String get vipTableBlockedReserve;
+
+  /// No description provided for @vipLegendTableBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked'**
+  String get vipLegendTableBlocked;
 
   /// No description provided for @eventDetailTicketsUnavailable.
   ///
@@ -2693,6 +3959,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View QR'**
   String get vipViewQr;
+
+  /// No description provided for @waitlistJoinButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Join waiting list'**
+  String get waitlistJoinButton;
+
+  /// No description provided for @waitlistLeaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave waiting list'**
+  String get waitlistLeaveButton;
+
+  /// No description provided for @waitlistJoinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Join waiting list'**
+  String get waitlistJoinTitle;
+
+  /// No description provided for @waitlistJoinConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm join'**
+  String get waitlistJoinConfirm;
+
+  /// No description provided for @waitlistJoinSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'You are on the waiting list for {eventName}. We will notify you immediately if a slot opens up.'**
+  String waitlistJoinSuccess(String eventName);
+
+  /// No description provided for @waitlistEstimatedPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'You are #{position} on the waiting list'**
+  String waitlistEstimatedPosition(String position);
+
+  /// No description provided for @waitlistLeaveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave waiting list?'**
+  String get waitlistLeaveTitle;
+
+  /// No description provided for @waitlistLeaveMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure? You will lose your position in the queue.'**
+  String get waitlistLeaveMessage;
+
+  /// No description provided for @waitlistLeaveConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave list'**
+  String get waitlistLeaveConfirm;
+
+  /// No description provided for @waitlistClaimSlot.
+  ///
+  /// In en, this message translates to:
+  /// **'CLAIM MY SLOT'**
+  String get waitlistClaimSlot;
+
+  /// No description provided for @waitlistOfferBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'A slot is waiting for you! Confirm before {time}'**
+  String waitlistOfferBanner(String time);
 }
 
 class _AppLocalizationsDelegate

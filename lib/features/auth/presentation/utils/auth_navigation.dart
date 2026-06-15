@@ -35,6 +35,12 @@ class AuthNavigation {
       }
     }
 
+    if (purpose == OtpPurpose.deleteAccount &&
+        authProvider.userProfile?.accountStatus == 'pending_deletion') {
+      Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.home, (_) => false);
+      return;
+    }
+
     final route =
         purpose == OtpPurpose.deleteAccount ? AppRoutes.login : AppRoutes.home;
 

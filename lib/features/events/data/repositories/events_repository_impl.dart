@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/network/models/config_category_model.dart';
+import 'package:youpass/core/services/event_categories_cache.dart';
 import 'package:youpass/core/locale/locale_provider.dart';
 import 'package:youpass/core/network/config_api_service.dart';
+import 'package:youpass/features/events/data/models/event_availability_model.dart';
+import 'package:youpass/features/events/data/models/event_detail_model.dart';
 import 'package:youpass/features/events/data/services/events_api_service.dart';
 import 'package:youpass/features/events/domain/entities/event_detail_entity.dart';
 import 'package:youpass/features/events/domain/entities/event_entity.dart';
@@ -21,11 +24,13 @@ class EventsRepositoryImpl implements EventsRepository {
     required this.eventsApiService,
     required this.configApiService,
     required this.localeProvider,
+    required this.eventCategoriesCache,
   });
 
   final EventsApiService eventsApiService;
   final ConfigApiService configApiService;
   final LocaleProvider localeProvider;
+  final EventCategoriesCache eventCategoriesCache;
 
   AppLocalizations get _l10n => lookupAppLocalizations(localeProvider.locale);
 
@@ -55,7 +60,10 @@ class EventsRepositoryImpl implements EventsRepository {
       postRegistration: payload.postRegistration,
       headerGreeting: payload.headerGreeting,
       upcomingSectionTitle: payload.upcomingSectionTitle,
+      upcomingHasMore: payload.upcomingHasMore,
       searchPlaceholder: payload.searchPlaceholder,
+      searchFiltersConfig: payload.searchFiltersConfig,
+      mainBannerCarouselConfig: payload.mainBannerCarouselConfig,
     );
   }
 
@@ -69,12 +77,30 @@ class EventsRepositoryImpl implements EventsRepository {
     return HomeFeedEventsUpdate(
       carouselEvents: payload.carouselEvents,
       featuredEvents: payload.featuredEvents,
+      mainBannerCarouselConfig: payload.mainBannerCarouselConfig,
     );
   }
 
   @override
   Future<List<EventEntity>> fetchAllEvents(HomeEventsQuery query) {
     return eventsApiService.fetchEvents(query: query);
+  }
+
+  @override
+  Future<EventsQueryResult> queryEvents(HomeEventsQuery query) async {
+    final response = await eventsApiService.queryEvents(query: query);
+    return EventsQueryResult(events: response.events, total: response.total);
+  }
+
+  @override
+  Future<UpcomingEventsPageResult> fetchUpcomingEvents(HomeEventsQuery query) async {
+    final response = await eventsApiService.fetchUpcomingEvents(query: query);
+    return UpcomingEventsPageResult(
+      events: response.events,
+      hasMore: response.hasMore,
+      page: response.page,
+      total: response.total,
+    );
   }
 
   @override
@@ -88,8 +114,15 @@ class EventsRepositoryImpl implements EventsRepository {
   }
 
   @override
-  Future<EventDetailEntity> fetchEventDetail(String eventId) {
-    return eventsApiService.fetchEventById(eventId);
+  Future<EventDetailEntity> fetchEventDetail(String eventId) async {
+    final results = await Future.wait([
+      eventsApiService.fetchEventById(eventId),
+      eventsApiService.fetchEventAvailability(eventId),
+    ]);
+
+    final detail = results[0] as EventDetailModel;
+    final availability = results[1] as EventAvailabilityModel;
+    return detail.withAvailability(availability);
   }
 
   @override
@@ -128,29 +161,48 @@ class EventsRepositoryImpl implements EventsRepository {
     required List<EventTypeEntity> eventTypes,
   }) async {
     if (layoutCategories.isNotEmpty) {
-      return [
-        EventCategoryEntity(
-          id: AppConstants.categoryIdAll,
-          label: _l10n.categoryAll,
-          icon: Icons.apps_outlined,
-        ),
-        ...ConfigCategoryMapper.toEntities(layoutCategories),
-      ];
+      return _withAllTab(ConfigCategoryMapper.toEntities(layoutCategories));
     }
 
     if (feedCategories.isNotEmpty) {
-      return ConfigCategoryMapper.toEntities(feedCategories);
+      return _withAllTab(ConfigCategoryMapper.toEntities(feedCategories));
     }
 
     final apiCategories = await configApiService.fetchCategories();
     if (apiCategories.isNotEmpty) {
-      return ConfigCategoryMapper.toEntities(apiCategories);
+      return _withAllTab(ConfigCategoryMapper.toEntities(apiCategories));
     }
 
-    return EventCategoryMapper.buildCategories(
-      eventTypes: eventTypes,
-      l10n: _l10n,
+    final cachedCategories = eventCategoriesCache.readCached();
+    if (cachedCategories.isNotEmpty) {
+      return _withAllTab(ConfigCategoryMapper.toEntities(cachedCategories));
+    }
+
+    if (eventTypes.isNotEmpty) {
+      return _withAllTab(
+        EventCategoryMapper.buildCategories(
+          eventTypes: eventTypes,
+          l10n: _l10n,
+        ),
+      );
+    }
+
+    return const [];
+  }
+
+  List<EventCategoryEntity> _withAllTab(List<EventCategoryEntity> categories) {
+    if (categories.any((category) => category.id == AppConstants.categoryIdAll)) {
+      return categories;
+    }
+
+    final allTab = EventCategoryEntity(
+      id: AppConstants.categoryIdAll,
+      label: _l10n.categoryAll,
+      icon: Icons.apps_outlined,
+      leadingEmoji: AppConstants.categoryAllEmoji,
     );
+
+    return [allTab, ...categories];
   }
 }
 
@@ -158,10 +210,12 @@ EventsRepository createEventsRepository({
   required EventsApiService eventsApiService,
   required ConfigApiService configApiService,
   required LocaleProvider localeProvider,
+  required EventCategoriesCache eventCategoriesCache,
 }) {
   return EventsRepositoryImpl(
     eventsApiService: eventsApiService,
     configApiService: configApiService,
     localeProvider: localeProvider,
+    eventCategoriesCache: eventCategoriesCache,
   );
 }

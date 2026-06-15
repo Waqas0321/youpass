@@ -20,6 +20,9 @@ class UserProfileEntity extends Equatable {
     this.instagramUsername,
     this.profilePhotoUrl,
     this.preferredLanguage,
+    this.pendingDeletion = false,
+    this.deletionScheduledAt,
+    this.daysRemaining,
   });
 
   final String id;
@@ -38,6 +41,12 @@ class UserProfileEntity extends Equatable {
   final String accountStatus;
   final DateTime createdAt;
   final ProfileCompletenessEntity profileCompleteness;
+  final bool pendingDeletion;
+  final DateTime? deletionScheduledAt;
+  final int? daysRemaining;
+
+  bool get isPendingDeletion =>
+      accountStatus == 'pending_deletion' || pendingDeletion;
 
   UserEntity toUserEntity() {
     return UserEntity(
@@ -65,5 +74,8 @@ class UserProfileEntity extends Equatable {
         accountStatus,
         createdAt,
         profileCompleteness,
+        pendingDeletion,
+        deletionScheduledAt,
+        daysRemaining,
       ];
 }

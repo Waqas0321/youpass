@@ -8,8 +8,13 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String profileWallet = '/profile/wallet';
   static const String profileChangePhone = '/profile/change-phone';
+  static const String profileEdit = '/profile/edit';
+  static const String profileBenefits = '/profile/benefits';
+  static const String profileFaq = '/profile/faq';
+  static const String profileNotificationAdvanced = '/profile/notifications/advanced';
   static const String myTickets = '/tickets';
   static const String myFavorites = '/favorites';
+  static const String producerEvents = '/favorites/producer-events';
   static const String allEvents = '/events/all';
   static const String eventDetail = '/events/detail';
   static const String vipTicketSelection = '/events/tickets';
@@ -17,6 +22,9 @@ class AppRoutes {
   static const String vipTableSelection = '/events/vip/tables';
   static const String vipPurchaseSummary = '/events/vip/summary';
   static const String myInvitations = '/invitations';
+  static const String guaranteedPassDetail = '/invitations/guaranteed-pass';
+  static const String invitationDetail = '/invitations/detail';
+  static const String guaranteedPassActive = '/invitations/guaranteed-pass/active';
   static const String eventTicket = '/invitations/ticket';
   static const String assignTickets = '/tickets/assign';
   static const String invitationClaim = '/claim';

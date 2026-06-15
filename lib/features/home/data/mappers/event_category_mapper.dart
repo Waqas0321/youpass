@@ -11,21 +11,16 @@ class EventCategoryMapper {
     required List<EventTypeEntity> eventTypes,
     required AppLocalizations l10n,
   }) {
-    return [
-      EventCategoryEntity(
-        id: AppConstants.categoryIdAll,
-        label: l10n.categoryAll,
-        icon: Icons.apps_outlined,
-      ),
-      ...eventTypes.map(
-        (type) => EventCategoryEntity(
-          id: type.slug,
-          label: _localizedTypeLabel(l10n, type.slug, type.name),
-          icon: _iconForSlug(type.slug),
-          eventTypeSlug: type.slug,
-        ),
-      ),
-    ];
+    return eventTypes
+        .map(
+          (type) => EventCategoryEntity(
+            id: type.slug,
+            label: _localizedTypeLabel(l10n, type.slug, type.name),
+            icon: _iconForSlug(type.slug),
+            eventTypeSlug: type.slug,
+          ),
+        )
+        .toList();
   }
 
   static String _localizedTypeLabel(
@@ -53,6 +48,20 @@ class EventCategoryMapper {
         return Icons.music_note_outlined;
       case AppConstants.categoryIdSports:
         return Icons.sports_soccer_outlined;
+      case 'conferences':
+        return Icons.record_voice_over_outlined;
+      case 'humour':
+        return Icons.sentiment_very_satisfied_outlined;
+      case 'theatre':
+        return Icons.theater_comedy_outlined;
+      case 'cinema':
+        return Icons.movie_outlined;
+      case 'food':
+        return Icons.restaurant_outlined;
+      case 'culture-art':
+        return Icons.palette_outlined;
+      case 'family':
+        return Icons.family_restroom_outlined;
       case 'bar':
         return Icons.local_bar_outlined;
       default:

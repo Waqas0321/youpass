@@ -42,7 +42,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
   List<EventCategoryEntity> categories = [];
   List<EventEntity> allEvents = [];
   List<EventEntity> visibleEvents = [];
-  String selectedCategoryId = AppConstants.categoryIdAll;
+  String selectedCategoryId = '';
   String searchQuery = '';
   bool isInitialLoading = true;
   bool isListLoading = false;
@@ -55,8 +55,7 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
     eventsRepository = sl<EventsRepository>();
     getAllEventsUseCase = sl<GetAllEventsUseCase>();
     toggleEventFavoriteUseCase = sl<events_usecases.ToggleEventFavoriteUseCase>();
-    selectedCategoryId =
-        widget.args.initialCategoryId ?? AppConstants.categoryIdAll;
+    selectedCategoryId = widget.args.initialCategoryId ?? '';
     loadEvents();
   }
 
@@ -84,6 +83,15 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
 
       setState(() {
         categories = loadedCategories;
+        if (selectedCategoryId.isEmpty ||
+            EventBrowseFilterHelper.findCategory(
+                  loadedCategories,
+                  selectedCategoryId,
+                ) ==
+                null) {
+          selectedCategoryId =
+              loadedCategories.isNotEmpty ? loadedCategories.first.id : '';
+        }
         allEvents = events;
         isInitialLoading = false;
         isListLoading = false;

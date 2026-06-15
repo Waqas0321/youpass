@@ -90,7 +90,8 @@ class GenderOptionConfig {
     return labels[normalized] ??
         labels['es'] ??
         labels['en'] ??
-        labels.values.first;
+        labels['pt'] ??
+        (labels.isNotEmpty ? labels.values.first : value);
   }
 
   factory GenderOptionConfig.fromJson(Map<String, dynamic> json) {
@@ -101,6 +102,18 @@ class GenderOptionConfig {
       labelsRaw.forEach((key, value) {
         labels[key.toString().toLowerCase()] = value.toString();
       });
+    }
+
+    const flatLabelKeys = {
+      'en': 'label_en',
+      'es': 'label_es',
+      'pt': 'label_pt',
+    };
+    for (final entry in flatLabelKeys.entries) {
+      final raw = json[entry.value]?.toString();
+      if (raw != null && raw.isNotEmpty) {
+        labels[entry.key] = raw;
+      }
     }
 
     final singleLabel = json['label']?.toString();

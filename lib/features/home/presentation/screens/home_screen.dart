@@ -18,6 +18,7 @@ import 'package:youpass/features/home/presentation/utils/home_user_display_helpe
 import 'package:youpass/features/home/presentation/widgets/drawer/drawer_design_spec.dart';
 import 'package:youpass/features/home/presentation/widgets/drawer/home_drawer_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/home_feed_widget.dart';
+import 'package:youpass/features/home/presentation/widgets/home_greeting_widget.dart';
 import 'package:youpass/features/profile/presentation/utils/account_deletion_actions.dart';
 import 'package:youpass/features/profile/presentation/widgets/account_deletion_pending_banner_widget.dart';
 import 'package:youpass/features/invitations/presentation/utils/invitation_detail_navigation.dart';
@@ -238,12 +239,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         children: [
           HomeTopBarWidget(
             onMenuTap: openDrawer,
-            greetingText: headerGreeting,
             showPartyModeBanner: homeProvider.showPartyModeBanner,
           ),
+          Padding(
+            padding: layout.screenPadding,
+            child: HomeGreetingWidget(greetingText: headerGreeting),
+          ),
+          SizedBox(height: layout.spacing(8)),
           Expanded(
             child: SingleChildScrollView(
-              padding: layout.screenPadding,
+              padding: layout.screenPadding.copyWith(top: 0),
               child: const HomeFeedShimmer(),
             ),
           ),
@@ -256,8 +261,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         children: [
           HomeTopBarWidget(
             onMenuTap: openDrawer,
-            greetingText: headerGreeting,
             showPartyModeBanner: homeProvider.showPartyModeBanner,
+          ),
+          Padding(
+            padding: layout.screenPadding,
+            child: HomeGreetingWidget(greetingText: headerGreeting),
           ),
           Expanded(
             child: Center(
@@ -278,12 +286,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         children: [
           HomeTopBarWidget(
             onMenuTap: openDrawer,
-            greetingText: headerGreeting,
             showPartyModeBanner: homeProvider.showPartyModeBanner,
           ),
+          Padding(
+            padding: layout.screenPadding,
+            child: HomeGreetingWidget(greetingText: headerGreeting),
+          ),
+          SizedBox(height: layout.spacing(8)),
           Expanded(
             child: SingleChildScrollView(
-              padding: layout.screenPadding,
+              padding: layout.screenPadding.copyWith(top: 0),
               child: const HomeFeedShimmer(),
             ),
           ),
@@ -299,7 +311,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       children: [
         HomeTopBarWidget(
           onMenuTap: openDrawer,
-          greetingText: headerGreeting,
           showPartyModeBanner: homeProvider.showPartyModeBanner,
         ),
         if (showDeletionBanner) ...[
@@ -321,6 +332,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               physics: const AlwaysScrollableScrollPhysics(),
               padding: layout.screenPadding,
               child: HomeFeedWidget(
+                greetingText: headerGreeting,
                 upcomingSectionTitle: upcomingSectionTitle,
                 feed: feed,
                 highlightPendingInvitation: homeProvider.highlightPendingInvitation,

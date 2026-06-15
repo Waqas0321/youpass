@@ -1,64 +1,90 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/theme/youpass_theme_extension.dart';
-import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/shimmer/youpass_shimmer_box.dart';
+import 'package:youpass/features/events/presentation/widgets/event_browse_card_layout.dart';
+import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
 
 class EventListCardShimmer extends StatelessWidget {
   const EventListCardShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final layout = ResponsiveLayout(context);
     final theme = YouPassThemeExtension.of(context);
-    final cardHeight = layout.spacing(96);
-    final cardRadius = layout.radius(10);
-    final padding = layout.spacing(16);
+    final cardHeight =
+        FavoritesDesignSpec.px(context, EventBrowseCardLayout.designCardHeight);
+    final cardRadius = FavoritesDesignSpec.px(context, FavoritesDesignSpec.cardRadius);
+    final imageSize =
+        FavoritesDesignSpec.px(context, EventBrowseCardLayout.designImageWidth);
+    final imageRadius = FavoritesDesignSpec.px(context, FavoritesDesignSpec.imageRadius);
+    final padding = FavoritesDesignSpec.px(context, 12);
 
     return Container(
       height: cardHeight,
-      margin: EdgeInsets.only(bottom: layout.spacing(14)),
+      margin: EdgeInsets.only(bottom: FavoritesDesignSpec.px(context, 14)),
       decoration: BoxDecoration(
         color: theme.cardBackground,
         borderRadius: BorderRadius.circular(cardRadius),
         border: Border.all(color: theme.cardBorder),
       ),
       clipBehavior: Clip.antiAlias,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          YouPassShimmerBox(
-            width: cardHeight,
-            height: cardHeight,
-            borderRadius: 0,
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(padding),
+      child: Padding(
+        padding: EdgeInsets.all(padding),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            YouPassShimmerBox(
+              width: imageSize,
+              height: imageSize,
+              borderRadius: imageRadius,
+            ),
+            SizedBox(width: padding),
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  YouPassShimmerBox(
-                    width: double.infinity,
-                    height: layout.fontSize(16),
-                    borderRadius: layout.radius(6),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: YouPassShimmerBox(
+                          width: double.infinity,
+                          height: FavoritesDesignSpec.px(context, 16),
+                          borderRadius: FavoritesDesignSpec.px(context, 6),
+                        ),
+                      ),
+                      SizedBox(width: FavoritesDesignSpec.px(context, 8)),
+                      YouPassShimmerBox(
+                        width: FavoritesDesignSpec.px(context, 20),
+                        height: FavoritesDesignSpec.px(context, 20),
+                        borderRadius: FavoritesDesignSpec.px(context, 10),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: layout.spacing(8)),
+                  SizedBox(height: FavoritesDesignSpec.px(context, 8)),
                   YouPassShimmerBox(
-                    width: layout.spacing(160),
-                    height: layout.fontSize(12),
-                    borderRadius: layout.radius(6),
+                    width: FavoritesDesignSpec.px(context, 180),
+                    height: FavoritesDesignSpec.px(context, 12),
+                    borderRadius: FavoritesDesignSpec.px(context, 6),
                   ),
-                  SizedBox(height: layout.spacing(6)),
+                  SizedBox(height: FavoritesDesignSpec.px(context, 6)),
                   YouPassShimmerBox(
-                    width: layout.spacing(120),
-                    height: layout.fontSize(12),
-                    borderRadius: layout.radius(6),
+                    width: FavoritesDesignSpec.px(context, 150),
+                    height: FavoritesDesignSpec.px(context, 12),
+                    borderRadius: FavoritesDesignSpec.px(context, 6),
+                  ),
+                  const Spacer(),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: YouPassShimmerBox(
+                      width: FavoritesDesignSpec.px(context, 132),
+                      height: FavoritesDesignSpec.px(context, 32),
+                      borderRadius: FavoritesDesignSpec.px(context, 8),
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

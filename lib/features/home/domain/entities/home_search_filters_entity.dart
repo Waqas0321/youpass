@@ -125,6 +125,26 @@ class HomeEventsFiltersEntity extends Equatable {
       minPrice != null ||
       maxPrice != null;
 
+  bool hasActiveFiltersFor(HomePriceRangeEntity priceRange) {
+    if ((datePreset != null && datePreset!.isNotEmpty) ||
+        dateFrom != null ||
+        dateTo != null ||
+        (city != null && city!.isNotEmpty) ||
+        (zone != null && zone!.isNotEmpty) ||
+        (venueKind != null && venueKind!.isNotEmpty) ||
+        freeOnly) {
+      return true;
+    }
+
+    if (minPrice != null && minPrice! > priceRange.min) {
+      return true;
+    }
+    if (maxPrice != null && maxPrice! < priceRange.max) {
+      return true;
+    }
+    return false;
+  }
+
   HomeEventsFiltersEntity copyWith({
     String? datePreset,
     DateTime? dateFrom,

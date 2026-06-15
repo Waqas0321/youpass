@@ -11,5 +11,5 @@ Future<void> main() async {
   AppLogger.info('Starting ${AppConstants.appName}');
   await initDependencies();
   AppLogger.info('Dependencies initialized');
-  runApp(const YouPassApp());
+  runApp(YouPassApp());
 }

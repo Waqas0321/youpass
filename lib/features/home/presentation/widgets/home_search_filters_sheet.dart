@@ -11,7 +11,6 @@ import 'package:youpass/core/widgets/auth_bottom_sheet_shell.dart';
 import 'package:youpass/core/widgets/youpass_filter_chip_widget.dart';
 import 'package:youpass/features/home/domain/entities/home_search_filters_entity.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
-import 'package:youpass/features/home/presentation/widgets/home_near_me_button_widget.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
 class HomeSearchFiltersSheet {
@@ -43,7 +42,6 @@ class _HomeSearchFiltersBody extends StatefulWidget {
 
 class _HomeSearchFiltersBodyState extends State<_HomeSearchFiltersBody> {
   late RangeValues _priceRange;
-  String? _selectedCityId;
 
   @override
   void initState() {
@@ -51,17 +49,9 @@ class _HomeSearchFiltersBodyState extends State<_HomeSearchFiltersBody> {
     final provider = context.read<HomeProvider>();
     final filters = provider.draftFilters;
     final price = widget.config.priceRange;
-    _priceRange = RangeValues(
-      filters.minPrice ?? price.min,
-      filters.maxPrice ?? price.max,
-    );
-
-    for (final city in widget.config.cities) {
-      if (city.label == filters.city) {
-        _selectedCityId = city.id;
-        break;
-      }
-    }
+    final min = filters.minPrice ?? price.min;
+    final max = filters.maxPrice ?? price.max;
+    _priceRange = RangeValues(min, max);
   }
 
   HomeProvider get provider => context.read<HomeProvider>();
@@ -71,6 +61,20 @@ class _HomeSearchFiltersBodyState extends State<_HomeSearchFiltersBody> {
   }
 
   HomeEventsFiltersEntity get _filters => provider.draftFilters;
+
+  void _updatePriceRange(RangeValues values, HomeEventsFiltersEntity filters) {
+    final price = widget.config.priceRange;
+    final isDefault = values.start == price.min && values.end == price.max;
+    setState(() => _priceRange = values);
+    _updateFilters(
+      filters.copyWith(
+        minPrice: isDefault ? null : values.start,
+        maxPrice: isDefault ? null : values.end,
+        clearMinPrice: isDefault,
+        clearMaxPrice: isDefault,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,16 +88,9 @@ class _HomeSearchFiltersBodyState extends State<_HomeSearchFiltersBody> {
         final filters = homeProvider.draftFilters;
         final previewCount = homeProvider.filterPreviewCount;
         final isPreviewLoading = homeProvider.isFilterPreviewLoading;
+        final showApplyCount =
+            homeProvider.draftHasActiveSelections && previewCount != null;
         final price = widget.config.priceRange;
-        HomeCityFilterEntity? selectedCity;
-        if (_selectedCityId != null) {
-          for (final city in widget.config.cities) {
-            if (city.id == _selectedCityId) {
-              selectedCity = city;
-              break;
-            }
-          }
-        }
 
         return Column(
           children: [
@@ -117,11 +114,17 @@ class _HomeSearchFiltersBodyState extends State<_HomeSearchFiltersBody> {
                             return;
                           }
                           _updateFilters(
-                            filters.copyWith(
-                              datePreset: preset.id,
-                              clearDateFrom: true,
-                              clearDateTo: true,
-                            ),
+                            selected
+                                ? filters.copyWith(
+                                    clearDatePreset: true,
+                                    clearDateFrom: true,
+                                    clearDateTo: true,
+                                  )
+                                : filters.copyWith(
+                                    datePreset: preset.id,
+                                    clearDateFrom: true,
+                                    clearDateTo: true,
+                                  ),
                           );
                         },
                       );
@@ -151,7 +154,13 @@ class _HomeSearchFiltersBodyState extends State<_HomeSearchFiltersBody> {
                     inactiveThumbColor: theme.cardBorder,
                     inactiveTrackColor: theme.searchFill,
                     onChanged: price.freeToggleEnabled
-                        ? (value) => _updateFilters(filters.copyWith(freeOnly: value))
+                        ? (value) => _updateFilters(
+                              filters.copyWith(
+                                freeOnly: value,
+                                clearMinPrice: true,
+                                clearMaxPrice: true,
+                              ),
+                            )
                         : null,
                   ),
                   if (!filters.freeOnly) ...[
@@ -174,15 +183,7 @@ class _HomeSearchFiltersBodyState extends State<_HomeSearchFiltersBody> {
                           '${price.currency} ${_priceRange.start.round()}',
                           '${price.currency} ${_priceRange.end.round()}',
                         ),
-                        onChanged: (values) {
-                          setState(() => _priceRange = values);
-                          _updateFilters(
-                            filters.copyWith(
-                              minPrice: values.start,
-                              maxPrice: values.end,
-                            ),
-                          );
-                        },
+                        onChanged: (values) => _updatePriceRange(values, filters),
                       ),
                     ),
                     AppText(
@@ -190,68 +191,6 @@ class _HomeSearchFiltersBodyState extends State<_HomeSearchFiltersBody> {
                       variant: AppTextVariant.body,
                       color: AppColors.secondaryGrey,
                       fontSize: layout.fontSize(13),
-                    ),
-                  ],
-                  SizedBox(height: layout.spacing(20)),
-                  _SectionTitle(AppStrings.homeFiltersCityZone(l10n)),
-                  SizedBox(height: layout.spacing(10)),
-                  HomeNearMeButtonWidget(
-                    isEnabled: homeProvider.nearMeEnabled,
-                    isLoading: homeProvider.isNearMeLoading,
-                    onPressed: () => homeProvider.toggleNearMeFilter(),
-                  ),
-                  SizedBox(height: layout.spacing(14)),
-                  _FilterDropdown<String?>(
-                    value: _selectedCityId,
-                    label: AppStrings.homeFiltersCityLabel(l10n),
-                    items: [
-                      DropdownMenuItem<String?>(
-                        value: null,
-                        child: Text(AppStrings.homeFiltersAllCities(l10n)),
-                      ),
-                      ...widget.config.cities.map(
-                        (city) => DropdownMenuItem<String?>(
-                          value: city.id,
-                          child: Text(city.label),
-                        ),
-                      ),
-                    ],
-                    onChanged: (value) {
-                      setState(() => _selectedCityId = value);
-                      if (value == null) {
-                        _updateFilters(
-                          filters.copyWith(clearCity: true, clearZone: true),
-                        );
-                        return;
-                      }
-                      final city = widget.config.cities.firstWhere((item) => item.id == value);
-                      _updateFilters(
-                        filters.copyWith(city: city.label, clearZone: true),
-                      );
-                    },
-                  ),
-                  if (selectedCity != null && selectedCity.zones.isNotEmpty) ...[
-                    SizedBox(height: layout.spacing(12)),
-                    _FilterDropdown<String?>(
-                      value: filters.zone,
-                      label: AppStrings.homeFiltersZoneLabel(l10n),
-                      items: [
-                        const DropdownMenuItem<String?>(
-                          value: null,
-                          child: Text('—'),
-                        ),
-                        ...selectedCity.zones.map(
-                          (zone) => DropdownMenuItem<String?>(
-                            value: zone,
-                            child: Text(zone),
-                          ),
-                        ),
-                      ],
-                      onChanged: (value) => _updateFilters(
-                        value == null
-                            ? filters.copyWith(clearZone: true)
-                            : filters.copyWith(zone: value),
-                      ),
                     ),
                   ],
                   SizedBox(height: layout.spacing(20)),
@@ -266,10 +205,9 @@ class _HomeSearchFiltersBodyState extends State<_HomeSearchFiltersBody> {
                         label: venue.label,
                         isSelected: selected,
                         onTap: () => _updateFilters(
-                          filters.copyWith(
-                            venueKind: selected ? null : venue.id,
-                            clearVenueKind: selected,
-                          ),
+                          selected
+                              ? filters.copyWith(clearVenueKind: true)
+                              : filters.copyWith(venueKind: venue.id),
                         ),
                       );
                     }).toList(),
@@ -293,6 +231,9 @@ class _HomeSearchFiltersBodyState extends State<_HomeSearchFiltersBody> {
                 children: [
                   TextButton(
                     onPressed: () async {
+                      setState(() {
+                        _priceRange = RangeValues(price.min, price.max);
+                      });
                       await homeProvider.clearAllFilters();
                       if (context.mounted) {
                         Navigator.of(context).pop();
@@ -341,9 +282,12 @@ class _HomeSearchFiltersBodyState extends State<_HomeSearchFiltersBody> {
                             ),
                           )
                         : AppText(
-                            previewCount == null
-                                ? AppStrings.homeFiltersApply(l10n)
-                                : AppStrings.homeFiltersApplyCount(l10n, previewCount),
+                            showApplyCount
+                                ? AppStrings.homeFiltersApplyCount(
+                                    l10n,
+                                    previewCount,
+                                  )
+                                : AppStrings.homeFiltersApply(l10n),
                             variant: AppTextVariant.button,
                             color: AppColors.darkNavy,
                           ),
@@ -427,58 +371,5 @@ class _SectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppText(label, variant: AppTextVariant.sectionTitle);
-  }
-}
-
-class _FilterDropdown<T> extends StatelessWidget {
-  const _FilterDropdown({
-    required this.value,
-    required this.label,
-    required this.items,
-    required this.onChanged,
-  });
-
-  final T? value;
-  final String label;
-  final List<DropdownMenuItem<T>> items;
-  final ValueChanged<T?>? onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final layout = ResponsiveLayout(context);
-    final theme = YouPassThemeExtension.of(context);
-    final radius = BorderRadius.circular(layout.radius(12));
-
-    return DropdownButtonFormField<T>(
-      initialValue: value,
-      decoration: InputDecoration(
-        labelText: label,
-        filled: true,
-        fillColor: theme.inputFill,
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: layout.spacing(12),
-          vertical: layout.spacing(14),
-        ),
-        border: OutlineInputBorder(
-          borderRadius: radius,
-          borderSide: BorderSide(color: theme.cardBorder),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: radius,
-          borderSide: BorderSide(color: theme.cardBorder),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: radius,
-          borderSide: const BorderSide(
-            color: AppColors.primaryMustard,
-            width: 1.5,
-          ),
-        ),
-      ),
-      icon: Icon(Icons.keyboard_arrow_down_rounded, color: theme.chipUnselectedForeground),
-      borderRadius: radius,
-      items: items,
-      onChanged: onChanged,
-    );
   }
 }

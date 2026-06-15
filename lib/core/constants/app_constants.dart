@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class AppConstants {
   /// Set to `false` to restore real login/send-code API calls.
   static const bool devBypassLoginApi = false;
@@ -16,7 +18,10 @@ class AppConstants {
   static const bool logApiResponsesToConsole = true;
 
   static const String appName = 'YouPass';
-  static const String apiBaseUrl = 'https://youpass-backend.vercel.app';
+  /// Debug → local backend (`npm run dev`). Release → Vercel.
+  static String get apiBaseUrl => kDebugMode
+      ? 'http://localhost:3000'
+      : 'https://youpass-backend.vercel.app';
   static const String tokenKey = 'auth_token';
   static const String sessionIdKey = 'auth_session_id';
   static const String userKey = 'user_data';

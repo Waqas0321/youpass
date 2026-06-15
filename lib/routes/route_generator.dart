@@ -20,8 +20,6 @@ import 'package:youpass/features/profile/presentation/screens/faq_screen.dart';
 import 'package:youpass/features/profile/presentation/screens/notification_advanced_settings_screen.dart';
 import 'package:youpass/features/events/presentation/routes/event_detail_route_args.dart';
 import 'package:youpass/features/events/presentation/screens/event_detail_screen.dart';
-import 'package:youpass/features/events/presentation/routes/all_events_route_args.dart';
-import 'package:youpass/features/events/presentation/screens/all_events_screen.dart';
 import 'package:youpass/features/favorites/presentation/routes/producer_events_route_args.dart';
 import 'package:youpass/features/favorites/presentation/screens/my_favorites_screen.dart';
 import 'package:youpass/features/favorites/presentation/screens/producer_events_screen.dart';
@@ -126,14 +124,7 @@ class RouteGenerator {
           builder: (_) => ProducerEventsScreen.fromRouteArgs(args),
         );
       case AppRoutes.allEvents:
-        final args = settings.arguments;
-        return MaterialPageRoute(
-          builder: (_) => AllEventsScreen(
-            args: args is AllEventsRouteArgs
-                ? args
-                : const AllEventsRouteArgs(),
-          ),
-        );
+        return MaterialPageRoute(builder: (_) => const MainShellScreen());
       case AppRoutes.eventDetail:
         final args = settings.arguments;
         if (args is! EventDetailRouteArgs) {

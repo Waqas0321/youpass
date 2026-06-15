@@ -127,7 +127,7 @@ class FeaturedEventCarouselWidgetState extends State<FeaturedEventCarouselWidget
     final cardHeight = _resolveCardHeight(context);
 
     if (widget.events.isEmpty) {
-      return SizedBox(height: cardHeight);
+      return const SizedBox.shrink();
     }
 
     return Column(

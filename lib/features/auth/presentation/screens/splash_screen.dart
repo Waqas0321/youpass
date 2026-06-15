@@ -47,6 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
     if (authProvider.status == AuthStatus.authenticated) {
+      homeProvider.seedSessionCountry(profileCountry);
       await Future.wait([
         homeProvider.loadHomeDataIfNeeded(),
         invitationsProvider.refreshDrawerBadge(),

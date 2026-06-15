@@ -302,6 +302,12 @@ abstract class AppLocalizations {
   /// **'See events near my location'**
   String get homeNearMeButton;
 
+  /// No description provided for @homeNearMeHeaderLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby'**
+  String get homeNearMeHeaderLink;
+
   /// No description provided for @homeEventDistanceKm.
   ///
   /// In en, this message translates to:

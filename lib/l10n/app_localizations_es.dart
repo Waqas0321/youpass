@@ -114,6 +114,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get homeNearMeButton => 'Ver eventos cerca de mi ubicación';
 
   @override
+  String get homeNearMeHeaderLink => 'Cercanos';
+
+  @override
   String homeEventDistanceKm(String distance) {
     return '$distance km';
   }

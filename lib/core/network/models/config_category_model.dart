@@ -6,18 +6,21 @@ class ConfigCategoryModel {
     required this.label,
     this.countryCode,
     this.eventTypeSlug,
+    this.flagEmoji,
   });
 
   final String id;
   final String label;
   final String? countryCode;
   final String? eventTypeSlug;
+  final String? flagEmoji;
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'label': label,
         if (countryCode != null) 'country_code': countryCode,
         if (eventTypeSlug != null) 'event_type_slug': eventTypeSlug,
+        if (flagEmoji != null) 'flag_emoji': flagEmoji,
       };
 
   factory ConfigCategoryModel.fromJson(Map<String, dynamic> json) {
@@ -35,6 +38,8 @@ class ConfigCategoryModel {
       countryCode: countryCode,
       eventTypeSlug: JsonReaders.nullableString(json, 'event_type_slug') ??
           JsonReaders.nullableString(json, 'eventTypeSlug'),
+      flagEmoji: JsonReaders.nullableString(json, 'flag_emoji') ??
+          JsonReaders.nullableString(json, 'flagEmoji'),
     );
   }
 

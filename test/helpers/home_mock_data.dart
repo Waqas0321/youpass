@@ -46,15 +46,11 @@ class HomeMockData {
     return HomeFeedModel(
       categories: [
         EventCategoryEntity(
-          id: AppConstants.categoryIdAll,
-          label: labels.allLabel,
-          icon: Icons.apps_outlined,
-          leadingEmoji: AppConstants.categoryAllEmoji,
-        ),
-        EventCategoryEntity(
           id: 'country:CL',
           label: labels.chileLabel,
           icon: Icons.location_on_outlined,
+          leadingEmoji: '🇨🇱',
+          showLeadingIcon: true,
           countryCode: 'CL',
         ),
         EventCategoryEntity(

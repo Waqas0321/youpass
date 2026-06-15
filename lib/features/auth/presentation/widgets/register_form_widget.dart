@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/auth_layout_constants.dart';
-import 'package:youpass/core/auth/gender_api_mapper.dart';
 import 'package:youpass/core/config/app_product_config.dart';
 import 'package:youpass/core/constants/country_code_list.dart';
 import 'package:youpass/core/locale/locale_provider.dart';
@@ -25,7 +24,8 @@ import 'package:youpass/features/auth/domain/entities/register_request_entity.da
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/auth/presentation/utils/auth_navigation.dart';
 import 'package:youpass/features/auth/presentation/utils/whatsapp_auth_gate.dart';
-import 'package:youpass/features/auth/presentation/widgets/gender_picker_sheet.dart';
+import 'package:youpass/features/auth/presentation/widgets/gender_checkbox_group_widget.dart';
+import 'package:youpass/features/profile/presentation/widgets/profile_instagram_icon.dart';
 import 'package:youpass/features/auth/presentation/widgets/phone_input_widget.dart';
 import 'package:youpass/features/auth/presentation/widgets/register_terms_widget.dart';
 import 'package:youpass/features/auth/routes/register_draft.dart';
@@ -116,14 +116,6 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
 
     if (pickedDate != null) {
       setState(() => birthDate = pickedDate);
-    }
-  }
-
-  Future<void> pickGender() async {
-    final gender = await GenderPickerSheet.show(context);
-
-    if (gender != null) {
-      setState(() => selectedGender = gender);
     }
   }
 
@@ -364,14 +356,9 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
           onTap: pickBirthDate,
         ),
         SizedBox(height: fieldGap),
-        AuthPickerField(
-          label: strings.genderLabel,
-          hintText: strings.genderHint,
-          icon: Icons.person_outline,
-          value: selectedGender == null
-              ? null
-              : GenderApiMapper.toDisplayLabel(selectedGender!, strings),
-          onTap: pickGender,
+        GenderCheckboxGroupWidget(
+          selectedValue: selectedGender,
+          onChanged: (value) => setState(() => selectedGender = value),
         ),
         SizedBox(height: fieldGap),
         PhoneInputWidget(
@@ -394,7 +381,13 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
           label: strings.instagramLabel,
           controller: instagramController,
           hintText: strings.instagramHint,
-          icon: Icons.camera_alt_outlined,
+          leading: ProfileInstagramIcon(
+            color: Theme.of(context)
+                .colorScheme
+                .onSurfaceVariant
+                .withValues(alpha: 0.7),
+            size: layout.fontSize(22),
+          ),
           textInputAction: TextInputAction.done,
         ),
         SizedBox(height: layout.spacing(24)),
@@ -413,6 +406,7 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
         YouPassPrimaryButton(
           label: strings.createAccountButton,
           isLoading: authProvider.isSubmitting,
+          isEnabled: termsAccepted,
           onPressed: sendCodeAndNavigate,
         ),
       ],

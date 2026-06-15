@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/network/models/config_category_model.dart';
 import 'package:youpass/core/services/event_categories_cache.dart';
@@ -191,18 +190,27 @@ class EventsRepositoryImpl implements EventsRepository {
   }
 
   List<EventCategoryEntity> _withAllTab(List<EventCategoryEntity> categories) {
-    if (categories.any((category) => category.id == AppConstants.categoryIdAll)) {
-      return categories;
+    EventCategoryEntity? countryTab;
+    final eventTypes = <EventCategoryEntity>[];
+
+    for (final category in categories) {
+      if (category.countryCode != null &&
+          category.countryCode!.isNotEmpty &&
+          category.id.startsWith('country:')) {
+        countryTab ??= category;
+        continue;
+      }
+      if (category.id == AppConstants.categoryIdAll) {
+        continue;
+      }
+      eventTypes.add(category);
     }
 
-    final allTab = EventCategoryEntity(
-      id: AppConstants.categoryIdAll,
-      label: _l10n.categoryAll,
-      icon: Icons.apps_outlined,
-      leadingEmoji: AppConstants.categoryAllEmoji,
-    );
+    if (countryTab != null) {
+      return [countryTab, ...eventTypes];
+    }
 
-    return [allTab, ...categories];
+    return eventTypes;
   }
 }
 

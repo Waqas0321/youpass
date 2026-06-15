@@ -79,10 +79,24 @@ class HomeEventsQuery {
       params['date_preset'] = f.datePreset!;
     }
     if (f.dateFrom != null) {
-      params['date_from'] = f.dateFrom!.toUtc().toIso8601String();
+      final from = DateTime.utc(
+        f.dateFrom!.year,
+        f.dateFrom!.month,
+        f.dateFrom!.day,
+      );
+      params['date_from'] = from.toIso8601String();
     }
     if (f.dateTo != null) {
-      params['date_to'] = f.dateTo!.toUtc().toIso8601String();
+      final to = DateTime.utc(
+        f.dateTo!.year,
+        f.dateTo!.month,
+        f.dateTo!.day,
+        23,
+        59,
+        59,
+        999,
+      );
+      params['date_to'] = to.toIso8601String();
     }
     if (f.city != null && f.city!.isNotEmpty) {
       params['city'] = f.city!;

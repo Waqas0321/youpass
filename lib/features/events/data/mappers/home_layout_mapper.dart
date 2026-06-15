@@ -117,6 +117,8 @@ class HomeLayoutMapper {
             id: 'country:$code',
             label: _countryTabLabel(country, code),
             countryCode: code,
+            flagEmoji: JsonReaders.nullableString(country, 'flag_emoji') ??
+                JsonReaders.nullableString(country, 'flagEmoji'),
           ),
         );
       }
@@ -147,10 +149,8 @@ class HomeLayoutMapper {
   }
 
   static String _countryTabLabel(Map<String, dynamic> country, String code) {
-    final label = JsonReaders.string(country, 'label',
+    return JsonReaders.string(country, 'label',
         fallback: JsonReaders.string(country, 'name', fallback: code));
-    final prefix = JsonReaders.string(country, 'prefix_icon', fallback: '📍');
-    return '$prefix $label';
   }
 
   static List<EventModel> _parseSlides(Object? value) {

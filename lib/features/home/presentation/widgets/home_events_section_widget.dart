@@ -7,39 +7,42 @@ import 'package:youpass/core/widgets/shimmer/event_list_card_shimmer.dart';
 import 'package:youpass/core/widgets/shimmer/youpass_shimmer.dart';
 import 'package:youpass/features/events/domain/entities/event_entity.dart';
 import 'package:youpass/features/home/presentation/widgets/event_list_card_widget.dart';
-import 'package:youpass/features/home/presentation/widgets/home_near_me_button_widget.dart';
 
 class HomeEventsSectionWidget extends StatelessWidget {
   const HomeEventsSectionWidget({
     super.key,
     required this.events,
     this.sectionTitle,
-    this.onSeeAllTap,
+    this.headerActionLabel,
+    this.onHeaderActionTap,
+    this.headerActionIcon,
+    this.headerActionSelected = false,
+    this.headerActionLoading = false,
     this.onEventTap,
+    this.onBuyTicket,
+    this.onFavoriteTap,
+    this.isFavoritePendingFor,
     this.onJoinWaitlist,
     this.onLeaveWaitlist,
     this.isLoading = false,
-    this.isLoadingMore = false,
-    this.hasMore = true,
-    this.showProximity = false,
-    this.nearMeEnabled = false,
-    this.nearMeLoading = false,
-    this.onNearMeTap,
+    this.belowTitle,
   });
 
   final List<EventEntity> events;
   final String? sectionTitle;
-  final VoidCallback? onSeeAllTap;
+  final String? headerActionLabel;
+  final VoidCallback? onHeaderActionTap;
+  final IconData? headerActionIcon;
+  final bool headerActionSelected;
+  final bool headerActionLoading;
   final ValueChanged<EventEntity>? onEventTap;
+  final ValueChanged<EventEntity>? onBuyTicket;
+  final ValueChanged<EventEntity>? onFavoriteTap;
+  final bool Function(String eventId)? isFavoritePendingFor;
   final ValueChanged<EventEntity>? onJoinWaitlist;
   final ValueChanged<EventEntity>? onLeaveWaitlist;
   final bool isLoading;
-  final bool isLoadingMore;
-  final bool hasMore;
-  final bool showProximity;
-  final bool nearMeEnabled;
-  final bool nearMeLoading;
-  final VoidCallback? onNearMeTap;
+  final Widget? belowTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -51,16 +54,15 @@ class HomeEventsSectionWidget extends StatelessWidget {
       children: [
         SectionHeaderWidget(
           title: sectionTitle ?? AppStrings.eventsSectionTitle(l10n),
-          actionLabel: AppStrings.seeAll(l10n),
-          onActionTap: onSeeAllTap,
+          actionLabel: headerActionLabel,
+          onActionTap: onHeaderActionTap,
+          actionIcon: headerActionIcon,
+          actionSelected: headerActionSelected,
+          actionLoading: headerActionLoading,
         ),
-        if (onNearMeTap != null) ...[
-          SizedBox(height: layout.spacing(10)),
-          HomeNearMeButtonWidget(
-            isEnabled: nearMeEnabled,
-            isLoading: nearMeLoading,
-            onPressed: onNearMeTap,
-          ),
+        if (belowTitle != null) ...[
+          SizedBox(height: layout.spacing(14)),
+          belowTitle!,
         ],
         SizedBox(height: layout.spacing(14)),
         if (isLoading)
@@ -92,9 +94,15 @@ class HomeEventsSectionWidget extends StatelessWidget {
               padding: EdgeInsets.only(bottom: layout.spacing(14)),
               child: EventListCardWidget(
                 event: event,
-                showProximity: showProximity,
+                isFavoritePending: isFavoritePendingFor?.call(event.id) ?? false,
                 onEventTap:
                     onEventTap == null ? null : () => onEventTap!(event),
+                onBuyTicket: onBuyTicket == null
+                    ? null
+                    : () => onBuyTicket!(event),
+                onFavoriteTap: onFavoriteTap == null
+                    ? null
+                    : () => onFavoriteTap!(event),
                 onJoinWaitlist: onJoinWaitlist == null
                     ? null
                     : () => onJoinWaitlist!(event),
@@ -104,31 +112,6 @@ class HomeEventsSectionWidget extends StatelessWidget {
               ),
             ),
           ),
-          if (isLoadingMore)
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: layout.spacing(16)),
-              child: const Center(
-                child: SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                ),
-              ),
-            )
-          else if (!hasMore)
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: layout.spacing(20)),
-              child: Center(
-                child: Text(
-                  AppStrings.homeEventsEndOfList(l10n),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: layout.fontSize(13),
-                  ),
-                ),
-              ),
-            ),
         ],
       ],
     );

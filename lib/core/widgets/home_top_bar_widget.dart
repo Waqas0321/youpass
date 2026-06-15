@@ -3,26 +3,24 @@ import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/theme/presentation/providers/app_theme_provider.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
-import 'package:youpass/core/widgets/app_text.dart';
-import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/core/widgets/fiesta_mode_toggle_widget.dart';
+import 'package:youpass/core/widgets/youpass_home_pill_logo_widget.dart';
 
 class HomeTopBarWidget extends StatelessWidget {
   const HomeTopBarWidget({
     super.key,
     this.onMenuTap,
-    this.greetingText,
     this.showPartyModeBanner = true,
   });
 
   final VoidCallback? onMenuTap;
-  final String? greetingText;
   final bool showPartyModeBanner;
 
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
     final themeProvider = context.watch<AppThemeProvider>();
+    final sideSlotWidth = layout.iconSize + layout.spacing(16);
 
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -40,22 +38,16 @@ class HomeTopBarWidget extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: greetingText?.trim().isNotEmpty == true
-                ? AppText(
-                    greetingText!.trim(),
-                    variant: AppTextVariant.appBar,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  )
-                : const SizedBox.shrink(),
+            child: Center(
+              child: showPartyModeBanner
+                  ? FiestaModeToggleWidget(
+                      isFiestaMode: themeProvider.isFiestaMode,
+                      onToggle: themeProvider.toggleFiestaMode,
+                    )
+                  : const YouPassHomePillLogoWidget(),
+            ),
           ),
-          if (showPartyModeBanner)
-            FiestaModeToggleWidget(
-              isFiestaMode: themeProvider.isFiestaMode,
-              onToggle: themeProvider.toggleFiestaMode,
-            )
-          else
-            SizedBox(width: layout.iconSize + layout.spacing(16)),
+          SizedBox(width: sideSlotWidth),
         ],
       ),
     );

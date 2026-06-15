@@ -3,65 +3,65 @@ import 'package:youpass/core/constants/app_constants.dart';
 class ApiEndpoints {
   ApiEndpoints._();
 
-  static const String baseUrl = AppConstants.apiBaseUrl;
-  static const String apiV1 = '$baseUrl/api/v1';
+  static String get baseUrl => AppConstants.apiBaseUrl;
+  static String get apiV1 => '$baseUrl/api/v1';
 
-  static const String health = '$apiV1/health';
-  static const String config = '$apiV1/config';
-  static const String configAuth = '$apiV1/config/auth';
-  static const String configSecurity = '$apiV1/config/security';
-  static const String configCountries = '$apiV1/config/countries';
-  static const String configCategories = '$apiV1/config/categories';
-  static const String configEventCategories = '$apiV1/config/event-categories';
-  static const String sendCode = '$apiV1/auth/send-code';
-  static const String resendCode = '$apiV1/auth/resend-code';
-  static const String verifyCode = '$apiV1/auth/verify-code';
-  static const String login = '$apiV1/auth/login';
-  static const String register = '$apiV1/auth/register';
-  static const String logout = '$apiV1/auth/logout';
-  static const String usersMe = '$apiV1/users/me';
-  static const String userProfile = '$apiV1/users/me/profile';
-  static const String userProfilePhoto = '$apiV1/users/me/profile-photo';
-  static const String userProfileCompleteness = '$apiV1/users/me/profile-completeness';
-  static const String userProfileBannerStatus = '$apiV1/users/me/profile-banner/status';
-  static const String userProfileBannerDismiss = '$apiV1/users/me/profile-banner/dismiss';
-  static const String userCategoryBenefits = '$apiV1/users/me/category-benefits';
-  static const String userNotificationSettings = '$apiV1/users/me/notification-settings';
-  static const String userNotificationsToggle = '$apiV1/users/me/notifications/toggle';
-  static const String userWalletCards = '$apiV1/users/me/wallet/cards';
-  static const String userWalletCardsTokenizeSession =
+  static String get health => '$apiV1/health';
+  static String get config => '$apiV1/config';
+  static String get configAuth => '$apiV1/config/auth';
+  static String get configSecurity => '$apiV1/config/security';
+  static String get configCountries => '$apiV1/config/countries';
+  static String get configCategories => '$apiV1/config/categories';
+  static String get configEventCategories => '$apiV1/config/event-categories';
+  static String get sendCode => '$apiV1/auth/send-code';
+  static String get resendCode => '$apiV1/auth/resend-code';
+  static String get verifyCode => '$apiV1/auth/verify-code';
+  static String get login => '$apiV1/auth/login';
+  static String get register => '$apiV1/auth/register';
+  static String get logout => '$apiV1/auth/logout';
+  static String get usersMe => '$apiV1/users/me';
+  static String get userProfile => '$apiV1/users/me/profile';
+  static String get userProfilePhoto => '$apiV1/users/me/profile-photo';
+  static String get userProfileCompleteness => '$apiV1/users/me/profile-completeness';
+  static String get userProfileBannerStatus => '$apiV1/users/me/profile-banner/status';
+  static String get userProfileBannerDismiss => '$apiV1/users/me/profile-banner/dismiss';
+  static String get userCategoryBenefits => '$apiV1/users/me/category-benefits';
+  static String get userNotificationSettings => '$apiV1/users/me/notification-settings';
+  static String get userNotificationsToggle => '$apiV1/users/me/notifications/toggle';
+  static String get userWalletCards => '$apiV1/users/me/wallet/cards';
+  static String get userWalletCardsTokenizeSession =>
       '$apiV1/users/me/wallet/cards/tokenize-session';
-  static const String userWalletBalance = '$apiV1/users/me/wallet/balance';
-  static const String userWalletTransactions = '$apiV1/users/me/wallet/transactions';
-  static const String userAccountDeletionStatus = '$apiV1/users/me/account/deletion-status';
-  static const String userAccountDeleteCancel = '$apiV1/users/me/account/delete-cancel';
-  static const String supportContactInfo = '$apiV1/support/contact-info';
-  static const String supportFaqs = '$apiV1/support/faqs';
-  static const String supportWhatsAppTemplate = '$apiV1/support/whatsapp-template';
-  static const String supportEmailTemplate = '$apiV1/support/email-template';
-  static const String usersMeLogout = '$apiV1/users/me/logout';
-  static const String userWelcomeData = '$apiV1/users/me/welcome-data';
-  static const String deleteAccountRequest = '$apiV1/auth/delete-account/request';
-  static const String deleteAccountVerify = '$apiV1/auth/delete-account/verify';
-  static const String checkWhatsApp = '$apiV1/auth/check-whatsapp';
-  static const String changePhoneRequest = '$apiV1/auth/change-phone/request';
-  static const String changePhoneVerify = '$apiV1/auth/change-phone/verify';
+  static String get userWalletBalance => '$apiV1/users/me/wallet/balance';
+  static String get userWalletTransactions => '$apiV1/users/me/wallet/transactions';
+  static String get userAccountDeletionStatus => '$apiV1/users/me/account/deletion-status';
+  static String get userAccountDeleteCancel => '$apiV1/users/me/account/delete-cancel';
+  static String get supportContactInfo => '$apiV1/support/contact-info';
+  static String get supportFaqs => '$apiV1/support/faqs';
+  static String get supportWhatsAppTemplate => '$apiV1/support/whatsapp-template';
+  static String get supportEmailTemplate => '$apiV1/support/email-template';
+  static String get usersMeLogout => '$apiV1/users/me/logout';
+  static String get userWelcomeData => '$apiV1/users/me/welcome-data';
+  static String get deleteAccountRequest => '$apiV1/auth/delete-account/request';
+  static String get deleteAccountVerify => '$apiV1/auth/delete-account/verify';
+  static String get checkWhatsApp => '$apiV1/auth/check-whatsapp';
+  static String get changePhoneRequest => '$apiV1/auth/change-phone/request';
+  static String get changePhoneVerify => '$apiV1/auth/change-phone/verify';
 
-  static const String homeInitialFeed = '$apiV1/home/initial-feed';
-  static const String homeUpcomingEvents = '$apiV1/home/upcoming-events';
-  static const String analyticsRegistrationCompleted =
+  static String get homeInitialFeed => '$apiV1/home/initial-feed';
+  static String get homeUpcomingEvents => '$apiV1/home/upcoming-events';
+  static String get analyticsRegistrationCompleted =>
       '$apiV1/analytics/event/registration-completed';
-  static const String eventsFeatured = '$apiV1/events/featured';
-  static const String events = '$apiV1/events';
-  static const String eventTypes = '$apiV1/events/types';
+  static String get eventsFeatured => '$apiV1/events/featured';
+  static String get events => '$apiV1/events';
+  static String get eventTypes => '$apiV1/events/types';
 
-  static const String venues = '$apiV1/venues';
+  static String get venues => '$apiV1/venues';
 
   static String venueById(String venueId) => '$apiV1/venues/$venueId';
 
-  static const String favoriteEvents = '$apiV1/users/me/favorites/events';
-  static const String favoritesCombined = '$apiV1/users/me/favorites';
-  static const String favoriteProducers = '$apiV1/users/me/favorites/producers';
+  static String get favoriteEvents => '$apiV1/users/me/favorites/events';
+  static String get favoritesCombined => '$apiV1/users/me/favorites';
+  static String get favoriteProducers => '$apiV1/users/me/favorites/producers';
 
   static String favoriteEvent(String eventId) =>
       '$apiV1/users/me/favorites/events/$eventId';
@@ -92,10 +92,10 @@ class ApiEndpoints {
   static String waitlistOfferClaim(String offerId) =>
       '$apiV1/waitlist/offers/$offerId/claim';
 
-  static const String invitations = '$apiV1/invitations';
-  static const String usersMeInvitations = '$apiV1/users/me/invitations';
-  static const String invitationsSummary = '$apiV1/users/me/invitations/summary';
-  static const String paymentMethods = '$apiV1/users/me/payment-methods';
+  static String get invitations => '$apiV1/invitations';
+  static String get usersMeInvitations => '$apiV1/users/me/invitations';
+  static String get invitationsSummary => '$apiV1/users/me/invitations/summary';
+  static String get paymentMethods => '$apiV1/users/me/payment-methods';
 
   static String invitationById(String invitationId) =>
       '$apiV1/invitations/$invitationId';
@@ -121,9 +121,9 @@ class ApiEndpoints {
   static String ticketCancel(String ticketId) =>
       '$apiV1/users/me/tickets/$ticketId/cancel';
 
-  static const String ticketsUpcoming = '$apiV1/users/me/tickets/upcoming';
-  static const String ticketsPast = '$apiV1/users/me/tickets/past';
-  static const String ticketsYearlySummary =
+  static String get ticketsUpcoming => '$apiV1/users/me/tickets/upcoming';
+  static String get ticketsPast => '$apiV1/users/me/tickets/past';
+  static String get ticketsYearlySummary =>
       '$apiV1/users/me/tickets/yearly-summary';
 
   static String eventTicketTypes(String eventId) =>

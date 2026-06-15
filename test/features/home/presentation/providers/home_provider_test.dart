@@ -148,7 +148,7 @@ void main() {
 
     final listener = Listener();
     homeProvider.addListener(listener.call);
-    await homeProvider.selectCategory(AppConstants.categoryIdAll);
+    await homeProvider.selectCategory('country:CL');
 
     expect(listener.callCount, 0);
     verify(() => mockHomeRepository.getFilteredEvents(any())).called(1);

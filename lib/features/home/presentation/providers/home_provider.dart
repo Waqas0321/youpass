@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:youpass/core/constants/app_constants.dart';
 import 'package:youpass/core/network/analytics_api_service.dart';
 import 'package:youpass/core/network/api_exception.dart';
 import 'package:youpass/core/services/home_search_history_cache.dart';
@@ -17,6 +16,7 @@ import 'package:youpass/features/home/domain/usecases/search_home_events_usecase
 import 'package:youpass/core/services/user_location_service.dart';
 import 'package:youpass/features/home/domain/usecases/get_upcoming_home_events_usecase.dart';
 import 'package:youpass/features/home/domain/usecases/toggle_event_favorite_usecase.dart';
+import 'package:youpass/features/home/presentation/utils/home_country_category_helper.dart';
 
 enum HomeStatus { initial, loading, loaded, error }
 
@@ -68,6 +68,8 @@ class HomeProvider extends ChangeNotifier {
   int? filterPreviewCount;
   bool isFilterPreviewLoading = false;
   Timer? _searchDebounce;
+  Timer? _filterPreviewDebounce;
+  int _filterPreviewGeneration = 0;
 
   List<EventEntity> upcomingEvents = const [];
   int upcomingPage = 1;
@@ -76,17 +78,24 @@ class HomeProvider extends ChangeNotifier {
   bool isLoadingMoreUpcoming = false;
   bool isRefreshingHome = false;
   bool nearMeEnabled = false;
+  bool draftNearMeEnabled = false;
   bool isNearMeLoading = false;
+  bool isDraftNearMeLoading = false;
   double? userLatitude;
   double? userLongitude;
+  double? draftLatitude;
+  double? draftLongitude;
+
+  HomeSearchFiltersConfigEntity get _searchConfig =>
+      homeFeed?.searchConfig ?? HomeSearchFiltersConfigEntity.defaults;
 
   bool get isSearchMode =>
-      searchQuery.trim().isNotEmpty || appliedFilters.hasActiveFilters;
+      searchQuery.trim().isNotEmpty || _appliedHasActiveSelections();
 
   bool get showSearchHistory =>
       isSearchFocused &&
       searchQuery.trim().isEmpty &&
-      !appliedFilters.hasActiveFilters;
+      !_appliedHasActiveSelections();
 
   List<String> get autocompleteSuggestions {
     final query = searchQuery.trim().toLowerCase();
@@ -125,8 +134,10 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      homeFeed = await getHomeFeedUseCase(countryCode: countryCode ?? sessionCountryCode);
-      selectedCategoryId = _defaultCategoryId(homeFeed);
+      final resolvedCountryCode = (countryCode ?? sessionCountryCode)?.toUpperCase();
+      homeFeed = await getHomeFeedUseCase(countryCode: resolvedCountryCode);
+      homeFeed = _applySessionCountryToFeed(homeFeed, resolvedCountryCode);
+      _ensureCountryCategorySelected(homeFeed, forceDefault: true);
       searchHistory = searchHistoryCache.read(
         limit: homeFeed?.searchConfig.historyLimit ?? HomeSearchHistoryCache.defaultLimit,
       );
@@ -154,23 +165,24 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final feed = await getHomeFeedUseCase(countryCode: sessionCountryCode);
-      homeFeed = feed;
-      selectedCategoryId = _defaultCategoryId(feed) ?? selectedCategoryId;
+      final resolvedCountryCode = sessionCountryCode?.toUpperCase();
+      final feed = await getHomeFeedUseCase(countryCode: resolvedCountryCode);
+      homeFeed = _applySessionCountryToFeed(feed, resolvedCountryCode);
+      _ensureCountryCategorySelected(homeFeed, forceDefault: true);
       searchHistory = searchHistoryCache.read(
-        limit: feed.searchConfig.historyLimit,
+        limit: homeFeed!.searchConfig.historyLimit,
       );
       status = HomeStatus.loaded;
       errorMessage = null;
 
-      if (selectedCategoryId != null) {
-        final category = _categoryForFilter(feed, selectedCategoryId!);
+      if (selectedCategoryId != null && homeFeed != null) {
+        final category = _categoryForFilter(homeFeed!, selectedCategoryId!);
         if (category != null) {
           final filtered = await getFilteredHomeEventsUseCase(category);
-          homeFeed = feed.copyWith(
+          homeFeed = homeFeed!.copyWith(
             carouselEvents: filtered.carouselEvents,
             mainBannerCarouselConfig:
-                filtered.mainBannerCarouselConfig ?? feed.mainBannerCarouselConfig,
+                filtered.mainBannerCarouselConfig ?? homeFeed!.mainBannerCarouselConfig,
           );
         }
       }
@@ -249,6 +261,7 @@ class HomeProvider extends ChangeNotifier {
 
   Future<void> loadHomeDataIfNeeded() async {
     if (homeFeed != null && status == HomeStatus.loaded) {
+      _ensureCountryCategorySelected(homeFeed);
       if (!_hasVisibleEvents(homeFeed!) && !isFilteringEvents && !isSearchMode) {
         await _applyCategoryFilter();
       }
@@ -270,7 +283,7 @@ class HomeProvider extends ChangeNotifier {
 
   void onSearchQueryChanged(String value) {
     searchQuery = value;
-    if (value.trim().isEmpty && !appliedFilters.hasActiveFilters) {
+    if (value.trim().isEmpty && !_appliedHasActiveSelections()) {
       searchResults = const [];
       searchResultTotal = 0;
       isSearchLoading = false;
@@ -310,42 +323,65 @@ class HomeProvider extends ChangeNotifier {
     searchResults = const [];
     searchResultTotal = 0;
     notifyListeners();
-    if (appliedFilters.hasActiveFilters) {
+    if (_appliedHasActiveSelections()) {
       _runSearch(saveHistory: false);
     }
   }
 
   void beginFilterEditing() {
-    draftFilters = appliedFilters;
-    filterPreviewCount = searchResultTotal;
+    draftFilters = _normalizePriceFilters(appliedFilters);
+    draftNearMeEnabled = nearMeEnabled;
+    draftLatitude = userLatitude;
+    draftLongitude = userLongitude;
+    filterPreviewCount = null;
     notifyListeners();
-    _previewDraftFilters();
+    _refreshDraftPreview();
   }
 
   void updateDraftFilters(HomeEventsFiltersEntity filters) {
-    draftFilters = filters;
+    draftFilters = _normalizePriceFilters(filters);
     notifyListeners();
-    _previewDraftFilters();
+    _refreshDraftPreview();
   }
 
   Future<void> applyDraftFilters() async {
     appliedFilters = draftFilters;
+    nearMeEnabled = draftNearMeEnabled;
+    userLatitude = draftNearMeEnabled ? draftLatitude : null;
+    userLongitude = draftNearMeEnabled ? draftLongitude : null;
+    filterPreviewCount = null;
     notifyListeners();
-    await _runSearch(saveHistory: searchQuery.trim().isNotEmpty);
+
+    if (searchQuery.trim().isNotEmpty || _appliedHasActiveSelections()) {
+      await _runSearch(saveHistory: searchQuery.trim().isNotEmpty);
+      return;
+    }
+
+    searchResults = const [];
+    searchResultTotal = 0;
+    await _loadUpcomingEvents(reset: true);
   }
 
   Future<void> clearAllFilters() async {
     appliedFilters = HomeEventsFiltersEntity.empty;
     draftFilters = HomeEventsFiltersEntity.empty;
+    nearMeEnabled = false;
+    draftNearMeEnabled = false;
+    userLatitude = null;
+    userLongitude = null;
+    draftLatitude = null;
+    draftLongitude = null;
     filterPreviewCount = null;
     notifyListeners();
+
     if (searchQuery.trim().isNotEmpty || isSearchFocused) {
       await _runSearch(saveHistory: false);
-    } else {
-      searchResults = const [];
-      searchResultTotal = 0;
-      notifyListeners();
+      return;
     }
+
+    searchResults = const [];
+    searchResultTotal = 0;
+    await _loadUpcomingEvents(reset: true);
   }
 
   Future<void> removeFilterChip(String chipId) async {
@@ -372,15 +408,31 @@ class HomeProvider extends ChangeNotifier {
       case 'free':
         appliedFilters = appliedFilters.copyWith(freeOnly: false);
         break;
+      case 'near_me':
+        nearMeEnabled = false;
+        userLatitude = null;
+        userLongitude = null;
+        break;
       default:
         return;
     }
     draftFilters = appliedFilters;
+    draftNearMeEnabled = nearMeEnabled;
+    draftLatitude = userLatitude;
+    draftLongitude = userLongitude;
     notifyListeners();
-    await _runSearch(saveHistory: false);
+    if (_appliedHasActiveSelections() || searchQuery.trim().isNotEmpty) {
+      await _runSearch(saveHistory: false);
+    } else {
+      await _loadUpcomingEvents(reset: true);
+    }
   }
 
-  List<HomeActiveFilterChip> activeFilterChips({String? freeOnlyLabel, String? customRangeLabel}) {
+  List<HomeActiveFilterChip> activeFilterChips({
+    String? freeOnlyLabel,
+    String? customRangeLabel,
+    String? nearMeLabel,
+  }) {
     final chips = <HomeActiveFilterChip>[];
     final config = homeFeed?.searchConfig ?? HomeSearchFiltersConfigEntity.defaults;
     final freeLabel = freeOnlyLabel ?? 'Free events only';
@@ -407,15 +459,24 @@ class HomeProvider extends ChangeNotifier {
     }
     if (appliedFilters.freeOnly) {
       chips.add(HomeActiveFilterChip(id: 'free', label: freeLabel));
-    } else if (appliedFilters.minPrice != null || appliedFilters.maxPrice != null) {
+    } else if (_isPriceFilterActive(appliedFilters)) {
       final currency = config.priceRange.currency;
       final min = appliedFilters.minPrice?.round() ?? config.priceRange.min.round();
       final max = appliedFilters.maxPrice?.round() ?? config.priceRange.max.round();
       chips.add(HomeActiveFilterChip(id: 'price', label: '$currency $min – $max'));
     }
 
+    if (nearMeEnabled) {
+      chips.add(HomeActiveFilterChip(
+        id: 'near_me',
+        label: nearMeLabel ?? 'Near me',
+      ));
+    }
+
     return chips;
   }
+
+  bool get draftHasActiveSelections => _draftHasActiveSelections();
 
   String? _labelForOption(List<HomeFilterOptionEntity> options, String id) {
     for (final option in options) {
@@ -440,13 +501,33 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future<void> changeSessionCountry(String countryCode) async {
-    sessionCountryCode = countryCode.toUpperCase();
+    final normalized = countryCode.toUpperCase();
+    sessionCountryCode = normalized;
+    selectedCategoryId = 'country:$normalized';
     appliedFilters = HomeEventsFiltersEntity.empty;
     draftFilters = HomeEventsFiltersEntity.empty;
-    await loadHomeData(countryCode: sessionCountryCode);
+    await loadHomeData(countryCode: normalized);
+  }
+
+  void seedSessionCountry(String? countryCode) {
+    if (sessionCountryCode != null && sessionCountryCode!.isNotEmpty) {
+      return;
+    }
+
+    final normalized = countryCode?.trim().toUpperCase();
+    if (normalized == null || normalized.isEmpty) {
+      return;
+    }
+
+    sessionCountryCode = normalized;
+    selectedCategoryId = 'country:$normalized';
   }
 
   String? resolveSessionCountryCode() {
+    if (sessionCountryCode != null && sessionCountryCode!.isNotEmpty) {
+      return sessionCountryCode!.toUpperCase();
+    }
+
     final feed = homeFeed;
     if (feed != null) {
       final selectedId = selectedCategoryId;
@@ -461,7 +542,7 @@ class HomeProvider extends ChangeNotifier {
       }
     }
 
-    return sessionCountryCode?.toUpperCase();
+    return null;
   }
 
   bool isCountryCategory(String categoryId) => categoryId.startsWith('country:');
@@ -560,7 +641,8 @@ class HomeProvider extends ChangeNotifier {
     bool? highlightInvitation,
   }) async {
     homeFeed = feed;
-    selectedCategoryId = _defaultCategoryId(feed);
+    homeFeed = _applySessionCountryToFeed(homeFeed, sessionCountryCode);
+    _ensureCountryCategorySelected(homeFeed, forceDefault: true);
     status = HomeStatus.loaded;
     errorMessage = null;
     _seedUpcomingFromFeed(feed);
@@ -614,6 +696,22 @@ class HomeProvider extends ChangeNotifier {
 
   String resolveSearchEmptyMessage() {
     return homeFeed?.searchConfig.emptyMessage ?? '';
+  }
+
+  String resolveSelectedCategoryId() {
+    final feed = homeFeed;
+    final current = selectedCategoryId;
+    if (feed == null) {
+      return current ?? '';
+    }
+
+    if (current == null ||
+        current == 'all' ||
+        _findCategory(feed, current) == null) {
+      return _defaultCategoryId(feed) ?? '';
+    }
+
+    return current;
   }
 
   Future<void> trackRegistrationCompletedIfNeeded() async {
@@ -679,25 +777,93 @@ class HomeProvider extends ChangeNotifier {
     isLoadingMoreUpcoming = false;
     isRefreshingHome = false;
     nearMeEnabled = false;
+    draftNearMeEnabled = false;
     isNearMeLoading = false;
+    isDraftNearMeLoading = false;
     userLatitude = null;
     userLongitude = null;
+    draftLatitude = null;
+    draftLongitude = null;
     _searchDebounce?.cancel();
+    _filterPreviewDebounce?.cancel();
     notifyListeners();
   }
 
+  Future<void> toggleDraftNearMeFilter() async {
+    if (isDraftNearMeLoading) {
+      return;
+    }
+
+    if (draftNearMeEnabled) {
+      draftNearMeEnabled = false;
+      draftLatitude = null;
+      draftLongitude = null;
+      notifyListeners();
+      _refreshDraftPreview();
+      return;
+    }
+
+    isDraftNearMeLoading = true;
+    notifyListeners();
+
+    try {
+      final position = await userLocationService.getCurrentPosition();
+      draftNearMeEnabled = true;
+      draftLatitude = position.latitude;
+      draftLongitude = position.longitude;
+      notifyListeners();
+      _refreshDraftPreview();
+    } on UserLocationException catch (error) {
+      errorMessage = error.message;
+      notifyListeners();
+    } catch (error) {
+      errorMessage = error.toString();
+      notifyListeners();
+    } finally {
+      isDraftNearMeLoading = false;
+      notifyListeners();
+    }
+  }
+
+  void _refreshDraftPreview() {
+    if (!_draftHasActiveSelections()) {
+      _filterPreviewDebounce?.cancel();
+      filterPreviewCount = null;
+      isFilterPreviewLoading = false;
+      notifyListeners();
+      return;
+    }
+
+    _filterPreviewDebounce?.cancel();
+    _filterPreviewDebounce = Timer(
+      Duration(milliseconds: _searchConfig.debounceMs),
+      _previewDraftFilters,
+    );
+  }
+
   Future<void> _previewDraftFilters() async {
+    final generation = ++_filterPreviewGeneration;
     isFilterPreviewLoading = true;
     notifyListeners();
 
     try {
       final result = await searchHomeEventsUseCase(
-        _buildEventsQuery(filters: draftFilters, limit: 1),
+        _buildEventsQuery(
+          filters: draftFilters,
+          limit: 1,
+          useDraftLocation: true,
+        ),
       );
-      filterPreviewCount = result.total;
+      if (generation == _filterPreviewGeneration) {
+        filterPreviewCount = result.total;
+      }
     } catch (_) {
-      filterPreviewCount = null;
-    } finally {
+      if (generation == _filterPreviewGeneration) {
+        filterPreviewCount = null;
+      }
+    }
+
+    if (generation == _filterPreviewGeneration) {
       isFilterPreviewLoading = false;
       notifyListeners();
     }
@@ -710,7 +876,7 @@ class HomeProvider extends ChangeNotifier {
     }
 
     final trimmed = searchQuery.trim();
-    if (trimmed.isEmpty && !appliedFilters.hasActiveFilters) {
+    if (trimmed.isEmpty && !_appliedHasActiveSelections()) {
       searchResults = const [];
       searchResultTotal = 0;
       isSearchLoading = false;
@@ -745,11 +911,16 @@ class HomeProvider extends ChangeNotifier {
   HomeEventsQuery _buildEventsQuery({
     HomeEventsFiltersEntity? filters,
     int limit = 20,
+    bool useDraftLocation = false,
   }) {
     final feed = homeFeed;
     final category = feed == null
         ? null
         : _categoryForFilter(feed, selectedCategoryId ?? '');
+
+    final useNearMe = useDraftLocation ? draftNearMeEnabled : nearMeEnabled;
+    final latitude = useDraftLocation ? draftLatitude : userLatitude;
+    final longitude = useDraftLocation ? draftLongitude : userLongitude;
 
     return HomeEventsQuery(
       countryCode: category?.countryCode ?? resolveSessionCountryCode(),
@@ -758,6 +929,9 @@ class HomeProvider extends ChangeNotifier {
       filters: filters ?? appliedFilters,
       page: 1,
       limit: limit,
+      nearMe: useNearMe,
+      latitude: latitude,
+      longitude: longitude,
     );
   }
 
@@ -815,11 +989,26 @@ class HomeProvider extends ChangeNotifier {
     }
 
     try {
-      final result = await getUpcomingHomeEventsUseCase(_buildUpcomingQuery(page: 1));
-      upcomingEvents = result.events;
-      upcomingPage = result.page;
-      upcomingHasMore = result.hasMore;
-      homeFeed = feed.copyWith(featuredEvents: result.events);
+      const maxPages = 50;
+      var page = 1;
+      final loadedEvents = <EventEntity>[];
+
+      while (page <= maxPages) {
+        final result = await getUpcomingHomeEventsUseCase(
+          _buildUpcomingQuery(page: page),
+        );
+        loadedEvents.addAll(result.events);
+        upcomingPage = result.page;
+        upcomingHasMore = result.hasMore;
+
+        if (!result.hasMore || result.events.isEmpty) {
+          break;
+        }
+        page++;
+      }
+
+      upcomingEvents = loadedEvents;
+      homeFeed = feed.copyWith(featuredEvents: loadedEvents);
     } catch (error) {
       errorMessage = error.toString();
       if (reset) {
@@ -828,6 +1017,7 @@ class HomeProvider extends ChangeNotifier {
       }
     } finally {
       isLoadingUpcoming = false;
+      isLoadingMoreUpcoming = false;
       notifyListeners();
     }
   }
@@ -858,12 +1048,62 @@ class HomeProvider extends ChangeNotifier {
     }
 
     for (final category in feed.categories) {
-      if (category.id == AppConstants.categoryIdAll) {
+      if (isCountryCategory(category.id)) {
         return category.id;
       }
     }
 
     return feed.categories.first.id;
+  }
+
+  void _ensureCountryCategorySelected(
+    HomeFeedEntity? feed, {
+    bool forceDefault = false,
+  }) {
+    final countryId = sessionCountryCode == null || sessionCountryCode!.isEmpty
+        ? _defaultCategoryId(feed)
+        : 'country:${sessionCountryCode!.toUpperCase()}';
+    if (countryId == null) {
+      return;
+    }
+
+    final current = selectedCategoryId;
+    if (forceDefault ||
+        current == null ||
+        current == 'all' ||
+        (feed != null && _findCategory(feed, current) == null)) {
+      selectedCategoryId = countryId;
+    }
+  }
+
+  HomeFeedEntity? _applySessionCountryToFeed(
+    HomeFeedEntity? feed,
+    String? countryCode,
+  ) {
+    if (feed == null) {
+      return null;
+    }
+
+    final normalized = countryCode?.trim().toUpperCase();
+    if (normalized == null || normalized.isEmpty) {
+      String? fromChip;
+      for (final category in feed.categories) {
+        if (isCountryCategory(category.id) &&
+            category.countryCode != null &&
+            category.countryCode!.isNotEmpty) {
+          fromChip = category.countryCode!.toUpperCase();
+          break;
+        }
+      }
+      if (fromChip != null) {
+        sessionCountryCode = fromChip;
+        return HomeCountryCategoryHelper.applySessionCountry(feed, fromChip);
+      }
+      return feed;
+    }
+
+    sessionCountryCode = normalized;
+    return HomeCountryCategoryHelper.applySessionCountry(feed, normalized);
   }
 
   EventCategoryEntity? _categoryForFilter(HomeFeedEntity feed, String categoryId) {
@@ -873,6 +1113,10 @@ class HomeProvider extends ChangeNotifier {
     }
 
     if (isCountryCategory(category.id)) {
+      final code = sessionCountryCode ?? category.countryCode;
+      if (code != null && code.isNotEmpty) {
+        return HomeCountryCategoryHelper.fromCountryCode(code);
+      }
       return category;
     }
 
@@ -885,10 +1129,10 @@ class HomeProvider extends ChangeNotifier {
       id: category.id,
       label: category.label,
       icon: category.icon,
+      leadingEmoji: category.leadingEmoji,
+      showLeadingIcon: category.showLeadingIcon,
       countryCode: countryCode,
-      eventTypeSlug: category.id == AppConstants.categoryIdAll
-          ? null
-          : category.eventTypeSlug,
+      eventTypeSlug: category.eventTypeSlug,
     );
   }
 
@@ -927,6 +1171,31 @@ class HomeProvider extends ChangeNotifier {
       }
     }
     return null;
+  }
+
+  bool _appliedHasActiveSelections() {
+    return appliedFilters.hasActiveFiltersFor(_searchConfig.priceRange) ||
+        nearMeEnabled;
+  }
+
+  bool _draftHasActiveSelections() {
+    return draftFilters.hasActiveFiltersFor(_searchConfig.priceRange) ||
+        draftNearMeEnabled;
+  }
+
+  bool _isPriceFilterActive(HomeEventsFiltersEntity filters) {
+    return filters.hasActiveFiltersFor(_searchConfig.priceRange) &&
+        !filters.freeOnly &&
+        ((filters.minPrice != null && filters.minPrice! > _searchConfig.priceRange.min) ||
+            (filters.maxPrice != null &&
+                filters.maxPrice! < _searchConfig.priceRange.max));
+  }
+
+  HomeEventsFiltersEntity _normalizePriceFilters(HomeEventsFiltersEntity filters) {
+    if (_isPriceFilterActive(filters)) {
+      return filters;
+    }
+    return filters.copyWith(clearMinPrice: true, clearMaxPrice: true);
   }
 }
 

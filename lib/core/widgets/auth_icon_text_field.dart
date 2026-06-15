@@ -12,15 +12,17 @@ class AuthIconTextField extends StatelessWidget {
     required this.label,
     required this.controller,
     required this.hintText,
-    required this.icon,
+    this.icon,
+    this.leading,
     this.keyboardType,
     this.textInputAction,
-  });
+  }) : assert(icon != null || leading != null);
 
   final String label;
   final TextEditingController controller;
   final String hintText;
-  final IconData icon;
+  final IconData? icon;
+  final Widget? leading;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
 
@@ -35,7 +37,7 @@ class AuthIconTextField extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.only(left: layout.spacing(14)),
-              child: AuthFieldIconWidget(icon: icon),
+              child: leading ?? AuthFieldIconWidget(icon: icon!),
             ),
             Expanded(
               child: AppTextField(

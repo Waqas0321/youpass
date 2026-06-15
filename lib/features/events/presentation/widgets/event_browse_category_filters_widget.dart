@@ -47,6 +47,7 @@ class EventBrowseCategoryFiltersWidget extends StatelessWidget {
                 label: category.label,
                 icon: category.icon,
                 leadingEmoji: category.leadingEmoji,
+                showLeadingIcon: category.showLeadingIcon,
                 isSelected: category.id == selectedCategoryId,
                 onTap: () => onCategorySelected(category.id),
               );

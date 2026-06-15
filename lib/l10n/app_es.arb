@@ -34,6 +34,7 @@
   "homeNoEventsFound": "No hay eventos para este filtro",
   "homeEventsEndOfList": "Has visto todos los eventos disponibles.",
   "homeNearMeButton": "Ver eventos cerca de mi ubicación",
+  "homeNearMeHeaderLink": "Cercanos",
   "homeEventDistanceKm": "{distance} km",
   "@homeEventDistanceKm": {
     "placeholders": {

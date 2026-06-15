@@ -15,27 +15,55 @@ class HomeCategoryFiltersWidget extends StatelessWidget {
   final String selectedCategoryId;
   final ValueChanged<String> onCategorySelected;
 
+  static bool isCountryCategory(String categoryId) =>
+      categoryId.startsWith('country:');
+
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final gap = layout.spacing(8);
+
+    EventCategoryEntity? pinnedCountry;
+    final scrollableCategories = <EventCategoryEntity>[];
+
+    for (final category in categories) {
+      if (isCountryCategory(category.id)) {
+        pinnedCountry ??= category;
+      } else {
+        scrollableCategories.add(category);
+      }
+    }
+
+    Widget buildChip(EventCategoryEntity category) {
+      return CategoryChipWidget(
+        label: category.label,
+        icon: category.icon,
+        leadingEmoji: category.leadingEmoji,
+        showLeadingIcon: category.showLeadingIcon,
+        isSelected: category.id == selectedCategoryId,
+        onTap: () => onCategorySelected(category.id),
+      );
+    }
 
     return SizedBox(
       height: layout.spacing(40),
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: categories.length,
-        separatorBuilder: (_, index) => SizedBox(width: layout.spacing(8)),
-        itemBuilder: (context, index) {
-          final category = categories[index];
-
-          return CategoryChipWidget(
-            label: category.label,
-            icon: category.icon,
-            leadingEmoji: category.leadingEmoji,
-            isSelected: category.id == selectedCategoryId,
-            onTap: () => onCategorySelected(category.id),
-          );
-        },
+      child: Row(
+        children: [
+          if (pinnedCountry != null) ...[
+            buildChip(pinnedCountry),
+            SizedBox(width: gap),
+          ],
+          Expanded(
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: scrollableCategories.length,
+              separatorBuilder: (_, index) => SizedBox(width: gap),
+              itemBuilder: (context, index) {
+                return buildChip(scrollableCategories[index]);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

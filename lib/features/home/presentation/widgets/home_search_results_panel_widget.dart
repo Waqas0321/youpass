@@ -23,6 +23,9 @@ class HomeSearchResultsPanelWidget extends StatelessWidget {
     required this.onSuggestionTap,
     required this.onClearHistory,
     this.onEventTap,
+    this.onBuyTicket,
+    this.onFavoriteTap,
+    this.isFavoritePendingFor,
     this.onJoinWaitlist,
     this.onLeaveWaitlist,
   });
@@ -38,6 +41,9 @@ class HomeSearchResultsPanelWidget extends StatelessWidget {
   final ValueChanged<String> onSuggestionTap;
   final VoidCallback onClearHistory;
   final ValueChanged<EventEntity>? onEventTap;
+  final ValueChanged<EventEntity>? onBuyTicket;
+  final ValueChanged<EventEntity>? onFavoriteTap;
+  final bool Function(String eventId)? isFavoritePendingFor;
   final ValueChanged<EventEntity>? onJoinWaitlist;
   final ValueChanged<EventEntity>? onLeaveWaitlist;
 
@@ -103,7 +109,11 @@ class HomeSearchResultsPanelWidget extends StatelessWidget {
               padding: EdgeInsets.only(bottom: layout.spacing(14)),
               child: EventListCardWidget(
                 event: event,
+                isFavoritePending: isFavoritePendingFor?.call(event.id) ?? false,
                 onEventTap: onEventTap == null ? null : () => onEventTap!(event),
+                onBuyTicket: onBuyTicket == null ? null : () => onBuyTicket!(event),
+                onFavoriteTap:
+                    onFavoriteTap == null ? null : () => onFavoriteTap!(event),
                 onJoinWaitlist: onJoinWaitlist == null
                     ? null
                     : () => onJoinWaitlist!(event),

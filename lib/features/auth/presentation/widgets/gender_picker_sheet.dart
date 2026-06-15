@@ -25,7 +25,7 @@ class GenderPickerSheet extends StatelessWidget {
     );
   }
 
-  static List<({String value, String label})> _resolveOptions(
+  static List<({String value, String label})> resolveOptions(
     BuildContext context,
   ) {
     final strings = context.l10n;
@@ -33,14 +33,18 @@ class GenderPickerSheet extends StatelessWidget {
     final configured = AppProductConfig.registration.genderOptions;
 
     if (configured.isNotEmpty) {
-      return configured
+      final resolved = configured
           .map(
             (option) => (
               value: option.value,
               label: option.labelFor(locale),
             ),
           )
+          .where((option) => option.value.isNotEmpty && option.label.isNotEmpty)
           .toList();
+      if (resolved.isNotEmpty) {
+        return resolved;
+      }
     }
 
     return [
@@ -53,7 +57,7 @@ class GenderPickerSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final options = _resolveOptions(context);
+    final options = resolveOptions(context);
 
     return ListView(
       shrinkWrap: true,

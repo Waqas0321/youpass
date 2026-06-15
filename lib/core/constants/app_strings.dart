@@ -35,6 +35,9 @@ class AppStrings {
   static String homeNearMeButton(AppLocalizations l10n) =>
       l10n.homeNearMeButton;
 
+  static String homeNearMeHeaderLink(AppLocalizations l10n) =>
+      l10n.homeNearMeHeaderLink;
+
   static String homeEventDistanceKm(AppLocalizations l10n, String distance) =>
       l10n.homeEventDistanceKm(distance);
 

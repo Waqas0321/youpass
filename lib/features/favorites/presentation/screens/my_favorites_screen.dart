@@ -191,8 +191,9 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
                                     height: FavoritesDesignSpec.px(context, 16)),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.of(context)
-                                        .pushNamed(AppRoutes.allEvents);
+                                    Navigator.of(context).popUntil(
+                                      (route) => route.settings.name == AppRoutes.home,
+                                    );
                                   },
                                   child: Text(
                                     AppStrings.favoritesExploreCta(strings),

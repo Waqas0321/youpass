@@ -7,6 +7,7 @@ class EventCategoryEntity extends Equatable {
     required this.label,
     required this.icon,
     this.leadingEmoji,
+    this.showLeadingIcon = true,
     this.countryCode,
     this.eventTypeSlug,
   });
@@ -15,9 +16,11 @@ class EventCategoryEntity extends Equatable {
   final String label;
   final IconData icon;
   final String? leadingEmoji;
+  final bool showLeadingIcon;
   final String? countryCode;
   final String? eventTypeSlug;
 
   @override
-  List<Object?> get props => [id, label, icon, leadingEmoji, countryCode, eventTypeSlug];
+  List<Object?> get props =>
+      [id, label, icon, leadingEmoji, showLeadingIcon, countryCode, eventTypeSlug];
 }

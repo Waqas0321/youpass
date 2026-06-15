@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/constants/country_code_list.dart';
 import 'package:youpass/core/network/models/config_category_model.dart';
 import 'package:youpass/features/home/domain/entities/event_category_entity.dart';
 
@@ -8,15 +9,45 @@ class ConfigCategoryMapper {
   static List<EventCategoryEntity> toEntities(List<ConfigCategoryModel> categories) {
     return categories
         .map(
-          (category) => EventCategoryEntity(
-            id: category.id,
-            label: category.label,
-            icon: _iconForCategory(category),
-            countryCode: category.countryCode,
-            eventTypeSlug: category.eventTypeSlug,
-          ),
+          (category) {
+            final isCountry =
+                category.countryCode != null && category.countryCode!.isNotEmpty;
+
+            return EventCategoryEntity(
+              id: category.id,
+              label: isCountry ? _stripCountryLabelPrefix(category.label) : category.label,
+              icon: _iconForCategory(category),
+              leadingEmoji:
+                  isCountry ? _flagEmojiForCountry(category) : null,
+              showLeadingIcon: true,
+              countryCode: category.countryCode,
+              eventTypeSlug: category.eventTypeSlug,
+            );
+          },
         )
         .toList();
+  }
+
+  static String _stripCountryLabelPrefix(String label) {
+    final parts = label.trim().split(RegExp(r'\s+'));
+    if (parts.length >= 2 && parts.first.runes.length <= 2) {
+      return parts.sublist(1).join(' ');
+    }
+    return label;
+  }
+
+  static String? _flagEmojiForCountry(ConfigCategoryModel category) {
+    final fromApi = category.flagEmoji?.trim();
+    if (fromApi != null && fromApi.isNotEmpty) {
+      return fromApi;
+    }
+
+    final code = category.countryCode?.trim();
+    if (code == null || code.isEmpty) {
+      return null;
+    }
+
+    return CountryCodeList.findByIsoCode(code).flagEmoji;
   }
 
   static IconData _iconForCategory(ConfigCategoryModel category) {

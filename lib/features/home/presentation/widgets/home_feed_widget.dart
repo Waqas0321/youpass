@@ -8,6 +8,8 @@ import 'package:youpass/features/home/presentation/providers/home_provider.dart'
 import 'package:youpass/features/home/presentation/widgets/featured_event_carousel_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/home_active_filter_chips_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/home_category_filters_widget.dart';
+import 'package:youpass/features/events/presentation/utils/event_detail_screen_actions.dart';
+import 'package:youpass/features/vip_venue/presentation/utils/vip_purchase_screen_actions.dart';
 import 'package:youpass/features/home/presentation/widgets/home_events_section_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/home_country_picker_sheet.dart';
 import 'package:youpass/features/home/presentation/widgets/home_greeting_widget.dart';
@@ -18,19 +20,16 @@ import 'package:youpass/features/home/presentation/widgets/pending_invitation_hi
 import 'package:provider/provider.dart';
 import 'package:youpass/features/home/presentation/utils/banner_slide_actions.dart';
 import 'package:youpass/features/events/domain/entities/event_entity.dart';
-import 'package:youpass/features/events/presentation/utils/event_detail_screen_actions.dart';
-import 'package:youpass/features/events/presentation/routes/all_events_route_args.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
 import 'package:youpass/features/waitlist/domain/entities/waitlist_entry_entity.dart';
 import 'package:youpass/features/waitlist/presentation/utils/waitlist_flow_actions.dart';
 import 'package:youpass/features/waitlist/presentation/widgets/waitlist_offer_banner_widget.dart';
-import 'package:youpass/routes/app_routes.dart';
 
 class HomeFeedWidget extends StatefulWidget {
   const HomeFeedWidget({
     super.key,
     required this.feed,
-    this.feedSubtitle,
+    this.greetingText,
     this.upcomingSectionTitle,
     this.highlightPendingInvitation = false,
     this.pendingInvitationCount = 0,
@@ -39,7 +38,7 @@ class HomeFeedWidget extends StatefulWidget {
   });
 
   final HomeFeedEntity feed;
-  final String? feedSubtitle;
+  final String? greetingText;
   final String? upcomingSectionTitle;
   final bool highlightPendingInvitation;
   final int pendingInvitationCount;
@@ -106,7 +105,7 @@ class _HomeFeedWidgetState extends State<HomeFeedWidget> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         HomeGreetingWidget(
-          subtitle: widget.feedSubtitle,
+          greetingText: widget.greetingText,
         ),
         if (widget.highlightPendingInvitation && widget.onPendingInvitationTap != null) ...[
           SizedBox(height: layout.spacing(14)),
@@ -124,61 +123,9 @@ class _HomeFeedWidgetState extends State<HomeFeedWidget> {
           ),
         ],
         SizedBox(height: layout.spacing(16)),
-        HomeSearchBarWidget(
-          hintText: widget.feed.searchPlaceholder ??
-              AppStrings.homeSearchPlaceholder(l10n),
-          controller: _searchController,
-          focusNode: _searchFocusNode,
-          onChanged: homeProvider.onSearchQueryChanged,
-          onSubmitted: homeProvider.submitSearch,
-          onFocusChanged: homeProvider.setSearchFocused,
-          onFilterTap: () => HomeSearchFiltersSheet.show(context),
-          filtersEnabled: widget.feed.searchConfig.filtersEnabled,
-        ),
-        SizedBox(height: layout.spacing(10)),
-        HomeActiveFilterChipsWidget(
-          chips: homeProvider.activeFilterChips(
-            freeOnlyLabel: AppStrings.homeFiltersFreeOnly(l10n),
-            customRangeLabel: AppStrings.homeFiltersCustomRange(l10n),
-          ),
-          onRemove: homeProvider.removeFilterChip,
-        ),
-        if (homeProvider.showSearchHistory)
-          HomeSearchResultsPanelWidget(
-            isFocused: true,
-            searchQuery: '',
-            isLoading: false,
-            results: const [],
-            history: homeProvider.searchHistory,
-            suggestions: const [],
-            emptyMessage: AppStrings.homeSearchEmpty(l10n),
-            onHistoryTap: homeProvider.selectHistoryTerm,
-            onSuggestionTap: homeProvider.submitSearch,
-            onClearHistory: homeProvider.clearSearchHistory,
-          ),
-        if (homeProvider.isSearchMode)
-          HomeSearchResultsPanelWidget(
-            isFocused: homeProvider.isSearchFocused,
-            searchQuery: homeProvider.searchQuery,
-            isLoading: homeProvider.isSearchLoading,
-            results: homeProvider.searchResults,
-            history: homeProvider.searchHistory,
-            suggestions: homeProvider.autocompleteSuggestions,
-            emptyMessage: homeProvider.resolveSearchEmptyMessage().isNotEmpty
-                ? homeProvider.resolveSearchEmptyMessage()
-                : AppStrings.homeSearchEmpty(l10n),
-            onHistoryTap: homeProvider.selectHistoryTerm,
-            onSuggestionTap: homeProvider.submitSearch,
-            onClearHistory: homeProvider.clearSearchHistory,
-            onEventTap: (event) =>
-                EventDetailScreenActions(context).openEventDetail(event: event),
-            onJoinWaitlist: handleJoinWaitlist,
-            onLeaveWaitlist: handleLeaveWaitlist,
-          ),
-        SizedBox(height: layout.spacing(18)),
         HomeCategoryFiltersWidget(
           categories: widget.feed.categories,
-          selectedCategoryId: homeProvider.selectedCategoryId ?? '',
+          selectedCategoryId: homeProvider.resolveSelectedCategoryId(),
           onCategorySelected: (categoryId) => _handleCategoryTap(
             context,
             homeProvider: homeProvider,
@@ -190,33 +137,77 @@ class _HomeFeedWidgetState extends State<HomeFeedWidget> {
         if (homeProvider.isFilteringEvents)
           const HomeEventsSectionShimmer()
         else ...[
-          FeaturedEventCarouselWidget(
-            events: widget.feed.carouselEvents,
-            carouselConfig: widget.feed.carouselConfig,
-            onEventTap: (event) => BannerSlideActions(context).handleTap(event),
-          ),
-          SizedBox(height: layout.spacing(24)),
-          if (!homeProvider.isSearchMode)
-            HomeEventsSectionWidget(
-              events: homeProvider.upcomingEvents,
+          if (widget.feed.carouselEvents.isNotEmpty) ...[
+            FeaturedEventCarouselWidget(
+              events: widget.feed.carouselEvents,
+              carouselConfig: widget.feed.carouselConfig,
+              onEventTap: (event) => BannerSlideActions(context).handleTap(event),
+            ),
+            SizedBox(height: layout.spacing(24)),
+          ],
+          HomeEventsSectionWidget(
+              events: homeProvider.isSearchMode
+                  ? homeProvider.searchResults
+                  : homeProvider.upcomingEvents,
               sectionTitle: widget.upcomingSectionTitle,
-              isLoading: homeProvider.isLoadingUpcoming || homeProvider.isFilteringEvents,
-              isLoadingMore: homeProvider.isLoadingMoreUpcoming,
-              hasMore: homeProvider.upcomingHasMore,
-              showProximity: homeProvider.nearMeEnabled,
-              nearMeEnabled: homeProvider.nearMeEnabled,
-              onNearMeTap: homeProvider.toggleNearMeFilter,
-              nearMeLoading: homeProvider.isNearMeLoading,
+              headerActionLabel: AppStrings.homeNearMeHeaderLink(l10n),
+              headerActionIcon: homeProvider.nearMeEnabled
+                  ? Icons.location_on
+                  : Icons.location_on_outlined,
+              headerActionSelected: homeProvider.nearMeEnabled,
+              headerActionLoading: homeProvider.isNearMeLoading,
+              onHeaderActionTap: homeProvider.toggleNearMeFilter,
+              isLoading: homeProvider.isSearchMode
+                  ? homeProvider.isSearchLoading
+                  : homeProvider.isLoadingUpcoming || homeProvider.isFilteringEvents,
+              belowTitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  HomeSearchBarWidget(
+                    hintText: widget.feed.searchPlaceholder ??
+                        AppStrings.homeSearchPlaceholder(l10n),
+                    controller: _searchController,
+                    focusNode: _searchFocusNode,
+                    onChanged: homeProvider.onSearchQueryChanged,
+                    onSubmitted: homeProvider.submitSearch,
+                    onFocusChanged: homeProvider.setSearchFocused,
+                    onFilterTap: () => HomeSearchFiltersSheet.show(context),
+                    filtersEnabled: widget.feed.searchConfig.filtersEnabled,
+                  ),
+                  SizedBox(height: layout.spacing(10)),
+                  HomeActiveFilterChipsWidget(
+                  chips: homeProvider.activeFilterChips(
+                    freeOnlyLabel: AppStrings.homeFiltersFreeOnly(l10n),
+                    customRangeLabel: AppStrings.homeFiltersCustomRange(l10n),
+                    nearMeLabel: AppStrings.homeNearMeButton(l10n),
+                  ),
+                    onRemove: homeProvider.removeFilterChip,
+                  ),
+                  if (homeProvider.showSearchHistory) ...[
+                    SizedBox(height: layout.spacing(10)),
+                    HomeSearchResultsPanelWidget(
+                      isFocused: true,
+                      searchQuery: '',
+                      isLoading: false,
+                      results: const [],
+                      history: homeProvider.searchHistory,
+                      suggestions: const [],
+                      emptyMessage: AppStrings.homeSearchEmpty(l10n),
+                      onHistoryTap: homeProvider.selectHistoryTerm,
+                      onSuggestionTap: homeProvider.submitSearch,
+                      onClearHistory: homeProvider.clearSearchHistory,
+                    ),
+                  ],
+                ],
+              ),
               onEventTap: (event) =>
                   EventDetailScreenActions(context).openEventDetail(event: event),
+              onBuyTicket: (event) =>
+                  VipPurchaseScreenActions(context).openTicketSelection(event: event),
+              onFavoriteTap: (event) => homeProvider.toggleFavorite(event.id),
+              isFavoritePendingFor: homeProvider.isFavoritePending,
               onJoinWaitlist: handleJoinWaitlist,
               onLeaveWaitlist: handleLeaveWaitlist,
-              onSeeAllTap: () => Navigator.of(context).pushNamed(
-                AppRoutes.allEvents,
-                arguments: AllEventsRouteArgs(
-                  initialCategoryId: homeProvider.selectedCategoryId,
-                ),
-              ),
             ),
         ],
       ],

@@ -8,6 +8,7 @@ import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
 import 'package:youpass/features/profile/data/models/support_faq_model.dart';
 import 'package:youpass/features/profile/data/services/profile_api_service.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_app_bar_widget.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_faq_contact_shortcuts_widget.dart';
@@ -24,6 +25,7 @@ class FaqScreen extends StatefulWidget {
 }
 
 class _FaqScreenState extends State<FaqScreen> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   final searchController = TextEditingController();
   SupportFaqResponseModel? response;
   bool isLoading = true;
@@ -96,11 +98,14 @@ class _FaqScreenState extends State<FaqScreen> {
     final hasResults = (response?.total ?? 0) > 0;
     final isSearching = searchController.text.trim().isNotEmpty;
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       backgroundColor: theme.screenBackground,
       appBar: ProfileAppBarWidget(
         title: AppStrings.profileFaqTitle(strings),
         onBack: () => Navigator.of(context).pop(),
+        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator(color: theme.primary))

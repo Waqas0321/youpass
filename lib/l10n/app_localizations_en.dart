@@ -526,6 +526,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get drawerMyProfile => 'My Profile';
 
   @override
+  String get drawerHome => 'Home';
+
+  @override
   String get drawerMyTickets => 'My Tickets';
 
   @override

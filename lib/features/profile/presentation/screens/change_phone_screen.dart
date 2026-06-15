@@ -18,6 +18,7 @@ import 'package:youpass/features/auth/presentation/providers/auth_provider.dart'
 import 'package:youpass/features/auth/presentation/utils/whatsapp_auth_gate.dart';
 import 'package:youpass/features/auth/presentation/widgets/phone_input_widget.dart';
 import 'package:youpass/features/auth/routes/verification_route_args.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_app_bar_widget.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
 import 'package:youpass/routes/app_routes.dart';
@@ -30,6 +31,7 @@ class ChangePhoneScreen extends StatefulWidget {
 }
 
 class _ChangePhoneScreenState extends State<ChangePhoneScreen> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController phoneController = TextEditingController();
   final GlobalKey<PhoneInputWidgetState> phoneInputKey =
       GlobalKey<PhoneInputWidgetState>();
@@ -143,10 +145,13 @@ class _ChangePhoneScreenState extends State<ChangePhoneScreen> {
     final horizontalPadding =
         ProfileDesignSpec.px(context, ProfileDesignSpec.horizontalPadding);
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       appBar: ProfileAppBarWidget(
         title: l10n.changePhoneTitle,
         onBack: () => Navigator.of(context).pop(),
+        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: horizontalPadding),

@@ -19,6 +19,7 @@ import 'package:youpass/core/l10n/app_message_localizer.dart';
 import 'package:youpass/features/events/presentation/widgets/event_browse_list_content.dart';
 import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
 import 'package:youpass/features/events/presentation/utils/event_detail_screen_actions.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/vip_venue/presentation/utils/vip_purchase_screen_actions.dart';
 import 'package:youpass/features/home/domain/entities/event_category_entity.dart';
 
@@ -35,6 +36,8 @@ class AllEventsScreen extends StatefulWidget {
 }
 
 class _AllEventsScreenState extends State<AllEventsScreen> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   late final GetAllEventsUseCase getAllEventsUseCase;
   late final events_usecases.ToggleEventFavoriteUseCase toggleEventFavoriteUseCase;
   late final EventsRepository eventsRepository;
@@ -176,9 +179,12 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
   Widget build(BuildContext context) {
     final strings = context.l10n;
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       appBar: YouPassBrandedAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
+        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
         primaryColor: FavoritesDesignSpec.primary,
       ),
       body: isInitialLoading

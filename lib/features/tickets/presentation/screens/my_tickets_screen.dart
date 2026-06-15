@@ -5,11 +5,9 @@ import 'package:youpass/features/tickets/presentation/screens/my_tickets_screen_
 class MyTicketsScreen extends StatefulWidget {
   const MyTicketsScreen({
     super.key,
-    this.embeddedInShell = false,
     this.screenSecureService,
   });
 
-  final bool embeddedInShell;
   final ScreenSecureService? screenSecureService;
 
   @override

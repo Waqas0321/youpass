@@ -187,6 +187,8 @@ class AppStrings {
 
   static String drawerMyProfile(AppLocalizations l10n) => l10n.drawerMyProfile;
 
+  static String drawerHome(AppLocalizations l10n) => l10n.drawerHome;
+
   static String drawerMyTickets(AppLocalizations l10n) => l10n.drawerMyTickets;
 
   static String drawerMyFavorites(AppLocalizations l10n) =>

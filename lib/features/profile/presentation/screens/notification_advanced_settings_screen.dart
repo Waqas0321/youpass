@@ -5,6 +5,7 @@ import 'package:youpass/core/widgets/app_snack_bar.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
 import 'package:youpass/features/profile/data/models/profile_notification_settings_model.dart';
 import 'package:youpass/features/profile/data/services/profile_api_service.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_app_bar_widget.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_section_card_widget.dart';
@@ -20,6 +21,7 @@ class NotificationAdvancedSettingsScreen extends StatefulWidget {
 
 class _NotificationAdvancedSettingsScreenState
     extends State<NotificationAdvancedSettingsScreen> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   final profileApi = sl<ProfileApiService>();
 
   ProfileNotificationSettingsModel? settings;
@@ -172,10 +174,13 @@ class _NotificationAdvancedSettingsScreenState
     final horizontalPadding =
         ProfileDesignSpec.px(context, ProfileDesignSpec.horizontalPadding);
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       backgroundColor: theme.screenBackground,
       appBar: ProfileAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
+        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
         title: AppStrings.profileNotificationAdvancedTitle(strings),
       ),
       body: isLoading

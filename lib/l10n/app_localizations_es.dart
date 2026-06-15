@@ -530,6 +530,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get drawerMyProfile => 'Mi Perfil';
 
   @override
+  String get drawerHome => 'Inicio';
+
+  @override
   String get drawerMyTickets => 'Mis Tickets';
 
   @override

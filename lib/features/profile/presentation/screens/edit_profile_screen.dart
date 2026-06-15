@@ -18,6 +18,7 @@ import 'package:youpass/features/auth/domain/entities/user_profile_entity.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/auth/presentation/widgets/gender_picker_sheet.dart';
 import 'package:youpass/features/profile/data/services/profile_api_service.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_app_bar_widget.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_theme.dart';
@@ -32,6 +33,8 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   late final TextEditingController fullNameController;
   late final TextEditingController emailController;
   late final TextEditingController instagramController;
@@ -159,11 +162,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final horizontalPadding =
         ProfileDesignSpec.px(context, ProfileDesignSpec.horizontalPadding);
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       backgroundColor: theme.screenBackground,
       appBar: ProfileAppBarWidget(
         title: AppStrings.profileEditTitle(strings),
         onBack: () => Navigator.of(context).pop(),
+        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(

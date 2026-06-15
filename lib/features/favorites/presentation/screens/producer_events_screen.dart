@@ -16,6 +16,7 @@ import 'package:youpass/features/favorites/presentation/widgets/favorites_list_s
 import 'package:youpass/features/favorites/presentation/widgets/favorites_search_field_widget.dart';
 import 'package:youpass/features/favorites/presentation/widgets/favorites_section_header_widget.dart';
 import 'package:youpass/features/favorites/presentation/widgets/producer_calendar_event_card_widget.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/vip_venue/presentation/utils/vip_purchase_screen_actions.dart';
 
 class ProducerEventsScreen extends StatefulWidget {
@@ -32,6 +33,8 @@ class ProducerEventsScreen extends StatefulWidget {
 }
 
 class _ProducerEventsScreenState extends State<ProducerEventsScreen> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   late final FavoritesRepository favoritesRepository;
 
   List<ProducerCalendarEventEntity> allEvents = [];
@@ -128,9 +131,12 @@ class _ProducerEventsScreenState extends State<ProducerEventsScreen> {
     final horizontalPadding =
         FavoritesDesignSpec.px(context, FavoritesDesignSpec.horizontalPadding);
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       appBar: YouPassBrandedAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
+        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
         primaryColor: FavoritesDesignSpec.primary,
       ),
       body: isLoading

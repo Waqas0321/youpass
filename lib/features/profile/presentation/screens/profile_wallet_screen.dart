@@ -9,6 +9,7 @@ import 'package:youpass/features/profile/data/models/profile_wallet_card_model.d
 import 'package:youpass/features/profile/data/models/profile_wallet_transaction_model.dart';
 import 'package:youpass/features/profile/data/services/profile_api_service.dart';
 import 'package:youpass/features/profile/presentation/utils/wallet_add_card_flow.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_app_bar_widget.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_theme.dart';
@@ -26,6 +27,7 @@ class ProfileWalletScreen extends StatefulWidget {
 }
 
 class _ProfileWalletScreenState extends State<ProfileWalletScreen> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   final profileApi = sl<ProfileApiService>();
   List<ProfileWalletCardModel> cards = [];
   ProfileWalletBalanceModel balance = ProfileWalletBalanceModel.empty;
@@ -189,10 +191,13 @@ class _ProfileWalletScreenState extends State<ProfileWalletScreen> {
         ProfileDesignSpec.px(context, ProfileDesignSpec.horizontalPadding);
     final theme = ProfileTheme.of(context);
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       backgroundColor: theme.screenBackground,
       appBar: ProfileAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
+        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
         title: AppStrings.profileWalletSection(strings),
       ),
       body: SingleChildScrollView(

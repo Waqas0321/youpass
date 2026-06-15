@@ -31,6 +31,7 @@ class HomeDrawerWidget extends StatelessWidget {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final strings = context.l10n;
     final standardItems = DrawerMenuFactory.standardItems(strings);
+    final homeItem = DrawerMenuFactory.homeItem(strings);
     final invitationsItem = DrawerMenuFactory.invitationsItem(strings);
     final horizontalPadding =
         DrawerDesignSpec.px(context, DrawerDesignSpec.horizontalPadding);
@@ -69,6 +70,16 @@ class HomeDrawerWidget extends StatelessWidget {
                       height: DrawerDesignSpec.px(
                         context,
                         DrawerDesignSpec.profileToMenuGap,
+                      ),
+                    ),
+                    DrawerMenuTileWidget(
+                      item: homeItem,
+                      onTap: () => _selectMenu(context, DrawerMenuId.home),
+                    ),
+                    SizedBox(
+                      height: DrawerDesignSpec.px(
+                        context,
+                        DrawerDesignSpec.menuTileGap,
                       ),
                     ),
                     DrawerInvitationsTileWidget(

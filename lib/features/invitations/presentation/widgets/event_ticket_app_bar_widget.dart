@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/theme/qr_screen_theme.dart';
@@ -9,9 +10,11 @@ class EventTicketAppBarWidget extends StatelessWidget implements PreferredSizeWi
   const EventTicketAppBarWidget({
     super.key,
     required this.onBack,
+    this.onMenuTap,
   });
 
   final VoidCallback onBack;
+  final VoidCallback? onMenuTap;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -44,6 +47,17 @@ class EventTicketAppBarWidget extends StatelessWidget implements PreferredSizeWi
           color: QrScreenTheme.accent(context),
         ),
       ),
+      actions: [
+        if (onMenuTap != null)
+          IconButton(
+            onPressed: onMenuTap,
+            icon: Icon(
+              Icons.menu,
+              color: AppColors.homeAccentYellow,
+              size: InvitationsDesignSpec.px(context, 24),
+            ),
+          ),
+      ],
     );
   }
 }

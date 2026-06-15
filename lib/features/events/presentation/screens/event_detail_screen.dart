@@ -18,6 +18,7 @@ import 'package:youpass/features/events/presentation/widgets/event_detail_conten
 import 'package:youpass/features/events/presentation/widgets/event_detail_header_widget.dart';
 import 'package:youpass/features/favorites/domain/entities/favorite_producer_entity.dart';
 import 'package:youpass/features/favorites/presentation/routes/producer_events_route_args.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/vip_venue/presentation/utils/vip_purchase_screen_actions.dart';
 import 'package:youpass/features/waitlist/domain/entities/waitlist_entry_entity.dart';
 import 'package:youpass/features/waitlist/presentation/utils/waitlist_flow_actions.dart';
@@ -40,6 +41,8 @@ class EventDetailScreen extends StatefulWidget {
 }
 
 class _EventDetailScreenState extends State<EventDetailScreen> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   late final GetEventDetailUseCase getEventDetailUseCase;
   late final events_usecases.ToggleEventFavoriteUseCase toggleEventFavoriteUseCase;
   late final ToggleProducerFollowUseCase toggleProducerFollowUseCase;
@@ -195,12 +198,15 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
     final strings = context.l10n;
     final current = event;
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       backgroundColor: EventDetailTheme.of(context).screenBackground,
       body: Column(
         children: [
           EventDetailHeaderWidget(
             onBack: () => Navigator.of(context).pop(),
+            onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
             isFavorite: _headerIsFavorite,
             isFavoriteEnabled: !isFavoritePending,
             onFavoriteToggle: isLoading && current == null

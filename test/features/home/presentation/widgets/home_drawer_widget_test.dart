@@ -38,6 +38,7 @@ void main() {
 
     expect(find.text('Alejandro'), findsOneWidget);
     expect(find.text(strings.drawerTierGold), findsOneWidget);
+    expect(find.text(strings.drawerHome), findsOneWidget);
     expect(find.text(strings.drawerInvitations), findsOneWidget);
     expect(find.text(strings.drawerMyProfile), findsOneWidget);
     expect(find.text(strings.drawerMyTickets), findsOneWidget);
@@ -48,7 +49,7 @@ void main() {
     final favoritesFinder = find.text(strings.drawerMyFavorites);
     expect(
       tester.getTopLeft(invitationsFinder).dy,
-      greaterThan(tester.getTopLeft(favoritesFinder).dy),
+      lessThan(tester.getTopLeft(favoritesFinder).dy),
     );
   });
 }

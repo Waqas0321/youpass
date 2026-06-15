@@ -7,8 +7,17 @@ import 'package:youpass/l10n/app_localizations.dart';
 class DrawerMenuFactory {
   DrawerMenuFactory._();
 
+  static DrawerMenuItem homeItem(AppLocalizations l10n) {
+    return DrawerMenuItem(
+      id: DrawerMenuId.home,
+      label: AppStrings.drawerHome(l10n),
+      icon: Icons.home_outlined,
+    );
+  }
+
   static List<DrawerMenuItem> build(AppLocalizations l10n) {
     return [
+      homeItem(l10n),
       DrawerMenuItem(
         id: DrawerMenuId.invitations,
         label: AppStrings.drawerInvitations(l10n),
@@ -33,11 +42,15 @@ class DrawerMenuFactory {
   }
 
   static DrawerMenuItem invitationsItem(AppLocalizations l10n) {
-    return build(l10n).first;
+    return build(l10n).firstWhere((item) => item.id == DrawerMenuId.invitations);
   }
 
   static List<DrawerMenuItem> standardItems(AppLocalizations l10n) {
-    final items = build(l10n);
-    return items.sublist(1);
+    return build(l10n)
+        .where(
+          (item) =>
+              item.id != DrawerMenuId.home && item.id != DrawerMenuId.invitations,
+        )
+        .toList();
   }
 }

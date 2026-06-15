@@ -17,6 +17,7 @@ import 'package:youpass/features/favorites/presentation/widgets/favorites_footer
 import 'package:youpass/features/favorites/presentation/widgets/favorites_list_shimmer.dart';
 import 'package:youpass/features/favorites/presentation/widgets/favorites_search_field_widget.dart';
 import 'package:youpass/features/favorites/presentation/widgets/favorites_section_header_widget.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/vip_venue/presentation/utils/vip_purchase_screen_actions.dart';
 import 'package:youpass/routes/app_routes.dart';
 
@@ -28,6 +29,7 @@ class MyFavoritesScreen extends StatefulWidget {
 }
 
 class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   late final FavoritesProvider favoritesProvider;
 
   @override
@@ -71,9 +73,11 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
     final horizontalPadding =
         FavoritesDesignSpec.px(context, FavoritesDesignSpec.horizontalPadding);
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       appBar: YouPassBrandedAppBarWidget(
-        onBack: () => Navigator.of(context).pop(),
+        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
         primaryColor: FavoritesDesignSpec.primary,
       ),
       body: favoritesProvider.isLoading

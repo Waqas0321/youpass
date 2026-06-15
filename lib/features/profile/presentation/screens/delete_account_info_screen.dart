@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_app_bar_widget.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_footer_actions_widget.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_theme.dart';
 
-class DeleteAccountInfoScreen extends StatelessWidget {
+class DeleteAccountInfoScreen extends StatefulWidget {
   const DeleteAccountInfoScreen({
     super.key,
     required this.onContinue,
@@ -16,17 +17,27 @@ class DeleteAccountInfoScreen extends StatelessWidget {
   final VoidCallback onContinue;
 
   @override
+  State<DeleteAccountInfoScreen> createState() => _DeleteAccountInfoScreenState();
+}
+
+class _DeleteAccountInfoScreenState extends State<DeleteAccountInfoScreen> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
     final theme = ProfileTheme.of(context);
     final horizontalPadding =
         ProfileDesignSpec.px(context, ProfileDesignSpec.horizontalPadding);
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       backgroundColor: theme.screenBackground,
       appBar: ProfileAppBarWidget(
         title: AppStrings.profileDeleteInfoTitle(strings),
         onBack: () => Navigator.of(context).pop(),
+        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
@@ -102,7 +113,7 @@ class DeleteAccountInfoScreen extends StatelessWidget {
             ProfileFooterActionsWidget(
               children: [
                 FilledButton(
-                  onPressed: onContinue,
+                  onPressed: widget.onContinue,
                   style: FilledButton.styleFrom(
                     backgroundColor: theme.deleteButtonForeground,
                     foregroundColor: Colors.white,

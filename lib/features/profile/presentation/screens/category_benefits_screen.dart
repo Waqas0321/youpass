@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/profile/data/services/profile_api_service.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
 
@@ -13,6 +14,8 @@ class CategoryBenefitsScreen extends StatefulWidget {
 }
 
 class _CategoryBenefitsScreenState extends State<CategoryBenefitsScreen> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   Map<String, dynamic>? data;
   bool isLoading = true;
 
@@ -54,10 +57,18 @@ class _CategoryBenefitsScreenState extends State<CategoryBenefitsScreen> {
         : (isSpanish ? payload['benefits_es'] : payload['benefits_en']);
     final benefits = benefitsRaw is List ? benefitsRaw : null;
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       appBar: AppBar(
         title: Text(AppStrings.profileCategoryBenefits(strings)),
         centerTitle: true,
+        actions: [
+          AppDrawerNavigation.menuIconButton(
+            context: context,
+            scaffoldKey: scaffoldKey,
+          ),
+        ],
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())

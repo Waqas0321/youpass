@@ -13,6 +13,7 @@ import 'package:youpass/features/invitations/presentation/utils/guaranteed_pass_
 import 'package:youpass/features/invitations/presentation/utils/invitations_screen_actions.dart';
 import 'package:youpass/features/tickets/presentation/providers/tickets_load_status.dart';
 import 'package:youpass/features/tickets/presentation/providers/tickets_provider.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/tickets/presentation/screens/my_tickets_screen.dart';
 import 'package:youpass/features/tickets/presentation/tickets_design_spec.dart';
 import 'package:youpass/features/tickets/presentation/utils/tickets_screen_actions.dart';
@@ -25,6 +26,7 @@ import 'package:youpass/features/tickets/presentation/widgets/upcoming_tickets_t
 
 class MyTicketsScreenState extends State<MyTicketsScreen>
     with SingleTickerProviderStateMixin {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   late TabController tabController;
   ScreenSecureService? _screenSecureService;
 
@@ -73,27 +75,26 @@ class MyTicketsScreenState extends State<MyTicketsScreen>
     final provider = context.watch<TicketsProvider>();
     final actions = TicketsScreenActions(context);
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
-        automaticallyImplyLeading: !widget.embeddedInShell,
-        leading: widget.embeddedInShell
-            ? null
-            : IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: TicketsScreenTheme.accent(context),
-                  size: TicketsDesignSpec.px(
-                    context,
-                    TicketsDesignSpec.backIconSize,
-                  ),
-                ),
-              ),
+        leading: IconButton(
+          onPressed: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
+          icon: Icon(
+            Icons.menu,
+            color: TicketsScreenTheme.accent(context),
+            size: TicketsDesignSpec.px(
+              context,
+              TicketsDesignSpec.backIconSize,
+            ),
+          ),
+        ),
         title: Text(
           AppStrings.drawerMyTickets(strings),
           style: TextStyle(

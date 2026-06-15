@@ -12,6 +12,7 @@ import 'package:youpass/features/ticket_assignment/domain/entities/ticket_assign
 import 'package:youpass/features/ticket_assignment/domain/entities/ticket_order_assignments_entity.dart';
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_action.dart';
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_load_status.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_provider.dart';
 import 'package:youpass/features/ticket_assignment/presentation/screens/assign_tickets_screen.dart';
 import 'package:youpass/features/ticket_assignment/presentation/utils/ticket_assignment_screen_actions.dart';
@@ -24,6 +25,8 @@ import 'package:youpass/features/tickets/presentation/tickets_design_spec.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
 class AssignTicketsScreenState extends State<AssignTicketsScreen> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -44,7 +47,9 @@ class AssignTicketsScreenState extends State<AssignTicketsScreen> {
     final provider = context.watch<TicketAssignmentProvider>();
     final actions = TicketAssignmentScreenActions(context);
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -67,6 +72,12 @@ class AssignTicketsScreenState extends State<AssignTicketsScreen> {
             color: TicketsScreenTheme.accent(context),
           ),
         ),
+        actions: [
+          AppDrawerNavigation.menuIconButton(
+            context: context,
+            scaffoldKey: scaffoldKey,
+          ),
+        ],
       ),
       body: buildBody(context, provider, actions, strings),
     );

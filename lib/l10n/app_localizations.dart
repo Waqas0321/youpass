@@ -1040,6 +1040,12 @@ abstract class AppLocalizations {
   /// **'My Profile'**
   String get drawerMyProfile;
 
+  /// No description provided for @drawerHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get drawerHome;
+
   /// No description provided for @drawerMyTickets.
   ///
   /// In en, this message translates to:

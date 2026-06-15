@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/widgets/youpass_logo.dart';
 
 class YouPassBrandedAppBarWidget extends StatelessWidget
@@ -6,15 +7,17 @@ class YouPassBrandedAppBarWidget extends StatelessWidget
   const YouPassBrandedAppBarWidget({
     super.key,
     this.screenTitle,
-    required this.onBack,
+    this.onBack,
+    this.onMenuTap,
     this.primaryColor = const Color(0xFFE69D17),
     this.backgroundColor,
     this.subtitleColor,
     this.actions,
-  });
+  }) : assert(onBack != null || onMenuTap != null);
 
   final String? screenTitle;
-  final VoidCallback onBack;
+  final VoidCallback? onBack;
+  final VoidCallback? onMenuTap;
   final Color primaryColor;
   final Color? backgroundColor;
   final Color? subtitleColor;
@@ -39,11 +42,35 @@ class YouPassBrandedAppBarWidget extends StatelessWidget
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: true,
-      leading: IconButton(
-        onPressed: onBack,
-        icon: Icon(Icons.arrow_back, color: primaryColor, size: 24),
-      ),
-      actions: actions,
+      leading: onBack != null
+          ? IconButton(
+              onPressed: onBack,
+              icon: Icon(
+                Icons.arrow_back,
+                color: primaryColor,
+                size: 24,
+              ),
+            )
+          : IconButton(
+              onPressed: onMenuTap,
+              icon: const Icon(
+                Icons.menu,
+                color: AppColors.homeAccentYellow,
+                size: 24,
+              ),
+            ),
+      actions: [
+        ...?actions,
+        if (onBack != null && onMenuTap != null)
+          IconButton(
+            onPressed: onMenuTap,
+            icon: const Icon(
+              Icons.menu,
+              color: AppColors.homeAccentYellow,
+              size: 24,
+            ),
+          ),
+      ],
       title: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

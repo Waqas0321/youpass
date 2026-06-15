@@ -3,6 +3,7 @@ import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/invitations/domain/repositories/invitations_repository.dart';
 
 class JoinWaitlistScreen extends StatefulWidget {
@@ -20,6 +21,7 @@ class JoinWaitlistScreen extends StatefulWidget {
 }
 
 class _JoinWaitlistScreenState extends State<JoinWaitlistScreen> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   final InvitationsRepository _repository = sl<InvitationsRepository>();
   Map<String, dynamic>? preview;
   bool loading = true;
@@ -86,8 +88,18 @@ class _JoinWaitlistScreenState extends State<JoinWaitlistScreen> {
   Widget build(BuildContext context) {
     final strings = context.l10n;
 
-    return Scaffold(
-      appBar: AppBar(title: AppText(AppStrings.waitlistJoinTitle(strings))),
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
+      appBar: AppBar(
+        title: AppText(AppStrings.waitlistJoinTitle(strings)),
+        actions: [
+          AppDrawerNavigation.menuIconButton(
+            context: context,
+            scaffoldKey: scaffoldKey,
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: loading

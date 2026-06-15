@@ -4,6 +4,7 @@ import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
 import 'package:youpass/features/invitations/presentation/routes/invitation_detail_route_args.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 
 typedef InvitationDetailBuilder = Widget Function(
   BuildContext context,
@@ -30,6 +31,8 @@ class InvitationDetailScaffoldWidget extends StatefulWidget {
 
 class _InvitationDetailScaffoldWidgetState
     extends State<InvitationDetailScaffoldWidget> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   InvitationEntity? invitation;
   bool isLoading = true;
   String? errorMessage;
@@ -61,11 +64,19 @@ class _InvitationDetailScaffoldWidgetState
     final strings = context.l10n;
     final item = invitation;
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       appBar: AppBar(
         title: Text(widget.title),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+        actions: [
+          AppDrawerNavigation.menuIconButton(
+            context: context,
+            scaffoldKey: scaffoldKey,
+          ),
+        ],
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())

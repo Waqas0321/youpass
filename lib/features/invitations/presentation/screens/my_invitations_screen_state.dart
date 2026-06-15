@@ -5,13 +5,13 @@ import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/l10n/invitations_error_extension.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/shimmer/invitations_list_shimmer.dart';
-import 'package:youpass/core/widgets/youpass_branded_app_bar_widget.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_filter.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_list_tab.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_status.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/invitations/presentation/screens/my_invitations_screen.dart';
 import 'package:youpass/features/invitations/presentation/utils/invitations_filter_helper.dart';
 import 'package:youpass/features/invitations/presentation/utils/invitations_screen_actions.dart';
@@ -21,6 +21,7 @@ import 'package:youpass/features/waitlist/presentation/utils/waitlist_flow_actio
 import 'package:youpass/l10n/app_localizations.dart';
 
 class MyInvitationsScreenState extends State<MyInvitationsScreen> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   InvitationListTab selectedTab = InvitationListTab.pending;
   InvitationFilter selectedFilter = InvitationFilter.all;
   String searchQuery = '';
@@ -86,29 +87,32 @@ class MyInvitationsScreenState extends State<MyInvitationsScreen> {
     );
     final visibleWaitlist = _visibleWaitlistEntries(provider.waitlistEntries);
 
-    return Scaffold(
-      appBar: widget.embeddedInShell
-          ? AppBar(
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-              elevation: 0,
-              scrolledUnderElevation: 0,
-              centerTitle: true,
-              automaticallyImplyLeading: false,
-              title: Text(
-                AppStrings.drawerInvitations(strings),
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: InvitationsDesignSpec.primary,
-                  letterSpacing: 0.4,
-                ),
-              ),
-            )
-          : YouPassBrandedAppBarWidget(
-              onBack: () => Navigator.of(context).pop(),
-              primaryColor: InvitationsDesignSpec.primary,
-            ),
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
+          icon: const Icon(
+            Icons.menu,
+            color: InvitationsDesignSpec.primary,
+          ),
+        ),
+        title: Text(
+          AppStrings.drawerInvitations(strings),
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: InvitationsDesignSpec.primary,
+            letterSpacing: 0.4,
+          ),
+        ),
+      ),
       body: buildBody(
         strings,
         provider,

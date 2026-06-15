@@ -7,6 +7,7 @@ import 'package:youpass/core/theme/tickets_screen_theme.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_load_status.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_provider.dart';
 import 'package:youpass/features/ticket_assignment/presentation/screens/invitation_claim_screen.dart';
 import 'package:youpass/features/tickets/presentation/tickets_design_spec.dart';
@@ -14,6 +15,8 @@ import 'package:youpass/l10n/app_localizations.dart';
 import 'package:youpass/routes/app_routes.dart';
 
 class InvitationClaimScreenState extends State<InvitationClaimScreen> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -30,7 +33,9 @@ class InvitationClaimScreenState extends State<InvitationClaimScreen> {
     final strings = context.l10n;
     final provider = context.watch<TicketAssignmentProvider>();
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -43,6 +48,12 @@ class InvitationClaimScreenState extends State<InvitationClaimScreen> {
             color: TicketsScreenTheme.accent(context),
           ),
         ),
+        actions: [
+          AppDrawerNavigation.menuIconButton(
+            context: context,
+            scaffoldKey: scaffoldKey,
+          ),
+        ],
       ),
       body: buildBody(context, provider, strings),
     );

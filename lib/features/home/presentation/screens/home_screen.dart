@@ -13,10 +13,9 @@ import 'package:youpass/core/widgets/shimmer/home_feed_shimmer.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
-import 'package:youpass/features/home/domain/entities/drawer_menu_id.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/home/presentation/utils/home_user_display_helper.dart';
 import 'package:youpass/features/home/presentation/widgets/drawer/drawer_design_spec.dart';
-import 'package:youpass/features/home/presentation/widgets/drawer/home_drawer_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/home_feed_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/home_greeting_widget.dart';
 import 'package:youpass/features/profile/presentation/utils/account_deletion_actions.dart';
@@ -171,12 +170,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final homeProvider = context.watch<HomeProvider>();
     final authProvider = context.watch<AuthProvider>();
-    final invitationsProvider = context.watch<InvitationsProvider>();
     final layout = ResponsiveLayout(context);
-    final drawerFirstName =
-        HomeUserDisplayHelper.drawerFirstName(authProvider, context.l10n);
-    final drawerMembershipTier =
-        HomeUserDisplayHelper.membershipTier(authProvider);
     final headerGreeting = HomeUserDisplayHelper.headerGreetingText(
       authProvider,
       context.l10n,
@@ -189,12 +183,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       drawerEnableOpenDragGesture: false,
       drawerScrimColor: DrawerDesignSpec.drawerScrimColor,
-      drawer: HomeDrawerWidget(
-        firstName: drawerFirstName,
-        tier: drawerMembershipTier,
-        profilePhotoUrl: authProvider.userProfile?.profilePhotoUrl,
-        invitationsBadgeCount: invitationsProvider.invitationsBadgeCount,
-        onMenuSelected: handleDrawerMenuSelected,
+      drawer: AppDrawerNavigation.buildDrawer(
+        context,
+        onMenuSelected: (menuId) => AppDrawerNavigation.handleMenuSelected(context, menuId),
       ),
       body: SafeArea(
         child:         buildBody(
@@ -208,24 +199,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   void openDrawer() {
-    context.read<AuthProvider>().refreshUserProfile();
-    context.read<InvitationsProvider>().refreshDrawerBadge();
-    scaffoldKey.currentState?.openDrawer();
-  }
-
-  void handleDrawerMenuSelected(DrawerMenuId menuId) {
-    switch (menuId) {
-      case DrawerMenuId.profile:
-        Navigator.of(context).pushNamed(AppRoutes.profile);
-      case DrawerMenuId.tickets:
-        Navigator.of(context).pushNamed(AppRoutes.myTickets);
-      case DrawerMenuId.favorites:
-        Navigator.of(context).pushNamed(AppRoutes.myFavorites);
-      case DrawerMenuId.invitations:
-        Navigator.of(context)
-            .pushNamed(AppRoutes.myInvitations)
-            .then((_) => _refreshInvitationsBadgeIfAuthenticated());
-    }
+    AppDrawerNavigation.openDrawer(context, scaffoldKey);
   }
 
   Widget buildBody(

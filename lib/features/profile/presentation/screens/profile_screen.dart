@@ -15,6 +15,7 @@ import 'package:youpass/features/profile/data/models/profile_notification_settin
 import 'package:youpass/features/profile/data/models/profile_wallet_card_model.dart';
 import 'package:youpass/features/profile/data/models/support_faq_model.dart';
 import 'package:youpass/features/profile/data/services/profile_api_service.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/profile/presentation/screens/delete_account_info_screen.dart';
 import 'package:youpass/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:youpass/features/profile/presentation/utils/account_deletion_actions.dart';
@@ -42,6 +43,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final profileApi = sl<ProfileApiService>();
 
   bool isLoadingProfile = false;
@@ -314,10 +316,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ProfileDesignSpec.px(context, ProfileDesignSpec.horizontalPadding);
     final theme = ProfileTheme.of(context);
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       backgroundColor: theme.screenBackground,
       appBar: ProfileAppBarWidget(
-        onBack: () => Navigator.of(context).pop(),
+        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
       ),
       body: isLoadingProfile && authProvider.userProfile == null
           ? const ProfileScreenShimmer()

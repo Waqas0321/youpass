@@ -3,6 +3,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youpass/core/utils/webview_platform_init.dart';
 import 'package:youpass/features/invitations/domain/entities/payment_method_request_entity.dart';
 import 'package:youpass/features/profile/data/models/profile_wallet_data_model.dart';
+import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_app_bar_widget.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_theme.dart';
 
@@ -20,6 +21,8 @@ class KlapTokenizeWebViewScreen extends StatefulWidget {
 }
 
 class _KlapTokenizeWebViewScreenState extends State<KlapTokenizeWebViewScreen> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   WebViewController? controller;
   bool isLoading = true;
   bool platformReady = false;
@@ -98,10 +101,13 @@ class _KlapTokenizeWebViewScreenState extends State<KlapTokenizeWebViewScreen> {
   Widget build(BuildContext context) {
     final theme = ProfileTheme.of(context);
 
-    return Scaffold(
+    return AppDrawerNavigation.wrap(
+      scaffoldKey: scaffoldKey,
+      context: context,
       backgroundColor: theme.screenBackground,
       appBar: ProfileAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
+        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
         title: 'Klap',
       ),
       body: !platformReady || controller == null

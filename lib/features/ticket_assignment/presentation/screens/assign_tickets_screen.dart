@@ -6,10 +6,12 @@ class AssignTicketsScreen extends StatefulWidget {
     super.key,
     required this.ticketId,
     this.orderId,
+    this.isVip = false,
   });
 
   final String ticketId;
   final String? orderId;
+  final bool isVip;
 
   @override
   State<AssignTicketsScreen> createState() => AssignTicketsScreenState();

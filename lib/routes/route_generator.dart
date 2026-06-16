@@ -112,7 +112,10 @@ class RouteGenerator {
           builder: (_) => const ChangePhoneScreen(),
         );
       case AppRoutes.myTickets:
-        return MaterialPageRoute(builder: (_) => const MyTicketsScreen());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const MyTicketsScreen(),
+        );
       case AppRoutes.myFavorites:
         return MaterialPageRoute(builder: (_) => const MyFavoritesScreen());
       case AppRoutes.producerEvents:
@@ -199,6 +202,7 @@ class RouteGenerator {
             builder: (_) => AssignTicketsScreen(
               ticketId: args.ticketId,
               orderId: args.orderId,
+              isVip: args.isVip,
             ),
           );
         }

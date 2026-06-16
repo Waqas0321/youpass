@@ -3,9 +3,11 @@ import 'package:youpass/core/locale/locale_provider.dart';
 import 'package:youpass/core/network/api_exception.dart';
 import 'package:youpass/features/ticket_assignment/data/datasources/ticket_assignment_mock_data.dart';
 import 'package:youpass/features/ticket_assignment/data/datasources/ticket_assignment_remote_datasource.dart';
+import 'package:youpass/features/ticket_assignment/data/models/assign_guest_lookup_model.dart';
 import 'package:youpass/features/ticket_assignment/data/models/assign_ticket_guest_models.dart';
 import 'package:youpass/features/ticket_assignment/data/models/ticket_assignment_slot_model.dart';
 import 'package:youpass/features/ticket_assignment/data/services/ticket_assignment_api_service.dart';
+import 'package:youpass/features/ticket_assignment/domain/entities/assign_guest_lookup_entity.dart';
 import 'package:youpass/features/ticket_assignment/domain/entities/assign_ticket_guest_request_entity.dart';
 import 'package:youpass/features/ticket_assignment/domain/entities/assign_ticket_guest_result_entity.dart';
 import 'package:youpass/features/ticket_assignment/domain/entities/event_checkout_request_entity.dart';
@@ -54,33 +56,48 @@ class TicketAssignmentRemoteDataSourceImpl
     String? orderId,
     String? ticketId,
   }) async {
-    final reference = orderId ?? ticketId ?? '';
-
-    if (AppConstants.useTicketsMockData) {
-      return TicketAssignmentMockData.assignmentsFor(l10n, reference);
-    }
-
     final resolvedOrderId = orderId?.trim();
     final resolvedTicketId = ticketId?.trim();
+    final mockReference = resolvedOrderId ?? resolvedTicketId ?? '';
 
-    if (resolvedTicketId != null && resolvedTicketId.isNotEmpty) {
-      try {
-        return await apiService.fetchAssignmentsByTicket(resolvedTicketId);
-      } on ApiException {
-        if (resolvedOrderId == null || resolvedOrderId.isEmpty) {
-          rethrow;
-        }
-      }
+    if (AppConstants.useTicketsMockData) {
+      return TicketAssignmentMockData.assignmentsFor(l10n, mockReference);
     }
 
     if (resolvedOrderId != null && resolvedOrderId.isNotEmpty) {
       return apiService.fetchAssignmentsByOrder(resolvedOrderId);
     }
 
+    if (resolvedTicketId != null && resolvedTicketId.isNotEmpty) {
+      return apiService.fetchAssignmentsByTicket(resolvedTicketId);
+    }
+
     throw ApiException(
       code: 'VALIDATION_ERROR',
       message: 'Missing ticket assignment reference',
     );
+  }
+
+  @override
+  Future<List<AssignGuestLookupEntity>> lookupAssignGuests(String query) async {
+    if (AppConstants.useTicketsMockData) {
+      final normalized = query.trim().toLowerCase();
+      if (normalized.contains('carla')) {
+        return const [
+          AssignGuestLookupModel(
+            userId: 'mock-user-1',
+            fullName: 'Carla Pérez',
+            phone: '+56987654321',
+            phoneDisplay: '+56 9 8765 4321',
+            countryCode: 'CL',
+          ),
+        ];
+      }
+      return const [];
+    }
+
+    final response = await apiService.lookupAssignGuests(query);
+    return response.results;
   }
 
   @override
@@ -103,7 +120,9 @@ class TicketAssignmentRemoteDataSourceImpl
       return AssignTicketGuestResultModel(
         slot: slot,
         claimUrl: 'https://youpass.app/claim/mock-token',
-        message: 'Invitation sent via WhatsApp from YouPass',
+        whatsappUrl:
+            'https://wa.me/56987654321?text=${Uri.encodeComponent('YouPass mock invite')}',
+        message: 'Open WhatsApp and tap Send to deliver the invitation to your guest.',
       );
     }
 
@@ -162,7 +181,9 @@ class TicketAssignmentRemoteDataSourceImpl
             canResend: true,
           ),
           claimUrl: 'https://youpass.app/claim/mock-token',
-          message: 'Invitation resent via WhatsApp from YouPass',
+          whatsappUrl:
+              'https://wa.me/56987654321?text=${Uri.encodeComponent('YouPass mock invite')}',
+          message: 'Open WhatsApp and tap Send to resend the invitation to your guest.',
         ),
       );
     }

@@ -20,7 +20,7 @@ import 'package:youpass/features/vip_venue/presentation/vip_venue_design_spec.da
 import 'package:youpass/features/vip_venue/presentation/widgets/purchase_success_dialog.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/purchase_summary_content_widget.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_flow_scaffold.dart';
-import 'package:youpass/features/vip_venue/presentation/widgets/vip_primary_button_widget.dart';
+import 'package:youpass/features/vip_venue/presentation/widgets/vip_navigation_widgets.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_table_lock_countdown_widget.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_table_lock_expired_dialog.dart';
 import 'package:youpass/routes/app_routes.dart';
@@ -184,9 +184,16 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
     checkoutTicketId = result.ticketId;
     checkoutSeatLabel = result.seatLabel;
 
+    await context.read<TicketsProvider>().refreshUpcoming();
+
+    if (!mounted) {
+      return false;
+    }
+
     await PurchaseSuccessDialog.show(
       context,
-      onViewQr: () => openTicketQr(),
+      onViewMyTickets: navigateToMyTickets,
+      onViewQr: openTicketQr,
     );
     return true;
   }
@@ -309,6 +316,13 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
     );
   }
 
+  void navigateToMyTickets() {
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      AppRoutes.myTickets,
+      (route) => route.isFirst,
+    );
+  }
+
   void returnToFloorPlan() {
     session.tableLockExpiresAt = null;
     session.tableLockId = null;
@@ -366,8 +380,10 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
       ),
       bottomBar: SafeArea(
         minimum: EdgeInsets.fromLTRB(padding, 0, padding, padding),
-        child: VipPrimaryButtonWidget(
-          label: AppStrings.vipPayButton(
+        child: VipFlowBottomActionRowWidget(
+          backLabel: AppStrings.vipBackButton(strings),
+          onBack: () => Navigator.of(context).pop(),
+          primaryLabel: AppStrings.vipPayButton(
             strings,
             VipCurrencyFormatter.formatAmountCompact(
               context,
@@ -376,8 +392,9 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
               countryIsoCode: session.countryIsoCode,
             ),
           ),
-          onPressed: canPay ? submitPayment : null,
-          isLoading: isSubmitting,
+          onPrimary: submitPayment,
+          primaryEnabled: canPay,
+          primaryLoading: isSubmitting,
         ),
       ),
     );

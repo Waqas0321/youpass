@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
+import 'package:youpass/core/widgets/youpass_logo.dart';
 import 'package:youpass/features/vip_venue/presentation/vip_venue_design_spec.dart';
 import 'package:youpass/features/vip_venue/presentation/vip_venue_screen_theme.dart';
+import 'package:youpass/features/vip_venue/presentation/widgets/vip_primary_button_widget.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_shared_widgets.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_surface_card_widget.dart';
 
@@ -19,6 +22,7 @@ class VipNavigationEntryCardWidget extends StatelessWidget {
     this.iconBackgroundColor,
     this.iconColor,
     this.useFilledIconBadge = false,
+    this.accentOverride,
   });
 
   final IconData icon;
@@ -31,10 +35,11 @@ class VipNavigationEntryCardWidget extends StatelessWidget {
   final Color? iconBackgroundColor;
   final Color? iconColor;
   final bool useFilledIconBadge;
+  final Color? accentOverride;
 
   @override
   Widget build(BuildContext context) {
-    final accent = VipVenueScreenTheme.accent(context);
+    final accent = accentOverride ?? VipVenueScreenTheme.accent(context);
 
     return VipSurfaceCardWidget(
       onTap: onTap,
@@ -48,12 +53,12 @@ class VipNavigationEntryCardWidget extends StatelessWidget {
           VipIconBadgeWidget(
             icon: icon,
             size: 44,
-            iconSize: useFilledIconBadge ? 24 : 22,
+            iconSize: useFilledIconBadge ? 22 : 22,
             backgroundColor: useFilledIconBadge
                 ? accent
                 : iconBackgroundColor ?? VipVenueScreenTheme.accentSurface(context),
             iconColor: useFilledIconBadge ? Colors.white : iconColor ?? accent,
-            shape: useFilledIconBadge ? BoxShape.rectangle : BoxShape.rectangle,
+            shape: BoxShape.circle,
           ),
           SizedBox(width: VipVenueDesignSpec.px(context, 12)),
           Expanded(
@@ -107,15 +112,15 @@ class VipSecurePaymentFooterWidget extends StatelessWidget {
       children: [
         Icon(
           Icons.lock_outline,
-          size: VipVenueDesignSpec.px(context, 14),
+          size: VipVenueDesignSpec.px(context, 12),
           color: VipVenueScreenTheme.muted(context),
         ),
-        SizedBox(width: VipVenueDesignSpec.px(context, 6)),
+        SizedBox(width: VipVenueDesignSpec.px(context, 5)),
         AppText(
           label,
           variant: AppTextVariant.body,
           color: VipVenueScreenTheme.muted(context),
-          fontSize: VipVenueDesignSpec.px(context, 12),
+          fontSize: VipVenueDesignSpec.px(context, 11),
           fontWeight: FontWeight.w500,
         ),
       ],
@@ -192,6 +197,127 @@ class VipFlowNotificationButtonWidget extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class VipFlowTopBarWidget extends StatelessWidget {
+  const VipFlowTopBarWidget({
+    super.key,
+    required this.onMenuTap,
+    this.brandedHeader = false,
+    this.showNotification = false,
+  });
+
+  final VoidCallback onMenuTap;
+  final bool brandedHeader;
+  final bool showNotification;
+
+  @override
+  Widget build(BuildContext context) {
+    final horizontalPadding =
+        VipVenueDesignSpec.px(context, VipVenueDesignSpec.horizontalPadding);
+    final iconSize = VipVenueDesignSpec.px(context, 24);
+
+    return SizedBox(
+      height: kToolbarHeight,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+        child: Row(
+          children: [
+            _VipFlowHeaderIconButton(
+              icon: Icons.menu,
+              color: AppColors.homeAccentYellow,
+              iconSize: iconSize,
+              onPressed: onMenuTap,
+            ),
+            if (brandedHeader)
+              const Expanded(child: Center(child: YouPassLogo()))
+            else
+              const Spacer(),
+            if (brandedHeader && showNotification)
+              const VipFlowNotificationButtonWidget(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class VipFlowBottomActionRowWidget extends StatelessWidget {
+  const VipFlowBottomActionRowWidget({
+    super.key,
+    required this.backLabel,
+    required this.onBack,
+    required this.primaryLabel,
+    required this.onPrimary,
+    this.primaryEnabled = true,
+    this.primaryLoading = false,
+  });
+
+  final String backLabel;
+  final VoidCallback onBack;
+  final String primaryLabel;
+  final VoidCallback? onPrimary;
+  final bool primaryEnabled;
+  final bool primaryLoading;
+
+  @override
+  Widget build(BuildContext context) {
+    final buttonHeight = VipVenueDesignSpec.primaryButtonHeightPx(context);
+    final gap = VipVenueDesignSpec.px(context, 8);
+
+    return SizedBox(
+      height: buttonHeight,
+      width: double.infinity,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: VipSecondaryButtonWidget(
+              label: backLabel,
+              onPressed: onBack,
+            ),
+          ),
+          SizedBox(width: gap),
+          Expanded(
+            child: VipPrimaryButtonWidget(
+              label: primaryLabel,
+              onPressed: primaryEnabled ? onPrimary : null,
+              isLoading: primaryLoading,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _VipFlowHeaderIconButton extends StatelessWidget {
+  const _VipFlowHeaderIconButton({
+    required this.icon,
+    required this.color,
+    required this.iconSize,
+    required this.onPressed,
+  });
+
+  final IconData icon;
+  final Color color;
+  final double iconSize;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final iconSlot = VipVenueDesignSpec.headerIconSlotPx(context);
+    return IconButton(
+      onPressed: onPressed,
+      padding: EdgeInsets.zero,
+      constraints: BoxConstraints(
+        minWidth: iconSlot,
+        minHeight: iconSlot,
+      ),
+      visualDensity: VisualDensity.compact,
+      icon: Icon(icon, color: color, size: iconSize),
     );
   }
 }

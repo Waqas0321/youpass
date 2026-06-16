@@ -78,7 +78,9 @@ class EventDetailPromoterCardWidget extends StatelessWidget {
                               height: EventDetailDesignSpec.px(context, 2),
                             ),
                             Text(
-                              AppStrings.eventDetailPromoterLabel(context.l10n),
+                              producer.typeLabel?.trim().isNotEmpty == true
+                                  ? producer.typeLabel!.trim()
+                                  : AppStrings.eventDetailPromoterLabel(context.l10n),
                               style: TextStyle(
                                 fontSize: EventDetailDesignSpec.px(context, 12),
                                 fontWeight: FontWeight.w500,

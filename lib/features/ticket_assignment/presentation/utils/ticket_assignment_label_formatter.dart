@@ -12,8 +12,13 @@ class TicketAssignmentLabelFormatter {
 
   static String slotLabel(
     AppLocalizations l10n,
-    TicketAssignmentSlotEntity slot,
-  ) {
+    TicketAssignmentSlotEntity slot, {
+    int? displayNumber,
+  }) {
+    if (displayNumber != null && displayNumber > 0) {
+      return AppStrings.ticketAssignmentSlotLabel(l10n, displayNumber);
+    }
+
     final parsedNumber = _parseSlotNumber(slot.label);
     final number = parsedNumber ?? (slot.slotNumber > 0 ? slot.slotNumber : null);
     if (number != null) {

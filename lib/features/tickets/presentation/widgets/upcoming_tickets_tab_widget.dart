@@ -13,12 +13,10 @@ class UpcomingTicketsTabWidget extends StatefulWidget {
     required this.onViewQr,
     required this.onRefresh,
     this.onAssignTickets,
-    this.onCancelTicket,
     this.onAcceptInvitation,
     this.onDeclineInvitation,
     this.isViewQrLoading,
     this.isInvitationSubmitting,
-    this.isTicketCancelling,
     this.isLoadingMore = false,
     this.hasMore = false,
     this.onLoadMore,
@@ -29,12 +27,10 @@ class UpcomingTicketsTabWidget extends StatefulWidget {
   final Future<void> Function() onRefresh;
   final Future<void> Function(UpcomingTicketEntity ticket) onViewQr;
   final Future<void> Function(UpcomingTicketEntity ticket)? onAssignTickets;
-  final Future<void> Function(UpcomingTicketEntity ticket)? onCancelTicket;
   final Future<bool> Function(String invitationId)? onAcceptInvitation;
   final Future<bool> Function(String invitationId)? onDeclineInvitation;
   final bool Function(String ticketId)? isViewQrLoading;
   final bool Function(String invitationId)? isInvitationSubmitting;
-  final bool Function(String ticketId)? isTicketCancelling;
   final bool isLoadingMore;
   final bool hasMore;
   final VoidCallback? onLoadMore;
@@ -90,13 +86,8 @@ class UpcomingTicketsTabWidgetState extends State<UpcomingTicketsTabWidget> {
               onAssignTickets: widget.onAssignTickets == null
                   ? null
                   : () => widget.onAssignTickets!(ticket),
-              onCancelTicket: widget.onCancelTicket == null
-                  ? null
-                  : () => widget.onCancelTicket!(ticket),
               isViewQrLoading:
                   widget.isViewQrLoading?.call(ticket.id) ?? false,
-              isCancelLoading:
-                  widget.isTicketCancelling?.call(ticket.id) ?? false,
             );
           }
 

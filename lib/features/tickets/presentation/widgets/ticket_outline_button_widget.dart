@@ -25,7 +25,7 @@ class TicketOutlineButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = TicketsDesignSpec.px(context, 44);
-    final radius = TicketsDesignSpec.px(context, 10);
+    final radius = height / 2;
     final resolvedForegroundColor =
         foregroundColor ?? TicketsScreenTheme.outlineButtonForeground(context);
     final resolvedBorderColor =
@@ -73,8 +73,8 @@ class TicketOutlineButtonWidget extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: resolvedFontSize,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.2,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.4,
                       ),
                     ),
                   ),

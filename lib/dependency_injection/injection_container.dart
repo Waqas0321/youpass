@@ -102,6 +102,7 @@ import 'package:youpass/features/ticket_assignment/domain/usecases/cancel_ticket
 import 'package:youpass/features/ticket_assignment/domain/usecases/checkout_event_tickets_usecase.dart';
 import 'package:youpass/features/ticket_assignment/domain/usecases/fetch_invitation_claim_usecase.dart';
 import 'package:youpass/features/ticket_assignment/domain/usecases/fetch_ticket_order_assignments_usecase.dart';
+import 'package:youpass/features/ticket_assignment/domain/usecases/lookup_assign_guests_usecase.dart';
 import 'package:youpass/features/ticket_assignment/domain/usecases/resend_ticket_assignment_usecase.dart';
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_provider.dart';
 import 'package:youpass/features/vip_venue/data/datasources/vip_venue_remote_datasource.dart';
@@ -455,6 +456,9 @@ Future<void> initDependencies() async {
     )
     ..registerLazySingleton<FetchTicketOrderAssignmentsUseCase>(
       () => FetchTicketOrderAssignmentsUseCase(sl<TicketAssignmentRepository>()),
+    )
+    ..registerLazySingleton<LookupAssignGuestsUseCase>(
+      () => LookupAssignGuestsUseCase(sl<TicketAssignmentRepository>()),
     )
     ..registerLazySingleton<AssignTicketGuestUseCase>(
       () => AssignTicketGuestUseCase(sl<TicketAssignmentRepository>()),

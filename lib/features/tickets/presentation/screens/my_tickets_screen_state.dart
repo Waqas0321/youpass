@@ -9,7 +9,6 @@ import 'package:youpass/core/widgets/shimmer/tickets_tab_shimmer.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
-import 'package:youpass/features/invitations/presentation/utils/guaranteed_pass_flow_actions.dart';
 import 'package:youpass/features/invitations/presentation/utils/invitations_screen_actions.dart';
 import 'package:youpass/features/tickets/presentation/providers/tickets_load_status.dart';
 import 'package:youpass/features/tickets/presentation/providers/tickets_provider.dart';
@@ -190,7 +189,6 @@ class MyTicketsScreenState extends State<MyTicketsScreen>
       onRefresh: provider.refreshUpcoming,
       onViewQr: actions.openTicketQr,
       onAssignTickets: actions.openAssignTickets,
-      onCancelTicket: (ticket) => _handleCancelTicket(provider, ticket.id, strings),
       onAcceptInvitation: (invitationId) =>
           _handleAcceptPendingInvitation(provider, invitationId),
       onDeclineInvitation: (invitationId) =>
@@ -199,75 +197,9 @@ class MyTicketsScreenState extends State<MyTicketsScreen>
       isInvitationSubmitting: (invitationId) =>
           provider.isInvitationSubmitting(invitationId) ||
           invitationsProvider.submittingInvitationId == invitationId,
-      isTicketCancelling: provider.isTicketCancelling,
       isLoadingMore: provider.isLoadingMoreUpcoming,
       hasMore: provider.hasMoreUpcoming,
       onLoadMore: provider.loadMoreUpcoming,
-    );
-  }
-
-  Future<void> _handleCancelTicket(
-    TicketsProvider provider,
-    String ticketId,
-    dynamic strings,
-  ) async {
-    final invitationsProvider = context.read<InvitationsProvider>();
-    await invitationsProvider.ensureLoaded();
-    InvitationEntity? invitation;
-    for (final item in invitationsProvider.invitations) {
-      if (item.id == ticketId) {
-        invitation = item;
-        break;
-      }
-    }
-
-    if (invitation?.isGuaranteedPass == true && invitation!.canCancel) {
-      await GuaranteedPassFlowActions(context).cancelConfirmedPass(invitation);
-      if (!mounted) {
-        return;
-      }
-      await provider.refreshUpcoming();
-      return;
-    }
-
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(AppStrings.ticketsCancelTicketTitle(strings)),
-        content: Text(AppStrings.ticketsCancelTicketMessage(strings)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text(AppStrings.confirmDialogCancel(strings)),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text(AppStrings.ticketsCancelTicketConfirm(strings)),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed != true || !mounted) {
-      return;
-    }
-
-    final cancelled = await provider.cancelTicket(ticketId);
-    if (!mounted) {
-      return;
-    }
-    if (!cancelled) {
-      final error = provider.localizedUpcomingErrorMessage(strings);
-      if (error != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(error)),
-        );
-      }
-      return;
-    }
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(AppStrings.ticketsCancelTicketSuccess(strings))),
     );
   }
 

@@ -222,14 +222,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get favoritesEventsSubtitle =>
-      'Eventos que guardaste con el icono de corazón';
+      'Tus productoras favoritas aparecerán aquí';
 
   @override
-  String get favoritesEventsSearchHint => 'Buscar evento favorito';
+  String get favoritesEventsSearchHint => 'Buscar productora';
 
   @override
   String get favoritesEventsEmpty =>
-      'Aún no tienes eventos favoritos. Toca el corazón en un evento para guardarlo aquí.';
+      'Aún no sigues ninguna productora. Síguela desde el detalle de un evento.';
 
   @override
   String favoritesSavedEventsCount(int count) {
@@ -1139,7 +1139,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get favoritesNoSearchResults =>
-      'No se encontraron productoras o eventos que coincidan con tu búsqueda';
+      'No se encontraron productoras que coincidan con tu búsqueda';
 
   @override
   String get favoritesExploreCta => 'Explorar eventos';
@@ -1166,6 +1166,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get producerEventsSearchHint => 'Buscar evento';
+
+  @override
+  String get producerEventsEmpty =>
+      'Esta productora no tiene eventos próximos por ahora.';
 
   @override
   String get producerEventCategoryParties => 'Fiestas';
@@ -1822,6 +1826,27 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ticketAssignmentPickContact => 'Buscar desde contactos';
 
   @override
+  String get ticketAssignmentSearchGuestTitle => 'Buscar invitado';
+
+  @override
+  String get ticketAssignmentSearchGuestSubtitle =>
+      'Busca usuarios registrados en YouPass por nombre o teléfono. Si no está registrado, ingresa sus datos manualmente en la tarjeta.';
+
+  @override
+  String get ticketAssignmentSearchGuestHint => 'Nombre o teléfono';
+
+  @override
+  String get ticketAssignmentSearchGuestEmpty =>
+      'No encontramos un usuario registrado. Puedes escribir nombre y teléfono manualmente y enviar la invitación por WhatsApp.';
+
+  @override
+  String get ticketAssignmentSearchGuestManualHint =>
+      'Cierra este panel para escribir los datos manualmente en la tarjeta.';
+
+  @override
+  String get ticketAssignmentRegisteredBadge => 'YouPass';
+
+  @override
   String get ticketAssignmentSendTicket => 'Enviar entrada';
 
   @override
@@ -1831,7 +1856,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ticketAssignmentResendWhatsApp => 'Reenviar WhatsApp';
 
   @override
-  String get ticketAssignmentSentSuccess => 'Invitación enviada por WhatsApp';
+  String get ticketAssignmentSentSuccess =>
+      'WhatsApp se abrió — toca Enviar para entregar la invitación';
 
   @override
   String get ticketAssignmentContactsPermissionDenied =>
@@ -1850,7 +1876,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get ticketAssignmentWhatsAppInfo =>
-      'Se enviará un link con instrucciones para descargar y registrarse en YouPass a través de WhatsApp, una vez les envíes la entrada.';
+      'Al enviar la entrada, WhatsApp se abrirá con el número de tu invitado y un mensaje prellenado. Toca Enviar en WhatsApp para entregar el link de invitación.';
 
   @override
   String get ticketAssignmentPrivacyNote =>
@@ -1922,6 +1948,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String vipTicketSelectionSummaryLine(String ticketCount, String amount) {
     return '$ticketCount • $amount';
   }
+
+  @override
+  String get vipBackButton => 'Volver';
+
+  @override
+  String get vipContinueButton => 'Continuar';
 
   @override
   String vipContinueWithTickets(String ticketCount) {
@@ -2047,6 +2079,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get vipLegendAvailableShort => 'Disp.';
+
+  @override
+  String get vipLegendUnselected => 'Sin seleccionar';
 
   @override
   String get vipDanceFloorGeneral => 'General';
@@ -2198,7 +2233,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get vipPurchaseSuccessMessage =>
-      'Tu pago ha sido procesado correctamente.';
+      'Tus entradas ya están en Mis entradas.';
 
   @override
   String vipTableLockCountdown(String time) {

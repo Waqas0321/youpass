@@ -54,18 +54,8 @@ class UpcomingTicketEntity extends Equatable {
     return value != null && value.isNotEmpty;
   }
 
-  bool get showsAssignAction {
-    if (canAssignTickets) {
-      return true;
-    }
-    if (hasTicketOrderId) {
-      return true;
-    }
-    if ((assignableCount ?? 0) > 0) {
-      return true;
-    }
-    return origin == 'purchase';
-  }
+  bool get showsAssignAction =>
+      canAssignTickets || (assignableCount ?? 0) > 0;
 
   String? get assignmentOrderId {
     if (!hasTicketOrderId) {

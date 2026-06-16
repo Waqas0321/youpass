@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/theme/tickets_screen_theme.dart';
 import 'package:youpass/core/widgets/shimmer/assign_ticket_slot_card_shimmer.dart';
 import 'package:youpass/core/widgets/shimmer/youpass_shimmer.dart';
@@ -8,7 +9,7 @@ import 'package:youpass/features/tickets/presentation/tickets_design_spec.dart';
 class AssignTicketsScreenShimmer extends StatelessWidget {
   const AssignTicketsScreenShimmer({
     super.key,
-    this.cardCount = 2,
+    this.cardCount = 3,
   });
 
   final int cardCount;
@@ -47,7 +48,10 @@ class AssignTicketsScreenShimmer extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius:
                   BorderRadius.circular(TicketsDesignSpec.px(context, 12)),
-              border: Border.all(color: TicketsScreenTheme.cardBorder(context)),
+              color: AppColors.whatsAppGreen.withValues(alpha: 0.12),
+              border: Border.all(
+                color: AppColors.whatsAppGreen.withValues(alpha: 0.35),
+              ),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,

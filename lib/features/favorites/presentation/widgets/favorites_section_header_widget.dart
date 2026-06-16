@@ -8,15 +8,49 @@ class FavoritesSectionHeaderWidget extends StatelessWidget {
     required this.subtitle,
     this.leadingIcon = Icons.favorite,
     this.leadingIconColor = FavoritesDesignSpec.favoriteActive,
+    this.showLeadingIcon = true,
   });
 
   final String title;
   final String subtitle;
   final IconData leadingIcon;
   final Color leadingIconColor;
+  final bool showLeadingIcon;
 
   @override
   Widget build(BuildContext context) {
+    final titleStyle = TextStyle(
+      fontSize: FavoritesDesignSpec.px(
+        context,
+        showLeadingIcon ? 18 : 16,
+      ),
+      fontWeight: FontWeight.w700,
+      color: FavoritesDesignSpec.titleText,
+      height: 1.2,
+      letterSpacing: showLeadingIcon ? 0 : 0.2,
+    );
+    final subtitleStyle = TextStyle(
+      fontSize: FavoritesDesignSpec.px(
+        context,
+        showLeadingIcon ? 13 : 12,
+      ),
+      color: FavoritesDesignSpec.bodyText,
+      height: 1.35,
+    );
+
+    final textColumn = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: titleStyle),
+        SizedBox(height: FavoritesDesignSpec.px(context, 4)),
+        Text(subtitle, style: subtitleStyle),
+      ],
+    );
+
+    if (!showLeadingIcon) {
+      return textColumn;
+    }
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -26,31 +60,7 @@ class FavoritesSectionHeaderWidget extends StatelessWidget {
           color: leadingIconColor,
         ),
         SizedBox(width: FavoritesDesignSpec.px(context, 8)),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: FavoritesDesignSpec.px(context, 18),
-                  fontWeight: FontWeight.w700,
-                  color: Theme.of(context).colorScheme.onSurface,
-                  height: 1.2,
-                ),
-              ),
-              SizedBox(height: FavoritesDesignSpec.px(context, 4)),
-              Text(
-                subtitle,
-                style: TextStyle(
-                  fontSize: FavoritesDesignSpec.px(context, 13),
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  height: 1.35,
-                ),
-              ),
-            ],
-          ),
-        ),
+        Expanded(child: textColumn),
       ],
     );
   }

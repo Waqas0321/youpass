@@ -38,6 +38,7 @@ class TicketSelectionScreen extends StatefulWidget {
 class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
   late final session = widget.args.session;
   String? expandedOfferingId;
+  bool _isLoadingPurchaseData = true;
 
   @override
   void initState() {
@@ -48,43 +49,51 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
   Future<void> _loadPurchaseData() async {
     final provider = context.read<VipVenueProvider>();
     final eventId = session.event.id;
-    if (eventId.isEmpty) {
-      return;
-    }
 
-    await _ensurePurchaseMeta();
-    if (!mounted) {
-      return;
-    }
-
-    final bundle = await provider.loadTicketTypes(eventId);
-    if (!mounted || bundle == null) {
-      return;
-    }
-
-    setState(() {
-      session.offerings = List<TicketOfferingEntity>.from(bundle.offerings);
-      session.serviceFeeRate = bundle.serviceFeeRate;
-      if (bundle.currency.isNotEmpty) {
-        session.purchaseCurrency = bundle.currency;
+    try {
+      if (eventId.isEmpty) {
+        return;
       }
-    });
 
-    if (!session.hasVenueLayout) {
-      return;
-    }
-
-    final layout = await provider.loadVenueLayout(eventId);
-    if (!mounted) {
-      return;
-    }
-
-    setState(() {
-      session.hasVenueLayout = layout != null;
-      if (layout != null) {
-        session.tableLockMinutes = layout.tableLockMinutes;
+      await _ensurePurchaseMeta();
+      if (!mounted) {
+        return;
       }
-    });
+
+      final bundle = await provider.loadTicketTypes(eventId);
+      if (!mounted || bundle == null) {
+        return;
+      }
+
+      setState(() {
+        session.offerings = List<TicketOfferingEntity>.from(bundle.offerings);
+        session.serviceFeeRate = bundle.serviceFeeRate;
+        if (bundle.currency.isNotEmpty) {
+          session.purchaseCurrency = bundle.currency;
+        }
+        session.currencyDecimals = bundle.currencyDecimals;
+      });
+
+      if (!session.hasVenueLayout) {
+        return;
+      }
+
+      final layout = await provider.loadVenueLayout(eventId);
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        session.hasVenueLayout = layout != null;
+        if (layout != null) {
+          session.tableLockMinutes = layout.tableLockMinutes;
+        }
+      });
+    } finally {
+      if (mounted) {
+        setState(() => _isLoadingPurchaseData = false);
+      }
+    }
   }
 
   Future<void> _ensurePurchaseMeta() async {
@@ -199,8 +208,7 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
     final strings = context.l10n;
     final provider = context.watch<VipVenueProvider>();
     final padding = VipVenueDesignSpec.px(context, VipVenueDesignSpec.horizontalPadding);
-    final isLoading = provider.ticketTypesStatus == VipVenueLoadStatus.loading &&
-        session.offerings.isEmpty;
+    final isLoading = _isLoadingPurchaseData;
     final showBottomBar = !isLoading && !_showEmptyState;
 
     return VipFlowScaffold(
@@ -255,6 +263,8 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
                         onTap: () => onOfferingTap(offering),
                         onQuantityChanged: (quantity) =>
                             updateOfferingQuantity(offering.id, quantity),
+                        countryIsoCode: session.countryIsoCode,
+                        currencyDecimals: session.currencyDecimals,
                       ),
                     ),
                   ],
@@ -270,6 +280,8 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
                         onTap: () => onOfferingTap(offering),
                         onQuantityChanged: (quantity) =>
                             updateOfferingQuantity(offering.id, quantity),
+                        countryIsoCode: session.countryIsoCode,
+                        currencyDecimals: session.currencyDecimals,
                       ),
                     ),
                   ],

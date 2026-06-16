@@ -1,5 +1,7 @@
 import 'package:youpass/features/ticket_assignment/data/models/ticket_assignment_slot_model.dart';
 import 'package:youpass/features/ticket_assignment/domain/entities/ticket_order_assignments_entity.dart';
+import 'package:youpass/features/tickets/data/utils/ticket_model_json_reader.dart';
+import 'package:youpass/features/tickets/domain/entities/ticket_tier.dart';
 
 class TicketOrderAssignmentsModel extends TicketOrderAssignmentsEntity {
   const TicketOrderAssignmentsModel({
@@ -9,6 +11,7 @@ class TicketOrderAssignmentsModel extends TicketOrderAssignmentsEntity {
     required super.availableCount,
     required super.pendingCount,
     required super.slots,
+    super.tier = TicketTier.general,
     super.canAssignInParts = true,
   });
 
@@ -25,6 +28,7 @@ class TicketOrderAssignmentsModel extends TicketOrderAssignmentsEntity {
       orderId: json['order_id']?.toString() ?? json['orderId']?.toString() ?? '',
       eventTitle:
           json['event_title']?.toString() ?? json['eventTitle']?.toString() ?? '',
+      tier: TicketModelJsonReader.parseTier(json['tier']),
       quantity: _readInt(json['quantity']),
       availableCount: _readInt(
         json['available_count'] ?? json['availableCount'],

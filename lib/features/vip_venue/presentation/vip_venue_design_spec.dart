@@ -20,6 +20,14 @@ class VipVenueDesignSpec {
 
   static const double horizontalPadding = 20;
   static const double cardRadius = 16;
+  static const double primaryButtonHeight = 48;
+  static const double headerIconSlot = 40;
+
+  static double primaryButtonHeightPx(BuildContext context) =>
+      px(context, primaryButtonHeight);
+
+  static double headerIconSlotPx(BuildContext context) =>
+      px(context, headerIconSlot);
 
   static double scale(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;

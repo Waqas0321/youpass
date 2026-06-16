@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
-import 'package:youpass/features/vip_venue/presentation/vip_venue_design_spec.dart';
-import 'package:youpass/features/vip_venue/presentation/vip_venue_screen_theme.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
+import 'package:youpass/features/vip_venue/presentation/vip_venue_design_spec.dart';
+import 'package:youpass/features/vip_venue/presentation/vip_venue_screen_theme.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_primary_button_widget.dart';
 
 class PurchaseSuccessDialog {
@@ -12,6 +12,7 @@ class PurchaseSuccessDialog {
 
   static Future<void> show(
     BuildContext context, {
+    required VoidCallback onViewMyTickets,
     required VoidCallback onViewQr,
   }) {
     final strings = context.l10n;
@@ -54,6 +55,14 @@ class PurchaseSuccessDialog {
                 ),
                 SizedBox(height: VipVenueDesignSpec.px(context, 20)),
                 VipPrimaryButtonWidget(
+                  label: AppStrings.invitationsGpActiveCta(strings),
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                    onViewMyTickets();
+                  },
+                ),
+                SizedBox(height: VipVenueDesignSpec.px(context, 10)),
+                VipSecondaryButtonWidget(
                   label: AppStrings.vipViewQr(strings),
                   onPressed: () {
                     Navigator.of(dialogContext).pop();

@@ -20,17 +20,13 @@ class UpcomingTicketCardWidget extends StatelessWidget {
     required this.ticket,
     this.onViewQr,
     this.onAssignTickets,
-    this.onCancelTicket,
     this.isViewQrLoading = false,
-    this.isCancelLoading = false,
   });
 
   final UpcomingTicketEntity ticket;
   final VoidCallback? onViewQr;
   final VoidCallback? onAssignTickets;
-  final VoidCallback? onCancelTicket;
   final bool isViewQrLoading;
-  final bool isCancelLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -137,31 +133,24 @@ class UpcomingTicketCardWidget extends StatelessWidget {
                 ),
                 if (onAssignTickets != null && ticket.showsAssignAction) ...[
                   SizedBox(height: TicketsDesignSpec.px(context, 10)),
-                  if (ticket.tier == TicketTier.vip)
-                    TicketFilledButtonWidget(
-                      label: AppStrings.ticketsAssignVip(strings),
-                      icon: Icons.confirmation_number_outlined,
-                      backgroundColor:
-                          TicketsScreenTheme.vipButtonBackground(context),
-                      foregroundColor: Colors.white,
-                      onPressed: onAssignTickets,
-                    )
-                  else
-                    TicketOutlineButtonWidget(
-                      label: AppStrings.ticketsAssignEntries(strings),
-                      icon: Icons.people_outline,
-                      onPressed: onAssignTickets,
-                    ),
-                ],
-                if (ticket.canCancel && onCancelTicket != null) ...[
-                  SizedBox(height: TicketsDesignSpec.px(context, 10)),
                   TicketOutlineButtonWidget(
-                    label: AppStrings.ticketsCancelTicket(strings),
-                    icon: Icons.cancel_outlined,
-                    onPressed: onCancelTicket,
-                    isLoading: isCancelLoading,
-                    foregroundColor: Theme.of(context).colorScheme.error,
-                    borderColor: Theme.of(context).colorScheme.error,
+                    label: ticket.tier == TicketTier.vip
+                        ? AppStrings.ticketsAssignVip(strings)
+                        : AppStrings.ticketsAssignEntries(strings),
+                    icon: Icons.people_outline,
+                    onPressed: onAssignTickets,
+                    foregroundColor: ticket.tier == TicketTier.vip
+                        ? TicketsScreenTheme.vipAssignAccent(context)
+                        : TicketsScreenTheme.assignFlowAccent(
+                            context,
+                            isVip: false,
+                          ),
+                    borderColor: ticket.tier == TicketTier.vip
+                        ? TicketsScreenTheme.vipAssignAccent(context)
+                        : TicketsScreenTheme.assignFlowAccent(
+                            context,
+                            isVip: false,
+                          ),
                   ),
                 ],
               ],

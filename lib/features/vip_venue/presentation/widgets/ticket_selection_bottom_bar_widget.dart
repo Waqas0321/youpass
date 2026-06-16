@@ -6,7 +6,6 @@ import 'package:youpass/features/vip_venue/presentation/utils/vip_currency_forma
 import 'package:youpass/features/vip_venue/presentation/vip_venue_design_spec.dart';
 import 'package:youpass/features/vip_venue/presentation/vip_venue_screen_theme.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_navigation_widgets.dart';
-import 'package:youpass/features/vip_venue/presentation/widgets/vip_primary_button_widget.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_purchase_widgets.dart';
 
 class TicketSelectionBottomBarWidget extends StatelessWidget {
@@ -33,6 +32,7 @@ class TicketSelectionBottomBarWidget extends StatelessWidget {
       session.generalTicketsTotal,
       currencyCode: session.currency,
       countryIsoCode: session.countryIsoCode,
+      currencyDecimals: session.currencyDecimals,
     );
     final canContinue = enabled && session.hasSelectedTickets;
 
@@ -47,7 +47,7 @@ class TicketSelectionBottomBarWidget extends StatelessWidget {
           ),
         ],
       ),
-      padding: EdgeInsets.fromLTRB(padding, VipVenueDesignSpec.px(context, 12), padding, padding),
+      padding: EdgeInsets.fromLTRB(padding, VipVenueDesignSpec.px(context, 8), padding, VipVenueDesignSpec.px(context, 10)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -61,13 +61,15 @@ class TicketSelectionBottomBarWidget extends StatelessWidget {
             onTap: onSummaryTap,
             enabled: canContinue,
           ),
-          SizedBox(height: VipVenueDesignSpec.px(context, 10)),
-          VipPrimaryButtonWidget(
-            label: AppStrings.vipContinueWithAmount(strings, summaryAmount),
-            onPressed: canContinue ? onContinue : null,
-            trailingIcon: Icons.arrow_forward_rounded,
+          SizedBox(height: VipVenueDesignSpec.px(context, 14)),
+          VipFlowBottomActionRowWidget(
+            backLabel: AppStrings.vipBackButton(strings),
+            onBack: () => Navigator.of(context).pop(),
+            primaryLabel: AppStrings.vipContinueButton(strings),
+            onPrimary: onContinue,
+            primaryEnabled: canContinue,
           ),
-          SizedBox(height: VipVenueDesignSpec.px(context, 10)),
+          SizedBox(height: VipVenueDesignSpec.px(context, 6)),
           VipSecurePaymentFooterWidget(
             label: AppStrings.vipSecurePayment(strings),
           ),

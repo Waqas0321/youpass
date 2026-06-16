@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:youpass/features/ticket_assignment/domain/entities/ticket_assignment_slot_entity.dart';
+import 'package:youpass/features/tickets/domain/entities/ticket_tier.dart';
 
 class TicketOrderAssignmentsEntity extends Equatable {
   const TicketOrderAssignmentsEntity({
@@ -9,6 +10,7 @@ class TicketOrderAssignmentsEntity extends Equatable {
     required this.availableCount,
     required this.pendingCount,
     required this.slots,
+    this.tier = TicketTier.general,
     this.canAssignInParts = true,
   });
 
@@ -17,8 +19,11 @@ class TicketOrderAssignmentsEntity extends Equatable {
   final int quantity;
   final int availableCount;
   final int pendingCount;
+  final TicketTier tier;
   final bool canAssignInParts;
   final List<TicketAssignmentSlotEntity> slots;
+
+  bool get isVip => tier == TicketTier.vip;
 
   @override
   List<Object?> get props => [
@@ -27,6 +32,7 @@ class TicketOrderAssignmentsEntity extends Equatable {
         quantity,
         availableCount,
         pendingCount,
+        tier,
         canAssignInParts,
         slots,
       ];

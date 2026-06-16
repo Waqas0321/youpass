@@ -12,7 +12,6 @@ import 'package:youpass/features/ticket_assignment/domain/entities/ticket_assign
 import 'package:youpass/features/ticket_assignment/domain/entities/ticket_order_assignments_entity.dart';
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_action.dart';
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_load_status.dart';
-import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_provider.dart';
 import 'package:youpass/features/ticket_assignment/presentation/screens/assign_tickets_screen.dart';
 import 'package:youpass/features/ticket_assignment/presentation/utils/ticket_assignment_screen_actions.dart';
@@ -25,8 +24,6 @@ import 'package:youpass/features/tickets/presentation/tickets_design_spec.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
 class AssignTicketsScreenState extends State<AssignTicketsScreen> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   void initState() {
     super.initState();
@@ -46,10 +43,9 @@ class AssignTicketsScreenState extends State<AssignTicketsScreen> {
     final strings = context.l10n;
     final provider = context.watch<TicketAssignmentProvider>();
     final actions = TicketAssignmentScreenActions(context);
+    final appBarAccent = TicketsScreenTheme.accent(context);
 
-    return AppDrawerNavigation.wrap(
-      scaffoldKey: scaffoldKey,
-      context: context,
+    return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -61,7 +57,7 @@ class AssignTicketsScreenState extends State<AssignTicketsScreen> {
           onPressed: () => Navigator.of(context).pop(),
           icon: Icon(
             Icons.arrow_back,
-            color: TicketsScreenTheme.accent(context),
+            color: appBarAccent,
           ),
         ),
         title: Text(
@@ -69,15 +65,9 @@ class AssignTicketsScreenState extends State<AssignTicketsScreen> {
           style: TextStyle(
             fontSize: TicketsDesignSpec.px(context, 18),
             fontWeight: FontWeight.w700,
-            color: TicketsScreenTheme.accent(context),
+            color: appBarAccent,
           ),
         ),
-        actions: [
-          AppDrawerNavigation.menuIconButton(
-            context: context,
-            scaffoldKey: scaffoldKey,
-          ),
-        ],
       ),
       body: buildBody(context, provider, actions, strings),
     );
@@ -140,6 +130,7 @@ class AssignTicketsScreenState extends State<AssignTicketsScreen> {
     final orderId = assignments.orderId.trim().isNotEmpty
         ? assignments.orderId.trim()
         : provider.resolvedOrderId;
+    final isVip = assignments.isVip;
 
     if (visibleSlots.isEmpty) {
       return Center(
@@ -179,93 +170,100 @@ class AssignTicketsScreenState extends State<AssignTicketsScreen> {
       children: [
         AssignTicketSummaryHeaderWidget(
           assignments: assignments,
-          visibleSlotCount: visibleSlots.length,
+          visibleSlotCount:
+              TicketAssignmentSlotFilter.assignableCount(assignments),
         ),
         SizedBox(height: TicketsDesignSpec.px(context, 16)),
-        ...visibleSlots.map(
-          (slot) => AssignTicketSlotCardWidget(
-            slot: slot,
-            orderId: orderId ?? '',
-            isAssignLoading: provider.isSlotLoading(
-              slot.id,
-              TicketAssignmentAction.assign,
-            ),
-            isCancelLoading: provider.isSlotLoading(
-              slot.id,
-              TicketAssignmentAction.cancel,
-            ),
-            isResendLoading: provider.isSlotLoading(
-              slot.id,
-              TicketAssignmentAction.resend,
-            ),
-            onAssign: (guestName, guestPhone) async {
-              if (orderId == null || orderId.isEmpty) {
-                return false;
-              }
-
-              final success = await provider.assignGuest(
-                orderId: orderId,
-                slotId: slot.id,
-                request: AssignTicketGuestRequestEntity(
-                  guestName: guestName,
-                  guestPhone: guestPhone,
-                ),
-              );
-              await actions.handleSessionInvalid(provider);
-              if (!context.mounted) {
-                return false;
-              }
-              if (!success) {
-                final error = provider.localizedErrorMessage(strings);
-                if (error != null) {
-                  actions.showError(error);
+        ...visibleSlots.asMap().entries.map(
+          (entry) {
+            final slot = entry.value;
+            return AssignTicketSlotCardWidget(
+              slot: slot,
+              slotDisplayNumber: entry.key + 1,
+              orderId: orderId ?? '',
+              isVip: isVip,
+              isAssignLoading: provider.isSlotLoading(
+                slot.id,
+                TicketAssignmentAction.assign,
+              ),
+              isCancelLoading: provider.isSlotLoading(
+                slot.id,
+                TicketAssignmentAction.cancel,
+              ),
+              isResendLoading: provider.isSlotLoading(
+                slot.id,
+                TicketAssignmentAction.resend,
+              ),
+              onAssign: (guestName, guestPhone, guestCountryCode) async {
+                if (orderId == null || orderId.isEmpty) {
+                  return false;
                 }
-              }
-              return success;
-            },
-            onCancel: () async {
-              if (orderId == null || orderId.isEmpty) {
-                return false;
-              }
 
-              final success = await provider.cancelAssignment(
-                orderId: orderId,
-                slotId: slot.id,
-              );
-              await actions.handleSessionInvalid(provider);
-              if (!context.mounted) {
-                return false;
-              }
-              if (!success) {
-                final error = provider.localizedErrorMessage(strings);
-                if (error != null) {
-                  actions.showError(error);
+                final success = await provider.assignGuest(
+                  orderId: orderId,
+                  slotId: slot.id,
+                  request: AssignTicketGuestRequestEntity(
+                    guestName: guestName,
+                    guestPhone: guestPhone,
+                    countryCode: guestCountryCode,
+                  ),
+                );
+                await actions.handleSessionInvalid(provider);
+                if (!context.mounted) {
+                  return false;
                 }
-              }
-              return success;
-            },
-            onResend: () async {
-              if (orderId == null || orderId.isEmpty) {
-                return false;
-              }
+                if (!success) {
+                  final error = provider.localizedErrorMessage(strings);
+                  if (error != null) {
+                    actions.showError(error);
+                  }
+                }
+                return success;
+              },
+              onCancel: () async {
+                if (orderId == null || orderId.isEmpty) {
+                  return false;
+                }
 
-              final success = await provider.resendAssignment(
-                orderId: orderId,
-                slotId: slot.id,
-              );
-              await actions.handleSessionInvalid(provider);
-              if (!context.mounted) {
-                return false;
-              }
-              if (!success) {
-                final error = provider.localizedErrorMessage(strings);
-                if (error != null) {
-                  actions.showError(error);
+                final success = await provider.cancelAssignment(
+                  orderId: orderId,
+                  slotId: slot.id,
+                );
+                await actions.handleSessionInvalid(provider);
+                if (!context.mounted) {
+                  return false;
                 }
-              }
-              return success;
-            },
-          ),
+                if (!success) {
+                  final error = provider.localizedErrorMessage(strings);
+                  if (error != null) {
+                    actions.showError(error);
+                  }
+                }
+                return success;
+              },
+              onResend: () async {
+                if (orderId == null || orderId.isEmpty) {
+                  return false;
+                }
+
+                final success = await provider.resendAssignment(
+                  orderId: orderId,
+                  slotId: slot.id,
+                );
+                await actions.handleSessionInvalid(provider);
+                if (!context.mounted) {
+                  return false;
+                }
+                if (!success) {
+                  final error = provider.localizedErrorMessage(strings);
+                  if (error != null) {
+                    actions.showError(error);
+                  }
+                }
+                return success;
+              },
+            );
+          },
         ),
         SizedBox(height: TicketsDesignSpec.px(context, 16)),
         const AssignTicketWhatsAppInfoWidget(),

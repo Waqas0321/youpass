@@ -18,10 +18,38 @@ class AppConstants {
   static const bool logApiResponsesToConsole = true;
 
   static const String appName = 'YouPass';
-  /// Debug → local backend (`npm run dev`). Release → Vercel.
-  static String get apiBaseUrl => kDebugMode
-      ? 'http://localhost:3000'
-      : 'https://youpass-backend.vercel.app';
+
+  static const String _productionApiBaseUrl =
+      'https://youpass-backend.vercel.app';
+  static const int _localApiPort = 3000;
+
+  /// Debug → local backend (`npm run dev` in youpass-backend).
+  /// Override on a physical device with:
+  /// `--dart-define=API_BASE_URL=http://YOUR_LAN_IP:3000`
+  static String get apiBaseUrl {
+    const override = String.fromEnvironment('API_BASE_URL');
+    if (override.isNotEmpty) {
+      return override;
+    }
+
+    if (!kDebugMode) {
+      return _productionApiBaseUrl;
+    }
+
+    final host = _localApiHost;
+    return 'http://$host:$_localApiPort';
+  }
+
+  static String get _localApiHost {
+    if (kIsWeb) {
+      return 'localhost';
+    }
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      return '10.0.2.2';
+    }
+    return 'localhost';
+  }
+
   static const String tokenKey = 'auth_token';
   static const String sessionIdKey = 'auth_session_id';
   static const String userKey = 'user_data';

@@ -16,6 +16,7 @@ class VipPurchaseSession {
     this.tableLockExpiresAt,
     this.tableLockId,
     this.purchaseCurrency,
+    this.currencyDecimals,
     this.tableLockMinutes = 10,
   }) : offerings = List.of(offerings ?? const []);
 
@@ -29,6 +30,7 @@ class VipPurchaseSession {
   DateTime? tableLockExpiresAt;
   String? tableLockId;
   String? purchaseCurrency;
+  int? currencyDecimals;
   int tableLockMinutes;
 
   int get selectedTicketCount =>

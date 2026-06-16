@@ -28,7 +28,7 @@ void main() {
           body: AssignTicketSlotCardWidget(
             slot: slot,
             orderId: 'order-1',
-            onAssign: (_, __) async => true,
+            onAssign: (_, __, ___) async => true,
             onCancel: () async => true,
             onResend: () async => true,
           ),
@@ -117,7 +117,7 @@ class _SlotHostState extends State<_SlotHost> {
           AssignTicketSlotCardWidget(
             slot: slot,
             orderId: 'order-1',
-            onAssign: (_, __) async => true,
+            onAssign: (_, __, ___) async => true,
             onCancel: () async => true,
             onResend: () async => true,
           ),

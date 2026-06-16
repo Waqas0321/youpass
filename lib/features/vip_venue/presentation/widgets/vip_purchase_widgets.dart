@@ -506,15 +506,16 @@ class VipTicketSelectionSummaryRowWidget extends StatelessWidget {
         onTap: enabled ? onTap : null,
         borderRadius: BorderRadius.circular(VipVenueDesignSpec.px(context, 12)),
         child: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: VipVenueDesignSpec.px(context, 8),
+          padding: EdgeInsets.only(
+            top: VipVenueDesignSpec.px(context, 4),
+            bottom: VipVenueDesignSpec.px(context, 2),
           ),
           child: Row(
             children: [
               Icon(
                 Icons.shopping_cart_outlined,
                 color: accent,
-                size: VipVenueDesignSpec.px(context, 22),
+                size: VipVenueDesignSpec.px(context, 20),
               ),
               SizedBox(width: VipVenueDesignSpec.px(context, 10)),
               Expanded(
@@ -525,15 +526,15 @@ class VipTicketSelectionSummaryRowWidget extends StatelessWidget {
                       title,
                       variant: AppTextVariant.bodyEmphasis,
                       color: VipVenueScreenTheme.title(context),
-                      fontSize: VipVenueDesignSpec.px(context, 14),
+                      fontSize: VipVenueDesignSpec.px(context, 15),
                       fontWeight: FontWeight.w800,
                     ),
-                    SizedBox(height: VipVenueDesignSpec.px(context, 2)),
+                    SizedBox(height: VipVenueDesignSpec.px(context, 4)),
                     AppText(
                       summaryLine,
                       variant: AppTextVariant.bodyEmphasis,
                       color: accent,
-                      fontSize: VipVenueDesignSpec.px(context, 13),
+                      fontSize: VipVenueDesignSpec.px(context, 15),
                       fontWeight: FontWeight.w700,
                     ),
                   ],
@@ -542,7 +543,7 @@ class VipTicketSelectionSummaryRowWidget extends StatelessWidget {
               Icon(
                 Icons.keyboard_arrow_down_rounded,
                 color: VipVenueScreenTheme.muted(context),
-                size: VipVenueDesignSpec.px(context, 24),
+                size: VipVenueDesignSpec.px(context, 22),
               ),
             ],
           ),

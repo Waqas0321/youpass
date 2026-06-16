@@ -6,19 +6,15 @@ import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/core/widgets/youpass_branded_app_bar_widget.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
-import 'package:youpass/features/events/presentation/utils/event_detail_screen_actions.dart';
-import 'package:youpass/features/events/presentation/widgets/event_browse_card_widget.dart';
 import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
 import 'package:youpass/features/favorites/presentation/providers/favorites_provider.dart';
 import 'package:youpass/features/favorites/presentation/routes/producer_events_route_args.dart';
 import 'package:youpass/features/favorites/presentation/widgets/favorite_producer_card_widget.dart';
-import 'package:youpass/features/favorites/presentation/widgets/favorites_filter_pills_widget.dart';
 import 'package:youpass/features/favorites/presentation/widgets/favorites_footer_counters_widget.dart';
 import 'package:youpass/features/favorites/presentation/widgets/favorites_list_shimmer.dart';
 import 'package:youpass/features/favorites/presentation/widgets/favorites_search_field_widget.dart';
 import 'package:youpass/features/favorites/presentation/widgets/favorites_section_header_widget.dart';
 import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
-import 'package:youpass/features/vip_venue/presentation/utils/vip_purchase_screen_actions.dart';
 import 'package:youpass/routes/app_routes.dart';
 
 class MyFavoritesScreen extends StatefulWidget {
@@ -58,10 +54,10 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
 
   String _emptyMessage() {
     final strings = context.l10n;
-    if (favoritesProvider.isEmpty) {
+    if (favoritesProvider.producersCount == 0) {
       return AppStrings.favoritesEventsEmpty(strings);
     }
-    if (!favoritesProvider.hasVisibleResults) {
+    if (favoritesProvider.visibleProducers.isEmpty) {
       return AppStrings.favoritesNoSearchResults(strings);
     }
     return AppStrings.favoritesEventsEmpty(strings);
@@ -72,6 +68,7 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
     final strings = context.l10n;
     final horizontalPadding =
         FavoritesDesignSpec.px(context, FavoritesDesignSpec.horizontalPadding);
+    final hasProducers = favoritesProvider.visibleProducers.isNotEmpty;
 
     return AppDrawerNavigation.wrap(
       scaffoldKey: scaffoldKey,
@@ -82,7 +79,8 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
       ),
       body: favoritesProvider.isLoading
           ? const FavoritesListShimmer()
-          : favoritesProvider.errorMessage != null && favoritesProvider.isEmpty
+          : favoritesProvider.errorMessage != null &&
+                  favoritesProvider.producersCount == 0
               ? Center(
                   child: AppText(
                     AppMessageLocalizer.fromError(
@@ -114,26 +112,15 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
                         hintText: AppStrings.favoritesEventsSearchHint(strings),
                         onChanged: favoritesProvider.setSearchQuery,
                       ),
-                      SizedBox(height: FavoritesDesignSpec.px(context, 14)),
-                      FavoritesFilterPillsWidget(
-                        selectedFilter: favoritesProvider.selectedFilter,
-                        onFilterSelected: favoritesProvider.setFilter,
-                      ),
                       SizedBox(height: FavoritesDesignSpec.px(context, 18)),
-                      if (favoritesProvider.visibleProducers.isNotEmpty) ...[
-                        Text(
-                          AppStrings.favoritesSectionFollowedPromoters(strings),
-                          style: TextStyle(
-                            fontSize: FavoritesDesignSpec.px(context, 12),
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 0.4,
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                        SizedBox(height: FavoritesDesignSpec.px(context, 10)),
+                      if (hasProducers)
                         ...favoritesProvider.visibleProducers.map(
                           (producer) => FavoriteProducerCardWidget(
                             producer: producer,
+                            isUnfollowPending: favoritesProvider.producerPendingIds
+                                .contains(producer.id),
+                            onUnfollow: () =>
+                                favoritesProvider.unfollowProducer(producer.id),
                             onViewEvents: () {
                               Navigator.of(context).pushNamed(
                                 AppRoutes.producerEvents,
@@ -143,38 +130,8 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
                               );
                             },
                           ),
-                        ),
-                        SizedBox(height: FavoritesDesignSpec.px(context, 8)),
-                      ],
-                      if (favoritesProvider.visibleEvents.isNotEmpty) ...[
-                        Text(
-                          AppStrings.favoritesSectionSavedEvents(strings),
-                          style: TextStyle(
-                            fontSize: FavoritesDesignSpec.px(context, 12),
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 0.4,
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                        SizedBox(height: FavoritesDesignSpec.px(context, 10)),
-                        ...favoritesProvider.visibleEvents.map(
-                          (event) => EventBrowseCardWidget(
-                            event: event,
-                            showFavorite: true,
-                            isFavoritePending: favoritesProvider.eventPendingIds
-                                .contains(event.id),
-                            onFavoriteTap: () =>
-                                favoritesProvider.removeSavedEvent(event.id),
-                            onBuyTicket: () => VipPurchaseScreenActions(context)
-                                .openTicketSelection(event: event),
-                            onEventTap: () =>
-                                EventDetailScreenActions(context).openEventDetail(
-                              event: event,
-                            ),
-                          ),
-                        ),
-                      ],
-                      if (!favoritesProvider.hasVisibleResults)
+                        )
+                      else
                         Padding(
                           padding: EdgeInsets.symmetric(
                             vertical: FavoritesDesignSpec.px(context, 32),
@@ -190,13 +147,15 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
                                       .onSurfaceVariant,
                                 ),
                               ),
-                              if (favoritesProvider.isEmpty) ...[
+                              if (favoritesProvider.producersCount == 0) ...[
                                 SizedBox(
-                                    height: FavoritesDesignSpec.px(context, 16)),
+                                  height: FavoritesDesignSpec.px(context, 16),
+                                ),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context).popUntil(
-                                      (route) => route.settings.name == AppRoutes.home,
+                                      (route) =>
+                                          route.settings.name == AppRoutes.home,
                                     );
                                   },
                                   child: Text(
@@ -207,11 +166,12 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
                             ],
                           ),
                         ),
-                      SizedBox(height: FavoritesDesignSpec.px(context, 16)),
-                      FavoritesFooterCountersWidget(
-                        eventsCount: favoritesProvider.eventsCount,
-                        producersCount: favoritesProvider.producersCount,
-                      ),
+                      if (hasProducers) ...[
+                        SizedBox(height: FavoritesDesignSpec.px(context, 16)),
+                        FavoritesFooterCountersWidget(
+                          producersCount: favoritesProvider.producersCount,
+                        ),
+                      ],
                     ],
                   ),
                 ),

@@ -5,6 +5,7 @@ class FavoriteProducerEntity extends Equatable {
     required this.id,
     required this.name,
     this.logoUrl,
+    this.typeLabel,
     this.description,
     this.coverageLabel,
     this.followerCount = 0,
@@ -14,6 +15,7 @@ class FavoriteProducerEntity extends Equatable {
   final String id;
   final String name;
   final String? logoUrl;
+  final String? typeLabel;
   final String? description;
   final String? coverageLabel;
   final int followerCount;
@@ -24,6 +26,7 @@ class FavoriteProducerEntity extends Equatable {
         id,
         name,
         logoUrl,
+        typeLabel,
         description,
         coverageLabel,
         followerCount,

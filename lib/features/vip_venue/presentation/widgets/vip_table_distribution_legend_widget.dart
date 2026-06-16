@@ -24,13 +24,6 @@ class VipTableDistributionLegendWidget extends StatelessWidget {
         ),
         SizedBox(width: gap),
         VipLegendItemWidget(
-          color: VipVenueMapTheme.tablePremium,
-          label: AppStrings.vipLegendTablePremium(strings),
-          shape: VipLegendIndicatorShape.dot,
-          labelColor: VipVenueMapTheme.legendLabel(context),
-        ),
-        SizedBox(width: gap),
-        VipLegendItemWidget(
           color: VipVenueMapTheme.tableSelected,
           label: AppStrings.vipLegendTableSelection(strings),
           shape: VipLegendIndicatorShape.dot,

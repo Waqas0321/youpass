@@ -8,6 +8,7 @@ import 'package:youpass/features/invitations/domain/entities/invitation_qr_statu
 import 'package:youpass/features/invitations/presentation/routes/event_ticket_route_args.dart';
 import 'package:youpass/features/invitations/presentation/utils/invitations_qr_helper.dart';
 import 'package:youpass/features/invitations/presentation/widgets/invitation_qr_unavailable_dialog.dart';
+import 'package:youpass/features/tickets/domain/entities/ticket_tier.dart';
 import 'package:youpass/features/tickets/domain/entities/upcoming_ticket_entity.dart';
 import 'package:youpass/features/tickets/presentation/providers/tickets_provider.dart';
 import 'package:youpass/features/ticket_assignment/presentation/routes/assign_tickets_route_args.dart';
@@ -109,6 +110,7 @@ class TicketsScreenActions {
         ticketId: ticket.id,
         orderId: ticket.ticketOrderId,
         eventTitle: ticket.title,
+        isVip: ticket.tier == TicketTier.vip,
       ),
     );
   }

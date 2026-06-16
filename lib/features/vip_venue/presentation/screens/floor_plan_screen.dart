@@ -6,6 +6,7 @@ import 'package:youpass/core/widgets/shimmer/vip_floor_plan_shimmer.dart';
 import 'package:youpass/features/vip_venue/domain/entities/venue_floor_plan_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/venue_zone_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/venue_zone_kind.dart';
+import 'package:youpass/features/vip_venue/domain/entities/venue_zone_status.dart';
 import 'package:youpass/features/vip_venue/presentation/providers/vip_venue_provider.dart';
 import 'package:youpass/features/vip_venue/presentation/routes/vip_purchase_route_args.dart';
 import 'package:youpass/features/vip_venue/presentation/utils/vip_venue_availability_mapper.dart';
@@ -14,6 +15,7 @@ import 'package:youpass/features/vip_venue/presentation/vip_venue_design_spec.da
 import 'package:youpass/features/vip_venue/presentation/widgets/venue_floor_plan_widget.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_floor_plan_hint_card_widget.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_flow_scaffold.dart';
+import 'package:youpass/features/vip_venue/presentation/widgets/vip_navigation_widgets.dart';
 import 'package:youpass/routes/app_routes.dart';
 
 class FloorPlanScreen extends StatefulWidget {
@@ -34,6 +36,7 @@ class FloorPlanScreen extends StatefulWidget {
 
 class _FloorPlanScreenState extends State<FloorPlanScreen> {
   VenueFloorPlanEntity? floorPlan;
+  String? selectedZoneId;
   late final VipVenueAvailabilityPoller _availabilityPoller;
 
   @override
@@ -77,7 +80,42 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
 
     setState(() {
       floorPlan = VipVenueAvailabilityMapper.mergeFloorPlan(currentPlan, snapshot);
+      _clearSelectionIfInvalid();
     });
+  }
+
+  void _clearSelectionIfInvalid() {
+    final plan = floorPlan;
+    if (plan == null || selectedZoneId == null) {
+      return;
+    }
+
+    final stillSelectable = plan.zones.any(
+      (zone) =>
+          zone.id == selectedZoneId &&
+          zone.isSelectable &&
+          zone.status != VenueZoneStatus.sold,
+    );
+    if (!stillSelectable) {
+      selectedZoneId = null;
+    }
+  }
+
+  void selectZone(VenueZoneEntity zone) {
+    if (!zone.isSelectable || zone.status == VenueZoneStatus.sold) {
+      return;
+    }
+    setState(() => selectedZoneId = zone.id);
+  }
+
+  void openSelectedZone() {
+    final plan = floorPlan;
+    if (plan == null || selectedZoneId == null) {
+      return;
+    }
+
+    final zone = plan.zones.firstWhere((item) => item.id == selectedZoneId);
+    openZone(context, zone);
   }
 
   void openZone(BuildContext context, VenueZoneEntity zone) {
@@ -89,6 +127,22 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
     Navigator.of(context).pushNamed(
       AppRoutes.vipTableSelection,
       arguments: VipPurchaseRouteArgs(session: widget.args.session),
+    );
+  }
+
+  Widget _buildBottomBar(BuildContext context, {bool canContinue = false}) {
+    final strings = context.l10n;
+    final padding = VipVenueDesignSpec.px(context, VipVenueDesignSpec.horizontalPadding);
+
+    return SafeArea(
+      minimum: EdgeInsets.fromLTRB(padding, 0, padding, padding),
+      child: VipFlowBottomActionRowWidget(
+        backLabel: AppStrings.vipBackButton(strings),
+        onBack: () => Navigator.of(context).pop(),
+        primaryLabel: AppStrings.vipContinueButton(strings),
+        onPrimary: canContinue ? openSelectedZone : null,
+        primaryEnabled: canContinue,
+      ),
     );
   }
 
@@ -105,6 +159,7 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
       return VipFlowScaffold(
         title: AppStrings.vipFloorPlanTitle(strings),
         body: const VipFloorPlanShimmer(),
+        bottomBar: _buildBottomBar(context),
       );
     }
 
@@ -121,6 +176,7 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
             textAlign: TextAlign.center,
           ),
         ),
+        bottomBar: _buildBottomBar(context),
       );
     }
 
@@ -140,16 +196,19 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
               zone.kind != VenueZoneKind.danceFloor,
         )
         .toList();
+    final canContinue = selectedZoneId != null;
 
     return VipFlowScaffold(
       title: AppStrings.vipFloorPlanTitle(strings),
       subtitle: subtitle,
+      bottomBar: _buildBottomBar(context, canContinue: canContinue),
       body: ListView(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, padding),
         children: [
           VenueFloorPlanWidget(
             zones: plan.zones,
-            onZoneTap: (zone) => openZone(context, zone),
+            selectedZoneId: selectedZoneId,
+            onZoneTap: selectZone,
           ),
           SizedBox(height: VipVenueDesignSpec.px(context, 16)),
           const VenueMapLegendWidget(),

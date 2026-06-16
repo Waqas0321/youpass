@@ -1,3 +1,4 @@
+import 'package:youpass/features/ticket_assignment/domain/entities/assign_guest_lookup_entity.dart';
 import 'package:youpass/features/ticket_assignment/domain/entities/assign_ticket_guest_request_entity.dart';
 import 'package:youpass/features/ticket_assignment/domain/entities/assign_ticket_guest_result_entity.dart';
 import 'package:youpass/features/ticket_assignment/domain/entities/event_checkout_request_entity.dart';
@@ -15,6 +16,8 @@ abstract class TicketAssignmentRepository {
     String? orderId,
     String? ticketId,
   });
+
+  Future<List<AssignGuestLookupEntity>> lookupAssignGuests(String query);
 
   Future<AssignTicketGuestResultEntity> assignGuest(
     String orderId,

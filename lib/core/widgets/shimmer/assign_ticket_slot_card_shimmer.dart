@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/theme/tickets_screen_theme.dart';
 import 'package:youpass/core/widgets/shimmer/youpass_shimmer_box.dart';
+import 'package:youpass/features/ticket_assignment/presentation/ticket_assignment_design_spec.dart';
 import 'package:youpass/features/tickets/presentation/tickets_design_spec.dart';
 
 class AssignTicketSlotCardShimmer extends StatelessWidget {
@@ -8,12 +9,12 @@ class AssignTicketSlotCardShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final radius = TicketsDesignSpec.px(context, TicketsDesignSpec.cardRadius);
+    final radius = TicketAssignmentDesignSpec.cardRadius(context);
     final spacing = TicketsDesignSpec.px(context, 10);
-    final fieldHeight = TicketsDesignSpec.px(context, 44);
-    final buttonHeight = TicketsDesignSpec.px(context, 40);
-    final buttonRadius = TicketsDesignSpec.px(context, 10);
-    final avatarSize = TicketsDesignSpec.px(context, 44);
+    final fieldHeight = TicketsDesignSpec.px(context, 42);
+    final buttonHeight = TicketAssignmentDesignSpec.buttonHeight(context);
+    final buttonRadius = TicketAssignmentDesignSpec.buttonRadius(context);
+    final avatarSize = TicketAssignmentDesignSpec.avatarSize(context);
 
     return Container(
       margin: EdgeInsets.only(bottom: TicketsDesignSpec.px(context, 14)),
@@ -22,30 +23,28 @@ class AssignTicketSlotCardShimmer extends StatelessWidget {
         color: TicketsScreenTheme.cardBackground(context),
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(color: TicketsScreenTheme.cardBorder(context)),
-        boxShadow: TicketsScreenTheme.cardShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
             children: [
-              Expanded(
-                child: YouPassShimmerBox(
-                  height: TicketsDesignSpec.px(context, 16),
-                  borderRadius: TicketsDesignSpec.px(context, 6),
-                ),
+              YouPassShimmerBox(
+                width: TicketsDesignSpec.px(context, 88),
+                height: TicketsDesignSpec.px(context, 16),
+                borderRadius: TicketsDesignSpec.px(context, 6),
               ),
               SizedBox(width: spacing),
               YouPassShimmerBox(
-                width: TicketsDesignSpec.px(context, 72),
-                height: TicketsDesignSpec.px(context, 24),
-                borderRadius: TicketsDesignSpec.px(context, 20),
+                width: TicketsDesignSpec.px(context, 88),
+                height: TicketsDesignSpec.px(context, 22),
+                borderRadius: buttonRadius,
               ),
             ],
           ),
           SizedBox(height: TicketsDesignSpec.px(context, 14)),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               YouPassShimmerBox(
                 width: avatarSize,
@@ -54,18 +53,23 @@ class AssignTicketSlotCardShimmer extends StatelessWidget {
               ),
               SizedBox(width: spacing),
               Expanded(
-                child: YouPassShimmerBox(
-                  height: fieldHeight,
-                  borderRadius: TicketsDesignSpec.px(context, 8),
+                child: Column(
+                  children: [
+                    YouPassShimmerBox(
+                      width: double.infinity,
+                      height: fieldHeight,
+                      borderRadius: TicketAssignmentDesignSpec.fieldRadius(context),
+                    ),
+                    SizedBox(height: spacing),
+                    YouPassShimmerBox(
+                      width: double.infinity,
+                      height: fieldHeight,
+                      borderRadius: TicketAssignmentDesignSpec.fieldRadius(context),
+                    ),
+                  ],
                 ),
               ),
             ],
-          ),
-          SizedBox(height: spacing),
-          YouPassShimmerBox(
-            width: double.infinity,
-            height: fieldHeight,
-            borderRadius: TicketsDesignSpec.px(context, 8),
           ),
           SizedBox(height: TicketsDesignSpec.px(context, 12)),
           Row(
@@ -84,6 +88,12 @@ class AssignTicketSlotCardShimmer extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          SizedBox(height: spacing),
+          YouPassShimmerBox(
+            width: double.infinity,
+            height: buttonHeight,
+            borderRadius: buttonRadius,
           ),
         ],
       ),

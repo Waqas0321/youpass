@@ -5,7 +5,12 @@ import 'package:youpass/features/favorites/domain/entities/favorites_filter.dart
 class FavoritesFilterHelper {
   FavoritesFilterHelper._();
 
-  static bool _matchesSearch(String query, String primary, [String? secondary]) {
+  static bool _matchesSearch(
+    String query,
+    String primary, {
+    String? secondary,
+    String? tertiary,
+  }) {
     if (query.isEmpty) {
       return true;
     }
@@ -15,12 +20,13 @@ class FavoritesFilterHelper {
       return true;
     }
 
-    if (primary.toLowerCase().contains(normalized)) {
-      return true;
-    }
+    final values = [
+      primary,
+      secondary ?? '',
+      tertiary ?? '',
+    ];
 
-    final extra = secondary?.toLowerCase() ?? '';
-    return extra.contains(normalized);
+    return values.any((value) => value.toLowerCase().contains(normalized));
   }
 
   static bool _isUpcoming(DateTime? startsAt) {
@@ -49,7 +55,8 @@ class FavoritesFilterHelper {
       if (!_matchesSearch(
         searchQuery,
         producer.name,
-        producer.description,
+        secondary: producer.typeLabel,
+        tertiary: producer.description,
       )) {
         return false;
       }
@@ -69,7 +76,7 @@ class FavoritesFilterHelper {
       if (!_matchesSearch(
         searchQuery,
         event.title,
-        event.locationLabel,
+        secondary: event.locationLabel,
       )) {
         return false;
       }

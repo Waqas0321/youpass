@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:youpass/core/locale/app_locale.dart';
 import 'package:youpass/core/locale/country_locale_mapper.dart';
@@ -50,6 +48,6 @@ class LocaleProvider extends ChangeNotifier {
       }
     }
 
-    return AppLocale.resolveSupported(PlatformDispatcher.instance.locale);
+    return AppLocale.defaultLocale;
   }
 }

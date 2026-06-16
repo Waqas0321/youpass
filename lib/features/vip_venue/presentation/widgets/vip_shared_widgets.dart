@@ -186,29 +186,29 @@ class VipPriceColumnWidget extends StatelessWidget {
     super.key,
     required this.amount,
     this.currencyLabel = 'CLP',
+    this.amountColor,
   });
 
   final String amount;
   final String currencyLabel;
+  final Color? amountColor;
 
   @override
   Widget build(BuildContext context) {
-    final accent = VipVenueScreenTheme.accent(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         AppText(
           amount,
           variant: AppTextVariant.bodyEmphasis,
-          color: accent,
-          fontSize: VipVenueDesignSpec.px(context, 20),
+          color: amountColor ?? VipVenueScreenTheme.title(context),
+          fontSize: VipVenueDesignSpec.px(context, 16),
           fontWeight: FontWeight.w800,
         ),
         AppText(
           currencyLabel,
           variant: AppTextVariant.sectionCaption,
-          color: VipVenueScreenTheme.title(context),
+          color: VipVenueScreenTheme.muted(context),
           fontSize: VipVenueDesignSpec.px(context, 11),
           fontWeight: FontWeight.w600,
         ),

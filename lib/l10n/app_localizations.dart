@@ -485,19 +485,19 @@ abstract class AppLocalizations {
   /// No description provided for @favoritesEventsSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Events you saved with the heart icon'**
+  /// **'Your favorite producers appear here'**
   String get favoritesEventsSubtitle;
 
   /// No description provided for @favoritesEventsSearchHint.
   ///
   /// In en, this message translates to:
-  /// **'Search favorite event'**
+  /// **'Search producer'**
   String get favoritesEventsSearchHint;
 
   /// No description provided for @favoritesEventsEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No favorite events yet. Tap the heart on an event to save it here.'**
+  /// **'No followed promoters yet. Follow a promoter from an event to see them here.'**
   String get favoritesEventsEmpty;
 
   /// No description provided for @favoritesSavedEventsCount.
@@ -2147,7 +2147,7 @@ abstract class AppLocalizations {
   /// No description provided for @favoritesNoSearchResults.
   ///
   /// In en, this message translates to:
-  /// **'No promoters or events found matching your search'**
+  /// **'No promoters found matching your search'**
   String get favoritesNoSearchResults;
 
   /// No description provided for @favoritesExploreCta.
@@ -2197,6 +2197,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search event'**
   String get producerEventsSearchHint;
+
+  /// No description provided for @producerEventsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming events from this promoter yet.'**
+  String get producerEventsEmpty;
 
   /// No description provided for @producerEventCategoryParties.
   ///
@@ -3332,6 +3338,42 @@ abstract class AppLocalizations {
   /// **'Search from contacts'**
   String get ticketAssignmentPickContact;
 
+  /// No description provided for @ticketAssignmentSearchGuestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find guest'**
+  String get ticketAssignmentSearchGuestTitle;
+
+  /// No description provided for @ticketAssignmentSearchGuestSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search registered YouPass users by name or phone. If they are not registered, enter their details manually on the card.'**
+  String get ticketAssignmentSearchGuestSubtitle;
+
+  /// No description provided for @ticketAssignmentSearchGuestHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Name or phone number'**
+  String get ticketAssignmentSearchGuestHint;
+
+  /// No description provided for @ticketAssignmentSearchGuestEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No registered user found. You can type their name and phone manually, then send the WhatsApp invitation.'**
+  String get ticketAssignmentSearchGuestEmpty;
+
+  /// No description provided for @ticketAssignmentSearchGuestManualHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Close this sheet to type guest details manually on the ticket card.'**
+  String get ticketAssignmentSearchGuestManualHint;
+
+  /// No description provided for @ticketAssignmentRegisteredBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'YouPass'**
+  String get ticketAssignmentRegisteredBadge;
+
   /// No description provided for @ticketAssignmentSendTicket.
   ///
   /// In en, this message translates to:
@@ -3353,7 +3395,7 @@ abstract class AppLocalizations {
   /// No description provided for @ticketAssignmentSentSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Invitation sent via WhatsApp'**
+  /// **'WhatsApp opened — tap Send to deliver the invitation'**
   String get ticketAssignmentSentSuccess;
 
   /// No description provided for @ticketAssignmentContactsPermissionDenied.
@@ -3383,7 +3425,7 @@ abstract class AppLocalizations {
   /// No description provided for @ticketAssignmentWhatsAppInfo.
   ///
   /// In en, this message translates to:
-  /// **'A link with instructions to download and register in YouPass will be sent via WhatsApp once you send them the ticket.'**
+  /// **'When you send the ticket, WhatsApp opens with your guest\'s number and a pre-filled message. Tap Send in WhatsApp to deliver the invitation link.'**
   String get ticketAssignmentWhatsAppInfo;
 
   /// No description provided for @ticketAssignmentPrivacyNote.
@@ -3505,6 +3547,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{ticketCount} • {amount}'**
   String vipTicketSelectionSummaryLine(String ticketCount, String amount);
+
+  /// No description provided for @vipBackButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get vipBackButton;
+
+  /// No description provided for @vipContinueButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get vipContinueButton;
 
   /// No description provided for @vipContinueWithTickets.
   ///
@@ -3719,8 +3773,14 @@ abstract class AppLocalizations {
   /// No description provided for @vipLegendAvailableShort.
   ///
   /// In en, this message translates to:
-  /// **'Avail.'**
+  /// **'Avail'**
   String get vipLegendAvailableShort;
+
+  /// No description provided for @vipLegendUnselected.
+  ///
+  /// In en, this message translates to:
+  /// **'Unselected'**
+  String get vipLegendUnselected;
 
   /// No description provided for @vipDanceFloorGeneral.
   ///
@@ -3939,7 +3999,7 @@ abstract class AppLocalizations {
   /// No description provided for @vipPurchaseSuccessMessage.
   ///
   /// In en, this message translates to:
-  /// **'Your payment has been processed correctly.'**
+  /// **'Your tickets are ready in My Tickets.'**
   String get vipPurchaseSuccessMessage;
 
   /// No description provided for @vipTableLockCountdown.

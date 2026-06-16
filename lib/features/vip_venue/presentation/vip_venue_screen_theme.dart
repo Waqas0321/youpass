@@ -15,6 +15,9 @@ class VipVenueScreenTheme {
 
   static Color accent(BuildContext context) => brandGold;
 
+  static Color vipCardAccent(BuildContext context) =>
+      VipVenueDesignSpec.zoneAvailable;
+
   static Color screenBackground(BuildContext context) =>
       YouPassThemedColors.screenBackground(context);
 

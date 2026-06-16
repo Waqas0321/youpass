@@ -133,6 +133,7 @@ class EventDetailEntity extends EventEntity {
         id: currentProducer.id,
         name: currentProducer.name,
         logoUrl: currentProducer.logoUrl,
+        typeLabel: currentProducer.typeLabel,
         description: currentProducer.description,
         coverageLabel: currentProducer.coverageLabel,
         followerCount: currentProducer.followerCount,

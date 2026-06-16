@@ -28,6 +28,7 @@ class AssignTicketGuestResultModel extends AssignTicketGuestResultEntity {
   const AssignTicketGuestResultModel({
     required super.slot,
     super.claimUrl,
+    super.whatsappUrl,
     super.message,
   });
 
@@ -43,6 +44,8 @@ class AssignTicketGuestResultModel extends AssignTicketGuestResultEntity {
               status: TicketSlotStatus.available,
             ),
       claimUrl: json['claim_url']?.toString() ?? json['claimUrl']?.toString(),
+      whatsappUrl:
+          json['whatsapp_url']?.toString() ?? json['whatsappUrl']?.toString(),
       message: json['message']?.toString(),
     );
   }

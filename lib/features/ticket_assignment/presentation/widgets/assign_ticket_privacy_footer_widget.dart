@@ -17,7 +17,7 @@ class AssignTicketPrivacyFooterWidget extends StatelessWidget {
         Icon(
           Icons.lock_outline,
           size: TicketsDesignSpec.px(context, 16),
-          color: TicketsScreenTheme.body(context),
+          color: TicketsScreenTheme.accent(context),
         ),
         SizedBox(width: TicketsDesignSpec.px(context, 8)),
         Flexible(

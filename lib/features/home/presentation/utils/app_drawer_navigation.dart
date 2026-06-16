@@ -55,23 +55,36 @@ class AppDrawerNavigation {
   }
 
   static void handleMenuSelected(BuildContext context, DrawerMenuId menuId) {
-    Navigator.of(context).pop();
+    void navigate() {
+      if (!context.mounted) {
+        return;
+      }
 
-    switch (menuId) {
-      case DrawerMenuId.home:
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          AppRoutes.home,
-          (route) => false,
-        );
-      case DrawerMenuId.profile:
-        _navigateTo(context, AppRoutes.profile);
-      case DrawerMenuId.tickets:
-        _navigateTo(context, AppRoutes.myTickets);
-      case DrawerMenuId.favorites:
-        _navigateTo(context, AppRoutes.myFavorites);
-      case DrawerMenuId.invitations:
-        _navigateTo(context, AppRoutes.myInvitations);
+      switch (menuId) {
+        case DrawerMenuId.home:
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            AppRoutes.home,
+            (route) => false,
+          );
+        case DrawerMenuId.profile:
+          _navigateTo(context, AppRoutes.profile);
+        case DrawerMenuId.tickets:
+          _navigateTo(context, AppRoutes.myTickets);
+        case DrawerMenuId.favorites:
+          _navigateTo(context, AppRoutes.myFavorites);
+        case DrawerMenuId.invitations:
+          _navigateTo(context, AppRoutes.myInvitations);
+      }
     }
+
+    final navigator = Navigator.of(context);
+    if (navigator.canPop()) {
+      navigator.pop();
+      WidgetsBinding.instance.addPostFrameCallback((_) => navigate());
+      return;
+    }
+
+    navigate();
   }
 
   static void _navigateTo(BuildContext context, String routeName) {

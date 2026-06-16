@@ -116,9 +116,9 @@
       }
     }
   },
-  "favoritesEventsSubtitle": "Eventos que guardaste con el icono de corazón",
-  "favoritesEventsSearchHint": "Buscar evento favorito",
-  "favoritesEventsEmpty": "Aún no tienes eventos favoritos. Toca el corazón en un evento para guardarlo aquí.",
+  "favoritesEventsSubtitle": "Tus productoras favoritas aparecerán aquí",
+  "favoritesEventsSearchHint": "Buscar productora",
+  "favoritesEventsEmpty": "Aún no sigues ninguna productora. Síguela desde el detalle de un evento.",
   "favoritesSavedEventsCount": "{count} eventos guardados",
   "@favoritesSavedEventsCount": {
     "placeholders": {
@@ -506,7 +506,7 @@
       "count": {"type": "String"}
     }
   },
-  "favoritesNoSearchResults": "No se encontraron productoras o eventos que coincidan con tu búsqueda",
+  "favoritesNoSearchResults": "No se encontraron productoras que coincidan con tu búsqueda",
   "favoritesExploreCta": "Explorar eventos",
   "favoritesSectionFollowedPromoters": "PRODUCTORAS SEGUIDAS",
   "favoritesSectionSavedEvents": "EVENTOS GUARDADOS",
@@ -522,6 +522,7 @@
     }
   },
   "producerEventsSearchHint": "Buscar evento",
+  "producerEventsEmpty": "Esta productora no tiene eventos próximos por ahora.",
   "producerEventCategoryParties": "Fiestas",
   "producerEventCategoryFestivals": "Festivales",
   "producerEventCategoryConcerts": "Conciertos",
@@ -822,15 +823,21 @@
   "ticketAssignmentGuestPhoneLabel": "Teléfono del invitado",
   "ticketAssignmentGuestPhoneHint": "Teléfono (ej. +56 9 1234 5678)",
   "ticketAssignmentPickContact": "Buscar desde contactos",
+  "ticketAssignmentSearchGuestTitle": "Buscar invitado",
+  "ticketAssignmentSearchGuestSubtitle": "Busca usuarios registrados en YouPass por nombre o teléfono. Si no está registrado, ingresa sus datos manualmente en la tarjeta.",
+  "ticketAssignmentSearchGuestHint": "Nombre o teléfono",
+  "ticketAssignmentSearchGuestEmpty": "No encontramos un usuario registrado. Puedes escribir nombre y teléfono manualmente y enviar la invitación por WhatsApp.",
+  "ticketAssignmentSearchGuestManualHint": "Cierra este panel para escribir los datos manualmente en la tarjeta.",
+  "ticketAssignmentRegisteredBadge": "YouPass",
   "ticketAssignmentSendTicket": "Enviar entrada",
   "ticketAssignmentCancelTicket": "Cancelar entrada",
   "ticketAssignmentResendWhatsApp": "Reenviar WhatsApp",
-  "ticketAssignmentSentSuccess": "Invitación enviada por WhatsApp",
+  "ticketAssignmentSentSuccess": "WhatsApp se abrió — toca Enviar para entregar la invitación",
   "ticketAssignmentContactsPermissionDenied": "Se requiere permiso de contactos para elegir un invitado",
   "ticketAssignmentMissingOrder": "Esta entrada aún no se puede asignar",
   "ticketAssignmentNoAssignableTickets": "No hay entradas disponibles para asignar en este momento",
   "ticketAssignmentRetry": "Reintentar",
-  "ticketAssignmentWhatsAppInfo": "Se enviará un link con instrucciones para descargar y registrarse en YouPass a través de WhatsApp, una vez les envíes la entrada.",
+  "ticketAssignmentWhatsAppInfo": "Al enviar la entrada, WhatsApp se abrirá con el número de tu invitado y un mensaje prellenado. Toca Enviar en WhatsApp para entregar el link de invitación.",
   "ticketAssignmentPrivacyNote": "Tus datos y los de tus invitados están protegidos",
   "invitationClaimTitle": "Tienes una invitación de entrada",
   "invitationClaimGuestLabel": "Invitado",
@@ -862,6 +869,8 @@
       "amount": {"type": "String"}
     }
   },
+  "vipBackButton": "Volver",
+  "vipContinueButton": "Continuar",
   "vipContinueWithTickets": "Continuar - {ticketCount}",
   "@vipContinueWithTickets": {
     "placeholders": {
@@ -919,6 +928,7 @@
   },
   "vipEmergencyExit": "SALIDA EMERGENCIA",
   "vipLegendAvailableShort": "Disp.",
+  "vipLegendUnselected": "Sin seleccionar",
   "vipDanceFloorGeneral": "General",
   "vipTableDistributionTitle": "DISTRIBUCIÓN {zone}",
   "@vipTableDistributionTitle": {
@@ -1043,7 +1053,7 @@
     }
   },
   "vipPurchaseSuccessTitle": "¡Compra exitosa!",
-  "vipPurchaseSuccessMessage": "Tu pago ha sido procesado correctamente.",
+  "vipPurchaseSuccessMessage": "Tus entradas ya están en Mis entradas.",
   "vipTableLockCountdown": "Completa el pago en {time}",
   "@vipTableLockCountdown": {
     "placeholders": {

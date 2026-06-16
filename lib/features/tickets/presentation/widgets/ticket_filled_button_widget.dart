@@ -22,7 +22,7 @@ class TicketFilledButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = TicketsDesignSpec.px(context, 44);
-    final radius = TicketsDesignSpec.px(context, 10);
+    final radius = height / 2;
 
     return SizedBox(
       width: double.infinity,
@@ -57,8 +57,8 @@ class TicketFilledButtonWidget extends StatelessWidget {
                     label,
                     style: TextStyle(
                       fontSize: TicketsDesignSpec.px(context, 13),
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.3,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.4,
                     ),
                   ),
                 ],

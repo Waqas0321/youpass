@@ -26,8 +26,8 @@ class VenueMapLegendWidget extends StatelessWidget {
         ),
         SizedBox(width: VipVenueDesignSpec.px(context, 20)),
         VipLegendItemWidget(
-          color: VipVenueMapTheme.neonPink,
-          label: AppStrings.vipLegendPremium(strings),
+          color: VipVenueMapTheme.tableSelected,
+          label: AppStrings.vipLegendTableSelection(strings),
           labelColor: VipVenueMapTheme.legendLabel(context),
         ),
         SizedBox(width: VipVenueDesignSpec.px(context, 20)),
@@ -46,10 +46,12 @@ class VenueFloorPlanWidget extends StatelessWidget {
     super.key,
     required this.zones,
     required this.onZoneTap,
+    this.selectedZoneId,
   });
 
   final List<VenueZoneEntity> zones;
   final ValueChanged<VenueZoneEntity> onZoneTap;
+  final String? selectedZoneId;
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +116,8 @@ class VenueFloorPlanWidget extends StatelessWidget {
                                     strings,
                                     tableZones[rowStart + offset].capacityPerTable ?? 10,
                                   ),
+                                  isSelected: tableZones[rowStart + offset].id ==
+                                      selectedZoneId,
                                   onTap: tableZones[rowStart + offset].isSelectable &&
                                           tableZones[rowStart + offset].status !=
                                               VenueZoneStatus.sold
@@ -256,30 +260,38 @@ class _VipZoneCard extends StatelessWidget {
     required this.zonePrefix,
     required this.capacityLabel,
     required this.onTap,
+    this.isSelected = false,
   });
 
   final VenueZoneEntity zone;
   final String zonePrefix;
   final String capacityLabel;
   final VoidCallback? onTap;
+  final bool isSelected;
 
   Color get borderColor {
+    if (isSelected) {
+      return VipVenueMapTheme.tableSelected;
+    }
+
     switch (zone.status) {
       case VenueZoneStatus.available:
-        return VipVenueMapTheme.neonGreen;
       case VenueZoneStatus.premium:
-        return VipVenueMapTheme.neonPink;
+        return VipVenueMapTheme.neonGreen;
       case VenueZoneStatus.sold:
         return VipVenueMapTheme.neonPurple;
     }
   }
 
   Color get iconBackground {
+    if (isSelected) {
+      return VipVenueMapTheme.tableSelected.withValues(alpha: 0.18);
+    }
+
     switch (zone.status) {
       case VenueZoneStatus.available:
-        return VipVenueMapTheme.neonGreen.withValues(alpha: 0.18);
       case VenueZoneStatus.premium:
-        return VipVenueMapTheme.neonPink.withValues(alpha: 0.18);
+        return VipVenueMapTheme.neonGreen.withValues(alpha: 0.18);
       case VenueZoneStatus.sold:
         return VipVenueMapTheme.neonPurple.withValues(alpha: 0.18);
     }
@@ -314,7 +326,10 @@ class _VipZoneCard extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(VipVenueDesignSpec.px(context, 12)),
-            border: Border.all(color: borderColor, width: 2),
+            border: Border.all(
+              color: borderColor,
+              width: isSelected ? 2.5 : 2,
+            ),
           ),
           child: Column(
             children: [

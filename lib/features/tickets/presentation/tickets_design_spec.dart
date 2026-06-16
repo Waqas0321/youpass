@@ -7,6 +7,7 @@ class TicketsDesignSpec {
 
   static const Color primary = Color(0xFFE69D17);
   static const Color vipButton = Color(0xFF1A2B4A);
+  static const Color vipAssignAccent = Color(0xFF4CAF50);
   static const Color screenBackground = Color(0xFFFFFFFF);
   static const Color cardBackground = Color(0xFFFFFFFF);
   static const Color titleText = Color(0xFF212121);

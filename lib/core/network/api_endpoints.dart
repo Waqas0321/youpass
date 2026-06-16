@@ -153,6 +153,9 @@ class ApiEndpoints {
   static String eventCheckoutConfirm(String eventId) =>
       '$apiV1/events/$eventId/checkout/confirm';
 
+  static String ticketOrderGuestLookup(String query) =>
+      '$apiV1/users/me/ticket-orders/guest-lookup?q=${Uri.encodeQueryComponent(query)}';
+
   static String ticketOrderAssignments(String orderId) =>
       '$apiV1/users/me/ticket-orders/$orderId/assignments';
 

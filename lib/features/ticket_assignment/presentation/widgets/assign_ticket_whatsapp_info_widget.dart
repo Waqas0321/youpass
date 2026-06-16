@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_colors.dart';
+import 'package:youpass/core/widgets/whatsapp_brand_icon.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/theme/tickets_screen_theme.dart';
@@ -19,16 +20,25 @@ class AssignTicketWhatsAppInfoWidget extends StatelessWidget {
         color: AppColors.whatsAppGreen.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(
-          color: AppColors.whatsAppGreen.withValues(alpha: 0.25),
+          color: AppColors.whatsAppGreen.withValues(alpha: 0.35),
         ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            Icons.chat_bubble_outline,
-            color: AppColors.whatsAppGreen,
-            size: TicketsDesignSpec.px(context, 22),
+          Container(
+            width: TicketsDesignSpec.px(context, 28),
+            height: TicketsDesignSpec.px(context, 28),
+            decoration: const BoxDecoration(
+              color: AppColors.whatsAppGreen,
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: WhatsAppBrandIcon(
+                size: TicketsDesignSpec.px(context, 16),
+                color: Colors.white,
+              ),
+            ),
           ),
           SizedBox(width: TicketsDesignSpec.px(context, 10)),
           Expanded(

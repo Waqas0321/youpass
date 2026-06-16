@@ -12,8 +12,8 @@ import 'package:youpass/features/vip_venue/presentation/utils/vip_venue_availabi
 import 'package:youpass/features/vip_venue/presentation/utils/vip_venue_label_helper.dart';
 import 'package:youpass/features/vip_venue/presentation/vip_venue_design_spec.dart';
 import 'package:youpass/features/vip_venue/presentation/vip_venue_screen_theme.dart';
-import 'package:youpass/features/vip_venue/presentation/widgets/vip_primary_button_widget.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_flow_scaffold.dart';
+import 'package:youpass/features/vip_venue/presentation/widgets/vip_navigation_widgets.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_table_detail_card_widget.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_table_distribution_legend_widget.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/vip_table_distribution_map_widget.dart';
@@ -212,10 +212,16 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
           ? null
           : Padding(
               padding: EdgeInsets.fromLTRB(padding, 0, padding, padding),
-              child: VipPrimaryButtonWidget(
-                label: VipVenueLabelHelper.tableReserveLabel(strings, activeTable.label),
-                onPressed: provider.isLockingTable ? null : reserveTable,
-                isLoading: provider.isLockingTable,
+              child: VipFlowBottomActionRowWidget(
+                backLabel: AppStrings.vipBackButton(strings),
+                onBack: () => Navigator.of(context).pop(),
+                primaryLabel: VipVenueLabelHelper.tableReserveLabel(
+                  strings,
+                  activeTable.label,
+                ),
+                onPrimary: reserveTable,
+                primaryEnabled: !provider.isLockingTable,
+                primaryLoading: provider.isLockingTable,
               ),
             ),
       body: isLoading

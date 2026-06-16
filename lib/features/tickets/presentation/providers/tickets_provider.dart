@@ -6,7 +6,7 @@ import 'package:youpass/core/services/tickets_cache.dart';
 import 'package:youpass/features/events/domain/usecases/toggle_event_favorite_usecase.dart'
     as events_usecases;
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
-import 'package:youpass/features/invitations/domain/entities/invitation_status.dart';
+import 'package:youpass/features/invitations/domain/entities/invitation_status_extensions.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_ticket_entity.dart';
 import 'package:youpass/features/invitations/domain/usecases/confirm_invitation_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/fetch_invitations_usecase.dart';
@@ -225,7 +225,7 @@ class TicketsProvider extends ChangeNotifier {
     try {
       final invitations = await fetchInvitationsUseCase();
       pendingInvitations = invitations
-          .where((item) => item.status == InvitationStatus.pending)
+          .where((item) => item.status.isPending)
           .toList();
       invitationsStatus = TicketsLoadStatus.ready;
       invitationsErrorMessage = null;

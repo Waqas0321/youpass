@@ -1,6 +1,7 @@
 import 'package:youpass/core/network/api_endpoints.dart';
 import 'package:youpass/core/network/base_api_service.dart';
 import 'package:youpass/core/security/recaptcha_service.dart';
+import 'package:youpass/features/ticket_assignment/data/models/assign_guest_lookup_model.dart';
 import 'package:youpass/features/ticket_assignment/data/models/assign_ticket_guest_models.dart';
 import 'package:youpass/features/ticket_assignment/data/models/event_checkout_models.dart';
 import 'package:youpass/features/ticket_assignment/data/models/invitation_claim_model.dart';
@@ -74,6 +75,14 @@ class TicketAssignmentApiService extends BaseApiService {
     return getModel(
       ApiEndpoints.ticketAssignments(ticketId),
       fromJson: TicketOrderAssignmentsModel.fromJson,
+      authenticated: true,
+    );
+  }
+
+  Future<AssignGuestLookupListModel> lookupAssignGuests(String query) {
+    return getModel(
+      ApiEndpoints.ticketOrderGuestLookup(query),
+      fromJson: AssignGuestLookupListModel.fromJson,
       authenticated: true,
     );
   }

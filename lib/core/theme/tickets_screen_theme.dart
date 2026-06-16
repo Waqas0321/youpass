@@ -54,6 +54,13 @@ class TicketsScreenTheme {
   static Color vipButtonBackground(BuildContext context) =>
       TicketsDesignSpec.vipButton;
 
+  static Color vipAssignAccent(BuildContext context) =>
+      TicketsDesignSpec.vipAssignAccent;
+
+  /// Accent for assign-ticket flow: green for VIP, yellow for general.
+  static Color assignFlowAccent(BuildContext context, {required bool isVip}) =>
+      isVip ? vipAssignAccent(context) : TicketsDesignSpec.primary;
+
   static Color favoriteActive(BuildContext context) =>
       TicketsDesignSpec.favoriteActive;
 

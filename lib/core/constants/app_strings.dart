@@ -711,6 +711,24 @@ class AppStrings {
   static String ticketAssignmentPickContact(AppLocalizations l10n) =>
       l10n.ticketAssignmentPickContact;
 
+  static String ticketAssignmentSearchGuestTitle(AppLocalizations l10n) =>
+      l10n.ticketAssignmentSearchGuestTitle;
+
+  static String ticketAssignmentSearchGuestSubtitle(AppLocalizations l10n) =>
+      l10n.ticketAssignmentSearchGuestSubtitle;
+
+  static String ticketAssignmentSearchGuestHint(AppLocalizations l10n) =>
+      l10n.ticketAssignmentSearchGuestHint;
+
+  static String ticketAssignmentSearchGuestEmpty(AppLocalizations l10n) =>
+      l10n.ticketAssignmentSearchGuestEmpty;
+
+  static String ticketAssignmentSearchGuestManualHint(AppLocalizations l10n) =>
+      l10n.ticketAssignmentSearchGuestManualHint;
+
+  static String ticketAssignmentRegisteredBadge(AppLocalizations l10n) =>
+      l10n.ticketAssignmentRegisteredBadge;
+
   static String ticketAssignmentSendTicket(AppLocalizations l10n) =>
       l10n.ticketAssignmentSendTicket;
 
@@ -811,6 +829,11 @@ class AppStrings {
   ) =>
       l10n.vipContinueWithTickets(ticketCount);
 
+  static String vipBackButton(AppLocalizations l10n) => l10n.vipBackButton;
+
+  static String vipContinueButton(AppLocalizations l10n) =>
+      l10n.vipContinueButton;
+
   static String vipContinueWithAmount(AppLocalizations l10n, String amount) =>
       l10n.vipContinueWithAmount(amount);
 
@@ -867,6 +890,9 @@ class AppStrings {
       l10n.vipLegendPremium;
 
   static String vipLegendSold(AppLocalizations l10n) => l10n.vipLegendSold;
+
+  static String vipLegendUnselected(AppLocalizations l10n) =>
+      l10n.vipLegendUnselected;
 
   static String vipTablesZoneTitle(AppLocalizations l10n) =>
       l10n.vipTablesZoneTitle;
@@ -1140,6 +1166,9 @@ class AppStrings {
 
   static String producerEventsSearchHint(AppLocalizations l10n) =>
       l10n.producerEventsSearchHint;
+
+  static String producerEventsEmpty(AppLocalizations l10n) =>
+      l10n.producerEventsEmpty;
 
   static String producerEventBuyTicket(AppLocalizations l10n) =>
       l10n.producerEventBuyTicket;

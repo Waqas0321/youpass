@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_colors.dart';
-import 'package:youpass/core/widgets/youpass_logo.dart';
 import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/vip_venue/presentation/vip_venue_design_spec.dart';
 import 'package:youpass/features/vip_venue/presentation/vip_venue_screen_theme.dart';
@@ -39,7 +37,6 @@ class _VipFlowScaffoldState extends State<VipFlowScaffold> {
   @override
   Widget build(BuildContext context) {
     final background = VipVenueScreenTheme.screenBackground(context);
-    final accent = VipVenueScreenTheme.accent(context);
     final horizontalPadding =
         VipVenueDesignSpec.px(context, VipVenueDesignSpec.horizontalPadding);
 
@@ -51,40 +48,11 @@ class _VipFlowScaffoldState extends State<VipFlowScaffold> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                VipVenueDesignSpec.px(context, 4),
-                VipVenueDesignSpec.px(context, 4),
-                horizontalPadding,
-                0,
-              ),
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: accent,
-                      size: VipVenueDesignSpec.px(context, 24),
-                    ),
-                  ),
-                  if (widget.headerStyle == VipFlowHeaderStyle.branded)
-                    const Expanded(child: Center(child: YouPassLogo()))
-                  else
-                    const Spacer(),
-                  AppDrawerNavigation.menuIconButton(
-                    context: context,
-                    scaffoldKey: scaffoldKey,
-                    iconColor: AppColors.homeAccentYellow,
-                    iconSize: VipVenueDesignSpec.px(context, 24),
-                  ),
-                  if (widget.headerStyle == VipFlowHeaderStyle.branded &&
-                      widget.showNotification)
-                    const VipFlowNotificationButtonWidget()
-                  else if (widget.headerStyle == VipFlowHeaderStyle.branded)
-                    SizedBox(width: VipVenueDesignSpec.px(context, 48)),
-                ],
-              ),
+            VipFlowTopBarWidget(
+              onMenuTap: () =>
+                  AppDrawerNavigation.openDrawer(context, scaffoldKey),
+              brandedHeader: widget.headerStyle == VipFlowHeaderStyle.branded,
+              showNotification: widget.showNotification,
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(

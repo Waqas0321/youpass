@@ -42,6 +42,8 @@ class TicketAssignmentProvider extends ChangeNotifier {
   String? loadingSlotId;
   TicketAssignmentAction? loadingAction;
   bool isCheckoutSubmitting = false;
+  String? lastSuccessMessage;
+  String? lastWhatsAppUrl;
 
   Future<EventCheckoutResultEntity?> checkoutEvent({
     required String eventId,
@@ -143,11 +145,13 @@ class TicketAssignmentProvider extends ChangeNotifier {
     beginSlotAction(slotId, TicketAssignmentAction.assign);
 
     try {
-      await assignTicketGuestUseCase(
+      final result = await assignTicketGuestUseCase(
         orderId: orderId,
         slotId: slotId,
         request: request,
       );
+      lastSuccessMessage = result.message;
+      lastWhatsAppUrl = result.whatsappUrl;
       await refreshAssignments(orderId: orderId);
       return true;
     } on ApiException catch (error) {
@@ -195,10 +199,12 @@ class TicketAssignmentProvider extends ChangeNotifier {
     beginSlotAction(slotId, TicketAssignmentAction.resend);
 
     try {
-      await resendTicketAssignmentUseCase(
+      final result = await resendTicketAssignmentUseCase(
         orderId: orderId,
         slotId: slotId,
       );
+      lastSuccessMessage = result.message;
+      lastWhatsAppUrl = result.whatsappUrl;
       await refreshAssignments(orderId: orderId);
       return true;
     } on ApiException catch (error) {

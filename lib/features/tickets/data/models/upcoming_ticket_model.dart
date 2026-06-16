@@ -49,11 +49,8 @@ class UpcomingTicketModel extends UpcomingTicketEntity {
     );
     final origin = json['origin']?.toString();
     final canAssignTickets = TicketModelJsonReader.readBool(
-          json['can_assign_tickets'] ?? json['canAssignTickets'],
-        ) ||
-        (ticketOrderId != null && ticketOrderId.isNotEmpty) ||
-        assignableCount > 0 ||
-        origin == 'purchase';
+      json['can_assign_tickets'] ?? json['canAssignTickets'],
+    );
 
     return UpcomingTicketModel(
       id: json['id']?.toString() ?? '',

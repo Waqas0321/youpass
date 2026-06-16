@@ -123,9 +123,9 @@
       }
     }
   },
-  "favoritesEventsSubtitle": "Events you saved with the heart icon",
-  "favoritesEventsSearchHint": "Search favorite event",
-  "favoritesEventsEmpty": "No favorite events yet. Tap the heart on an event to save it here.",
+  "favoritesEventsSubtitle": "Your favorite producers appear here",
+  "favoritesEventsSearchHint": "Search producer",
+  "favoritesEventsEmpty": "No followed promoters yet. Follow a promoter from an event to see them here.",
   "favoritesSavedEventsCount": "{count} saved events",
   "@favoritesSavedEventsCount": {
     "placeholders": {
@@ -527,7 +527,7 @@
       "count": {"type": "String"}
     }
   },
-  "favoritesNoSearchResults": "No promoters or events found matching your search",
+  "favoritesNoSearchResults": "No promoters found matching your search",
   "favoritesExploreCta": "Explore events",
   "favoritesSectionFollowedPromoters": "FOLLOWED PROMOTERS",
   "favoritesSectionSavedEvents": "SAVED EVENTS",
@@ -543,6 +543,7 @@
     }
   },
   "producerEventsSearchHint": "Search event",
+  "producerEventsEmpty": "No upcoming events from this promoter yet.",
   "producerEventCategoryParties": "Parties",
   "producerEventCategoryFestivals": "Festivals",
   "producerEventCategoryConcerts": "Concerts",
@@ -842,15 +843,21 @@
   "ticketAssignmentGuestPhoneLabel": "Guest phone",
   "ticketAssignmentGuestPhoneHint": "Phone (e.g. +56 9 1234 5678)",
   "ticketAssignmentPickContact": "Search from contacts",
+  "ticketAssignmentSearchGuestTitle": "Find guest",
+  "ticketAssignmentSearchGuestSubtitle": "Search registered YouPass users by name or phone. If they are not registered, enter their details manually on the card.",
+  "ticketAssignmentSearchGuestHint": "Name or phone number",
+  "ticketAssignmentSearchGuestEmpty": "No registered user found. You can type their name and phone manually, then send the WhatsApp invitation.",
+  "ticketAssignmentSearchGuestManualHint": "Close this sheet to type guest details manually on the ticket card.",
+  "ticketAssignmentRegisteredBadge": "YouPass",
   "ticketAssignmentSendTicket": "Send ticket",
   "ticketAssignmentCancelTicket": "Cancel ticket",
   "ticketAssignmentResendWhatsApp": "Resend WhatsApp",
-  "ticketAssignmentSentSuccess": "Invitation sent via WhatsApp",
+  "ticketAssignmentSentSuccess": "WhatsApp opened — tap Send to deliver the invitation",
   "ticketAssignmentContactsPermissionDenied": "Contacts permission is required to pick a guest",
   "ticketAssignmentMissingOrder": "This ticket cannot be assigned yet",
   "ticketAssignmentNoAssignableTickets": "No tickets available to assign right now",
   "ticketAssignmentRetry": "Retry",
-  "ticketAssignmentWhatsAppInfo": "A link with instructions to download and register in YouPass will be sent via WhatsApp once you send them the ticket.",
+  "ticketAssignmentWhatsAppInfo": "When you send the ticket, WhatsApp opens with your guest's number and a pre-filled message. Tap Send in WhatsApp to deliver the invitation link.",
   "ticketAssignmentPrivacyNote": "Your data and your guests' data are protected",
   "invitationClaimTitle": "You have a ticket invitation",
   "invitationClaimGuestLabel": "Guest",
@@ -882,6 +889,8 @@
       "amount": {"type": "String"}
     }
   },
+  "vipBackButton": "Back",
+  "vipContinueButton": "Continue",
   "vipContinueWithTickets": "Continue - {ticketCount}",
   "@vipContinueWithTickets": {
     "placeholders": {
@@ -938,7 +947,8 @@
     }
   },
   "vipEmergencyExit": "EMERGENCY EXIT",
-  "vipLegendAvailableShort": "Avail.",
+  "vipLegendAvailableShort": "Avail",
+  "vipLegendUnselected": "Unselected",
   "vipDanceFloorGeneral": "General",
   "vipTableDistributionTitle": "{zone} DISTRIBUTION",
   "@vipTableDistributionTitle": {
@@ -1063,7 +1073,7 @@
     }
   },
   "vipPurchaseSuccessTitle": "Purchase successful!",
-  "vipPurchaseSuccessMessage": "Your payment has been processed correctly.",
+  "vipPurchaseSuccessMessage": "Your tickets are ready in My Tickets.",
   "vipTableLockCountdown": "Complete payment in {time}",
   "@vipTableLockCountdown": {
     "placeholders": {

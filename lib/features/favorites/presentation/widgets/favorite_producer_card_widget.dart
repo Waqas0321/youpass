@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/theme/youpass_theme_extension.dart';
@@ -7,6 +6,7 @@ import 'package:youpass/core/widgets/event_network_image.dart';
 import 'package:youpass/features/events/presentation/widgets/event_browse_card_action_button_widget.dart';
 import 'package:youpass/features/favorites/domain/entities/favorite_producer_entity.dart';
 import 'package:youpass/features/favorites/presentation/favorites_design_spec.dart';
+import 'package:youpass/features/favorites/presentation/widgets/favorites_event_meta_row_widget.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
 class FavoriteProducerCardWidget extends StatelessWidget {
@@ -14,36 +14,38 @@ class FavoriteProducerCardWidget extends StatelessWidget {
     super.key,
     required this.producer,
     required this.onViewEvents,
+    this.onUnfollow,
+    this.isUnfollowPending = false,
     this.descriptionOverride,
   });
 
   final FavoriteProducerEntity producer;
   final VoidCallback onViewEvents;
+  final VoidCallback? onUnfollow;
+  final bool isUnfollowPending;
   final String? descriptionOverride;
-
-  String _followerLabel(BuildContext context) {
-    final formatted = NumberFormat.decimalPattern(context.l10n.localeName)
-        .format(producer.followerCount);
-    return AppStrings.favoritesFollowerCount(context.l10n, formatted);
-  }
 
   String _description(AppLocalizations strings) {
     if (descriptionOverride != null && descriptionOverride!.isNotEmpty) {
       return descriptionOverride!;
     }
-    if (producer.description != null && producer.description!.isNotEmpty) {
-      return producer.description!;
-    }
+    return producer.description?.trim() ?? '';
+  }
 
-    final normalized = producer.name.trim().toLowerCase();
-    if (normalized.contains('youfest')) {
-      return AppStrings.favoritesYoufestDescription(strings);
+  String _typeLabel(AppLocalizations strings) {
+    final label = producer.typeLabel?.trim();
+    if (label != null && label.isNotEmpty) {
+      return label;
     }
-    if (normalized.contains('iguana')) {
-      return AppStrings.favoritesIguanaDescription(strings);
-    }
+    return AppStrings.favoritesProducerType(strings);
+  }
 
-    return '';
+  String _coverageLabel(AppLocalizations strings) {
+    final label = producer.coverageLabel?.trim();
+    if (label != null && label.isNotEmpty) {
+      return label;
+    }
+    return AppStrings.favoritesProducerCoverage(strings);
   }
 
   @override
@@ -100,35 +102,29 @@ class FavoriteProducerCardWidget extends StatelessWidget {
                         color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
-                    SizedBox(height: FavoritesDesignSpec.px(context, 2)),
-                    Text(
-                      AppStrings.favoritesProducerType(strings),
-                      style: TextStyle(
-                        fontSize: FavoritesDesignSpec.px(context, 12),
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
+                    SizedBox(height: FavoritesDesignSpec.px(context, 6)),
+                    FavoritesEventMetaRowWidget(
+                      icon: Icons.storefront_outlined,
+                      label: _typeLabel(strings),
                     ),
-                    SizedBox(height: FavoritesDesignSpec.px(context, 4)),
-                    Text(
-                      producer.coverageLabel ??
-                          AppStrings.favoritesProducerCoverage(strings),
-                      style: TextStyle(
-                        fontSize: FavoritesDesignSpec.px(context, 12),
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                    SizedBox(height: FavoritesDesignSpec.px(context, 4)),
-                    Text(
-                      _followerLabel(context),
-                      style: TextStyle(
-                        fontSize: FavoritesDesignSpec.px(context, 12),
-                        fontWeight: FontWeight.w600,
-                        color: FavoritesDesignSpec.primary,
-                      ),
+                    FavoritesEventMetaRowWidget(
+                      icon: Icons.calendar_today_outlined,
+                      label: _coverageLabel(strings),
                     ),
                   ],
                 ),
               ),
+              if (onUnfollow != null)
+                IconButton(
+                  onPressed: isUnfollowPending ? null : onUnfollow,
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  icon: Icon(
+                    Icons.favorite,
+                    color: FavoritesDesignSpec.favoriteActive,
+                    size: FavoritesDesignSpec.px(context, 22),
+                  ),
+                ),
             ],
           ),
           if (description.isNotEmpty) ...[
@@ -143,9 +139,15 @@ class FavoriteProducerCardWidget extends StatelessWidget {
             ),
           ],
           SizedBox(height: FavoritesDesignSpec.px(context, 12)),
-          EventBrowseCardActionButtonWidget(
-            label: AppStrings.favoritesViewEvents(strings),
-            onPressed: onViewEvents,
+          Align(
+            alignment: Alignment.centerRight,
+            child: SizedBox(
+              width: FavoritesDesignSpec.px(context, 148),
+              child: EventBrowseCardActionButtonWidget(
+                label: AppStrings.favoritesViewEvents(strings),
+                onPressed: onViewEvents,
+              ),
+            ),
           ),
         ],
       ),

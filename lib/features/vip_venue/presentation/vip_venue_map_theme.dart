@@ -9,6 +9,7 @@ class VipVenueMapTheme {
   static const Color neonPink = Color(0xFFFF007F);
   static const Color neonGreen = Color(0xFF39FF14);
   static const Color neonPurple = Color(0xFF7B2CBF);
+  static const Color zoneUnselected = Color(0xFF8E8E8E);
   static const Color mapBlack = Color(0xFF0A0A0A);
   static const Color mapInnerBlack = Color(0xFF111111);
   static const Color danceFloorPurple = Color(0xFF4A148C);

@@ -19,25 +19,35 @@ class AppConstants {
 
   static const String appName = 'YouPass';
 
-  static const String _productionApiBaseUrl =
-      'https://youpass-backend.vercel.app';
-  static const int _localApiPort = 3000;
+  /// Production API root (includes `/api/v1`).
+  static const String productionApiV1Url =
+      'https://youpass-backend-two.vercel.app/api/v1';
 
-  /// Debug → local backend (`npm run dev` in youpass-backend).
-  /// Override on a physical device with:
-  /// `--dart-define=API_BASE_URL=http://YOUR_LAN_IP:3000`
+  static const int localApiPort = 3002;
+
+  /// Local backend for iOS simulator / desktop debug (`http://localhost:3002/api/v1`).
+  /// Android emulator uses `10.0.2.2` via [localApiV1Url].
+  static String get localApiV1Url =>
+      'http://$_localApiHost:$localApiPort/api/v1';
+
+  /// Default: local backend in debug, Vercel production in release.
+  /// Force production in debug: `--dart-define=USE_LOCAL_API=false`
+  /// Override: `--dart-define=API_BASE_URL=...`
   static String get apiBaseUrl {
     const override = String.fromEnvironment('API_BASE_URL');
     if (override.isNotEmpty) {
       return override;
     }
 
-    if (!kDebugMode) {
-      return _productionApiBaseUrl;
+    const useLocalApi = bool.fromEnvironment(
+      'USE_LOCAL_API',
+      defaultValue: true,
+    );
+    if (useLocalApi && kDebugMode) {
+      return localApiV1Url;
     }
 
-    final host = _localApiHost;
-    return 'http://$host:$_localApiPort';
+    return productionApiV1Url;
   }
 
   static String get _localApiHost {

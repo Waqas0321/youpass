@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/app_colors.dart';
-import 'package:youpass/core/l10n/app_localizations_extension.dart';
-import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/home/domain/entities/drawer_menu_id.dart';
-import 'package:youpass/features/home/presentation/utils/home_user_display_helper.dart';
 import 'package:youpass/features/home/presentation/widgets/drawer/drawer_design_spec.dart';
 import 'package:youpass/features/home/presentation/widgets/drawer/home_drawer_widget.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
@@ -17,23 +14,15 @@ class AppDrawerNavigation {
     BuildContext context, {
     required ValueChanged<DrawerMenuId> onMenuSelected,
   }) {
-    final authProvider = context.watch<AuthProvider>();
     final invitationsProvider = context.watch<InvitationsProvider>();
 
     return HomeDrawerWidget(
-      firstName: HomeUserDisplayHelper.drawerFirstName(
-        authProvider,
-        context.l10n,
-      ),
-      tier: HomeUserDisplayHelper.membershipTier(authProvider),
-      profilePhotoUrl: authProvider.userProfile?.profilePhotoUrl,
       invitationsBadgeCount: invitationsProvider.invitationsBadgeCount,
       onMenuSelected: onMenuSelected,
     );
   }
 
   static void openDrawer(BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
-    context.read<AuthProvider>().refreshUserProfile();
     context.read<InvitationsProvider>().refreshDrawerBadge();
     scaffoldKey.currentState?.openDrawer();
   }
@@ -74,6 +63,12 @@ class AppDrawerNavigation {
           _navigateTo(context, AppRoutes.myFavorites);
         case DrawerMenuId.invitations:
           _navigateTo(context, AppRoutes.myInvitations);
+        case DrawerMenuId.drinkMenu:
+          _navigateTo(context, AppRoutes.partyDrinkMenu);
+        case DrawerMenuId.myPurchases:
+          _navigateTo(context, AppRoutes.partyDrinkPurchases);
+        case DrawerMenuId.cortesias:
+          _navigateTo(context, AppRoutes.partyDrinkCourtesies);
       }
     }
 
@@ -85,6 +80,17 @@ class AppDrawerNavigation {
     }
 
     navigate();
+  }
+
+  static void navigateToAllEvents(BuildContext context) {
+    Navigator.of(context).pushNamed(AppRoutes.allEvents);
+  }
+
+  static void navigateToHome(BuildContext context) {
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      AppRoutes.home,
+      (route) => false,
+    );
   }
 
   static void _navigateTo(BuildContext context, String routeName) {

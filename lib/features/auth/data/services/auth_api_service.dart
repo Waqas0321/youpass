@@ -16,6 +16,7 @@ import 'package:youpass/features/auth/data/models/otp_request_model.dart';
 import 'package:youpass/features/auth/data/models/register_request_model.dart';
 import 'package:youpass/features/auth/data/models/send_code_response_model.dart';
 import 'package:youpass/features/auth/data/models/user_profile_model.dart';
+import 'package:youpass/features/auth/data/models/verify_code_request_model.dart';
 import 'package:youpass/features/auth/data/models/whatsapp_check_result_model.dart';
 import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
 import 'package:youpass/features/auth/domain/entities/register_request_entity.dart';
@@ -79,6 +80,23 @@ class AuthApiService extends BaseApiService {
         ).toJson(),
       ),
       fromJson: SendCodeResponseModel.fromJson,
+    );
+  }
+
+  Future<void> verifyCode({
+    required String phone,
+    required String countryIsoCode,
+    required String code,
+    required OtpPurpose purpose,
+  }) {
+    return postVoid(
+      ApiEndpoints.verifyCode,
+      body: VerifyCodeRequestModel(
+        phone: phone,
+        countryIsoCode: countryIsoCode,
+        code: code,
+        purpose: purpose,
+      ).toJson(),
     );
   }
 

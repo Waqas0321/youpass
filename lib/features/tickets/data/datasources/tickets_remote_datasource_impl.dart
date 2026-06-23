@@ -4,7 +4,6 @@ import 'package:youpass/features/invitations/domain/entities/invitation_ticket_e
 import 'package:youpass/features/tickets/data/datasources/tickets_remote_datasource.dart';
 import 'package:youpass/features/tickets/data/services/tickets_api_service.dart';
 import 'package:youpass/features/tickets/domain/entities/past_event_entity.dart';
-import 'package:youpass/features/tickets/domain/entities/past_event_filter.dart';
 import 'package:youpass/features/tickets/domain/entities/past_tickets_query.dart';
 import 'package:youpass/features/tickets/domain/entities/tickets_page_result.dart';
 import 'package:youpass/features/tickets/domain/entities/tickets_yearly_summary_entity.dart';
@@ -66,8 +65,8 @@ class TicketsRemoteDataSourceImpl implements TicketsRemoteDataSource {
   ) {
     final search = query.search?.trim().toLowerCase() ?? '';
     return events.where((event) {
-      final matchesFilter = query.filter == PastEventFilter.all ||
-          event.category == query.filter;
+      final matchesFilter = query.eventTypeSlug == null ||
+          query.eventTypeSlug == event.eventTypeSlug;
       final matchesSearch = search.isEmpty ||
           event.title.toLowerCase().contains(search) ||
           event.locationLabel.toLowerCase().contains(search);

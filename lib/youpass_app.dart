@@ -21,7 +21,6 @@ import 'package:youpass/routes/route_generator.dart';
 
 class YouPassApp extends StatelessWidget {
   const YouPassApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -32,12 +31,8 @@ class YouPassApp extends StatelessWidget {
         ChangeNotifierProvider<AppThemeProvider>(
           create: (_) => AppThemeProvider(sl<ThemePreferenceRepository>()),
         ),
-        ChangeNotifierProvider<AuthProvider>(
-          create: (_) => sl<AuthProvider>(),
-        ),
-        ChangeNotifierProvider<HomeProvider>(
-          create: (_) => sl<HomeProvider>(),
-        ),
+        ChangeNotifierProvider<AuthProvider>(create: (_) => sl<AuthProvider>()),
+        ChangeNotifierProvider<HomeProvider>(create: (_) => sl<HomeProvider>()),
         ChangeNotifierProvider<InvitationsProvider>(
           create: (_) => sl<InvitationsProvider>(),
         ),
@@ -65,7 +60,7 @@ class YouPassApp extends StatelessWidget {
             localeResolutionCallback: (deviceLocale, supportedLocales) {
               return materialLocale;
             },
-            localizationsDelegates: const [
+            localizationsDelegates: [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
@@ -78,13 +73,18 @@ class YouPassApp extends StatelessWidget {
               final mediaQuery = MediaQuery.of(context);
               return AnnotatedRegion<SystemUiOverlayStyle>(
                 value: SystemUiOverlayStyle(
-                  statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
-                  statusBarIconBrightness:
-                      isDark ? Brightness.light : Brightness.dark,
-                  systemNavigationBarColor:
-                      Theme.of(context).scaffoldBackgroundColor,
-                  systemNavigationBarIconBrightness:
-                      isDark ? Brightness.light : Brightness.dark,
+                  statusBarBrightness: isDark
+                      ? Brightness.dark
+                      : Brightness.light,
+                  statusBarIconBrightness: isDark
+                      ? Brightness.light
+                      : Brightness.dark,
+                  systemNavigationBarColor: Theme.of(
+                    context,
+                  ).scaffoldBackgroundColor,
+                  systemNavigationBarIconBrightness: isDark
+                      ? Brightness.light
+                      : Brightness.dark,
                 ),
                 child: MediaQuery(
                   data: mediaQuery.copyWith(

@@ -13,10 +13,14 @@ class HomeRepositoryImpl implements HomeRepository {
   Future<HomeFeedEntity> getHomeFeed({
     String? feedContext,
     String? countryCode,
+    double? lat,
+    double? lng,
   }) {
     return remoteDataSource.fetchHomeFeed(
       feedContext: feedContext,
       countryCode: countryCode,
+      lat: lat,
+      lng: lng,
     );
   }
 

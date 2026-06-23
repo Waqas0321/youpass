@@ -9,6 +9,22 @@ import 'package:youpass/l10n/app_localizations.dart';
 class InvitationsTextFactory {
   InvitationsTextFactory._();
 
+  static bool isZeroValueFreeInvitation(InvitationEntity invitation) {
+    final type = invitation.type?.toLowerCase();
+    if (type != null && type != 'free') {
+      return false;
+    }
+
+    final kind = InvitationProductKindX.fromApi(invitation.productKind) ??
+        InvitationProductKind.free;
+    if (kind != InvitationProductKind.free) {
+      return false;
+    }
+
+    final entryValue = invitation.chargeAmount ?? 0;
+    return entryValue <= 0;
+  }
+
   static String statusLabel(
     AppLocalizations strings,
     InvitationStatus status,
@@ -45,6 +61,46 @@ class InvitationsTextFactory {
     }
   }
 
+  static String productLabelForInvitation(
+    AppLocalizations strings,
+    InvitationEntity invitation,
+  ) {
+    final kind = InvitationProductKindX.fromApi(invitation.productKind) ??
+        InvitationProductKind.free;
+
+    if (kind == InvitationProductKind.guaranteedPass ||
+        kind == InvitationProductKind.discounted) {
+      final apiLabel = invitation.productLabel?.trim();
+      if (apiLabel != null && apiLabel.isNotEmpty) {
+        return apiLabel;
+      }
+      return productKindLabel(strings, kind);
+    }
+
+    if (isZeroValueFreeInvitation(invitation)) {
+      return AppStrings.invitationsTypeFree(strings);
+    }
+
+    final apiLabel = invitation.productLabel?.trim();
+    if (apiLabel != null && apiLabel.isNotEmpty) {
+      return apiLabel;
+    }
+
+    final source = invitation.source?.toLowerCase();
+    if (source == 'producer') {
+      return AppStrings.invitationsTypeFree(strings);
+    }
+
+    if (source == 'guest') {
+      if (invitation.tier == InvitationTier.vip) {
+        return AppStrings.invitationsTypeVip(strings);
+      }
+      return AppStrings.invitationsTypeAssigned(strings);
+    }
+
+    return AppStrings.invitationsTypeFree(strings);
+  }
+
   static String tierLabel(
     AppLocalizations strings,
     InvitationEntity invitation,
@@ -53,6 +109,10 @@ class InvitationsTextFactory {
 
     if (type == 'courtesy' && invitation.tier == InvitationTier.vip) {
       return AppStrings.invitationsTierVipDj(strings);
+    }
+
+    if (isZeroValueFreeInvitation(invitation)) {
+      return AppStrings.invitationsTierFree(strings);
     }
 
     if (invitation.tier == InvitationTier.vip) {

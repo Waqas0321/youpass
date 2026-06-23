@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/app_strings.dart';
+import 'package:youpass/core/constants/country_code_list.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/theme/tickets_screen_theme.dart';
+import 'package:youpass/core/utils/phone_formatter.dart';
+import 'package:youpass/core/utils/phone_validators.dart';
 import 'package:youpass/features/ticket_assignment/domain/entities/ticket_assignment_slot_entity.dart';
 import 'package:youpass/features/ticket_assignment/domain/entities/ticket_slot_status.dart';
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_provider.dart';
@@ -12,6 +14,7 @@ import 'package:youpass/features/ticket_assignment/presentation/utils/ticket_ass
 import 'package:youpass/features/ticket_assignment/presentation/widgets/assign_guest_search_sheet.dart';
 import 'package:youpass/features/ticket_assignment/presentation/widgets/assign_ticket_action_button_widget.dart';
 import 'package:youpass/features/ticket_assignment/presentation/widgets/assign_ticket_guest_field_widget.dart';
+import 'package:youpass/features/ticket_assignment/presentation/widgets/assign_ticket_guest_phone_field_widget.dart';
 import 'package:youpass/features/ticket_assignment/presentation/utils/assign_ticket_whatsapp_actions.dart';
 import 'package:youpass/features/ticket_assignment/presentation/widgets/assign_ticket_pending_badge_widget.dart';
 import 'package:youpass/features/tickets/presentation/tickets_design_spec.dart';
@@ -54,14 +57,18 @@ class AssignTicketSlotCardWidget extends StatefulWidget {
 class AssignTicketSlotCardWidgetState extends State<AssignTicketSlotCardWidget> {
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
-  String? guestCountryCode;
-  String? _submitPhoneE164;
+  final phoneInputKey = GlobalKey<AssignTicketGuestPhoneFieldWidgetState>();
 
   @override
   void initState() {
     super.initState();
-    syncGuestFields(widget.slot);
-    phoneController.addListener(() => _submitPhoneE164 = null);
+    nameController.text = widget.slot.guestName ?? '';
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      syncPhoneField(widget.slot);
+    });
   }
 
   @override
@@ -70,16 +77,19 @@ class AssignTicketSlotCardWidgetState extends State<AssignTicketSlotCardWidget> 
     if (oldWidget.slot.id != widget.slot.id ||
         oldWidget.slot.guestName != widget.slot.guestName ||
         oldWidget.slot.guestPhone != widget.slot.guestPhone) {
-      syncGuestFields(widget.slot);
+      nameController.text = widget.slot.guestName ?? '';
+      syncPhoneField(widget.slot);
     }
   }
 
-  void syncGuestFields(TicketAssignmentSlotEntity slot) {
-    nameController.text = slot.guestName ?? '';
+  void syncPhoneField(TicketAssignmentSlotEntity slot) {
     final guestPhone = slot.guestPhone?.trim() ?? '';
-    if (guestPhone.isNotEmpty) {
-      phoneController.text = guestPhone;
+    if (guestPhone.isEmpty) {
+      phoneController.clear();
+      return;
     }
+
+    phoneInputKey.currentState?.applyPhone(guestPhone);
   }
 
   @override
@@ -96,31 +106,40 @@ class AssignTicketSlotCardWidgetState extends State<AssignTicketSlotCardWidget> 
     }
 
     nameController.text = selection.displayName;
-    phoneController.text =
-        selection.phoneDisplay?.trim().isNotEmpty == true
-            ? selection.phoneDisplay!.trim()
-            : selection.phone;
-    guestCountryCode = selection.countryCode.trim().isEmpty
-        ? null
-        : selection.countryCode.trim().toUpperCase();
-    _submitPhoneE164 = selection.isRegistered ? selection.phone : null;
+    phoneInputKey.currentState?.applyPhone(
+      selection.phone,
+      countryIsoCode: selection.countryCode,
+    );
     setState(() {});
   }
 
   Future<void> submitAssign() async {
     final strings = context.l10n;
     final name = nameController.text.trim();
-    final phone = (_submitPhoneE164 ?? phoneController.text).trim();
-    if (name.isEmpty || phone.isEmpty) {
+    final country = phoneInputKey.currentState?.currentCountry ??
+        CountryCodeList.defaultCountry;
+    final nationalDigits = PhoneFormatter.digitsOnly(phoneController.text);
+    if (name.isEmpty || nationalDigits.isEmpty) {
       return;
     }
 
-    final countryCode = guestCountryCode ?? '';
+    final validationError = PhoneValidators.validateNationalNumber(
+      strings,
+      nationalDigits,
+      isoCode: country.isoCode,
+    );
+    if (validationError != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(validationError)),
+      );
+      return;
+    }
 
-    final success = widget.slot.status == TicketSlotStatus.pending &&
-            widget.slot.canResend
-        ? await widget.onResend()
-        : await widget.onAssign(name, phone, countryCode);
+    final success = await widget.onAssign(
+      name,
+      nationalDigits,
+      country.isoCode,
+    );
 
     if (!mounted) {
       return;
@@ -141,17 +160,6 @@ class AssignTicketSlotCardWidgetState extends State<AssignTicketSlotCardWidget> 
         SnackBar(content: Text(message)),
       );
     }
-  }
-
-  Future<void> submitCancel() async {
-    final success = await widget.onCancel();
-    if (!mounted || !success) {
-      return;
-    }
-
-    nameController.clear();
-    phoneController.clear();
-    setState(() {});
   }
 
   bool get showsAssignmentForm => widget.slot.isAssignable;
@@ -199,10 +207,11 @@ class AssignTicketSlotCardWidgetState extends State<AssignTicketSlotCardWidget> 
                   color: TicketsScreenTheme.title(context),
                 ),
               ),
-              AssignTicketPendingBadgeWidget(
-                label: AppStrings.ticketAssignmentPendingBadge(strings),
-                accentColor: accent,
-              ),
+              if (slot.status == TicketSlotStatus.available)
+                AssignTicketPendingBadgeWidget(
+                  label: AppStrings.ticketAssignmentAvailableBadge(strings),
+                  accentColor: accent,
+                ),
             ],
           ),
           SizedBox(height: TicketsDesignSpec.px(context, 14)),
@@ -236,11 +245,10 @@ class AssignTicketSlotCardWidgetState extends State<AssignTicketSlotCardWidget> 
                       borderColor: accent,
                     ),
                     SizedBox(height: TicketsDesignSpec.px(context, 10)),
-                    AssignTicketGuestFieldWidget(
+                    AssignTicketGuestPhoneFieldWidget(
+                      key: phoneInputKey,
                       controller: phoneController,
-                      hintText:
-                          AppStrings.ticketAssignmentGuestPhoneHint(strings),
-                      keyboardType: TextInputType.phone,
+                      initialCountryIsoCode: 'CL',
                       borderColor: accent,
                     ),
                   ],
@@ -268,16 +276,6 @@ class AssignTicketSlotCardWidgetState extends State<AssignTicketSlotCardWidget> 
                 ),
               ),
             ],
-          ),
-          SizedBox(height: TicketsDesignSpec.px(context, 10)),
-          AssignTicketActionButtonWidget(
-            label: AppStrings.ticketAssignmentCancelTicket(strings),
-            icon: Icons.delete_outline,
-            foregroundColor: AppColors.profileDeleteRed,
-            backgroundColor: TicketAssignmentDesignSpec.cancelButtonFill,
-            borderColor: AppColors.profileDeleteRed,
-            onPressed: submitCancel,
-            isLoading: widget.isCancelLoading,
           ),
         ],
       ),

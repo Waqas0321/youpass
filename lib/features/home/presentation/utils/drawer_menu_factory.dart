@@ -19,11 +19,6 @@ class DrawerMenuFactory {
     return [
       homeItem(l10n),
       DrawerMenuItem(
-        id: DrawerMenuId.invitations,
-        label: AppStrings.drawerInvitations(l10n),
-        isHighlighted: true,
-      ),
-      DrawerMenuItem(
         id: DrawerMenuId.profile,
         label: AppStrings.drawerMyProfile(l10n),
         icon: Icons.person_outline,
@@ -38,11 +33,41 @@ class DrawerMenuFactory {
         label: AppStrings.drawerMyFavorites(l10n),
         icon: Icons.favorite_border,
       ),
+      DrawerMenuItem(
+        id: DrawerMenuId.invitations,
+        label: AppStrings.drawerInvitations(l10n),
+        isHighlighted: true,
+      ),
     ];
   }
 
   static DrawerMenuItem invitationsItem(AppLocalizations l10n) {
     return build(l10n).firstWhere((item) => item.id == DrawerMenuId.invitations);
+  }
+
+  static List<DrawerMenuItem> partyModeItems(AppLocalizations l10n) {
+    return [
+      homeItem(l10n),
+      DrawerMenuItem(
+        id: DrawerMenuId.drinkMenu,
+        label: AppStrings.drawerDrinkMenu(l10n),
+        icon: Icons.local_bar_outlined,
+      ),
+      DrawerMenuItem(
+        id: DrawerMenuId.myPurchases,
+        label: AppStrings.drawerMyPurchases(l10n),
+        icon: Icons.shopping_bag_outlined,
+      ),
+      DrawerMenuItem(
+        id: DrawerMenuId.cortesias,
+        label: AppStrings.invitationsFilterCourtesy(l10n),
+        isHighlighted: true,
+      ),
+    ];
+  }
+
+  static DrawerMenuItem cortesiasItem(AppLocalizations l10n) {
+    return partyModeItems(l10n).firstWhere((item) => item.id == DrawerMenuId.cortesias);
   }
 
   static List<DrawerMenuItem> standardItems(AppLocalizations l10n) {

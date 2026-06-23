@@ -7,9 +7,6 @@ import 'package:youpass/core/services/screen_secure_service.dart';
 import 'package:youpass/core/theme/tickets_screen_theme.dart';
 import 'package:youpass/core/widgets/shimmer/tickets_tab_shimmer.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
-import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
-import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
-import 'package:youpass/features/invitations/presentation/utils/invitations_screen_actions.dart';
 import 'package:youpass/features/tickets/presentation/providers/tickets_load_status.dart';
 import 'package:youpass/features/tickets/presentation/providers/tickets_provider.dart';
 import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
@@ -148,9 +145,7 @@ class MyTicketsScreenState extends State<MyTicketsScreen>
     TicketsScreenActions actions,
   ) {
     final strings = context.l10n;
-    final invitationsProvider = context.watch<InvitationsProvider>();
-    final hasContent = provider.pendingInvitations.isNotEmpty ||
-        provider.upcomingTickets.isNotEmpty;
+    final hasContent = provider.upcomingTickets.isNotEmpty;
 
     if (provider.upcomingStatus == TicketsLoadStatus.loading &&
         !hasContent) {
@@ -185,59 +180,14 @@ class MyTicketsScreenState extends State<MyTicketsScreen>
 
     return UpcomingTicketsTabWidget(
       tickets: provider.upcomingTickets,
-      pendingInvitations: provider.pendingInvitations,
       onRefresh: provider.refreshUpcoming,
       onViewQr: actions.openTicketQr,
       onAssignTickets: actions.openAssignTickets,
-      onAcceptInvitation: (invitationId) =>
-          _handleAcceptPendingInvitation(provider, invitationId),
-      onDeclineInvitation: (invitationId) =>
-          _handleDeclinePendingInvitation(provider, invitationId),
       isViewQrLoading: provider.isViewQrLoading,
-      isInvitationSubmitting: (invitationId) =>
-          provider.isInvitationSubmitting(invitationId) ||
-          invitationsProvider.submittingInvitationId == invitationId,
       isLoadingMore: provider.isLoadingMoreUpcoming,
       hasMore: provider.hasMoreUpcoming,
       onLoadMore: provider.loadMoreUpcoming,
     );
-  }
-
-  Future<bool> _handleAcceptPendingInvitation(
-    TicketsProvider provider,
-    String invitationId,
-  ) async {
-    InvitationEntity? invitation;
-    for (final item in provider.pendingInvitations) {
-      if (item.id == invitationId) {
-        invitation = item;
-        break;
-      }
-    }
-    if (invitation == null) {
-      return false;
-    }
-
-    await InvitationsScreenActions(context).confirmAttendance(invitation);
-    if (!mounted) {
-      return false;
-    }
-
-    await provider.refreshUpcoming();
-    return !provider.pendingInvitations.any((item) => item.id == invitationId);
-  }
-
-  Future<bool> _handleDeclinePendingInvitation(
-    TicketsProvider provider,
-    String invitationId,
-  ) async {
-    await InvitationsScreenActions(context).rejectInvitation(invitationId);
-    if (!mounted) {
-      return false;
-    }
-
-    await provider.refreshUpcoming();
-    return !provider.pendingInvitations.any((item) => item.id == invitationId);
   }
 
   Widget buildPastTab(BuildContext context, TicketsProvider provider) {
@@ -275,8 +225,9 @@ class MyTicketsScreenState extends State<MyTicketsScreen>
 
     return PastEventsTabWidget(
       events: provider.pastEvents,
+      eventTypes: provider.pastEventTypes,
       headerSubtitle: subtitle,
-      selectedFilter: provider.pastQuery.filter,
+      selectedEventTypeSlug: provider.pastQuery.eventTypeSlug,
       onSearchChanged: provider.applyPastSearch,
       onFilterSelected: provider.applyPastFilter,
       onFavoriteToggle: provider.togglePastEventFavorite,

@@ -55,6 +55,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
+  Future<void> verifyOtpCode({
+    required String phone,
+    required String countryIsoCode,
+    required String code,
+    required OtpPurpose purpose,
+  }) {
+    return authApiService.verifyCode(
+      phone: phone,
+      countryIsoCode: countryIsoCode,
+      code: code,
+      purpose: purpose,
+    );
+  }
+
+  @override
   Future<AuthSessionEntity> loginWithPhone({
     required String phone,
     required String countryIsoCode,

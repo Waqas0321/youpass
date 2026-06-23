@@ -10,11 +10,13 @@ class HomeTopBarWidget extends StatelessWidget {
   const HomeTopBarWidget({
     super.key,
     this.onMenuTap,
-    this.showPartyModeBanner = true,
+    this.showPartyModeBanner = false,
+    this.partyModeEligible = false,
   });
 
   final VoidCallback? onMenuTap;
   final bool showPartyModeBanner;
+  final bool partyModeEligible;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,9 @@ class HomeTopBarWidget extends StatelessWidget {
               child: showPartyModeBanner
                   ? FiestaModeToggleWidget(
                       isFiestaMode: themeProvider.isFiestaMode,
-                      onToggle: themeProvider.toggleFiestaMode,
+                      onToggle: () => themeProvider.toggleFiestaMode(
+                        eligible: partyModeEligible,
+                      ),
                     )
                   : const YouPassHomePillLogoWidget(),
             ),

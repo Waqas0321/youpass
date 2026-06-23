@@ -5,6 +5,8 @@ import 'package:youpass/features/invitations/domain/entities/confirm_invitation_
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_ticket_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/payment_method_request_entity.dart';
+import 'package:youpass/features/events/domain/entities/event_type_entity.dart';
+import 'package:youpass/features/events/domain/repositories/events_repository.dart';
 import 'package:youpass/features/invitations/domain/usecases/cancel_invitation_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/check_saved_payment_methods_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/confirm_invitation_usecase.dart';
@@ -29,6 +31,7 @@ class InvitationsProvider extends ChangeNotifier {
     required this.cancelInvitationUseCase,
     required this.fetchInvitationTicketUseCase,
     required this.savePaymentMethodUseCase,
+    required this.eventsRepository,
   });
 
   final FetchInvitationsFeedUseCase fetchInvitationsFeedUseCase;
@@ -40,9 +43,11 @@ class InvitationsProvider extends ChangeNotifier {
   final CancelInvitationUseCase cancelInvitationUseCase;
   final FetchInvitationTicketUseCase fetchInvitationTicketUseCase;
   final SavePaymentMethodUseCase savePaymentMethodUseCase;
+  final EventsRepository eventsRepository;
 
   InvitationsStatus status = InvitationsStatus.initial;
   List<InvitationEntity> invitations = const [];
+  List<EventTypeEntity> eventTypeFilters = const [];
   List<WaitlistEntryEntity> waitlistEntries = const [];
   bool isSubmitting = false;
   String? submittingInvitationId;
@@ -56,6 +61,7 @@ class InvitationsProvider extends ChangeNotifier {
   void reset() {
     status = InvitationsStatus.initial;
     invitations = const [];
+    eventTypeFilters = const [];
     waitlistEntries = const [];
     isSubmitting = false;
     submittingInvitationId = null;
@@ -71,7 +77,22 @@ class InvitationsProvider extends ChangeNotifier {
   Future<void> ensureLoaded() async {
     if (status == InvitationsStatus.initial ||
         status == InvitationsStatus.error) {
+      await _loadEventTypeFilters();
       await loadInvitations();
+      return;
+    }
+
+    if (eventTypeFilters.isEmpty) {
+      await _loadEventTypeFilters();
+    }
+  }
+
+  Future<void> _loadEventTypeFilters() async {
+    try {
+      eventTypeFilters = await eventsRepository.fetchEventTypes();
+      notifyListeners();
+    } catch (_) {
+      // Filters fall back to "All" when types cannot be loaded.
     }
   }
 

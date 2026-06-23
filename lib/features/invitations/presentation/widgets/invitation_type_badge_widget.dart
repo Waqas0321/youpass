@@ -20,9 +20,7 @@ class InvitationTypeBadgeWidget extends StatelessWidget {
     final kind = InvitationsProductKindResolver.resolve(invitation);
     final color = InvitationsProductKindStyle.parseHexColor(invitation.typeColorHex) ??
         InvitationsProductKindStyle.colorFor(kind);
-    final label = invitation.productLabel?.isNotEmpty == true
-        ? invitation.productLabel!
-        : InvitationsTextFactory.productKindLabel(strings, kind);
+    final label = InvitationsTextFactory.productLabelForInvitation(strings, invitation);
 
     return Container(
       padding: EdgeInsets.symmetric(

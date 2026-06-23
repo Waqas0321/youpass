@@ -96,14 +96,15 @@ class OtpInputWidgetState extends State<OtpInputWidget> {
         final boxHeight = layout.otpBoxHeight;
         final boxRadius = layout.radius(12);
 
-        return GestureDetector(
-          onTap: focusNode.requestFocus,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(OtpPolicy.codeLength, (index) {
+        return AutofillGroup(
+          child: GestureDetector(
+            onTap: focusNode.requestFocus,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(OtpPolicy.codeLength, (index) {
                   final digit = index < otpValue.length ? otpValue[index] : '';
                   final isActive =
                       focusNode.hasFocus && index == activeIndex;
@@ -145,6 +146,8 @@ class OtpInputWidgetState extends State<OtpInputWidget> {
                     keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.done,
                     maxLength: OtpPolicy.codeLength,
+                    autofillHints: const [AutofillHints.oneTimeCode],
+                    enableSuggestions: true,
                     onChanged: handleOtpChanged,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
@@ -158,6 +161,7 @@ class OtpInputWidgetState extends State<OtpInputWidget> {
               ),
             ],
           ),
+        ),
         );
       },
     );

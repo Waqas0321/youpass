@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/app_strings.dart';
@@ -15,6 +17,7 @@ import 'package:youpass/features/vip_venue/domain/entities/vip_purchase_checkout
 import 'package:youpass/features/vip_venue/domain/entities/vip_purchase_session.dart';
 import 'package:youpass/features/vip_venue/presentation/providers/vip_venue_provider.dart';
 import 'package:youpass/features/vip_venue/presentation/routes/vip_purchase_route_args.dart';
+import 'package:youpass/features/vip_venue/presentation/utils/free_ticket_checkout_payment_flow.dart';
 import 'package:youpass/features/vip_venue/presentation/utils/vip_currency_formatter.dart';
 import 'package:youpass/features/vip_venue/presentation/vip_venue_design_spec.dart';
 import 'package:youpass/features/vip_venue/presentation/widgets/purchase_success_dialog.dart';
@@ -47,17 +50,36 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
   bool paymentCompleted = false;
   bool _lockExpiredHandled = false;
   bool _lockExpired = false;
+  bool _warmingCheckout = false;
+  Future<bool>? _tableLockFuture;
+  bool _redirectedToPayment = false;
   String? checkoutTicketId;
   String? checkoutSeatLabel;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _syncTableLockFromServer());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _warmCheckout());
   }
 
-  Future<void> _syncTableLockFromServer() async {
-    if (!session.isVipTablePurchase) {
+  Future<void> _warmCheckout() async {
+    if (!session.isVipTablePurchase || _hasActiveTableLock || _warmingCheckout) {
+      return;
+    }
+
+    _warmingCheckout = true;
+    _tableLockFuture = _ensureTableLockedForCheckout();
+    await _tableLockFuture;
+    _warmingCheckout = false;
+  }
+
+  bool get _hasActiveTableLock =>
+      session.isVipTablePurchase &&
+      session.tableLockExpiresAt != null &&
+      session.tableLockExpiresAt!.isAfter(DateTime.now());
+
+  Future<void> _releaseTableLockIfHeld() async {
+    if (paymentCompleted || !_hasActiveTableLock) {
       return;
     }
 
@@ -66,28 +88,76 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
       return;
     }
 
-    final status = await context.read<VipVenueProvider>().fetchTableLockStatus(
+    await context.read<VipVenueProvider>().releaseTableLock(
           eventId: session.event.id,
           tableId: table.id,
         );
 
-    if (!mounted || status == null) {
+    if (!mounted) {
       return;
     }
 
-    if (status.isLockedByMe && status.isActive && status.expiresAt != null) {
-      setState(() {
-        session.tableLockExpiresAt = status.expiresAt;
-        session.tableLockId = status.lockId;
-        _lockExpired = false;
-        _lockExpiredHandled = false;
-      });
-      return;
+    session.tableLockExpiresAt = null;
+    session.tableLockId = null;
+    _tableLockFuture = null;
+  }
+
+  Future<bool> _ensureTableLockForPayment() async {
+    if (_hasActiveTableLock) {
+      return true;
     }
 
-    if (session.tableLockExpiresAt != null) {
-      handleTableLockExpired();
+    _tableLockFuture ??= _ensureTableLockedForCheckout();
+    return _tableLockFuture!;
+  }
+
+  Future<bool> _ensureTableLockedForCheckout() async {
+    final table = session.selectedTable;
+    if (table == null) {
+      return false;
     }
+
+    if (_hasActiveTableLock) {
+      return true;
+    }
+
+    final lock = await context.read<VipVenueProvider>().lockTable(
+          eventId: session.event.id,
+          tableId: table.id,
+        );
+
+    if (!mounted) {
+      return false;
+    }
+
+    if (lock == null) {
+      final provider = context.read<VipVenueProvider>();
+      final strings = context.l10n;
+      final message = provider.errorCode == 'TABLE_LOCKED'
+          ? AppStrings.vipTableBlockedReserve(strings)
+          : AppMessageLocalizer.fromApiError(
+              strings,
+              code: provider.errorCode,
+              fallbackMessage: provider.errorMessage,
+            );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+      _tableLockFuture = null;
+      return false;
+    }
+
+    setState(() {
+      session.tableLockId = lock.lockId;
+      session.tableLockExpiresAt = lock.expiresAt;
+      if (lock.table.price > 0) {
+        session.selectedTable = lock.table;
+      }
+      _lockExpired = false;
+      _lockExpiredHandled = false;
+      _tableLockFuture = null;
+    });
+    return true;
   }
 
   void updateOfferingQuantity(String offeringId, int quantity) {
@@ -103,23 +173,59 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
 
   Future<void> submitPayment() async {
     if (isSubmitting ||
-        _lockExpired ||
         (!session.hasSelectedTickets && !session.isVipTablePurchase)) {
       return;
     }
 
     setState(() => isSubmitting = true);
+    _redirectedToPayment = false;
 
-    final success = await _attemptCheckout(allowTableRelock: true);
+    try {
+      if (session.isVipTablePurchase) {
+        final locked = await _ensureTableLockForPayment();
+        if (!mounted) {
+          return;
+        }
+        if (!locked) {
+          return;
+        }
+      }
 
-    if (!mounted) {
-      return;
-    }
+      if (session.totalAmount == 0) {
+        final paymentReady =
+            await FreeTicketCheckoutPaymentFlow(context).ensureBeforeCheckout();
+        if (!mounted) {
+          return;
+        }
+        if (!paymentReady) {
+          return;
+        }
+      }
 
-    setState(() => isSubmitting = false);
+      final success = await _attemptCheckout(
+        allowTableRelock: session.isVipTablePurchase,
+      );
 
-    if (!success) {
-      return;
+      if (!mounted) {
+        return;
+      }
+
+      if (!success &&
+          session.isVipTablePurchase &&
+          !paymentCompleted &&
+          !_redirectedToPayment) {
+        await _releaseTableLockIfHeld();
+        if (mounted) {
+          setState(() {
+            _lockExpired = false;
+            _lockExpiredHandled = false;
+          });
+        }
+      }
+    } finally {
+      if (mounted) {
+        setState(() => isSubmitting = false);
+      }
     }
   }
 
@@ -176,6 +282,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
     }
 
     if (result.isPaymentPending) {
+      _redirectedToPayment = true;
       await handlePendingPayment(result);
       return false;
     }
@@ -184,11 +291,11 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
     checkoutTicketId = result.ticketId;
     checkoutSeatLabel = result.seatLabel;
 
-    await context.read<TicketsProvider>().refreshUpcoming();
-
     if (!mounted) {
       return false;
     }
+
+    unawaited(context.read<TicketsProvider>().refreshUpcoming());
 
     await PurchaseSuccessDialog.show(
       context,
@@ -324,6 +431,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
   }
 
   void returnToFloorPlan() {
+    unawaited(_releaseTableLockIfHeld());
     session.tableLockExpiresAt = null;
     session.tableLockId = null;
     session.selectedTable = null;
@@ -341,9 +449,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
 
     _lockExpiredHandled = true;
     setState(() => _lockExpired = true);
-    session.tableLockExpiresAt = null;
-    session.tableLockId = null;
-    session.selectedTable = null;
+    unawaited(_releaseTableLockIfHeld());
 
     VipTableLockExpiredDialog.show(
       context,
@@ -351,15 +457,27 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
     );
   }
 
+  Future<void> handleBack() async {
+    await _releaseTableLockIfHeld();
+    if (mounted) {
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
     final padding = VipVenueDesignSpec.px(context, VipVenueDesignSpec.horizontalPadding);
-    final canPay = !_lockExpired &&
-        (session.isVipTablePurchase || session.hasSelectedTickets);
+    final canPay = session.isVipTablePurchase || session.hasSelectedTickets;
     final lockExpiresAt = session.tableLockExpiresAt;
 
-    return VipFlowScaffold(
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop && !paymentCompleted) {
+          unawaited(_releaseTableLockIfHeld());
+        }
+      },
+      child: VipFlowScaffold(
       title: AppStrings.vipPurchaseSummaryTitle(strings),
       subtitle: session.event.title,
       body: ListView(
@@ -382,7 +500,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
         minimum: EdgeInsets.fromLTRB(padding, 0, padding, padding),
         child: VipFlowBottomActionRowWidget(
           backLabel: AppStrings.vipBackButton(strings),
-          onBack: () => Navigator.of(context).pop(),
+          onBack: handleBack,
           primaryLabel: AppStrings.vipPayButton(
             strings,
             VipCurrencyFormatter.formatAmountCompact(
@@ -396,6 +514,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
           primaryEnabled: canPay,
           primaryLoading: isSubmitting,
         ),
+      ),
       ),
     );
   }

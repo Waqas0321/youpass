@@ -6,6 +6,8 @@ abstract class HomeRemoteDataSource {
   Future<HomeFeedEntity> fetchHomeFeed({
     String? feedContext,
     String? countryCode,
+    double? lat,
+    double? lng,
   });
 
   Future<HomeFeedEventsUpdate> fetchFilteredEvents(EventCategoryEntity category);

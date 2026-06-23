@@ -42,6 +42,7 @@ import 'package:youpass/features/auth/domain/usecases/upload_profile_photo_useca
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/events/data/repositories/events_repository_impl.dart';
 import 'package:youpass/features/events/data/services/events_api_service.dart';
+import 'package:youpass/features/home/data/services/party_drinks_api_service.dart';
 import 'package:youpass/features/events/domain/repositories/events_repository.dart';
 import 'package:youpass/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:youpass/features/home/data/datasources/home_remote_datasource_impl.dart';
@@ -245,6 +246,9 @@ Future<void> initDependencies() async {
     ..registerLazySingleton<EventsApiService>(
       () => EventsApiService(sl<ApiClient>()),
     )
+    ..registerLazySingleton<PartyDrinksApiService>(
+      () => PartyDrinksApiService(sl<ApiClient>()),
+    )
     ..registerLazySingleton<EventsRepository>(
       () => createEventsRepository(
         eventsApiService: sl<EventsApiService>(),
@@ -375,6 +379,7 @@ Future<void> initDependencies() async {
         cancelInvitationUseCase: sl<CancelInvitationUseCase>(),
         fetchInvitationTicketUseCase: sl<FetchInvitationTicketUseCase>(),
         savePaymentMethodUseCase: sl<SavePaymentMethodUseCase>(),
+        eventsRepository: sl<EventsRepository>(),
       ),
     )
     ..registerLazySingleton<TicketsCache>(
@@ -432,6 +437,7 @@ Future<void> initDependencies() async {
         confirmInvitationUseCase: sl<ConfirmInvitationUseCase>(),
         rejectInvitationUseCase: sl<RejectInvitationUseCase>(),
         cancelTicketUseCase: sl<CancelTicketUseCase>(),
+        eventsRepository: sl<EventsRepository>(),
         ticketsCache: sl<TicketsCache>(),
         ticketQrCacheService: sl<TicketQrCacheService>(),
       ),

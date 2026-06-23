@@ -136,6 +136,10 @@ class HomeInitialFeedResponseModel {
         'banner_visible',
         fallback: JsonReaders.boolean(value, 'bannerVisible', fallback: true),
       ),
+      eventId: JsonReaders.nullableString(value, 'event_id') ??
+          JsonReaders.nullableString(value, 'eventId'),
+      eventTitle: JsonReaders.nullableString(value, 'event_title') ??
+          JsonReaders.nullableString(value, 'eventTitle'),
     );
   }
 

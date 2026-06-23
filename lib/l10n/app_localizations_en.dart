@@ -538,6 +538,237 @@ class AppLocalizationsEn extends AppLocalizations {
   String get drawerInvitations => 'INVITATIONS';
 
   @override
+  String get drawerDrinkMenu => 'Drink Menu';
+
+  @override
+  String get drawerMyPurchases => 'My Purchases';
+
+  @override
+  String get partyDrinkMenuEmpty =>
+      'The drink menu for this event will appear here soon.';
+
+  @override
+  String get partyDrinkMenuSubtitle => 'Choose a category to explore';
+
+  @override
+  String get partyDrinkCategoryAll => 'All';
+
+  @override
+  String get partyDrinkCategoryPiscos => 'Piscos';
+
+  @override
+  String get partyDrinkCategoryBeers => 'Beers';
+
+  @override
+  String get partyDrinkCategorySparkling => 'Sparkling wines';
+
+  @override
+  String get partyDrinkCategoryEnergy => 'Energy drinks';
+
+  @override
+  String get partyDrinkQuickRecommendations => 'Quick recommendations';
+
+  @override
+  String get partyDrinkQuickRecommendationsSubtitle =>
+      'Most ordered at YouFest';
+
+  @override
+  String get partyDrinkMockPiscola => 'Piscola';
+
+  @override
+  String get partyDrinkMockPiscolaDesc => 'Pisco + cola drink';
+
+  @override
+  String get partyDrinkMockJagerBomb => 'Jager Bomb';
+
+  @override
+  String get partyDrinkMockJagerBombDesc => 'Jägermeister + Red Bull';
+
+  @override
+  String get partyDrinkMockTropicalGin => 'Tropical Gin';
+
+  @override
+  String get partyDrinkMockTropicalGinDesc => 'Gin + tonic + fruits';
+
+  @override
+  String get partyDrinkMockCubaLibre => 'Cuba Libre';
+
+  @override
+  String get partyDrinkMockCubaLibreDesc => 'Rum + cola + lime';
+
+  @override
+  String get partyDrinkMockCorona => 'Corona';
+
+  @override
+  String get partyDrinkMockCoronaDesc => 'Mexican lager beer';
+
+  @override
+  String get partyDrinkMockChandon => 'Chandon';
+
+  @override
+  String get partyDrinkMockChandonDesc => 'Sparkling wine bottle';
+
+  @override
+  String partyDrinkVolumeMl(int volume) {
+    return '$volume ml';
+  }
+
+  @override
+  String get partyDrinkCheckoutPaymentMethod => 'Payment method';
+
+  @override
+  String get partyDrinkCheckoutCreditCard => 'Credit card';
+
+  @override
+  String partyDrinkCheckoutCardMask(String last4) {
+    return '**** $last4';
+  }
+
+  @override
+  String partyDrinkCheckoutProducts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count products',
+      one: '1 product',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get partyDrinkCheckoutBuy => 'BUY';
+
+  @override
+  String get partyDrinkCheckoutSummaryTitle => 'Purchase summary';
+
+  @override
+  String get partyDrinkCheckoutSummarySubtitle =>
+      'Review your products before continuing.';
+
+  @override
+  String get partyDrinkCheckoutSubtotal => 'Subtotal';
+
+  @override
+  String get partyDrinkCheckoutServiceCharge => 'Service charge';
+
+  @override
+  String get partyDrinkCheckoutTotal => 'Total';
+
+  @override
+  String get partyDrinkCheckoutChangePayment => 'Change';
+
+  @override
+  String get partyDrinkCheckoutCompletePurchase => 'Complete purchase';
+
+  @override
+  String get partyDrinkCheckoutSecurePayment => '100% secure payment';
+
+  @override
+  String get partyDrinkPurchaseSuccessTitle => 'Purchase complete!';
+
+  @override
+  String get partyDrinkPurchaseSuccessSubtitle =>
+      'Show this code at the bar to receive your drink.';
+
+  @override
+  String partyDrinkPurchaseValidity(String target) {
+    return 'This code is valid for $target.';
+  }
+
+  @override
+  String get partyDrinkPurchaseShowBartender =>
+      'Show it to the bartender to receive your order.';
+
+  @override
+  String get partyDrinkPurchasesTitle => 'MY PURCHASES';
+
+  @override
+  String get partyDrinkPurchasesSubtitle =>
+      'Review and redeem your orders inside the event.';
+
+  @override
+  String get partyDrinkPurchasesTabPending => 'To redeem';
+
+  @override
+  String get partyDrinkPurchasesTabUsed => 'Used';
+
+  @override
+  String partyDrinkPurchasesOrderLabel(String id) {
+    return 'Order $id';
+  }
+
+  @override
+  String partyDrinkPurchasesQuantityLabel(int count, String name) {
+    return '$count x $name';
+  }
+
+  @override
+  String partyDrinkPurchasesBoughtAgo(String timeAgo) {
+    return 'Purchased $timeAgo';
+  }
+
+  @override
+  String partyDrinkPurchasesRedeemedAgo(String timeAgo) {
+    return 'Redeemed $timeAgo';
+  }
+
+  @override
+  String get partyDrinkPurchasesViewQr => 'VIEW QR';
+
+  @override
+  String get partyDrinkPurchasesRedeemedBadge => 'REDEEMED';
+
+  @override
+  String get partyDrinkPurchasesEmptyPending =>
+      'You have no drinks waiting to be redeemed.';
+
+  @override
+  String get partyDrinkPurchasesEmptyUsed =>
+      'You have no redeemed drink orders yet.';
+
+  @override
+  String get partyDrinkPurchasesQrUnavailable =>
+      'This order QR is no longer available.';
+
+  @override
+  String get partyDrinkPurchasesJustNow => 'just now';
+
+  @override
+  String partyDrinkPurchasesMinutesAgo(int count) {
+    return '$count min';
+  }
+
+  @override
+  String partyDrinkPurchasesHoursAgo(int count) {
+    return '$count h';
+  }
+
+  @override
+  String partyDrinkPurchasesDaysAgo(int count) {
+    return '$count d';
+  }
+
+  @override
+  String get partyDrinkCourtesiesTitle => 'MY COURTESIES';
+
+  @override
+  String get partyDrinkCourtesiesSubtitle =>
+      'Review and redeem your complimentary drinks inside the event.';
+
+  @override
+  String partyDrinkCourtesiesReceivedAgo(String timeAgo) {
+    return 'Received $timeAgo';
+  }
+
+  @override
+  String get partyDrinkCourtesiesEmptyPending =>
+      'You have no complimentary drinks waiting to be redeemed.';
+
+  @override
+  String get partyDrinkCourtesiesEmptyUsed =>
+      'You have no redeemed courtesies yet.';
+
+  @override
   String drawerInvitationsNewBadge(int count) {
     return '$count new';
   }
@@ -1022,6 +1253,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ticketsAssignVip => 'ASSIGN VIP TICKETS';
 
   @override
+  String get ticketsViewAssigned => 'VIEW ASSIGNED TICKETS';
+
+  @override
   String get ticketsAttendedSectionTitle => 'ATTENDED EVENTS';
 
   @override
@@ -1219,6 +1453,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invitationsTypeFree => 'Free Invitation';
 
   @override
+  String get invitationsTypeAssigned => 'Invitation';
+
+  @override
+  String get invitationsTypeVip => 'VIP Invitation';
+
+  @override
   String get invitationsTypeGuaranteedPass => 'Guaranteed Pass';
 
   @override
@@ -1355,6 +1595,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invitationsTierGeneral => 'General';
+
+  @override
+  String get invitationsTierFree => 'Free';
 
   @override
   String invitationsInvitedBy(String name) {
@@ -1787,6 +2030,37 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String ticketAssignmentClaimedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count accepted',
+      one: '1 accepted',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get ticketAssignmentSentSectionTitle => 'Sent invitations';
+
+  @override
+  String get ticketAssignmentSendNewSectionTitle => 'Send new tickets';
+
+  @override
+  String ticketAssignmentSendNewSectionSubtitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'You have $count tickets ready to assign to new guests.',
+      one: 'You have 1 ticket ready to assign to a new guest.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get ticketAssignmentAcceptedBadge => 'ACCEPTED';
 
   @override
   String get ticketAssignmentOwnerTicket => 'Your ticket';

@@ -1,11 +1,7 @@
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
-import 'package:youpass/features/invitations/domain/entities/invitation_filter.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_list_tab.dart';
-import 'package:youpass/features/invitations/domain/entities/invitation_product_kind.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_status.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_status_extensions.dart';
-import 'package:youpass/features/invitations/domain/entities/invitation_tier.dart';
-import 'package:youpass/features/invitations/presentation/utils/invitations_product_kind_resolver.dart';
 
 class InvitationsFilterHelper {
   InvitationsFilterHelper._();
@@ -27,40 +23,21 @@ class InvitationsFilterHelper {
     };
   }
 
-  static bool matchesTierFilter(InvitationEntity invitation, InvitationFilter filter) {
-    final kind = InvitationsProductKindResolver.resolve(invitation);
-    final type = invitation.type?.toLowerCase();
-
-    return switch (filter) {
-      InvitationFilter.all => true,
-      InvitationFilter.courtesies => kind == InvitationProductKind.guaranteedPass,
-      InvitationFilter.general =>
-        invitation.tier == InvitationTier.general && kind != InvitationProductKind.guaranteedPass,
-      InvitationFilter.vip =>
-        invitation.tier == InvitationTier.vip &&
-            kind != InvitationProductKind.guaranteedPass &&
-            type != 'vip_table' &&
-            !_isTableInvitation(invitation),
-      InvitationFilter.tables => _isTableInvitation(invitation),
-    };
-  }
-
-  static bool _isTableInvitation(InvitationEntity invitation) {
-    final type = invitation.type?.toLowerCase();
-    if (type == 'vip_table') {
+  static bool matchesEventTypeFilter(
+    InvitationEntity invitation,
+    String? eventTypeSlug,
+  ) {
+    if (eventTypeSlug == null || eventTypeSlug.isEmpty) {
       return true;
     }
-    if (invitation.tier != InvitationTier.vip) {
-      return false;
-    }
-    final slot = invitation.assignedSlot?.toLowerCase() ?? '';
-    return slot.contains('table') || slot.contains('mesa');
+
+    return invitation.eventTypeSlug == eventTypeSlug;
   }
 
   static List<InvitationEntity> filterInvitations({
     required List<InvitationEntity> invitations,
     required InvitationListTab selectedTab,
-    required InvitationFilter selectedFilter,
+    required String? selectedEventTypeSlug,
     required String searchQuery,
   }) {
     final query = searchQuery.trim().toLowerCase();
@@ -70,7 +47,7 @@ class InvitationsFilterHelper {
         return false;
       }
 
-      if (!matchesTierFilter(invitation, selectedFilter)) {
+      if (!matchesEventTypeFilter(invitation, selectedEventTypeSlug)) {
         return false;
       }
 

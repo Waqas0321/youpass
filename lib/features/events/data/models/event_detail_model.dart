@@ -130,7 +130,17 @@ class EventDetailModel extends EventDetailEntity {
           _readBool(json, 'hasTicketOfferings'),
       hasVenueLayout: _readBool(json, 'has_venue_layout') ||
           _readBool(json, 'hasVenueLayout'),
+      canPurchaseFromApi: _readOptionalBool(json, 'can_purchase') ??
+          _readOptionalBool(json, 'canPurchase'),
     );
+  }
+
+  static bool? _readOptionalBool(Map<String, dynamic> json, String key) {
+    final value = json[key];
+    if (value is bool) {
+      return value;
+    }
+    return null;
   }
 
   static bool _readBool(Map<String, dynamic> json, String key) {

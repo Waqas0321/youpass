@@ -99,7 +99,7 @@ class TicketsScreenActions {
   Future<void> openAssignTickets(UpcomingTicketEntity ticket) async {
     final strings = context.l10n;
 
-    if (!ticket.showsAssignAction) {
+    if (!ticket.showsAssignmentAction) {
       showError(AppStrings.ticketAssignmentMissingOrder(strings));
       return;
     }

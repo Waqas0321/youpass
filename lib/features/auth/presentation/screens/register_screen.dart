@@ -19,12 +19,17 @@ class RegisterScreen extends StatelessWidget {
     final strings = context.l10n;
     final routeArgs = _readArgs(context);
 
+    final hasVerifiedOtp =
+        routeArgs?.otpCode != null && routeArgs!.otpCode!.isNotEmpty;
+
     return AuthPageLayout(
       showVolterBackButton: true,
       headerSpacing: 32,
       header: AuthHeaderWidget(
         title: strings.createAccountTitle,
-        subtitle: strings.createAccountSubtitle,
+        subtitle: hasVerifiedOtp
+            ? strings.createAccountSubtitle
+            : strings.phoneLoginSubtitle,
       ),
       body: RegisterFormWidget(routeArgs: routeArgs),
       footer: const RegisterFooterWidget(),

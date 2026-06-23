@@ -6,10 +6,31 @@ class GetHomeFeedUseCase {
 
   final HomeRepository homeRepository;
 
-  Future<HomeFeedEntity> call({String? feedContext, String? countryCode}) {
+  Future<HomeFeedEntity> call({
+    String? feedContext,
+    String? countryCode,
+    double? lat,
+    double? lng,
+  }) {
+    return getHomeFeed(
+      feedContext: feedContext,
+      countryCode: countryCode,
+      lat: lat,
+      lng: lng,
+    );
+  }
+
+  Future<HomeFeedEntity> getHomeFeed({
+    String? feedContext,
+    String? countryCode,
+    double? lat,
+    double? lng,
+  }) {
     return homeRepository.getHomeFeed(
       feedContext: feedContext,
       countryCode: countryCode,
+      lat: lat,
+      lng: lng,
     );
   }
 }

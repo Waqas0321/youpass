@@ -11,26 +11,36 @@ class PastEventsFavoritesTipWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = context.l10n;
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(
-          Icons.favorite,
-          size: TicketsDesignSpec.px(context, 16),
-          color: TicketsScreenTheme.favoriteActive(context),
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(TicketsDesignSpec.px(context, 12)),
+      decoration: BoxDecoration(
+        color: TicketsScreenTheme.sectionIconBackground(context),
+        borderRadius: BorderRadius.circular(
+          TicketsDesignSpec.px(context, 10),
         ),
-        SizedBox(width: TicketsDesignSpec.px(context, 8)),
-        Expanded(
-          child: Text(
-            AppStrings.ticketsFavoritesTip(strings),
-            style: TextStyle(
-              fontSize: TicketsDesignSpec.px(context, 12),
-              color: TicketsScreenTheme.body(context),
-              height: 1.35,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.favorite,
+            size: TicketsDesignSpec.px(context, 16),
+            color: TicketsScreenTheme.favoriteActive(context),
+          ),
+          SizedBox(width: TicketsDesignSpec.px(context, 8)),
+          Expanded(
+            child: Text(
+              AppStrings.ticketsFavoritesTip(strings),
+              style: TextStyle(
+                fontSize: TicketsDesignSpec.px(context, 12),
+                color: TicketsScreenTheme.body(context),
+                height: 1.35,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

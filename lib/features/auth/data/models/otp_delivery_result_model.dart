@@ -9,6 +9,7 @@ class OtpDeliveryResultModel extends OtpDeliveryResultEntity {
     required super.channel,
     required super.expiresInSeconds,
     required super.resendAvailableInSeconds,
+    super.devOtpCode,
   });
 
   factory OtpDeliveryResultModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +27,7 @@ class OtpDeliveryResultModel extends OtpDeliveryResultEntity {
         json,
         'resend_available_in_seconds',
       ),
+      devOtpCode: json['dev_otp_code'] as String?,
     );
   }
 }

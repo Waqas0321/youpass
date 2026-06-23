@@ -4,7 +4,13 @@ class ApiEndpoints {
   ApiEndpoints._();
 
   static String get baseUrl => AppConstants.apiBaseUrl;
-  static String get apiV1 => '$baseUrl/api/v1';
+  static String get apiV1 {
+    final url = baseUrl;
+    if (url.endsWith('/api/v1')) {
+      return url;
+    }
+    return '$url/api/v1';
+  }
 
   static String get health => '$apiV1/health';
   static String get config => '$apiV1/config';
@@ -73,6 +79,19 @@ class ApiEndpoints {
       '$apiV1/producers/$producerId/upcoming-events';
 
   static String eventById(String eventId) => '$apiV1/events/$eventId';
+
+  static String eventDrinkMenu(String eventId) => '$apiV1/events/$eventId/drink-menu';
+
+  static String eventDrinkOrders(String eventId) => '$apiV1/events/$eventId/drink-orders';
+
+  static String usersMeDrinkOrders({bool? complimentary}) {
+    if (complimentary == null) {
+      return '$apiV1/users/me/drink-orders';
+    }
+    return '$apiV1/users/me/drink-orders?complimentary=$complimentary';
+  }
+
+  static String userDrinkOrder(String orderId) => '$apiV1/users/me/drink-orders/$orderId';
 
   static String eventAvailability(String eventId) =>
       '$apiV1/events/$eventId/availability';

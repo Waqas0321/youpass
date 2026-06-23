@@ -6,6 +6,8 @@ abstract class HomeRepository {
   Future<HomeFeedEntity> getHomeFeed({
     String? feedContext,
     String? countryCode,
+    double? lat,
+    double? lng,
   });
 
   Future<HomeFeedEventsUpdate> getFilteredEvents(EventCategoryEntity category);

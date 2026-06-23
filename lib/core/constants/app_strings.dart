@@ -197,6 +197,195 @@ class AppStrings {
   static String drawerInvitations(AppLocalizations l10n) =>
       l10n.drawerInvitations;
 
+  static String drawerDrinkMenu(AppLocalizations l10n) => l10n.drawerDrinkMenu;
+
+  static String drawerMyPurchases(AppLocalizations l10n) =>
+      l10n.drawerMyPurchases;
+
+  static String partyDrinkMenuEmpty(AppLocalizations l10n) =>
+      l10n.partyDrinkMenuEmpty;
+
+  static String partyDrinkMenuSubtitle(AppLocalizations l10n) =>
+      l10n.partyDrinkMenuSubtitle;
+
+  static String partyDrinkCategoryAll(AppLocalizations l10n) =>
+      l10n.partyDrinkCategoryAll;
+
+  static String partyDrinkCategoryPiscos(AppLocalizations l10n) =>
+      l10n.partyDrinkCategoryPiscos;
+
+  static String partyDrinkCategoryBeers(AppLocalizations l10n) =>
+      l10n.partyDrinkCategoryBeers;
+
+  static String partyDrinkCategorySparkling(AppLocalizations l10n) =>
+      l10n.partyDrinkCategorySparkling;
+
+  static String partyDrinkCategoryEnergy(AppLocalizations l10n) =>
+      l10n.partyDrinkCategoryEnergy;
+
+  static String partyDrinkQuickRecommendations(AppLocalizations l10n) =>
+      l10n.partyDrinkQuickRecommendations;
+
+  static String partyDrinkQuickRecommendationsSubtitle(AppLocalizations l10n) =>
+      l10n.partyDrinkQuickRecommendationsSubtitle;
+
+  static String partyDrinkMockPiscola(AppLocalizations l10n) =>
+      l10n.partyDrinkMockPiscola;
+
+  static String partyDrinkMockPiscolaDesc(AppLocalizations l10n) =>
+      l10n.partyDrinkMockPiscolaDesc;
+
+  static String partyDrinkMockJagerBomb(AppLocalizations l10n) =>
+      l10n.partyDrinkMockJagerBomb;
+
+  static String partyDrinkMockJagerBombDesc(AppLocalizations l10n) =>
+      l10n.partyDrinkMockJagerBombDesc;
+
+  static String partyDrinkMockTropicalGin(AppLocalizations l10n) =>
+      l10n.partyDrinkMockTropicalGin;
+
+  static String partyDrinkMockTropicalGinDesc(AppLocalizations l10n) =>
+      l10n.partyDrinkMockTropicalGinDesc;
+
+  static String partyDrinkMockCubaLibre(AppLocalizations l10n) =>
+      l10n.partyDrinkMockCubaLibre;
+
+  static String partyDrinkMockCubaLibreDesc(AppLocalizations l10n) =>
+      l10n.partyDrinkMockCubaLibreDesc;
+
+  static String partyDrinkMockCorona(AppLocalizations l10n) =>
+      l10n.partyDrinkMockCorona;
+
+  static String partyDrinkMockCoronaDesc(AppLocalizations l10n) =>
+      l10n.partyDrinkMockCoronaDesc;
+
+  static String partyDrinkMockChandon(AppLocalizations l10n) =>
+      l10n.partyDrinkMockChandon;
+
+  static String partyDrinkMockChandonDesc(AppLocalizations l10n) =>
+      l10n.partyDrinkMockChandonDesc;
+
+  static String partyDrinkVolumeMl(AppLocalizations l10n, int volume) =>
+      l10n.partyDrinkVolumeMl(volume);
+
+  static String partyDrinkCheckoutPaymentMethod(AppLocalizations l10n) =>
+      l10n.partyDrinkCheckoutPaymentMethod;
+
+  static String partyDrinkCheckoutCreditCard(AppLocalizations l10n) =>
+      l10n.partyDrinkCheckoutCreditCard;
+
+  static String partyDrinkCheckoutCardMask(
+    AppLocalizations l10n,
+    String last4,
+  ) =>
+      l10n.partyDrinkCheckoutCardMask(last4);
+
+  static String partyDrinkCheckoutProducts(AppLocalizations l10n, int count) =>
+      l10n.partyDrinkCheckoutProducts(count);
+
+  static String partyDrinkCheckoutBuy(AppLocalizations l10n) =>
+      l10n.partyDrinkCheckoutBuy;
+
+  static String partyDrinkCheckoutSummaryTitle(AppLocalizations l10n) =>
+      l10n.partyDrinkCheckoutSummaryTitle;
+
+  static String partyDrinkCheckoutSummarySubtitle(AppLocalizations l10n) =>
+      l10n.partyDrinkCheckoutSummarySubtitle;
+
+  static String partyDrinkCheckoutSubtotal(AppLocalizations l10n) =>
+      l10n.partyDrinkCheckoutSubtotal;
+
+  static String partyDrinkCheckoutServiceCharge(AppLocalizations l10n) =>
+      l10n.partyDrinkCheckoutServiceCharge;
+
+  static String partyDrinkCheckoutTotal(AppLocalizations l10n) =>
+      l10n.partyDrinkCheckoutTotal;
+
+  static String partyDrinkCheckoutChangePayment(AppLocalizations l10n) =>
+      l10n.partyDrinkCheckoutChangePayment;
+
+  static String partyDrinkCheckoutCompletePurchase(AppLocalizations l10n) =>
+      l10n.partyDrinkCheckoutCompletePurchase;
+
+  static String partyDrinkCheckoutSecurePayment(AppLocalizations l10n) =>
+      l10n.partyDrinkCheckoutSecurePayment;
+
+  static String partyDrinkPurchaseSuccessTitle(AppLocalizations l10n) =>
+      l10n.partyDrinkPurchaseSuccessTitle;
+
+  static String partyDrinkPurchaseSuccessSubtitle(AppLocalizations l10n) =>
+      l10n.partyDrinkPurchaseSuccessSubtitle;
+
+  static String partyDrinkPurchaseValidity(
+    AppLocalizations l10n,
+    String target,
+  ) =>
+      l10n.partyDrinkPurchaseValidity(target);
+
+  static String partyDrinkPurchaseShowBartender(AppLocalizations l10n) =>
+      l10n.partyDrinkPurchaseShowBartender;
+
+  static String partyDrinkPurchasesTitle(AppLocalizations l10n) =>
+      l10n.partyDrinkPurchasesTitle;
+
+  static String partyDrinkPurchasesSubtitle(AppLocalizations l10n) =>
+      l10n.partyDrinkPurchasesSubtitle;
+
+  static String partyDrinkPurchasesTabPending(AppLocalizations l10n) =>
+      l10n.partyDrinkPurchasesTabPending;
+
+  static String partyDrinkPurchasesTabUsed(AppLocalizations l10n) =>
+      l10n.partyDrinkPurchasesTabUsed;
+
+  static String partyDrinkPurchasesOrderLabel(AppLocalizations l10n, String id) =>
+      l10n.partyDrinkPurchasesOrderLabel(id);
+
+  static String partyDrinkPurchasesQuantityLabel(
+    AppLocalizations l10n,
+    int count,
+    String name,
+  ) =>
+      l10n.partyDrinkPurchasesQuantityLabel(count, name);
+
+  static String partyDrinkPurchasesBoughtAgo(AppLocalizations l10n, String timeAgo) =>
+      l10n.partyDrinkPurchasesBoughtAgo(timeAgo);
+
+  static String partyDrinkPurchasesRedeemedAgo(AppLocalizations l10n, String timeAgo) =>
+      l10n.partyDrinkPurchasesRedeemedAgo(timeAgo);
+
+  static String partyDrinkPurchasesViewQr(AppLocalizations l10n) =>
+      l10n.partyDrinkPurchasesViewQr;
+
+  static String partyDrinkPurchasesRedeemedBadge(AppLocalizations l10n) =>
+      l10n.partyDrinkPurchasesRedeemedBadge;
+
+  static String partyDrinkPurchasesEmptyPending(AppLocalizations l10n) =>
+      l10n.partyDrinkPurchasesEmptyPending;
+
+  static String partyDrinkPurchasesEmptyUsed(AppLocalizations l10n) =>
+      l10n.partyDrinkPurchasesEmptyUsed;
+
+  static String partyDrinkPurchasesQrUnavailable(AppLocalizations l10n) =>
+      l10n.partyDrinkPurchasesQrUnavailable;
+
+  static String partyDrinkCourtesiesTitle(AppLocalizations l10n) =>
+      l10n.partyDrinkCourtesiesTitle;
+
+  static String partyDrinkCourtesiesSubtitle(AppLocalizations l10n) =>
+      l10n.partyDrinkCourtesiesSubtitle;
+
+  static String partyDrinkCourtesiesReceivedAgo(
+    AppLocalizations l10n,
+    String timeAgo,
+  ) =>
+      l10n.partyDrinkCourtesiesReceivedAgo(timeAgo);
+
+  static String partyDrinkCourtesiesEmptyPending(AppLocalizations l10n) =>
+      l10n.partyDrinkCourtesiesEmptyPending;
+
+  static String partyDrinkCourtesiesEmptyUsed(AppLocalizations l10n) =>
+      l10n.partyDrinkCourtesiesEmptyUsed;
+
   static String drawerInvitationsNewBadge(AppLocalizations l10n, int count) =>
       l10n.drawerInvitationsNewBadge(count);
 
@@ -620,6 +809,9 @@ class AppStrings {
 
   static String ticketsAssignVip(AppLocalizations l10n) => l10n.ticketsAssignVip;
 
+  static String ticketsViewAssigned(AppLocalizations l10n) =>
+      l10n.ticketsViewAssigned;
+
   static String ticketsAttendedSectionTitle(AppLocalizations l10n) =>
       l10n.ticketsAttendedSectionTitle;
 
@@ -683,6 +875,24 @@ class AppStrings {
 
   static String ticketAssignmentPendingCount(AppLocalizations l10n, int count) =>
       l10n.ticketAssignmentPendingCount(count);
+
+  static String ticketAssignmentClaimedCount(AppLocalizations l10n, int count) =>
+      l10n.ticketAssignmentClaimedCount(count);
+
+  static String ticketAssignmentSentSectionTitle(AppLocalizations l10n) =>
+      l10n.ticketAssignmentSentSectionTitle;
+
+  static String ticketAssignmentSendNewSectionTitle(AppLocalizations l10n) =>
+      l10n.ticketAssignmentSendNewSectionTitle;
+
+  static String ticketAssignmentSendNewSectionSubtitle(
+    AppLocalizations l10n,
+    int count,
+  ) =>
+      l10n.ticketAssignmentSendNewSectionSubtitle(count);
+
+  static String ticketAssignmentAcceptedBadge(AppLocalizations l10n) =>
+      l10n.ticketAssignmentAcceptedBadge;
 
   static String ticketAssignmentOwnerTicket(AppLocalizations l10n) =>
       l10n.ticketAssignmentOwnerTicket;
@@ -1215,6 +1425,12 @@ class AppStrings {
   static String invitationsTypeFree(AppLocalizations l10n) =>
       l10n.invitationsTypeFree;
 
+  static String invitationsTypeAssigned(AppLocalizations l10n) =>
+      l10n.invitationsTypeAssigned;
+
+  static String invitationsTypeVip(AppLocalizations l10n) =>
+      l10n.invitationsTypeVip;
+
   static String invitationsTypeGuaranteedPass(AppLocalizations l10n) =>
       l10n.invitationsTypeGuaranteedPass;
 
@@ -1337,6 +1553,9 @@ class AppStrings {
 
   static String invitationsTierGeneral(AppLocalizations l10n) =>
       l10n.invitationsTierGeneral;
+
+  static String invitationsTierFree(AppLocalizations l10n) =>
+      l10n.invitationsTierFree;
 
   static String invitationsInvitedBy(AppLocalizations l10n, String name) =>
       l10n.invitationsInvitedBy(name);

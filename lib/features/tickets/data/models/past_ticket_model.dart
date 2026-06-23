@@ -1,4 +1,3 @@
-import 'package:youpass/features/tickets/data/models/past_ticket_event_type_model.dart';
 import 'package:youpass/features/tickets/data/models/past_ticket_statistics_model.dart';
 import 'package:youpass/features/tickets/data/utils/ticket_model_json_reader.dart';
 import 'package:youpass/features/tickets/domain/entities/past_event_entity.dart';
@@ -11,8 +10,8 @@ class PastTicketModel extends PastEventEntity {
     required super.locationLabel,
     required super.dateLabel,
     required super.imageAssetPath,
-    required super.category,
     super.eventId,
+    super.eventTypeSlug,
     super.displayStatus = TicketDisplayStatus.expired,
     super.isFavorite = false,
     super.showStatistics = false,
@@ -26,9 +25,7 @@ class PastTicketModel extends PastEventEntity {
       json['status']?.toString(),
     );
     final statistics = PastTicketStatisticsModel.fromJson(json['statistics']);
-    final eventType = PastTicketEventTypeModel.fromJson(
-      json['event_type'] ?? json['eventType'],
-    );
+    final eventTypeSlug = _readEventTypeSlug(json);
 
     final hasStatistics =
         status == TicketDisplayStatus.validated && statistics.hasEntryTime;
@@ -60,7 +57,7 @@ class PastTicketModel extends PastEventEntity {
         'imageUrl',
         'image_asset_path',
       ),
-      category: eventType.toPastEventFilter(),
+      eventTypeSlug: eventTypeSlug,
       displayStatus: status ?? TicketDisplayStatus.expired,
       isFavorite: TicketModelJsonReader.readBool(
         json['is_favorite'] ?? json['isFavorite'],
@@ -70,5 +67,13 @@ class PastTicketModel extends PastEventEntity {
       consumptionCount: statistics.consumptionCount,
       stayDurationLabel: statistics.stayLabel,
     );
+  }
+
+  static String? _readEventTypeSlug(Map<String, dynamic> json) {
+    final eventType = json['event_type'] ?? json['eventType'];
+    if (eventType is Map<String, dynamic>) {
+      return eventType['slug']?.toString();
+    }
+    return eventType?.toString();
   }
 }

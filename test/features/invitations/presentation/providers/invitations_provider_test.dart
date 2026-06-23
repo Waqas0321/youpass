@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:youpass/features/events/domain/repositories/events_repository.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_status.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_tier.dart';
@@ -19,8 +20,11 @@ import 'package:youpass/features/invitations/presentation/providers/invitations_
 
 import '../../mocks/mock_invitations_repository.dart';
 
+class MockEventsRepository extends Mock implements EventsRepository {}
+
 void main() {
   late MockInvitationsRepository mockRepository;
+  late MockEventsRepository mockEventsRepository;
   late InvitationsProvider provider;
 
   const testInvitations = [
@@ -48,6 +52,8 @@ void main() {
 
   setUp(() {
     mockRepository = MockInvitationsRepository();
+    mockEventsRepository = MockEventsRepository();
+    when(() => mockEventsRepository.fetchEventTypes()).thenAnswer((_) async => const []);
     provider = InvitationsProvider(
       fetchInvitationsFeedUseCase: FetchInvitationsFeedUseCase(mockRepository),
       fetchInvitationsSummaryUseCase:
@@ -61,6 +67,7 @@ void main() {
       cancelInvitationUseCase: CancelInvitationUseCase(mockRepository),
       fetchInvitationTicketUseCase: FetchInvitationTicketUseCase(mockRepository),
       savePaymentMethodUseCase: SavePaymentMethodUseCase(mockRepository),
+      eventsRepository: mockEventsRepository,
     );
   });
 

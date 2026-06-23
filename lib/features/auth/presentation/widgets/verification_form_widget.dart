@@ -11,6 +11,7 @@ class VerificationFormWidget extends StatelessWidget {
     required this.isCodeComplete,
     required this.onOtpChanged,
     required this.onValidate,
+    this.submitOnComplete = true,
     this.isLoading = false,
     this.isBlocked = false,
   });
@@ -19,6 +20,7 @@ class VerificationFormWidget extends StatelessWidget {
   final bool isCodeComplete;
   final ValueChanged<String> onOtpChanged;
   final VoidCallback onValidate;
+  final bool submitOnComplete;
   final bool isLoading;
   final bool isBlocked;
 
@@ -32,6 +34,7 @@ class VerificationFormWidget extends StatelessWidget {
         OtpInputWidget(
           controller: otpController,
           onChanged: onOtpChanged,
+          onCompleted: submitOnComplete ? onValidate : null,
         ),
         SizedBox(height: layout.spacing(28)),
         YouPassPrimaryButton(

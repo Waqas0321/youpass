@@ -5,13 +5,20 @@ import 'package:mocktail/mocktail.dart';
 import 'package:provider/provider.dart';
 import 'package:youpass/core/locale/app_locale.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
+import 'package:youpass/features/events/domain/repositories/events_repository.dart';
 import 'package:youpass/features/favorites/domain/entities/favorite_producer_entity.dart';
 import 'package:youpass/features/favorites/domain/entities/favorites_snapshot_entity.dart';
 import 'package:youpass/features/favorites/domain/repositories/favorites_repository.dart';
 import 'package:youpass/features/favorites/presentation/providers/favorites_provider.dart';
 import 'package:youpass/features/events/presentation/widgets/event_browse_card_widget.dart';
+import 'package:youpass/features/events/domain/entities/home_events_query.dart';
+import 'package:youpass/features/events/domain/usecases/get_all_events_usecase.dart';
+import 'package:youpass/features/events/domain/usecases/toggle_event_favorite_usecase.dart'
+    as events_usecases;
+import 'package:youpass/features/events/presentation/screens/all_events_screen.dart';
 import 'package:youpass/features/favorites/presentation/screens/my_favorites_screen.dart';
 import 'package:youpass/features/favorites/presentation/widgets/favorite_producer_card_widget.dart';
+import 'package:youpass/routes/app_routes.dart';
 import 'package:youpass/features/invitations/domain/entities/invitations_feed_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitations_summary_entity.dart';
 import 'package:youpass/features/invitations/domain/usecases/cancel_invitation_usecase.dart';
@@ -31,11 +38,14 @@ import '../../../../helpers/auth_test_helper.dart';
 
 class MockFavoritesRepository extends Mock implements FavoritesRepository {}
 
+class MockEventsRepository extends Mock implements EventsRepository {}
+
 void main() {
   late MockFavoritesRepository mockFavoritesRepository;
 
   setUp(() async {
     await sl.reset();
+    registerFallbackValue(const HomeEventsQuery());
     mockFavoritesRepository = MockFavoritesRepository();
 
     when(() => mockFavoritesRepository.fetchAllFavorites()).thenAnswer(
@@ -64,13 +74,92 @@ void main() {
     await sl.reset();
   });
 
+  testWidgets('Explore events opens all events screen when favorites empty',
+      (tester) async {
+    when(() => mockFavoritesRepository.fetchAllFavorites()).thenAnswer(
+      (_) async => const FavoritesSnapshotEntity(
+        producers: [],
+        events: [],
+        producersCount: 0,
+        eventsCount: 0,
+      ),
+    );
+
+    final strings = lookupAppLocalizations(AppLocale.english);
+    final mockAuthRepository = MockAuthRepository();
+    final mockInvitationsRepository = MockInvitationsRepository();
+    final mockEventsRepository = MockEventsRepository();
+    AuthTestHelper.registerFallbacks();
+    AuthTestHelper.stubSendCodeSuccess(mockAuthRepository);
+    when(() => mockEventsRepository.fetchEventTypes()).thenAnswer((_) async => const []);
+    when(() => mockEventsRepository.fetchBrowseCategories())
+        .thenAnswer((_) async => const []);
+    when(() => mockEventsRepository.fetchAllEvents(any()))
+        .thenAnswer((_) async => const []);
+    sl.registerLazySingleton<EventsRepository>(() => mockEventsRepository);
+    sl.registerLazySingleton<GetAllEventsUseCase>(
+      () => GetAllEventsUseCase(mockEventsRepository),
+    );
+    sl.registerLazySingleton<events_usecases.ToggleEventFavoriteUseCase>(
+      () => events_usecases.ToggleEventFavoriteUseCase(mockEventsRepository),
+    );
+
+    final invitationsProvider = InvitationsProvider(
+      fetchInvitationsFeedUseCase:
+          FetchInvitationsFeedUseCase(mockInvitationsRepository),
+      fetchInvitationsSummaryUseCase:
+          FetchInvitationsSummaryUseCase(mockInvitationsRepository),
+      fetchInvitationDetailUseCase:
+          FetchInvitationDetailUseCase(mockInvitationsRepository),
+      checkSavedPaymentMethodsUseCase:
+          CheckSavedPaymentMethodsUseCase(mockInvitationsRepository),
+      confirmInvitationUseCase: ConfirmInvitationUseCase(mockInvitationsRepository),
+      rejectInvitationUseCase: RejectInvitationUseCase(mockInvitationsRepository),
+      cancelInvitationUseCase: CancelInvitationUseCase(mockInvitationsRepository),
+      fetchInvitationTicketUseCase:
+          FetchInvitationTicketUseCase(mockInvitationsRepository),
+      savePaymentMethodUseCase: SavePaymentMethodUseCase(mockInvitationsRepository),
+      eventsRepository: mockEventsRepository,
+    );
+
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => AuthTestHelper.buildAuthProvider(mockAuthRepository),
+          ),
+          ChangeNotifierProvider.value(value: invitationsProvider),
+        ],
+        child: MaterialApp(
+          locale: AppLocale.english,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const MyFavoritesScreen(),
+          routes: {
+            AppRoutes.allEvents: (_) => const AllEventsScreen(),
+          },
+        ),
+      ),
+    );
+
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text(strings.favoritesExploreCta));
+    await tester.pumpAndSettle();
+
+    expect(find.text(strings.allEventsTitle), findsOneWidget);
+    expect(find.text(strings.favoritesEventsEmpty), findsNothing);
+  });
+
   testWidgets('MyFavoritesScreen shows followed promoters only',
       (tester) async {
     final strings = lookupAppLocalizations(AppLocale.english);
     final mockAuthRepository = MockAuthRepository();
     final mockInvitationsRepository = MockInvitationsRepository();
+    final mockEventsRepository = MockEventsRepository();
     AuthTestHelper.registerFallbacks();
     AuthTestHelper.stubSendCodeSuccess(mockAuthRepository);
+    when(() => mockEventsRepository.fetchEventTypes()).thenAnswer((_) async => const []);
     when(() => mockInvitationsRepository.fetchInvitationsFeed()).thenAnswer(
       (_) async => const InvitationsFeedEntity(invitations: [], waitlistEntries: []),
     );
@@ -97,6 +186,7 @@ void main() {
       fetchInvitationTicketUseCase:
           FetchInvitationTicketUseCase(mockInvitationsRepository),
       savePaymentMethodUseCase: SavePaymentMethodUseCase(mockInvitationsRepository),
+      eventsRepository: mockEventsRepository,
     );
 
     await tester.pumpWidget(

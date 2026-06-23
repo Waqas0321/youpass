@@ -290,6 +290,156 @@
   "drawerMyTickets": "My Tickets",
   "drawerMyFavorites": "My Favourites",
   "drawerInvitations": "INVITATIONS",
+  "drawerDrinkMenu": "Drink Menu",
+  "drawerMyPurchases": "My Purchases",
+  "partyDrinkMenuEmpty": "The drink menu for this event will appear here soon.",
+  "partyDrinkMenuSubtitle": "Choose a category to explore",
+  "partyDrinkCategoryAll": "All",
+  "partyDrinkCategoryPiscos": "Piscos",
+  "partyDrinkCategoryBeers": "Beers",
+  "partyDrinkCategorySparkling": "Sparkling wines",
+  "partyDrinkCategoryEnergy": "Energy drinks",
+  "partyDrinkQuickRecommendations": "Quick recommendations",
+  "partyDrinkQuickRecommendationsSubtitle": "Most ordered at YouFest",
+  "partyDrinkMockPiscola": "Piscola",
+  "partyDrinkMockPiscolaDesc": "Pisco + cola drink",
+  "partyDrinkMockJagerBomb": "Jager Bomb",
+  "partyDrinkMockJagerBombDesc": "Jägermeister + Red Bull",
+  "partyDrinkMockTropicalGin": "Tropical Gin",
+  "partyDrinkMockTropicalGinDesc": "Gin + tonic + fruits",
+  "partyDrinkMockCubaLibre": "Cuba Libre",
+  "partyDrinkMockCubaLibreDesc": "Rum + cola + lime",
+  "partyDrinkMockCorona": "Corona",
+  "partyDrinkMockCoronaDesc": "Mexican lager beer",
+  "partyDrinkMockChandon": "Chandon",
+  "partyDrinkMockChandonDesc": "Sparkling wine bottle",
+  "partyDrinkVolumeMl": "{volume} ml",
+  "@partyDrinkVolumeMl": {
+    "placeholders": {
+      "volume": {
+        "type": "int"
+      }
+    }
+  },
+  "partyDrinkCheckoutPaymentMethod": "Payment method",
+  "partyDrinkCheckoutCreditCard": "Credit card",
+  "partyDrinkCheckoutCardMask": "**** {last4}",
+  "@partyDrinkCheckoutCardMask": {
+    "placeholders": {
+      "last4": {
+        "type": "String"
+      }
+    }
+  },
+  "partyDrinkCheckoutProducts": "{count, plural, =1{1 product} other{{count} products}}",
+  "@partyDrinkCheckoutProducts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "partyDrinkCheckoutBuy": "BUY",
+  "partyDrinkCheckoutSummaryTitle": "Purchase summary",
+  "partyDrinkCheckoutSummarySubtitle": "Review your products before continuing.",
+  "partyDrinkCheckoutSubtotal": "Subtotal",
+  "partyDrinkCheckoutServiceCharge": "Service charge",
+  "partyDrinkCheckoutTotal": "Total",
+  "partyDrinkCheckoutChangePayment": "Change",
+  "partyDrinkCheckoutCompletePurchase": "Complete purchase",
+  "partyDrinkCheckoutSecurePayment": "100% secure payment",
+  "partyDrinkPurchaseSuccessTitle": "Purchase complete!",
+  "partyDrinkPurchaseSuccessSubtitle": "Show this code at the bar to receive your drink.",
+  "partyDrinkPurchaseValidity": "This code is valid for {target}.",
+  "@partyDrinkPurchaseValidity": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "partyDrinkPurchaseShowBartender": "Show it to the bartender to receive your order.",
+  "partyDrinkPurchasesTitle": "MY PURCHASES",
+  "partyDrinkPurchasesSubtitle": "Review and redeem your orders inside the event.",
+  "partyDrinkPurchasesTabPending": "To redeem",
+  "partyDrinkPurchasesTabUsed": "Used",
+  "partyDrinkPurchasesOrderLabel": "Order {id}",
+  "@partyDrinkPurchasesOrderLabel": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "partyDrinkPurchasesQuantityLabel": "{count} x {name}",
+  "@partyDrinkPurchasesQuantityLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "partyDrinkPurchasesBoughtAgo": "Purchased {timeAgo}",
+  "@partyDrinkPurchasesBoughtAgo": {
+    "placeholders": {
+      "timeAgo": {
+        "type": "String"
+      }
+    }
+  },
+  "partyDrinkPurchasesRedeemedAgo": "Redeemed {timeAgo}",
+  "@partyDrinkPurchasesRedeemedAgo": {
+    "placeholders": {
+      "timeAgo": {
+        "type": "String"
+      }
+    }
+  },
+  "partyDrinkPurchasesViewQr": "VIEW QR",
+  "partyDrinkPurchasesRedeemedBadge": "REDEEMED",
+  "partyDrinkPurchasesEmptyPending": "You have no drinks waiting to be redeemed.",
+  "partyDrinkPurchasesEmptyUsed": "You have no redeemed drink orders yet.",
+  "partyDrinkPurchasesQrUnavailable": "This order QR is no longer available.",
+  "partyDrinkPurchasesJustNow": "just now",
+  "partyDrinkPurchasesMinutesAgo": "{count} min",
+  "@partyDrinkPurchasesMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "partyDrinkPurchasesHoursAgo": "{count} h",
+  "@partyDrinkPurchasesHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "partyDrinkPurchasesDaysAgo": "{count} d",
+  "@partyDrinkPurchasesDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "partyDrinkCourtesiesTitle": "MY COURTESIES",
+  "partyDrinkCourtesiesSubtitle": "Review and redeem your complimentary drinks inside the event.",
+  "partyDrinkCourtesiesReceivedAgo": "Received {timeAgo}",
+  "@partyDrinkCourtesiesReceivedAgo": {
+    "placeholders": {
+      "timeAgo": {
+        "type": "String"
+      }
+    }
+  },
+  "partyDrinkCourtesiesEmptyPending": "You have no complimentary drinks waiting to be redeemed.",
+  "partyDrinkCourtesiesEmptyUsed": "You have no redeemed courtesies yet.",
   "drawerInvitationsNewBadge": "{count} new",
   "@drawerInvitationsNewBadge": {
     "placeholders": {
@@ -471,6 +621,7 @@
   "ticketsViewQr": "VIEW QR",
   "ticketsAssignEntries": "ASSIGN TICKETS",
   "ticketsAssignVip": "ASSIGN VIP TICKETS",
+  "ticketsViewAssigned": "VIEW ASSIGNED TICKETS",
   "ticketsAttendedSectionTitle": "ATTENDED EVENTS",
   "ticketsAttendedSectionSubtitle": "Review your past events and your personal statistics.",
   "ticketsSearchHint": "Search event / Event name / promoter",
@@ -568,6 +719,8 @@
   "invitationsFilterGuaranteedPass": "Guaranteed Pass",
   "invitationsFilterDiscounted": "Discounted",
   "invitationsTypeFree": "Free Invitation",
+  "invitationsTypeAssigned": "Invitation",
+  "invitationsTypeVip": "VIP Invitation",
   "invitationsTypeGuaranteedPass": "Guaranteed Pass",
   "invitationsTypeDiscounted": "Discounted Invitation",
   "invitationsGuaranteedPassTitle": "Guaranteed Pass",
@@ -654,6 +807,7 @@
   "invitationsTierVip": "VIP",
   "invitationsTierVipMesa": "VIP Table",
   "invitationsTierGeneral": "General",
+  "invitationsTierFree": "Free",
   "invitationsInvitedBy": "Invited by {name}",
   "@invitationsInvitedBy": {
     "placeholders": {
@@ -834,6 +988,21 @@
       "count": {"type": "int"}
     }
   },
+  "ticketAssignmentClaimedCount": "{count, plural, =1{1 accepted} other{{count} accepted}}",
+  "@ticketAssignmentClaimedCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "ticketAssignmentSentSectionTitle": "Sent invitations",
+  "ticketAssignmentSendNewSectionTitle": "Send new tickets",
+  "ticketAssignmentSendNewSectionSubtitle": "{count, plural, =1{You have 1 ticket ready to assign to a new guest.} other{You have {count} tickets ready to assign to new guests.}}",
+  "@ticketAssignmentSendNewSectionSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "ticketAssignmentAcceptedBadge": "ACCEPTED",
   "ticketAssignmentOwnerTicket": "Your ticket",
   "ticketAssignmentClaimedTicket": "Ticket claimed",
   "ticketAssignmentPendingBadge": "PENDING",

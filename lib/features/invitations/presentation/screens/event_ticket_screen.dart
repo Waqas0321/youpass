@@ -8,7 +8,6 @@ import 'package:youpass/features/invitations/presentation/widgets/event_ticket_a
 import 'package:youpass/features/invitations/presentation/widgets/event_ticket_qr_section_widget.dart';
 import 'package:youpass/features/invitations/presentation/widgets/event_ticket_ready_header_widget.dart';
 import 'package:youpass/features/invitations/presentation/widgets/event_ticket_summary_card_widget.dart';
-import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 
 class EventTicketScreen extends StatefulWidget {
   const EventTicketScreen({
@@ -32,7 +31,6 @@ class EventTicketScreen extends StatefulWidget {
 }
 
 class EventTicketScreenState extends State<EventTicketScreen> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   final ScreenSecureService _screenSecureService = sl<ScreenSecureService>();
 
   @override
@@ -52,12 +50,9 @@ class EventTicketScreenState extends State<EventTicketScreen> {
     final horizontalPadding =
         InvitationsDesignSpec.px(context, InvitationsDesignSpec.horizontalPadding);
 
-    return AppDrawerNavigation.wrap(
-      scaffoldKey: scaffoldKey,
-      context: context,
+    return Scaffold(
       appBar: EventTicketAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
-        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
       ),
       body: ListView(
         padding: EdgeInsets.fromLTRB(

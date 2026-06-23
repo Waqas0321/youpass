@@ -3,8 +3,9 @@ import 'package:youpass/core/theme/domain/repositories/theme_preference_reposito
 
 class AppThemeProvider extends ChangeNotifier {
   AppThemeProvider(this.themePreferenceRepository) {
-    isFiestaMode = themePreferenceRepository.loadFiestaMode();
-    themePreferenceRepository.migrateFiestaMode(isFiestaMode);
+    // Party Mode is eligibility-gated per session; never restore a saved dark theme.
+    isFiestaMode = false;
+    themePreferenceRepository.migrateFiestaMode(false);
   }
 
   final ThemePreferenceRepository themePreferenceRepository;
@@ -14,17 +15,28 @@ class AppThemeProvider extends ChangeNotifier {
   ThemeMode get themeMode =>
       isFiestaMode ? ThemeMode.dark : ThemeMode.light;
 
-  Future<void> toggleFiestaMode() async {
-    await setFiestaMode(!isFiestaMode);
+  Future<void> toggleFiestaMode({required bool eligible}) async {
+    if (!eligible) {
+      if (isFiestaMode) {
+        await setFiestaMode(false, eligible: eligible);
+      }
+      return;
+    }
+
+    await setFiestaMode(!isFiestaMode, eligible: eligible);
   }
 
-  Future<void> setFiestaMode(bool enabled) async {
+  Future<void> setFiestaMode(bool enabled, {required bool eligible}) async {
+    if (enabled && !eligible) {
+      return;
+    }
+
     if (isFiestaMode == enabled) {
       return;
     }
 
     isFiestaMode = enabled;
-    await themePreferenceRepository.saveFiestaMode(enabled);
+    await themePreferenceRepository.saveFiestaMode(false);
     notifyListeners();
   }
 }

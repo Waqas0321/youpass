@@ -12,6 +12,7 @@ class VerificationRouteArgs {
     this.deliveryChannel = 'whatsapp',
     this.statusMessage,
     this.registerDraft,
+    this.prefillOtpCode,
   });
 
   final String phone;
@@ -23,4 +24,6 @@ class VerificationRouteArgs {
   final String deliveryChannel;
   final String? statusMessage;
   final RegisterDraft? registerDraft;
+  /// Dev/mock OTP from the API (`dev_otp_code`) or clipboard autofill candidate.
+  final String? prefillOtpCode;
 }

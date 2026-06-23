@@ -144,34 +144,9 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
       return;
     }
 
-    final provider = context.read<VipVenueProvider>();
-    final lock = await provider.lockTable(
-      eventId: widget.args.session.event.id,
-      tableId: table.id,
-    );
-
-    if (!mounted) {
-      return;
-    }
-
-    if (lock == null) {
-      final strings = context.l10n;
-      final message = provider.errorCode == 'TABLE_LOCKED'
-          ? AppStrings.vipTableBlockedReserve(strings)
-          : (provider.errorMessage ?? AppStrings.errorGeneric(strings));
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
-      return;
-    }
-
-    widget.args.session.selectedTable = lock.table;
-    widget.args.session.tableLockExpiresAt = lock.expiresAt;
-    widget.args.session.tableLockId = lock.lockId;
-
-    if (!mounted) {
-      return;
-    }
+    widget.args.session.selectedTable = table;
+    widget.args.session.tableLockExpiresAt = null;
+    widget.args.session.tableLockId = null;
 
     await Navigator.of(context).pushNamed(
       AppRoutes.vipPurchaseSummary,
@@ -220,8 +195,8 @@ class _TableSelectionScreenState extends State<TableSelectionScreen> {
                   activeTable.label,
                 ),
                 onPrimary: reserveTable,
-                primaryEnabled: !provider.isLockingTable,
-                primaryLoading: provider.isLockingTable,
+                primaryEnabled: true,
+                primaryLoading: false,
               ),
             ),
       body: isLoading

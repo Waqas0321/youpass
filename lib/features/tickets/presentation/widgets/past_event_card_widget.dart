@@ -48,14 +48,15 @@ class PastEventCardWidget extends StatelessWidget {
                 height: imageHeight,
                 fit: BoxFit.cover,
               ),
-              Positioned(
-                left: TicketsDesignSpec.px(context, 12),
-                top: TicketsDesignSpec.px(context, 12),
-                child: TicketStatusBadgeWidget(
-                  label: TicketStatusLabels.label(strings, event.displayStatus),
-                  variant: _badgeVariant(event.displayStatus),
+              if (!event.showStatistics)
+                Positioned(
+                  left: TicketsDesignSpec.px(context, 12),
+                  top: TicketsDesignSpec.px(context, 12),
+                  child: TicketStatusBadgeWidget(
+                    label: TicketStatusLabels.label(strings, event.displayStatus),
+                    variant: _badgeVariant(event.displayStatus),
+                  ),
                 ),
-              ),
               Positioned(
                 top: TicketsDesignSpec.px(context, 12),
                 right: TicketsDesignSpec.px(context, 12),

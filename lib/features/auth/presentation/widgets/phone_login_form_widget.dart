@@ -21,20 +21,25 @@ import 'package:youpass/features/auth/routes/verification_route_args.dart';
 import 'package:youpass/routes/app_routes.dart';
 
 class PhoneLoginFormWidget extends StatefulWidget {
-  const PhoneLoginFormWidget({super.key});
+  const PhoneLoginFormWidget({
+    super.key,
+    required this.phoneController,
+    required this.phoneInputKey,
+  });
+
+  final TextEditingController phoneController;
+  final GlobalKey<PhoneInputWidgetState> phoneInputKey;
 
   @override
   State<PhoneLoginFormWidget> createState() => PhoneLoginFormWidgetState();
 }
 
 class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
-  final TextEditingController phoneController = TextEditingController();
-  final GlobalKey<PhoneInputWidgetState> phoneInputKey =
-      GlobalKey<PhoneInputWidgetState>();
+  TextEditingController get phoneController => widget.phoneController;
+  GlobalKey<PhoneInputWidgetState> get phoneInputKey => widget.phoneInputKey;
 
   @override
   void dispose() {
-    phoneController.dispose();
     super.dispose();
   }
 
@@ -128,6 +133,7 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
           statusMessage: whatsAppCheck.message.isNotEmpty
               ? whatsAppCheck.message
               : OtpDeliveryMessage.sentConfirmation(l10n),
+          prefillOtpCode: result.devOtpCode,
         ),
       );
       return;
@@ -144,6 +150,7 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
       statusMessage: whatsAppCheck.message.isNotEmpty
           ? whatsAppCheck.message
           : OtpDeliveryMessage.sentConfirmation(l10n),
+      prefillOtpCode: result.devOtpCode,
     );
 
     Navigator.of(context).pushNamed(

@@ -1,31 +1,17 @@
 import 'package:equatable/equatable.dart';
-import 'package:youpass/features/tickets/domain/entities/past_event_filter.dart';
 
 class PastTicketsQuery extends Equatable {
   const PastTicketsQuery({
     this.search,
-    this.filter = PastEventFilter.all,
+    this.eventTypeSlug,
     this.page = 1,
     this.limit = 20,
   });
 
   final String? search;
-  final PastEventFilter filter;
+  final String? eventTypeSlug;
   final int page;
   final int limit;
-
-  String? get eventType {
-    switch (filter) {
-      case PastEventFilter.all:
-        return null;
-      case PastEventFilter.parties:
-        return 'parties';
-      case PastEventFilter.concerts:
-        return 'concerts';
-      case PastEventFilter.bar:
-        return 'bar';
-    }
-  }
 
   Map<String, String> toQueryParameters() {
     final params = <String, String>{
@@ -38,9 +24,9 @@ class PastTicketsQuery extends Equatable {
       params['search'] = trimmedSearch;
     }
 
-    final type = eventType;
-    if (type != null) {
-      params['event_type'] = type;
+    final slug = eventTypeSlug?.trim();
+    if (slug != null && slug.isNotEmpty) {
+      params['event_type'] = slug;
     }
 
     return params;
@@ -48,18 +34,18 @@ class PastTicketsQuery extends Equatable {
 
   PastTicketsQuery copyWith({
     String? search,
-    PastEventFilter? filter,
+    String? eventTypeSlug,
     int? page,
     int? limit,
   }) {
     return PastTicketsQuery(
       search: search ?? this.search,
-      filter: filter ?? this.filter,
+      eventTypeSlug: eventTypeSlug ?? this.eventTypeSlug,
       page: page ?? this.page,
       limit: limit ?? this.limit,
     );
   }
 
   @override
-  List<Object?> get props => [search, filter, page, limit];
+  List<Object?> get props => [search, eventTypeSlug, page, limit];
 }

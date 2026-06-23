@@ -1,7 +1,6 @@
 import 'package:youpass/core/constants/app_assets.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/features/tickets/domain/entities/past_event_entity.dart';
-import 'package:youpass/features/tickets/domain/entities/past_event_filter.dart';
 import 'package:youpass/features/tickets/domain/entities/ticket_tier.dart';
 import 'package:youpass/features/tickets/domain/entities/tickets_yearly_summary_entity.dart';
 import 'package:youpass/features/tickets/domain/entities/upcoming_ticket_entity.dart';
@@ -54,7 +53,7 @@ class TicketsMockData {
           entryTime: '22:41',
           consumptionCount: 6,
           stayDurationLabel: AppStrings.mockStayDuration5h14m(l10n),
-          category: PastEventFilter.parties,
+          eventTypeSlug: 'parties',
           isFavorite: false,
           showStatistics: true,
         ),
@@ -68,7 +67,7 @@ class TicketsMockData {
           entryTime: '22:41',
           consumptionCount: 6,
           stayDurationLabel: AppStrings.mockStayDuration5h14m(l10n),
-          category: PastEventFilter.concerts,
+          eventTypeSlug: 'concerts',
           isFavorite: true,
           showStatistics: true,
         ),

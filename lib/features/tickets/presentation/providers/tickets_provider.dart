@@ -3,6 +3,8 @@ import 'package:youpass/core/network/api_exception.dart';
 import 'package:youpass/core/network/models/api_error_details_model.dart';
 import 'package:youpass/core/services/ticket_qr_cache_service.dart';
 import 'package:youpass/core/services/tickets_cache.dart';
+import 'package:youpass/features/events/domain/entities/event_type_entity.dart';
+import 'package:youpass/features/events/domain/repositories/events_repository.dart';
 import 'package:youpass/features/events/domain/usecases/toggle_event_favorite_usecase.dart'
     as events_usecases;
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
@@ -12,7 +14,6 @@ import 'package:youpass/features/invitations/domain/usecases/confirm_invitation_
 import 'package:youpass/features/invitations/domain/usecases/fetch_invitations_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/reject_invitation_usecase.dart';
 import 'package:youpass/features/tickets/domain/entities/past_event_entity.dart';
-import 'package:youpass/features/tickets/domain/entities/past_event_filter.dart';
 import 'package:youpass/features/tickets/domain/entities/past_tickets_query.dart';
 import 'package:youpass/features/tickets/domain/entities/tickets_yearly_summary_entity.dart';
 import 'package:youpass/features/tickets/domain/entities/upcoming_ticket_entity.dart';
@@ -36,6 +37,7 @@ class TicketsProvider extends ChangeNotifier {
     required this.confirmInvitationUseCase,
     required this.rejectInvitationUseCase,
     required this.cancelTicketUseCase,
+    required this.eventsRepository,
     required this.ticketsCache,
     required this.ticketQrCacheService,
   });
@@ -50,6 +52,7 @@ class TicketsProvider extends ChangeNotifier {
   final ConfirmInvitationUseCase confirmInvitationUseCase;
   final RejectInvitationUseCase rejectInvitationUseCase;
   final CancelTicketUseCase cancelTicketUseCase;
+  final EventsRepository eventsRepository;
   final TicketsCache ticketsCache;
   final TicketQrCacheService ticketQrCacheService;
 
@@ -61,6 +64,7 @@ class TicketsProvider extends ChangeNotifier {
 
   List<UpcomingTicketEntity> upcomingTickets = const [];
   List<PastEventEntity> pastEvents = const [];
+  List<EventTypeEntity> pastEventTypes = const [];
   List<InvitationEntity> pendingInvitations = const [];
   TicketsYearlySummaryEntity? yearlySummary;
 
@@ -90,18 +94,35 @@ class TicketsProvider extends ChangeNotifier {
     if (upcomingStatus == TicketsLoadStatus.initial ||
         upcomingStatus == TicketsLoadStatus.error) {
       await loadUpcoming();
-      await loadPendingInvitations();
+      return;
     }
+
+    // Already showing cached or prior data — refresh action flags from API.
+    await loadUpcoming(force: true);
   }
 
   Future<void> ensurePastLoaded() async {
-    if (!pastHistoryStale) {
-      _hydratePastFromCache();
-    }
-    if (pastStatus == TicketsLoadStatus.initial || pastHistoryStale) {
-      await loadPast(force: pastHistoryStale, resetPage: true);
+    _hydratePastFromCache();
+    await _loadPastEventTypes();
+    if (pastStatus == TicketsLoadStatus.initial ||
+        pastStatus == TicketsLoadStatus.error) {
+      await loadPast(force: true, resetPage: true);
       await loadYearlySummary();
-      pastHistoryStale = false;
+      return;
+    }
+
+    // Refresh so door-scanned tickets appear immediately in History.
+    await loadPast(force: true, resetPage: true);
+    await loadYearlySummary();
+    pastHistoryStale = false;
+  }
+
+  Future<void> _loadPastEventTypes() async {
+    try {
+      pastEventTypes = await eventsRepository.fetchEventTypes();
+      notifyListeners();
+    } catch (_) {
+      // Filters fall back to "All" when types cannot be loaded.
     }
   }
 
@@ -129,7 +150,6 @@ class TicketsProvider extends ChangeNotifier {
     isRefreshingUpcoming = true;
     notifyListeners();
     await loadUpcoming(force: true);
-    await loadPendingInvitations(force: true);
     isRefreshingUpcoming = false;
     notifyListeners();
   }
@@ -162,7 +182,7 @@ class TicketsProvider extends ChangeNotifier {
 
     try {
       final result = await fetchUpcomingTicketsUseCase(page: 1, limit: pageSize);
-      upcomingTickets = result.items;
+      upcomingTickets = _dedupeUpcomingTickets(result.items);
       upcomingPage = result.page;
       hasMoreUpcoming = result.hasMore;
       upcomingStatus = TicketsLoadStatus.ready;
@@ -198,7 +218,7 @@ class TicketsProvider extends ChangeNotifier {
         page: nextPage,
         limit: pageSize,
       );
-      upcomingTickets = [...upcomingTickets, ...result.items];
+      upcomingTickets = _dedupeUpcomingTickets([...upcomingTickets, ...result.items]);
       upcomingPage = result.page;
       hasMoreUpcoming = result.hasMore;
       await ticketsCache.saveUpcoming(upcomingTickets);
@@ -247,7 +267,7 @@ class TicketsProvider extends ChangeNotifier {
   }) async {
     final nextQuery = query ?? pastQuery;
     final queryChanged = nextQuery.search != pastQuery.search ||
-        nextQuery.filter != pastQuery.filter;
+        nextQuery.eventTypeSlug != pastQuery.eventTypeSlug;
 
     if (!force &&
         pastStatus == TicketsLoadStatus.loading &&
@@ -335,18 +355,18 @@ class TicketsProvider extends ChangeNotifier {
     await loadPast(
       query: PastTicketsQuery(
         search: search,
-        filter: pastQuery.filter,
+        eventTypeSlug: pastQuery.eventTypeSlug,
       ),
       force: true,
       resetPage: true,
     );
   }
 
-  Future<void> applyPastFilter(PastEventFilter filter) async {
+  Future<void> applyPastFilter(String? eventTypeSlug) async {
     await loadPast(
       query: PastTicketsQuery(
         search: pastQuery.search,
-        filter: filter,
+        eventTypeSlug: eventTypeSlug,
       ),
       force: true,
       resetPage: true,
@@ -506,6 +526,7 @@ class TicketsProvider extends ChangeNotifier {
         eventId: eventId,
         isFavorite: previousFavorite,
       );
+      await ticketsCache.savePast(pastQuery, pastEvents);
       return true;
     } catch (_) {
       pastEvents = pastEvents
@@ -528,6 +549,7 @@ class TicketsProvider extends ChangeNotifier {
     invitationsStatus = TicketsLoadStatus.initial;
     upcomingTickets = const [];
     pastEvents = const [];
+    pastEventTypes = const [];
     pendingInvitations = const [];
     yearlySummary = null;
     upcomingPage = 1;
@@ -536,5 +558,18 @@ class TicketsProvider extends ChangeNotifier {
     hasMorePast = false;
     pastHistoryStale = false;
     notifyListeners();
+  }
+
+  List<UpcomingTicketEntity> _dedupeUpcomingTickets(
+    List<UpcomingTicketEntity> tickets,
+  ) {
+    final seen = <String>{};
+    final unique = <UpcomingTicketEntity>[];
+    for (final ticket in tickets) {
+      if (seen.add(ticket.id)) {
+        unique.add(ticket);
+      }
+    }
+    return unique;
   }
 }

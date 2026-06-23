@@ -53,4 +53,92 @@ void main() {
       'VIP DJ',
     );
   });
+
+  test('InvitationsTextFactory maps producer free invitations', () {
+    final strings = lookupAppLocalizations(AppLocale.english);
+    const invitation = InvitationEntity(
+      id: 'inv-producer-free',
+      eventTitle: 'Open Mic',
+      locationLabel: 'Santiago',
+      dateTimeLabel: 'Aug 15',
+      imageAssetPath: '',
+      tier: InvitationTier.general,
+      status: InvitationStatus.pending,
+      source: 'producer',
+      productKind: 'free',
+      productLabel: 'Free Invitation',
+    );
+
+    expect(
+      InvitationsTextFactory.productLabelForInvitation(strings, invitation),
+      'Free Invitation',
+    );
+  });
+
+  test('InvitationsTextFactory maps guest assignment labels', () {
+    final strings = lookupAppLocalizations(AppLocale.english);
+
+    const vipAssigned = InvitationEntity(
+      id: 'inv-vip',
+      eventTitle: 'Sunset Sessions',
+      locationLabel: 'Santiago',
+      dateTimeLabel: 'Sep 12',
+      imageAssetPath: '',
+      tier: InvitationTier.vip,
+      status: InvitationStatus.pending,
+      source: 'guest',
+      productKind: 'free',
+      productLabel: 'VIP Invitation',
+      chargeAmount: 120000,
+    );
+
+    const generalAssigned = InvitationEntity(
+      id: 'inv-general',
+      eventTitle: 'Sunset Sessions',
+      locationLabel: 'Santiago',
+      dateTimeLabel: 'Sep 12',
+      imageAssetPath: '',
+      tier: InvitationTier.general,
+      status: InvitationStatus.pending,
+      source: 'guest',
+      productKind: 'free',
+      productLabel: 'Invitation',
+      chargeAmount: 25000,
+    );
+
+    expect(
+      InvitationsTextFactory.productLabelForInvitation(strings, vipAssigned),
+      'VIP Invitation',
+    );
+    expect(
+      InvitationsTextFactory.productLabelForInvitation(strings, generalAssigned),
+      'Invitation',
+    );
+  });
+
+  test('InvitationsTextFactory maps zero-value free invitations', () {
+    final strings = lookupAppLocalizations(AppLocale.english);
+    const invitation = InvitationEntity(
+      id: 'inv-free-guest',
+      eventTitle: 'Community Open Mic Night',
+      locationLabel: 'Santiago',
+      dateTimeLabel: 'Aug 15',
+      imageAssetPath: '',
+      tier: InvitationTier.general,
+      status: InvitationStatus.pending,
+      source: 'guest',
+      productKind: 'free',
+      productLabel: 'Invitation',
+      chargeAmount: 0,
+    );
+
+    expect(
+      InvitationsTextFactory.productLabelForInvitation(strings, invitation),
+      'Free Invitation',
+    );
+    expect(
+      InvitationsTextFactory.tierLabel(strings, invitation),
+      'Free',
+    );
+  });
 }

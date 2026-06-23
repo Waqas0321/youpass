@@ -45,6 +45,7 @@ class VipVenueProvider extends ChangeNotifier {
   ZoneTablesBundleEntity? zoneTables;
 
   String? _cachedVenueLayoutEventId;
+  String? _cachedTicketTypesEventId;
 
   String? errorMessage;
   String? errorCode;
@@ -58,6 +59,11 @@ class VipVenueProvider extends ChangeNotifier {
       return null;
     }
 
+    if (_cachedTicketTypesEventId == eventId &&
+        ticketTypesStatus == VipVenueLoadStatus.ready) {
+      return ticketTypes;
+    }
+
     ticketTypesStatus = VipVenueLoadStatus.loading;
     errorMessage = null;
     errorCode = null;
@@ -66,6 +72,7 @@ class VipVenueProvider extends ChangeNotifier {
     try {
       ticketTypes = await fetchTicketTypesUseCase(eventId);
       ticketTypesStatus = VipVenueLoadStatus.ready;
+      _cachedTicketTypesEventId = eventId;
       notifyListeners();
       return ticketTypes;
     } on ApiException catch (error) {

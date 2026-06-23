@@ -1064,6 +1064,384 @@ abstract class AppLocalizations {
   /// **'INVITATIONS'**
   String get drawerInvitations;
 
+  /// No description provided for @drawerDrinkMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Drink Menu'**
+  String get drawerDrinkMenu;
+
+  /// No description provided for @drawerMyPurchases.
+  ///
+  /// In en, this message translates to:
+  /// **'My Purchases'**
+  String get drawerMyPurchases;
+
+  /// No description provided for @partyDrinkMenuEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'The drink menu for this event will appear here soon.'**
+  String get partyDrinkMenuEmpty;
+
+  /// No description provided for @partyDrinkMenuSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a category to explore'**
+  String get partyDrinkMenuSubtitle;
+
+  /// No description provided for @partyDrinkCategoryAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get partyDrinkCategoryAll;
+
+  /// No description provided for @partyDrinkCategoryPiscos.
+  ///
+  /// In en, this message translates to:
+  /// **'Piscos'**
+  String get partyDrinkCategoryPiscos;
+
+  /// No description provided for @partyDrinkCategoryBeers.
+  ///
+  /// In en, this message translates to:
+  /// **'Beers'**
+  String get partyDrinkCategoryBeers;
+
+  /// No description provided for @partyDrinkCategorySparkling.
+  ///
+  /// In en, this message translates to:
+  /// **'Sparkling wines'**
+  String get partyDrinkCategorySparkling;
+
+  /// No description provided for @partyDrinkCategoryEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy drinks'**
+  String get partyDrinkCategoryEnergy;
+
+  /// No description provided for @partyDrinkQuickRecommendations.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick recommendations'**
+  String get partyDrinkQuickRecommendations;
+
+  /// No description provided for @partyDrinkQuickRecommendationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Most ordered at YouFest'**
+  String get partyDrinkQuickRecommendationsSubtitle;
+
+  /// No description provided for @partyDrinkMockPiscola.
+  ///
+  /// In en, this message translates to:
+  /// **'Piscola'**
+  String get partyDrinkMockPiscola;
+
+  /// No description provided for @partyDrinkMockPiscolaDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Pisco + cola drink'**
+  String get partyDrinkMockPiscolaDesc;
+
+  /// No description provided for @partyDrinkMockJagerBomb.
+  ///
+  /// In en, this message translates to:
+  /// **'Jager Bomb'**
+  String get partyDrinkMockJagerBomb;
+
+  /// No description provided for @partyDrinkMockJagerBombDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Jägermeister + Red Bull'**
+  String get partyDrinkMockJagerBombDesc;
+
+  /// No description provided for @partyDrinkMockTropicalGin.
+  ///
+  /// In en, this message translates to:
+  /// **'Tropical Gin'**
+  String get partyDrinkMockTropicalGin;
+
+  /// No description provided for @partyDrinkMockTropicalGinDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Gin + tonic + fruits'**
+  String get partyDrinkMockTropicalGinDesc;
+
+  /// No description provided for @partyDrinkMockCubaLibre.
+  ///
+  /// In en, this message translates to:
+  /// **'Cuba Libre'**
+  String get partyDrinkMockCubaLibre;
+
+  /// No description provided for @partyDrinkMockCubaLibreDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Rum + cola + lime'**
+  String get partyDrinkMockCubaLibreDesc;
+
+  /// No description provided for @partyDrinkMockCorona.
+  ///
+  /// In en, this message translates to:
+  /// **'Corona'**
+  String get partyDrinkMockCorona;
+
+  /// No description provided for @partyDrinkMockCoronaDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Mexican lager beer'**
+  String get partyDrinkMockCoronaDesc;
+
+  /// No description provided for @partyDrinkMockChandon.
+  ///
+  /// In en, this message translates to:
+  /// **'Chandon'**
+  String get partyDrinkMockChandon;
+
+  /// No description provided for @partyDrinkMockChandonDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Sparkling wine bottle'**
+  String get partyDrinkMockChandonDesc;
+
+  /// No description provided for @partyDrinkVolumeMl.
+  ///
+  /// In en, this message translates to:
+  /// **'{volume} ml'**
+  String partyDrinkVolumeMl(int volume);
+
+  /// No description provided for @partyDrinkCheckoutPaymentMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment method'**
+  String get partyDrinkCheckoutPaymentMethod;
+
+  /// No description provided for @partyDrinkCheckoutCreditCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit card'**
+  String get partyDrinkCheckoutCreditCard;
+
+  /// No description provided for @partyDrinkCheckoutCardMask.
+  ///
+  /// In en, this message translates to:
+  /// **'**** {last4}'**
+  String partyDrinkCheckoutCardMask(String last4);
+
+  /// No description provided for @partyDrinkCheckoutProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 product} other{{count} products}}'**
+  String partyDrinkCheckoutProducts(int count);
+
+  /// No description provided for @partyDrinkCheckoutBuy.
+  ///
+  /// In en, this message translates to:
+  /// **'BUY'**
+  String get partyDrinkCheckoutBuy;
+
+  /// No description provided for @partyDrinkCheckoutSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase summary'**
+  String get partyDrinkCheckoutSummaryTitle;
+
+  /// No description provided for @partyDrinkCheckoutSummarySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review your products before continuing.'**
+  String get partyDrinkCheckoutSummarySubtitle;
+
+  /// No description provided for @partyDrinkCheckoutSubtotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtotal'**
+  String get partyDrinkCheckoutSubtotal;
+
+  /// No description provided for @partyDrinkCheckoutServiceCharge.
+  ///
+  /// In en, this message translates to:
+  /// **'Service charge'**
+  String get partyDrinkCheckoutServiceCharge;
+
+  /// No description provided for @partyDrinkCheckoutTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get partyDrinkCheckoutTotal;
+
+  /// No description provided for @partyDrinkCheckoutChangePayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get partyDrinkCheckoutChangePayment;
+
+  /// No description provided for @partyDrinkCheckoutCompletePurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete purchase'**
+  String get partyDrinkCheckoutCompletePurchase;
+
+  /// No description provided for @partyDrinkCheckoutSecurePayment.
+  ///
+  /// In en, this message translates to:
+  /// **'100% secure payment'**
+  String get partyDrinkCheckoutSecurePayment;
+
+  /// No description provided for @partyDrinkPurchaseSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase complete!'**
+  String get partyDrinkPurchaseSuccessTitle;
+
+  /// No description provided for @partyDrinkPurchaseSuccessSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show this code at the bar to receive your drink.'**
+  String get partyDrinkPurchaseSuccessSubtitle;
+
+  /// No description provided for @partyDrinkPurchaseValidity.
+  ///
+  /// In en, this message translates to:
+  /// **'This code is valid for {target}.'**
+  String partyDrinkPurchaseValidity(String target);
+
+  /// No description provided for @partyDrinkPurchaseShowBartender.
+  ///
+  /// In en, this message translates to:
+  /// **'Show it to the bartender to receive your order.'**
+  String get partyDrinkPurchaseShowBartender;
+
+  /// No description provided for @partyDrinkPurchasesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MY PURCHASES'**
+  String get partyDrinkPurchasesTitle;
+
+  /// No description provided for @partyDrinkPurchasesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review and redeem your orders inside the event.'**
+  String get partyDrinkPurchasesSubtitle;
+
+  /// No description provided for @partyDrinkPurchasesTabPending.
+  ///
+  /// In en, this message translates to:
+  /// **'To redeem'**
+  String get partyDrinkPurchasesTabPending;
+
+  /// No description provided for @partyDrinkPurchasesTabUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Used'**
+  String get partyDrinkPurchasesTabUsed;
+
+  /// No description provided for @partyDrinkPurchasesOrderLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Order {id}'**
+  String partyDrinkPurchasesOrderLabel(String id);
+
+  /// No description provided for @partyDrinkPurchasesQuantityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} x {name}'**
+  String partyDrinkPurchasesQuantityLabel(int count, String name);
+
+  /// No description provided for @partyDrinkPurchasesBoughtAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchased {timeAgo}'**
+  String partyDrinkPurchasesBoughtAgo(String timeAgo);
+
+  /// No description provided for @partyDrinkPurchasesRedeemedAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'Redeemed {timeAgo}'**
+  String partyDrinkPurchasesRedeemedAgo(String timeAgo);
+
+  /// No description provided for @partyDrinkPurchasesViewQr.
+  ///
+  /// In en, this message translates to:
+  /// **'VIEW QR'**
+  String get partyDrinkPurchasesViewQr;
+
+  /// No description provided for @partyDrinkPurchasesRedeemedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'REDEEMED'**
+  String get partyDrinkPurchasesRedeemedBadge;
+
+  /// No description provided for @partyDrinkPurchasesEmptyPending.
+  ///
+  /// In en, this message translates to:
+  /// **'You have no drinks waiting to be redeemed.'**
+  String get partyDrinkPurchasesEmptyPending;
+
+  /// No description provided for @partyDrinkPurchasesEmptyUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'You have no redeemed drink orders yet.'**
+  String get partyDrinkPurchasesEmptyUsed;
+
+  /// No description provided for @partyDrinkPurchasesQrUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This order QR is no longer available.'**
+  String get partyDrinkPurchasesQrUnavailable;
+
+  /// No description provided for @partyDrinkPurchasesJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get partyDrinkPurchasesJustNow;
+
+  /// No description provided for @partyDrinkPurchasesMinutesAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} min'**
+  String partyDrinkPurchasesMinutesAgo(int count);
+
+  /// No description provided for @partyDrinkPurchasesHoursAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} h'**
+  String partyDrinkPurchasesHoursAgo(int count);
+
+  /// No description provided for @partyDrinkPurchasesDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} d'**
+  String partyDrinkPurchasesDaysAgo(int count);
+
+  /// No description provided for @partyDrinkCourtesiesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MY COURTESIES'**
+  String get partyDrinkCourtesiesTitle;
+
+  /// No description provided for @partyDrinkCourtesiesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review and redeem your complimentary drinks inside the event.'**
+  String get partyDrinkCourtesiesSubtitle;
+
+  /// No description provided for @partyDrinkCourtesiesReceivedAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'Received {timeAgo}'**
+  String partyDrinkCourtesiesReceivedAgo(String timeAgo);
+
+  /// No description provided for @partyDrinkCourtesiesEmptyPending.
+  ///
+  /// In en, this message translates to:
+  /// **'You have no complimentary drinks waiting to be redeemed.'**
+  String get partyDrinkCourtesiesEmptyPending;
+
+  /// No description provided for @partyDrinkCourtesiesEmptyUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'You have no redeemed courtesies yet.'**
+  String get partyDrinkCourtesiesEmptyUsed;
+
   /// No description provided for @drawerInvitationsNewBadge.
   ///
   /// In en, this message translates to:
@@ -1952,6 +2330,12 @@ abstract class AppLocalizations {
   /// **'ASSIGN VIP TICKETS'**
   String get ticketsAssignVip;
 
+  /// No description provided for @ticketsViewAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'VIEW ASSIGNED TICKETS'**
+  String get ticketsViewAssigned;
+
   /// No description provided for @ticketsAttendedSectionTitle.
   ///
   /// In en, this message translates to:
@@ -2306,6 +2690,18 @@ abstract class AppLocalizations {
   /// **'Free Invitation'**
   String get invitationsTypeFree;
 
+  /// No description provided for @invitationsTypeAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitation'**
+  String get invitationsTypeAssigned;
+
+  /// No description provided for @invitationsTypeVip.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP Invitation'**
+  String get invitationsTypeVip;
+
   /// No description provided for @invitationsTypeGuaranteedPass.
   ///
   /// In en, this message translates to:
@@ -2533,6 +2929,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'General'**
   String get invitationsTierGeneral;
+
+  /// No description provided for @invitationsTierFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Free'**
+  String get invitationsTierFree;
 
   /// No description provided for @invitationsInvitedBy.
   ///
@@ -3283,6 +3685,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 pending} other{{count} pending}}'**
   String ticketAssignmentPendingCount(int count);
+
+  /// No description provided for @ticketAssignmentClaimedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 accepted} other{{count} accepted}}'**
+  String ticketAssignmentClaimedCount(int count);
+
+  /// No description provided for @ticketAssignmentSentSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent invitations'**
+  String get ticketAssignmentSentSectionTitle;
+
+  /// No description provided for @ticketAssignmentSendNewSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send new tickets'**
+  String get ticketAssignmentSendNewSectionTitle;
+
+  /// No description provided for @ticketAssignmentSendNewSectionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{You have 1 ticket ready to assign to a new guest.} other{You have {count} tickets ready to assign to new guests.}}'**
+  String ticketAssignmentSendNewSectionSubtitle(int count);
+
+  /// No description provided for @ticketAssignmentAcceptedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'ACCEPTED'**
+  String get ticketAssignmentAcceptedBadge;
 
   /// No description provided for @ticketAssignmentOwnerTicket.
   ///

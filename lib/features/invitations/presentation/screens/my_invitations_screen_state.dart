@@ -6,7 +6,6 @@ import 'package:youpass/core/l10n/invitations_error_extension.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/shimmer/invitations_list_shimmer.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
-import 'package:youpass/features/invitations/domain/entities/invitation_filter.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_list_tab.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
@@ -23,7 +22,7 @@ import 'package:youpass/l10n/app_localizations.dart';
 class MyInvitationsScreenState extends State<MyInvitationsScreen> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   InvitationListTab selectedTab = InvitationListTab.pending;
-  InvitationFilter selectedFilter = InvitationFilter.all;
+  String? selectedEventTypeSlug;
   String searchQuery = '';
 
   @override
@@ -41,8 +40,8 @@ class MyInvitationsScreenState extends State<MyInvitationsScreen> {
     setState(() => searchQuery = value);
   }
 
-  void updateFilter(InvitationFilter filter) {
-    setState(() => selectedFilter = filter);
+  void updateFilter(String? eventTypeSlug) {
+    setState(() => selectedEventTypeSlug = eventTypeSlug);
   }
 
   void updateTab(InvitationListTab tab) {
@@ -55,8 +54,7 @@ class MyInvitationsScreenState extends State<MyInvitationsScreen> {
     if (selectedTab != InvitationListTab.pending) {
       return const [];
     }
-    if (selectedFilter != InvitationFilter.all &&
-        selectedFilter != InvitationFilter.courtesies) {
+    if (selectedEventTypeSlug != null) {
       return const [];
     }
 
@@ -82,7 +80,7 @@ class MyInvitationsScreenState extends State<MyInvitationsScreen> {
     final visibleInvitations = InvitationsFilterHelper.filterInvitations(
       invitations: provider.invitations,
       selectedTab: selectedTab,
-      selectedFilter: selectedFilter,
+      selectedEventTypeSlug: selectedEventTypeSlug,
       searchQuery: searchQuery,
     );
     final visibleWaitlist = _visibleWaitlistEntries(provider.waitlistEntries);
@@ -158,7 +156,8 @@ class MyInvitationsScreenState extends State<MyInvitationsScreen> {
           .where((item) => !InvitationsFilterHelper.isHiddenFromLists(item))
           .length,
       searchQuery: searchQuery,
-      selectedFilter: selectedFilter,
+      eventTypes: provider.eventTypeFilters,
+      selectedEventTypeSlug: selectedEventTypeSlug,
       onFilterSelected: updateFilter,
       onSearchChanged: updateSearch,
       onConfirmAttendance: actions.confirmAttendance,

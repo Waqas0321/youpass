@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
-import 'package:youpass/features/invitations/domain/entities/invitation_filter.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_list_tab.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_status.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_tier.dart';
@@ -15,6 +14,7 @@ void main() {
       dateTimeLabel: 'Jul 4',
       imageAssetPath: '',
       tier: InvitationTier.vip,
+      eventTypeSlug: 'parties',
       type: 'guaranteed',
       productKind: 'guaranteed_pass',
       requiresPaymentMethod: true,
@@ -27,6 +27,7 @@ void main() {
       dateTimeLabel: 'May 15',
       imageAssetPath: '',
       tier: InvitationTier.general,
+      eventTypeSlug: 'concerts',
       type: 'free',
       productKind: 'free',
       status: InvitationStatus.sent,
@@ -38,6 +39,7 @@ void main() {
       dateTimeLabel: 'Aug 1',
       imageAssetPath: '',
       tier: InvitationTier.vip,
+      eventTypeSlug: 'parties',
       type: 'vip_table',
       productKind: 'free',
       assignedSlot: 'VIP Table 1',
@@ -58,30 +60,30 @@ void main() {
     final result = InvitationsFilterHelper.filterInvitations(
       invitations: invitations,
       selectedTab: InvitationListTab.pending,
-      selectedFilter: InvitationFilter.all,
+      selectedEventTypeSlug: null,
       searchQuery: '',
     );
 
     expect(result.length, 2);
   });
 
-  test('filterInvitations matches courtesies kind', () {
+  test('filterInvitations matches parties event type', () {
     final result = InvitationsFilterHelper.filterInvitations(
       invitations: invitations,
       selectedTab: InvitationListTab.pending,
-      selectedFilter: InvitationFilter.courtesies,
+      selectedEventTypeSlug: 'parties',
       searchQuery: '',
     );
 
     expect(result.length, 1);
-    expect(result.first.productKind, 'guaranteed_pass');
+    expect(result.first.id, '1');
   });
 
-  test('filterInvitations matches general tier', () {
+  test('filterInvitations matches concerts event type', () {
     final result = InvitationsFilterHelper.filterInvitations(
       invitations: invitations,
       selectedTab: InvitationListTab.pending,
-      selectedFilter: InvitationFilter.general,
+      selectedEventTypeSlug: 'concerts',
       searchQuery: '',
     );
 
@@ -89,11 +91,11 @@ void main() {
     expect(result.first.id, '2');
   });
 
-  test('filterInvitations matches tables filter', () {
+  test('filterInvitations matches confirmed tab with event type', () {
     final result = InvitationsFilterHelper.filterInvitations(
       invitations: invitations,
       selectedTab: InvitationListTab.confirmed,
-      selectedFilter: InvitationFilter.tables,
+      selectedEventTypeSlug: 'parties',
       searchQuery: '',
     );
 
@@ -105,7 +107,7 @@ void main() {
     final result = InvitationsFilterHelper.filterInvitations(
       invitations: invitations,
       selectedTab: InvitationListTab.pending,
-      selectedFilter: InvitationFilter.all,
+      selectedEventTypeSlug: null,
       searchQuery: 'youfest',
     );
 

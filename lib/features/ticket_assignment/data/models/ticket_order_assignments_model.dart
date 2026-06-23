@@ -11,6 +11,7 @@ class TicketOrderAssignmentsModel extends TicketOrderAssignmentsEntity {
     required super.availableCount,
     required super.pendingCount,
     required super.slots,
+    super.claimedCount = 0,
     super.tier = TicketTier.general,
     super.canAssignInParts = true,
   });
@@ -34,6 +35,7 @@ class TicketOrderAssignmentsModel extends TicketOrderAssignmentsEntity {
         json['available_count'] ?? json['availableCount'],
       ),
       pendingCount: _readInt(json['pending_count'] ?? json['pendingCount']),
+      claimedCount: _readInt(json['claimed_count'] ?? json['claimedCount']),
       canAssignInParts: _readBool(
         json['can_assign_in_parts'] ?? json['canAssignInParts'],
         fallback: true,

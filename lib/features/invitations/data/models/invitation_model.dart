@@ -14,7 +14,9 @@ class InvitationModel extends InvitationEntity {
     required super.tier,
     required super.status,
     super.eventId,
+    super.eventTypeSlug,
     super.type,
+    super.source,
     super.productKind,
     super.productLabel,
     super.typeColorHex,
@@ -48,6 +50,7 @@ class InvitationModel extends InvitationEntity {
     return InvitationModel(
       id: json['id']?.toString() ?? '',
       eventId: json['event_id']?.toString() ?? json['eventId']?.toString(),
+      eventTypeSlug: _readEventTypeSlug(json),
       eventTitle: _readString(json, 'event_title', 'eventTitle', 'title'),
       locationLabel: _readString(json, 'location', 'location_label', 'venue'),
       dateTimeLabel: _readString(
@@ -65,6 +68,7 @@ class InvitationModel extends InvitationEntity {
       ),
       tier: _parseTier(json['tier'] ?? json['ticket_tier']),
       type: json['type']?.toString(),
+      source: json['source']?.toString(),
       productKind: json['product_kind']?.toString() ?? json['productKind']?.toString(),
       productLabel: json['product_label']?.toString() ?? json['productLabel']?.toString(),
       typeColorHex: json['type_color']?.toString() ?? json['typeColor']?.toString(),
@@ -225,6 +229,14 @@ class InvitationModel extends InvitationEntity {
       default:
         return null;
     }
+  }
+
+  static String? _readEventTypeSlug(Map<String, dynamic> json) {
+    final eventType = json['event_type'] ?? json['eventType'];
+    if (eventType is Map<String, dynamic>) {
+      return eventType['slug']?.toString();
+    }
+    return eventType?.toString();
   }
 
   static List<InvitationModel> listFromPayload(Object? payload) {

@@ -21,13 +21,17 @@ class HomePartyModeEntity extends Equatable {
   const HomePartyModeEntity({
     this.enabled = false,
     this.bannerVisible = true,
+    this.eventId,
+    this.eventTitle,
   });
 
   final bool enabled;
   final bool bannerVisible;
+  final String? eventId;
+  final String? eventTitle;
 
   @override
-  List<Object?> get props => [enabled, bannerVisible];
+  List<Object?> get props => [enabled, bannerVisible, eventId, eventTitle];
 }
 
 class HomeFeaturedInvitationEntity extends Equatable {

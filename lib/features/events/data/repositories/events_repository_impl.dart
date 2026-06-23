@@ -37,10 +37,14 @@ class EventsRepositoryImpl implements EventsRepository {
   Future<HomeFeedEntity> fetchHomeFeed({
     String? countryCode,
     String? feedContext,
+    double? lat,
+    double? lng,
   }) async {
     final payload = await eventsApiService.fetchInitialFeed(
       countryCode: countryCode,
       feedContext: feedContext,
+      lat: lat,
+      lng: lng,
     );
 
     final categories = await _resolveCategories(

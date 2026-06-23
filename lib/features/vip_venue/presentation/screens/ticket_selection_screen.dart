@@ -1,11 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/widgets/shimmer/vip_ticket_selection_shimmer.dart';
-import 'package:youpass/dependency_injection/injection_container.dart';
 import 'package:youpass/features/events/domain/entities/event_detail_entity.dart';
-import 'package:youpass/features/events/domain/usecases/get_event_detail_usecase.dart';
 import 'package:youpass/features/vip_venue/domain/entities/ticket_offering_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/ticket_offering_section.dart';
 import 'package:youpass/features/vip_venue/presentation/providers/vip_venue_provider.dart';
@@ -50,18 +50,22 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
     final provider = context.read<VipVenueProvider>();
     final eventId = session.event.id;
 
-    try {
-      if (eventId.isEmpty) {
-        return;
+    if (eventId.isEmpty) {
+      if (mounted) {
+        setState(() => _isLoadingPurchaseData = false);
       }
+      return;
+    }
 
-      await _ensurePurchaseMeta();
+    _applyPurchaseMetaFromEventDetail();
+
+    try {
+      final bundle = await provider.loadTicketTypes(eventId);
       if (!mounted) {
         return;
       }
 
-      final bundle = await provider.loadTicketTypes(eventId);
-      if (!mounted || bundle == null) {
+      if (bundle == null) {
         return;
       }
 
@@ -72,53 +76,36 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
           session.purchaseCurrency = bundle.currency;
         }
         session.currencyDecimals = bundle.currencyDecimals;
+        session.hasVenueLayout = bundle.hasVenueLayout;
+        session.hasTicketOfferings = bundle.offerings.isNotEmpty;
+        session.tableLockMinutes = bundle.tableLockMinutes;
+        _isLoadingPurchaseData = false;
       });
 
-      if (!session.hasVenueLayout) {
-        return;
+      if (bundle.hasVenueLayout) {
+        unawaited(provider.loadVenueLayout(eventId));
       }
-
-      final layout = await provider.loadVenueLayout(eventId);
-      if (!mounted) {
-        return;
-      }
-
-      setState(() {
-        session.hasVenueLayout = layout != null;
-        if (layout != null) {
-          session.tableLockMinutes = layout.tableLockMinutes;
-        }
-      });
     } finally {
-      if (mounted) {
+      if (mounted && _isLoadingPurchaseData) {
         setState(() => _isLoadingPurchaseData = false);
       }
     }
   }
 
-  Future<void> _ensurePurchaseMeta() async {
-    if (session.event is EventDetailEntity) {
+  void _applyPurchaseMetaFromEventDetail() {
+    if (session.event is! EventDetailEntity) {
       return;
     }
 
-    try {
-      final detail = await sl<GetEventDetailUseCase>()(session.event.id);
-      if (!mounted) {
-        return;
-      }
-
-      final purchase = detail.purchase;
-      if (purchase == null) {
-        return;
-      }
-
-      session.serviceFeeRate = purchase.serviceFeeRate;
-      session.hasVenueLayout = purchase.hasVenueLayout;
-      session.hasTicketOfferings = purchase.hasTicketOfferings;
-      session.purchaseCurrency = purchase.currency;
-    } catch (_) {
-      // Ticket types can still load without purchase meta.
+    final purchase = (session.event as EventDetailEntity).purchase;
+    if (purchase == null) {
+      return;
     }
+
+    session.serviceFeeRate = purchase.serviceFeeRate;
+    session.hasVenueLayout = purchase.hasVenueLayout;
+    session.hasTicketOfferings = purchase.hasTicketOfferings;
+    session.purchaseCurrency = purchase.currency;
   }
 
   List<TicketOfferingEntity> get _generalOfferings =>

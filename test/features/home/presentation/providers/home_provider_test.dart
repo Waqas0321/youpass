@@ -78,8 +78,8 @@ void main() {
     expect(homeProvider.homeFeed?.carouselEvents,
         TestFixtures.testHomeFeed.carouselEvents);
     expect(homeProvider.errorMessage, isNull);
-    verify(() => mockHomeRepository.getFilteredEvents(any())).called(1);
-    verify(() => mockGetUpcomingHomeEventsUseCase(any())).called(1);
+    verifyNever(() => mockHomeRepository.getFilteredEvents(any()));
+    verifyNever(() => mockGetUpcomingHomeEventsUseCase(any()));
   });
 
   test('loadHomeData sets error state on failure', () async {
@@ -104,8 +104,8 @@ void main() {
     await homeProvider.selectCategory(AppConstants.categoryIdConcerts);
 
     expect(homeProvider.selectedCategoryId, AppConstants.categoryIdConcerts);
-    verify(() => mockHomeRepository.getFilteredEvents(any())).called(2);
-    verify(() => mockGetUpcomingHomeEventsUseCase(any())).called(2);
+    verify(() => mockHomeRepository.getFilteredEvents(any())).called(1);
+    verify(() => mockGetUpcomingHomeEventsUseCase(any())).called(1);
   });
 
   test('reset clears feed and restores initial state', () async {
@@ -133,7 +133,7 @@ void main() {
     await homeProvider.loadHomeDataIfNeeded();
 
     verify(() => mockHomeRepository.getHomeFeed()).called(1);
-    verify(() => mockHomeRepository.getFilteredEvents(any())).called(1);
+    verifyNever(() => mockHomeRepository.getFilteredEvents(any()));
     expect(homeProvider.status, HomeStatus.loaded);
   });
 
@@ -151,7 +151,7 @@ void main() {
     await homeProvider.selectCategory('country:CL');
 
     expect(listener.callCount, 0);
-    verify(() => mockHomeRepository.getFilteredEvents(any())).called(1);
+    verifyNever(() => mockHomeRepository.getFilteredEvents(any()));
   });
   test('clearing search query exits search mode and restores default listing', () async {
     when(() => mockHomeRepository.getHomeFeed())

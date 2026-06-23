@@ -16,6 +16,7 @@ class UpcomingTicketEntity extends Equatable {
     this.displayStatus = TicketDisplayStatus.active,
     this.canViewQr = false,
     this.canAssignTickets = false,
+    this.canViewAssignedTickets = false,
     this.canCancel = false,
     this.qrStatus,
     this.ticketOrderId,
@@ -35,6 +36,7 @@ class UpcomingTicketEntity extends Equatable {
   final TicketDisplayStatus displayStatus;
   final bool canViewQr;
   final bool canAssignTickets;
+  final bool canViewAssignedTickets;
   final bool canCancel;
   final InvitationQrStatus? qrStatus;
   final String? ticketOrderId;
@@ -57,6 +59,10 @@ class UpcomingTicketEntity extends Equatable {
   bool get showsAssignAction =>
       canAssignTickets || (assignableCount ?? 0) > 0;
 
+  bool get showsViewAssignedAction => canViewAssignedTickets;
+
+  bool get showsAssignmentAction => showsAssignAction || showsViewAssignedAction;
+
   String? get assignmentOrderId {
     if (!hasTicketOrderId) {
       return null;
@@ -77,6 +83,7 @@ class UpcomingTicketEntity extends Equatable {
         displayStatus,
         canViewQr,
         canAssignTickets,
+        canViewAssignedTickets,
         canCancel,
         qrStatus,
         ticketOrderId,

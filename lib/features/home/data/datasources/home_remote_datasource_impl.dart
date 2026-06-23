@@ -14,10 +14,14 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   Future<HomeFeedEntity> fetchHomeFeed({
     String? feedContext,
     String? countryCode,
+    double? lat,
+    double? lng,
   }) {
     return eventsRepository.fetchHomeFeed(
       feedContext: feedContext,
       countryCode: countryCode,
+      lat: lat,
+      lng: lng,
     );
   }
 

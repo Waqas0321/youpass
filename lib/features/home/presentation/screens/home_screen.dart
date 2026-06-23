@@ -12,6 +12,7 @@ import 'package:youpass/core/widgets/home_top_bar_widget.dart';
 import 'package:youpass/core/widgets/shimmer/home_feed_shimmer.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
+import 'package:youpass/core/theme/presentation/providers/app_theme_provider.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 import 'package:youpass/features/home/presentation/utils/home_user_display_helper.dart';
@@ -45,14 +46,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     scrollController.addListener(_handleScroll);
     _startBadgeRefreshTimer();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) {
         return;
       }
       final homeProvider = context.read<HomeProvider>();
       if (homeProvider.homeFeed == null) {
-        homeProvider.loadHomeDataIfNeeded();
+        await homeProvider.loadHomeDataIfNeeded();
       }
+      await _syncPartyModeFromFeed();
       homeProvider.trackRegistrationCompletedIfNeeded();
       _maybeShowPendingDeletionNotice();
       _loadWaitlistOffersIfAuthenticated();
@@ -77,7 +79,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         if (!mounted) {
           return;
         }
-        context.read<HomeProvider>().loadHomeData();
+        context.read<HomeProvider>().loadHomeData().then((_) async {
+          if (mounted) {
+            await _syncPartyModeFromFeed();
+          }
+        });
       });
       return;
     }
@@ -112,12 +118,25 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
 
+  Future<void> _syncPartyModeFromFeed() async {
+    if (!mounted) {
+      return;
+    }
+
+    await context.read<HomeProvider>().syncPartyModeTheme(
+          context.read<AppThemeProvider>(),
+        );
+  }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed && mounted) {
       _refreshInvitationsBadgeIfAuthenticated();
       _loadWaitlistOffersIfAuthenticated();
       _maybeShowPendingDeletionNotice();
+      unawaited(
+        context.read<HomeProvider>().refreshHome().then((_) => _syncPartyModeFromFeed()),
+      );
     }
   }
 
@@ -166,9 +185,21 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
 
+  bool? _lastPartyModeEligible;
+
   @override
   Widget build(BuildContext context) {
     final homeProvider = context.watch<HomeProvider>();
+    final eligible = homeProvider.partyModeEligible;
+    if (_lastPartyModeEligible != eligible) {
+      _lastPartyModeEligible = eligible;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          unawaited(_syncPartyModeFromFeed());
+        }
+      });
+    }
+
     final authProvider = context.watch<AuthProvider>();
     final layout = ResponsiveLayout(context);
     final headerGreeting = HomeUserDisplayHelper.headerGreetingText(
@@ -214,6 +245,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           HomeTopBarWidget(
             onMenuTap: openDrawer,
             showPartyModeBanner: homeProvider.showPartyModeBanner,
+            partyModeEligible: homeProvider.partyModeEligible,
           ),
           Padding(
             padding: layout.screenPadding,
@@ -236,6 +268,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           HomeTopBarWidget(
             onMenuTap: openDrawer,
             showPartyModeBanner: homeProvider.showPartyModeBanner,
+            partyModeEligible: homeProvider.partyModeEligible,
           ),
           Padding(
             padding: layout.screenPadding,
@@ -261,6 +294,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           HomeTopBarWidget(
             onMenuTap: openDrawer,
             showPartyModeBanner: homeProvider.showPartyModeBanner,
+            partyModeEligible: homeProvider.partyModeEligible,
           ),
           Padding(
             padding: layout.screenPadding,
@@ -286,6 +320,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         HomeTopBarWidget(
           onMenuTap: openDrawer,
           showPartyModeBanner: homeProvider.showPartyModeBanner,
+          partyModeEligible: homeProvider.partyModeEligible,
         ),
         if (showDeletionBanner) ...[
           Padding(
@@ -299,35 +334,35 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           SizedBox(height: layout.spacing(12)),
         ],
         Expanded(
-          child: RefreshIndicator(
-            onRefresh: () => homeProvider.refreshHome(),
-            child: SingleChildScrollView(
-              controller: scrollController,
-              physics: const AlwaysScrollableScrollPhysics(),
-              padding: layout.screenPadding,
-              child: HomeFeedWidget(
-                greetingText: headerGreeting,
-                upcomingSectionTitle: upcomingSectionTitle,
-                feed: feed,
-                highlightPendingInvitation: homeProvider.highlightPendingInvitation,
-                pendingInvitationCount: homeProvider.highlightedInvitationCount,
-                pendingInvitationTitle: homeProvider.highlightedInvitationTitle,
-                onPendingInvitationTap: homeProvider.highlightPendingInvitation
-                    ? () {
-                        final invitationId = homeProvider.highlightedInvitationId;
-                        if (invitationId != null) {
-                          final destination =
-                              InvitationDetailNavigation.resolveById(invitationId);
-                          Navigator.of(context).pushNamed(
-                            destination.route,
-                            arguments: destination.args,
-                          );
-                          return;
-                        }
-                        Navigator.of(context).pushNamed(AppRoutes.myInvitations);
+          child: Padding(
+            padding: layout.screenPadding,
+            child: HomeFeedWidget(
+              scrollController: scrollController,
+              onRefresh: () async {
+                await homeProvider.refreshHome();
+                await _syncPartyModeFromFeed();
+              },
+              greetingText: headerGreeting,
+              upcomingSectionTitle: upcomingSectionTitle,
+              feed: feed,
+              highlightPendingInvitation: homeProvider.highlightPendingInvitation,
+              pendingInvitationCount: homeProvider.highlightedInvitationCount,
+              pendingInvitationTitle: homeProvider.highlightedInvitationTitle,
+              onPendingInvitationTap: homeProvider.highlightPendingInvitation
+                  ? () {
+                      final invitationId = homeProvider.highlightedInvitationId;
+                      if (invitationId != null) {
+                        final destination =
+                            InvitationDetailNavigation.resolveById(invitationId);
+                        Navigator.of(context).pushNamed(
+                          destination.route,
+                          arguments: destination.args,
+                        );
+                        return;
                       }
-                    : null,
-              ),
+                      Navigator.of(context).pushNamed(AppRoutes.myInvitations);
+                    }
+                  : null,
             ),
           ),
         ),

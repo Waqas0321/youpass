@@ -16,6 +16,7 @@ class UpcomingTicketModel extends UpcomingTicketEntity {
     super.displayStatus = TicketDisplayStatus.active,
     super.canViewQr = false,
     super.canAssignTickets = false,
+    super.canViewAssignedTickets = false,
     super.canCancel = false,
     super.qrStatus,
     super.ticketOrderId,
@@ -50,6 +51,9 @@ class UpcomingTicketModel extends UpcomingTicketEntity {
     final origin = json['origin']?.toString();
     final canAssignTickets = TicketModelJsonReader.readBool(
       json['can_assign_tickets'] ?? json['canAssignTickets'],
+    );
+    final canViewAssignedTickets = TicketModelJsonReader.readBool(
+      json['can_view_assigned_tickets'] ?? json['canViewAssignedTickets'],
     );
 
     return UpcomingTicketModel(
@@ -86,6 +90,7 @@ class UpcomingTicketModel extends UpcomingTicketEntity {
         json['can_view_qr'] ?? json['canViewQr'],
       ),
       canAssignTickets: canAssignTickets,
+      canViewAssignedTickets: canViewAssignedTickets,
       canCancel: TicketModelJsonReader.readBool(
         json['can_cancel'] ?? json['canCancel'],
       ),

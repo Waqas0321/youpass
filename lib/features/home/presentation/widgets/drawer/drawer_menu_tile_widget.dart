@@ -8,17 +8,24 @@ class DrawerMenuTileWidget extends StatelessWidget {
     super.key,
     required this.item,
     required this.onTap,
+    this.iconColor,
+    this.showDividerBelow = false,
   });
 
   final DrawerMenuItem item;
   final VoidCallback onTap;
+  final Color? iconColor;
+  final bool showDividerBelow;
 
   @override
   Widget build(BuildContext context) {
     final theme = HomeDrawerTheme.of(context);
     final radius = DrawerDesignSpec.px(context, DrawerDesignSpec.menuTileRadius);
 
-    return Material(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
@@ -48,7 +55,7 @@ class DrawerMenuTileWidget extends StatelessWidget {
                 if (item.icon != null) ...[
                   Icon(
                     item.icon,
-                    color: theme.menuIcon,
+                    color: iconColor ?? theme.menuIcon,
                     size: DrawerDesignSpec.px(
                       context,
                       DrawerDesignSpec.menuIconSize,
@@ -88,6 +95,16 @@ class DrawerMenuTileWidget extends StatelessWidget {
           ),
         ),
       ),
+    ),
+        if (showDividerBelow) ...[
+          SizedBox(height: DrawerDesignSpec.px(context, 8)),
+          Divider(
+            height: 1,
+            thickness: 1,
+            color: theme.menuBorder.withValues(alpha: theme.isDark ? 0.55 : 1),
+          ),
+        ],
+      ],
     );
   }
 }

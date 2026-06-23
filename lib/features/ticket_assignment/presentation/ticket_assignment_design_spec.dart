@@ -7,6 +7,8 @@ class TicketAssignmentDesignSpec {
   static const Color fieldBorder = Color(0xFFE0E0E0);
   static const Color fieldFill = Color(0xFFFFFFFF);
   static const Color cancelButtonFill = Color(0xFFFFF0F0);
+  static const Color cancelButtonForeground = Color(0xFFD32F2F);
+  static const Color cancelButtonBorder = Color(0xFFD32F2F);
 
   static double cardRadius(BuildContext context) =>
       TicketsDesignSpec.px(context, 14);

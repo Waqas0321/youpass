@@ -39,8 +39,7 @@ class InvitationDetailActionsWidget extends StatelessWidget {
         if (isPending) ...[
           InvitationFilledActionButtonWidget(
             label: confirmLabel ?? AppStrings.invitationsConfirmAttendance(strings),
-            onPressed:
-                invitation.canConfirm ? () => actions.confirmAttendance(invitation) : null,
+            onPressed: () => actions.confirmAttendance(invitation),
             backgroundColor: confirmBackgroundColor ?? InvitationsDesignSpec.primary,
           ),
           SizedBox(height: InvitationsDesignSpec.px(context, 8)),

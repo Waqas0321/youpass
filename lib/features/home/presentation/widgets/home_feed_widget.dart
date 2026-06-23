@@ -35,6 +35,8 @@ class HomeFeedWidget extends StatefulWidget {
     this.pendingInvitationCount = 0,
     this.pendingInvitationTitle,
     this.onPendingInvitationTap,
+    this.scrollController,
+    this.onRefresh,
   });
 
   final HomeFeedEntity feed;
@@ -44,6 +46,8 @@ class HomeFeedWidget extends StatefulWidget {
   final int pendingInvitationCount;
   final String? pendingInvitationTitle;
   final VoidCallback? onPendingInvitationTap;
+  final ScrollController? scrollController;
+  final Future<void> Function()? onRefresh;
 
   @override
   State<HomeFeedWidget> createState() => _HomeFeedWidgetState();
@@ -134,82 +138,96 @@ class _HomeFeedWidgetState extends State<HomeFeedWidget> {
           ),
         ),
         SizedBox(height: layout.spacing(20)),
-        if (homeProvider.isFilteringEvents)
-          const HomeEventsSectionShimmer()
-        else ...[
-          if (widget.feed.carouselEvents.isNotEmpty) ...[
-            FeaturedEventCarouselWidget(
-              events: widget.feed.carouselEvents,
-              carouselConfig: widget.feed.carouselConfig,
-              onEventTap: (event) => BannerSlideActions(context).handleTap(event),
-            ),
-            SizedBox(height: layout.spacing(24)),
-          ],
-          HomeEventsSectionWidget(
-              events: homeProvider.isSearchMode
-                  ? homeProvider.searchResults
-                  : homeProvider.upcomingEvents,
-              sectionTitle: widget.upcomingSectionTitle,
-              headerActionLabel: AppStrings.homeNearMeHeaderLink(l10n),
-              headerActionIcon: homeProvider.nearMeEnabled
-                  ? Icons.location_on
-                  : Icons.location_on_outlined,
-              headerActionSelected: homeProvider.nearMeEnabled,
-              headerActionLoading: homeProvider.isNearMeLoading,
-              onHeaderActionTap: homeProvider.toggleNearMeFilter,
-              isLoading: homeProvider.isSearchMode
-                  ? homeProvider.isSearchLoading
-                  : homeProvider.isLoadingUpcoming || homeProvider.isFilteringEvents,
-              belowTitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  HomeSearchBarWidget(
-                    hintText: widget.feed.searchPlaceholder ??
-                        AppStrings.homeSearchPlaceholder(l10n),
-                    controller: _searchController,
-                    focusNode: _searchFocusNode,
-                    onChanged: homeProvider.onSearchQueryChanged,
-                    onSubmitted: homeProvider.submitSearch,
-                    onFocusChanged: homeProvider.setSearchFocused,
-                    onFilterTap: () => HomeSearchFiltersSheet.show(context),
-                    filtersEnabled: widget.feed.searchConfig.filtersEnabled,
-                  ),
-                  SizedBox(height: layout.spacing(10)),
-                  HomeActiveFilterChipsWidget(
-                  chips: homeProvider.activeFilterChips(
-                    freeOnlyLabel: AppStrings.homeFiltersFreeOnly(l10n),
-                    customRangeLabel: AppStrings.homeFiltersCustomRange(l10n),
-                    nearMeLabel: AppStrings.homeNearMeButton(l10n),
-                  ),
-                    onRemove: homeProvider.removeFilterChip,
-                  ),
-                  if (homeProvider.showSearchHistory) ...[
-                    SizedBox(height: layout.spacing(10)),
-                    HomeSearchResultsPanelWidget(
-                      isFocused: true,
-                      searchQuery: '',
-                      isLoading: false,
-                      results: const [],
-                      history: homeProvider.searchHistory,
-                      suggestions: const [],
-                      emptyMessage: AppStrings.homeSearchEmpty(l10n),
-                      onHistoryTap: homeProvider.selectHistoryTerm,
-                      onSuggestionTap: homeProvider.submitSearch,
-                      onClearHistory: homeProvider.clearSearchHistory,
+        Expanded(
+          child: homeProvider.isFilteringEvents
+              ? const HomeEventsSectionShimmer()
+              : RefreshIndicator(
+                  onRefresh: widget.onRefresh ?? () async {},
+                  child: SingleChildScrollView(
+                    controller: widget.scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        if (widget.feed.carouselEvents.isNotEmpty) ...[
+                          FeaturedEventCarouselWidget(
+                            events: widget.feed.carouselEvents,
+                            carouselConfig: widget.feed.carouselConfig,
+                            onEventTap: (event) =>
+                                BannerSlideActions(context).handleTap(event),
+                          ),
+                          SizedBox(height: layout.spacing(24)),
+                        ],
+                        HomeEventsSectionWidget(
+                          events: homeProvider.isSearchMode
+                              ? homeProvider.searchResults
+                              : homeProvider.upcomingEvents,
+                          sectionTitle: widget.upcomingSectionTitle,
+                          headerActionLabel: AppStrings.homeNearMeHeaderLink(l10n),
+                          headerActionIcon: homeProvider.nearMeEnabled
+                              ? Icons.location_on
+                              : Icons.location_on_outlined,
+                          headerActionSelected: homeProvider.nearMeEnabled,
+                          headerActionLoading: homeProvider.isNearMeLoading,
+                          onHeaderActionTap: homeProvider.toggleNearMeFilter,
+                          isLoading: homeProvider.isSearchMode
+                              ? homeProvider.isSearchLoading
+                              : homeProvider.isLoadingUpcoming ||
+                                  homeProvider.isFilteringEvents,
+                          belowTitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              HomeSearchBarWidget(
+                                hintText: widget.feed.searchPlaceholder ??
+                                    AppStrings.homeSearchPlaceholder(l10n),
+                                controller: _searchController,
+                                focusNode: _searchFocusNode,
+                                onChanged: homeProvider.onSearchQueryChanged,
+                                onSubmitted: homeProvider.submitSearch,
+                                onFocusChanged: homeProvider.setSearchFocused,
+                                onFilterTap: () => HomeSearchFiltersSheet.show(context),
+                                filtersEnabled: widget.feed.searchConfig.filtersEnabled,
+                              ),
+                              SizedBox(height: layout.spacing(10)),
+                              HomeActiveFilterChipsWidget(
+                                chips: homeProvider.activeFilterChips(
+                                  freeOnlyLabel: AppStrings.homeFiltersFreeOnly(l10n),
+                                  customRangeLabel: AppStrings.homeFiltersCustomRange(l10n),
+                                  nearMeLabel: AppStrings.homeNearMeButton(l10n),
+                                ),
+                                onRemove: homeProvider.removeFilterChip,
+                              ),
+                              if (homeProvider.showSearchHistory) ...[
+                                SizedBox(height: layout.spacing(10)),
+                                HomeSearchResultsPanelWidget(
+                                  isFocused: true,
+                                  searchQuery: '',
+                                  isLoading: false,
+                                  results: const [],
+                                  history: homeProvider.searchHistory,
+                                  suggestions: const [],
+                                  emptyMessage: AppStrings.homeSearchEmpty(l10n),
+                                  onHistoryTap: homeProvider.selectHistoryTerm,
+                                  onSuggestionTap: homeProvider.submitSearch,
+                                  onClearHistory: homeProvider.clearSearchHistory,
+                                ),
+                              ],
+                            ],
+                          ),
+                          onEventTap: (event) =>
+                              EventDetailScreenActions(context).openEventDetail(event: event),
+                          onBuyTicket: (event) =>
+                              VipPurchaseScreenActions(context).openTicketSelection(event: event),
+                          onFavoriteTap: (event) => homeProvider.toggleFavorite(event.id),
+                          isFavoritePendingFor: homeProvider.isFavoritePending,
+                          onJoinWaitlist: handleJoinWaitlist,
+                          onLeaveWaitlist: handleLeaveWaitlist,
+                        ),
+                      ],
                     ),
-                  ],
-                ],
-              ),
-              onEventTap: (event) =>
-                  EventDetailScreenActions(context).openEventDetail(event: event),
-              onBuyTicket: (event) =>
-                  VipPurchaseScreenActions(context).openTicketSelection(event: event),
-              onFavoriteTap: (event) => homeProvider.toggleFavorite(event.id),
-              isFavoritePendingFor: homeProvider.isFavoritePending,
-              onJoinWaitlist: handleJoinWaitlist,
-              onLeaveWaitlist: handleLeaveWaitlist,
-            ),
-        ],
+                  ),
+                ),
+        ),
       ],
     );
   }

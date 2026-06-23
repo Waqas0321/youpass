@@ -11,6 +11,11 @@ import 'package:youpass/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:youpass/features/auth/routes/welcome_route_args.dart';
 import 'package:youpass/features/auth/routes/verification_route_args.dart';
 import 'package:youpass/features/home/presentation/screens/main_shell_screen.dart';
+import 'package:youpass/features/home/presentation/screens/party_drink_menu_screen.dart';
+import 'package:youpass/features/home/presentation/screens/party_drink_courtesies_screen.dart';
+import 'package:youpass/features/home/presentation/screens/party_drink_purchases_screen.dart';
+import 'package:youpass/features/home/presentation/screens/party_drink_purchase_success_screen.dart';
+import 'package:youpass/features/home/presentation/party_drinks/routes/party_drink_purchase_success_route_args.dart';
 import 'package:youpass/features/profile/presentation/screens/profile_screen.dart';
 import 'package:youpass/features/profile/presentation/screens/change_phone_screen.dart';
 import 'package:youpass/features/profile/presentation/screens/profile_wallet_screen.dart';
@@ -18,6 +23,8 @@ import 'package:youpass/features/profile/presentation/screens/category_benefits_
 import 'package:youpass/features/profile/presentation/routes/faq_route_args.dart';
 import 'package:youpass/features/profile/presentation/screens/faq_screen.dart';
 import 'package:youpass/features/profile/presentation/screens/notification_advanced_settings_screen.dart';
+import 'package:youpass/features/events/presentation/routes/all_events_route_args.dart';
+import 'package:youpass/features/events/presentation/screens/all_events_screen.dart';
 import 'package:youpass/features/events/presentation/routes/event_detail_route_args.dart';
 import 'package:youpass/features/events/presentation/screens/event_detail_screen.dart';
 import 'package:youpass/features/favorites/presentation/routes/producer_events_route_args.dart';
@@ -127,7 +134,14 @@ class RouteGenerator {
           builder: (_) => ProducerEventsScreen.fromRouteArgs(args),
         );
       case AppRoutes.allEvents:
-        return MaterialPageRoute(builder: (_) => const MainShellScreen());
+        final args = settings.arguments;
+        final allEventsArgs = args is AllEventsRouteArgs
+            ? args
+            : const AllEventsRouteArgs();
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => AllEventsScreen(args: allEventsArgs),
+        );
       case AppRoutes.eventDetail:
         final args = settings.arguments;
         if (args is! EventDetailRouteArgs) {
@@ -170,6 +184,20 @@ class RouteGenerator {
         );
       case AppRoutes.myInvitations:
         return MaterialPageRoute(builder: (_) => const MyInvitationsScreen());
+      case AppRoutes.partyDrinkMenu:
+        return MaterialPageRoute(builder: (_) => const PartyDrinkMenuScreen());
+      case AppRoutes.partyDrinkPurchases:
+        return MaterialPageRoute(builder: (_) => const PartyDrinkPurchasesScreen());
+      case AppRoutes.partyDrinkCourtesies:
+        return MaterialPageRoute(builder: (_) => const PartyDrinkCourtesiesScreen());
+      case AppRoutes.partyDrinkPurchaseSuccess:
+        final args = settings.arguments;
+        if (args is! PartyDrinkPurchaseSuccessRouteArgs) {
+          return MaterialPageRoute(builder: (_) => const PartyDrinkMenuScreen());
+        }
+        return MaterialPageRoute(
+          builder: (_) => PartyDrinkPurchaseSuccessScreen.fromRouteArgs(args),
+        );
       case AppRoutes.guaranteedPassDetail:
       case AppRoutes.invitationDetail:
         final args = settings.arguments;

@@ -8,6 +8,7 @@ class OtpDeliveryResultEntity extends Equatable {
     required this.channel,
     required this.expiresInSeconds,
     required this.resendAvailableInSeconds,
+    this.devOtpCode,
   });
 
   final String message;
@@ -16,6 +17,7 @@ class OtpDeliveryResultEntity extends Equatable {
   final String channel;
   final int expiresInSeconds;
   final int resendAvailableInSeconds;
+  final String? devOtpCode;
 
   @override
   List<Object?> get props => [
@@ -25,5 +27,6 @@ class OtpDeliveryResultEntity extends Equatable {
         channel,
         expiresInSeconds,
         resendAvailableInSeconds,
+        devOtpCode,
       ];
 }

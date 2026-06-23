@@ -11,7 +11,7 @@ import 'package:youpass/features/tickets/domain/entities/upcoming_ticket_entity.
 class TicketsCache {
   TicketsCache(this._preferences);
 
-  static const String upcomingKey = 'tickets_cache_upcoming_v1';
+  static const String upcomingKey = 'tickets_cache_upcoming_v4';
   static const String pastKeyPrefix = 'tickets_cache_past_v1';
 
   final SharedPreferences _preferences;
@@ -104,7 +104,8 @@ class TicketsCache {
 
   String _pastKey(PastTicketsQuery query) {
     final search = query.search?.trim().toLowerCase() ?? '';
-    return '$pastKeyPrefix:${query.filter.name}:$search';
+    final type = query.eventTypeSlug?.trim().toLowerCase() ?? 'all';
+    return '$pastKeyPrefix:$type:$search';
   }
 
   Map<String, dynamic> _upcomingToJson(UpcomingTicketEntity ticket) {
@@ -120,6 +121,7 @@ class TicketsCache {
       'status': ticket.displayStatus.name,
       'can_view_qr': ticket.canViewQr,
       'can_assign_tickets': ticket.canAssignTickets,
+      'can_view_assigned_tickets': ticket.canViewAssignedTickets,
       'can_cancel': ticket.canCancel,
       'qr_status': ticket.qrStatus?.name,
       'ticket_order_id': ticket.ticketOrderId,

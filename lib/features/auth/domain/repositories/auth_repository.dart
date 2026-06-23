@@ -28,6 +28,13 @@ abstract class AuthRepository {
     required OtpPurpose purpose,
   });
 
+  Future<void> verifyOtpCode({
+    required String phone,
+    required String countryIsoCode,
+    required String code,
+    required OtpPurpose purpose,
+  });
+
   Future<AuthSessionEntity> loginWithPhone({
     required String phone,
     required String countryIsoCode,

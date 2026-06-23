@@ -11,8 +11,10 @@ import 'package:youpass/features/invitations/domain/entities/invitation_ticket_e
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
 import 'package:youpass/features/invitations/presentation/routes/event_ticket_route_args.dart';
 import 'package:youpass/features/invitations/presentation/utils/guaranteed_pass_flow_actions.dart';
+import 'package:youpass/features/invitations/presentation/widgets/invitation_important_dialog.dart';
 import 'package:youpass/features/invitations/presentation/utils/invitation_detail_navigation.dart';
 import 'package:youpass/features/invitations/presentation/utils/invitations_product_kind_resolver.dart';
+import 'package:youpass/features/invitations/presentation/utils/invitations_text_factory.dart';
 import 'package:youpass/features/invitations/presentation/utils/invitations_qr_helper.dart';
 import 'package:youpass/features/invitations/presentation/widgets/add_payment_method_dialog.dart';
 import 'package:youpass/features/invitations/presentation/widgets/discounted_accept_dialog.dart';
@@ -206,7 +208,33 @@ class InvitationsScreenActions {
 
     switch (kind) {
       case InvitationProductKind.free:
-        await finalizeConfirmation(invitation.id);
+        final needsPaymentFlow =
+            invitation.requiresPaymentMethod ||
+            InvitationsTextFactory.isZeroValueFreeInvitation(invitation);
+        if (!needsPaymentFlow) {
+          await finalizeConfirmation(invitation.id);
+          return;
+        }
+
+        final importantProceed = await InvitationImportantDialog.show(context);
+        if (!importantProceed || !context.mounted) {
+          return;
+        }
+
+        await invitationsProvider.refreshPaymentMethodStatus();
+
+        if (!await ensurePaymentMethod() || !context.mounted) {
+          return;
+        }
+
+        await PaymentSavedSuccessDialog.show(
+          context,
+          onConfirmAttendance: () => finalizeConfirmation(
+            invitation.id,
+            params: const ConfirmInvitationParams(acceptChargeTerms: true),
+          ),
+          onReject: () => rejectInvitation(invitation.id),
+        );
         return;
       case InvitationProductKind.guaranteedPass:
         await GuaranteedPassFlowActions(context).acceptFromList(invitation);

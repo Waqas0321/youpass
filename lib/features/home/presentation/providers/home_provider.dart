@@ -16,6 +16,7 @@ import 'package:youpass/features/home/domain/usecases/search_home_events_usecase
 import 'package:youpass/core/services/user_location_service.dart';
 import 'package:youpass/features/home/domain/usecases/get_upcoming_home_events_usecase.dart';
 import 'package:youpass/features/home/domain/usecases/toggle_event_favorite_usecase.dart';
+import 'package:youpass/core/theme/presentation/providers/app_theme_provider.dart';
 import 'package:youpass/features/home/presentation/utils/home_country_category_helper.dart';
 
 enum HomeStatus { initial, loading, loaded, error }
@@ -47,7 +48,10 @@ class HomeProvider extends ChangeNotifier {
   String? selectedCategoryId;
   String? sessionCountryCode;
   bool isFilteringEvents = false;
-  bool showPartyModeBanner = true;
+  bool showPartyModeBanner = false;
+  bool partyModeEligible = false;
+  String? get partyModeEventId => homeFeed?.partyMode?.eventId;
+  String? get partyModeEventTitle => homeFeed?.partyMode?.eventTitle;
   bool highlightPendingInvitation = false;
   String? highlightedInvitationTitle;
   String? highlightedInvitationId;
@@ -135,7 +139,7 @@ class HomeProvider extends ChangeNotifier {
 
     try {
       final resolvedCountryCode = (countryCode ?? sessionCountryCode)?.toUpperCase();
-      homeFeed = await getHomeFeedUseCase(countryCode: resolvedCountryCode);
+      homeFeed = await _fetchHomeFeed(countryCode: resolvedCountryCode);
       homeFeed = _applySessionCountryToFeed(homeFeed, resolvedCountryCode);
       _ensureCountryCategorySelected(homeFeed, forceDefault: true);
       searchHistory = searchHistoryCache.read(
@@ -143,7 +147,8 @@ class HomeProvider extends ChangeNotifier {
       );
       status = HomeStatus.loaded;
       _seedUpcomingFromFeed(homeFeed!);
-      if (selectedCategoryId != null) {
+      _applyPartyModePresentation(homeFeed!);
+      if (_shouldRefetchForSelectedCategory()) {
         await _applyCategoryFilter();
       }
       if (isSearchMode) {
@@ -166,7 +171,7 @@ class HomeProvider extends ChangeNotifier {
 
     try {
       final resolvedCountryCode = sessionCountryCode?.toUpperCase();
-      final feed = await getHomeFeedUseCase(countryCode: resolvedCountryCode);
+      final feed = await _fetchHomeFeed(countryCode: resolvedCountryCode);
       homeFeed = _applySessionCountryToFeed(feed, resolvedCountryCode);
       _ensureCountryCategorySelected(homeFeed, forceDefault: true);
       searchHistory = searchHistoryCache.read(
@@ -174,6 +179,7 @@ class HomeProvider extends ChangeNotifier {
       );
       status = HomeStatus.loaded;
       errorMessage = null;
+      _applyPartyModePresentation(homeFeed!);
 
       if (selectedCategoryId != null && homeFeed != null) {
         final category = _categoryForFilter(homeFeed!, selectedCategoryId!);
@@ -262,6 +268,7 @@ class HomeProvider extends ChangeNotifier {
   Future<void> loadHomeDataIfNeeded() async {
     if (homeFeed != null && status == HomeStatus.loaded) {
       _ensureCountryCategorySelected(homeFeed);
+      await refreshPartyModeEligibility();
       if (!_hasVisibleEvents(homeFeed!) && !isFilteringEvents && !isSearchMode) {
         await _applyCategoryFilter();
       }
@@ -624,7 +631,7 @@ class HomeProvider extends ChangeNotifier {
 
   Future<HomeFeedEntity?> preloadPostRegistrationFeed() async {
     try {
-      return await getHomeFeedUseCase(feedContext: 'post_register');
+      return _fetchHomeFeed(feedContext: 'post_register');
     } catch (error, stackTrace) {
       AppLogger.error(
         'Failed to preload post-registration home feed',
@@ -650,24 +657,77 @@ class HomeProvider extends ChangeNotifier {
       feed,
       highlightInvitation: highlightInvitation,
     );
-    await _applyCategoryFilter();
+    await refreshPartyModeEligibility();
+    if (_shouldRefetchForSelectedCategory()) {
+      await _applyCategoryFilter();
+    }
   }
 
   void _applyPostRegistrationPresentation(
     HomeFeedEntity feed, {
     bool? highlightInvitation,
   }) {
-    if (feed.postRegistration) {
-      showPartyModeBanner = feed.partyMode?.bannerVisible ?? false;
-    } else if (feed.partyMode != null) {
-      showPartyModeBanner = feed.partyMode!.bannerVisible;
-    }
+    _applyPartyModePresentation(feed);
     final invitations = feed.invitations;
     highlightPendingInvitation =
         highlightInvitation ?? invitations?.highlight ?? highlightPendingInvitation;
     highlightedInvitationCount = invitations?.pendingCount ?? 0;
     highlightedInvitationTitle = invitations?.featured?.eventTitle;
     highlightedInvitationId = invitations?.featured?.id;
+  }
+
+  void _applyPartyModePresentation(HomeFeedEntity feed) {
+    final partyMode = feed.partyMode;
+    partyModeEligible = partyMode?.bannerVisible ?? false;
+    showPartyModeBanner = partyModeEligible;
+  }
+
+  Future<void> syncPartyModeTheme(AppThemeProvider themeProvider) async {
+    if (!partyModeEligible) {
+      await themeProvider.setFiestaMode(false, eligible: false);
+    }
+  }
+
+  Future<void> refreshPartyModeEligibility() async {
+    if (homeFeed == null) {
+      return;
+    }
+
+    try {
+      final coords = await _resolvePartyModeCoordinates();
+      final feed = await getHomeFeedUseCase.getHomeFeed(
+        countryCode: sessionCountryCode?.toUpperCase(),
+        lat: coords.lat,
+        lng: coords.lng,
+      );
+      homeFeed = homeFeed!.copyWith(partyMode: feed.partyMode);
+      _applyPartyModePresentation(homeFeed!);
+      notifyListeners();
+    } catch (_) {
+      // Keep the current feed if the party-mode refresh fails.
+    }
+  }
+
+  Future<HomeFeedEntity> _fetchHomeFeed({
+    String? countryCode,
+    String? feedContext,
+  }) async {
+    final coords = await _resolvePartyModeCoordinates();
+    return getHomeFeedUseCase.getHomeFeed(
+      countryCode: countryCode,
+      feedContext: feedContext,
+      lat: coords.lat,
+      lng: coords.lng,
+    );
+  }
+
+  Future<({double? lat, double? lng})> _resolvePartyModeCoordinates() async {
+    try {
+      final position = await userLocationService.getCurrentPosition();
+      return (lat: position.latitude, lng: position.longitude);
+    } catch (_) {
+      return (lat: null, lng: null);
+    }
   }
 
   String? resolveGreetingMessage() {
@@ -753,7 +813,8 @@ class HomeProvider extends ChangeNotifier {
     errorMessage = null;
     selectedCategoryId = null;
     isFilteringEvents = false;
-    showPartyModeBanner = true;
+    showPartyModeBanner = false;
+    partyModeEligible = false;
     highlightPendingInvitation = false;
     highlightedInvitationTitle = null;
     highlightedInvitationId = null;
@@ -989,26 +1050,15 @@ class HomeProvider extends ChangeNotifier {
     }
 
     try {
-      const maxPages = 50;
-      var page = 1;
-      final loadedEvents = <EventEntity>[];
-
-      while (page <= maxPages) {
-        final result = await getUpcomingHomeEventsUseCase(
-          _buildUpcomingQuery(page: page),
-        );
-        loadedEvents.addAll(result.events);
-        upcomingPage = result.page;
-        upcomingHasMore = result.hasMore;
-
-        if (!result.hasMore || result.events.isEmpty) {
-          break;
-        }
-        page++;
+      final result = await getUpcomingHomeEventsUseCase(
+        _buildUpcomingQuery(page: reset ? 1 : upcomingPage),
+      );
+      upcomingEvents = reset ? result.events : [...upcomingEvents, ...result.events];
+      upcomingPage = result.page;
+      upcomingHasMore = result.hasMore;
+      if (reset) {
+        homeFeed = feed.copyWith(featuredEvents: result.events);
       }
-
-      upcomingEvents = loadedEvents;
-      homeFeed = feed.copyWith(featuredEvents: loadedEvents);
     } catch (error) {
       errorMessage = error.toString();
       if (reset) {
@@ -1022,13 +1072,20 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
+  bool _shouldRefetchForSelectedCategory() {
+    final categoryId = selectedCategoryId;
+    if (categoryId == null || categoryId.isEmpty) {
+      return false;
+    }
+
+    return !isCountryCategory(categoryId);
+  }
+
   HomeEventsQuery _buildUpcomingQuery({required int page}) {
     final feed = homeFeed;
     final category = feed == null
         ? null
         : _categoryForFilter(feed, selectedCategoryId ?? '');
-
-    final bannerIds = feed?.carouselEvents.map((event) => event.id).toList() ?? const [];
 
     return HomeEventsQuery(
       countryCode: category?.countryCode ?? resolveSessionCountryCode(),
@@ -1038,7 +1095,6 @@ class HomeProvider extends ChangeNotifier {
       nearMe: nearMeEnabled,
       latitude: userLatitude,
       longitude: userLongitude,
-      excludeIds: bannerIds,
     );
   }
 

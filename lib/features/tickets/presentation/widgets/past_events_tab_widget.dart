@@ -5,8 +5,8 @@ import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/theme/tickets_screen_theme.dart';
 import 'package:youpass/core/widgets/youpass_search_field_widget.dart';
+import 'package:youpass/features/events/domain/entities/event_type_entity.dart';
 import 'package:youpass/features/tickets/domain/entities/past_event_entity.dart';
-import 'package:youpass/features/tickets/domain/entities/past_event_filter.dart';
 import 'package:youpass/features/tickets/presentation/tickets_design_spec.dart';
 import 'package:youpass/features/tickets/presentation/widgets/past_event_card_widget.dart';
 import 'package:youpass/features/tickets/presentation/widgets/past_events_attended_header_widget.dart';
@@ -18,7 +18,8 @@ class PastEventsTabWidget extends StatefulWidget {
     super.key,
     required this.events,
     required this.headerSubtitle,
-    required this.selectedFilter,
+    required this.eventTypes,
+    required this.selectedEventTypeSlug,
     required this.onSearchChanged,
     required this.onFilterSelected,
     required this.onFavoriteToggle,
@@ -30,9 +31,10 @@ class PastEventsTabWidget extends StatefulWidget {
 
   final List<PastEventEntity> events;
   final String headerSubtitle;
-  final PastEventFilter selectedFilter;
+  final List<EventTypeEntity> eventTypes;
+  final String? selectedEventTypeSlug;
   final Future<void> Function(String search) onSearchChanged;
-  final Future<void> Function(PastEventFilter filter) onFilterSelected;
+  final Future<void> Function(String? eventTypeSlug) onFilterSelected;
   final Future<bool> Function(PastEventEntity event) onFavoriteToggle;
   final Future<void> Function() onRefresh;
   final bool hasMore;
@@ -95,7 +97,8 @@ class PastEventsTabWidgetState extends State<PastEventsTabWidget> {
         ),
         SizedBox(height: TicketsDesignSpec.px(context, 8)),
         PastEventsFilterChipsRowWidget(
-          selectedFilter: widget.selectedFilter,
+          eventTypes: widget.eventTypes,
+          selectedEventTypeSlug: widget.selectedEventTypeSlug,
           onFilterSelected: widget.onFilterSelected,
         ),
         SizedBox(height: TicketsDesignSpec.px(context, 16)),

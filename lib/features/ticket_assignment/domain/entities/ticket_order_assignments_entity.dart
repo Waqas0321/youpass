@@ -10,6 +10,7 @@ class TicketOrderAssignmentsEntity extends Equatable {
     required this.availableCount,
     required this.pendingCount,
     required this.slots,
+    this.claimedCount = 0,
     this.tier = TicketTier.general,
     this.canAssignInParts = true,
   });
@@ -19,6 +20,7 @@ class TicketOrderAssignmentsEntity extends Equatable {
   final int quantity;
   final int availableCount;
   final int pendingCount;
+  final int claimedCount;
   final TicketTier tier;
   final bool canAssignInParts;
   final List<TicketAssignmentSlotEntity> slots;
@@ -32,6 +34,7 @@ class TicketOrderAssignmentsEntity extends Equatable {
         quantity,
         availableCount,
         pendingCount,
+        claimedCount,
         tier,
         canAssignInParts,
         slots,

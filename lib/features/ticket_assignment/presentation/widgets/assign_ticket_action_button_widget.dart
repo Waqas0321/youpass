@@ -14,6 +14,7 @@ class AssignTicketActionButtonWidget extends StatelessWidget {
     this.onPressed,
     this.isLoading = false,
     this.fontSize,
+    this.displayOnly = false,
   });
 
   final String label;
@@ -25,6 +26,7 @@ class AssignTicketActionButtonWidget extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool isLoading;
   final double? fontSize;
+  final bool displayOnly;
 
   bool get _hasIcon => leading != null || icon != null;
 
@@ -41,7 +43,58 @@ class AssignTicketActionButtonWidget extends StatelessWidget {
       fontSize: resolvedFontSize,
       fontWeight: FontWeight.w700,
       letterSpacing: 0.1,
+      color: foregroundColor,
     );
+
+    final labelWidget = isLoading
+        ? SizedBox(
+            width: TicketsDesignSpec.px(context, 20),
+            height: TicketsDesignSpec.px(context, 20),
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: foregroundColor,
+            ),
+          )
+        : FittedBox(
+            fit: BoxFit.scaleDown,
+            child: _hasIcon
+                ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      leading ?? Icon(icon, size: iconSize, color: foregroundColor),
+                      SizedBox(width: TicketsDesignSpec.px(context, 4)),
+                      Text(
+                        label,
+                        maxLines: 1,
+                        softWrap: false,
+                        textAlign: TextAlign.center,
+                        style: labelStyle,
+                      ),
+                    ],
+                  )
+                : Text(
+                    label,
+                    maxLines: 1,
+                    softWrap: false,
+                    textAlign: TextAlign.center,
+                    style: labelStyle,
+                  ),
+          );
+
+    if (displayOnly) {
+      return SizedBox(
+        width: double.infinity,
+        height: height,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: resolvedBackgroundColor,
+            borderRadius: BorderRadius.circular(radius),
+            border: Border.all(color: resolvedBorderColor, width: 1),
+          ),
+          child: Center(child: labelWidget),
+        ),
+      );
+    }
 
     return SizedBox(
       width: double.infinity,
@@ -59,40 +112,7 @@ class AssignTicketActionButtonWidget extends StatelessWidget {
             horizontal: TicketsDesignSpec.px(context, 6),
           ),
         ),
-        child: isLoading
-            ? SizedBox(
-                width: TicketsDesignSpec.px(context, 20),
-                height: TicketsDesignSpec.px(context, 20),
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: foregroundColor,
-                ),
-              )
-            : FittedBox(
-                fit: BoxFit.scaleDown,
-                child: _hasIcon
-                    ? Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          leading ?? Icon(icon, size: iconSize),
-                          SizedBox(width: TicketsDesignSpec.px(context, 4)),
-                          Text(
-                            label,
-                            maxLines: 1,
-                            softWrap: false,
-                            textAlign: TextAlign.center,
-                            style: labelStyle,
-                          ),
-                        ],
-                      )
-                    : Text(
-                        label,
-                        maxLines: 1,
-                        softWrap: false,
-                        textAlign: TextAlign.center,
-                        style: labelStyle,
-                      ),
-              ),
+        child: labelWidget,
       ),
     );
   }

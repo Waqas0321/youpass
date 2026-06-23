@@ -122,6 +122,7 @@ class _ChangePhoneScreenState extends State<ChangePhoneScreen> {
         statusMessage: whatsAppCheck.message.isNotEmpty
             ? whatsAppCheck.message
             : OtpDeliveryMessage.sentConfirmation(l10n),
+        prefillOtpCode: result.devOtpCode,
       ),
     );
 

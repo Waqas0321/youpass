@@ -21,6 +21,10 @@ class InvitationsProductKindResolver {
   }
 
   static bool needsPaymentMethod(InvitationEntity invitation) {
+    if (invitation.requiresPaymentMethod) {
+      return true;
+    }
+
     final kind = resolve(invitation);
     return kind == InvitationProductKind.guaranteedPass ||
         kind == InvitationProductKind.discounted;

@@ -15,7 +15,9 @@ class InvitationEntity extends Equatable {
     required this.tier,
     required this.status,
     this.eventId,
+    this.eventTypeSlug,
     this.type,
+    this.source,
     this.productKind,
     this.productLabel,
     this.typeColorHex,
@@ -47,6 +49,7 @@ class InvitationEntity extends Equatable {
 
   final String id;
   final String? eventId;
+  final String? eventTypeSlug;
   final String eventTitle;
   final String locationLabel;
   final String dateTimeLabel;
@@ -54,6 +57,7 @@ class InvitationEntity extends Equatable {
   final InvitationTier tier;
   final InvitationStatus status;
   final String? type;
+  final String? source;
   final String? productKind;
   final String? productLabel;
   final String? typeColorHex;
@@ -107,6 +111,7 @@ class InvitationEntity extends Equatable {
   List<Object?> get props => [
         id,
         eventId,
+        eventTypeSlug,
         eventTitle,
         locationLabel,
         dateTimeLabel,
@@ -114,6 +119,7 @@ class InvitationEntity extends Equatable {
         tier,
         status,
         type,
+        source,
         productKind,
         productLabel,
         typeColorHex,

@@ -238,6 +238,30 @@ class AuthProvider extends ChangeNotifier {
     return true;
   }
 
+  Future<bool> verifyOtpCode({
+    required String phone,
+    required String countryIsoCode,
+    required String code,
+    required OtpPurpose purpose,
+  }) async {
+    final result = await runAuthAction<bool>(
+      actionName: 'verify-code',
+      action: () async {
+        await authRepository.verifyOtpCode(
+          phone: phone,
+          countryIsoCode: countryIsoCode,
+          code: code,
+          purpose: purpose,
+        );
+        return true;
+      },
+      logContext:
+          'purpose=${purpose.apiValue} country=$countryIsoCode phone=$phone code=******',
+    );
+
+    return result == true;
+  }
+
   Future<bool> loginWithPhone({
     required String phone,
     required String countryIsoCode,

@@ -22,6 +22,8 @@ class EventsApiService extends BaseApiService {
     String? countryCode,
     String? feedContext,
     String? eventType,
+    double? lat,
+    double? lng,
   }) {
     final params = <String, String>{};
     if (countryCode != null && countryCode.isNotEmpty) {
@@ -32,6 +34,12 @@ class EventsApiService extends BaseApiService {
     }
     if (eventType != null && eventType.isNotEmpty) {
       params['event_type'] = eventType;
+    }
+    if (lat != null) {
+      params['lat'] = lat.toString();
+    }
+    if (lng != null) {
+      params['lng'] = lng.toString();
     }
 
     final endpoint = params.isEmpty

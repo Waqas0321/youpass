@@ -7,6 +7,13 @@ import 'package:youpass/l10n/app_localizations.dart';
 class EventCategoryMapper {
   EventCategoryMapper._();
 
+  static String labelForType(
+    AppLocalizations l10n,
+    EventTypeEntity type,
+  ) {
+    return _localizedTypeLabel(l10n, type.slug, type.name);
+  }
+
   static List<EventCategoryEntity> buildCategories({
     required List<EventTypeEntity> eventTypes,
     required AppLocalizations l10n,

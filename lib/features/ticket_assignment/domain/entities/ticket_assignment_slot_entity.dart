@@ -26,16 +26,8 @@ class TicketAssignmentSlotEntity extends Equatable {
   final bool canCancel;
   final bool canResend;
 
-  bool get isAssignable {
-    switch (status) {
-      case TicketSlotStatus.owner:
-      case TicketSlotStatus.claimed:
-        return false;
-      case TicketSlotStatus.available:
-      case TicketSlotStatus.pending:
-        return true;
-    }
-  }
+  bool get isAssignable =>
+      status == TicketSlotStatus.available && canSend && !canCancel && !canResend;
 
   @override
   List<Object?> get props => [

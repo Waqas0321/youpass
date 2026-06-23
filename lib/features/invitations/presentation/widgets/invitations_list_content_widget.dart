@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/features/events/domain/entities/event_type_entity.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_entity.dart';
-import 'package:youpass/features/invitations/domain/entities/invitation_filter.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_list_tab.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_status_extensions.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
@@ -26,7 +26,8 @@ class InvitationsListContentWidget extends StatelessWidget {
     required this.waitlistEntries,
     required this.totalInvitations,
     required this.searchQuery,
-    required this.selectedFilter,
+    required this.eventTypes,
+    required this.selectedEventTypeSlug,
     required this.onFilterSelected,
     required this.onSearchChanged,
     required this.onConfirmAttendance,
@@ -46,8 +47,9 @@ class InvitationsListContentWidget extends StatelessWidget {
   final List<WaitlistEntryEntity> waitlistEntries;
   final int totalInvitations;
   final String searchQuery;
-  final InvitationFilter selectedFilter;
-  final ValueChanged<InvitationFilter> onFilterSelected;
+  final List<EventTypeEntity> eventTypes;
+  final String? selectedEventTypeSlug;
+  final ValueChanged<String?> onFilterSelected;
   final ValueChanged<String> onSearchChanged;
   final ValueChanged<InvitationEntity> onConfirmAttendance;
   final ValueChanged<String> onRejectInvitation;
@@ -109,7 +111,8 @@ class InvitationsListContentWidget extends StatelessWidget {
               ),
               SizedBox(height: InvitationsDesignSpec.px(context, 14)),
               InvitationsFilterChipsWidget(
-                selectedFilter: selectedFilter,
+                eventTypes: eventTypes,
+                selectedEventTypeSlug: selectedEventTypeSlug,
                 onFilterSelected: onFilterSelected,
               ),
               SizedBox(height: InvitationsDesignSpec.px(context, 16)),

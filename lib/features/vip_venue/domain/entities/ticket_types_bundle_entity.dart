@@ -8,6 +8,8 @@ class TicketTypesBundleEntity extends Equatable {
     required this.offerings,
     this.currency = 'CLP',
     this.currencyDecimals,
+    this.hasVenueLayout = false,
+    this.tableLockMinutes = 10,
   });
 
   final String eventId;
@@ -15,8 +17,17 @@ class TicketTypesBundleEntity extends Equatable {
   final List<TicketOfferingEntity> offerings;
   final String currency;
   final int? currencyDecimals;
+  final bool hasVenueLayout;
+  final int tableLockMinutes;
 
   @override
-  List<Object?> get props =>
-      [eventId, serviceFeeRate, offerings, currency, currencyDecimals];
+  List<Object?> get props => [
+        eventId,
+        serviceFeeRate,
+        offerings,
+        currency,
+        currencyDecimals,
+        hasVenueLayout,
+        tableLockMinutes,
+      ];
 }

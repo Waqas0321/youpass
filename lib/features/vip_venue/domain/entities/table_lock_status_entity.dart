@@ -18,7 +18,9 @@ class TableLockStatusEntity extends Equatable {
   final bool isLockedByMe;
 
   bool get isActive =>
-      status == 'ACTIVE' && remainingSeconds > 0 && expiresAt != null;
+      (status == 'ACTIVE' || status == 'RESERVED') &&
+      remainingSeconds > 0 &&
+      expiresAt != null;
 
   @override
   List<Object?> get props => [

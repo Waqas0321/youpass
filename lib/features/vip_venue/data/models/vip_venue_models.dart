@@ -129,12 +129,15 @@ class TicketTypesBundleModel extends TicketTypesBundleEntity {
     required super.offerings,
     super.currency,
     super.currencyDecimals,
+    super.hasVenueLayout,
+    super.tableLockMinutes,
   });
 
   factory TicketTypesBundleModel.fromJson(Map<String, dynamic> json) {
     final offerings = _parseOfferings(json['offerings']);
     final rate = json['service_fee_rate'] ?? json['serviceFeeRate'];
     final decimalsRaw = json['currency_decimals'] ?? json['currencyDecimals'];
+    final lockMinutesRaw = json['table_lock_minutes'] ?? json['tableLockMinutes'];
     return TicketTypesBundleModel(
       eventId: JsonReaders.string(json, 'event_id', fallback: '') != ''
           ? JsonReaders.string(json, 'event_id')
@@ -142,6 +145,9 @@ class TicketTypesBundleModel extends TicketTypesBundleEntity {
       serviceFeeRate: rate is num ? rate.toDouble() : 0.05,
       currency: JsonReaders.string(json, 'currency', fallback: 'CLP'),
       currencyDecimals: decimalsRaw is num ? decimalsRaw.toInt() : null,
+      hasVenueLayout: JsonReaders.boolean(json, 'has_venue_layout') ||
+          JsonReaders.boolean(json, 'hasVenueLayout'),
+      tableLockMinutes: lockMinutesRaw is num ? lockMinutesRaw.toInt() : 10,
       offerings: List<TicketOfferingEntity>.from(offerings),
     );
   }

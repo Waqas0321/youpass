@@ -10,12 +10,14 @@ class AssignTicketGuestFieldWidget extends StatelessWidget {
     required this.hintText,
     this.keyboardType,
     this.borderColor,
+    this.readOnly = false,
   });
 
   final TextEditingController controller;
   final String hintText;
   final TextInputType? keyboardType;
   final Color? borderColor;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,8 @@ class AssignTicketGuestFieldWidget extends StatelessWidget {
     return TextField(
       controller: controller,
       keyboardType: keyboardType,
+      readOnly: readOnly,
+      enableInteractiveSelection: !readOnly,
       style: TextStyle(
         fontSize: TicketsDesignSpec.px(context, 14),
         fontWeight: FontWeight.w500,

@@ -3,29 +3,25 @@ import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/theme/invitations_screen_theme.dart';
 import 'package:youpass/core/widgets/youpass_filter_chip_widget.dart';
-import 'package:youpass/features/invitations/domain/entities/invitation_filter.dart';
+import 'package:youpass/features/events/domain/entities/event_type_entity.dart';
+import 'package:youpass/features/home/data/mappers/event_category_mapper.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 
 class InvitationsFilterChipsWidget extends StatelessWidget {
   const InvitationsFilterChipsWidget({
     super.key,
-    required this.selectedFilter,
+    required this.eventTypes,
+    required this.selectedEventTypeSlug,
     required this.onFilterSelected,
   });
 
-  final InvitationFilter selectedFilter;
-  final ValueChanged<InvitationFilter> onFilterSelected;
+  final List<EventTypeEntity> eventTypes;
+  final String? selectedEventTypeSlug;
+  final ValueChanged<String?> onFilterSelected;
 
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    final filters = <(InvitationFilter, String)>[
-      (InvitationFilter.all, AppStrings.invitationsFilterAll(strings)),
-      (InvitationFilter.courtesies, AppStrings.invitationsFilterCourtesy(strings)),
-      (InvitationFilter.general, AppStrings.invitationsFilterGeneral(strings)),
-      (InvitationFilter.vip, AppStrings.invitationsFilterVip(strings)),
-      (InvitationFilter.tables, AppStrings.invitationsFilterTables(strings)),
-    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,12 +40,15 @@ class InvitationsFilterChipsWidget extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              for (var i = 0; i < filters.length; i++) ...[
+              for (var i = 0; i < eventTypes.length; i++) ...[
                 if (i > 0) SizedBox(width: InvitationsDesignSpec.px(context, 8)),
                 YouPassFilterChipWidget(
-                  label: filters[i].$2,
-                  isSelected: selectedFilter == filters[i].$1,
-                  onTap: () => onFilterSelected(filters[i].$1),
+                  label: EventCategoryMapper.labelForType(
+                    strings,
+                    eventTypes[i],
+                  ),
+                  isSelected: selectedEventTypeSlug == eventTypes[i].slug,
+                  onTap: () => onFilterSelected(eventTypes[i].slug),
                   selectedColor: InvitationsScreenTheme.accent(context),
                 ),
               ],

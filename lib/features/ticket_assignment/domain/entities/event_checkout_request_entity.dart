@@ -24,6 +24,30 @@ class EventCheckoutRequestEntity extends Equatable {
   final String? zoneId;
   final String? lockId;
 
+  EventCheckoutRequestEntity copyWith({
+    int? quantity,
+    String? tier,
+    String? type,
+    String? paymentMethodId,
+    String? offeringId,
+    List<EventCheckoutOfferingItemEntity>? items,
+    String? tableId,
+    String? zoneId,
+    String? lockId,
+  }) {
+    return EventCheckoutRequestEntity(
+      quantity: quantity ?? this.quantity,
+      tier: tier ?? this.tier,
+      type: type ?? this.type,
+      paymentMethodId: paymentMethodId ?? this.paymentMethodId,
+      offeringId: offeringId ?? this.offeringId,
+      items: items ?? this.items,
+      tableId: tableId ?? this.tableId,
+      zoneId: zoneId ?? this.zoneId,
+      lockId: lockId ?? this.lockId,
+    );
+  }
+
   @override
   List<Object?> get props => [
         quantity,

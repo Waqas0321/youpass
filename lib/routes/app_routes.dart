@@ -22,6 +22,10 @@ class AppRoutes {
   static const String vipTableSelection = '/events/vip/tables';
   static const String vipPurchaseSummary = '/events/vip/summary';
   static const String myInvitations = '/invitations';
+  static const String partyDrinkMenu = '/party/drink-menu';
+  static const String partyDrinkPurchases = '/party/drink-purchases';
+  static const String partyDrinkCourtesies = '/party/drink-courtesies';
+  static const String partyDrinkPurchaseSuccess = '/party/drink-purchase/success';
   static const String guaranteedPassDetail = '/invitations/guaranteed-pass';
   static const String invitationDetail = '/invitations/detail';
   static const String guaranteedPassActive = '/invitations/guaranteed-pass/active';

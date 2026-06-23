@@ -7,14 +7,12 @@ import 'package:youpass/core/locale/app_locale.dart';
 import 'package:youpass/core/services/screen_secure_service.dart';
 import 'package:youpass/core/services/ticket_qr_cache_service.dart';
 import 'package:youpass/core/services/tickets_cache.dart';
+import 'package:youpass/features/events/domain/repositories/events_repository.dart';
 import 'package:youpass/features/events/domain/usecases/toggle_event_favorite_usecase.dart'
     as events_usecases;
 import 'package:youpass/features/invitations/domain/usecases/confirm_invitation_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/fetch_invitations_usecase.dart';
 import 'package:youpass/features/invitations/domain/usecases/reject_invitation_usecase.dart';
-import 'package:youpass/features/tickets/data/models/past_ticket_model.dart';
-import 'package:youpass/features/tickets/domain/entities/past_event_filter.dart';
-import 'package:youpass/features/tickets/domain/entities/ticket_display_status.dart';
 import 'package:youpass/features/tickets/domain/entities/past_tickets_query.dart';
 import 'package:youpass/features/tickets/domain/entities/tickets_page_result.dart';
 import 'package:youpass/features/tickets/domain/entities/tickets_yearly_summary_entity.dart';
@@ -59,6 +57,8 @@ class MockRejectInvitationUseCase extends Mock
 
 class MockCancelTicketUseCase extends Mock implements CancelTicketUseCase {}
 
+class MockEventsRepository extends Mock implements EventsRepository {}
+
 class MockTicketsCache extends Mock implements TicketsCache {}
 
 class MockTicketQrCacheService extends Mock implements TicketQrCacheService {}
@@ -76,6 +76,7 @@ void main() {
   late MockConfirmInvitationUseCase confirmInvitationUseCase;
   late MockRejectInvitationUseCase rejectInvitationUseCase;
   late MockCancelTicketUseCase cancelTicketUseCase;
+  late MockEventsRepository eventsRepository;
   late MockTicketsCache ticketsCache;
   late MockTicketQrCacheService ticketQrCacheService;
   late MockScreenSecureService screenSecureService;
@@ -96,6 +97,7 @@ void main() {
     confirmInvitationUseCase = MockConfirmInvitationUseCase();
     rejectInvitationUseCase = MockRejectInvitationUseCase();
     cancelTicketUseCase = MockCancelTicketUseCase();
+    eventsRepository = MockEventsRepository();
     ticketsCache = MockTicketsCache();
     ticketQrCacheService = MockTicketQrCacheService();
     screenSecureService = MockScreenSecureService();
@@ -111,10 +113,12 @@ void main() {
       confirmInvitationUseCase: confirmInvitationUseCase,
       rejectInvitationUseCase: rejectInvitationUseCase,
       cancelTicketUseCase: cancelTicketUseCase,
+      eventsRepository: eventsRepository,
       ticketsCache: ticketsCache,
       ticketQrCacheService: ticketQrCacheService,
     );
 
+    when(() => eventsRepository.fetchEventTypes()).thenAnswer((_) async => const []);
     when(() => ticketsCache.readUpcoming()).thenReturn(const []);
     when(() => ticketsCache.readPast(any())).thenReturn(const []);
     when(() => ticketsCache.saveUpcoming(any())).thenAnswer((_) async {});

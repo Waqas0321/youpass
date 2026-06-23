@@ -6,8 +6,6 @@ import 'package:youpass/core/config/app_product_config.dart';
 import 'package:youpass/core/constants/country_code_list.dart';
 import 'package:youpass/core/locale/locale_provider.dart';
 import 'package:youpass/core/locale/locale_sync_helper.dart';
-import 'package:youpass/core/l10n/otp_delivery_message.dart';
-import 'package:youpass/core/models/country_code.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/l10n/auth_error_extension.dart';
 import 'package:youpass/core/widgets/app_snack_bar.dart';
@@ -23,16 +21,13 @@ import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
 import 'package:youpass/features/auth/domain/entities/register_request_entity.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/auth/presentation/utils/auth_navigation.dart';
-import 'package:youpass/features/auth/presentation/utils/whatsapp_auth_gate.dart';
+import 'package:youpass/features/auth/presentation/utils/register_otp_flow.dart';
 import 'package:youpass/features/auth/presentation/widgets/gender_checkbox_group_widget.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_instagram_icon.dart';
 import 'package:youpass/features/auth/presentation/widgets/phone_input_widget.dart';
 import 'package:youpass/features/auth/presentation/widgets/register_terms_widget.dart';
-import 'package:youpass/features/auth/routes/register_draft.dart';
 import 'package:youpass/features/auth/routes/register_route_args.dart';
-import 'package:youpass/features/auth/routes/verification_route_args.dart';
 import 'package:youpass/l10n/app_localizations.dart';
-import 'package:youpass/routes/app_routes.dart';
 
 class RegisterFormWidget extends StatefulWidget {
   const RegisterFormWidget({this.routeArgs, super.key});
@@ -56,7 +51,9 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
   String? selectedGender;
   bool termsAccepted = false;
 
-  bool get codeAlreadySent => widget.routeArgs?.codeAlreadySent ?? false;
+  bool get hasVerifiedOtp =>
+      widget.routeArgs?.otpCode != null &&
+      widget.routeArgs!.otpCode!.isNotEmpty;
 
   @override
   void initState() {
@@ -119,7 +116,18 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
     }
   }
 
-  String? validateForm(AppLocalizations l10n) {
+  String? validatePhoneStep(AppLocalizations l10n) {
+    final country = phoneInputKey.currentState?.currentCountry ??
+        CountryCodeList.defaultCountry;
+    final phoneDigits = PhoneFormatter.digitsOnly(phoneController.text);
+    return PhoneValidators.validateNationalNumber(
+      l10n,
+      phoneDigits,
+      isoCode: country.isoCode,
+    );
+  }
+
+  String? validateDetailsForm(AppLocalizations l10n) {
     if (fullNameController.text.trim().isEmpty) {
       return l10n.registerFullNameRequired;
     }
@@ -132,18 +140,6 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
     if (selectedGender == null) {
       return l10n.registerGenderRequired;
     }
-
-    final country = phoneInputKey.currentState?.currentCountry ??
-        CountryCodeList.defaultCountry;
-    final phoneDigits = PhoneFormatter.digitsOnly(phoneController.text);
-    final phoneError = PhoneValidators.validateNationalNumber(
-      l10n,
-      phoneDigits,
-      isoCode: country.isoCode,
-    );
-    if (phoneError != null) {
-      return phoneError;
-    }
     if (emailController.text.trim().isEmpty) {
       return l10n.registerEmailRequired;
     }
@@ -152,6 +148,19 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
     }
 
     return null;
+  }
+
+  ({String phoneDigits, String countryIsoCode}) resolveVerifiedPhone() {
+    final country = phoneInputKey.currentState?.currentCountry ??
+        CountryCodeList.defaultCountry;
+    final phoneDigits = widget.routeArgs?.phone?.isNotEmpty == true
+        ? widget.routeArgs!.phone!
+        : PhoneFormatter.digitsOnly(phoneController.text);
+    final countryIsoCode = widget.routeArgs?.countryIsoCode?.isNotEmpty == true
+        ? widget.routeArgs!.countryIsoCode!
+        : country.isoCode;
+
+    return (phoneDigits: phoneDigits, countryIsoCode: countryIsoCode);
   }
 
   Future<void> submitRegistrationWithCode({
@@ -194,9 +203,9 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
     AppSnackBar.show(context, message);
   }
 
-  Future<void> sendCodeAndNavigate() async {
+  Future<void> sendPhoneCodeAndNavigate() async {
     final l10n = context.l10n;
-    final validationError = validateForm(l10n);
+    final validationError = validatePhoneStep(l10n);
     if (validationError != null) {
       AppSnackBar.show(context, validationError);
       return;
@@ -205,124 +214,82 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
     final country = phoneInputKey.currentState?.currentCountry ??
         CountryCodeList.defaultCountry;
     final phoneDigits = PhoneFormatter.digitsOnly(phoneController.text);
-    final authProvider = context.read<AuthProvider>();
-    final pendingOtpCode = widget.routeArgs?.otpCode;
 
-    if (pendingOtpCode != null && pendingOtpCode.isNotEmpty) {
-      authProvider.markRegistrationStarted();
-      await submitRegistrationWithCode(
-        authProvider: authProvider,
-        phoneDigits: phoneDigits,
-        countryIsoCode: country.isoCode,
-        code: pendingOtpCode,
-      );
-      return;
-    }
-
-    authProvider.markRegistrationStarted();
-
-    final draft = RegisterDraft(
-      fullName: fullNameController.text.trim(),
-      documentId: idDocumentController.text.trim(),
-      birthDate: formatBirthDateApi(),
-      gender: selectedGender!,
-      email: emailController.text.trim(),
-      instagram: instagramController.text.trim(),
-      acceptTerms: termsAccepted,
-    );
-
-    if (codeAlreadySent) {
-      final prefill = widget.routeArgs!;
-      final args = VerificationRouteArgs(
-        phone: phoneDigits,
-        countryIsoCode: country.isoCode,
-        purpose: OtpPurpose.register,
-        phoneDisplay: prefill.phoneDisplay ?? resultPhoneDisplay(country, phoneDigits),
-        resendCooldownSeconds: prefill.resendCooldownSeconds,
-        deliveryChannel: 'whatsapp',
-        registerDraft: draft,
-      );
-
-      if (!mounted) {
-        return;
-      }
-
-      Navigator.of(context).pushNamed(
-        AppRoutes.verification,
-        arguments: args,
-      );
-      return;
-    }
-
-    final whatsAppCheck = await authProvider.checkWhatsApp(
-      phone: phoneDigits,
+    await RegisterOtpFlow.sendCodeAndOpenVerification(
+      context: context,
+      phoneDigits: phoneDigits,
       countryIsoCode: country.isoCode,
-      purpose: OtpPurpose.register,
-    );
-
-    if (!mounted) {
-      return;
-    }
-
-    if (whatsAppCheck == null) {
-      final message =
-          authProvider.localizedErrorMessage(l10n) ?? l10n.errorGeneric;
-      AppSnackBar.show(context, message);
-      return;
-    }
-
-    if (!WhatsAppAuthGate.canSendOtp(whatsAppCheck)) {
-      final message = WhatsAppAuthGate.unavailableMessage(whatsAppCheck);
-      AppSnackBar.show(
-        context,
-        message.isNotEmpty ? message : l10n.errorWhatsAppRequired,
-      );
-      return;
-    }
-
-    final result = await authProvider.sendVerificationCode(
-      phone: phoneDigits,
-      countryIsoCode: country.isoCode,
-      purpose: OtpPurpose.register,
-    );
-
-    if (!mounted) {
-      return;
-    }
-
-    if (result == null) {
-      final message =
-          authProvider.localizedErrorMessage(l10n) ?? l10n.errorGeneric;
-      AppSnackBar.show(context, message);
-      return;
-    }
-
-    final args = VerificationRouteArgs(
-      phone: phoneDigits,
-      countryIsoCode: country.isoCode,
-      purpose: result.effectivePurpose,
-      phoneDisplay: result.phoneDisplay,
-      resendCooldownSeconds: result.resendAvailableInSeconds,
-      expiresInSeconds: result.expiresInSeconds,
-      deliveryChannel: 'whatsapp',
-      statusMessage: whatsAppCheck.message.isNotEmpty
-          ? whatsAppCheck.message
-          : OtpDeliveryMessage.sentConfirmation(l10n),
-      registerDraft: draft,
-    );
-
-    Navigator.of(context).pushNamed(
-      AppRoutes.verification,
-      arguments: args,
     );
   }
 
-  String resultPhoneDisplay(CountryCode country, String phoneDigits) {
-    return '${country.displayDialCode} $phoneDigits';
+  Future<void> submitRegistration() async {
+    final l10n = context.l10n;
+    final validationError = validateDetailsForm(l10n);
+    if (validationError != null) {
+      AppSnackBar.show(context, validationError);
+      return;
+    }
+
+    final pendingOtpCode = widget.routeArgs?.otpCode;
+    if (pendingOtpCode == null || pendingOtpCode.isEmpty) {
+      AppSnackBar.show(context, l10n.errorGeneric);
+      return;
+    }
+
+    final verifiedPhone = resolveVerifiedPhone();
+    final authProvider = context.read<AuthProvider>();
+    authProvider.markRegistrationStarted();
+    await submitRegistrationWithCode(
+      authProvider: authProvider,
+      phoneDigits: verifiedPhone.phoneDigits,
+      countryIsoCode: verifiedPhone.countryIsoCode,
+      code: pendingOtpCode,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    if (hasVerifiedOtp) {
+      return _buildDetailsStep(context);
+    }
+
+    return _buildPhoneStep(context);
+  }
+
+  Widget _buildPhoneStep(BuildContext context) {
+    final layout = ResponsiveLayout(context);
+    final strings = context.l10n;
+    final authProvider = context.watch<AuthProvider>();
+    final localizedError = authProvider.localizedErrorMessage(strings);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        PhoneInputWidget(
+          key: phoneInputKey,
+          phoneController: phoneController,
+          initialCountryIsoCode: widget.routeArgs?.countryIsoCode,
+          onCountryChanged: (country) =>
+              LocaleSyncHelper.applyCountry(context, country),
+        ),
+        if (localizedError != null) ...[
+          SizedBox(height: layout.spacing(12)),
+          AppText(
+            localizedError,
+            variant: AppTextVariant.error,
+          ),
+        ],
+        SizedBox(height: layout.spacing(24)),
+        YouPassPrimaryButton(
+          label: strings.sendCodeButton,
+          isLoading: authProvider.isSubmitting,
+          onPressed: sendPhoneCodeAndNavigate,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDetailsStep(BuildContext context) {
     final layout = ResponsiveLayout(context);
     final strings = context.l10n;
     final fieldGap = AuthLayoutConstants.fieldGap(layout);
@@ -332,6 +299,16 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        AbsorbPointer(
+          child: PhoneInputWidget(
+            key: phoneInputKey,
+            phoneController: phoneController,
+            initialCountryIsoCode: widget.routeArgs?.countryIsoCode,
+            onCountryChanged: (country) =>
+                LocaleSyncHelper.applyCountry(context, country),
+          ),
+        ),
+        SizedBox(height: fieldGap),
         AuthIconTextField(
           label: strings.fullNameLabel,
           controller: fullNameController,
@@ -359,13 +336,6 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
         GenderCheckboxGroupWidget(
           selectedValue: selectedGender,
           onChanged: (value) => setState(() => selectedGender = value),
-        ),
-        SizedBox(height: fieldGap),
-        PhoneInputWidget(
-          key: phoneInputKey,
-          phoneController: phoneController,
-          initialCountryIsoCode: widget.routeArgs?.countryIsoCode,
-          onCountryChanged: (country) => LocaleSyncHelper.applyCountry(context, country),
         ),
         SizedBox(height: fieldGap),
         AuthIconTextField(
@@ -407,7 +377,7 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
           label: strings.createAccountButton,
           isLoading: authProvider.isSubmitting,
           isEnabled: termsAccepted,
-          onPressed: sendCodeAndNavigate,
+          onPressed: submitRegistration,
         ),
       ],
     );

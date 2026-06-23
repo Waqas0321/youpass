@@ -4,4 +4,7 @@ enum DrawerMenuId {
   tickets,
   favorites,
   invitations,
+  drinkMenu,
+  myPurchases,
+  cortesias,
 }

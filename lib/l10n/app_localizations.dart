@@ -4637,6 +4637,2598 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A slot is waiting for you! Confirm before {time}'**
   String waitlistOfferBanner(String time);
+
+  /// No description provided for @errorStaffNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No staff account found for this number. Ask your admin to register you.'**
+  String get errorStaffNotFound;
+
+  /// No description provided for @errorNetworkConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the server. Check your connection and try again.'**
+  String get errorNetworkConnection;
+
+  /// No description provided for @staffScanQrTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SCAN QR'**
+  String get staffScanQrTitle;
+
+  /// No description provided for @staffScanQrSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to start scanning'**
+  String get staffScanQrSubtitle;
+
+  /// No description provided for @staffScanQrAreaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'AREA QR'**
+  String get staffScanQrAreaLabel;
+
+  /// No description provided for @staffScanQrInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the code\ninside the frame'**
+  String get staffScanQrInstruction;
+
+  /// No description provided for @staffScanFlashLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Flash'**
+  String get staffScanFlashLabel;
+
+  /// No description provided for @staffScanCameraUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera is not available on this device.'**
+  String get staffScanCameraUnavailable;
+
+  /// No description provided for @staffScanPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera permission is required to scan QR codes.'**
+  String get staffScanPermissionDenied;
+
+  /// No description provided for @staffManualEntryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'MANUAL ENTRY'**
+  String get staffManualEntryButton;
+
+  /// No description provided for @staffRecentScansTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent scans'**
+  String get staffRecentScansTitle;
+
+  /// No description provided for @staffRecentScanActionAuthorizeConsumption.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumption authorized'**
+  String get staffRecentScanActionAuthorizeConsumption;
+
+  /// No description provided for @staffRecentScanActionRejectConsumption.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumption rejected'**
+  String get staffRecentScanActionRejectConsumption;
+
+  /// No description provided for @staffRecentScansEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No product scans yet. Scan a drink QR to see it here.'**
+  String get staffRecentScansEmpty;
+
+  /// No description provided for @staffViewAllScans.
+  ///
+  /// In en, this message translates to:
+  /// **'View all >'**
+  String get staffViewAllScans;
+
+  /// No description provided for @staffScanDuplicateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get staffScanDuplicateLabel;
+
+  /// No description provided for @staffConnectedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get staffConnectedLabel;
+
+  /// No description provided for @staffDisconnectedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnected'**
+  String get staffDisconnectedLabel;
+
+  /// No description provided for @staffOnlineStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get staffOnlineStatus;
+
+  /// No description provided for @staffAwayStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Away'**
+  String get staffAwayStatus;
+
+  /// No description provided for @staffDrawerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff menu'**
+  String get staffDrawerTitle;
+
+  /// No description provided for @staffApiEnvironmentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'API environment'**
+  String get staffApiEnvironmentLabel;
+
+  /// No description provided for @staffApiEnvDevLocal.
+  ///
+  /// In en, this message translates to:
+  /// **'Dev (local)'**
+  String get staffApiEnvDevLocal;
+
+  /// No description provided for @staffApiEnvDevNgrok.
+  ///
+  /// In en, this message translates to:
+  /// **'Dev (ngrok)'**
+  String get staffApiEnvDevNgrok;
+
+  /// No description provided for @staffApiEnvProduction.
+  ///
+  /// In en, this message translates to:
+  /// **'Production'**
+  String get staffApiEnvProduction;
+
+  /// No description provided for @staffApiEnvCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom API'**
+  String get staffApiEnvCustom;
+
+  /// No description provided for @staffNgrokTunnelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ngrok tunnel (physical device)'**
+  String get staffNgrokTunnelLabel;
+
+  /// No description provided for @staffLanguageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get staffLanguageLabel;
+
+  /// No description provided for @staffLanguageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get staffLanguageEnglish;
+
+  /// No description provided for @staffLanguageSpanish.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get staffLanguageSpanish;
+
+  /// No description provided for @staffLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get staffLogout;
+
+  /// No description provided for @staffSupervisorMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor mode'**
+  String get staffSupervisorMode;
+
+  /// No description provided for @staffBarSupervisorMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Bar supervisor'**
+  String get staffBarSupervisorMode;
+
+  /// No description provided for @staffTicketsSupervisorMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Tickets supervisor'**
+  String get staffTicketsSupervisorMode;
+
+  /// No description provided for @staffAccessValidatorMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Access validator'**
+  String get staffAccessValidatorMenu;
+
+  /// No description provided for @staffSupervisorPinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor access'**
+  String get staffSupervisorPinTitle;
+
+  /// No description provided for @staffSupervisorPinSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your PIN to continue and access supervisor mode.'**
+  String get staffSupervisorPinSubtitle;
+
+  /// No description provided for @staffSupervisorPinFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter PIN'**
+  String get staffSupervisorPinFieldLabel;
+
+  /// No description provided for @staffSupervisorPinContinueButton.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTINUE'**
+  String get staffSupervisorPinContinueButton;
+
+  /// No description provided for @staffSupervisorPinFooter.
+  ///
+  /// In en, this message translates to:
+  /// **'Only authorized staff can access.'**
+  String get staffSupervisorPinFooter;
+
+  /// No description provided for @staffSupervisorPinInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect PIN. Try again.'**
+  String get staffSupervisorPinInvalid;
+
+  /// No description provided for @staffSupervisorPinNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor PIN has not been set up yet. Ask an administrator to generate one.'**
+  String get staffSupervisorPinNotConfigured;
+
+  /// No description provided for @staffSupervisorPinAccessDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is not authorized for supervisor mode.'**
+  String get staffSupervisorPinAccessDenied;
+
+  /// No description provided for @staffSupervisorDashboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SUPERVISOR MODE'**
+  String get staffSupervisorDashboardTitle;
+
+  /// No description provided for @staffSupervisorDashboardSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced bar control'**
+  String get staffSupervisorDashboardSubtitle;
+
+  /// No description provided for @staffSupervisorCancellationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CANCELLATIONS'**
+  String get staffSupervisorCancellationsTitle;
+
+  /// No description provided for @staffSupervisorCancelConsumption.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel consumption'**
+  String get staffSupervisorCancelConsumption;
+
+  /// No description provided for @staffSupervisorRevertValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Revert validation'**
+  String get staffSupervisorRevertValidation;
+
+  /// No description provided for @staffSupervisorReleaseBlockedQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Release blocked QR code'**
+  String get staffSupervisorReleaseBlockedQr;
+
+  /// No description provided for @staffSupervisorManualValidationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MANUAL VALIDATION'**
+  String get staffSupervisorManualValidationTitle;
+
+  /// No description provided for @staffSupervisorManualValidationUser.
+  ///
+  /// In en, this message translates to:
+  /// **'User: {userName}'**
+  String staffSupervisorManualValidationUser(String userName);
+
+  /// No description provided for @staffSupervisorManualValidationProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Product: {productName}'**
+  String staffSupervisorManualValidationProduct(String productName);
+
+  /// No description provided for @staffSupervisorManualValidationCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Partial code: {code}'**
+  String staffSupervisorManualValidationCode(String code);
+
+  /// No description provided for @staffSupervisorQrOverrideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'QR CODE OVERRIDE'**
+  String get staffSupervisorQrOverrideTitle;
+
+  /// No description provided for @staffSupervisorQrOverrideSupervisor.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor: {supervisorName}'**
+  String staffSupervisorQrOverrideSupervisor(String supervisorName);
+
+  /// No description provided for @staffSupervisorGoButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Go'**
+  String get staffSupervisorGoButton;
+
+  /// No description provided for @staffSupervisorRecentActionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'RECENT ACTIONS'**
+  String get staffSupervisorRecentActionsTitle;
+
+  /// No description provided for @staffSupervisorViewAllActions.
+  ///
+  /// In en, this message translates to:
+  /// **'View all >'**
+  String get staffSupervisorViewAllActions;
+
+  /// No description provided for @staffSupervisorActionQrReleased.
+  ///
+  /// In en, this message translates to:
+  /// **'QR code released'**
+  String get staffSupervisorActionQrReleased;
+
+  /// No description provided for @staffSupervisorActionManualValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual validation'**
+  String get staffSupervisorActionManualValidation;
+
+  /// No description provided for @staffSupervisorActionConsumptionCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumption cancelled'**
+  String get staffSupervisorActionConsumptionCancelled;
+
+  /// No description provided for @staffSupervisorComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get staffSupervisorComingSoon;
+
+  /// No description provided for @staffSupervisorCancellationsScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancellations'**
+  String get staffSupervisorCancellationsScreenTitle;
+
+  /// No description provided for @staffSupervisorCancellationsScreenSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor · YouPass'**
+  String get staffSupervisorCancellationsScreenSubtitle;
+
+  /// No description provided for @staffSupervisorSearchConsumptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SEARCH CONSUMPTION'**
+  String get staffSupervisorSearchConsumptionTitle;
+
+  /// No description provided for @staffSupervisorSearchConsumptionHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Search consumption'**
+  String get staffSupervisorSearchConsumptionHeading;
+
+  /// No description provided for @staffSupervisorSearchDrinkNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No consumptions found for this search.'**
+  String get staffSupervisorSearchDrinkNoResults;
+
+  /// No description provided for @staffSupervisorSearchDrinkSearchError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not search consumptions. Try again.'**
+  String get staffSupervisorSearchDrinkSearchError;
+
+  /// No description provided for @staffSupervisorSearchDrinkResultsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 result found} other{{count} results found}}'**
+  String staffSupervisorSearchDrinkResultsCount(int count);
+
+  /// No description provided for @staffSupervisorSearchPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'QR / user / product'**
+  String get staffSupervisorSearchPlaceholder;
+
+  /// No description provided for @staffSupervisorSearchButton.
+  ///
+  /// In en, this message translates to:
+  /// **'SEARCH'**
+  String get staffSupervisorSearchButton;
+
+  /// No description provided for @staffSupervisorConsumptionFoundTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CONSUMPTION FOUND'**
+  String get staffSupervisorConsumptionFoundTitle;
+
+  /// No description provided for @staffSupervisorConsumptionUserLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get staffSupervisorConsumptionUserLabel;
+
+  /// No description provided for @staffSupervisorConsumptionProductLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Product'**
+  String get staffSupervisorConsumptionProductLabel;
+
+  /// No description provided for @staffSupervisorConsumptionBarLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Bar'**
+  String get staffSupervisorConsumptionBarLabel;
+
+  /// No description provided for @staffSupervisorConsumptionTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Validation time'**
+  String get staffSupervisorConsumptionTimeLabel;
+
+  /// No description provided for @staffSupervisorConsumptionIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumption ID'**
+  String get staffSupervisorConsumptionIdLabel;
+
+  /// No description provided for @staffSupervisorConsumptionStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get staffSupervisorConsumptionStatusLabel;
+
+  /// No description provided for @staffSupervisorConsumptionStatusValidated.
+  ///
+  /// In en, this message translates to:
+  /// **'VALIDATED'**
+  String get staffSupervisorConsumptionStatusValidated;
+
+  /// No description provided for @staffSupervisorActionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ACTIONS'**
+  String get staffSupervisorActionsTitle;
+
+  /// No description provided for @staffSupervisorReasonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MANDATORY REASON'**
+  String get staffSupervisorReasonTitle;
+
+  /// No description provided for @staffSupervisorReasonPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the reason for the cancellation...'**
+  String get staffSupervisorReasonPlaceholder;
+
+  /// No description provided for @staffSupervisorReasonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: \'Wrong product delivered\''**
+  String get staffSupervisorReasonHint;
+
+  /// No description provided for @staffSupervisorAuthorizationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AUTHORIZATION'**
+  String get staffSupervisorAuthorizationTitle;
+
+  /// No description provided for @staffSupervisorAuthorizationSupervisorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor'**
+  String get staffSupervisorAuthorizationSupervisorLabel;
+
+  /// No description provided for @staffSupervisorAuthorizationPinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor PIN'**
+  String get staffSupervisorAuthorizationPinLabel;
+
+  /// No description provided for @staffSupervisorHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'HISTORY'**
+  String get staffSupervisorHistoryTitle;
+
+  /// No description provided for @staffSupervisorHistoryValidated.
+  ///
+  /// In en, this message translates to:
+  /// **'Validated — {time}'**
+  String staffSupervisorHistoryValidated(String time);
+
+  /// No description provided for @staffSupervisorHistoryPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor pending'**
+  String get staffSupervisorHistoryPending;
+
+  /// No description provided for @staffSupervisorExecuteCancellationButton.
+  ///
+  /// In en, this message translates to:
+  /// **'EXECUTE CANCELLATION'**
+  String get staffSupervisorExecuteCancellationButton;
+
+  /// No description provided for @staffSupervisorCancellationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancellation recorded successfully.'**
+  String get staffSupervisorCancellationSuccess;
+
+  /// No description provided for @staffSupervisorManualValidationScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual validation'**
+  String get staffSupervisorManualValidationScreenTitle;
+
+  /// No description provided for @staffSupervisorNoQrBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CONSUMPTION WITHOUT QR'**
+  String get staffSupervisorNoQrBannerTitle;
+
+  /// No description provided for @staffSupervisorNoQrBannerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the purchase QR code to validate manually.'**
+  String get staffSupervisorNoQrBannerBody;
+
+  /// No description provided for @staffSupervisorEnterQrCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ENTER QR CODE (PRIMARY OPTION)'**
+  String get staffSupervisorEnterQrCodeTitle;
+
+  /// No description provided for @staffSupervisorEnterQrCodePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the QR code'**
+  String get staffSupervisorEnterQrCodePlaceholder;
+
+  /// No description provided for @staffSupervisorSearchQrCodeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'SEARCH CODE'**
+  String get staffSupervisorSearchQrCodeButton;
+
+  /// No description provided for @staffSupervisorOrDivider.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get staffSupervisorOrDivider;
+
+  /// No description provided for @staffSupervisorSearchUserHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Search user'**
+  String get staffSupervisorSearchUserHeading;
+
+  /// No description provided for @staffSupervisorSearchUserPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Name / phone'**
+  String get staffSupervisorSearchUserPlaceholder;
+
+  /// No description provided for @staffSupervisorSearchSystemButton.
+  ///
+  /// In en, this message translates to:
+  /// **'SEARCH SYSTEM'**
+  String get staffSupervisorSearchSystemButton;
+
+  /// No description provided for @staffSupervisorResultFoundTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'RESULT FOUND'**
+  String get staffSupervisorResultFoundTitle;
+
+  /// No description provided for @staffSupervisorResultEventLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Event'**
+  String get staffSupervisorResultEventLabel;
+
+  /// No description provided for @staffSupervisorResultPurchaseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase'**
+  String get staffSupervisorResultPurchaseLabel;
+
+  /// No description provided for @staffSupervisorQrStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'QR status'**
+  String get staffSupervisorQrStatusLabel;
+
+  /// No description provided for @staffSupervisorQrStatusUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'QR UNAVAILABLE'**
+  String get staffSupervisorQrStatusUnavailable;
+
+  /// No description provided for @staffSupervisorValidationReasonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'VALIDATION REASON'**
+  String get staffSupervisorValidationReasonTitle;
+
+  /// No description provided for @staffSupervisorReasonPhoneBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone out of battery'**
+  String get staffSupervisorReasonPhoneBattery;
+
+  /// No description provided for @staffSupervisorReasonNoConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection'**
+  String get staffSupervisorReasonNoConnection;
+
+  /// No description provided for @staffSupervisorReasonDamagedQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Damaged QR'**
+  String get staffSupervisorReasonDamagedQr;
+
+  /// No description provided for @staffSupervisorReasonBrokenScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Broken screen'**
+  String get staffSupervisorReasonBrokenScreen;
+
+  /// No description provided for @staffSupervisorReasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get staffSupervisorReasonOther;
+
+  /// No description provided for @staffSupervisorIdentityValidationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'IDENTITY VALIDATION'**
+  String get staffSupervisorIdentityValidationTitle;
+
+  /// No description provided for @staffSupervisorIdentityFullNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get staffSupervisorIdentityFullNameLabel;
+
+  /// No description provided for @staffSupervisorIdentityLastDigitsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 4 digits'**
+  String get staffSupervisorIdentityLastDigitsLabel;
+
+  /// No description provided for @staffSupervisorIdentityDocumentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Document validated'**
+  String get staffSupervisorIdentityDocumentLabel;
+
+  /// No description provided for @staffSupervisorIdentityConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get staffSupervisorIdentityConfirmed;
+
+  /// No description provided for @staffSupervisorAuthorizeConsumptionButton.
+  ///
+  /// In en, this message translates to:
+  /// **'AUTHORIZE CONSUMPTION'**
+  String get staffSupervisorAuthorizeConsumptionButton;
+
+  /// No description provided for @staffSupervisorGenerateTemporaryQrButton.
+  ///
+  /// In en, this message translates to:
+  /// **'GENERATE TEMPORARY QR'**
+  String get staffSupervisorGenerateTemporaryQrButton;
+
+  /// No description provided for @staffSupervisorRejectButton.
+  ///
+  /// In en, this message translates to:
+  /// **'REJECT'**
+  String get staffSupervisorRejectButton;
+
+  /// No description provided for @staffSupervisorValidationReasonPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the reason for the validation...'**
+  String get staffSupervisorValidationReasonPlaceholder;
+
+  /// No description provided for @staffSupervisorSystemRecordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SYSTEM RECORD'**
+  String get staffSupervisorSystemRecordTitle;
+
+  /// No description provided for @staffSupervisorSystemRecordSupervisor.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor: {name}'**
+  String staffSupervisorSystemRecordSupervisor(String name);
+
+  /// No description provided for @staffSupervisorSystemRecordTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time: {time}'**
+  String staffSupervisorSystemRecordTime(String time);
+
+  /// No description provided for @staffSupervisorSystemRecordStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status: '**
+  String get staffSupervisorSystemRecordStatus;
+
+  /// No description provided for @staffSupervisorSystemRecordStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get staffSupervisorSystemRecordStatusPending;
+
+  /// No description provided for @staffSupervisorQrOverrideScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'QR code override'**
+  String get staffSupervisorQrOverrideScreenTitle;
+
+  /// No description provided for @staffSupervisorOverrideCriticalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CRITICAL ACTION'**
+  String get staffSupervisorOverrideCriticalTitle;
+
+  /// No description provided for @staffSupervisorOverrideCriticalBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This tool modifies the QR status in the system.'**
+  String get staffSupervisorOverrideCriticalBody;
+
+  /// No description provided for @staffSupervisorOverrideSearchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SEARCH QR / USER'**
+  String get staffSupervisorOverrideSearchTitle;
+
+  /// No description provided for @staffSupervisorOverrideSearchPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'QR / name / purchase ID'**
+  String get staffSupervisorOverrideSearchPlaceholder;
+
+  /// No description provided for @staffSupervisorOverrideActionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'OVERRIDE ACTIONS'**
+  String get staffSupervisorOverrideActionsTitle;
+
+  /// No description provided for @staffSupervisorOverrideReleaseQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Release QR'**
+  String get staffSupervisorOverrideReleaseQr;
+
+  /// No description provided for @staffSupervisorOverrideRevalidateQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Revalidate QR'**
+  String get staffSupervisorOverrideRevalidateQr;
+
+  /// No description provided for @staffSupervisorOverrideAuthorizeReconsumption.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorize re-consumption'**
+  String get staffSupervisorOverrideAuthorizeReconsumption;
+
+  /// No description provided for @staffSupervisorOverrideTemporaryUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Temporary unlock'**
+  String get staffSupervisorOverrideTemporaryUnlock;
+
+  /// No description provided for @staffSupervisorOverrideReasonPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the reason for the override...'**
+  String get staffSupervisorOverrideReasonPlaceholder;
+
+  /// No description provided for @staffSupervisorOverrideReasonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: \'QR marked incorrectly\''**
+  String get staffSupervisorOverrideReasonHint;
+
+  /// No description provided for @staffSupervisorOverrideQrIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'QR ID'**
+  String get staffSupervisorOverrideQrIdLabel;
+
+  /// No description provided for @staffSupervisorOverrideCurrentStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current status'**
+  String get staffSupervisorOverrideCurrentStatusLabel;
+
+  /// No description provided for @staffSupervisorOverrideStatusBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'BLOCKED'**
+  String get staffSupervisorOverrideStatusBlocked;
+
+  /// No description provided for @staffSupervisorOverrideLastUseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Last use'**
+  String get staffSupervisorOverrideLastUseLabel;
+
+  /// No description provided for @staffSupervisorOverrideScannerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanner'**
+  String get staffSupervisorOverrideScannerLabel;
+
+  /// No description provided for @staffSupervisorOverrideAuthLevelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorization level:'**
+  String get staffSupervisorOverrideAuthLevelLabel;
+
+  /// No description provided for @staffSupervisorOverrideAuthLevelHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'HIGH'**
+  String get staffSupervisorOverrideAuthLevelHigh;
+
+  /// No description provided for @staffSupervisorOverrideExpectedResultTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EXPECTED RESULT'**
+  String get staffSupervisorOverrideExpectedResultTitle;
+
+  /// No description provided for @staffSupervisorOverrideExpectedStatusPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'QR status →'**
+  String get staffSupervisorOverrideExpectedStatusPrefix;
+
+  /// No description provided for @staffSupervisorOverrideExpectedStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'QR status → VALID'**
+  String get staffSupervisorOverrideExpectedStatus;
+
+  /// No description provided for @staffSupervisorOverrideExpectedSubtext.
+  ///
+  /// In en, this message translates to:
+  /// **'New consumption allowed.'**
+  String get staffSupervisorOverrideExpectedSubtext;
+
+  /// No description provided for @staffSupervisorOverrideLogsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'QR LOGS'**
+  String get staffSupervisorOverrideLogsTitle;
+
+  /// No description provided for @staffSupervisorOverrideLogsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No QR activity recorded yet.'**
+  String get staffSupervisorOverrideLogsEmpty;
+
+  /// No description provided for @staffSupervisorOverrideLogQrBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'QR blocked'**
+  String get staffSupervisorOverrideLogQrBlocked;
+
+  /// No description provided for @staffSupervisorOverrideLogPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Override pending'**
+  String get staffSupervisorOverrideLogPending;
+
+  /// No description provided for @staffSupervisorExecuteOverrideButton.
+  ///
+  /// In en, this message translates to:
+  /// **'EXECUTE OVERRIDE'**
+  String get staffSupervisorExecuteOverrideButton;
+
+  /// No description provided for @staffSupervisorAccessDashboardSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Access advanced tools to manage entry and resolve contingencies.'**
+  String get staffSupervisorAccessDashboardSubtitle;
+
+  /// No description provided for @staffSupervisorSearchEntryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search entry'**
+  String get staffSupervisorSearchEntryTitle;
+
+  /// No description provided for @staffSupervisorSearchEntryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Search and review entry status by name, code, phone, and more.'**
+  String get staffSupervisorSearchEntryDescription;
+
+  /// No description provided for @staffSupervisorResolveDuplicateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolve duplicate'**
+  String get staffSupervisorResolveDuplicateTitle;
+
+  /// No description provided for @staffSupervisorResolveDuplicateDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage duplicate entries or unauthorized uses.'**
+  String get staffSupervisorResolveDuplicateDescription;
+
+  /// No description provided for @staffSupervisorEntryOverrideDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorize, release, or manually revalidate an entry.'**
+  String get staffSupervisorEntryOverrideDescription;
+
+  /// No description provided for @staffSupervisorEntryAuthorizationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SUPERVISOR AUTHORIZATION'**
+  String get staffSupervisorEntryAuthorizationTitle;
+
+  /// No description provided for @staffSupervisorEntryAccessLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Access'**
+  String get staffSupervisorEntryAccessLabel;
+
+  /// No description provided for @staffSupervisorEntryOverrideCriticalBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This tool directly modifies the QR status within the system.'**
+  String get staffSupervisorEntryOverrideCriticalBody;
+
+  /// No description provided for @staffSupervisorEntryOverrideReasonPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe the reason for the override'**
+  String get staffSupervisorEntryOverrideReasonPlaceholder;
+
+  /// No description provided for @staffSupervisorEntryOverrideReasonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: \'QR marked as used accidentally\''**
+  String get staffSupervisorEntryOverrideReasonHint;
+
+  /// No description provided for @staffSupervisorOverrideAuthorizeReentry.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorize re-entry'**
+  String get staffSupervisorOverrideAuthorizeReentry;
+
+  /// No description provided for @staffSupervisorEntryOverrideExpectedValid.
+  ///
+  /// In en, this message translates to:
+  /// **'VALID'**
+  String get staffSupervisorEntryOverrideExpectedValid;
+
+  /// No description provided for @staffSupervisorEntryOverrideExpectedSubtext.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-entry allowed'**
+  String get staffSupervisorEntryOverrideExpectedSubtext;
+
+  /// No description provided for @staffSupervisorEntryManualValidationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual validation'**
+  String get staffSupervisorEntryManualValidationTitle;
+
+  /// No description provided for @staffSupervisorEntryManualValidationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Validate access manually when no QR is available.'**
+  String get staffSupervisorEntryManualValidationDescription;
+
+  /// No description provided for @staffSupervisorEntryNoQrBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'NO QR ACCESS'**
+  String get staffSupervisorEntryNoQrBannerTitle;
+
+  /// No description provided for @staffSupervisorEntryNoQrBannerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this option only in justified cases'**
+  String get staffSupervisorEntryNoQrBannerBody;
+
+  /// No description provided for @staffSupervisorEntryManualSearchPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Name / phone / email'**
+  String get staffSupervisorEntryManualSearchPlaceholder;
+
+  /// No description provided for @staffSupervisorEntryManualReasonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual access reason'**
+  String get staffSupervisorEntryManualReasonTitle;
+
+  /// No description provided for @staffSupervisorEntryManualReasonOtherPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Specify the reason'**
+  String get staffSupervisorEntryManualReasonOtherPlaceholder;
+
+  /// No description provided for @staffSupervisorEntryManualIdentityPhoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 4 phone digits'**
+  String get staffSupervisorEntryManualIdentityPhoneLabel;
+
+  /// No description provided for @staffSupervisorEntryManualAuthorizeEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'AUTHORIZE ENTRY'**
+  String get staffSupervisorEntryManualAuthorizeEntry;
+
+  /// No description provided for @staffSupervisorEntryManualRejectAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'REJECT ACCESS'**
+  String get staffSupervisorEntryManualRejectAccess;
+
+  /// No description provided for @staffSupervisorEntryManualReasonPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe the reason for manual access'**
+  String get staffSupervisorEntryManualReasonPlaceholder;
+
+  /// No description provided for @staffSupervisorEntryManualSystemStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Status: '**
+  String get staffSupervisorEntryManualSystemStatusLabel;
+
+  /// No description provided for @staffSupervisorEntryManualSystemStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending authorization'**
+  String get staffSupervisorEntryManualSystemStatusPending;
+
+  /// No description provided for @staffSupervisorEntryManualValidationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual validation applied successfully.'**
+  String get staffSupervisorEntryManualValidationSuccess;
+
+  /// No description provided for @staffSupervisorTemporaryQrDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Temporary QR generated'**
+  String get staffSupervisorTemporaryQrDialogTitle;
+
+  /// No description provided for @staffSupervisorTemporaryQrDialogSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show this QR at the door. Valid for {minutes} minutes.'**
+  String staffSupervisorTemporaryQrDialogSubtitle(int minutes);
+
+  /// No description provided for @staffSupervisorTemporaryQrDialogGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest: {guestName}'**
+  String staffSupervisorTemporaryQrDialogGuest(String guestName);
+
+  /// No description provided for @staffSupervisorTemporaryQrDialogClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get staffSupervisorTemporaryQrDialogClose;
+
+  /// No description provided for @staffSupervisorTemporaryQrGeneratedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Temporary QR ready to display.'**
+  String get staffSupervisorTemporaryQrGeneratedSuccess;
+
+  /// No description provided for @staffSupervisorVipManagementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP management'**
+  String get staffSupervisorVipManagementTitle;
+
+  /// No description provided for @staffSupervisorVipManagementDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Review and authorize special access for VIP guests.'**
+  String get staffSupervisorVipManagementDescription;
+
+  /// No description provided for @staffSupervisorVipSearchPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Search table / user (e.g. Table 12 / Daniel Rojas)'**
+  String get staffSupervisorVipSearchPlaceholder;
+
+  /// No description provided for @staffSupervisorVipSearchSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SEARCH VIP TABLE'**
+  String get staffSupervisorVipSearchSectionTitle;
+
+  /// No description provided for @staffSupervisorVipSearchNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No VIP tables found for this search.'**
+  String get staffSupervisorVipSearchNoResults;
+
+  /// No description provided for @staffSupervisorVipSearchResultsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 table found} other{{count} tables found}}'**
+  String staffSupervisorVipSearchResultsCount(int count);
+
+  /// No description provided for @staffSupervisorVipStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Status:'**
+  String get staffSupervisorVipStatusLabel;
+
+  /// No description provided for @staffSupervisorVipStatusActive.
+  ///
+  /// In en, this message translates to:
+  /// **'ACTIVE'**
+  String get staffSupervisorVipStatusActive;
+
+  /// No description provided for @staffSupervisorVipCapacityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Capacity'**
+  String get staffSupervisorVipCapacityLabel;
+
+  /// No description provided for @staffSupervisorVipCapacityPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} people'**
+  String staffSupervisorVipCapacityPeople(int count);
+
+  /// No description provided for @staffSupervisorVipEnteredLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Entered'**
+  String get staffSupervisorVipEnteredLabel;
+
+  /// No description provided for @staffSupervisorVipPendingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get staffSupervisorVipPendingLabel;
+
+  /// No description provided for @staffSupervisorVipPurchaseResponsibleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase owner:'**
+  String get staffSupervisorVipPurchaseResponsibleLabel;
+
+  /// No description provided for @staffSupervisorVipGuestsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'GUESTS'**
+  String get staffSupervisorVipGuestsTitle;
+
+  /// No description provided for @staffSupervisorVipGuestEntered.
+  ///
+  /// In en, this message translates to:
+  /// **'Entered - {time}'**
+  String staffSupervisorVipGuestEntered(String time);
+
+  /// No description provided for @staffSupervisorVipGuestPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry pending'**
+  String get staffSupervisorVipGuestPending;
+
+  /// No description provided for @staffSupervisorVipActionAuthorizeExtra.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorize extra guest'**
+  String get staffSupervisorVipActionAuthorizeExtra;
+
+  /// No description provided for @staffSupervisorVipActionChangeAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Change VIP access'**
+  String get staffSupervisorVipActionChangeAccess;
+
+  /// No description provided for @staffSupervisorVipActionMoveGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Move guest'**
+  String get staffSupervisorVipActionMoveGuest;
+
+  /// No description provided for @staffSupervisorVipActionReleaseInvitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Release invitation'**
+  String get staffSupervisorVipActionReleaseInvitation;
+
+  /// No description provided for @staffSupervisorVipNewExtraGuestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW EXTRA GUEST'**
+  String get staffSupervisorVipNewExtraGuestTitle;
+
+  /// No description provided for @staffSupervisorVipGuestNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get staffSupervisorVipGuestNameLabel;
+
+  /// No description provided for @staffSupervisorVipGuestNamePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get staffSupervisorVipGuestNamePlaceholder;
+
+  /// No description provided for @staffSupervisorVipGuestPhoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get staffSupervisorVipGuestPhoneLabel;
+
+  /// No description provided for @staffSupervisorVipGuestPhonePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. +56 9 1234 5678'**
+  String get staffSupervisorVipGuestPhonePlaceholder;
+
+  /// No description provided for @staffSupervisorVipAuthorizationReasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorization reason'**
+  String get staffSupervisorVipAuthorizationReasonLabel;
+
+  /// No description provided for @staffSupervisorVipAuthorizationReasonPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe the reason for authorization'**
+  String get staffSupervisorVipAuthorizationReasonPlaceholder;
+
+  /// No description provided for @staffSupervisorVipHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP HISTORY'**
+  String get staffSupervisorVipHistoryTitle;
+
+  /// No description provided for @staffSupervisorVipHistorySupervisorPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor'**
+  String get staffSupervisorVipHistorySupervisorPrefix;
+
+  /// No description provided for @staffSupervisorVipHistoryExtraGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Extra guest authorized'**
+  String get staffSupervisorVipHistoryExtraGuest;
+
+  /// No description provided for @staffSupervisorVipHistoryQrReleased.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP QR released'**
+  String get staffSupervisorVipHistoryQrReleased;
+
+  /// No description provided for @staffSupervisorVipHistoryTableModified.
+  ///
+  /// In en, this message translates to:
+  /// **'Table modified'**
+  String get staffSupervisorVipHistoryTableModified;
+
+  /// No description provided for @staffSupervisorVipSearchResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MATCHING TABLES'**
+  String get staffSupervisorVipSearchResultsTitle;
+
+  /// No description provided for @staffSupervisorVipActionSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP action applied successfully.'**
+  String get staffSupervisorVipActionSuccess;
+
+  /// No description provided for @staffSupervisorVipSelectGuestRelease.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a guest to release their invitation QR.'**
+  String get staffSupervisorVipSelectGuestRelease;
+
+  /// No description provided for @staffSupervisorVipSelectGuestChangeAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a guest to change their VIP access level.'**
+  String get staffSupervisorVipSelectGuestChangeAccess;
+
+  /// No description provided for @staffSupervisorVipSelectGuestMove.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a guest to move them to another seat.'**
+  String get staffSupervisorVipSelectGuestMove;
+
+  /// No description provided for @staffSupervisorVipSelectAccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW ACCESS LEVEL'**
+  String get staffSupervisorVipSelectAccessTitle;
+
+  /// No description provided for @staffSupervisorVipSelectDestinationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'DESTINATION SEAT'**
+  String get staffSupervisorVipSelectDestinationTitle;
+
+  /// No description provided for @staffSupervisorVipNoAvailableSeats.
+  ///
+  /// In en, this message translates to:
+  /// **'No empty seats available on this table.'**
+  String get staffSupervisorVipNoAvailableSeats;
+
+  /// No description provided for @staffSupervisorVipReleaseInvitationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'This unlocks the guest QR immediately without removing them from the table.'**
+  String get staffSupervisorVipReleaseInvitationHint;
+
+  /// No description provided for @staffSupervisorSystemStatusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'System status'**
+  String get staffSupervisorSystemStatusTitle;
+
+  /// No description provided for @staffSupervisorSystemStatusDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Review connectivity, sync, and validator status.'**
+  String get staffSupervisorSystemStatusDescription;
+
+  /// No description provided for @staffSupervisorSystemGeneralStatusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'GENERAL STATUS'**
+  String get staffSupervisorSystemGeneralStatusTitle;
+
+  /// No description provided for @staffSupervisorSystemHealthSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get staffSupervisorSystemHealthSystem;
+
+  /// No description provided for @staffSupervisorSystemHealthSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Synchronization'**
+  String get staffSupervisorSystemHealthSync;
+
+  /// No description provided for @staffSupervisorSystemHealthDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'Database'**
+  String get staffSupervisorSystemHealthDatabase;
+
+  /// No description provided for @staffSupervisorSystemHealthOfflineMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline mode'**
+  String get staffSupervisorSystemHealthOfflineMode;
+
+  /// No description provided for @staffSupervisorSystemStatusOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'ONLINE'**
+  String get staffSupervisorSystemStatusOnline;
+
+  /// No description provided for @staffSupervisorSystemStatusSlowSync.
+  ///
+  /// In en, this message translates to:
+  /// **'SLOW'**
+  String get staffSupervisorSystemStatusSlowSync;
+
+  /// No description provided for @staffSupervisorSystemStatusSlowScanner.
+  ///
+  /// In en, this message translates to:
+  /// **'SLOW'**
+  String get staffSupervisorSystemStatusSlowScanner;
+
+  /// No description provided for @staffSupervisorSystemStatusOperational.
+  ///
+  /// In en, this message translates to:
+  /// **'OPERATIONAL'**
+  String get staffSupervisorSystemStatusOperational;
+
+  /// No description provided for @staffSupervisorSystemStatusDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'DISABLED'**
+  String get staffSupervisorSystemStatusDisabled;
+
+  /// No description provided for @staffSupervisorSystemStatusDisconnected.
+  ///
+  /// In en, this message translates to:
+  /// **'DISCONNECTED'**
+  String get staffSupervisorSystemStatusDisconnected;
+
+  /// No description provided for @staffSupervisorSystemActiveScannersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ACTIVE SCANNERS'**
+  String get staffSupervisorSystemActiveScannersTitle;
+
+  /// No description provided for @staffSupervisorSystemRestartScannerButton.
+  ///
+  /// In en, this message translates to:
+  /// **'RESTART SCANNER'**
+  String get staffSupervisorSystemRestartScannerButton;
+
+  /// No description provided for @staffSupervisorSystemActiveAlertsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ACTIVE ALERTS'**
+  String get staffSupervisorSystemActiveAlertsTitle;
+
+  /// No description provided for @staffSupervisorSystemAlertDuplicateQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate QRs detected'**
+  String get staffSupervisorSystemAlertDuplicateQr;
+
+  /// No description provided for @staffSupervisorSystemAlertVipQueue.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturated VIP access queue'**
+  String get staffSupervisorSystemAlertVipQueue;
+
+  /// No description provided for @staffSupervisorSystemAlertScannerSlow.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanner VIP-01 slow'**
+  String get staffSupervisorSystemAlertScannerSlow;
+
+  /// No description provided for @staffSupervisorSystemEventFlowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EVENT FLOW'**
+  String get staffSupervisorSystemEventFlowTitle;
+
+  /// No description provided for @staffSupervisorSystemEventFlowSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Entries in the last 5 min'**
+  String get staffSupervisorSystemEventFlowSubtitle;
+
+  /// No description provided for @staffSupervisorSystemFlowGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get staffSupervisorSystemFlowGeneral;
+
+  /// No description provided for @staffSupervisorSystemFlowVip.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP'**
+  String get staffSupervisorSystemFlowVip;
+
+  /// No description provided for @staffSupervisorSystemFlowBackstage.
+  ///
+  /// In en, this message translates to:
+  /// **'Backstage'**
+  String get staffSupervisorSystemFlowBackstage;
+
+  /// No description provided for @staffSupervisorSystemFlowRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get staffSupervisorSystemFlowRejected;
+
+  /// No description provided for @staffSupervisorSystemFlowDuplicates.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicates'**
+  String get staffSupervisorSystemFlowDuplicates;
+
+  /// No description provided for @staffSupervisorSystemQuickActionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'QUICK ACTIONS'**
+  String get staffSupervisorSystemQuickActionsTitle;
+
+  /// No description provided for @staffSupervisorSystemActionOfflineMode.
+  ///
+  /// In en, this message translates to:
+  /// **'ACTIVATE OFFLINE MODE'**
+  String get staffSupervisorSystemActionOfflineMode;
+
+  /// No description provided for @staffSupervisorSystemActionPauseValidations.
+  ///
+  /// In en, this message translates to:
+  /// **'PAUSE VALIDATIONS'**
+  String get staffSupervisorSystemActionPauseValidations;
+
+  /// No description provided for @staffSupervisorSystemActionManualAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'OPEN MANUAL ACCESS'**
+  String get staffSupervisorSystemActionManualAccess;
+
+  /// No description provided for @staffSupervisorSystemActionBlockVip.
+  ///
+  /// In en, this message translates to:
+  /// **'BLOCK VIP ACCESS'**
+  String get staffSupervisorSystemActionBlockVip;
+
+  /// No description provided for @staffSupervisorSystemActionStaffAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'SEND STAFF ALERT'**
+  String get staffSupervisorSystemActionStaffAlert;
+
+  /// No description provided for @staffSupervisorSystemOperationalSemaphoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'OPERATIONAL SEMAPHORE'**
+  String get staffSupervisorSystemOperationalSemaphoreTitle;
+
+  /// No description provided for @staffSupervisorSystemRiskModerate.
+  ///
+  /// In en, this message translates to:
+  /// **'MODERATE RISK'**
+  String get staffSupervisorSystemRiskModerate;
+
+  /// No description provided for @staffSupervisorSystemRiskReasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason: '**
+  String get staffSupervisorSystemRiskReasonLabel;
+
+  /// No description provided for @staffSupervisorSystemRiskReasonVipFlow.
+  ///
+  /// In en, this message translates to:
+  /// **'High VIP access flow'**
+  String get staffSupervisorSystemRiskReasonVipFlow;
+
+  /// No description provided for @staffSupervisorSystemRecentLogsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'RECENT LOGS'**
+  String get staffSupervisorSystemRecentLogsTitle;
+
+  /// No description provided for @staffSupervisorSystemLogOfflineActivated.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline mode activated'**
+  String get staffSupervisorSystemLogOfflineActivated;
+
+  /// No description provided for @staffSupervisorSystemLogOverrideAuthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'Override authorized'**
+  String get staffSupervisorSystemLogOverrideAuthorized;
+
+  /// No description provided for @staffSupervisorSystemLogScannerRestarted.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP scanner restarted'**
+  String get staffSupervisorSystemLogScannerRestarted;
+
+  /// No description provided for @staffSupervisorSystemLogDuplicateDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate QR detected'**
+  String get staffSupervisorSystemLogDuplicateDetected;
+
+  /// No description provided for @staffSupervisorSystemLogOfflineDeactivated.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline mode deactivated'**
+  String get staffSupervisorSystemLogOfflineDeactivated;
+
+  /// No description provided for @staffSupervisorSystemLogValidationsPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Validations paused'**
+  String get staffSupervisorSystemLogValidationsPaused;
+
+  /// No description provided for @staffSupervisorSystemLogValidationsResumed.
+  ///
+  /// In en, this message translates to:
+  /// **'Validations resumed'**
+  String get staffSupervisorSystemLogValidationsResumed;
+
+  /// No description provided for @staffSupervisorSystemLogVipBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP access blocked'**
+  String get staffSupervisorSystemLogVipBlocked;
+
+  /// No description provided for @staffSupervisorSystemLogStaffAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff alert sent'**
+  String get staffSupervisorSystemLogStaffAlert;
+
+  /// No description provided for @staffSupervisorSystemRiskReasonDuplicateQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate QR activity detected'**
+  String get staffSupervisorSystemRiskReasonDuplicateQr;
+
+  /// No description provided for @staffSupervisorSystemRiskReasonScannerSlow.
+  ///
+  /// In en, this message translates to:
+  /// **'One or more scanners are slow'**
+  String get staffSupervisorSystemRiskReasonScannerSlow;
+
+  /// No description provided for @staffSupervisorSystemRiskReasonValidationsPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Validations are paused'**
+  String get staffSupervisorSystemRiskReasonValidationsPaused;
+
+  /// No description provided for @staffSupervisorSystemActionDeactivateOfflineMode.
+  ///
+  /// In en, this message translates to:
+  /// **'DEACTIVATE OFFLINE MODE'**
+  String get staffSupervisorSystemActionDeactivateOfflineMode;
+
+  /// No description provided for @staffSupervisorSystemActionResumeValidations.
+  ///
+  /// In en, this message translates to:
+  /// **'RESUME VALIDATIONS'**
+  String get staffSupervisorSystemActionResumeValidations;
+
+  /// No description provided for @staffSupervisorSystemActionUnblockVip.
+  ///
+  /// In en, this message translates to:
+  /// **'UNBLOCK VIP ACCESS'**
+  String get staffSupervisorSystemActionUnblockVip;
+
+  /// No description provided for @staffSupervisorSystemActionSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'System action applied successfully'**
+  String get staffSupervisorSystemActionSuccess;
+
+  /// No description provided for @staffSupervisorSystemLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load system status'**
+  String get staffSupervisorSystemLoadError;
+
+  /// No description provided for @staffSupervisorSystemAlertMessageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert message'**
+  String get staffSupervisorSystemAlertMessageLabel;
+
+  /// No description provided for @staffSupervisorSystemAlertMessagePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe the issue for staff on site'**
+  String get staffSupervisorSystemAlertMessagePlaceholder;
+
+  /// No description provided for @staffSupervisorSystemPinRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor PIN'**
+  String get staffSupervisorSystemPinRequired;
+
+  /// No description provided for @staffSupervisorSystemDialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get staffSupervisorSystemDialogConfirm;
+
+  /// No description provided for @staffSupervisorSystemRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get staffSupervisorSystemRetry;
+
+  /// No description provided for @staffSupervisorActionHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Action history'**
+  String get staffSupervisorActionHistoryTitle;
+
+  /// No description provided for @staffSupervisorActionHistoryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Review the latest actions performed in supervisor mode.'**
+  String get staffSupervisorActionHistoryDescription;
+
+  /// No description provided for @staffSupervisorActionHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No supervisor actions recorded for this event yet.'**
+  String get staffSupervisorActionHistoryEmpty;
+
+  /// No description provided for @staffSupervisorActionHistoryLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load action history'**
+  String get staffSupervisorActionHistoryLoadError;
+
+  /// No description provided for @staffSupervisorActionHistoryKindReleaseQr.
+  ///
+  /// In en, this message translates to:
+  /// **'QR released'**
+  String get staffSupervisorActionHistoryKindReleaseQr;
+
+  /// No description provided for @staffSupervisorActionHistoryKindRevalidateQr.
+  ///
+  /// In en, this message translates to:
+  /// **'QR revalidated'**
+  String get staffSupervisorActionHistoryKindRevalidateQr;
+
+  /// No description provided for @staffSupervisorActionHistoryKindRevertValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Validation reverted'**
+  String get staffSupervisorActionHistoryKindRevertValidation;
+
+  /// No description provided for @staffSupervisorActionHistoryKindAuthorizeReentry.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-entry authorized'**
+  String get staffSupervisorActionHistoryKindAuthorizeReentry;
+
+  /// No description provided for @staffSupervisorActionHistoryKindTemporaryUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Temporary unlock applied'**
+  String get staffSupervisorActionHistoryKindTemporaryUnlock;
+
+  /// No description provided for @staffSupervisorActionHistoryKindReleaseReentry.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-entry released'**
+  String get staffSupervisorActionHistoryKindReleaseReentry;
+
+  /// No description provided for @staffSupervisorActionHistoryKindBlockQr.
+  ///
+  /// In en, this message translates to:
+  /// **'QR blocked'**
+  String get staffSupervisorActionHistoryKindBlockQr;
+
+  /// No description provided for @staffSupervisorActionHistoryKindEscalateAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert escalated'**
+  String get staffSupervisorActionHistoryKindEscalateAlert;
+
+  /// No description provided for @staffSupervisorActionHistoryKindAuthorizeEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual entry authorized'**
+  String get staffSupervisorActionHistoryKindAuthorizeEntry;
+
+  /// No description provided for @staffSupervisorActionHistoryKindGenerateTemporaryQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Temporary QR generated'**
+  String get staffSupervisorActionHistoryKindGenerateTemporaryQr;
+
+  /// No description provided for @staffSupervisorActionHistoryKindRejectAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Access rejected'**
+  String get staffSupervisorActionHistoryKindRejectAccess;
+
+  /// No description provided for @staffSupervisorActionHistoryKindAuthorizeExtraGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Extra VIP guest authorized'**
+  String get staffSupervisorActionHistoryKindAuthorizeExtraGuest;
+
+  /// No description provided for @staffSupervisorActionHistoryKindChangeAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP access changed'**
+  String get staffSupervisorActionHistoryKindChangeAccess;
+
+  /// No description provided for @staffSupervisorActionHistoryKindMoveGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP guest moved'**
+  String get staffSupervisorActionHistoryKindMoveGuest;
+
+  /// No description provided for @staffSupervisorActionHistoryKindReleaseInvitation.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP invitation released'**
+  String get staffSupervisorActionHistoryKindReleaseInvitation;
+
+  /// No description provided for @staffSupervisorActionHistoryKindOfflineModeEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline mode activated'**
+  String get staffSupervisorActionHistoryKindOfflineModeEnabled;
+
+  /// No description provided for @staffSupervisorActionHistoryKindOfflineModeDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline mode deactivated'**
+  String get staffSupervisorActionHistoryKindOfflineModeDisabled;
+
+  /// No description provided for @staffSupervisorActionHistoryKindValidationsPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Validations paused'**
+  String get staffSupervisorActionHistoryKindValidationsPaused;
+
+  /// No description provided for @staffSupervisorActionHistoryKindValidationsResumed.
+  ///
+  /// In en, this message translates to:
+  /// **'Validations resumed'**
+  String get staffSupervisorActionHistoryKindValidationsResumed;
+
+  /// No description provided for @staffSupervisorActionHistoryKindVipAccessBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP access blocked'**
+  String get staffSupervisorActionHistoryKindVipAccessBlocked;
+
+  /// No description provided for @staffSupervisorActionHistoryKindVipAccessUnblocked.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP access unblocked'**
+  String get staffSupervisorActionHistoryKindVipAccessUnblocked;
+
+  /// No description provided for @staffSupervisorActionHistoryKindScannerRestarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanner restarted'**
+  String get staffSupervisorActionHistoryKindScannerRestarted;
+
+  /// No description provided for @staffSupervisorActionHistoryKindStaffAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff alert sent'**
+  String get staffSupervisorActionHistoryKindStaffAlert;
+
+  /// No description provided for @staffSupervisorExitModeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit supervisor mode'**
+  String get staffSupervisorExitModeButton;
+
+  /// No description provided for @staffSupervisorValidatorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Validator: {validatorId}'**
+  String staffSupervisorValidatorLabel(String validatorId);
+
+  /// No description provided for @staffSupervisorSearchEntryScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search entry'**
+  String get staffSupervisorSearchEntryScreenTitle;
+
+  /// No description provided for @staffSupervisorSearchEntrySectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SEARCH ENTRY'**
+  String get staffSupervisorSearchEntrySectionTitle;
+
+  /// No description provided for @staffSupervisorSearchEntryPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Name / phone / QR / purchase ID / VIP table'**
+  String get staffSupervisorSearchEntryPlaceholder;
+
+  /// No description provided for @staffSupervisorSearchEntryHeaderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor · Supervisor mode'**
+  String get staffSupervisorSearchEntryHeaderSubtitle;
+
+  /// No description provided for @staffSupervisorSearchEntryByLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by:'**
+  String get staffSupervisorSearchEntryByLabel;
+
+  /// No description provided for @staffSupervisorSearchEntryQuickFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick filters'**
+  String get staffSupervisorSearchEntryQuickFilters;
+
+  /// No description provided for @staffSupervisorSearchEntryFilterVip.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP'**
+  String get staffSupervisorSearchEntryFilterVip;
+
+  /// No description provided for @staffSupervisorSearchEntryFilterUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Used'**
+  String get staffSupervisorSearchEntryFilterUsed;
+
+  /// No description provided for @staffSupervisorSearchEntryFilterError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get staffSupervisorSearchEntryFilterError;
+
+  /// No description provided for @staffSupervisorSearchEntryPurchaseIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase ID'**
+  String get staffSupervisorSearchEntryPurchaseIdLabel;
+
+  /// No description provided for @staffSupervisorSearchEntryTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry time'**
+  String get staffSupervisorSearchEntryTimeLabel;
+
+  /// No description provided for @staffSupervisorSearchEntryValidatorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Validator'**
+  String get staffSupervisorSearchEntryValidatorLabel;
+
+  /// No description provided for @staffSupervisorSearchEntryVipTableLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'VIP table'**
+  String get staffSupervisorSearchEntryVipTableLabel;
+
+  /// No description provided for @staffSupervisorSearchEntryAssociatedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Associated entries'**
+  String get staffSupervisorSearchEntryAssociatedLabel;
+
+  /// No description provided for @staffSupervisorSearchEntryActionHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'View history'**
+  String get staffSupervisorSearchEntryActionHistory;
+
+  /// No description provided for @staffSupervisorEntryHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry history'**
+  String get staffSupervisorEntryHistoryTitle;
+
+  /// No description provided for @staffSupervisorEntryHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No history recorded for this entry yet.'**
+  String get staffSupervisorEntryHistoryEmpty;
+
+  /// No description provided for @staffSupervisorEntryHistoryQrLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry code: {code}'**
+  String staffSupervisorEntryHistoryQrLabel(String code);
+
+  /// No description provided for @staffSupervisorSearchEntryActionOverride.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual override'**
+  String get staffSupervisorSearchEntryActionOverride;
+
+  /// No description provided for @staffSupervisorSearchEntryRecentEventsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'RECENT EVENTS'**
+  String get staffSupervisorSearchEntryRecentEventsTitle;
+
+  /// No description provided for @staffSupervisorEntryGateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Gate'**
+  String get staffSupervisorEntryGateLabel;
+
+  /// No description provided for @staffSupervisorEntryStatusValidated.
+  ///
+  /// In en, this message translates to:
+  /// **'VALIDATED'**
+  String get staffSupervisorEntryStatusValidated;
+
+  /// No description provided for @staffSupervisorEntryStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'PENDING'**
+  String get staffSupervisorEntryStatusPending;
+
+  /// No description provided for @staffSupervisorEntryStatusUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'USED'**
+  String get staffSupervisorEntryStatusUsed;
+
+  /// No description provided for @staffSupervisorEntryStatusBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'BLOCKED'**
+  String get staffSupervisorEntryStatusBlocked;
+
+  /// No description provided for @staffSupervisorEntryStatusError.
+  ///
+  /// In en, this message translates to:
+  /// **'ERROR'**
+  String get staffSupervisorEntryStatusError;
+
+  /// No description provided for @staffSupervisorSearchEntryNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No entries found for this search.'**
+  String get staffSupervisorSearchEntryNoResults;
+
+  /// No description provided for @staffSupervisorSearchEntryNoVipResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No VIP entries match this search. Turn off the VIP filter or try another term.'**
+  String get staffSupervisorSearchEntryNoVipResults;
+
+  /// No description provided for @staffSupervisorSearchEntryNoUsedResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No used entries match this search. Turn off the Used filter or try another term.'**
+  String get staffSupervisorSearchEntryNoUsedResults;
+
+  /// No description provided for @staffSupervisorSearchEntryNoErrorResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No error entries match this search. Turn off the Error filter or try another term.'**
+  String get staffSupervisorSearchEntryNoErrorResults;
+
+  /// No description provided for @staffSupervisorSearchEntrySearchError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not search entries. Try again.'**
+  String get staffSupervisorSearchEntrySearchError;
+
+  /// No description provided for @staffSupervisorSearchEntryRecentValidated.
+  ///
+  /// In en, this message translates to:
+  /// **'Validated'**
+  String get staffSupervisorSearchEntryRecentValidated;
+
+  /// No description provided for @staffSupervisorSearchEntryRecentReentry.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-entry authorized'**
+  String get staffSupervisorSearchEntryRecentReentry;
+
+  /// No description provided for @staffSupervisorSearchEntryRecentSupervisor.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor'**
+  String get staffSupervisorSearchEntryRecentSupervisor;
+
+  /// No description provided for @staffSupervisorSearchEntryResultsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 result found} other{{count} results found}}'**
+  String staffSupervisorSearchEntryResultsCount(int count);
+
+  /// No description provided for @staffSupervisorDuplicateAlertTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'DUPLICATE ALERT'**
+  String get staffSupervisorDuplicateAlertTitle;
+
+  /// No description provided for @staffSupervisorDuplicateCurrentStatusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CURRENT STATUS'**
+  String get staffSupervisorDuplicateCurrentStatusTitle;
+
+  /// No description provided for @staffSupervisorDuplicateLastValidTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Last valid access'**
+  String get staffSupervisorDuplicateLastValidTitle;
+
+  /// No description provided for @staffSupervisorDuplicateNewAttemptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New attempt detected'**
+  String get staffSupervisorDuplicateNewAttemptTitle;
+
+  /// No description provided for @staffSupervisorDuplicateTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get staffSupervisorDuplicateTimeLabel;
+
+  /// No description provided for @staffSupervisorDuplicateAccessLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Access'**
+  String get staffSupervisorDuplicateAccessLabel;
+
+  /// No description provided for @staffSupervisorDuplicateDeviceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Device'**
+  String get staffSupervisorDuplicateDeviceLabel;
+
+  /// No description provided for @staffSupervisorDuplicatePossibleReasonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'POSSIBLE REASON'**
+  String get staffSupervisorDuplicatePossibleReasonTitle;
+
+  /// No description provided for @staffSupervisorDuplicateReasonScreenshot.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared screenshot'**
+  String get staffSupervisorDuplicateReasonScreenshot;
+
+  /// No description provided for @staffSupervisorDuplicateReasonResold.
+  ///
+  /// In en, this message translates to:
+  /// **'Resold QR'**
+  String get staffSupervisorDuplicateReasonResold;
+
+  /// No description provided for @staffSupervisorDuplicateReasonValidationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Validation error'**
+  String get staffSupervisorDuplicateReasonValidationError;
+
+  /// No description provided for @staffSupervisorDuplicateReasonAuthorizedReentry.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorized re-entry'**
+  String get staffSupervisorDuplicateReasonAuthorizedReentry;
+
+  /// No description provided for @staffSupervisorDuplicateSupervisorActionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SUPERVISOR ACTIONS'**
+  String get staffSupervisorDuplicateSupervisorActionsTitle;
+
+  /// No description provided for @staffSupervisorDuplicateReleaseReentry.
+  ///
+  /// In en, this message translates to:
+  /// **'RELEASE RE-ENTRY'**
+  String get staffSupervisorDuplicateReleaseReentry;
+
+  /// No description provided for @staffSupervisorDuplicateBlockQr.
+  ///
+  /// In en, this message translates to:
+  /// **'BLOCK QR'**
+  String get staffSupervisorDuplicateBlockQr;
+
+  /// No description provided for @staffSupervisorDuplicateEscalateAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'ESCALATE ALERT'**
+  String get staffSupervisorDuplicateEscalateAlert;
+
+  /// No description provided for @staffSupervisorDuplicateReasonPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the reason...'**
+  String get staffSupervisorDuplicateReasonPlaceholder;
+
+  /// No description provided for @staffSupervisorExecuteDuplicateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'RESOLVE DUPLICATE'**
+  String get staffSupervisorExecuteDuplicateButton;
+
+  /// No description provided for @staffSupervisorDuplicateNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No duplicate attempts found for this entry.'**
+  String get staffSupervisorDuplicateNotFound;
+
+  /// No description provided for @staffSupervisorDuplicateResolvedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate resolved successfully.'**
+  String get staffSupervisorDuplicateResolvedSuccess;
+
+  /// No description provided for @staffSupervisorEntryOverrideSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Override applied successfully.'**
+  String get staffSupervisorEntryOverrideSuccess;
+
+  /// No description provided for @staffSupervisorDuplicateLogValidated.
+  ///
+  /// In en, this message translates to:
+  /// **'Validated'**
+  String get staffSupervisorDuplicateLogValidated;
+
+  /// No description provided for @staffSupervisorDuplicateLogReentryRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-entry rejected'**
+  String get staffSupervisorDuplicateLogReentryRejected;
+
+  /// No description provided for @staffSupervisorDuplicateLogSupervisorPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor pending'**
+  String get staffSupervisorDuplicateLogSupervisorPending;
+
+  /// No description provided for @staffSupervisorDuplicateLogSupervisorResolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor resolved'**
+  String get staffSupervisorDuplicateLogSupervisorResolved;
+
+  /// No description provided for @staffSupervisorDuplicateAlreadyResolved.
+  ///
+  /// In en, this message translates to:
+  /// **'This duplicate alert has already been resolved.'**
+  String get staffSupervisorDuplicateAlreadyResolved;
+
+  /// No description provided for @staffSupervisorDuplicateSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name, entry code, phone, or purchase ID'**
+  String get staffSupervisorDuplicateSearchHint;
+
+  /// No description provided for @staffBarMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Bar mode'**
+  String get staffBarMode;
+
+  /// No description provided for @staffNoScanAccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No scan access assigned'**
+  String get staffNoScanAccessTitle;
+
+  /// No description provided for @staffNoScanAccessSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask an administrator to assign door or bar scan permissions to your staff account.'**
+  String get staffNoScanAccessSubtitle;
+
+  /// No description provided for @staffSupervisorAccessDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not have supervisor access for this area.'**
+  String get staffSupervisorAccessDenied;
+
+  /// No description provided for @staffAccessValidatorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ACCESS VALIDATOR'**
+  String get staffAccessValidatorTitle;
+
+  /// No description provided for @staffAccessValidatorSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan the entry QR code to validate event access'**
+  String get staffAccessValidatorSubtitle;
+
+  /// No description provided for @staffScanEntryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'SCAN ENTRY'**
+  String get staffScanEntryButton;
+
+  /// No description provided for @staffActiveEventPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Active event:'**
+  String get staffActiveEventPrefix;
+
+  /// No description provided for @staffActiveEventLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Active event: {eventName}'**
+  String staffActiveEventLabel(String eventName);
+
+  /// No description provided for @staffRecentAccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent access'**
+  String get staffRecentAccessTitle;
+
+  /// No description provided for @staffRecentAccessEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No entry scans yet. Scan a ticket QR to see it here.'**
+  String get staffRecentAccessEmpty;
+
+  /// No description provided for @staffViewAllAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'View all >'**
+  String get staffViewAllAccess;
+
+  /// No description provided for @staffAccessDuplicateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate QR'**
+  String get staffAccessDuplicateLabel;
+
+  /// No description provided for @staffScanResultValidTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'VALID'**
+  String get staffScanResultValidTitle;
+
+  /// No description provided for @staffScanResultValidSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The QR code was validated successfully.'**
+  String get staffScanResultValidSubtitle;
+
+  /// No description provided for @staffScanResultUsedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'QR USED'**
+  String get staffScanResultUsedTitle;
+
+  /// No description provided for @staffScanResultUsedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This code was already redeemed.'**
+  String get staffScanResultUsedSubtitle;
+
+  /// No description provided for @staffScanResultProductLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Product'**
+  String get staffScanResultProductLabel;
+
+  /// No description provided for @staffScanResultUserLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get staffScanResultUserLabel;
+
+  /// No description provided for @staffScanResultTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get staffScanResultTimeLabel;
+
+  /// No description provided for @staffScanResultAttemptTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Attempt time'**
+  String get staffScanResultAttemptTimeLabel;
+
+  /// No description provided for @staffScanResultBarLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Bar'**
+  String get staffScanResultBarLabel;
+
+  /// No description provided for @staffScanResultTransactionIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction ID'**
+  String get staffScanResultTransactionIdLabel;
+
+  /// No description provided for @staffScanResultRememberTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember'**
+  String get staffScanResultRememberTitle;
+
+  /// No description provided for @staffScanResultRememberMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Press the button to confirm product delivery.'**
+  String get staffScanResultRememberMessage;
+
+  /// No description provided for @staffScanResultLastSuccessfulUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Last successful use'**
+  String get staffScanResultLastSuccessfulUse;
+
+  /// No description provided for @staffScanResultDeliverButton.
+  ///
+  /// In en, this message translates to:
+  /// **'DELIVER PRODUCT'**
+  String get staffScanResultDeliverButton;
+
+  /// No description provided for @staffScanResultConfirmAccessButton.
+  ///
+  /// In en, this message translates to:
+  /// **'CONFIRM ACCESS'**
+  String get staffScanResultConfirmAccessButton;
+
+  /// No description provided for @staffScanResultEntryRememberMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Press the button to confirm event access.'**
+  String get staffScanResultEntryRememberMessage;
+
+  /// No description provided for @staffScanResultTicketLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket'**
+  String get staffScanResultTicketLabel;
+
+  /// No description provided for @staffScanResultBackButton.
+  ///
+  /// In en, this message translates to:
+  /// **'BACK'**
+  String get staffScanResultBackButton;
+
+  /// No description provided for @staffEntryValidTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'VALID'**
+  String get staffEntryValidTitle;
+
+  /// No description provided for @staffEntryValidSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid unique QR'**
+  String get staffEntryValidSubtitle;
+
+  /// No description provided for @staffEntryValidEventLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Event'**
+  String get staffEntryValidEventLabel;
+
+  /// No description provided for @staffEntryValidEntryIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry ID'**
+  String get staffEntryValidEntryIdLabel;
+
+  /// No description provided for @staffEntryValidTicketTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket type'**
+  String get staffEntryValidTicketTypeLabel;
+
+  /// No description provided for @staffEntryValidAccessLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorized access'**
+  String get staffEntryValidAccessLabel;
+
+  /// No description provided for @staffEntryValidTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Validation time'**
+  String get staffEntryValidTimeLabel;
+
+  /// No description provided for @staffEntryValidAllowButton.
+  ///
+  /// In en, this message translates to:
+  /// **'ALLOW ENTRY'**
+  String get staffEntryValidAllowButton;
+
+  /// No description provided for @staffEntryInvalidTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'INVALID'**
+  String get staffEntryInvalidTitle;
+
+  /// No description provided for @staffEntryInvalidSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'QR already used'**
+  String get staffEntryInvalidSubtitle;
+
+  /// No description provided for @staffEntryInvalidReasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get staffEntryInvalidReasonLabel;
+
+  /// No description provided for @staffEntryInvalidReasonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'QR already used'**
+  String get staffEntryInvalidReasonTitle;
+
+  /// No description provided for @staffEntryInvalidReasonMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This code was already scanned previously'**
+  String get staffEntryInvalidReasonMessage;
+
+  /// No description provided for @staffEntryInvalidLastAccessLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Last access'**
+  String get staffEntryInvalidLastAccessLabel;
+
+  /// No description provided for @staffEntryInvalidLastAccessDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Today, {date}'**
+  String staffEntryInvalidLastAccessDate(String date);
+
+  /// No description provided for @staffEntryInvalidUserLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get staffEntryInvalidUserLabel;
+
+  /// No description provided for @staffEntryInvalidWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This QR cannot be used. If you think this is an error, contact the supervisor.'**
+  String get staffEntryInvalidWarning;
+
+  /// No description provided for @staffEntryInvalidResolveDuplicateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'RESOLVE DUPLICATE'**
+  String get staffEntryInvalidResolveDuplicateButton;
+
+  /// No description provided for @staffScanErrorQrNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'QR code not recognised.'**
+  String get staffScanErrorQrNotFound;
+
+  /// No description provided for @staffScanErrorQrInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'This QR code is not valid for scanning.'**
+  String get staffScanErrorQrInvalid;
+
+  /// No description provided for @staffScanErrorPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not have permission to perform this scan.'**
+  String get staffScanErrorPermissionDenied;
+
+  /// No description provided for @staffScanErrorSessionExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session expired. Please sign in again.'**
+  String get staffScanErrorSessionExpired;
+
+  /// No description provided for @staffScanResultUnitCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 unit} other{{count} units}}'**
+  String staffScanResultUnitCount(int count);
 }
 
 class _AppLocalizationsDelegate

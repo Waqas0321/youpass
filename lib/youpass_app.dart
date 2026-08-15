@@ -15,6 +15,9 @@ import 'package:youpass/features/invitations/presentation/providers/invitations_
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_provider.dart';
 import 'package:youpass/features/tickets/presentation/providers/tickets_provider.dart';
 import 'package:youpass/features/vip_venue/presentation/providers/vip_venue_provider.dart';
+import 'package:youpass/staff_app/features/auth/presentation/providers/staff_auth_provider.dart';
+import 'package:youpass/staff_app/features/home/presentation/providers/staff_work_mode_provider.dart';
+import 'package:youpass/staff_app/features/supervisor/presentation/providers/staff_supervisor_session_provider.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 import 'package:youpass/routes/app_routes.dart';
 import 'package:youpass/routes/route_generator.dart';
@@ -44,6 +47,15 @@ class YouPassApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<VipVenueProvider>(
           create: (_) => sl<VipVenueProvider>(),
+        ),
+        ChangeNotifierProvider<StaffAuthProvider>(
+          create: (_) => StaffAuthProvider(),
+        ),
+        ChangeNotifierProvider<StaffWorkModeProvider>(
+          create: (_) => StaffWorkModeProvider(),
+        ),
+        ChangeNotifierProvider<StaffSupervisorSessionProvider>(
+          create: (_) => StaffSupervisorSessionProvider(),
         ),
       ],
       child: Consumer2<LocaleProvider, AppThemeProvider>(

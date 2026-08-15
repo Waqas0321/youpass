@@ -9,6 +9,8 @@ import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/core/widgets/youpass_brand_logo.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
+import 'package:youpass/staff_app/features/auth/presentation/providers/staff_auth_provider.dart';
+import 'package:youpass/staff_app/routes/app_routes.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
 import 'package:youpass/routes/app_routes.dart';
@@ -33,9 +35,27 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> bootstrap() async {
     final authProvider = context.read<AuthProvider>();
+    final staffAuthProvider = context.read<StaffAuthProvider>();
     final homeProvider = context.read<HomeProvider>();
     final invitationsProvider = context.read<InvitationsProvider>();
     final splashStartedAt = DateTime.now();
+
+    final hasStaffSession = await staffAuthProvider.restoreSession();
+    if (!mounted) {
+      return;
+    }
+    if (hasStaffSession) {
+      final elapsedStaff = DateTime.now().difference(splashStartedAt);
+      final remainingStaff = _minSplashDuration - elapsedStaff;
+      if (remainingStaff > Duration.zero) {
+        await Future<void>.delayed(remainingStaff);
+      }
+      if (!mounted) {
+        return;
+      }
+      Navigator.of(context).pushReplacementNamed(StaffAppRoutes.home);
+      return;
+    }
 
     await authProvider.checkAuthStatus();
     if (!mounted) {

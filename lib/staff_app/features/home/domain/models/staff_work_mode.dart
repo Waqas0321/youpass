@@ -1,0 +1,4 @@
+enum StaffWorkMode {
+  bar,
+  accessValidator,
+}

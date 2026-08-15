@@ -50,9 +50,15 @@ import 'package:youpass/features/invitations/presentation/routes/guaranteed_pass
 import 'package:youpass/features/invitations/presentation/routes/invitation_detail_route_args.dart';
 import 'package:youpass/core/widgets/route_not_found_screen.dart';
 import 'package:youpass/routes/app_routes.dart';
+import 'package:youpass/staff_app/routes/staff_route_generator.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
+    final staffRoute = StaffRouteGenerator.maybeGenerate(settings);
+    if (staffRoute != null) {
+      return staffRoute;
+    }
+
     switch (settings.name) {
       case AppRoutes.splash:
         return MaterialPageRoute(builder: (_) => const SplashScreen());

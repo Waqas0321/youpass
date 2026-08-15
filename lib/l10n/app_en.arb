@@ -17,7 +17,6 @@
   "incorrectNumberQuestion": "INCORRECT NUMBER?",
   "changeNumberLink": "CHANGE NUMBER",
   "otpWhatsAppHelp": "Didn't get the code? Make sure WhatsApp is installed on your phone. YouPass uses WhatsApp to send security codes. If you have problems, contact support: soporte@youpass.app",
-
   "selectCountryTitle": "Select your country",
   "searchCountryHint": "Search country or code",
   "searchCountryEmpty": "No countries found",
@@ -496,7 +495,9 @@
   "profileWalletCredits": "{amount} credits",
   "@profileWalletCredits": {
     "placeholders": {
-      "amount": { "type": "String" }
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "profileWalletTransactionHistory": "Transaction history",
@@ -552,8 +553,12 @@
   "accountDeletionPendingBannerSubtitle": "Your account will be deleted on {date} ({days} days remaining). Tap to cancel.",
   "@accountDeletionPendingBannerSubtitle": {
     "placeholders": {
-      "date": { "type": "String" },
-      "days": { "type": "int" }
+      "date": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
     }
   },
   "accountDeletionCancelAction": "Cancel deletion",
@@ -590,7 +595,9 @@
   "profileDeletePendingMessage": "Your account will be deleted in {days} days. Cancel deletion?",
   "@profileDeletePendingMessage": {
     "placeholders": {
-      "days": { "type": "int" }
+      "days": {
+        "type": "int"
+      }
     }
   },
   "profileEmailSubject": "YouPass support request",
@@ -613,13 +620,17 @@
   "ticketsInvitationExpires": "Respond before {deadline}",
   "@ticketsInvitationExpires": {
     "placeholders": {
-      "deadline": {"type": "String"}
+      "deadline": {
+        "type": "String"
+      }
     }
   },
   "ticketsQrCountdown": "Your QR will be available on {eventDate}",
   "@ticketsQrCountdown": {
     "placeholders": {
-      "eventDate": {"type": "String"}
+      "eventDate": {
+        "type": "String"
+      }
     }
   },
   "ticketsQrUnavailable": "QR LOCKED",
@@ -646,15 +657,23 @@
   "ticketsYearlySummaryAttended": "{count} events attended in {year}",
   "@ticketsYearlySummaryAttended": {
     "placeholders": {
-      "count": {"type": "int"},
-      "year": {"type": "int"}
+      "count": {
+        "type": "int"
+      },
+      "year": {
+        "type": "int"
+      }
     }
   },
   "ticketsYearlySummaryProducer": "Favorite producer: {name} ({count} events)",
   "@ticketsYearlySummaryProducer": {
     "placeholders": {
-      "name": {"type": "String"},
-      "count": {"type": "int"}
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
     }
   },
   "ticketsEmptyUpcoming": "No upcoming tickets yet.",
@@ -688,7 +707,9 @@
   "favoritesFollowerCount": "{count} followers",
   "@favoritesFollowerCount": {
     "placeholders": {
-      "count": {"type": "String"}
+      "count": {
+        "type": "String"
+      }
     }
   },
   "favoritesNoSearchResults": "No promoters found matching your search",
@@ -740,8 +761,12 @@
   "invitationsGuaranteedPassMessage": "This pass is FREE if you attend. If you do not attend and do not cancel by {deadline}, {amount} will be charged to your card.",
   "@invitationsGuaranteedPassMessage": {
     "placeholders": {
-      "deadline": {"type": "String"},
-      "amount": {"type": "String"}
+      "deadline": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "invitationsGuaranteedPassTerms": "I understand the attendance commitment and possible charge",
@@ -749,26 +774,34 @@
   "invitationsPreauthNotice": "Your card will be pre-authorised for {amount}. You will only be charged if you no-show.",
   "@invitationsPreauthNotice": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "invitationsDiscountedPayTitle": "Discounted Invitation",
   "invitationsDiscountedPayMessage": "Pay {amount} now to accept this invitation.",
   "@invitationsDiscountedPayMessage": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "invitationsDiscountPercent": "{percent}% discount",
   "@invitationsDiscountPercent": {
     "placeholders": {
-      "percent": {"type": "int"}
+      "percent": {
+        "type": "int"
+      }
     }
   },
   "invitationsCancelBy": "Cancel by {deadline}",
   "@invitationsCancelBy": {
     "placeholders": {
-      "deadline": {"type": "String"}
+      "deadline": {
+        "type": "String"
+      }
     }
   },
   "invitationsAcceptGuaranteed": "ACCEPT AND RESERVE",
@@ -779,21 +812,29 @@
   "invitationsAssignedSlot": "Slot: {slot}",
   "@invitationsAssignedSlot": {
     "placeholders": {
-      "slot": {"type": "String"}
+      "slot": {
+        "type": "String"
+      }
     }
   },
   "invitationsPassStatus": "Status: {status}",
   "@invitationsPassStatus": {
     "placeholders": {
-      "status": {"type": "String"}
+      "status": {
+        "type": "String"
+      }
     }
   },
   "invitationsGpWarningTitle": "⚠ IMPORTANT",
   "invitationsGpWarningBody": "If you attend: 100% FREE\nIf you don't attend: {amount} will be charged to your card\n\nCANCELLATION DEADLINE\nUntil {deadline} without charge\n\nBy accepting, you authorise the charge to your card if you do not attend the event.",
   "@invitationsGpWarningBody": {
     "placeholders": {
-      "amount": {"type": "String"},
-      "deadline": {"type": "String"}
+      "amount": {
+        "type": "String"
+      },
+      "deadline": {
+        "type": "String"
+      }
     }
   },
   "invitationsBiometricReason": "Confirm your Guaranteed Pass acceptance",
@@ -802,8 +843,12 @@
   "invitationsGpActiveMessage": "Your pass to {event} is reserved. Cancel before {deadline} without charge.",
   "@invitationsGpActiveMessage": {
     "placeholders": {
-      "event": {"type": "String"},
-      "deadline": {"type": "String"}
+      "event": {
+        "type": "String"
+      },
+      "deadline": {
+        "type": "String"
+      }
     }
   },
   "invitationsGpActiveCta": "Go to My Tickets",
@@ -980,31 +1025,41 @@
   "ticketAssignmentSlotLabel": "Ticket {number}",
   "@ticketAssignmentSlotLabel": {
     "placeholders": {
-      "number": {"type": "int"}
+      "number": {
+        "type": "int"
+      }
     }
   },
   "ticketAssignmentSummarySubtitle": "{count, plural, =1{1 ticket available • You can do it in parts} other{{count} tickets available • You can do it in parts}}",
   "@ticketAssignmentSummarySubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "ticketAssignmentAvailableCount": "{count, plural, =1{1 ticket available to assign} other{{count} tickets available to assign}}",
   "@ticketAssignmentAvailableCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "ticketAssignmentPendingCount": "{count, plural, =1{1 pending} other{{count} pending}}",
   "@ticketAssignmentPendingCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "ticketAssignmentClaimedCount": "{count, plural, =1{1 accepted} other{{count} accepted}}",
   "@ticketAssignmentClaimedCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "ticketAssignmentSentSectionTitle": "Sent invitations",
@@ -1012,7 +1067,9 @@
   "ticketAssignmentSendNewSectionSubtitle": "{count, plural, =1{You have 1 ticket ready to assign to a new guest.} other{You have {count} tickets ready to assign to new guests.}}",
   "@ticketAssignmentSendNewSectionSubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "ticketAssignmentAcceptedBadge": "ACCEPTED",
@@ -1061,14 +1118,20 @@
   "vipTicketCount": "{count, plural, =1{1 ticket} other{{count} tickets}}",
   "@vipTicketCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "vipTicketSelectionSummaryLine": "{ticketCount} • {amount}",
   "@vipTicketSelectionSummaryLine": {
     "placeholders": {
-      "ticketCount": {"type": "String"},
-      "amount": {"type": "String"}
+      "ticketCount": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "vipBackButton": "Back",
@@ -1076,13 +1139,17 @@
   "vipContinueWithTickets": "Continue - {ticketCount}",
   "@vipContinueWithTickets": {
     "placeholders": {
-      "ticketCount": {"type": "String"}
+      "ticketCount": {
+        "type": "String"
+      }
     }
   },
   "vipContinueWithAmount": "Continue · {amount}",
   "@vipContinueWithAmount": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "vipTicketSoldOutBadge": "Sold out",
@@ -1105,8 +1172,12 @@
   "vipFloorPlanSubtitle": "{venue} • {size}",
   "@vipFloorPlanSubtitle": {
     "placeholders": {
-      "venue": {"type": "String"},
-      "size": {"type": "String"}
+      "venue": {
+        "type": "String"
+      },
+      "size": {
+        "type": "String"
+      }
     }
   },
   "vipFloorPlanDimensions": "Main hall - 36 x 18 m",
@@ -1125,7 +1196,9 @@
   "vipZoneCapacity": "{count} spots/table",
   "@vipZoneCapacity": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "vipEmergencyExit": "EMERGENCY EXIT",
@@ -1135,7 +1208,9 @@
   "vipTableDistributionTitle": "{zone} DISTRIBUTION",
   "@vipTableDistributionTitle": {
     "placeholders": {
-      "zone": {"type": "String"}
+      "zone": {
+        "type": "String"
+      }
     }
   },
   "vipTableDistributionStage": "DJ Stage",
@@ -1146,7 +1221,9 @@
   "vipZoneTablesScreenTitle": "Tables {zone}",
   "@vipZoneTablesScreenTitle": {
     "placeholders": {
-      "zone": {"type": "String"}
+      "zone": {
+        "type": "String"
+      }
     }
   },
   "vipTablesZoneSoldOut": "All tables in this zone are sold out.",
@@ -1155,69 +1232,103 @@
   "vipTablesCapacitySubtitle": "{count} people per table",
   "@vipTablesCapacitySubtitle": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "vipPurchaseOfferingLine": "{label} x{quantity}",
   "@vipPurchaseOfferingLine": {
     "placeholders": {
-      "label": {"type": "String"},
-      "quantity": {"type": "int"}
+      "label": {
+        "type": "String"
+      },
+      "quantity": {
+        "type": "int"
+      }
     }
   },
   "vipTableReserve": "Reserve Table {table}",
   "@vipTableReserve": {
     "placeholders": {
-      "table": {"type": "String"}
+      "table": {
+        "type": "String"
+      }
     }
   },
   "vipTableDetailTitle": "Table {table} — {zone}",
   "@vipTableDetailTitle": {
     "placeholders": {
-      "table": {"type": "String"},
-      "zone": {"type": "String"}
+      "table": {
+        "type": "String"
+      },
+      "zone": {
+        "type": "String"
+      }
     }
   },
   "vipTableCapacity": "{count} guests",
   "@vipTableCapacity": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "vipTableIncludes": "{bottles} bottles · {vouchers} vouchers",
   "@vipTableIncludes": {
     "placeholders": {
-      "bottles": {"type": "int"},
-      "vouchers": {"type": "int"}
+      "bottles": {
+        "type": "int"
+      },
+      "vouchers": {
+        "type": "int"
+      }
     }
   },
   "vipTableBottles": "{count} bottles",
   "@vipTableBottles": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "vipTableVouchers": "{count} vouchers",
   "@vipTableVouchers": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "vipTableIncludesShort": "{people} • {bottles} • {vouchers}",
   "@vipTableIncludesShort": {
     "placeholders": {
-      "people": {"type": "String"},
-      "bottles": {"type": "String"},
-      "vouchers": {"type": "String"}
+      "people": {
+        "type": "String"
+      },
+      "bottles": {
+        "type": "String"
+      },
+      "vouchers": {
+        "type": "String"
+      }
     }
   },
   "vipPurchaseSummaryTitle": "Purchase summary",
   "vipPurchaseSummaryItemTitle": "Table {table} - {zone} | {event}",
   "@vipPurchaseSummaryItemTitle": {
     "placeholders": {
-      "table": {"type": "String"},
-      "zone": {"type": "String"},
-      "event": {"type": "String"}
+      "table": {
+        "type": "String"
+      },
+      "zone": {
+        "type": "String"
+      },
+      "event": {
+        "type": "String"
+      }
     }
   },
   "vipServiceFee": "Service",
@@ -1227,15 +1338,23 @@
   "vipVoucherCount": "{count, plural, =1{1 voucher} other{{count} vouchers}}",
   "@vipVoucherCount": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "vipPurchaseTicketDetailsLine": "{entries} • {access} • {vouchers}",
   "@vipPurchaseTicketDetailsLine": {
     "placeholders": {
-      "entries": {"type": "String"},
-      "access": {"type": "String"},
-      "vouchers": {"type": "String"}
+      "entries": {
+        "type": "String"
+      },
+      "access": {
+        "type": "String"
+      },
+      "vouchers": {
+        "type": "String"
+      }
     }
   },
   "vipPurchaseTotal": "Total",
@@ -1245,13 +1364,17 @@
   "vipPurchaseAssignTicketsInfo": "After payment, you can assign tickets to your guests or do it later from {myTickets}.",
   "@vipPurchaseAssignTicketsInfo": {
     "placeholders": {
-      "myTickets": {"type": "String"}
+      "myTickets": {
+        "type": "String"
+      }
     }
   },
   "vipPayButton": "Pay {amount}",
   "@vipPayButton": {
     "placeholders": {
-      "amount": {"type": "String"}
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "vipPurchaseSuccessTitle": "Purchase successful!",
@@ -1259,13 +1382,17 @@
   "vipTableLockCountdown": "Complete payment in {time}",
   "@vipTableLockCountdown": {
     "placeholders": {
-      "time": {"type": "String"}
+      "time": {
+        "type": "String"
+      }
     }
   },
   "vipTableLockReservedCountdown": "Your table is reserved for {time}",
   "@vipTableLockReservedCountdown": {
     "placeholders": {
-      "time": {"type": "String"}
+      "time": {
+        "type": "String"
+      }
     }
   },
   "vipTableLockExpired": "Your table reservation expired. Please select a table again.",
@@ -1284,13 +1411,17 @@
   "waitlistJoinSuccess": "You are on the waiting list for {eventName}. We will notify you immediately if a slot opens up.",
   "@waitlistJoinSuccess": {
     "placeholders": {
-      "eventName": {"type": "String"}
+      "eventName": {
+        "type": "String"
+      }
     }
   },
   "waitlistEstimatedPosition": "You are #{position} on the waiting list",
   "@waitlistEstimatedPosition": {
     "placeholders": {
-      "position": {"type": "String"}
+      "position": {
+        "type": "String"
+      }
     }
   },
   "waitlistLeaveTitle": "Leave waiting list?",
@@ -1300,7 +1431,574 @@
   "waitlistOfferBanner": "A slot is waiting for you! Confirm before {time}",
   "@waitlistOfferBanner": {
     "placeholders": {
-      "time": {"type": "String"}
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "errorStaffNotFound": "No staff account found for this number. Ask your admin to register you.",
+  "errorNetworkConnection": "Could not reach the server. Check your connection and try again.",
+  "staffScanQrTitle": "SCAN QR",
+  "staffScanQrSubtitle": "Tap to start scanning",
+  "staffScanQrAreaLabel": "AREA QR",
+  "staffScanQrInstruction": "Keep the code\ninside the frame",
+  "staffScanFlashLabel": "Flash",
+  "staffScanCameraUnavailable": "Camera is not available on this device.",
+  "staffScanPermissionDenied": "Camera permission is required to scan QR codes.",
+  "staffManualEntryButton": "MANUAL ENTRY",
+  "staffRecentScansTitle": "Recent scans",
+  "staffRecentScanActionAuthorizeConsumption": "Consumption authorized",
+  "staffRecentScanActionRejectConsumption": "Consumption rejected",
+  "staffRecentScansEmpty": "No product scans yet. Scan a drink QR to see it here.",
+  "staffViewAllScans": "View all >",
+  "staffScanDuplicateLabel": "Duplicate",
+  "staffConnectedLabel": "Connected",
+  "staffDisconnectedLabel": "Disconnected",
+  "staffOnlineStatus": "Online",
+  "staffAwayStatus": "Away",
+  "staffDrawerTitle": "Staff menu",
+  "staffApiEnvironmentLabel": "API environment",
+  "staffApiEnvDevLocal": "Dev (local)",
+  "staffApiEnvDevNgrok": "Dev (ngrok)",
+  "staffApiEnvProduction": "Production",
+  "staffApiEnvCustom": "Custom API",
+  "staffNgrokTunnelLabel": "Ngrok tunnel (physical device)",
+  "staffLanguageLabel": "Language",
+  "staffLanguageEnglish": "English",
+  "staffLanguageSpanish": "Spanish",
+  "staffLogout": "Log out",
+  "staffSupervisorMode": "Supervisor mode",
+  "staffBarSupervisorMode": "Bar supervisor",
+  "staffTicketsSupervisorMode": "Tickets supervisor",
+  "staffAccessValidatorMenu": "Access validator",
+  "staffSupervisorPinTitle": "Supervisor access",
+  "staffSupervisorPinSubtitle": "Enter your PIN to continue and access supervisor mode.",
+  "staffSupervisorPinFieldLabel": "Enter PIN",
+  "staffSupervisorPinContinueButton": "CONTINUE",
+  "staffSupervisorPinFooter": "Only authorized staff can access.",
+  "staffSupervisorPinInvalid": "Incorrect PIN. Try again.",
+  "staffSupervisorPinNotConfigured": "Supervisor PIN has not been set up yet. Ask an administrator to generate one.",
+  "staffSupervisorPinAccessDenied": "Your account is not authorized for supervisor mode.",
+  "staffSupervisorDashboardTitle": "SUPERVISOR MODE",
+  "staffSupervisorDashboardSubtitle": "Advanced bar control",
+  "staffSupervisorCancellationsTitle": "CANCELLATIONS",
+  "staffSupervisorCancelConsumption": "Cancel consumption",
+  "staffSupervisorRevertValidation": "Revert validation",
+  "staffSupervisorReleaseBlockedQr": "Release blocked QR code",
+  "staffSupervisorManualValidationTitle": "MANUAL VALIDATION",
+  "staffSupervisorManualValidationUser": "User: {userName}",
+  "@staffSupervisorManualValidationUser": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "staffSupervisorManualValidationProduct": "Product: {productName}",
+  "@staffSupervisorManualValidationProduct": {
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "staffSupervisorManualValidationCode": "Partial code: {code}",
+  "@staffSupervisorManualValidationCode": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "staffSupervisorQrOverrideTitle": "QR CODE OVERRIDE",
+  "staffSupervisorQrOverrideSupervisor": "Supervisor: {supervisorName}",
+  "@staffSupervisorQrOverrideSupervisor": {
+    "placeholders": {
+      "supervisorName": {
+        "type": "String"
+      }
+    }
+  },
+  "staffSupervisorGoButton": "Go",
+  "staffSupervisorRecentActionsTitle": "RECENT ACTIONS",
+  "staffSupervisorViewAllActions": "View all >",
+  "staffSupervisorActionQrReleased": "QR code released",
+  "staffSupervisorActionManualValidation": "Manual validation",
+  "staffSupervisorActionConsumptionCancelled": "Consumption cancelled",
+  "staffSupervisorComingSoon": "Coming soon",
+  "staffSupervisorCancellationsScreenTitle": "Cancellations",
+  "staffSupervisorCancellationsScreenSubtitle": "Supervisor · YouPass",
+  "staffSupervisorSearchConsumptionTitle": "SEARCH CONSUMPTION",
+  "staffSupervisorSearchConsumptionHeading": "Search consumption",
+  "staffSupervisorSearchDrinkNoResults": "No consumptions found for this search.",
+  "staffSupervisorSearchDrinkSearchError": "Could not search consumptions. Try again.",
+  "staffSupervisorSearchDrinkResultsCount": "{count, plural, =1{1 result found} other{{count} results found}}",
+  "@staffSupervisorSearchDrinkResultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "staffSupervisorSearchPlaceholder": "QR / user / product",
+  "staffSupervisorSearchButton": "SEARCH",
+  "staffSupervisorConsumptionFoundTitle": "CONSUMPTION FOUND",
+  "staffSupervisorConsumptionUserLabel": "User",
+  "staffSupervisorConsumptionProductLabel": "Product",
+  "staffSupervisorConsumptionBarLabel": "Bar",
+  "staffSupervisorConsumptionTimeLabel": "Validation time",
+  "staffSupervisorConsumptionIdLabel": "Consumption ID",
+  "staffSupervisorConsumptionStatusLabel": "Status",
+  "staffSupervisorConsumptionStatusValidated": "VALIDATED",
+  "staffSupervisorActionsTitle": "ACTIONS",
+  "staffSupervisorReasonTitle": "MANDATORY REASON",
+  "staffSupervisorReasonPlaceholder": "Write the reason for the cancellation...",
+  "staffSupervisorReasonHint": "Example: 'Wrong product delivered'",
+  "staffSupervisorAuthorizationTitle": "AUTHORIZATION",
+  "staffSupervisorAuthorizationSupervisorLabel": "Supervisor",
+  "staffSupervisorAuthorizationPinLabel": "Supervisor PIN",
+  "staffSupervisorHistoryTitle": "HISTORY",
+  "staffSupervisorHistoryValidated": "Validated — {time}",
+  "@staffSupervisorHistoryValidated": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "staffSupervisorHistoryPending": "Supervisor pending",
+  "staffSupervisorExecuteCancellationButton": "EXECUTE CANCELLATION",
+  "staffSupervisorCancellationSuccess": "Cancellation recorded successfully.",
+  "staffSupervisorManualValidationScreenTitle": "Manual validation",
+  "staffSupervisorNoQrBannerTitle": "CONSUMPTION WITHOUT QR",
+  "staffSupervisorNoQrBannerBody": "Enter the purchase QR code to validate manually.",
+  "staffSupervisorEnterQrCodeTitle": "ENTER QR CODE (PRIMARY OPTION)",
+  "staffSupervisorEnterQrCodePlaceholder": "Enter the QR code",
+  "staffSupervisorSearchQrCodeButton": "SEARCH CODE",
+  "staffSupervisorOrDivider": "or",
+  "staffSupervisorSearchUserHeading": "Search user",
+  "staffSupervisorSearchUserPlaceholder": "Name / phone",
+  "staffSupervisorSearchSystemButton": "SEARCH SYSTEM",
+  "staffSupervisorResultFoundTitle": "RESULT FOUND",
+  "staffSupervisorResultEventLabel": "Event",
+  "staffSupervisorResultPurchaseLabel": "Purchase",
+  "staffSupervisorQrStatusLabel": "QR status",
+  "staffSupervisorQrStatusUnavailable": "QR UNAVAILABLE",
+  "staffSupervisorValidationReasonTitle": "VALIDATION REASON",
+  "staffSupervisorReasonPhoneBattery": "Phone out of battery",
+  "staffSupervisorReasonNoConnection": "No connection",
+  "staffSupervisorReasonDamagedQr": "Damaged QR",
+  "staffSupervisorReasonBrokenScreen": "Broken screen",
+  "staffSupervisorReasonOther": "Other",
+  "staffSupervisorIdentityValidationTitle": "IDENTITY VALIDATION",
+  "staffSupervisorIdentityFullNameLabel": "Full name",
+  "staffSupervisorIdentityLastDigitsLabel": "Last 4 digits",
+  "staffSupervisorIdentityDocumentLabel": "Document validated",
+  "staffSupervisorIdentityConfirmed": "Confirmed",
+  "staffSupervisorAuthorizeConsumptionButton": "AUTHORIZE CONSUMPTION",
+  "staffSupervisorGenerateTemporaryQrButton": "GENERATE TEMPORARY QR",
+  "staffSupervisorRejectButton": "REJECT",
+  "staffSupervisorValidationReasonPlaceholder": "Write the reason for the validation...",
+  "staffSupervisorSystemRecordTitle": "SYSTEM RECORD",
+  "staffSupervisorSystemRecordSupervisor": "Supervisor: {name}",
+  "@staffSupervisorSystemRecordSupervisor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "staffSupervisorSystemRecordTime": "Time: {time}",
+  "@staffSupervisorSystemRecordTime": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "staffSupervisorSystemRecordStatus": "Status: ",
+  "staffSupervisorSystemRecordStatusPending": "Pending",
+  "staffSupervisorQrOverrideScreenTitle": "QR code override",
+  "staffSupervisorOverrideCriticalTitle": "CRITICAL ACTION",
+  "staffSupervisorOverrideCriticalBody": "This tool modifies the QR status in the system.",
+  "staffSupervisorOverrideSearchTitle": "SEARCH QR / USER",
+  "staffSupervisorOverrideSearchPlaceholder": "QR / name / purchase ID",
+  "staffSupervisorOverrideActionsTitle": "OVERRIDE ACTIONS",
+  "staffSupervisorOverrideReleaseQr": "Release QR",
+  "staffSupervisorOverrideRevalidateQr": "Revalidate QR",
+  "staffSupervisorOverrideAuthorizeReconsumption": "Authorize re-consumption",
+  "staffSupervisorOverrideTemporaryUnlock": "Temporary unlock",
+  "staffSupervisorOverrideReasonPlaceholder": "Write the reason for the override...",
+  "staffSupervisorOverrideReasonHint": "Example: 'QR marked incorrectly'",
+  "staffSupervisorOverrideQrIdLabel": "QR ID",
+  "staffSupervisorOverrideCurrentStatusLabel": "Current status",
+  "staffSupervisorOverrideStatusBlocked": "BLOCKED",
+  "staffSupervisorOverrideLastUseLabel": "Last use",
+  "staffSupervisorOverrideScannerLabel": "Scanner",
+  "staffSupervisorOverrideAuthLevelLabel": "Authorization level:",
+  "staffSupervisorOverrideAuthLevelHigh": "HIGH",
+  "staffSupervisorOverrideExpectedResultTitle": "EXPECTED RESULT",
+  "staffSupervisorOverrideExpectedStatusPrefix": "QR status →",
+  "staffSupervisorOverrideExpectedStatus": "QR status → VALID",
+  "staffSupervisorOverrideExpectedSubtext": "New consumption allowed.",
+  "staffSupervisorOverrideLogsTitle": "QR LOGS",
+  "staffSupervisorOverrideLogsEmpty": "No QR activity recorded yet.",
+  "staffSupervisorOverrideLogQrBlocked": "QR blocked",
+  "staffSupervisorOverrideLogPending": "Override pending",
+  "staffSupervisorExecuteOverrideButton": "EXECUTE OVERRIDE",
+  "staffSupervisorAccessDashboardSubtitle": "Access advanced tools to manage entry and resolve contingencies.",
+  "staffSupervisorSearchEntryTitle": "Search entry",
+  "staffSupervisorSearchEntryDescription": "Search and review entry status by name, code, phone, and more.",
+  "staffSupervisorResolveDuplicateTitle": "Resolve duplicate",
+  "staffSupervisorResolveDuplicateDescription": "Manage duplicate entries or unauthorized uses.",
+  "staffSupervisorEntryOverrideDescription": "Authorize, release, or manually revalidate an entry.",
+  "staffSupervisorEntryAuthorizationTitle": "SUPERVISOR AUTHORIZATION",
+  "staffSupervisorEntryAccessLabel": "Access",
+  "staffSupervisorEntryOverrideCriticalBody": "This tool directly modifies the QR status within the system.",
+  "staffSupervisorEntryOverrideReasonPlaceholder": "Describe the reason for the override",
+  "staffSupervisorEntryOverrideReasonHint": "Example: 'QR marked as used accidentally'",
+  "staffSupervisorOverrideAuthorizeReentry": "Authorize re-entry",
+  "staffSupervisorEntryOverrideExpectedValid": "VALID",
+  "staffSupervisorEntryOverrideExpectedSubtext": "Re-entry allowed",
+  "staffSupervisorEntryManualValidationTitle": "Manual validation",
+  "staffSupervisorEntryManualValidationDescription": "Validate access manually when no QR is available.",
+  "staffSupervisorEntryNoQrBannerTitle": "NO QR ACCESS",
+  "staffSupervisorEntryNoQrBannerBody": "Use this option only in justified cases",
+  "staffSupervisorEntryManualSearchPlaceholder": "Name / phone / email",
+  "staffSupervisorEntryManualReasonTitle": "Manual access reason",
+  "staffSupervisorEntryManualReasonOtherPlaceholder": "Specify the reason",
+  "staffSupervisorEntryManualIdentityPhoneLabel": "Last 4 phone digits",
+  "staffSupervisorEntryManualAuthorizeEntry": "AUTHORIZE ENTRY",
+  "staffSupervisorEntryManualRejectAccess": "REJECT ACCESS",
+  "staffSupervisorEntryManualReasonPlaceholder": "Describe the reason for manual access",
+  "staffSupervisorEntryManualSystemStatusLabel": "Status: ",
+  "staffSupervisorEntryManualSystemStatusPending": "Pending authorization",
+  "staffSupervisorEntryManualValidationSuccess": "Manual validation applied successfully.",
+  "staffSupervisorTemporaryQrDialogTitle": "Temporary QR generated",
+  "staffSupervisorTemporaryQrDialogSubtitle": "Show this QR at the door. Valid for {minutes} minutes.",
+  "@staffSupervisorTemporaryQrDialogSubtitle": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "staffSupervisorTemporaryQrDialogGuest": "Guest: {guestName}",
+  "@staffSupervisorTemporaryQrDialogGuest": {
+    "placeholders": {
+      "guestName": {
+        "type": "String"
+      }
+    }
+  },
+  "staffSupervisorTemporaryQrDialogClose": "Done",
+  "staffSupervisorTemporaryQrGeneratedSuccess": "Temporary QR ready to display.",
+  "staffSupervisorVipManagementTitle": "VIP management",
+  "staffSupervisorVipManagementDescription": "Review and authorize special access for VIP guests.",
+  "staffSupervisorVipSearchPlaceholder": "Search table / user (e.g. Table 12 / Daniel Rojas)",
+  "staffSupervisorVipSearchSectionTitle": "SEARCH VIP TABLE",
+  "staffSupervisorVipSearchNoResults": "No VIP tables found for this search.",
+  "staffSupervisorVipSearchResultsCount": "{count, plural, =1{1 table found} other{{count} tables found}}",
+  "@staffSupervisorVipSearchResultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "staffSupervisorVipStatusLabel": "Status:",
+  "staffSupervisorVipStatusActive": "ACTIVE",
+  "staffSupervisorVipCapacityLabel": "Capacity",
+  "staffSupervisorVipCapacityPeople": "{count} people",
+  "@staffSupervisorVipCapacityPeople": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "staffSupervisorVipEnteredLabel": "Entered",
+  "staffSupervisorVipPendingLabel": "Pending",
+  "staffSupervisorVipPurchaseResponsibleLabel": "Purchase owner:",
+  "staffSupervisorVipGuestsTitle": "GUESTS",
+  "staffSupervisorVipGuestEntered": "Entered - {time}",
+  "@staffSupervisorVipGuestEntered": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "staffSupervisorVipGuestPending": "Entry pending",
+  "staffSupervisorVipActionAuthorizeExtra": "Authorize extra guest",
+  "staffSupervisorVipActionChangeAccess": "Change VIP access",
+  "staffSupervisorVipActionMoveGuest": "Move guest",
+  "staffSupervisorVipActionReleaseInvitation": "Release invitation",
+  "staffSupervisorVipNewExtraGuestTitle": "NEW EXTRA GUEST",
+  "staffSupervisorVipGuestNameLabel": "Name",
+  "staffSupervisorVipGuestNamePlaceholder": "Full name",
+  "staffSupervisorVipGuestPhoneLabel": "Phone",
+  "staffSupervisorVipGuestPhonePlaceholder": "E.g. +56 9 1234 5678",
+  "staffSupervisorVipAuthorizationReasonLabel": "Authorization reason",
+  "staffSupervisorVipAuthorizationReasonPlaceholder": "Describe the reason for authorization",
+  "staffSupervisorVipHistoryTitle": "VIP HISTORY",
+  "staffSupervisorVipHistorySupervisorPrefix": "Supervisor",
+  "staffSupervisorVipHistoryExtraGuest": "Extra guest authorized",
+  "staffSupervisorVipHistoryQrReleased": "VIP QR released",
+  "staffSupervisorVipHistoryTableModified": "Table modified",
+  "staffSupervisorVipSearchResultsTitle": "MATCHING TABLES",
+  "staffSupervisorVipActionSuccess": "VIP action applied successfully.",
+  "staffSupervisorVipSelectGuestRelease": "Tap a guest to release their invitation QR.",
+  "staffSupervisorVipSelectGuestChangeAccess": "Tap a guest to change their VIP access level.",
+  "staffSupervisorVipSelectGuestMove": "Tap a guest to move them to another seat.",
+  "staffSupervisorVipSelectAccessTitle": "NEW ACCESS LEVEL",
+  "staffSupervisorVipSelectDestinationTitle": "DESTINATION SEAT",
+  "staffSupervisorVipNoAvailableSeats": "No empty seats available on this table.",
+  "staffSupervisorVipReleaseInvitationHint": "This unlocks the guest QR immediately without removing them from the table.",
+  "staffSupervisorSystemStatusTitle": "System status",
+  "staffSupervisorSystemStatusDescription": "Review connectivity, sync, and validator status.",
+  "staffSupervisorSystemGeneralStatusTitle": "GENERAL STATUS",
+  "staffSupervisorSystemHealthSystem": "System",
+  "staffSupervisorSystemHealthSync": "Synchronization",
+  "staffSupervisorSystemHealthDatabase": "Database",
+  "staffSupervisorSystemHealthOfflineMode": "Offline mode",
+  "staffSupervisorSystemStatusOnline": "ONLINE",
+  "staffSupervisorSystemStatusSlowSync": "SLOW",
+  "staffSupervisorSystemStatusSlowScanner": "SLOW",
+  "staffSupervisorSystemStatusOperational": "OPERATIONAL",
+  "staffSupervisorSystemStatusDisabled": "DISABLED",
+  "staffSupervisorSystemStatusDisconnected": "DISCONNECTED",
+  "staffSupervisorSystemActiveScannersTitle": "ACTIVE SCANNERS",
+  "staffSupervisorSystemRestartScannerButton": "RESTART SCANNER",
+  "staffSupervisorSystemActiveAlertsTitle": "ACTIVE ALERTS",
+  "staffSupervisorSystemAlertDuplicateQr": "Duplicate QRs detected",
+  "staffSupervisorSystemAlertVipQueue": "Saturated VIP access queue",
+  "staffSupervisorSystemAlertScannerSlow": "Scanner VIP-01 slow",
+  "staffSupervisorSystemEventFlowTitle": "EVENT FLOW",
+  "staffSupervisorSystemEventFlowSubtitle": "Entries in the last 5 min",
+  "staffSupervisorSystemFlowGeneral": "General",
+  "staffSupervisorSystemFlowVip": "VIP",
+  "staffSupervisorSystemFlowBackstage": "Backstage",
+  "staffSupervisorSystemFlowRejected": "Rejected",
+  "staffSupervisorSystemFlowDuplicates": "Duplicates",
+  "staffSupervisorSystemQuickActionsTitle": "QUICK ACTIONS",
+  "staffSupervisorSystemActionOfflineMode": "ACTIVATE OFFLINE MODE",
+  "staffSupervisorSystemActionPauseValidations": "PAUSE VALIDATIONS",
+  "staffSupervisorSystemActionManualAccess": "OPEN MANUAL ACCESS",
+  "staffSupervisorSystemActionBlockVip": "BLOCK VIP ACCESS",
+  "staffSupervisorSystemActionStaffAlert": "SEND STAFF ALERT",
+  "staffSupervisorSystemOperationalSemaphoreTitle": "OPERATIONAL SEMAPHORE",
+  "staffSupervisorSystemRiskModerate": "MODERATE RISK",
+  "staffSupervisorSystemRiskReasonLabel": "Reason: ",
+  "staffSupervisorSystemRiskReasonVipFlow": "High VIP access flow",
+  "staffSupervisorSystemRecentLogsTitle": "RECENT LOGS",
+  "staffSupervisorSystemLogOfflineActivated": "Offline mode activated",
+  "staffSupervisorSystemLogOverrideAuthorized": "Override authorized",
+  "staffSupervisorSystemLogScannerRestarted": "VIP scanner restarted",
+  "staffSupervisorSystemLogDuplicateDetected": "Duplicate QR detected",
+  "staffSupervisorSystemLogOfflineDeactivated": "Offline mode deactivated",
+  "staffSupervisorSystemLogValidationsPaused": "Validations paused",
+  "staffSupervisorSystemLogValidationsResumed": "Validations resumed",
+  "staffSupervisorSystemLogVipBlocked": "VIP access blocked",
+  "staffSupervisorSystemLogStaffAlert": "Staff alert sent",
+  "staffSupervisorSystemRiskReasonDuplicateQr": "Duplicate QR activity detected",
+  "staffSupervisorSystemRiskReasonScannerSlow": "One or more scanners are slow",
+  "staffSupervisorSystemRiskReasonValidationsPaused": "Validations are paused",
+  "staffSupervisorSystemActionDeactivateOfflineMode": "DEACTIVATE OFFLINE MODE",
+  "staffSupervisorSystemActionResumeValidations": "RESUME VALIDATIONS",
+  "staffSupervisorSystemActionUnblockVip": "UNBLOCK VIP ACCESS",
+  "staffSupervisorSystemActionSuccess": "System action applied successfully",
+  "staffSupervisorSystemLoadError": "Could not load system status",
+  "staffSupervisorSystemAlertMessageLabel": "Alert message",
+  "staffSupervisorSystemAlertMessagePlaceholder": "Describe the issue for staff on site",
+  "staffSupervisorSystemPinRequired": "Supervisor PIN",
+  "staffSupervisorSystemDialogConfirm": "Confirm",
+  "staffSupervisorSystemRetry": "Retry",
+  "staffSupervisorActionHistoryTitle": "Action history",
+  "staffSupervisorActionHistoryDescription": "Review the latest actions performed in supervisor mode.",
+  "staffSupervisorActionHistoryEmpty": "No supervisor actions recorded for this event yet.",
+  "staffSupervisorActionHistoryLoadError": "Could not load action history",
+  "staffSupervisorActionHistoryKindReleaseQr": "QR released",
+  "staffSupervisorActionHistoryKindRevalidateQr": "QR revalidated",
+  "staffSupervisorActionHistoryKindRevertValidation": "Validation reverted",
+  "staffSupervisorActionHistoryKindAuthorizeReentry": "Re-entry authorized",
+  "staffSupervisorActionHistoryKindTemporaryUnlock": "Temporary unlock applied",
+  "staffSupervisorActionHistoryKindReleaseReentry": "Re-entry released",
+  "staffSupervisorActionHistoryKindBlockQr": "QR blocked",
+  "staffSupervisorActionHistoryKindEscalateAlert": "Alert escalated",
+  "staffSupervisorActionHistoryKindAuthorizeEntry": "Manual entry authorized",
+  "staffSupervisorActionHistoryKindGenerateTemporaryQr": "Temporary QR generated",
+  "staffSupervisorActionHistoryKindRejectAccess": "Access rejected",
+  "staffSupervisorActionHistoryKindAuthorizeExtraGuest": "Extra VIP guest authorized",
+  "staffSupervisorActionHistoryKindChangeAccess": "VIP access changed",
+  "staffSupervisorActionHistoryKindMoveGuest": "VIP guest moved",
+  "staffSupervisorActionHistoryKindReleaseInvitation": "VIP invitation released",
+  "staffSupervisorActionHistoryKindOfflineModeEnabled": "Offline mode activated",
+  "staffSupervisorActionHistoryKindOfflineModeDisabled": "Offline mode deactivated",
+  "staffSupervisorActionHistoryKindValidationsPaused": "Validations paused",
+  "staffSupervisorActionHistoryKindValidationsResumed": "Validations resumed",
+  "staffSupervisorActionHistoryKindVipAccessBlocked": "VIP access blocked",
+  "staffSupervisorActionHistoryKindVipAccessUnblocked": "VIP access unblocked",
+  "staffSupervisorActionHistoryKindScannerRestarted": "Scanner restarted",
+  "staffSupervisorActionHistoryKindStaffAlert": "Staff alert sent",
+  "staffSupervisorExitModeButton": "Exit supervisor mode",
+  "staffSupervisorValidatorLabel": "Validator: {validatorId}",
+  "@staffSupervisorValidatorLabel": {
+    "placeholders": {
+      "validatorId": {
+        "type": "String"
+      }
+    }
+  },
+  "staffSupervisorSearchEntryScreenTitle": "Search entry",
+  "staffSupervisorSearchEntrySectionTitle": "SEARCH ENTRY",
+  "staffSupervisorSearchEntryPlaceholder": "Name / phone / QR / purchase ID / VIP table",
+  "staffSupervisorSearchEntryHeaderSubtitle": "Supervisor · Supervisor mode",
+  "staffSupervisorSearchEntryByLabel": "Search by:",
+  "staffSupervisorSearchEntryQuickFilters": "Quick filters",
+  "staffSupervisorSearchEntryFilterVip": "VIP",
+  "staffSupervisorSearchEntryFilterUsed": "Used",
+  "staffSupervisorSearchEntryFilterError": "Error",
+  "staffSupervisorSearchEntryPurchaseIdLabel": "Purchase ID",
+  "staffSupervisorSearchEntryTimeLabel": "Entry time",
+  "staffSupervisorSearchEntryValidatorLabel": "Validator",
+  "staffSupervisorSearchEntryVipTableLabel": "VIP table",
+  "staffSupervisorSearchEntryAssociatedLabel": "Associated entries",
+  "staffSupervisorSearchEntryActionHistory": "View history",
+  "staffSupervisorEntryHistoryTitle": "Entry history",
+  "staffSupervisorEntryHistoryEmpty": "No history recorded for this entry yet.",
+  "staffSupervisorEntryHistoryQrLabel": "Entry code: {code}",
+  "@staffSupervisorEntryHistoryQrLabel": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "staffSupervisorSearchEntryActionOverride": "Manual override",
+  "staffSupervisorSearchEntryRecentEventsTitle": "RECENT EVENTS",
+  "staffSupervisorEntryGateLabel": "Gate",
+  "staffSupervisorEntryStatusValidated": "VALIDATED",
+  "staffSupervisorEntryStatusPending": "PENDING",
+  "staffSupervisorEntryStatusUsed": "USED",
+  "staffSupervisorEntryStatusBlocked": "BLOCKED",
+  "staffSupervisorEntryStatusError": "ERROR",
+  "staffSupervisorSearchEntryNoResults": "No entries found for this search.",
+  "staffSupervisorSearchEntryNoVipResults": "No VIP entries match this search. Turn off the VIP filter or try another term.",
+  "staffSupervisorSearchEntryNoUsedResults": "No used entries match this search. Turn off the Used filter or try another term.",
+  "staffSupervisorSearchEntryNoErrorResults": "No error entries match this search. Turn off the Error filter or try another term.",
+  "staffSupervisorSearchEntrySearchError": "Could not search entries. Try again.",
+  "staffSupervisorSearchEntryRecentValidated": "Validated",
+  "staffSupervisorSearchEntryRecentReentry": "Re-entry authorized",
+  "staffSupervisorSearchEntryRecentSupervisor": "Supervisor",
+  "staffSupervisorSearchEntryResultsCount": "{count, plural, =1{1 result found} other{{count} results found}}",
+  "@staffSupervisorSearchEntryResultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "staffSupervisorDuplicateAlertTitle": "DUPLICATE ALERT",
+  "staffSupervisorDuplicateCurrentStatusTitle": "CURRENT STATUS",
+  "staffSupervisorDuplicateLastValidTitle": "Last valid access",
+  "staffSupervisorDuplicateNewAttemptTitle": "New attempt detected",
+  "staffSupervisorDuplicateTimeLabel": "Time",
+  "staffSupervisorDuplicateAccessLabel": "Access",
+  "staffSupervisorDuplicateDeviceLabel": "Device",
+  "staffSupervisorDuplicatePossibleReasonTitle": "POSSIBLE REASON",
+  "staffSupervisorDuplicateReasonScreenshot": "Shared screenshot",
+  "staffSupervisorDuplicateReasonResold": "Resold QR",
+  "staffSupervisorDuplicateReasonValidationError": "Validation error",
+  "staffSupervisorDuplicateReasonAuthorizedReentry": "Authorized re-entry",
+  "staffSupervisorDuplicateSupervisorActionsTitle": "SUPERVISOR ACTIONS",
+  "staffSupervisorDuplicateReleaseReentry": "RELEASE RE-ENTRY",
+  "staffSupervisorDuplicateBlockQr": "BLOCK QR",
+  "staffSupervisorDuplicateEscalateAlert": "ESCALATE ALERT",
+  "staffSupervisorDuplicateReasonPlaceholder": "Write the reason...",
+  "staffSupervisorExecuteDuplicateButton": "RESOLVE DUPLICATE",
+  "staffSupervisorDuplicateNotFound": "No duplicate attempts found for this entry.",
+  "staffSupervisorDuplicateResolvedSuccess": "Duplicate resolved successfully.",
+  "staffSupervisorEntryOverrideSuccess": "Override applied successfully.",
+  "staffSupervisorDuplicateLogValidated": "Validated",
+  "staffSupervisorDuplicateLogReentryRejected": "Re-entry rejected",
+  "staffSupervisorDuplicateLogSupervisorPending": "Supervisor pending",
+  "staffSupervisorDuplicateLogSupervisorResolved": "Supervisor resolved",
+  "staffSupervisorDuplicateAlreadyResolved": "This duplicate alert has already been resolved.",
+  "staffSupervisorDuplicateSearchHint": "Search by name, entry code, phone, or purchase ID",
+  "staffBarMode": "Bar mode",
+  "staffNoScanAccessTitle": "No scan access assigned",
+  "staffNoScanAccessSubtitle": "Ask an administrator to assign door or bar scan permissions to your staff account.",
+  "staffSupervisorAccessDenied": "You do not have supervisor access for this area.",
+  "staffAccessValidatorTitle": "ACCESS VALIDATOR",
+  "staffAccessValidatorSubtitle": "Scan the entry QR code to validate event access",
+  "staffScanEntryButton": "SCAN ENTRY",
+  "staffActiveEventPrefix": "Active event:",
+  "staffActiveEventLabel": "Active event: {eventName}",
+  "@staffActiveEventLabel": {
+    "placeholders": {
+      "eventName": {
+        "type": "String"
+      }
+    }
+  },
+  "staffRecentAccessTitle": "Recent access",
+  "staffRecentAccessEmpty": "No entry scans yet. Scan a ticket QR to see it here.",
+  "staffViewAllAccess": "View all >",
+  "staffAccessDuplicateLabel": "Duplicate QR",
+  "staffScanResultValidTitle": "VALID",
+  "staffScanResultValidSubtitle": "The QR code was validated successfully.",
+  "staffScanResultUsedTitle": "QR USED",
+  "staffScanResultUsedSubtitle": "This code was already redeemed.",
+  "staffScanResultProductLabel": "Product",
+  "staffScanResultUserLabel": "User",
+  "staffScanResultTimeLabel": "Time",
+  "staffScanResultAttemptTimeLabel": "Attempt time",
+  "staffScanResultBarLabel": "Bar",
+  "staffScanResultTransactionIdLabel": "Transaction ID",
+  "staffScanResultRememberTitle": "Remember",
+  "staffScanResultRememberMessage": "Press the button to confirm product delivery.",
+  "staffScanResultLastSuccessfulUse": "Last successful use",
+  "staffScanResultDeliverButton": "DELIVER PRODUCT",
+  "staffScanResultConfirmAccessButton": "CONFIRM ACCESS",
+  "staffScanResultEntryRememberMessage": "Press the button to confirm event access.",
+  "staffScanResultTicketLabel": "Ticket",
+  "staffScanResultBackButton": "BACK",
+  "staffEntryValidTitle": "VALID",
+  "staffEntryValidSubtitle": "Valid unique QR",
+  "staffEntryValidEventLabel": "Event",
+  "staffEntryValidEntryIdLabel": "Entry ID",
+  "staffEntryValidTicketTypeLabel": "Ticket type",
+  "staffEntryValidAccessLabel": "Authorized access",
+  "staffEntryValidTimeLabel": "Validation time",
+  "staffEntryValidAllowButton": "ALLOW ENTRY",
+  "staffEntryInvalidTitle": "INVALID",
+  "staffEntryInvalidSubtitle": "QR already used",
+  "staffEntryInvalidReasonLabel": "Reason",
+  "staffEntryInvalidReasonTitle": "QR already used",
+  "staffEntryInvalidReasonMessage": "This code was already scanned previously",
+  "staffEntryInvalidLastAccessLabel": "Last access",
+  "staffEntryInvalidLastAccessDate": "Today, {date}",
+  "@staffEntryInvalidLastAccessDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "staffEntryInvalidUserLabel": "User",
+  "staffEntryInvalidWarning": "This QR cannot be used. If you think this is an error, contact the supervisor.",
+  "staffEntryInvalidResolveDuplicateButton": "RESOLVE DUPLICATE",
+  "staffScanErrorQrNotFound": "QR code not recognised.",
+  "staffScanErrorQrInvalid": "This QR code is not valid for scanning.",
+  "staffScanErrorPermissionDenied": "You do not have permission to perform this scan.",
+  "staffScanErrorSessionExpired": "Your session expired. Please sign in again.",
+  "staffScanResultUnitCount": "{count, plural, =1{1 unit} other{{count} units}}",
+  "@staffScanResultUnitCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
     }
   }
 }

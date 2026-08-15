@@ -2635,4 +2635,1493 @@ class AppLocalizationsEs extends AppLocalizations {
   String waitlistOfferBanner(String time) {
     return '¡Hay un cupo para ti! Confirma antes de $time';
   }
+
+  @override
+  String get errorStaffNotFound =>
+      'No hay una cuenta de staff con este número. Pide a tu admin que te registre.';
+
+  @override
+  String get errorNetworkConnection =>
+      'No se pudo conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.';
+
+  @override
+  String get staffScanQrTitle => 'ESCANEAR QR';
+
+  @override
+  String get staffScanQrSubtitle => 'Toca para iniciar el escaneo';
+
+  @override
+  String get staffScanQrAreaLabel => 'AREA QR';
+
+  @override
+  String get staffScanQrInstruction => 'Mantén el código\ndentro del recuadro';
+
+  @override
+  String get staffScanFlashLabel => 'Flash';
+
+  @override
+  String get staffScanCameraUnavailable =>
+      'La cámara no está disponible en este dispositivo.';
+
+  @override
+  String get staffScanPermissionDenied =>
+      'Se necesita permiso de cámara para escanear códigos QR.';
+
+  @override
+  String get staffManualEntryButton => 'INGRESO MANUAL';
+
+  @override
+  String get staffRecentScansTitle => 'Últimos escaneos';
+
+  @override
+  String get staffRecentScanActionAuthorizeConsumption => 'Consumo autorizado';
+
+  @override
+  String get staffRecentScanActionRejectConsumption => 'Consumo rechazado';
+
+  @override
+  String get staffRecentScansEmpty =>
+      'Aún no hay escaneos de productos. Escanea un QR de bebida para verlo aquí.';
+
+  @override
+  String get staffViewAllScans => 'Ver todos >';
+
+  @override
+  String get staffScanDuplicateLabel => 'Duplicado';
+
+  @override
+  String get staffConnectedLabel => 'Conectado';
+
+  @override
+  String get staffDisconnectedLabel => 'Desconectado';
+
+  @override
+  String get staffOnlineStatus => 'En línea';
+
+  @override
+  String get staffAwayStatus => 'Ausente';
+
+  @override
+  String get staffDrawerTitle => 'Menú staff';
+
+  @override
+  String get staffApiEnvironmentLabel => 'Entorno API';
+
+  @override
+  String get staffApiEnvDevLocal => 'Dev (local)';
+
+  @override
+  String get staffApiEnvDevNgrok => 'Dev (ngrok)';
+
+  @override
+  String get staffApiEnvProduction => 'Producción';
+
+  @override
+  String get staffApiEnvCustom => 'API personalizada';
+
+  @override
+  String get staffNgrokTunnelLabel => 'Túnel ngrok (dispositivo físico)';
+
+  @override
+  String get staffLanguageLabel => 'Idioma';
+
+  @override
+  String get staffLanguageEnglish => 'Inglés';
+
+  @override
+  String get staffLanguageSpanish => 'Español';
+
+  @override
+  String get staffLogout => 'Cerrar sesión';
+
+  @override
+  String get staffSupervisorMode => 'Modo Supervisor';
+
+  @override
+  String get staffBarSupervisorMode => 'Supervisor barra';
+
+  @override
+  String get staffTicketsSupervisorMode => 'Supervisor entradas';
+
+  @override
+  String get staffAccessValidatorMenu => 'Validador de acceso';
+
+  @override
+  String get staffSupervisorPinTitle => 'Acceso supervisor';
+
+  @override
+  String get staffSupervisorPinSubtitle =>
+      'Ingresa tu PIN para continuar y acceder al modo supervisor.';
+
+  @override
+  String get staffSupervisorPinFieldLabel => 'Ingresa PIN';
+
+  @override
+  String get staffSupervisorPinContinueButton => 'CONTINUAR';
+
+  @override
+  String get staffSupervisorPinFooter =>
+      'Solo personal autorizado puede acceder.';
+
+  @override
+  String get staffSupervisorPinInvalid => 'PIN incorrecto. Intenta de nuevo.';
+
+  @override
+  String get staffSupervisorPinNotConfigured =>
+      'Aún no hay PIN supervisor configurado. Pide a un administrador que genere uno.';
+
+  @override
+  String get staffSupervisorPinAccessDenied =>
+      'Tu cuenta no está autorizada para el modo supervisor.';
+
+  @override
+  String get staffSupervisorDashboardTitle => 'MODO SUPERVISOR';
+
+  @override
+  String get staffSupervisorDashboardSubtitle => 'Control avanzado de barra';
+
+  @override
+  String get staffSupervisorCancellationsTitle => 'ANULACIONES';
+
+  @override
+  String get staffSupervisorCancelConsumption => 'Anular consumo';
+
+  @override
+  String get staffSupervisorRevertValidation => 'Revertir validación';
+
+  @override
+  String get staffSupervisorReleaseBlockedQr => 'Liberar código QR bloqueado';
+
+  @override
+  String get staffSupervisorManualValidationTitle => 'VALIDACIÓN MANUAL';
+
+  @override
+  String staffSupervisorManualValidationUser(String userName) {
+    return 'Usuario: $userName';
+  }
+
+  @override
+  String staffSupervisorManualValidationProduct(String productName) {
+    return 'Producto: $productName';
+  }
+
+  @override
+  String staffSupervisorManualValidationCode(String code) {
+    return 'Código parcial: $code';
+  }
+
+  @override
+  String get staffSupervisorQrOverrideTitle => 'OVERRIDE CÓDIGO QR';
+
+  @override
+  String staffSupervisorQrOverrideSupervisor(String supervisorName) {
+    return 'Supervisor: $supervisorName';
+  }
+
+  @override
+  String get staffSupervisorGoButton => 'Ir';
+
+  @override
+  String get staffSupervisorRecentActionsTitle => 'ÚLTIMAS ACCIONES';
+
+  @override
+  String get staffSupervisorViewAllActions => 'Ver todos >';
+
+  @override
+  String get staffSupervisorActionQrReleased => 'Código QR liberado';
+
+  @override
+  String get staffSupervisorActionManualValidation => 'Validación manual';
+
+  @override
+  String get staffSupervisorActionConsumptionCancelled => 'Consumo anulado';
+
+  @override
+  String get staffSupervisorComingSoon => 'Próximamente';
+
+  @override
+  String get staffSupervisorCancellationsScreenTitle => 'Anulaciones';
+
+  @override
+  String get staffSupervisorCancellationsScreenSubtitle =>
+      'Supervisor · YouPass';
+
+  @override
+  String get staffSupervisorSearchConsumptionTitle => 'BUSCAR CONSUMO';
+
+  @override
+  String get staffSupervisorSearchConsumptionHeading => 'Buscar consumo';
+
+  @override
+  String get staffSupervisorSearchDrinkNoResults =>
+      'No se encontraron consumos para esta búsqueda.';
+
+  @override
+  String get staffSupervisorSearchDrinkSearchError =>
+      'No se pudo buscar consumos. Intenta de nuevo.';
+
+  @override
+  String staffSupervisorSearchDrinkResultsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count resultados encontrados',
+      one: '1 resultado encontrado',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get staffSupervisorSearchPlaceholder => 'QR / usuario / producto';
+
+  @override
+  String get staffSupervisorSearchButton => 'BUSCAR';
+
+  @override
+  String get staffSupervisorConsumptionFoundTitle => 'CONSUMO ENCONTRADO';
+
+  @override
+  String get staffSupervisorConsumptionUserLabel => 'Usuario';
+
+  @override
+  String get staffSupervisorConsumptionProductLabel => 'Producto';
+
+  @override
+  String get staffSupervisorConsumptionBarLabel => 'Barra';
+
+  @override
+  String get staffSupervisorConsumptionTimeLabel => 'Hora validación';
+
+  @override
+  String get staffSupervisorConsumptionIdLabel => 'ID consumo';
+
+  @override
+  String get staffSupervisorConsumptionStatusLabel => 'Estado';
+
+  @override
+  String get staffSupervisorConsumptionStatusValidated => 'VALIDADO';
+
+  @override
+  String get staffSupervisorActionsTitle => 'ACCIONES';
+
+  @override
+  String get staffSupervisorReasonTitle => 'MOTIVO OBLIGATORIO';
+
+  @override
+  String get staffSupervisorReasonPlaceholder =>
+      'Escribe el motivo de la anulación...';
+
+  @override
+  String get staffSupervisorReasonHint =>
+      'Ejemplo: \'Producto entregado incorrecto\'';
+
+  @override
+  String get staffSupervisorAuthorizationTitle => 'AUTORIZACIÓN';
+
+  @override
+  String get staffSupervisorAuthorizationSupervisorLabel => 'Supervisor';
+
+  @override
+  String get staffSupervisorAuthorizationPinLabel => 'PIN supervisor';
+
+  @override
+  String get staffSupervisorHistoryTitle => 'HISTORIAL';
+
+  @override
+  String staffSupervisorHistoryValidated(String time) {
+    return 'Validado — $time';
+  }
+
+  @override
+  String get staffSupervisorHistoryPending => 'Supervisor pendiente';
+
+  @override
+  String get staffSupervisorExecuteCancellationButton => 'EJECUTAR ANULACIÓN';
+
+  @override
+  String get staffSupervisorCancellationSuccess =>
+      'Anulación registrada correctamente.';
+
+  @override
+  String get staffSupervisorManualValidationScreenTitle => 'Validación manual';
+
+  @override
+  String get staffSupervisorNoQrBannerTitle => 'CONSUMO SIN QR';
+
+  @override
+  String get staffSupervisorNoQrBannerBody =>
+      'Ingresa el código del QR de la compra para validar manualmente.';
+
+  @override
+  String get staffSupervisorEnterQrCodeTitle =>
+      'INGRESAR CÓDIGO QR (OPCIÓN PRINCIPAL)';
+
+  @override
+  String get staffSupervisorEnterQrCodePlaceholder =>
+      'Ingresa el código del QR';
+
+  @override
+  String get staffSupervisorSearchQrCodeButton => 'BUSCAR CÓDIGO';
+
+  @override
+  String get staffSupervisorOrDivider => 'o bien';
+
+  @override
+  String get staffSupervisorSearchUserHeading => 'Buscar usuario';
+
+  @override
+  String get staffSupervisorSearchUserPlaceholder => 'Nombre / teléfono';
+
+  @override
+  String get staffSupervisorSearchSystemButton => 'BUSCAR EN SISTEMA';
+
+  @override
+  String get staffSupervisorResultFoundTitle => 'RESULTADO ENCONTRADO';
+
+  @override
+  String get staffSupervisorResultEventLabel => 'Evento';
+
+  @override
+  String get staffSupervisorResultPurchaseLabel => 'Compra';
+
+  @override
+  String get staffSupervisorQrStatusLabel => 'Estado QR';
+
+  @override
+  String get staffSupervisorQrStatusUnavailable => 'QR NO DISPONIBLE';
+
+  @override
+  String get staffSupervisorValidationReasonTitle => 'MOTIVO VALIDACIÓN';
+
+  @override
+  String get staffSupervisorReasonPhoneBattery => 'Celular sin batería';
+
+  @override
+  String get staffSupervisorReasonNoConnection => 'Sin conexión';
+
+  @override
+  String get staffSupervisorReasonDamagedQr => 'QR dañado';
+
+  @override
+  String get staffSupervisorReasonBrokenScreen => 'Pantalla rota';
+
+  @override
+  String get staffSupervisorReasonOther => 'Otro';
+
+  @override
+  String get staffSupervisorIdentityValidationTitle => 'VALIDACIÓN IDENTIDAD';
+
+  @override
+  String get staffSupervisorIdentityFullNameLabel => 'Nombre completo';
+
+  @override
+  String get staffSupervisorIdentityLastDigitsLabel => 'Últimos 4 dígitos';
+
+  @override
+  String get staffSupervisorIdentityDocumentLabel => 'Documento validado';
+
+  @override
+  String get staffSupervisorIdentityConfirmed => 'Confirmado';
+
+  @override
+  String get staffSupervisorAuthorizeConsumptionButton => 'AUTORIZAR CONSUMO';
+
+  @override
+  String get staffSupervisorGenerateTemporaryQrButton => 'GENERAR QR TEMPORAL';
+
+  @override
+  String get staffSupervisorRejectButton => 'RECHAZAR';
+
+  @override
+  String get staffSupervisorValidationReasonPlaceholder =>
+      'Escribe el motivo de la validación...';
+
+  @override
+  String get staffSupervisorSystemRecordTitle => 'REGISTRO SISTEMA';
+
+  @override
+  String staffSupervisorSystemRecordSupervisor(String name) {
+    return 'Supervisor: $name';
+  }
+
+  @override
+  String staffSupervisorSystemRecordTime(String time) {
+    return 'Hora: $time';
+  }
+
+  @override
+  String get staffSupervisorSystemRecordStatus => 'Estado: ';
+
+  @override
+  String get staffSupervisorSystemRecordStatusPending => 'Pendiente';
+
+  @override
+  String get staffSupervisorQrOverrideScreenTitle => 'Override código QR';
+
+  @override
+  String get staffSupervisorOverrideCriticalTitle => 'ACCIÓN CRÍTICA';
+
+  @override
+  String get staffSupervisorOverrideCriticalBody =>
+      'Esta herramienta modifica el estado del QR en sistema.';
+
+  @override
+  String get staffSupervisorOverrideSearchTitle => 'BUSCAR QR / USUARIO';
+
+  @override
+  String get staffSupervisorOverrideSearchPlaceholder =>
+      'QR / nombre / ID compra';
+
+  @override
+  String get staffSupervisorOverrideActionsTitle => 'ACCIONES OVERRIDE';
+
+  @override
+  String get staffSupervisorOverrideReleaseQr => 'Liberar QR';
+
+  @override
+  String get staffSupervisorOverrideRevalidateQr => 'Revalidar QR';
+
+  @override
+  String get staffSupervisorOverrideAuthorizeReconsumption =>
+      'Autorizar reconsumo';
+
+  @override
+  String get staffSupervisorOverrideTemporaryUnlock => 'Desbloqueo temporal';
+
+  @override
+  String get staffSupervisorOverrideReasonPlaceholder =>
+      'Escribe el motivo del override...';
+
+  @override
+  String get staffSupervisorOverrideReasonHint =>
+      'Ejemplo: \'QR marcado incorrectamente\'';
+
+  @override
+  String get staffSupervisorOverrideQrIdLabel => 'ID QR';
+
+  @override
+  String get staffSupervisorOverrideCurrentStatusLabel => 'Estado actual';
+
+  @override
+  String get staffSupervisorOverrideStatusBlocked => 'BLOQUEADO';
+
+  @override
+  String get staffSupervisorOverrideLastUseLabel => 'Último uso';
+
+  @override
+  String get staffSupervisorOverrideScannerLabel => 'Scanner';
+
+  @override
+  String get staffSupervisorOverrideAuthLevelLabel => 'Nivel autorización:';
+
+  @override
+  String get staffSupervisorOverrideAuthLevelHigh => 'ALTO';
+
+  @override
+  String get staffSupervisorOverrideExpectedResultTitle => 'RESULTADO ESPERADO';
+
+  @override
+  String get staffSupervisorOverrideExpectedStatusPrefix => 'Estado QR →';
+
+  @override
+  String get staffSupervisorOverrideExpectedStatus => 'Estado QR → VÁLIDO';
+
+  @override
+  String get staffSupervisorOverrideExpectedSubtext =>
+      'Nuevo consumo permitido.';
+
+  @override
+  String get staffSupervisorOverrideLogsTitle => 'LOGS QR';
+
+  @override
+  String get staffSupervisorOverrideLogsEmpty =>
+      'Aún no hay actividad registrada para este QR.';
+
+  @override
+  String get staffSupervisorOverrideLogQrBlocked => 'QR bloqueado';
+
+  @override
+  String get staffSupervisorOverrideLogPending => 'Override pendiente';
+
+  @override
+  String get staffSupervisorExecuteOverrideButton => 'EJECUTAR OVERRIDE';
+
+  @override
+  String get staffSupervisorAccessDashboardSubtitle =>
+      'Accede a herramientas avanzadas para gestionar accesos y resolver contingencias.';
+
+  @override
+  String get staffSupervisorSearchEntryTitle => 'Buscar entrada';
+
+  @override
+  String get staffSupervisorSearchEntryDescription =>
+      'Busca y revisa el estado de una entrada por nombre, código, teléfono y más.';
+
+  @override
+  String get staffSupervisorResolveDuplicateTitle => 'Resolver duplicado';
+
+  @override
+  String get staffSupervisorResolveDuplicateDescription =>
+      'Gestiona entradas duplicadas o usos no autorizados.';
+
+  @override
+  String get staffSupervisorEntryOverrideDescription =>
+      'Autoriza, libera o revalida manualmente una entrada.';
+
+  @override
+  String get staffSupervisorEntryAuthorizationTitle =>
+      'AUTORIZACIÓN SUPERVISOR';
+
+  @override
+  String get staffSupervisorEntryAccessLabel => 'Acceso';
+
+  @override
+  String get staffSupervisorEntryOverrideCriticalBody =>
+      'Esta herramienta modifica directamente el estado del QR dentro del sistema.';
+
+  @override
+  String get staffSupervisorEntryOverrideReasonPlaceholder =>
+      'Describe el motivo del override';
+
+  @override
+  String get staffSupervisorEntryOverrideReasonHint =>
+      'Ejemplo: \'QR marcado como usado accidentalmente\'';
+
+  @override
+  String get staffSupervisorOverrideAuthorizeReentry => 'Autorizar reingreso';
+
+  @override
+  String get staffSupervisorEntryOverrideExpectedValid => 'VÁLIDO';
+
+  @override
+  String get staffSupervisorEntryOverrideExpectedSubtext =>
+      'Reingreso permitido';
+
+  @override
+  String get staffSupervisorEntryManualValidationTitle => 'Validación manual';
+
+  @override
+  String get staffSupervisorEntryManualValidationDescription =>
+      'Valida el acceso manualmente cuando no hay QR disponible.';
+
+  @override
+  String get staffSupervisorEntryNoQrBannerTitle => 'ACCESO SIN QR';
+
+  @override
+  String get staffSupervisorEntryNoQrBannerBody =>
+      'Use esta opción solo en casos justificados';
+
+  @override
+  String get staffSupervisorEntryManualSearchPlaceholder =>
+      'Nombre / teléfono / correo';
+
+  @override
+  String get staffSupervisorEntryManualReasonTitle => 'Motivo acceso manual';
+
+  @override
+  String get staffSupervisorEntryManualReasonOtherPlaceholder =>
+      'Especifica el motivo';
+
+  @override
+  String get staffSupervisorEntryManualIdentityPhoneLabel =>
+      'Últimos 4 dígitos teléfono';
+
+  @override
+  String get staffSupervisorEntryManualAuthorizeEntry => 'AUTORIZAR INGRESO';
+
+  @override
+  String get staffSupervisorEntryManualRejectAccess => 'RECHAZAR ACCESO';
+
+  @override
+  String get staffSupervisorEntryManualReasonPlaceholder =>
+      'Describe el motivo del acceso manual';
+
+  @override
+  String get staffSupervisorEntryManualSystemStatusLabel => 'Estado: ';
+
+  @override
+  String get staffSupervisorEntryManualSystemStatusPending =>
+      'Pendiente autorización';
+
+  @override
+  String get staffSupervisorEntryManualValidationSuccess =>
+      'Validación manual aplicada correctamente.';
+
+  @override
+  String get staffSupervisorTemporaryQrDialogTitle => 'QR temporal generado';
+
+  @override
+  String staffSupervisorTemporaryQrDialogSubtitle(int minutes) {
+    return 'Muestra este QR en la puerta. Válido por $minutes minutos.';
+  }
+
+  @override
+  String staffSupervisorTemporaryQrDialogGuest(String guestName) {
+    return 'Invitado: $guestName';
+  }
+
+  @override
+  String get staffSupervisorTemporaryQrDialogClose => 'Listo';
+
+  @override
+  String get staffSupervisorTemporaryQrGeneratedSuccess =>
+      'QR temporal listo para mostrar.';
+
+  @override
+  String get staffSupervisorVipManagementTitle => 'Gestión VIP';
+
+  @override
+  String get staffSupervisorVipManagementDescription =>
+      'Consulta y autoriza accesos especiales para invitados VIP.';
+
+  @override
+  String get staffSupervisorVipSearchPlaceholder =>
+      'Buscar mesa / usuario (ej. Mesa 12 / Daniel Rojas)';
+
+  @override
+  String get staffSupervisorVipSearchSectionTitle => 'BUSCAR MESA VIP';
+
+  @override
+  String get staffSupervisorVipSearchNoResults =>
+      'No se encontraron mesas VIP para esta búsqueda.';
+
+  @override
+  String staffSupervisorVipSearchResultsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mesas encontradas',
+      one: '1 mesa encontrada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get staffSupervisorVipStatusLabel => 'Estado:';
+
+  @override
+  String get staffSupervisorVipStatusActive => 'ACTIVA';
+
+  @override
+  String get staffSupervisorVipCapacityLabel => 'Capacidad';
+
+  @override
+  String staffSupervisorVipCapacityPeople(int count) {
+    return '$count personas';
+  }
+
+  @override
+  String get staffSupervisorVipEnteredLabel => 'Ingresados';
+
+  @override
+  String get staffSupervisorVipPendingLabel => 'Pendientes';
+
+  @override
+  String get staffSupervisorVipPurchaseResponsibleLabel =>
+      'Responsable compra:';
+
+  @override
+  String get staffSupervisorVipGuestsTitle => 'INVITADOS';
+
+  @override
+  String staffSupervisorVipGuestEntered(String time) {
+    return 'Ingresó - $time';
+  }
+
+  @override
+  String get staffSupervisorVipGuestPending => 'Entrada pendiente';
+
+  @override
+  String get staffSupervisorVipActionAuthorizeExtra =>
+      'Autorizar invitado extra';
+
+  @override
+  String get staffSupervisorVipActionChangeAccess => 'Cambiar acceso VIP';
+
+  @override
+  String get staffSupervisorVipActionMoveGuest => 'Mover invitado';
+
+  @override
+  String get staffSupervisorVipActionReleaseInvitation => 'Liberar invitación';
+
+  @override
+  String get staffSupervisorVipNewExtraGuestTitle => 'NUEVO INVITADO EXTRA';
+
+  @override
+  String get staffSupervisorVipGuestNameLabel => 'Nombre';
+
+  @override
+  String get staffSupervisorVipGuestNamePlaceholder => 'Nombre completo';
+
+  @override
+  String get staffSupervisorVipGuestPhoneLabel => 'Teléfono';
+
+  @override
+  String get staffSupervisorVipGuestPhonePlaceholder => 'Ej. +56 9 1234 5678';
+
+  @override
+  String get staffSupervisorVipAuthorizationReasonLabel =>
+      'Motivo autorización';
+
+  @override
+  String get staffSupervisorVipAuthorizationReasonPlaceholder =>
+      'Describe el motivo de la autorización';
+
+  @override
+  String get staffSupervisorVipHistoryTitle => 'HISTORIAL VIP';
+
+  @override
+  String get staffSupervisorVipHistorySupervisorPrefix => 'Supervisor';
+
+  @override
+  String get staffSupervisorVipHistoryExtraGuest => 'Invitado extra autorizado';
+
+  @override
+  String get staffSupervisorVipHistoryQrReleased => 'QR VIP liberado';
+
+  @override
+  String get staffSupervisorVipHistoryTableModified => 'Mesa modificada';
+
+  @override
+  String get staffSupervisorVipSearchResultsTitle => 'MESAS COINCIDENTES';
+
+  @override
+  String get staffSupervisorVipActionSuccess =>
+      'Acción VIP aplicada correctamente.';
+
+  @override
+  String get staffSupervisorVipSelectGuestRelease =>
+      'Toca un invitado para liberar su QR de invitación.';
+
+  @override
+  String get staffSupervisorVipSelectGuestChangeAccess =>
+      'Toca un invitado para cambiar su nivel de acceso VIP.';
+
+  @override
+  String get staffSupervisorVipSelectGuestMove =>
+      'Toca un invitado para moverlo a otro asiento.';
+
+  @override
+  String get staffSupervisorVipSelectAccessTitle => 'NUEVO NIVEL DE ACCESO';
+
+  @override
+  String get staffSupervisorVipSelectDestinationTitle => 'ASIENTO DESTINO';
+
+  @override
+  String get staffSupervisorVipNoAvailableSeats =>
+      'No hay asientos vacíos en esta mesa.';
+
+  @override
+  String get staffSupervisorVipReleaseInvitationHint =>
+      'Esto desbloquea el QR del invitado de inmediato sin quitarlo de la mesa.';
+
+  @override
+  String get staffSupervisorSystemStatusTitle => 'Estado del sistema';
+
+  @override
+  String get staffSupervisorSystemStatusDescription =>
+      'Revisa conectividad, sincronización y estado del validador.';
+
+  @override
+  String get staffSupervisorSystemGeneralStatusTitle => 'ESTADO GENERAL';
+
+  @override
+  String get staffSupervisorSystemHealthSystem => 'Sistema';
+
+  @override
+  String get staffSupervisorSystemHealthSync => 'Sincronización';
+
+  @override
+  String get staffSupervisorSystemHealthDatabase => 'Base datos';
+
+  @override
+  String get staffSupervisorSystemHealthOfflineMode => 'Modo offline';
+
+  @override
+  String get staffSupervisorSystemStatusOnline => 'ONLINE';
+
+  @override
+  String get staffSupervisorSystemStatusSlowSync => 'LENTA';
+
+  @override
+  String get staffSupervisorSystemStatusSlowScanner => 'LENTO';
+
+  @override
+  String get staffSupervisorSystemStatusOperational => 'OPERATIVA';
+
+  @override
+  String get staffSupervisorSystemStatusDisabled => 'DESACTIVADO';
+
+  @override
+  String get staffSupervisorSystemStatusDisconnected => 'DESCONECTADO';
+
+  @override
+  String get staffSupervisorSystemActiveScannersTitle => 'SCANNERS ACTIVOS';
+
+  @override
+  String get staffSupervisorSystemRestartScannerButton => 'REINICIAR SCANNER';
+
+  @override
+  String get staffSupervisorSystemActiveAlertsTitle => 'ALERTAS ACTIVAS';
+
+  @override
+  String get staffSupervisorSystemAlertDuplicateQr =>
+      'QR duplicados detectados';
+
+  @override
+  String get staffSupervisorSystemAlertVipQueue => 'Cola saturada acceso VIP';
+
+  @override
+  String get staffSupervisorSystemAlertScannerSlow => 'Scanner VIP-01 lento';
+
+  @override
+  String get staffSupervisorSystemEventFlowTitle => 'FLUJO DEL EVENTO';
+
+  @override
+  String get staffSupervisorSystemEventFlowSubtitle => 'Ingresos últimos 5 min';
+
+  @override
+  String get staffSupervisorSystemFlowGeneral => 'General';
+
+  @override
+  String get staffSupervisorSystemFlowVip => 'VIP';
+
+  @override
+  String get staffSupervisorSystemFlowBackstage => 'Backstage';
+
+  @override
+  String get staffSupervisorSystemFlowRejected => 'Rechazados';
+
+  @override
+  String get staffSupervisorSystemFlowDuplicates => 'Duplicados';
+
+  @override
+  String get staffSupervisorSystemQuickActionsTitle => 'ACCIONES RÁPIDAS';
+
+  @override
+  String get staffSupervisorSystemActionOfflineMode => 'ACTIVAR MODO OFFLINE';
+
+  @override
+  String get staffSupervisorSystemActionPauseValidations =>
+      'PAUSAR VALIDACIONES';
+
+  @override
+  String get staffSupervisorSystemActionManualAccess => 'ABRIR ACCESO MANUAL';
+
+  @override
+  String get staffSupervisorSystemActionBlockVip => 'BLOQUEAR ACCESO VIP';
+
+  @override
+  String get staffSupervisorSystemActionStaffAlert => 'ENVIAR ALERTA STAFF';
+
+  @override
+  String get staffSupervisorSystemOperationalSemaphoreTitle =>
+      'SEMÁFORO OPERACIONAL';
+
+  @override
+  String get staffSupervisorSystemRiskModerate => 'RIESGO MODERADO';
+
+  @override
+  String get staffSupervisorSystemRiskReasonLabel => 'Motivo: ';
+
+  @override
+  String get staffSupervisorSystemRiskReasonVipFlow => 'Alto flujo acceso VIP';
+
+  @override
+  String get staffSupervisorSystemRecentLogsTitle => 'LOGS RECIENTES';
+
+  @override
+  String get staffSupervisorSystemLogOfflineActivated =>
+      'Modo offline activado';
+
+  @override
+  String get staffSupervisorSystemLogOverrideAuthorized =>
+      'Override autorizado';
+
+  @override
+  String get staffSupervisorSystemLogScannerRestarted =>
+      'Scanner VIP reiniciado';
+
+  @override
+  String get staffSupervisorSystemLogDuplicateDetected =>
+      'QR duplicado detectado';
+
+  @override
+  String get staffSupervisorSystemLogOfflineDeactivated =>
+      'Modo offline desactivado';
+
+  @override
+  String get staffSupervisorSystemLogValidationsPaused =>
+      'Validaciones pausadas';
+
+  @override
+  String get staffSupervisorSystemLogValidationsResumed =>
+      'Validaciones reanudadas';
+
+  @override
+  String get staffSupervisorSystemLogVipBlocked => 'Acceso VIP bloqueado';
+
+  @override
+  String get staffSupervisorSystemLogStaffAlert => 'Alerta enviada al staff';
+
+  @override
+  String get staffSupervisorSystemRiskReasonDuplicateQr =>
+      'Actividad de QR duplicados detectada';
+
+  @override
+  String get staffSupervisorSystemRiskReasonScannerSlow =>
+      'Uno o más scanners están lentos';
+
+  @override
+  String get staffSupervisorSystemRiskReasonValidationsPaused =>
+      'Las validaciones están pausadas';
+
+  @override
+  String get staffSupervisorSystemActionDeactivateOfflineMode =>
+      'DESACTIVAR MODO OFFLINE';
+
+  @override
+  String get staffSupervisorSystemActionResumeValidations =>
+      'REANUDAR VALIDACIONES';
+
+  @override
+  String get staffSupervisorSystemActionUnblockVip => 'DESBLOQUEAR ACCESO VIP';
+
+  @override
+  String get staffSupervisorSystemActionSuccess =>
+      'Acción aplicada correctamente';
+
+  @override
+  String get staffSupervisorSystemLoadError =>
+      'No se pudo cargar el estado del sistema';
+
+  @override
+  String get staffSupervisorSystemAlertMessageLabel => 'Mensaje de alerta';
+
+  @override
+  String get staffSupervisorSystemAlertMessagePlaceholder =>
+      'Describe el problema para el staff en sitio';
+
+  @override
+  String get staffSupervisorSystemPinRequired => 'PIN de supervisor';
+
+  @override
+  String get staffSupervisorSystemDialogConfirm => 'Confirmar';
+
+  @override
+  String get staffSupervisorSystemRetry => 'Reintentar';
+
+  @override
+  String get staffSupervisorActionHistoryTitle => 'Historial de acciones';
+
+  @override
+  String get staffSupervisorActionHistoryDescription =>
+      'Consulta las últimas acciones realizadas en modo supervisor.';
+
+  @override
+  String get staffSupervisorActionHistoryEmpty =>
+      'Aún no hay acciones de supervisor registradas para este evento.';
+
+  @override
+  String get staffSupervisorActionHistoryLoadError =>
+      'No se pudo cargar el historial de acciones';
+
+  @override
+  String get staffSupervisorActionHistoryKindReleaseQr => 'QR liberado';
+
+  @override
+  String get staffSupervisorActionHistoryKindRevalidateQr => 'QR revalidado';
+
+  @override
+  String get staffSupervisorActionHistoryKindRevertValidation =>
+      'Validación revertida';
+
+  @override
+  String get staffSupervisorActionHistoryKindAuthorizeReentry =>
+      'Reingreso autorizado';
+
+  @override
+  String get staffSupervisorActionHistoryKindTemporaryUnlock =>
+      'Desbloqueo temporal aplicado';
+
+  @override
+  String get staffSupervisorActionHistoryKindReleaseReentry =>
+      'Reingreso liberado';
+
+  @override
+  String get staffSupervisorActionHistoryKindBlockQr => 'QR bloqueado';
+
+  @override
+  String get staffSupervisorActionHistoryKindEscalateAlert => 'Alerta escalada';
+
+  @override
+  String get staffSupervisorActionHistoryKindAuthorizeEntry =>
+      'Ingreso manual autorizado';
+
+  @override
+  String get staffSupervisorActionHistoryKindGenerateTemporaryQr =>
+      'QR temporal generado';
+
+  @override
+  String get staffSupervisorActionHistoryKindRejectAccess => 'Acceso rechazado';
+
+  @override
+  String get staffSupervisorActionHistoryKindAuthorizeExtraGuest =>
+      'Invitado VIP extra autorizado';
+
+  @override
+  String get staffSupervisorActionHistoryKindChangeAccess =>
+      'Acceso VIP modificado';
+
+  @override
+  String get staffSupervisorActionHistoryKindMoveGuest => 'Invitado VIP movido';
+
+  @override
+  String get staffSupervisorActionHistoryKindReleaseInvitation =>
+      'Invitación VIP liberada';
+
+  @override
+  String get staffSupervisorActionHistoryKindOfflineModeEnabled =>
+      'Modo offline activado';
+
+  @override
+  String get staffSupervisorActionHistoryKindOfflineModeDisabled =>
+      'Modo offline desactivado';
+
+  @override
+  String get staffSupervisorActionHistoryKindValidationsPaused =>
+      'Validaciones pausadas';
+
+  @override
+  String get staffSupervisorActionHistoryKindValidationsResumed =>
+      'Validaciones reanudadas';
+
+  @override
+  String get staffSupervisorActionHistoryKindVipAccessBlocked =>
+      'Acceso VIP bloqueado';
+
+  @override
+  String get staffSupervisorActionHistoryKindVipAccessUnblocked =>
+      'Acceso VIP desbloqueado';
+
+  @override
+  String get staffSupervisorActionHistoryKindScannerRestarted =>
+      'Scanner reiniciado';
+
+  @override
+  String get staffSupervisorActionHistoryKindStaffAlert =>
+      'Alerta enviada al staff';
+
+  @override
+  String get staffSupervisorExitModeButton => 'Salir del modo supervisor';
+
+  @override
+  String staffSupervisorValidatorLabel(String validatorId) {
+    return 'Validador: $validatorId';
+  }
+
+  @override
+  String get staffSupervisorSearchEntryScreenTitle => 'Buscar entrada';
+
+  @override
+  String get staffSupervisorSearchEntrySectionTitle => 'BUSCAR ENTRADA';
+
+  @override
+  String get staffSupervisorSearchEntryPlaceholder =>
+      'Nombre / teléfono / QR / ID compra / mesa VIP';
+
+  @override
+  String get staffSupervisorSearchEntryHeaderSubtitle =>
+      'Supervisor · Modo supervisor';
+
+  @override
+  String get staffSupervisorSearchEntryByLabel => 'Buscar por:';
+
+  @override
+  String get staffSupervisorSearchEntryQuickFilters => 'Filtros rápidos';
+
+  @override
+  String get staffSupervisorSearchEntryFilterVip => 'VIP';
+
+  @override
+  String get staffSupervisorSearchEntryFilterUsed => 'Usados';
+
+  @override
+  String get staffSupervisorSearchEntryFilterError => 'Error';
+
+  @override
+  String get staffSupervisorSearchEntryPurchaseIdLabel => 'ID Compra';
+
+  @override
+  String get staffSupervisorSearchEntryTimeLabel => 'Hora ingreso';
+
+  @override
+  String get staffSupervisorSearchEntryValidatorLabel => 'Validador';
+
+  @override
+  String get staffSupervisorSearchEntryVipTableLabel => 'Mesa VIP';
+
+  @override
+  String get staffSupervisorSearchEntryAssociatedLabel => 'Ingresos asociados';
+
+  @override
+  String get staffSupervisorSearchEntryActionHistory => 'Ver historial';
+
+  @override
+  String get staffSupervisorEntryHistoryTitle => 'Historial de entrada';
+
+  @override
+  String get staffSupervisorEntryHistoryEmpty =>
+      'Aún no hay historial registrado para esta entrada.';
+
+  @override
+  String staffSupervisorEntryHistoryQrLabel(String code) {
+    return 'Código: $code';
+  }
+
+  @override
+  String get staffSupervisorSearchEntryActionOverride => 'Override manual';
+
+  @override
+  String get staffSupervisorSearchEntryRecentEventsTitle => 'ÚLTIMOS EVENTOS';
+
+  @override
+  String get staffSupervisorEntryGateLabel => 'Puerta';
+
+  @override
+  String get staffSupervisorEntryStatusValidated => 'VALIDADO';
+
+  @override
+  String get staffSupervisorEntryStatusPending => 'PENDIENTE';
+
+  @override
+  String get staffSupervisorEntryStatusUsed => 'USADO';
+
+  @override
+  String get staffSupervisorEntryStatusBlocked => 'BLOQUEADO';
+
+  @override
+  String get staffSupervisorEntryStatusError => 'ERROR';
+
+  @override
+  String get staffSupervisorSearchEntryNoResults =>
+      'No se encontraron entradas para esta búsqueda.';
+
+  @override
+  String get staffSupervisorSearchEntryNoVipResults =>
+      'No hay entradas VIP para esta búsqueda. Desactiva el filtro VIP o prueba otro término.';
+
+  @override
+  String get staffSupervisorSearchEntryNoUsedResults =>
+      'No hay entradas usadas para esta búsqueda. Desactiva el filtro Usados o prueba otro término.';
+
+  @override
+  String get staffSupervisorSearchEntryNoErrorResults =>
+      'No hay entradas con error para esta búsqueda. Desactiva el filtro Error o prueba otro término.';
+
+  @override
+  String get staffSupervisorSearchEntrySearchError =>
+      'No se pudo buscar entradas. Intenta de nuevo.';
+
+  @override
+  String get staffSupervisorSearchEntryRecentValidated => 'Validado';
+
+  @override
+  String get staffSupervisorSearchEntryRecentReentry => 'Reingreso autorizado';
+
+  @override
+  String get staffSupervisorSearchEntryRecentSupervisor => 'Supervisor';
+
+  @override
+  String staffSupervisorSearchEntryResultsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count resultados encontrados',
+      one: '1 resultado encontrado',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get staffSupervisorDuplicateAlertTitle => 'ALERTA DE DUPLICADO';
+
+  @override
+  String get staffSupervisorDuplicateCurrentStatusTitle => 'ESTADO ACTUAL';
+
+  @override
+  String get staffSupervisorDuplicateLastValidTitle => 'Último acceso válido';
+
+  @override
+  String get staffSupervisorDuplicateNewAttemptTitle =>
+      'Nuevo intento detectado';
+
+  @override
+  String get staffSupervisorDuplicateTimeLabel => 'Hora';
+
+  @override
+  String get staffSupervisorDuplicateAccessLabel => 'Acceso';
+
+  @override
+  String get staffSupervisorDuplicateDeviceLabel => 'Dispositivo';
+
+  @override
+  String get staffSupervisorDuplicatePossibleReasonTitle => 'POSIBLE MOTIVO';
+
+  @override
+  String get staffSupervisorDuplicateReasonScreenshot =>
+      'Screenshot compartido';
+
+  @override
+  String get staffSupervisorDuplicateReasonResold => 'QR revendida';
+
+  @override
+  String get staffSupervisorDuplicateReasonValidationError =>
+      'Error validación';
+
+  @override
+  String get staffSupervisorDuplicateReasonAuthorizedReentry =>
+      'Reingreso autorizado';
+
+  @override
+  String get staffSupervisorDuplicateSupervisorActionsTitle =>
+      'ACCIONES SUPERVISOR';
+
+  @override
+  String get staffSupervisorDuplicateReleaseReentry => 'LIBERAR REINGRESO';
+
+  @override
+  String get staffSupervisorDuplicateBlockQr => 'BLOQUEAR QR';
+
+  @override
+  String get staffSupervisorDuplicateEscalateAlert => 'ESCALAR ALERTA';
+
+  @override
+  String get staffSupervisorDuplicateReasonPlaceholder =>
+      'Escribe el motivo...';
+
+  @override
+  String get staffSupervisorExecuteDuplicateButton => 'RESOLVER DUPLICADO';
+
+  @override
+  String get staffSupervisorDuplicateNotFound =>
+      'No se encontraron intentos duplicados para esta entrada.';
+
+  @override
+  String get staffSupervisorDuplicateResolvedSuccess =>
+      'Duplicado resuelto correctamente.';
+
+  @override
+  String get staffSupervisorEntryOverrideSuccess =>
+      'Override aplicado correctamente.';
+
+  @override
+  String get staffSupervisorDuplicateLogValidated => 'Validado';
+
+  @override
+  String get staffSupervisorDuplicateLogReentryRejected =>
+      'Reingreso rechazado';
+
+  @override
+  String get staffSupervisorDuplicateLogSupervisorPending =>
+      'Supervisor pendiente';
+
+  @override
+  String get staffSupervisorDuplicateLogSupervisorResolved =>
+      'Supervisor resuelto';
+
+  @override
+  String get staffSupervisorDuplicateAlreadyResolved =>
+      'Esta alerta de duplicado ya fue resuelta.';
+
+  @override
+  String get staffSupervisorDuplicateSearchHint =>
+      'Busca por nombre, código, teléfono o ID de compra';
+
+  @override
+  String get staffBarMode => 'Modo Barra';
+
+  @override
+  String get staffNoScanAccessTitle => 'Sin acceso de escaneo';
+
+  @override
+  String get staffNoScanAccessSubtitle =>
+      'Pide a un administrador que asigne permisos de puerta o barra a tu cuenta de staff.';
+
+  @override
+  String get staffSupervisorAccessDenied =>
+      'No tienes acceso de supervisor para esta zona.';
+
+  @override
+  String get staffAccessValidatorTitle => 'VALIDADOR ACCESO';
+
+  @override
+  String get staffAccessValidatorSubtitle =>
+      'Escanea el código QR de la entrada para validar el acceso al evento';
+
+  @override
+  String get staffScanEntryButton => 'ESCANEAR ENTRADA';
+
+  @override
+  String get staffActiveEventPrefix => 'Evento activo:';
+
+  @override
+  String staffActiveEventLabel(String eventName) {
+    return 'Evento activo: $eventName';
+  }
+
+  @override
+  String get staffRecentAccessTitle => 'Últimos accesos';
+
+  @override
+  String get staffRecentAccessEmpty =>
+      'Aún no hay escaneos de entrada. Escanea un QR de ticket para verlo aquí.';
+
+  @override
+  String get staffViewAllAccess => 'Ver todos >';
+
+  @override
+  String get staffAccessDuplicateLabel => 'QR duplicado';
+
+  @override
+  String get staffScanResultValidTitle => 'VÁLIDO';
+
+  @override
+  String get staffScanResultValidSubtitle =>
+      'El QR ha sido validado correctamente';
+
+  @override
+  String get staffScanResultUsedTitle => 'QR USADO';
+
+  @override
+  String get staffScanResultUsedSubtitle =>
+      'Este código ya fue canjeado anteriormente.';
+
+  @override
+  String get staffScanResultProductLabel => 'Producto';
+
+  @override
+  String get staffScanResultUserLabel => 'Usuario';
+
+  @override
+  String get staffScanResultTimeLabel => 'Hora';
+
+  @override
+  String get staffScanResultAttemptTimeLabel => 'Hora del intento';
+
+  @override
+  String get staffScanResultBarLabel => 'Barra';
+
+  @override
+  String get staffScanResultTransactionIdLabel => 'ID de transacción';
+
+  @override
+  String get staffScanResultRememberTitle => 'Recuerda';
+
+  @override
+  String get staffScanResultRememberMessage =>
+      'Presiona el botón para confirmar la entrega del producto.';
+
+  @override
+  String get staffScanResultLastSuccessfulUse => 'Último uso exitoso';
+
+  @override
+  String get staffScanResultDeliverButton => 'ENTREGAR PRODUCTO';
+
+  @override
+  String get staffScanResultConfirmAccessButton => 'CONFIRMAR ACCESO';
+
+  @override
+  String get staffScanResultEntryRememberMessage =>
+      'Presiona el botón para confirmar el acceso al evento.';
+
+  @override
+  String get staffScanResultTicketLabel => 'Entrada';
+
+  @override
+  String get staffScanResultBackButton => 'VOLVER';
+
+  @override
+  String get staffEntryValidTitle => 'VÁLIDA';
+
+  @override
+  String get staffEntryValidSubtitle => 'QR único válido';
+
+  @override
+  String get staffEntryValidEventLabel => 'Evento';
+
+  @override
+  String get staffEntryValidEntryIdLabel => 'ID de entrada';
+
+  @override
+  String get staffEntryValidTicketTypeLabel => 'Tipo de entrada';
+
+  @override
+  String get staffEntryValidAccessLabel => 'Acceso autorizado';
+
+  @override
+  String get staffEntryValidTimeLabel => 'Hora de validación';
+
+  @override
+  String get staffEntryValidAllowButton => 'PERMITIR INGRESO';
+
+  @override
+  String get staffEntryInvalidTitle => 'INVÁLIDA';
+
+  @override
+  String get staffEntryInvalidSubtitle => 'QR ya utilizado';
+
+  @override
+  String get staffEntryInvalidReasonLabel => 'Motivo';
+
+  @override
+  String get staffEntryInvalidReasonTitle => 'QR ya utilizado';
+
+  @override
+  String get staffEntryInvalidReasonMessage =>
+      'Este código ya fue escaneado anteriormente';
+
+  @override
+  String get staffEntryInvalidLastAccessLabel => 'Último acceso';
+
+  @override
+  String staffEntryInvalidLastAccessDate(String date) {
+    return 'Hoy, $date';
+  }
+
+  @override
+  String get staffEntryInvalidUserLabel => 'Usuario';
+
+  @override
+  String get staffEntryInvalidWarning =>
+      'Este QR no puede ser utilizado. Si crees que esto es un error, contacta al supervisor.';
+
+  @override
+  String get staffEntryInvalidResolveDuplicateButton => 'RESOLVER DUPLICADO';
+
+  @override
+  String get staffScanErrorQrNotFound => 'Código QR no reconocido.';
+
+  @override
+  String get staffScanErrorQrInvalid =>
+      'Este código QR no es válido para escanear.';
+
+  @override
+  String get staffScanErrorPermissionDenied =>
+      'No tienes permiso para realizar este escaneo.';
+
+  @override
+  String get staffScanErrorSessionExpired =>
+      'Tu sesión expiró. Vuelve a iniciar sesión.';
+
+  @override
+  String staffScanResultUnitCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unidades',
+      one: '1 unidad',
+    );
+    return '$_temp0';
+  }
 }

@@ -14,6 +14,10 @@ import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/core/widgets/youpass_primary_button.dart';
 import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
+import 'package:youpass/staff_app/features/auth/presentation/providers/staff_auth_provider.dart';
+import 'package:youpass/staff_app/features/auth/routes/verification_route_args.dart'
+    as staff_verification;
+import 'package:youpass/staff_app/routes/app_routes.dart';
 import 'package:youpass/features/auth/presentation/utils/whatsapp_auth_gate.dart';
 import 'package:youpass/features/auth/presentation/widgets/phone_input_widget.dart';
 import 'package:youpass/features/auth/routes/verification_route_args.dart';
@@ -63,6 +67,7 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
     }
 
     final authProvider = context.read<AuthProvider>();
+    final staffAuthProvider = context.read<StaffAuthProvider>();
 
     if (AppConstants.devBypassLoginApi) {
       await authProvider.bypassLoginForTesting();
@@ -70,6 +75,50 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
         return;
       }
       Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+      return;
+    }
+
+    // Detect staff accounts before the customer OTP path.
+    // Lookup failure must not fall through as "customer" (would break staff login).
+    final staffLookup = await staffAuthProvider.lookup(
+      phone: phoneDigits,
+      countryCode: country.isoCode,
+    );
+    if (!mounted) {
+      return;
+    }
+
+    if (staffLookup == null) {
+      final message = staffAuthProvider.errorMessage ?? l10n.errorGeneric;
+      AppSnackBar.show(context, message);
+      return;
+    }
+
+    if (staffLookup.isStaff) {
+      final staffResult = await staffAuthProvider.sendCode(
+        phone: phoneDigits,
+        countryCode: country.isoCode,
+      );
+      if (!mounted) {
+        return;
+      }
+      if (staffResult == null) {
+        final message = staffAuthProvider.errorMessage ?? l10n.errorGeneric;
+        AppSnackBar.show(context, message);
+        return;
+      }
+
+      await Navigator.of(context).pushNamed(
+        StaffAppRoutes.verification,
+        arguments: staff_verification.VerificationRouteArgs(
+          phone: phoneDigits,
+          countryIsoCode: country.isoCode,
+          phoneDisplay: staffResult.phoneDisplay,
+          resendCooldownSeconds: staffResult.resendAvailableInSeconds,
+          expiresInSeconds: staffResult.expiresInSeconds,
+          prefillOtpCode: staffResult.devOtpCode,
+        ),
+      );
       return;
     }
 
@@ -163,7 +212,9 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
     final layout = ResponsiveLayout(context);
     final l10n = context.l10n;
     final authProvider = context.watch<AuthProvider>();
+    final staffAuthProvider = context.watch<StaffAuthProvider>();
     final localizedError = authProvider.localizedErrorMessage(l10n);
+    final isLoading = authProvider.isSubmitting || staffAuthProvider.isSubmitting;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -182,7 +233,7 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
         SizedBox(height: layout.spacing(28)),
         YouPassPrimaryButton(
           label: context.l10n.sendCodeButton,
-          isLoading: authProvider.isSubmitting,
+          isLoading: isLoading,
           onPressed: sendCodeAndNavigate,
         ),
       ],

@@ -5,7 +5,6 @@ import 'package:youpass/core/constants/auth_layout_constants.dart';
 import 'package:youpass/core/config/app_product_config.dart';
 import 'package:youpass/core/constants/country_code_list.dart';
 import 'package:youpass/core/locale/locale_provider.dart';
-import 'package:youpass/core/locale/locale_sync_helper.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/l10n/auth_error_extension.dart';
 import 'package:youpass/core/widgets/app_snack_bar.dart';
@@ -61,15 +60,6 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
     final prefill = widget.routeArgs?.phone;
     if (prefill != null && prefill.isNotEmpty) {
       phoneController.text = prefill;
-    }
-
-    final initialCountry = widget.routeArgs?.countryIsoCode;
-    if (initialCountry != null && initialCountry.isNotEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          LocaleSyncHelper.applyCountryIso(context, initialCountry);
-        }
-      });
     }
   }
 
@@ -269,8 +259,6 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
           key: phoneInputKey,
           phoneController: phoneController,
           initialCountryIsoCode: widget.routeArgs?.countryIsoCode,
-          onCountryChanged: (country) =>
-              LocaleSyncHelper.applyCountry(context, country),
         ),
         if (localizedError != null) ...[
           SizedBox(height: layout.spacing(12)),
@@ -304,8 +292,6 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
             key: phoneInputKey,
             phoneController: phoneController,
             initialCountryIsoCode: widget.routeArgs?.countryIsoCode,
-            onCountryChanged: (country) =>
-                LocaleSyncHelper.applyCountry(context, country),
           ),
         ),
         SizedBox(height: fieldGap),

@@ -50,6 +50,27 @@ class AppStrings {
   static String homeNearMeLocationDisabled(AppLocalizations l10n) =>
       l10n.homeNearMeLocationDisabled;
 
+  static String homeLocationSheetTitle(AppLocalizations l10n) =>
+      l10n.homeLocationSheetTitle;
+
+  static String homeLocationSheetSubtitle(AppLocalizations l10n) =>
+      l10n.homeLocationSheetSubtitle;
+
+  static String homeLocationUseCurrent(AppLocalizations l10n) =>
+      l10n.homeLocationUseCurrent;
+
+  static String homeLocationTypeHint(AppLocalizations l10n) =>
+      l10n.homeLocationTypeHint;
+
+  static String homeLocationApply(AppLocalizations l10n) =>
+      l10n.homeLocationApply;
+
+  static String homeLocationClear(AppLocalizations l10n) =>
+      l10n.homeLocationClear;
+
+  static String homeLocationActiveNearby(AppLocalizations l10n) =>
+      l10n.homeLocationActiveNearby;
+
   static String homeSearchPlaceholder(AppLocalizations l10n) =>
       l10n.homeSearchPlaceholder;
 
@@ -202,11 +223,23 @@ class AppStrings {
   static String drawerMyPurchases(AppLocalizations l10n) =>
       l10n.drawerMyPurchases;
 
+  static String partyModeUnavailable(AppLocalizations l10n) =>
+      l10n.partyModeUnavailable;
+
   static String partyDrinkMenuEmpty(AppLocalizations l10n) =>
       l10n.partyDrinkMenuEmpty;
 
   static String partyDrinkMenuSubtitle(AppLocalizations l10n) =>
       l10n.partyDrinkMenuSubtitle;
+
+  static String partyDrinkEventChooserTitle(AppLocalizations l10n) =>
+      l10n.partyDrinkEventChooserTitle;
+
+  static String partyDrinkEventChooserSubtitle(AppLocalizations l10n) =>
+      l10n.partyDrinkEventChooserSubtitle;
+
+  static String partyDrinkEventChooserRecommended(AppLocalizations l10n) =>
+      l10n.partyDrinkEventChooserRecommended;
 
   static String partyDrinkCategoryAll(AppLocalizations l10n) =>
       l10n.partyDrinkCategoryAll;

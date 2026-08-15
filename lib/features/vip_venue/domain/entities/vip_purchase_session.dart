@@ -1,3 +1,4 @@
+import 'package:youpass/core/constants/country_code_registry.dart';
 import 'package:youpass/core/locale/country_format_helper.dart';
 import 'package:youpass/features/events/domain/entities/event_entity.dart';
 import 'package:youpass/features/vip_venue/domain/entities/ticket_offering_entity.dart';
@@ -58,23 +59,61 @@ class VipPurchaseSession {
 
   bool get isGeneralTicketPurchase => !isVipTablePurchase && hasSelectedTickets;
 
-  String get countryIsoCode => event.countryCode ?? 'CL';
-
-  String get currency {
-    final purchaseCurrencyCode = purchaseCurrency?.trim();
-    if (purchaseCurrencyCode != null && purchaseCurrencyCode.isNotEmpty) {
-      return purchaseCurrencyCode;
+  String get countryIsoCode {
+    final fromCurrency = _isoCodeForCurrency(_resolvedCurrencyCode);
+    final fromEvent = event.countryCode?.trim();
+    if (fromEvent != null && fromEvent.isNotEmpty) {
+      final eventIso = fromEvent.toUpperCase();
+      final resolvedCurrency = _resolvedCurrencyCode;
+      if (fromCurrency != null &&
+          resolvedCurrency != null &&
+          CountryCodeRegistry.findByIsoCode(eventIso)
+                  .defaultCurrency
+                  .toUpperCase() !=
+              resolvedCurrency) {
+        return fromCurrency;
+      }
+      return eventIso;
     }
 
-    for (final offering in offerings) {
-      if (offering.currency.isNotEmpty) {
-        return offering.currency;
-      }
+    if (fromCurrency != null) {
+      return fromCurrency;
+    }
+
+    return CountryCodeRegistry.defaultCountryCode;
+  }
+
+  String get currency {
+    final resolved = _resolvedCurrencyCode;
+    if (resolved != null && resolved.isNotEmpty) {
+      return resolved;
     }
 
     return CountryFormatHelper.countryFor(
       countryIsoCode: countryIsoCode,
     ).defaultCurrency;
+  }
+
+  String? get _resolvedCurrencyCode {
+    final purchaseCurrencyCode = purchaseCurrency?.trim();
+    if (purchaseCurrencyCode != null && purchaseCurrencyCode.isNotEmpty) {
+      return purchaseCurrencyCode.toUpperCase();
+    }
+
+    for (final offering in offerings) {
+      if (offering.currency.isNotEmpty) {
+        return offering.currency.toUpperCase();
+      }
+    }
+
+    return null;
+  }
+
+  String? _isoCodeForCurrency(String? currencyCode) {
+    if (currencyCode == null || currencyCode.isEmpty) {
+      return null;
+    }
+    return CountryCodeRegistry.findByCurrency(currencyCode)?.isoCode;
   }
 
   String? get seatLabel {

@@ -7,7 +7,7 @@ import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
-import 'package:youpass/core/widgets/youpass_logo.dart';
+import 'package:youpass/core/widgets/youpass_brand_logo.dart';
 import 'package:youpass/features/auth/presentation/providers/auth_provider.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
@@ -21,6 +21,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  static const _minSplashDuration = Duration(milliseconds: 3500);
+
   @override
   void initState() {
     super.initState();
@@ -33,25 +35,36 @@ class _SplashScreenState extends State<SplashScreen> {
     final authProvider = context.read<AuthProvider>();
     final homeProvider = context.read<HomeProvider>();
     final invitationsProvider = context.read<InvitationsProvider>();
+    final splashStartedAt = DateTime.now();
 
     await authProvider.checkAuthStatus();
     if (!mounted) {
       return;
     }
 
-    final profileCountry = authProvider.userProfile?.countryCode;
+    // Apply profile language before the remaining splash delay so the
+    // subtitle and first Home frame match the user's preferred language.
     if (authProvider.userProfile != null) {
       LocaleSyncHelper.applyProfile(context, authProvider.userProfile!);
-    } else if (profileCountry != null && profileCountry.isNotEmpty) {
-      LocaleSyncHelper.applyCountryIso(context, profileCountry);
     }
 
+    final profileCountry = authProvider.userProfile?.countryCode;
     if (authProvider.status == AuthStatus.authenticated) {
       homeProvider.seedSessionCountry(profileCountry);
       await Future.wait([
         homeProvider.loadHomeDataIfNeeded(),
         invitationsProvider.refreshDrawerBadge(),
       ]);
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    final elapsed = DateTime.now().difference(splashStartedAt);
+    final remaining = _minSplashDuration - elapsed;
+    if (remaining > Duration.zero) {
+      await Future<void>.delayed(remaining);
     }
 
     if (!mounted) {
@@ -78,11 +91,10 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Transform.scale(
-                  scale: 1.35,
-                  child: const YouPassLogo(),
+                YouPassBrandLogo(
+                  width: (layout.width * 0.72).clamp(220.0, 300.0),
                 ),
-                SizedBox(height: layout.spacing(16)),
+                SizedBox(height: layout.spacing(8)),
                 AppText(
                   AppStrings.homeDiscoverSubtitle(strings),
                   variant: AppTextVariant.body,

@@ -28,7 +28,7 @@ class PartyDrinksDesignSpec {
   static const double checkoutItemImageSize = 56;
   static const double checkoutItemImageRadius = 10;
   static const double checkoutStepperHeight = 32;
-  static const double checkoutPriceColumnWidth = 76;
+  static const double checkoutPriceColumnWidth = 96;
   static const double checkoutCloseSize = 36;
 
   static const double horizontalPadding = 20;

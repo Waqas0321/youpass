@@ -23,27 +23,38 @@ class AppConstants {
   static const String productionApiV1Url =
       'https://youpass-backend-two.vercel.app/api/v1';
 
+  /// Remote dev tunnel (physical devices). Same as production unless you run ngrok locally.
+  static const String devTunnelApiV1Url = productionApiV1Url;
+
   static const int localApiPort = 3002;
 
-  /// Local backend for iOS simulator / desktop debug (`http://localhost:3002/api/v1`).
-  /// Android emulator uses `10.0.2.2` via [localApiV1Url].
+  /// Simulator / emulator localhost backend.
   static String get localApiV1Url =>
       'http://$_localApiHost:$localApiPort/api/v1';
 
-  /// Default: local backend in debug, Vercel production in release.
-  /// Force production in debug: `--dart-define=USE_LOCAL_API=false`
+  /// Debug on device: ngrok by default. Simulator localhost:
+  /// `flutter run --dart-define=USE_NGROK_TUNNEL=false`
+  static const bool useNgrokTunnel = bool.fromEnvironment(
+    'USE_NGROK_TUNNEL',
+    defaultValue: true,
+  );
+
+  /// Default: production in release. Debug uses ngrok/local when enabled.
   /// Override: `--dart-define=API_BASE_URL=...`
   static String get apiBaseUrl {
     const override = String.fromEnvironment('API_BASE_URL');
     if (override.isNotEmpty) {
-      return override;
+      return override.replaceAll(RegExp(r'/+$'), '');
     }
 
     const useLocalApi = bool.fromEnvironment(
       'USE_LOCAL_API',
-      defaultValue: true,
+      defaultValue: false,
     );
     if (useLocalApi && kDebugMode) {
+      if (useNgrokTunnel) {
+        return devTunnelApiV1Url;
+      }
       return localApiV1Url;
     }
 

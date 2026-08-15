@@ -2,7 +2,7 @@
 
 This document describes **backend and dashboard changes** required for Chile + LATAM support. The Flutter app is a **consumer** of this config: it displays country, currency, language, dates, and opens the correct checkout flow based on API responses.
 
-**Base URL (current app):** `https://youpass-backend.vercel.app/api/v1`
+**Base URL (current app):** `https://youpass-backend-two.vercel.app/api/v1`
 
 ---
 

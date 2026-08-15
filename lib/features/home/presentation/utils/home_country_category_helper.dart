@@ -12,7 +12,7 @@ class HomeCountryCategoryHelper {
 
     return EventCategoryEntity(
       id: 'country:$normalized',
-      label: country.name.toUpperCase(),
+      label: normalized,
       icon: Icons.location_on_outlined,
       leadingEmoji: country.flagEmoji,
       showLeadingIcon: true,

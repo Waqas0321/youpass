@@ -9,16 +9,20 @@ class SectionHeaderWidget extends StatelessWidget {
     super.key,
     required this.title,
     this.actionLabel,
+    this.actionSemanticLabel,
     this.onActionTap,
     this.actionIcon,
+    this.actionIconSize,
     this.actionSelected = false,
     this.actionLoading = false,
   });
 
   final String title;
   final String? actionLabel;
+  final String? actionSemanticLabel;
   final VoidCallback? onActionTap;
   final IconData? actionIcon;
+  final double? actionIconSize;
   final bool actionSelected;
   final bool actionLoading;
 
@@ -28,6 +32,10 @@ class SectionHeaderWidget extends StatelessWidget {
     final actionColor = actionSelected
         ? AppColors.primaryMustard
         : AppColors.homeAccentYellow;
+    final hasAction =
+        actionLabel != null || actionIcon != null || actionLoading;
+    final iconSize = actionIconSize ?? layout.fontSize(17);
+    final showActionLabel = actionLabel != null && actionLabel!.isNotEmpty;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,42 +43,49 @@ class SectionHeaderWidget extends StatelessWidget {
         Expanded(
           child: AppText(title, variant: AppTextVariant.sectionTitle),
         ),
-        if (actionLabel != null)
-          GestureDetector(
-            onTap: actionLoading ? null : onActionTap,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (actionLoading)
-                  SizedBox(
-                    width: layout.fontSize(14),
-                    height: layout.fontSize(14),
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
+        if (hasAction)
+          Semantics(
+            button: true,
+            label: actionSemanticLabel ?? actionLabel,
+            toggled: actionSelected,
+            child: GestureDetector(
+              onTap: actionLoading ? null : onActionTap,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (actionLoading)
+                    SizedBox(
+                      width: iconSize,
+                      height: iconSize,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: actionColor,
+                      ),
+                    )
+                  else if (actionIcon != null)
+                    Icon(
+                      actionIcon,
+                      size: iconSize,
                       color: actionColor,
                     ),
-                  )
-                else if (actionIcon != null)
-                  Icon(
-                    actionIcon,
-                    size: layout.fontSize(17),
-                    color: actionColor,
-                  ),
-                if (actionLoading || actionIcon != null)
-                  SizedBox(width: layout.spacing(5)),
-                AppText(
-                  actionLabel!,
-                  variant: AppTextVariant.bodyEmphasis,
-                  color: actionColor,
-                  fontSize: layout.fontSize(13),
-                ),
-                if (actionIcon == null && !actionLoading)
-                  Icon(
-                    Icons.chevron_right,
-                    size: layout.fontSize(16),
-                    color: actionColor,
-                  ),
-              ],
+                  if (showActionLabel) ...[
+                    if (actionLoading || actionIcon != null)
+                      SizedBox(width: layout.spacing(5)),
+                    AppText(
+                      actionLabel!,
+                      variant: AppTextVariant.bodyEmphasis,
+                      color: actionColor,
+                      fontSize: layout.fontSize(13),
+                    ),
+                  ],
+                  if (actionIcon == null && !actionLoading && showActionLabel)
+                    Icon(
+                      Icons.chevron_right,
+                      size: layout.fontSize(16),
+                      color: actionColor,
+                    ),
+                ],
+              ),
             ),
           ),
       ],

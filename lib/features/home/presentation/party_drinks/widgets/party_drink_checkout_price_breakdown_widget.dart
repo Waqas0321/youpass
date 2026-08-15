@@ -65,41 +65,64 @@ class _PriceRow extends StatelessWidget {
     return Row(
       children: [
         if (showInfo)
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: labelSize,
-                  fontWeight: FontWeight.w400,
+          Flexible(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: labelSize,
+                      fontWeight: FontWeight.w400,
+                      color: PartyDrinksDesignSpec.checkoutMutedText,
+                    ),
+                  ),
+                ),
+                SizedBox(width: PartyDrinksDesignSpec.px(context, 5)),
+                Icon(
+                  Icons.info_outline_rounded,
+                  size: PartyDrinksDesignSpec.px(context, 15),
                   color: PartyDrinksDesignSpec.checkoutMutedText,
                 ),
-              ),
-              SizedBox(width: PartyDrinksDesignSpec.px(context, 5)),
-              Icon(
-                Icons.info_outline_rounded,
-                size: PartyDrinksDesignSpec.px(context, 15),
-                color: PartyDrinksDesignSpec.checkoutMutedText,
-              ),
-            ],
+              ],
+            ),
           )
         else
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: labelSize,
-              fontWeight: emphasized ? FontWeight.w800 : FontWeight.w500,
-              color: Colors.white,
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: labelSize,
+                fontWeight: emphasized ? FontWeight.w800 : FontWeight.w500,
+                color: Colors.white,
+              ),
             ),
           ),
-        const Spacer(),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: valueSize,
-            fontWeight: emphasized ? FontWeight.w800 : FontWeight.w600,
-            color: Colors.white,
+        SizedBox(width: PartyDrinksDesignSpec.px(context, 12)),
+        Expanded(
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerRight,
+              child: Text(
+                value,
+                maxLines: 1,
+                softWrap: false,
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                  fontSize: valueSize,
+                  fontWeight: emphasized ? FontWeight.w800 : FontWeight.w600,
+                  color: Colors.white,
+                  height: 1.1,
+                ),
+              ),
+            ),
           ),
         ),
       ],

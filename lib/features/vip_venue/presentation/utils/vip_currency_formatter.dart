@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:youpass/core/locale/country_format_helper.dart';
+import 'package:youpass/core/models/country_code.dart';
 
 class VipTicketPriceDisplay {
   const VipTicketPriceDisplay({
@@ -74,30 +75,29 @@ class VipCurrencyFormatter {
     int? currencyDecimals,
     required bool includeCurrencyCode,
   }) {
+    final normalizedCurrency = currencyCode.toUpperCase();
     final country = CountryFormatHelper.countryFor(
       countryIsoCode: countryIsoCode,
       currencyCode: currencyCode,
     );
-    final normalizedCurrency = currencyCode.toUpperCase();
     final decimals = _resolveDecimals(
+      currencyCode: normalizedCurrency,
       countryIsoCode: countryIsoCode,
       currencyDecimals: currencyDecimals,
       countryDecimals: country.currencyDecimals,
     );
-    final locale = CountryFormatHelper.numberLocaleForCountry(country);
-    final major = decimals == 0 ? amount : amount / 100;
-
-    final formatter = NumberFormat.currency(
-      locale: locale,
-      symbol: country.currencySymbol,
-      decimalDigits: decimals,
-      name: normalizedCurrency,
+    final major = decimals == 0 ? amount.toDouble() : amount / 100;
+    final locale = _numberLocale(
+      currencyCode: normalizedCurrency,
+      countryIsoCode: countryIsoCode,
+      country: country,
     );
 
-    var formatted = formatter.format(major);
-    if (decimals == 0) {
-      formatted = formatted.replaceAll(RegExp(r'[,.]00$'), '');
-    }
+    // Avoid NumberFormat.currency symbols like "$" wrongly paired with PKR.
+    final formatter = NumberFormat.decimalPattern(locale)
+      ..minimumFractionDigits = decimals
+      ..maximumFractionDigits = decimals;
+    final formatted = formatter.format(major);
 
     if (!includeCurrencyCode) {
       return formatted;
@@ -110,12 +110,27 @@ class VipCurrencyFormatter {
     return '$formatted $normalizedCurrency';
   }
 
+  static String _numberLocale({
+    required String currencyCode,
+    String? countryIsoCode,
+    required CountryCode country,
+  }) {
+    final iso = countryIsoCode?.toUpperCase();
+    if (currencyCode == 'PKR' || iso == 'PK') {
+      return 'en_US';
+    }
+    return CountryFormatHelper.numberLocaleForCountry(country);
+  }
+
   static int _resolveDecimals({
+    required String currencyCode,
     String? countryIsoCode,
     int? currencyDecimals,
     required int countryDecimals,
   }) {
-    if (countryIsoCode?.toUpperCase() == 'PK') {
+    final iso = countryIsoCode?.toUpperCase();
+    // Ticket prices for these markets are stored in major units.
+    if (currencyCode == 'PKR' || iso == 'PK' || currencyCode == 'CLP' || iso == 'CL') {
       return 0;
     }
 

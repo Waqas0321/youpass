@@ -44,9 +44,9 @@ class DrawerDesignSpec {
 
   // Layout (px @ 390w)
   static const double horizontalPadding = 16;
-  static const double headerTopPadding = 12;
-  static const double headerBottomPadding = 20;
-  static const double headerHeight = 40;
+  static const double headerTopPadding = 16;
+  static const double headerBottomPadding = 24;
+  static const double headerHeight = 56;
   static const double backIconSize = 24;
   static const double logoFontSize = 32;
   static const double logoRegFontSize = 10;

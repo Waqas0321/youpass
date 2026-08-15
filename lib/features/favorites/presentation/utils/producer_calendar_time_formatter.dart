@@ -16,7 +16,7 @@ class ProducerCalendarTimeFormatter {
       final local = startsAt.toLocal();
       final weekday = DateFormat('EEE', localeName).format(local);
       final day = DateFormat('d', localeName).format(local);
-      final month = DateFormat('MMMM', localeName).format(local);
+      final month = DateFormat('MMM', localeName).format(local);
       final year = DateFormat('y', localeName).format(local);
       return '$weekday $day $month $year';
     } catch (_) {

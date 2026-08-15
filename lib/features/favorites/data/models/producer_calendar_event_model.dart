@@ -1,5 +1,4 @@
 import 'package:youpass/core/utils/json_readers.dart';
-import 'package:youpass/features/favorites/data/models/favorite_producer_model.dart';
 import 'package:youpass/features/favorites/domain/entities/producer_calendar_event_entity.dart';
 
 class ProducerCalendarEventModel extends ProducerCalendarEventEntity {
@@ -14,6 +13,7 @@ class ProducerCalendarEventModel extends ProducerCalendarEventEntity {
     super.venueName,
     super.minPrice,
     super.currencyCode,
+    super.countryCode,
     super.ticketCta,
     super.followersPresaleActive,
     super.followersPresaleLabel,
@@ -68,6 +68,7 @@ class ProducerCalendarEventModel extends ProducerCalendarEventEntity {
       venueName: JsonReaders.nullableString(json, 'venue_name'),
       minPrice: minPrice,
       currencyCode: JsonReaders.nullableString(json, 'currency_code'),
+      countryCode: JsonReaders.nullableString(json, 'country_code'),
       ticketCta: ticketCta,
       followersPresaleActive:
           JsonReaders.boolean(json, 'followers_presale_active'),

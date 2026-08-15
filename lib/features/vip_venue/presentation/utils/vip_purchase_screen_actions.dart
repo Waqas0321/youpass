@@ -25,6 +25,9 @@ class VipPurchaseScreenActions {
         session.hasTicketOfferings = purchase.hasTicketOfferings;
         session.purchaseCurrency = purchase.currency;
       }
+    } else if (event.countryCode?.toUpperCase() == 'PK') {
+      session.purchaseCurrency = 'PKR';
+      session.currencyDecimals = 0;
     }
 
     Navigator.of(context).pushNamed(

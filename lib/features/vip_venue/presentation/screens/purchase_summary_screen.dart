@@ -12,6 +12,7 @@ import 'package:youpass/features/invitations/presentation/widgets/invitation_qr_
 import 'package:youpass/core/utils/payment_url_launcher.dart';
 import 'package:youpass/features/ticket_assignment/domain/entities/event_checkout_result_entity.dart';
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_provider.dart';
+import 'package:youpass/features/ticket_assignment/presentation/routes/assign_tickets_route_args.dart';
 import 'package:youpass/features/tickets/presentation/providers/tickets_provider.dart';
 import 'package:youpass/features/vip_venue/domain/entities/vip_purchase_checkout.dart';
 import 'package:youpass/features/vip_venue/domain/entities/vip_purchase_session.dart';
@@ -54,6 +55,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
   Future<bool>? _tableLockFuture;
   bool _redirectedToPayment = false;
   String? checkoutTicketId;
+  String? checkoutOrderId;
   String? checkoutSeatLabel;
 
   @override
@@ -289,6 +291,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
 
     paymentCompleted = true;
     checkoutTicketId = result.ticketId;
+    checkoutOrderId = result.orderId;
     checkoutSeatLabel = result.seatLabel;
 
     if (!mounted) {
@@ -299,8 +302,9 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
 
     await PurchaseSuccessDialog.show(
       context,
-      onViewMyTickets: navigateToMyTickets,
+      onAssignTickets: navigateToAssignTickets,
       onViewQr: openTicketQr,
+      onClose: navigateHomeAfterPurchase,
     );
     return true;
   }
@@ -430,6 +434,26 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
     );
   }
 
+  void navigateToAssignTickets() {
+    final ticketId = checkoutTicketId?.trim() ?? '';
+    if (ticketId.isEmpty) {
+      navigateToMyTickets();
+      return;
+    }
+
+    final orderId = checkoutOrderId?.trim();
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      AppRoutes.assignTickets,
+      (route) => route.settings.name == AppRoutes.home || route.isFirst,
+      arguments: AssignTicketsRouteArgs(
+        ticketId: ticketId,
+        orderId: (orderId == null || orderId.isEmpty) ? null : orderId,
+        eventTitle: session.event.title,
+        isVip: session.isVipTablePurchase,
+      ),
+    );
+  }
+
   void returnToFloorPlan() {
     unawaited(_releaseTableLockIfHeld());
     session.tableLockExpiresAt = null;
@@ -503,11 +527,12 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
           onBack: handleBack,
           primaryLabel: AppStrings.vipPayButton(
             strings,
-            VipCurrencyFormatter.formatAmountCompact(
+            VipCurrencyFormatter.formatAmount(
               context,
               session.totalAmount,
               currencyCode: session.currency,
               countryIsoCode: session.countryIsoCode,
+              currencyDecimals: session.currencyDecimals,
             ),
           ),
           onPrimary: submitPayment,

@@ -24,7 +24,6 @@ class RegisterScreen extends StatelessWidget {
 
     return AuthPageLayout(
       showVolterBackButton: true,
-      headerSpacing: 32,
       header: AuthHeaderWidget(
         title: strings.createAccountTitle,
         subtitle: hasVerifiedOtp

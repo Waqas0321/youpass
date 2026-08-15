@@ -30,7 +30,7 @@ class DrawerHeaderBarWidget extends StatelessWidget {
           ),
           Expanded(
             child: Center(
-              child: DrawerYouPassLogo(color: theme.gold),
+              child: const DrawerYouPassLogo(),
             ),
           ),
           SizedBox(width: sideSlot),

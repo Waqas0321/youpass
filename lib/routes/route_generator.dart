@@ -15,6 +15,7 @@ import 'package:youpass/features/home/presentation/screens/party_drink_menu_scre
 import 'package:youpass/features/home/presentation/screens/party_drink_courtesies_screen.dart';
 import 'package:youpass/features/home/presentation/screens/party_drink_purchases_screen.dart';
 import 'package:youpass/features/home/presentation/screens/party_drink_purchase_success_screen.dart';
+import 'package:youpass/features/home/presentation/party_drinks/routes/party_drink_menu_route_args.dart';
 import 'package:youpass/features/home/presentation/party_drinks/routes/party_drink_purchase_success_route_args.dart';
 import 'package:youpass/features/profile/presentation/screens/profile_screen.dart';
 import 'package:youpass/features/profile/presentation/screens/change_phone_screen.dart';
@@ -185,7 +186,13 @@ class RouteGenerator {
       case AppRoutes.myInvitations:
         return MaterialPageRoute(builder: (_) => const MyInvitationsScreen());
       case AppRoutes.partyDrinkMenu:
-        return MaterialPageRoute(builder: (_) => const PartyDrinkMenuScreen());
+        final menuArgs = settings.arguments;
+        return MaterialPageRoute(
+          builder: (_) => PartyDrinkMenuScreen.fromRouteArgs(
+            menuArgs is PartyDrinkMenuRouteArgs ? menuArgs : null,
+          ),
+          settings: settings,
+        );
       case AppRoutes.partyDrinkPurchases:
         return MaterialPageRoute(builder: (_) => const PartyDrinkPurchasesScreen());
       case AppRoutes.partyDrinkCourtesies:

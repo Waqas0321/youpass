@@ -11,6 +11,7 @@ class FavoritesEventMetaRowWidget extends StatelessWidget {
     this.iconSize,
     this.fontSize,
     this.spacing,
+    this.maxLines = 1,
   });
 
   final IconData icon;
@@ -20,6 +21,7 @@ class FavoritesEventMetaRowWidget extends StatelessWidget {
   final double? iconSize;
   final double? fontSize;
   final double? spacing;
+  final int maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +48,11 @@ class FavoritesEventMetaRowWidget extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              maxLines: maxLines,
+              softWrap: true,
+              overflow: maxLines == 1
+                  ? TextOverflow.ellipsis
+                  : TextOverflow.visible,
               style: TextStyle(
                 fontSize: resolvedFontSize,
                 fontWeight: FontWeight.w400,

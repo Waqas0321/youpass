@@ -12,8 +12,9 @@ class PurchaseSuccessDialog {
 
   static Future<void> show(
     BuildContext context, {
-    required VoidCallback onViewMyTickets,
+    required VoidCallback onAssignTickets,
     required VoidCallback onViewQr,
+    required VoidCallback onClose,
   }) {
     final strings = context.l10n;
 
@@ -21,56 +22,88 @@ class PurchaseSuccessDialog {
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) {
+        final closeSize = VipVenueDesignSpec.px(context, 36);
+
         return Dialog(
           backgroundColor: VipVenueScreenTheme.dialogBackground(context),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(VipVenueDesignSpec.px(context, 20)),
           ),
-          child: Padding(
-            padding: EdgeInsets.all(VipVenueDesignSpec.px(context, 24)),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.check_circle,
-                  color: Colors.green.shade600,
-                  size: VipVenueDesignSpec.px(context, 56),
+          child: Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(VipVenueDesignSpec.px(context, 24)),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.check_circle,
+                      color: Colors.green.shade600,
+                      size: VipVenueDesignSpec.px(context, 56),
+                    ),
+                    SizedBox(height: VipVenueDesignSpec.px(context, 16)),
+                    AppText(
+                      AppStrings.vipPurchaseSuccessTitle(strings),
+                      textAlign: TextAlign.center,
+                      variant: AppTextVariant.bodyEmphasis,
+                      color: VipVenueScreenTheme.title(context),
+                      fontSize: VipVenueDesignSpec.px(context, 18),
+                      fontWeight: FontWeight.w800,
+                    ),
+                    SizedBox(height: VipVenueDesignSpec.px(context, 8)),
+                    AppText(
+                      AppStrings.vipPurchaseSuccessMessage(strings),
+                      textAlign: TextAlign.center,
+                      variant: AppTextVariant.body,
+                      color: VipVenueScreenTheme.body(context),
+                      fontSize: VipVenueDesignSpec.px(context, 14),
+                    ),
+                    SizedBox(height: VipVenueDesignSpec.px(context, 20)),
+                    VipPrimaryButtonWidget(
+                      label: AppStrings.ticketAssignmentTitle(strings),
+                      onPressed: () {
+                        Navigator.of(dialogContext).pop();
+                        onAssignTickets();
+                      },
+                    ),
+                    SizedBox(height: VipVenueDesignSpec.px(context, 10)),
+                    VipSecondaryButtonWidget(
+                      label: AppStrings.vipViewQr(strings),
+                      onPressed: () {
+                        Navigator.of(dialogContext).pop();
+                        onViewQr();
+                      },
+                    ),
+                  ],
                 ),
-                SizedBox(height: VipVenueDesignSpec.px(context, 16)),
-                AppText(
-                  AppStrings.vipPurchaseSuccessTitle(strings),
-                  textAlign: TextAlign.center,
-                  variant: AppTextVariant.bodyEmphasis,
-                  color: VipVenueScreenTheme.title(context),
-                  fontSize: VipVenueDesignSpec.px(context, 18),
-                  fontWeight: FontWeight.w800,
+              ),
+              Positioned(
+                top: VipVenueDesignSpec.px(context, 8),
+                right: VipVenueDesignSpec.px(context, 8),
+                child: SizedBox(
+                  width: closeSize,
+                  height: closeSize,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: BoxConstraints.tightFor(
+                      width: closeSize,
+                      height: closeSize,
+                    ),
+                    tooltip: MaterialLocalizations.of(dialogContext)
+                        .closeButtonTooltip,
+                    onPressed: () {
+                      Navigator.of(dialogContext).pop();
+                      onClose();
+                    },
+                    icon: Icon(
+                      Icons.close,
+                      size: VipVenueDesignSpec.px(context, 22),
+                      color: VipVenueScreenTheme.muted(context),
+                    ),
+                  ),
                 ),
-                SizedBox(height: VipVenueDesignSpec.px(context, 8)),
-                AppText(
-                  AppStrings.vipPurchaseSuccessMessage(strings),
-                  textAlign: TextAlign.center,
-                  variant: AppTextVariant.body,
-                  color: VipVenueScreenTheme.body(context),
-                  fontSize: VipVenueDesignSpec.px(context, 14),
-                ),
-                SizedBox(height: VipVenueDesignSpec.px(context, 20)),
-                VipPrimaryButtonWidget(
-                  label: AppStrings.invitationsGpActiveCta(strings),
-                  onPressed: () {
-                    Navigator.of(dialogContext).pop();
-                    onViewMyTickets();
-                  },
-                ),
-                SizedBox(height: VipVenueDesignSpec.px(context, 10)),
-                VipSecondaryButtonWidget(
-                  label: AppStrings.vipViewQr(strings),
-                  onPressed: () {
-                    Navigator.of(dialogContext).pop();
-                    onViewQr();
-                  },
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

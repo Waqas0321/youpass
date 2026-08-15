@@ -17,21 +17,41 @@ class HomeGreetingEntity extends Equatable {
   List<Object?> get props => [firstName, fullName, message, category];
 }
 
+class HomePartyModeEligibleEventEntity extends Equatable {
+  const HomePartyModeEligibleEventEntity({
+    required this.eventId,
+    required this.eventTitle,
+    this.startsAt,
+    this.endsAt,
+  });
+
+  final String eventId;
+  final String eventTitle;
+  final DateTime? startsAt;
+  final DateTime? endsAt;
+
+  @override
+  List<Object?> get props => [eventId, eventTitle, startsAt, endsAt];
+}
+
 class HomePartyModeEntity extends Equatable {
   const HomePartyModeEntity({
     this.enabled = false,
     this.bannerVisible = true,
     this.eventId,
     this.eventTitle,
+    this.eligibleEvents = const [],
   });
 
   final bool enabled;
   final bool bannerVisible;
   final String? eventId;
   final String? eventTitle;
+  final List<HomePartyModeEligibleEventEntity> eligibleEvents;
 
   @override
-  List<Object?> get props => [enabled, bannerVisible, eventId, eventTitle];
+  List<Object?> get props =>
+      [enabled, bannerVisible, eventId, eventTitle, eligibleEvents];
 }
 
 class HomeFeaturedInvitationEntity extends Equatable {

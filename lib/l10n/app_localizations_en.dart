@@ -58,6 +58,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get changeNumberLink => 'CHANGE NUMBER';
 
   @override
+  String get otpWhatsAppHelp =>
+      'Didn\'t get the code? Make sure WhatsApp is installed on your phone. YouPass uses WhatsApp to send security codes. If you have problems, contact support: soporte@youpass.app';
+
+  @override
   String get selectCountryTitle => 'Select your country';
 
   @override
@@ -133,6 +137,28 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get homeNearMeLocationDisabled =>
       'Turn on location services to find events near you.';
+
+  @override
+  String get homeLocationSheetTitle => 'Choose location';
+
+  @override
+  String get homeLocationSheetSubtitle =>
+      'Use your current location or type a city to update events.';
+
+  @override
+  String get homeLocationUseCurrent => 'Use my current location';
+
+  @override
+  String get homeLocationTypeHint => 'Type a city or venue area';
+
+  @override
+  String get homeLocationApply => 'Apply location';
+
+  @override
+  String get homeLocationClear => 'Clear location';
+
+  @override
+  String get homeLocationActiveNearby => 'Nearby';
 
   @override
   String get homeSearchPlaceholder => 'Search events by name';
@@ -544,11 +570,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get drawerMyPurchases => 'My Purchases';
 
   @override
+  String get partyModeUnavailable =>
+      'Party Mode opens when you have a scanned ticket at a live event.';
+
+  @override
   String get partyDrinkMenuEmpty =>
       'The drink menu for this event will appear here soon.';
 
   @override
   String get partyDrinkMenuSubtitle => 'Choose a category to explore';
+
+  @override
+  String get partyDrinkEventChooserTitle => 'Which drink menu?';
+
+  @override
+  String get partyDrinkEventChooserSubtitle =>
+      'You have tickets for more than one event. Choose which menu to open.';
+
+  @override
+  String get partyDrinkEventChooserRecommended => 'Suggested now';
 
   @override
   String get partyDrinkCategoryAll => 'All';
@@ -1348,7 +1388,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String favoritesSavedProducersCount(int count) {
-    return '$count saved producers';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count saved producers',
+      one: '1 saved producer',
+    );
+    return '$_temp0';
   }
 
   @override

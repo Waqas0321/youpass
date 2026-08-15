@@ -40,11 +40,15 @@ class VipGeneralTicketSummaryCardWidget extends StatelessWidget {
     required this.offering,
     required this.detailsLine,
     required this.onQuantityChanged,
+    this.countryIsoCode,
+    this.currencyDecimals,
   });
 
   final TicketOfferingEntity offering;
   final String detailsLine;
   final ValueChanged<int> onQuantityChanged;
+  final String? countryIsoCode;
+  final int? currencyDecimals;
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +96,8 @@ class VipGeneralTicketSummaryCardWidget extends StatelessWidget {
                   context,
                   offering.lineTotal,
                   currencyCode: offering.currency,
-                  countryIsoCode: null,
+                  countryIsoCode: countryIsoCode,
+                  currencyDecimals: currencyDecimals,
                 ),
                 variant: AppTextVariant.bodyEmphasis,
                 color: VipVenueScreenTheme.title(context),
@@ -124,6 +129,7 @@ class VipPurchaseSummaryItemRowWidget extends StatelessWidget {
     required this.amount,
     this.currencyCode = 'CLP',
     this.countryIsoCode = 'CL',
+    this.currencyDecimals,
   });
 
   final String tableNumber;
@@ -135,6 +141,7 @@ class VipPurchaseSummaryItemRowWidget extends StatelessWidget {
   final int amount;
   final String currencyCode;
   final String countryIsoCode;
+  final int? currencyDecimals;
 
   @override
   Widget build(BuildContext context) {
@@ -189,6 +196,7 @@ class VipPurchaseSummaryItemRowWidget extends StatelessWidget {
             amount,
             currencyCode: currencyCode,
             countryIsoCode: countryIsoCode,
+            currencyDecimals: currencyDecimals,
           ),
           variant: AppTextVariant.bodyEmphasis,
           color: VipVenueScreenTheme.title(context),

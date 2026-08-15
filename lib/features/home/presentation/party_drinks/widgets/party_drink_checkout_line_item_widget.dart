@@ -26,7 +26,6 @@ class PartyDrinkCheckoutLineItemWidget extends StatelessWidget {
     final imageSize = px(context, PartyDrinksDesignSpec.checkoutItemImageSize);
     final imageRadius = px(context, PartyDrinksDesignSpec.checkoutItemImageRadius);
     final cardRadius = px(context, PartyDrinksDesignSpec.checkoutItemCardRadius);
-    final priceWidth = px(context, PartyDrinksDesignSpec.checkoutPriceColumnWidth);
 
     return Padding(
       padding: EdgeInsets.only(
@@ -69,11 +68,13 @@ class PartyDrinkCheckoutLineItemWidget extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: px(context, 6)),
-                    PartyDrinkVolumeBadgeWidget(
-                      volumeMl: drink.volumeMl,
-                      filled: true,
-                    ),
+                    if (drink.volumeMl > 0) ...[
+                      SizedBox(height: px(context, 6)),
+                      PartyDrinkVolumeBadgeWidget(
+                        volumeMl: drink.volumeMl,
+                        filled: true,
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -85,17 +86,24 @@ class PartyDrinkCheckoutLineItemWidget extends StatelessWidget {
               ),
               SizedBox(width: px(context, 10)),
               SizedBox(
-                width: priceWidth,
-                child: Text(
-                  PartyDrinkPriceFormatter.format(
-                    context,
-                    lineItem.subtotalClp,
-                  ),
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontSize: px(context, 15),
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
+                width: px(context, 104),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    PartyDrinkPriceFormatter.format(
+                      context,
+                      lineItem.subtotalClp,
+                    ),
+                    textAlign: TextAlign.right,
+                    maxLines: 1,
+                    softWrap: false,
+                    style: TextStyle(
+                      fontSize: px(context, 15),
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                      height: 1.1,
+                    ),
                   ),
                 ),
               ),

@@ -7,25 +7,19 @@ import 'package:youpass/features/auth/domain/entities/user_profile_entity.dart';
 class LocaleSyncHelper {
   LocaleSyncHelper._();
 
-  static void applyCountry(BuildContext context, CountryCode country) {
-    context.read<LocaleProvider>().setLocaleFromLanguageCode(country.defaultLanguage);
-  }
+  /// Dial-code / country selection must not change app language.
+  static void applyCountry(BuildContext context, CountryCode country) {}
 
-  static void applyCountryIso(BuildContext context, String isoCode) {
-    if (isoCode.trim().isEmpty) {
-      return;
-    }
+  /// Dial-code / country selection must not change app language.
+  static void applyCountryIso(BuildContext context, String isoCode) {}
 
-    context.read<LocaleProvider>().setLocaleFromCountry(isoCode);
-  }
-
+  /// Apply the user's explicit language preference from their profile.
   static void applyProfile(BuildContext context, UserProfileEntity profile) {
     final preferred = profile.preferredLanguage?.trim();
-    if (preferred != null && preferred.isNotEmpty) {
-      context.read<LocaleProvider>().setLocaleFromLanguageCode(preferred);
+    if (preferred == null || preferred.isEmpty) {
       return;
     }
 
-    applyCountryIso(context, profile.countryCode);
+    context.read<LocaleProvider>().setLocaleFromLanguageCode(preferred);
   }
 }

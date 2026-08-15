@@ -21,9 +21,9 @@ class ProducerCalendarEventCardWidget extends StatelessWidget {
   final VoidCallback onBuyTicket;
   final VoidCallback? onEventTap;
 
-  static const double _designCardHeight = 220;
-  static const int _textFlex = 42;
-  static const int _imageFlex = 58;
+  static const double _designCardHeight = 240;
+  static const int _textFlex = 52;
+  static const int _imageFlex = 48;
 
   String _ctaLabel(BuildContext context) {
     final strings = context.l10n;
@@ -118,6 +118,7 @@ class ProducerCalendarEventCardWidget extends StatelessWidget {
                             iconColor: FavoritesDesignSpec.metaIcon,
                             labelColor: FavoritesDesignSpec.bodyText,
                             spacing: 7,
+                            maxLines: 2,
                           ),
                           if (timeLabel != null)
                             FavoritesEventMetaRowWidget(
@@ -128,6 +129,7 @@ class ProducerCalendarEventCardWidget extends StatelessWidget {
                               iconColor: FavoritesDesignSpec.metaIcon,
                               labelColor: FavoritesDesignSpec.bodyText,
                               spacing: 7,
+                              maxLines: 2,
                             ),
                           FavoritesEventMetaRowWidget(
                             icon: Icons.location_on_outlined,
@@ -137,6 +139,7 @@ class ProducerCalendarEventCardWidget extends StatelessWidget {
                             iconColor: FavoritesDesignSpec.metaIcon,
                             labelColor: FavoritesDesignSpec.bodyText,
                             spacing: 7,
+                            maxLines: 2,
                           ),
                         ],
                       ),

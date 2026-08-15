@@ -1,6 +1,6 @@
 # Flutter — Ticket Purchase Integration Guide
 
-**Production base URL:** `https://youpass-backend.vercel.app/api/v1`
+**Production base URL:** `https://youpass-backend-two.vercel.app/api/v1`
 
 Handoff for the **Buy tickets** flow: general pre-sales, VIP General, VIP tables, floor plan, lock, and checkout.
 

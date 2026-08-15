@@ -8,13 +8,23 @@ class CountryFormatHelper {
     String? countryIsoCode,
     String? currencyCode,
   }) {
+    final normalizedCurrency = currencyCode?.trim().toUpperCase();
+    final byCurrency = normalizedCurrency == null || normalizedCurrency.isEmpty
+        ? null
+        : CountryCodeRegistry.findByCurrency(normalizedCurrency);
+
     if (countryIsoCode != null && countryIsoCode.trim().isNotEmpty) {
-      return CountryCodeRegistry.findByIsoCode(countryIsoCode);
+      final byIso = CountryCodeRegistry.findByIsoCode(countryIsoCode);
+      // Prefer currency when ISO country conflicts (e.g. default CL + PKR tickets).
+      if (byCurrency != null &&
+          byIso.defaultCurrency.toUpperCase() != normalizedCurrency) {
+        return byCurrency;
+      }
+      return byIso;
     }
 
-    if (currencyCode != null && currencyCode.trim().isNotEmpty) {
-      return CountryCodeRegistry.findByCurrency(currencyCode) ??
-          CountryCodeRegistry.defaultCountry;
+    if (byCurrency != null) {
+      return byCurrency;
     }
 
     return CountryCodeRegistry.defaultCountry;

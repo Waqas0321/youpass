@@ -15,7 +15,10 @@ class ConfigCategoryMapper {
 
             return EventCategoryEntity(
               id: category.id,
-              label: isCountry ? _stripCountryLabelPrefix(category.label) : category.label,
+              label: isCountry
+                  ? (category.countryCode?.trim().toUpperCase() ??
+                      _stripCountryLabelPrefix(category.label))
+                  : category.label,
               icon: _iconForCategory(category),
               leadingEmoji:
                   isCountry ? _flagEmojiForCountry(category) : null,

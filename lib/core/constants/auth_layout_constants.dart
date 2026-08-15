@@ -9,7 +9,7 @@ class AuthLayoutConstants {
 
   static double sectionGap(ResponsiveLayout layout) => layout.spacing(32);
 
-  static double headerAfterLogo(ResponsiveLayout layout) => layout.spacing(40);
+  static double headerAfterLogo(ResponsiveLayout layout) => layout.spacing(16);
 
   static double compactTop(ResponsiveLayout layout) => layout.spacing(8);
 

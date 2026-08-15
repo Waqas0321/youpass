@@ -1,6 +1,6 @@
 # Flutter — Multi-Country LATAM API Integration
 
-**Base URL:** `https://youpass-backend.vercel.app/api/v1`  
+**Base URL:** `https://youpass-backend-two.vercel.app/api/v1`  
 **Deployed:** production (June 2026)
 
 See `BACKEND_MULTI_COUNTRY_LATAM_HANDOFF.md` for backend requirements.

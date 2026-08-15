@@ -4,7 +4,7 @@ import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/theme/presentation/providers/app_theme_provider.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/fiesta_mode_toggle_widget.dart';
-import 'package:youpass/core/widgets/youpass_home_pill_logo_widget.dart';
+import 'package:youpass/features/home/presentation/utils/party_mode_navigation.dart';
 
 class HomeTopBarWidget extends StatelessWidget {
   const HomeTopBarWidget({
@@ -41,14 +41,15 @@ class HomeTopBarWidget extends StatelessWidget {
           ),
           Expanded(
             child: Center(
-              child: showPartyModeBanner
-                  ? FiestaModeToggleWidget(
-                      isFiestaMode: themeProvider.isFiestaMode,
-                      onToggle: () => themeProvider.toggleFiestaMode(
-                        eligible: partyModeEligible,
-                      ),
-                    )
-                  : const YouPassHomePillLogoWidget(),
+              child: FiestaModeToggleWidget(
+                isFiestaMode: themeProvider.isFiestaMode,
+                onToggle: () {
+                  PartyModeNavigation.toggleFromHome(
+                    context,
+                    eligible: partyModeEligible || showPartyModeBanner,
+                  );
+                },
+              ),
             ),
           ),
           SizedBox(width: sideSlotWidth),

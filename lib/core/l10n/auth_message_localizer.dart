@@ -144,6 +144,10 @@ class AuthMessageLocalizer {
       return l10n.errorIncorrectCode;
     }
 
+    if (_isCodeExpiredMessage(fallbackMessage)) {
+      return l10n.errorCodeExpired;
+    }
+
     if (fallbackMessage != null && fallbackMessage.isNotEmpty) {
       return fallbackMessage;
     }
@@ -159,5 +163,16 @@ class AuthMessageLocalizer {
     final normalized = message.toLowerCase();
     return normalized.contains('incorrecto') ||
         normalized.contains('incorrect');
+  }
+
+  static bool _isCodeExpiredMessage(String? message) {
+    if (message == null) {
+      return false;
+    }
+
+    final normalized = message.toLowerCase();
+    return normalized.contains('expir') ||
+        normalized.contains('caduc') ||
+        normalized.contains('vencid');
   }
 }

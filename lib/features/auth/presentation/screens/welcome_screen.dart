@@ -8,7 +8,7 @@ import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/widgets/app_scaffold.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
-import 'package:youpass/core/widgets/youpass_logo.dart';
+import 'package:youpass/core/widgets/youpass_brand_logo.dart';
 import 'package:youpass/features/auth/routes/welcome_route_args.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/routes/app_routes.dart';
@@ -74,9 +74,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     }
 
     final homeProvider = context.read<HomeProvider>();
-    await (_homeTransitionFuture ?? Future.value());
+    try {
+      await (_homeTransitionFuture ?? Future.value());
+    } catch (error, stackTrace) {
+      debugPrint('Welcome preload failed: $error\n$stackTrace');
+    }
+
     if (homeProvider.homeFeed == null) {
-      await homeProvider.loadHomeData();
+      try {
+        await homeProvider.loadHomeData();
+      } catch (error, stackTrace) {
+        debugPrint('Welcome home load failed: $error\n$stackTrace');
+      }
     }
 
     if (!mounted) {
@@ -110,7 +119,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           child: Column(
             children: [
               const Spacer(flex: 2),
-              const YouPassLogo(),
+              const YouPassBrandLogo(),
               const SizedBox(height: 40),
               AppText(
                 title,

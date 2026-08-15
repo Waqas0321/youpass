@@ -80,6 +80,9 @@ flutter:
 
   assets:
     - assets/images/dummy.jpeg
+    - assets/images/youpass_logo.png
+    - assets/images/youpass_party_mode_off_pill.png
+    - assets/images/youpass_party_mode_on_pill.png
     - assets/images/party_drinks/
 
   # An image asset can refer to one or more resolution-specific "variants", see

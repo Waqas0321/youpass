@@ -108,11 +108,37 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
     session.purchaseCurrency = purchase.currency;
   }
 
-  List<TicketOfferingEntity> get _generalOfferings =>
-      session.offerings.where((o) => o.section == TicketOfferingSection.general).toList();
+  List<TicketOfferingEntity> get _generalOfferings {
+    final items = session.offerings
+        .where((o) => o.section == TicketOfferingSection.general)
+        .toList();
+    items.sort(_compareOfferings);
+    return items;
+  }
 
-  List<TicketOfferingEntity> get _vipGeneralOfferings =>
-      session.offerings.where((o) => o.section == TicketOfferingSection.vip).toList();
+  List<TicketOfferingEntity> get _vipGeneralOfferings {
+    final items = session.offerings
+        .where((o) => o.section == TicketOfferingSection.vip)
+        .toList();
+    items.sort(_compareOfferings);
+    return items;
+  }
+
+  int _compareOfferings(TicketOfferingEntity a, TicketOfferingEntity b) {
+    const order = {
+      'early_bird': 1,
+      'preventa_2': 2,
+      'preventa_3': 3,
+      'general': 4,
+      'vip_general': 5,
+    };
+    final aOrder = order[a.type ?? a.id] ?? 999;
+    final bOrder = order[b.type ?? b.id] ?? 999;
+    if (aOrder != bOrder) {
+      return aOrder.compareTo(bOrder);
+    }
+    return a.price.compareTo(b.price);
+  }
 
   List<TicketOfferingEntity> get _quantityOfferings => session.offerings;
 

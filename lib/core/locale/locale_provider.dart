@@ -1,3 +1,5 @@
+import 'dart:ui' show PlatformDispatcher;
+
 import 'package:flutter/material.dart';
 import 'package:youpass/core/locale/app_locale.dart';
 import 'package:youpass/core/locale/country_locale_mapper.dart';
@@ -6,6 +8,7 @@ import 'package:youpass/core/locale/domain/repositories/locale_preference_reposi
 class LocaleProvider extends ChangeNotifier {
   LocaleProvider(this._localePreferenceRepository) {
     _locale = _resolveInitialLocale();
+    _localePreferenceRepository.saveLanguageCode(_locale.languageCode);
   }
 
   final LocalePreferenceRepository _localePreferenceRepository;
@@ -29,9 +32,8 @@ class LocaleProvider extends ChangeNotifier {
     setLocale(CountryLocaleMapper.localeForLanguageCode(languageCode));
   }
 
-  void setLocaleFromCountry(String isoCode) {
-    setLocale(CountryLocaleMapper.localeForCountry(isoCode));
-  }
+  /// Phone / billing country must not change UI language.
+  void setLocaleFromCountry(String isoCode) {}
 
   void setEnglish() => setLocale(AppLocale.english);
 
@@ -40,14 +42,22 @@ class LocaleProvider extends ChangeNotifier {
   void setPortuguese() => setLocale(AppLocale.portuguese);
 
   Locale _resolveInitialLocale() {
-    final savedCode = _localePreferenceRepository.loadLanguageCode();
-    if (savedCode != null) {
-      final savedLocale = AppLocale.fromLanguageCode(savedCode);
-      if (savedLocale != null) {
-        return savedLocale;
+    final saved = _localePreferenceRepository.loadLanguageCode()?.trim();
+    if (saved != null && saved.isNotEmpty) {
+      final fromSaved = AppLocale.fromLanguageCode(saved);
+      if (fromSaved != null) {
+        return fromSaved;
       }
     }
 
-    return AppLocale.defaultLocale;
+    // Honor the full preferred-languages list (e.g. en then es).
+    for (final locale in PlatformDispatcher.instance.locales) {
+      final matched = AppLocale.fromLanguageCode(locale.languageCode);
+      if (matched != null) {
+        return matched;
+      }
+    }
+
+    return AppLocale.resolveSupported(PlatformDispatcher.instance.locale);
   }
 }

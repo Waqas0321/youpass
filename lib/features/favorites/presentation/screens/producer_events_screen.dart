@@ -122,6 +122,8 @@ class _ProducerEventsScreenState extends State<ProducerEventsScreen> {
       locationLabel: event.locationLabel,
       imageUrl: event.imageUrl,
       eventTypeSlug: event.eventTypeSlug,
+      countryCode: event.countryCode ??
+          (event.currencyCode?.toUpperCase() == 'PKR' ? 'PK' : null),
       isFavorite: event.isFavorite,
       startsAt: event.startsAt,
     );
@@ -138,6 +140,8 @@ class _ProducerEventsScreenState extends State<ProducerEventsScreen> {
       locationLabel: event.locationLabel,
       imageUrl: event.imageUrl,
       eventTypeSlug: event.eventTypeSlug,
+      countryCode: event.countryCode ??
+          (event.currencyCode?.toUpperCase() == 'PKR' ? 'PK' : null),
       isFavorite: event.isFavorite,
       startsAt: event.startsAt,
     );

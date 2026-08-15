@@ -14,8 +14,10 @@ class HomeEventsSectionWidget extends StatelessWidget {
     required this.events,
     this.sectionTitle,
     this.headerActionLabel,
+    this.headerActionSemanticLabel,
     this.onHeaderActionTap,
     this.headerActionIcon,
+    this.headerActionIconSize,
     this.headerActionSelected = false,
     this.headerActionLoading = false,
     this.onEventTap,
@@ -31,8 +33,10 @@ class HomeEventsSectionWidget extends StatelessWidget {
   final List<EventEntity> events;
   final String? sectionTitle;
   final String? headerActionLabel;
+  final String? headerActionSemanticLabel;
   final VoidCallback? onHeaderActionTap;
   final IconData? headerActionIcon;
+  final double? headerActionIconSize;
   final bool headerActionSelected;
   final bool headerActionLoading;
   final ValueChanged<EventEntity>? onEventTap;
@@ -55,8 +59,10 @@ class HomeEventsSectionWidget extends StatelessWidget {
         SectionHeaderWidget(
           title: sectionTitle ?? AppStrings.eventsSectionTitle(l10n),
           actionLabel: headerActionLabel,
+          actionSemanticLabel: headerActionSemanticLabel,
           onActionTap: onHeaderActionTap,
           actionIcon: headerActionIcon,
+          actionIconSize: headerActionIconSize,
           actionSelected: headerActionSelected,
           actionLoading: headerActionLoading,
         ),

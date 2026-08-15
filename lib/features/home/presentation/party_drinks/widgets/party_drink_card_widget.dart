@@ -98,14 +98,18 @@ class PartyDrinkCardWidget extends StatelessWidget {
                         height: 1.2,
                       ),
                     ),
-                    SizedBox(height: gap),
-                    Align(
-                      child: PartyDrinkVolumeBadgeWidget(volumeMl: drink.volumeMl),
-                    ),
+                    if (drink.volumeMl > 0) ...[
+                      SizedBox(height: gap),
+                      Align(
+                        child: PartyDrinkVolumeBadgeWidget(volumeMl: drink.volumeMl),
+                      ),
+                    ],
                     SizedBox(height: PartyDrinksDesignSpec.px(context, 10)),
                     Text(
                       PartyDrinkPriceFormatter.format(context, drink.priceClp),
                       textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: PartyDrinksDesignSpec.px(context, 17),
                         fontWeight: FontWeight.w800,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_colors.dart';
-import 'package:youpass/core/widgets/youpass_logo.dart';
+import 'package:youpass/core/utils/responsive_layout.dart';
+import 'package:youpass/core/widgets/youpass_brand_logo.dart';
 
 class YouPassBrandedAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
@@ -23,10 +24,14 @@ class YouPassBrandedAppBarWidget extends StatelessWidget
   final Color? subtitleColor;
   final List<Widget>? actions;
 
+  double _logoWidth(BuildContext context) {
+    final layout = ResponsiveLayout(context);
+    // Closer to auth/login brand mark size (~50% larger than old compact).
+    return (layout.width * 0.55).clamp(200.0, 280.0);
+  }
+
   @override
-  Size get preferredSize => Size.fromHeight(
-        screenTitle == null ? kToolbarHeight : kToolbarHeight + 12,
-      );
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 28);
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +40,7 @@ class YouPassBrandedAppBarWidget extends StatelessWidget
         backgroundColor ?? theme.scaffoldBackgroundColor;
     final resolvedSubtitle =
         subtitleColor ?? theme.colorScheme.onSurfaceVariant;
+    final logoWidth = _logoWidth(context);
 
     return AppBar(
       backgroundColor: resolvedBackground,
@@ -42,6 +48,7 @@ class YouPassBrandedAppBarWidget extends StatelessWidget
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: true,
+      toolbarHeight: preferredSize.height,
       leading: onBack != null
           ? IconButton(
               onPressed: onBack,
@@ -85,7 +92,7 @@ class YouPassBrandedAppBarWidget extends StatelessWidget
             ),
             const SizedBox(height: 2),
           ],
-          const YouPassLogo(),
+          YouPassBrandLogo(width: logoWidth),
         ],
       ),
     );

@@ -36,6 +36,8 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
             (offering) => VipGeneralTicketSummaryCardWidget(
               offering: offering,
               detailsLine: VipPurchaseLabelHelper.ticketDetailsLine(strings, offering),
+              countryIsoCode: session.countryIsoCode,
+              currencyDecimals: session.currencyDecimals,
               onQuantityChanged: (quantity) {
                 onOfferingQuantityChanged?.call(offering.id, quantity);
               },
@@ -52,6 +54,7 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
                     session.subtotal,
                     currencyCode: session.currency,
                     countryIsoCode: session.countryIsoCode,
+                    currencyDecimals: session.currencyDecimals,
                   ),
                   amountColor: VipVenueScreenTheme.title(context),
                 ),
@@ -63,6 +66,7 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
                     session.serviceFee,
                     currencyCode: session.currency,
                     countryIsoCode: session.countryIsoCode,
+                    currencyDecimals: session.currencyDecimals,
                   ),
                   amountColor: VipVenueScreenTheme.title(context),
                 ),
@@ -74,6 +78,7 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
                     session.totalAmount,
                     currencyCode: session.currency,
                     countryIsoCode: session.countryIsoCode,
+                    currencyDecimals: session.currencyDecimals,
                   ),
                   amountColor: accent,
                   amountSize: 22,
@@ -103,6 +108,7 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
                     amount: table.price,
                     currencyCode: session.currency,
                     countryIsoCode: session.countryIsoCode,
+                    currencyDecimals: session.currencyDecimals,
                   ),
                   const VipCardDividerWidget(),
                   VipAmountRowWidget(
@@ -112,6 +118,7 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
                       session.serviceFee,
                       currencyCode: session.currency,
                       countryIsoCode: session.countryIsoCode,
+                      currencyDecimals: session.currencyDecimals,
                     ),
                     amountColor: VipVenueScreenTheme.title(context),
                   ),
@@ -123,6 +130,7 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
                       session.totalAmount,
                       currencyCode: session.currency,
                       countryIsoCode: session.countryIsoCode,
+                      currencyDecimals: session.currencyDecimals,
                     ),
                     amountColor: accent,
                     amountSize: 22,

@@ -5,6 +5,7 @@ import 'package:youpass/core/theme/presentation/providers/app_theme_provider.dar
 import 'package:youpass/features/home/domain/entities/drawer_menu_id.dart';
 import 'package:youpass/features/home/presentation/utils/drawer_menu_factory.dart';
 import 'package:youpass/features/home/presentation/widgets/drawer/drawer_design_spec.dart';
+import 'package:youpass/features/home/presentation/widgets/drawer/drawer_footer_actions_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/drawer/drawer_header_bar_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/drawer/drawer_invitations_tile_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/drawer/drawer_menu_tile_widget.dart';
@@ -57,6 +58,9 @@ class HomeDrawerWidget extends StatelessWidget {
                         onSelect: (menuId) => _selectMenu(context, menuId),
                       ),
               ),
+            ),
+            DrawerFooterActionsWidget(
+              onSelect: (menuId) => _selectMenu(context, menuId),
             ),
           ],
         ),

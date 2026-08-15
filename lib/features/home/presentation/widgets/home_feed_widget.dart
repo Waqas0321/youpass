@@ -13,6 +13,7 @@ import 'package:youpass/features/vip_venue/presentation/utils/vip_purchase_scree
 import 'package:youpass/features/home/presentation/widgets/home_events_section_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/home_country_picker_sheet.dart';
 import 'package:youpass/features/home/presentation/widgets/home_greeting_widget.dart';
+import 'package:youpass/features/home/presentation/widgets/home_location_sheet.dart';
 import 'package:youpass/features/home/presentation/widgets/home_search_bar_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/home_search_filters_sheet.dart';
 import 'package:youpass/features/home/presentation/widgets/home_search_results_panel_widget.dart';
@@ -163,13 +164,17 @@ class _HomeFeedWidgetState extends State<HomeFeedWidget> {
                               ? homeProvider.searchResults
                               : homeProvider.upcomingEvents,
                           sectionTitle: widget.upcomingSectionTitle,
-                          headerActionLabel: AppStrings.homeNearMeHeaderLink(l10n),
-                          headerActionIcon: homeProvider.nearMeEnabled
+                          headerActionSemanticLabel:
+                              AppStrings.homeLocationSheetTitle(l10n),
+                          headerActionIcon: homeProvider.hasActiveLocationContext
                               ? Icons.location_on
                               : Icons.location_on_outlined,
-                          headerActionSelected: homeProvider.nearMeEnabled,
+                          headerActionIconSize: layout.fontSize(17 * 1.35),
+                          headerActionSelected:
+                              homeProvider.hasActiveLocationContext,
                           headerActionLoading: homeProvider.isNearMeLoading,
-                          onHeaderActionTap: homeProvider.toggleNearMeFilter,
+                          onHeaderActionTap: () =>
+                              HomeLocationSheet.show(context),
                           isLoading: homeProvider.isSearchMode
                               ? homeProvider.isSearchLoading
                               : homeProvider.isLoadingUpcoming ||
@@ -193,7 +198,7 @@ class _HomeFeedWidgetState extends State<HomeFeedWidget> {
                                 chips: homeProvider.activeFilterChips(
                                   freeOnlyLabel: AppStrings.homeFiltersFreeOnly(l10n),
                                   customRangeLabel: AppStrings.homeFiltersCustomRange(l10n),
-                                  nearMeLabel: AppStrings.homeNearMeButton(l10n),
+                                  nearMeLabel: AppStrings.homeLocationActiveNearby(l10n),
                                 ),
                                 onRemove: homeProvider.removeFilterChip,
                               ),

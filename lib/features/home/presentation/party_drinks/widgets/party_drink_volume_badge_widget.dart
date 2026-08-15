@@ -15,6 +15,10 @@ class PartyDrinkVolumeBadgeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (volumeMl <= 0) {
+      return const SizedBox.shrink();
+    }
+
     final strings = context.l10n;
 
     return DecoratedBox(

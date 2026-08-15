@@ -194,6 +194,12 @@ abstract class AppLocalizations {
   /// **'CHANGE NUMBER'**
   String get changeNumberLink;
 
+  /// No description provided for @otpWhatsAppHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Didn\'t get the code? Make sure WhatsApp is installed on your phone. YouPass uses WhatsApp to send security codes. If you have problems, contact support: soporte@youpass.app'**
+  String get otpWhatsAppHelp;
+
   /// No description provided for @selectCountryTitle.
   ///
   /// In en, this message translates to:
@@ -331,6 +337,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Turn on location services to find events near you.'**
   String get homeNearMeLocationDisabled;
+
+  /// No description provided for @homeLocationSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose location'**
+  String get homeLocationSheetTitle;
+
+  /// No description provided for @homeLocationSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your current location or type a city to update events.'**
+  String get homeLocationSheetSubtitle;
+
+  /// No description provided for @homeLocationUseCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Use my current location'**
+  String get homeLocationUseCurrent;
+
+  /// No description provided for @homeLocationTypeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a city or venue area'**
+  String get homeLocationTypeHint;
+
+  /// No description provided for @homeLocationApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply location'**
+  String get homeLocationApply;
+
+  /// No description provided for @homeLocationClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear location'**
+  String get homeLocationClear;
+
+  /// No description provided for @homeLocationActiveNearby.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby'**
+  String get homeLocationActiveNearby;
 
   /// No description provided for @homeSearchPlaceholder.
   ///
@@ -1076,6 +1124,12 @@ abstract class AppLocalizations {
   /// **'My Purchases'**
   String get drawerMyPurchases;
 
+  /// No description provided for @partyModeUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Party Mode opens when you have a scanned ticket at a live event.'**
+  String get partyModeUnavailable;
+
   /// No description provided for @partyDrinkMenuEmpty.
   ///
   /// In en, this message translates to:
@@ -1087,6 +1141,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose a category to explore'**
   String get partyDrinkMenuSubtitle;
+
+  /// No description provided for @partyDrinkEventChooserTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which drink menu?'**
+  String get partyDrinkEventChooserTitle;
+
+  /// No description provided for @partyDrinkEventChooserSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You have tickets for more than one event. Choose which menu to open.'**
+  String get partyDrinkEventChooserSubtitle;
+
+  /// No description provided for @partyDrinkEventChooserRecommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested now'**
+  String get partyDrinkEventChooserRecommended;
 
   /// No description provided for @partyDrinkCategoryAll.
   ///
@@ -2507,7 +2579,7 @@ abstract class AppLocalizations {
   /// No description provided for @favoritesSavedProducersCount.
   ///
   /// In en, this message translates to:
-  /// **'{count} saved producers'**
+  /// **'{count, plural, =1{1 saved producer} other{{count} saved producers}}'**
   String favoritesSavedProducersCount(int count);
 
   /// No description provided for @favoritesYoufestDescription.

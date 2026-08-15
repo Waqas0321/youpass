@@ -12,6 +12,7 @@ class ProducerCalendarEventEntity extends Equatable {
     this.venueName,
     this.minPrice,
     this.currencyCode,
+    this.countryCode,
     this.ticketCta = ProducerTicketCta.buy,
     this.followersPresaleActive = false,
     this.followersPresaleLabel,
@@ -29,6 +30,7 @@ class ProducerCalendarEventEntity extends Equatable {
   final String? venueName;
   final double? minPrice;
   final String? currencyCode;
+  final String? countryCode;
   final ProducerTicketCta ticketCta;
   final bool followersPresaleActive;
   final String? followersPresaleLabel;
@@ -47,6 +49,7 @@ class ProducerCalendarEventEntity extends Equatable {
         venueName,
         minPrice,
         currencyCode,
+        countryCode,
         ticketCta,
         followersPresaleActive,
         followersPresaleLabel,

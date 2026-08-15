@@ -152,9 +152,9 @@ class ApiClient {
       multipart: true,
     );
 
-    if (resolvedHeaders.containsKey('Authorization')) {
-      request.headers['Authorization'] = resolvedHeaders['Authorization']!;
-    }
+    resolvedHeaders.forEach((key, value) {
+      request.headers[key] = value;
+    });
 
     final multipartSummary = <String, Object?>{
       if (fields != null && fields.isNotEmpty) 'fields': fields,
@@ -186,6 +186,8 @@ class ApiClient {
     final clientHeaders = await _clientRequestHeaders?.build() ?? const {};
     final resolved = <String, String>{
       if (!multipart && includeJsonContentType) 'Content-Type': 'application/json',
+      if (AppConstants.apiBaseUrl.contains('ngrok'))
+        'ngrok-skip-browser-warning': 'true',
       ...clientHeaders,
       ...?headers,
     };

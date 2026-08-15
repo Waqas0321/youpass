@@ -7,6 +7,7 @@ import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/fiesta_mode_toggle_widget.dart';
 import 'package:youpass/features/home/presentation/party_drinks/party_drinks_design_spec.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
+import 'package:youpass/features/home/presentation/utils/party_mode_navigation.dart';
 
 /// Wireframe header: menu (left), YouPass ON pill (true center), title + subtitle below.
 class PartyDrinkMenuHeaderWidget extends StatelessWidget {
@@ -62,9 +63,12 @@ class PartyDrinkMenuHeaderWidget extends StatelessWidget {
                   ),
                   FiestaModeToggleWidget(
                     isFiestaMode: themeProvider.isFiestaMode,
-                    onToggle: () => themeProvider.toggleFiestaMode(
-                      eligible: homeProvider.partyModeEligible,
-                    ),
+                    onToggle: () {
+                      PartyModeNavigation.toggleFromPartyScreen(
+                        context,
+                        eligible: homeProvider.partyModeEligible,
+                      );
+                    },
                   ),
                 ],
               ),

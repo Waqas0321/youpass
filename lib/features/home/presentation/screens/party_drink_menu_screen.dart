@@ -9,6 +9,7 @@ import 'package:youpass/features/home/presentation/party_drinks/data/party_drink
 import 'package:youpass/features/home/presentation/party_drinks/models/party_drink_item.dart';
 import 'package:youpass/features/home/presentation/party_drinks/models/party_drink_menu_category.dart';
 import 'package:youpass/features/home/presentation/party_drinks/party_drinks_design_spec.dart';
+import 'package:youpass/features/home/presentation/party_drinks/routes/party_drink_menu_route_args.dart';
 import 'package:youpass/features/home/presentation/party_drinks/routes/party_drink_purchase_success_route_args.dart';
 import 'package:youpass/features/home/presentation/party_drinks/utils/party_drink_cart_calculator.dart';
 import 'package:youpass/features/home/presentation/party_drinks/utils/party_drink_cart_quantities.dart';
@@ -25,7 +26,21 @@ import 'package:youpass/features/tickets/data/services/tickets_api_service.dart'
 import 'package:youpass/routes/app_routes.dart';
 
 class PartyDrinkMenuScreen extends StatefulWidget {
-  const PartyDrinkMenuScreen({super.key});
+  const PartyDrinkMenuScreen({
+    super.key,
+    this.eventId,
+    this.eventTitle,
+  });
+
+  final String? eventId;
+  final String? eventTitle;
+
+  static Widget fromRouteArgs(PartyDrinkMenuRouteArgs? args) {
+    return PartyDrinkMenuScreen(
+      eventId: args?.eventId,
+      eventTitle: args?.eventTitle,
+    );
+  }
 
   @override
   State<PartyDrinkMenuScreen> createState() => _PartyDrinkMenuScreenState();
@@ -74,11 +89,26 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
     });
   }
 
-  Future<void> _loadMenu() async {
-    setState(() {
-      isLoading = true;
-      loadError = null;
-    });
+  Future<void> _refreshMenu() async {
+    final homeProvider = context.read<HomeProvider>();
+    await homeProvider.refreshPartyModeEligibility();
+    if (!mounted) {
+      return;
+    }
+    await _loadMenu(showFullScreenLoader: false);
+  }
+
+  Future<void> _loadMenu({bool showFullScreenLoader = true}) async {
+    if (showFullScreenLoader) {
+      setState(() {
+        isLoading = true;
+        loadError = null;
+      });
+    } else {
+      setState(() {
+        loadError = null;
+      });
+    }
 
     try {
       final homeProvider = context.read<HomeProvider>();
@@ -90,6 +120,10 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
       if (resolved == null) {
         setState(() {
           isLoading = false;
+          menuCategories = const [];
+          drinks = const [];
+          eventTitle = null;
+          eventId = null;
           loadError =
               'No event found. Enable Party Mode or use a ticket for an event with a drink menu.';
         });
@@ -110,6 +144,7 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
         eventTitle = resolved.eventTitle ?? homeProvider.partyModeEventTitle;
         eventId = resolved.eventId;
         isLoading = false;
+        loadError = null;
       });
     } catch (error) {
       if (!mounted) {
@@ -126,6 +161,14 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
   Future<_PartyDrinkEventContext?> _resolveEventContext(
     HomeProvider homeProvider,
   ) async {
+    final routedEventId = widget.eventId?.trim();
+    if (routedEventId != null && routedEventId.isNotEmpty) {
+      return _PartyDrinkEventContext(
+        eventId: routedEventId,
+        eventTitle: widget.eventTitle ?? homeProvider.partyModeEventTitle,
+      );
+    }
+
     final partyEventId = homeProvider.partyModeEventId;
     if (partyEventId != null && partyEventId.isNotEmpty) {
       return _PartyDrinkEventContext(
@@ -301,21 +344,27 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
           subtitle: eventTitle,
         ),
         Expanded(
-          child: Center(
-            child: Padding(
+          child: RefreshIndicator(
+            color: PartyDrinksDesignSpec.gold,
+            onRefresh: _refreshMenu,
+            child: ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
               padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    loadError!,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(color: Colors.white70),
+              children: [
+                SizedBox(height: MediaQuery.sizeOf(context).height * 0.22),
+                Text(
+                  loadError!,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white70),
+                ),
+                const SizedBox(height: 16),
+                Center(
+                  child: OutlinedButton(
+                    onPressed: _refreshMenu,
+                    child: const Text('Retry'),
                   ),
-                  const SizedBox(height: 16),
-                  OutlinedButton(onPressed: _loadMenu, child: const Text('Retry')),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -334,10 +383,20 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
           subtitle: eventTitle,
         ),
         Expanded(
-          child: Center(
-            child: Text(
-              context.l10n.partyDrinkMenuEmpty,
-              style: const TextStyle(color: Colors.white70),
+          child: RefreshIndicator(
+            color: PartyDrinksDesignSpec.gold,
+            onRefresh: _refreshMenu,
+            child: ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+              children: [
+                SizedBox(height: MediaQuery.sizeOf(context).height * 0.28),
+                Text(
+                  context.l10n.partyDrinkMenuEmpty,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white70),
+                ),
+              ],
             ),
           ),
         ),
@@ -388,36 +447,41 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
         ),
         SizedBox(height: PartyDrinksDesignSpec.px(context, 8)),
         Expanded(
-          child: CustomScrollView(
-            slivers: [
-              if (_showRecommendations)
-                const SliverToBoxAdapter(
-                  child: PartyDrinkRecommendationsHeaderWidget(),
-                ),
-              if (_gridDrinks.isNotEmpty)
-                _drinkGridSliver(
-                  items: _gridDrinks,
-                  horizontalPadding: horizontalPadding,
-                  gap: gap,
-                  padding: EdgeInsets.fromLTRB(
-                    horizontalPadding,
-                    PartyDrinksDesignSpec.px(context, 16),
-                    horizontalPadding,
-                    0,
+          child: RefreshIndicator(
+            color: PartyDrinksDesignSpec.gold,
+            onRefresh: _refreshMenu,
+            child: CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                if (_showRecommendations)
+                  const SliverToBoxAdapter(
+                    child: PartyDrinkRecommendationsHeaderWidget(),
                   ),
-                )
-              else
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Center(
-                    child: Text(
-                      context.l10n.partyDrinkMenuEmpty,
-                      style: const TextStyle(color: Colors.white70),
+                if (_gridDrinks.isNotEmpty)
+                  _drinkGridSliver(
+                    items: _gridDrinks,
+                    horizontalPadding: horizontalPadding,
+                    gap: gap,
+                    padding: EdgeInsets.fromLTRB(
+                      horizontalPadding,
+                      PartyDrinksDesignSpec.px(context, 16),
+                      horizontalPadding,
+                      0,
+                    ),
+                  )
+                else
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(
+                      child: Text(
+                        context.l10n.partyDrinkMenuEmpty,
+                        style: const TextStyle(color: Colors.white70),
+                      ),
                     ),
                   ),
-                ),
-              SliverToBoxAdapter(child: SizedBox(height: bottomInset)),
-            ],
+                SliverToBoxAdapter(child: SizedBox(height: bottomInset)),
+              ],
+            ),
           ),
         ),
       ],

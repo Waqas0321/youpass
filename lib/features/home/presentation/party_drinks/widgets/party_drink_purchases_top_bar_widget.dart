@@ -6,11 +6,9 @@ class PartyDrinkPurchasesTopBarWidget extends StatelessWidget {
   const PartyDrinkPurchasesTopBarWidget({
     super.key,
     required this.onDrawerTap,
-    this.onMoreTap,
   });
 
   final VoidCallback onDrawerTap;
-  final VoidCallback? onMoreTap;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +17,7 @@ class PartyDrinkPurchasesTopBarWidget extends StatelessWidget {
       PartyDrinksDesignSpec.horizontalPadding,
     );
     final iconSize = PartyDrinksDesignSpec.px(context, 22);
+    final sideSlot = PartyDrinksDesignSpec.px(context, 40);
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
@@ -35,8 +34,8 @@ class PartyDrinkPurchasesTopBarWidget extends StatelessWidget {
               onPressed: onDrawerTap,
               padding: EdgeInsets.zero,
               constraints: BoxConstraints(
-                minWidth: PartyDrinksDesignSpec.px(context, 40),
-                minHeight: PartyDrinksDesignSpec.px(context, 40),
+                minWidth: sideSlot,
+                minHeight: sideSlot,
               ),
               icon: Icon(
                 Icons.menu,
@@ -49,19 +48,7 @@ class PartyDrinkPurchasesTopBarWidget extends StatelessWidget {
                 child: YouPassLogo(),
               ),
             ),
-            IconButton(
-              onPressed: onMoreTap,
-              padding: EdgeInsets.zero,
-              constraints: BoxConstraints(
-                minWidth: PartyDrinksDesignSpec.px(context, 40),
-                minHeight: PartyDrinksDesignSpec.px(context, 40),
-              ),
-              icon: Icon(
-                Icons.more_vert,
-                color: PartyDrinksDesignSpec.gold,
-                size: iconSize,
-              ),
-            ),
+            SizedBox(width: sideSlot, height: sideSlot),
           ],
         ),
       ),

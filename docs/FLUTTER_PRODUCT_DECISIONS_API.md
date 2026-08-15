@@ -1,6 +1,6 @@
 # Flutter — Product Decisions API Guide
 
-**Base URL:** `https://youpass-backend.vercel.app/api/v1`  
+**Base URL:** `https://youpass-backend-two.vercel.app/api/v1`  
 **Auth channel:** WhatsApp Business **only** (no SMS)
 
 See backend doc for full API shapes. This file tracks **Flutter implementation**.

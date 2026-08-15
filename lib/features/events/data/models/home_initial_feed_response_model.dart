@@ -129,6 +129,36 @@ class HomeInitialFeedResponseModel {
       return null;
     }
 
+    final eligibleRaw =
+        value['eligible_events'] ?? value['eligibleEvents'];
+    final eligibleEvents = <HomePartyModeEligibleEventEntity>[];
+    if (eligibleRaw is List) {
+      for (final item in eligibleRaw) {
+        if (item is! Map<String, dynamic>) {
+          continue;
+        }
+        final eventId = JsonReaders.nullableString(item, 'event_id') ??
+            JsonReaders.nullableString(item, 'eventId');
+        if (eventId == null || eventId.isEmpty) {
+          continue;
+        }
+        eligibleEvents.add(
+          HomePartyModeEligibleEventEntity(
+            eventId: eventId,
+            eventTitle: JsonReaders.string(
+              item,
+              'event_title',
+              fallback: JsonReaders.string(item, 'eventTitle'),
+            ),
+            startsAt: JsonReaders.dateTime(item, 'starts_at') ??
+                JsonReaders.dateTime(item, 'startsAt'),
+            endsAt: JsonReaders.dateTime(item, 'ends_at') ??
+                JsonReaders.dateTime(item, 'endsAt'),
+          ),
+        );
+      }
+    }
+
     return HomePartyModeEntity(
       enabled: JsonReaders.boolean(value, 'enabled', fallback: false),
       bannerVisible: JsonReaders.boolean(
@@ -140,6 +170,7 @@ class HomeInitialFeedResponseModel {
           JsonReaders.nullableString(value, 'eventId'),
       eventTitle: JsonReaders.nullableString(value, 'event_title') ??
           JsonReaders.nullableString(value, 'eventTitle'),
+      eligibleEvents: eligibleEvents,
     );
   }
 

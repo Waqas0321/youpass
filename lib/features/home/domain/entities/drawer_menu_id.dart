@@ -7,4 +7,5 @@ enum DrawerMenuId {
   drinkMenu,
   myPurchases,
   cortesias,
+  logout,
 }

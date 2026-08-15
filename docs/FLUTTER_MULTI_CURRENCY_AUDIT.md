@@ -1,7 +1,7 @@
 # Flutter — Multi-Currency Audit
 
 **Date:** June 2026  
-**Base URL:** `https://youpass-backend.vercel.app/api/v1`  
+**Base URL:** `https://youpass-backend-two.vercel.app/api/v1`  
 **Related:** `BACKEND_MULTI_COUNTRY_LATAM_HANDOFF.md` §2 Multi-currency
 
 **Verdict:** **Partial** — config + VIP/checkout formatting are done; correct currency on every screen is **not guaranteed** without backend fields.

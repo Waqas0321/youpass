@@ -47,7 +47,6 @@ class DrawerMenuFactory {
 
   static List<DrawerMenuItem> partyModeItems(AppLocalizations l10n) {
     return [
-      homeItem(l10n),
       DrawerMenuItem(
         id: DrawerMenuId.drinkMenu,
         label: AppStrings.drawerDrinkMenu(l10n),

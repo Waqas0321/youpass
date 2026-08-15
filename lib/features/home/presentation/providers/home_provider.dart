@@ -9,6 +9,7 @@ import 'package:youpass/features/events/domain/entities/event_entity.dart';
 import 'package:youpass/features/events/domain/entities/home_events_query.dart';
 import 'package:youpass/features/home/domain/entities/event_category_entity.dart';
 import 'package:youpass/features/home/domain/entities/home_feed_entity.dart';
+import 'package:youpass/features/home/domain/entities/home_feed_meta_entity.dart';
 import 'package:youpass/features/home/domain/entities/home_search_filters_entity.dart';
 import 'package:youpass/features/home/domain/usecases/get_filtered_home_events_usecase.dart';
 import 'package:youpass/features/home/domain/usecases/get_home_feed_usecase.dart';
@@ -52,6 +53,8 @@ class HomeProvider extends ChangeNotifier {
   bool partyModeEligible = false;
   String? get partyModeEventId => homeFeed?.partyMode?.eventId;
   String? get partyModeEventTitle => homeFeed?.partyMode?.eventTitle;
+  List<HomePartyModeEligibleEventEntity> get partyModeEligibleEvents =>
+      homeFeed?.partyMode?.eligibleEvents ?? const [];
   bool highlightPendingInvitation = false;
   String? highlightedInvitationTitle;
   String? highlightedInvitationId;
@@ -84,11 +87,53 @@ class HomeProvider extends ChangeNotifier {
   bool nearMeEnabled = false;
   bool draftNearMeEnabled = false;
   bool isNearMeLoading = false;
-  bool isDraftNearMeLoading = false;
   double? userLatitude;
   double? userLongitude;
   double? draftLatitude;
   double? draftLongitude;
+
+  bool get hasActiveLocationContext =>
+      nearMeEnabled ||
+      (appliedFilters.city != null && appliedFilters.city!.trim().isNotEmpty);
+
+  String get typedLocationQuery => appliedFilters.city?.trim() ?? '';
+
+  List<String> locationSuggestionsFor(String query) {
+    final normalized = query.trim().toLowerCase();
+    final suggestions = <String>{};
+
+    final configCities = homeFeed?.searchConfig.cities ?? const [];
+    for (final city in configCities) {
+      final label = city.label.trim();
+      if (label.isEmpty) {
+        continue;
+      }
+      if (normalized.isEmpty || label.toLowerCase().contains(normalized)) {
+        suggestions.add(label);
+      }
+    }
+
+    for (final event in [...upcomingEvents, ...searchResults]) {
+      final location = event.locationLabel.trim();
+      if (location.isEmpty) {
+        continue;
+      }
+      final cityPart = location.contains(',')
+          ? location.split(',').last.trim()
+          : location;
+      if (cityPart.isEmpty) {
+        continue;
+      }
+      if (normalized.isEmpty || cityPart.toLowerCase().contains(normalized)) {
+        suggestions.add(cityPart);
+      }
+    }
+
+    final sorted = suggestions.toList()..sort();
+    return sorted.take(8).toList();
+  }
+
+  bool isDraftNearMeLoading = false;
 
   HomeSearchFiltersConfigEntity get _searchConfig =>
       homeFeed?.searchConfig ?? HomeSearchFiltersConfigEntity.defaults;
@@ -230,20 +275,20 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future<void> toggleNearMeFilter() async {
+    if (nearMeEnabled) {
+      await clearLocationContext();
+      return;
+    }
+    await enableNearMeLocation();
+  }
+
+  Future<void> enableNearMeLocation() async {
     if (isNearMeLoading) {
       return;
     }
 
-    if (nearMeEnabled) {
-      nearMeEnabled = false;
-      userLatitude = null;
-      userLongitude = null;
-      notifyListeners();
-      await _loadUpcomingEvents(reset: true);
-      return;
-    }
-
     isNearMeLoading = true;
+    errorMessage = null;
     notifyListeners();
 
     try {
@@ -251,8 +296,18 @@ class HomeProvider extends ChangeNotifier {
       nearMeEnabled = true;
       userLatitude = position.latitude;
       userLongitude = position.longitude;
+      appliedFilters = appliedFilters.copyWith(clearCity: true, clearZone: true);
+      draftFilters = appliedFilters;
+      draftNearMeEnabled = true;
+      draftLatitude = userLatitude;
+      draftLongitude = userLongitude;
       notifyListeners();
-      await _loadUpcomingEvents(reset: true);
+
+      if (searchQuery.trim().isNotEmpty || _appliedHasActiveSelections()) {
+        await _runSearch(saveHistory: false);
+      } else {
+        await _loadUpcomingEvents(reset: true);
+      }
     } on UserLocationException catch (error) {
       errorMessage = error.message;
       notifyListeners();
@@ -262,6 +317,50 @@ class HomeProvider extends ChangeNotifier {
     } finally {
       isNearMeLoading = false;
       notifyListeners();
+    }
+  }
+
+  Future<void> applyTypedCityLocation(String city) async {
+    final trimmed = city.trim();
+    if (trimmed.isEmpty) {
+      return;
+    }
+
+    nearMeEnabled = false;
+    userLatitude = null;
+    userLongitude = null;
+    draftNearMeEnabled = false;
+    draftLatitude = null;
+    draftLongitude = null;
+    appliedFilters = appliedFilters.copyWith(
+      city: trimmed,
+      clearZone: true,
+    );
+    draftFilters = appliedFilters;
+    notifyListeners();
+
+    if (searchQuery.trim().isNotEmpty || _appliedHasActiveSelections()) {
+      await _runSearch(saveHistory: false);
+    } else {
+      await _loadUpcomingEvents(reset: true);
+    }
+  }
+
+  Future<void> clearLocationContext() async {
+    nearMeEnabled = false;
+    userLatitude = null;
+    userLongitude = null;
+    draftNearMeEnabled = false;
+    draftLatitude = null;
+    draftLongitude = null;
+    appliedFilters = appliedFilters.copyWith(clearCity: true, clearZone: true);
+    draftFilters = appliedFilters;
+    notifyListeners();
+
+    if (searchQuery.trim().isNotEmpty || _appliedHasActiveSelections()) {
+      await _runSearch(saveHistory: false);
+    } else {
+      await _loadUpcomingEvents(reset: true);
     }
   }
 
@@ -683,9 +782,8 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future<void> syncPartyModeTheme(AppThemeProvider themeProvider) async {
-    if (!partyModeEligible) {
-      await themeProvider.setFiestaMode(false, eligible: false);
-    }
+    // Visual Party Mode is user-toggled from the home header. Eligibility
+    // still gates party features without forcing the theme off.
   }
 
   Future<void> refreshPartyModeEligibility() async {
@@ -1092,6 +1190,7 @@ class HomeProvider extends ChangeNotifier {
       eventTypeSlug: category?.eventTypeSlug,
       page: page,
       limit: 20,
+      filters: appliedFilters,
       nearMe: nearMeEnabled,
       latitude: userLatitude,
       longitude: userLongitude,

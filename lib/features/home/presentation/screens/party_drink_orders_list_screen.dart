@@ -170,7 +170,6 @@ class _PartyDrinkOrdersListScreenState extends State<PartyDrinkOrdersListScreen>
       children: [
         PartyDrinkPurchasesTopBarWidget(
           onDrawerTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
-          onMoreTap: isLoading ? null : _loadOrders,
         ),
         PartyDrinkPurchasesHeaderWidget(
           title: _isCourtesies

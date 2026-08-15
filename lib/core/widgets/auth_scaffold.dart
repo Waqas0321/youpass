@@ -8,11 +8,13 @@ class AuthScaffold extends StatelessWidget {
     required this.body,
     this.showBackButton = false,
     this.onBackPressed,
+    this.topBar,
   });
 
   final Widget body;
   final bool showBackButton;
   final VoidCallback? onBackPressed;
+  final Widget? topBar;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +22,14 @@ class AuthScaffold extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: Stack(
           children: [
             const AuthCurveBackground(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                ?topBar,
                 if (showBackButton)
                   Align(
                     alignment: Alignment.centerLeft,

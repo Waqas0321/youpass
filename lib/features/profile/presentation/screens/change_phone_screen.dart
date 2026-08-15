@@ -5,7 +5,6 @@ import 'package:youpass/core/constants/country_code_list.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/l10n/auth_error_extension.dart';
 import 'package:youpass/core/l10n/otp_delivery_message.dart';
-import 'package:youpass/core/locale/locale_sync_helper.dart';
 import 'package:youpass/core/utils/phone_formatter.dart';
 import 'package:youpass/core/utils/phone_validators.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
@@ -187,8 +186,6 @@ class _ChangePhoneScreenState extends State<ChangePhoneScreen> {
               key: phoneInputKey,
               phoneController: phoneController,
               initialCountryIsoCode: profile?.countryCode,
-              onCountryChanged: (country) =>
-                  LocaleSyncHelper.applyCountry(context, country),
             ),
             if (localizedError != null) ...[
               SizedBox(height: layout.spacing(12)),

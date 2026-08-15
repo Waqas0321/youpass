@@ -23,19 +23,23 @@ class FiestaModeToggleWidget extends StatelessWidget {
     final l10n = context.l10n;
     final trackWidth = layout.spacing(132);
     final trackHeight = layout.spacing(42);
-    final thumbSize = layout.spacing(34);
-    final trackPadding = layout.spacing(4);
-
-    final trackColor =
-        isFiestaMode ? AppColors.homeAccentYellow : AppColors.homeBlack;
+    final thumbSize = layout.spacing(36);
+    final horizontalPad = layout.spacing(4);
     final brandColor =
-        isFiestaMode ? AppColors.homeBlack : AppColors.homeAccentYellow;
+        isFiestaMode ? AppColors.homeAccentYellow : AppColors.homeBlack;
+    final trackColor =
+        isFiestaMode ? AppColors.homeBlack : const Color(0xFFF2F2F2);
+    final borderColor = isFiestaMode
+        ? AppColors.homeAccentYellow.withValues(alpha: 0.55)
+        : const Color(0xFFE0E0E0);
+    final badgeLabel = isFiestaMode
+        ? AppStrings.brandBadgeOn(l10n)
+        : AppStrings.brandBadgeOff(l10n);
+    final modeLabel = AppStrings.brandModeFiesta(l10n);
 
     return Semantics(
       button: true,
-      label: isFiestaMode
-          ? AppStrings.brandModeFiesta(l10n)
-          : AppStrings.brandModeProduction(l10n),
+      label: modeLabel,
       toggled: isFiestaMode,
       child: GestureDetector(
         onTap: onToggle,
@@ -45,20 +49,20 @@ class FiestaModeToggleWidget extends StatelessWidget {
           curve: Curves.easeInOut,
           width: trackWidth,
           height: trackHeight,
-          padding: EdgeInsets.all(trackPadding),
+          padding: EdgeInsets.symmetric(horizontal: horizontalPad),
           decoration: BoxDecoration(
             color: trackColor,
             borderRadius: BorderRadius.circular(trackHeight),
+            border: Border.all(color: borderColor, width: 1),
           ),
           child: Stack(
-            clipBehavior: Clip.none,
+            alignment: Alignment.center,
             children: [
               AnimatedAlign(
                 duration: FiestaModeToggleConstants.toggleDuration,
                 curve: Curves.easeInOut,
-                alignment: isFiestaMode
-                    ? Alignment.centerLeft
-                    : Alignment.centerRight,
+                alignment:
+                    isFiestaMode ? Alignment.centerLeft : Alignment.centerRight,
                 child: FiestaModeToggleBrandLabelWidget(
                   color: brandColor,
                   fontSize: layout.fontSize(13),
@@ -67,18 +71,13 @@ class FiestaModeToggleWidget extends StatelessWidget {
               AnimatedAlign(
                 duration: FiestaModeToggleConstants.toggleDuration,
                 curve: Curves.easeInOut,
-                alignment: isFiestaMode
-                    ? Alignment.centerRight
-                    : Alignment.centerLeft,
+                alignment:
+                    isFiestaMode ? Alignment.centerRight : Alignment.centerLeft,
                 child: FiestaModeToggleThumbWidget(
                   size: thumbSize,
                   isFiestaMode: isFiestaMode,
-                  badgeLabel: isFiestaMode
-                      ? AppStrings.brandBadgeOn(l10n)
-                      : AppStrings.brandBadgeOff(l10n),
-                  modeLabel: isFiestaMode
-                      ? AppStrings.brandModeFiesta(l10n)
-                      : AppStrings.brandModeProduction(l10n),
+                  badgeLabel: badgeLabel,
+                  modeLabel: modeLabel,
                   layout: layout,
                 ),
               ),

@@ -10,7 +10,8 @@ class VipVenueScreenTheme {
   static bool isDark(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark;
 
-  static const Color brandGold = Color(0xFFE5A906);
+  /// Approved design-board CTA gold (matches home / party accents).
+  static const Color brandGold = AppColors.homeAccentYellow;
   static const Color brandButtonText = Color(0xFF0F0F14);
 
   static Color accent(BuildContext context) => brandGold;

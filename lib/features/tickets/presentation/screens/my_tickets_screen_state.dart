@@ -81,9 +81,9 @@ class MyTicketsScreenState extends State<MyTicketsScreen>
         scrolledUnderElevation: 0,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
+          onPressed: () => AppDrawerNavigation.goBackToHome(context),
           icon: Icon(
-            Icons.menu,
+            Icons.arrow_back,
             color: TicketsScreenTheme.accent(context),
             size: TicketsDesignSpec.px(
               context,

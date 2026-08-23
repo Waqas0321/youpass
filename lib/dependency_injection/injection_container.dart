@@ -15,6 +15,7 @@ import 'package:youpass/core/security/device_id_service.dart';
 import 'package:youpass/core/security/recaptcha_service.dart';
 import 'package:youpass/core/services/event_categories_cache.dart';
 import 'package:youpass/core/services/home_search_history_cache.dart';
+import 'package:youpass/core/services/party_mode_event_preference.dart';
 import 'package:youpass/core/services/screen_secure_service.dart';
 import 'package:youpass/core/services/ticket_qr_cache_service.dart';
 import 'package:youpass/core/services/tickets_cache.dart';
@@ -164,6 +165,9 @@ Future<void> initDependencies() async {
     )
     ..registerLazySingleton<HomeSearchHistoryCache>(
       () => HomeSearchHistoryCache(preferences: sl<SharedPreferences>()),
+    )
+    ..registerLazySingleton<PartyModeEventPreference>(
+      () => PartyModeEventPreference(preferences: sl<SharedPreferences>()),
     )
     ..registerLazySingleton<AnalyticsApiService>(
       () => AnalyticsApiService(sl<ApiClient>()),

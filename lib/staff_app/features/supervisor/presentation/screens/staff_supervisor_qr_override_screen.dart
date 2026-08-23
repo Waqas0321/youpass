@@ -43,7 +43,7 @@ class StaffSupervisorQrOverrideScreen extends StatefulWidget {
 
 class _StaffSupervisorQrOverrideScreenState
     extends State<StaffSupervisorQrOverrideScreen> {
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _pageBg = Color(0xFFF8F9FA);
 
   final TextEditingController _reasonController = TextEditingController();
@@ -526,7 +526,7 @@ class _AuthorizationSection extends StatelessWidget {
     required this.onPinChanged,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _dangerRed = Color(0xFFDC2626);
 
   final ResponsiveLayout layout;
@@ -620,7 +620,7 @@ class _AuthorizationSection extends StatelessWidget {
 class _ExpectedResultSection extends StatelessWidget {
   const _ExpectedResultSection({required this.layout, required this.l10n});
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _successGreen = Color(0xFF22C55E);
   static const _successBg = Color(0xFFECFDF5);
 
@@ -694,7 +694,7 @@ class _QrLogTimelineItem extends StatelessWidget {
     required this.isLast,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _dangerRed = Color(0xFFDC2626);
 
   final ResponsiveLayout layout;
@@ -777,7 +777,7 @@ class _ExecuteFooter extends StatelessWidget {
     required this.onPressed,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _pageBg = Color(0xFFF8F9FA);
 
   final ResponsiveLayout layout;
@@ -837,7 +837,7 @@ class _OverrideRadioTile extends StatelessWidget {
     required this.onTap,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   final ResponsiveLayout layout;
   final String label;

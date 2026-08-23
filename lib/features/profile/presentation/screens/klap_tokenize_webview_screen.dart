@@ -107,8 +107,11 @@ class _KlapTokenizeWebViewScreenState extends State<KlapTokenizeWebViewScreen> {
       backgroundColor: theme.screenBackground,
       appBar: ProfileAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
-        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
-        title: 'Klap',
+        title: widget.session.gateway == 'kushki'
+            ? 'Kushki'
+            : widget.session.gateway == 'stripe'
+                ? 'Stripe'
+                : 'Klap',
       ),
       body: !platformReady || controller == null
           ? Center(

@@ -15,10 +15,12 @@ class PartyDrinkMenuHeaderWidget extends StatelessWidget {
     super.key,
     required this.onMenuTap,
     this.subtitle,
+    this.onChangeEvent,
   });
 
   final VoidCallback onMenuTap;
   final String? subtitle;
+  final VoidCallback? onChangeEvent;
 
   @override
   Widget build(BuildContext context) {
@@ -85,17 +87,58 @@ class PartyDrinkMenuHeaderWidget extends StatelessWidget {
               ),
             ),
             SizedBox(height: PartyDrinksDesignSpec.px(context, 8)),
-            Text(
-              subtitle?.trim().isNotEmpty == true
-                  ? subtitle!.trim()
-                  : AppStrings.partyDrinkMenuSubtitle(strings),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: PartyDrinksDesignSpec.px(context, 14),
-                color: PartyDrinksDesignSpec.subtitleText,
-                height: 1.3,
+            if (onChangeEvent != null)
+              Center(
+                child: InkWell(
+                  onTap: onChangeEvent,
+                  borderRadius: BorderRadius.circular(
+                    PartyDrinksDesignSpec.px(context, 20),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: PartyDrinksDesignSpec.px(context, 8),
+                      vertical: PartyDrinksDesignSpec.px(context, 4),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            subtitle?.trim().isNotEmpty == true
+                                ? subtitle!.trim()
+                                : AppStrings.partyDrinkMenuSubtitle(strings),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: PartyDrinksDesignSpec.px(context, 14),
+                              color: PartyDrinksDesignSpec.gold,
+                              fontWeight: FontWeight.w600,
+                              height: 1.3,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: PartyDrinksDesignSpec.px(context, 4)),
+                        Icon(
+                          Icons.swap_horiz_rounded,
+                          size: PartyDrinksDesignSpec.px(context, 18),
+                          color: PartyDrinksDesignSpec.gold,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            else
+              Text(
+                subtitle?.trim().isNotEmpty == true
+                    ? subtitle!.trim()
+                    : AppStrings.partyDrinkMenuSubtitle(strings),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: PartyDrinksDesignSpec.px(context, 14),
+                  color: PartyDrinksDesignSpec.subtitleText,
+                  height: 1.3,
+                ),
               ),
-            ),
             SizedBox(height: PartyDrinksDesignSpec.px(context, 16)),
           ],
         ),

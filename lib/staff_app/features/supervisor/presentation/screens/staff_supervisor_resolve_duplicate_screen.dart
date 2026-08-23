@@ -49,7 +49,7 @@ class StaffSupervisorResolveDuplicateScreen extends StatelessWidget {
 class _StaffSupervisorResolveDuplicateView extends StatelessWidget {
   const _StaffSupervisorResolveDuplicateView();
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _pageBg = Color(0xFFF8F9FA);
 
   static Future<void> _handleSubmit(
@@ -437,7 +437,7 @@ class _StaffSupervisorResolveDuplicateView extends StatelessWidget {
 class _DuplicateAlertBanner extends StatelessWidget {
   const _DuplicateAlertBanner({required this.layout, required this.l10n});
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _warningBg = Color(0xFFFFF8EB);
 
   final ResponsiveLayout layout;
@@ -481,7 +481,7 @@ class _GuestInfoCard extends StatelessWidget {
     required this.alert,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   final ResponsiveLayout layout;
   final AppLocalizations l10n;
@@ -782,7 +782,7 @@ class _ReasonRadioTile extends StatelessWidget {
     required this.onTap,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   final ResponsiveLayout layout;
   final String label;
@@ -850,7 +850,7 @@ class _SupervisorActionTile extends StatelessWidget {
     required this.onTap,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _tileBg = Color(0xFFFFF8EB);
 
   final ResponsiveLayout layout;
@@ -910,7 +910,7 @@ class _QrHistoryCard extends StatelessWidget {
     required this.titleForLog,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _successGreen = Color(0xFF22C55E);
   static const _dangerRed = Color(0xFFDC2626);
 

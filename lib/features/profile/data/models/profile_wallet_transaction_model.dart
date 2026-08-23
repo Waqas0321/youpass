@@ -25,7 +25,7 @@ class ProfileWalletTransactionModel {
       id: JsonReaders.string(json, 'id'),
       description: JsonReaders.string(json, 'description', fallback: ''),
       amount: amountRaw is num ? amountRaw.toDouble() : 0,
-      currency: JsonReaders.string(json, 'currency', fallback: 'CLP'),
+      currency: JsonReaders.string(json, 'currency', fallback: ''),
       status: JsonReaders.string(json, 'status', fallback: 'paid'),
       createdAt: json['created_at']?.toString() ??
           json['createdAt']?.toString() ??

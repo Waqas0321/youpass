@@ -19,7 +19,11 @@ class PartyDrinkMenuMapper {
         .toList();
   }
 
-  static List<PartyDrinkItem> products(EventDrinkMenuResponseModel menu) {
+  static List<PartyDrinkItem> products(
+    EventDrinkMenuResponseModel menu, {
+    String? eventId,
+    String? eventTitle,
+  }) {
     return menu.products
         .map(
           (product) => PartyDrinkItem(
@@ -32,6 +36,8 @@ class PartyDrinkMenuMapper {
             imageUrl: product.imageUrl,
             isRecommended: product.isRecommended,
             isAvailable: product.isAvailable,
+            eventId: eventId ?? menu.eventId,
+            eventTitle: eventTitle,
           ),
         )
         .toList();

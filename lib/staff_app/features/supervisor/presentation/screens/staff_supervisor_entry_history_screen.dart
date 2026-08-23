@@ -34,7 +34,7 @@ class StaffSupervisorEntryHistoryScreen extends StatefulWidget {
 
 class _StaffSupervisorEntryHistoryScreenState
     extends State<StaffSupervisorEntryHistoryScreen> {
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _pageBg = Color(0xFFF8F9FA);
 
   late final StaffSupervisorApiService _supervisorApiService =

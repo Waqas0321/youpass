@@ -21,7 +21,7 @@ class StaffSupervisorToolCard extends StatelessWidget {
   final String actionLabel;
   final VoidCallback onActionTap;
 
-  static const _accent = Color(0xFFE8873A);
+  static const _accent = AppColors.homeAccentYellow;
 
   @override
   Widget build(BuildContext context) {

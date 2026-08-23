@@ -169,7 +169,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       appBar: ProfileAppBarWidget(
         title: AppStrings.profileEditTitle(strings),
         onBack: () => Navigator.of(context).pop(),
-        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(

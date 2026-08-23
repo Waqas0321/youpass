@@ -8,7 +8,7 @@ import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/staff_app/core/utils/responsive_layout.dart';
 import 'package:youpass/staff_app/core/widgets/app_text.dart';
 import 'package:youpass/staff_app/core/widgets/app_text_variant.dart';
-import 'package:youpass/staff_app/core/widgets/youpass_logo.dart';
+import 'package:youpass/core/widgets/youpass_brand_logo.dart';
 import 'package:youpass/staff_app/features/auth/domain/staff_scan_permissions.dart';
 import 'package:youpass/staff_app/features/auth/presentation/providers/staff_auth_provider.dart';
 import 'package:youpass/staff_app/features/home/domain/models/staff_work_mode.dart';
@@ -20,7 +20,7 @@ import 'package:youpass/staff_app/features/supervisor/presentation/utils/staff_s
 class StaffMenuDrawer extends StatelessWidget {
   const StaffMenuDrawer({super.key});
 
-  static const _menuAccent = Color(0xFFE8873A);
+  static const _menuAccent = AppColors.homeAccentYellow;
   static const _menuIconBg = Color(0xFFFEE2E2);
 
   @override
@@ -58,8 +58,18 @@ class StaffMenuDrawer extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const YouPassLogo(),
-                  const Spacer(),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: YouPassBrandLogo(
+                          width: (drawerWidth * 0.62).clamp(140.0, 200.0),
+                        ),
+                      ),
+                    ),
+                  ),
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: Icon(

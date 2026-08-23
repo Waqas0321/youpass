@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/features/profile/data/models/profile_wallet_card_model.dart';
 import 'package:youpass/features/vip_venue/domain/entities/vip_purchase_session.dart';
 import 'package:youpass/features/vip_venue/presentation/utils/vip_currency_formatter.dart';
 import 'package:youpass/features/vip_venue/presentation/utils/vip_purchase_label_helper.dart';
@@ -16,10 +18,20 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
     super.key,
     required this.session,
     this.onOfferingQuantityChanged,
+    this.cards = const [],
+    this.selectedCardId,
+    this.isLoadingCards = false,
+    this.onSelectCard,
+    this.onAddPaymentMethod,
   });
 
   final VipPurchaseSession session;
   final void Function(String offeringId, int quantity)? onOfferingQuantityChanged;
+  final List<ProfileWalletCardModel> cards;
+  final String? selectedCardId;
+  final bool isLoadingCards;
+  final ValueChanged<ProfileWalletCardModel>? onSelectCard;
+  final VoidCallback? onAddPaymentMethod;
 
   @override
   Widget build(BuildContext context) {
@@ -147,14 +159,43 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
           label: AppStrings.vipPaymentMethod(strings),
         ),
         SizedBox(height: VipVenueDesignSpec.px(context, 10)),
-        VipPurchasePaymentMethodTileWidget(
-          brandLabel: AppStrings.paymentBrandVisa(strings),
-          cardLabel: AppStrings.profileCardVisa(strings),
-          defaultLabel: AppStrings.profileDefaultCard(strings),
-        ),
-        SizedBox(height: VipVenueDesignSpec.px(context, 10)),
+        if (isLoadingCards)
+          Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: VipVenueDesignSpec.px(context, 16),
+            ),
+            child: Center(
+              child: SizedBox(
+                width: VipVenueDesignSpec.px(context, 22),
+                height: VipVenueDesignSpec.px(context, 22),
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.4,
+                  color: accent,
+                ),
+              ),
+            ),
+          )
+        else ...[
+          ...cards.map((card) {
+            final brand = card.brand.toLowerCase();
+            return VipPurchasePaymentMethodTileWidget(
+              brandLabel: brand == 'mastercard'
+                  ? AppStrings.paymentBrandMastercard(strings)
+                  : AppStrings.paymentBrandVisa(strings),
+              cardLabel: card.maskedLabel,
+              defaultLabel:
+                  card.isDefault ? AppStrings.profileDefaultCard(strings) : null,
+              selected: card.id == selectedCardId,
+              onTap: () => onSelectCard?.call(card),
+              brandColor: brand == 'mastercard'
+                  ? AppColors.profileMastercardBrand
+                  : AppColors.profileVisaBrand,
+            );
+          }),
+        ],
         VipPurchaseAddPaymentMethodTileWidget(
           label: AppStrings.vipAddPaymentMethod(strings),
+          onTap: onAddPaymentMethod,
         ),
         SizedBox(height: VipVenueDesignSpec.px(context, 16)),
         VipPurchaseAssignTicketsInfoWidget(

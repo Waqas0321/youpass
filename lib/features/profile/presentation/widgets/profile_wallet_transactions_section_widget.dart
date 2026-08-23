@@ -11,10 +11,12 @@ class ProfileWalletTransactionsSectionWidget extends StatelessWidget {
     super.key,
     required this.transactions,
     this.isLoading = false,
+    this.displayCurrency,
   });
 
   final List<ProfileWalletTransactionModel> transactions;
   final bool isLoading;
+  final String? displayCurrency;
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +87,7 @@ class ProfileWalletTransactionsSectionWidget extends StatelessWidget {
                   _TransactionRow(
                     transaction: transactions[index],
                     theme: theme,
+                    displayCurrency: displayCurrency,
                   ),
                 ],
               ],
@@ -99,16 +102,21 @@ class _TransactionRow extends StatelessWidget {
   const _TransactionRow({
     required this.transaction,
     required this.theme,
+    this.displayCurrency,
   });
 
   final ProfileWalletTransactionModel transaction;
   final ProfileTheme theme;
+  final String? displayCurrency;
 
   @override
   Widget build(BuildContext context) {
     final amount = transaction.amount == transaction.amount.roundToDouble()
         ? transaction.amount.toInt().toString()
         : transaction.amount.toStringAsFixed(0);
+    final currency = (displayCurrency != null && displayCurrency!.isNotEmpty)
+        ? displayCurrency!
+        : (transaction.currency.isNotEmpty ? transaction.currency : 'CLP');
 
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -140,7 +148,7 @@ class _TransactionRow extends StatelessWidget {
             ),
           ),
           Text(
-            '-$amount ${transaction.currency}',
+            '-$amount $currency',
             style: TextStyle(
               fontSize: ProfileDesignSpec.px(context, 14),
               fontWeight: FontWeight.w700,

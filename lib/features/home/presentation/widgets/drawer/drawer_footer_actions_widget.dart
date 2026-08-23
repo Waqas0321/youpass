@@ -50,13 +50,17 @@ class DrawerFooterActionsWidget extends StatelessWidget {
       return;
     }
 
-    Navigator.of(context).pop();
-    await context.read<AuthProvider>().logout();
-    if (!context.mounted) {
-      return;
+    // Capture navigator before closing the drawer — the footer context is
+    // disposed when the drawer pops, so we must not rely on it after await.
+    final navigator = Navigator.of(context);
+    final authProvider = context.read<AuthProvider>();
+
+    if (navigator.canPop()) {
+      navigator.pop();
     }
 
-    Navigator.of(context).pushNamedAndRemoveUntil(
+    await authProvider.logout();
+    navigator.pushNamedAndRemoveUntil(
       AppRoutes.login,
       (_) => false,
     );

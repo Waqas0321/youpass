@@ -74,7 +74,7 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
       scaffoldKey: scaffoldKey,
       context: context,
       appBar: YouPassBrandedAppBarWidget(
-        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
+        onBack: () => AppDrawerNavigation.goBackToHome(context),
         primaryColor: FavoritesDesignSpec.primary,
       ),
       body: favoritesProvider.isLoading

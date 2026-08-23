@@ -10,7 +10,7 @@ import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/core/widgets/dialogs/youpass_dialog_icon_badge.dart';
 import 'package:youpass/core/widgets/dialogs/youpass_themed_dialog_shell.dart';
 
-enum YouPassConfirmDialogVariant { logout, deleteAccount }
+enum YouPassConfirmDialogVariant { logout, deleteAccount, exitApp }
 
 class YouPassConfirmDialog extends StatelessWidget {
   const YouPassConfirmDialog({
@@ -28,6 +28,10 @@ class YouPassConfirmDialog extends StatelessWidget {
     return showConfirm(context, YouPassConfirmDialogVariant.deleteAccount);
   }
 
+  static Future<bool> showExitApp(BuildContext context) {
+    return showConfirm(context, YouPassConfirmDialogVariant.exitApp);
+  }
+
   static Future<bool> showConfirm(
     BuildContext context,
     YouPassConfirmDialogVariant variant,
@@ -41,30 +45,47 @@ class YouPassConfirmDialog extends StatelessWidget {
     return result ?? false;
   }
 
-  bool get isDestructive => variant == YouPassConfirmDialogVariant.deleteAccount;
+  bool get isDestructive =>
+      variant == YouPassConfirmDialogVariant.deleteAccount ||
+      variant == YouPassConfirmDialogVariant.exitApp;
 
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    final title = isDestructive
-        ? AppStrings.confirmDeleteAccountTitle(strings)
-        : AppStrings.confirmLogoutTitle(strings);
-    final message = isDestructive
-        ? AppStrings.confirmDeleteAccountMessage(strings)
-        : AppStrings.confirmLogoutMessage(strings);
-    final confirmLabel = isDestructive
-        ? AppStrings.confirmDeleteAccountAction(strings)
-        : AppStrings.confirmLogoutAction(strings);
-    final cancelLabel = AppStrings.confirmDialogCancel(strings);
+    final String title;
+    final String message;
+    final String confirmLabel;
+    final String cancelLabel;
+    final IconData iconData;
 
-    final iconData =
-        isDestructive ? Icons.warning_amber_rounded : Icons.logout_rounded;
-    final iconColor = isDestructive
+    switch (variant) {
+      case YouPassConfirmDialogVariant.deleteAccount:
+        title = AppStrings.confirmDeleteAccountTitle(strings);
+        message = AppStrings.confirmDeleteAccountMessage(strings);
+        confirmLabel = AppStrings.confirmDeleteAccountAction(strings);
+        cancelLabel = AppStrings.confirmDialogCancel(strings);
+        iconData = Icons.warning_amber_rounded;
+      case YouPassConfirmDialogVariant.logout:
+        title = AppStrings.confirmLogoutTitle(strings);
+        message = AppStrings.confirmLogoutMessage(strings);
+        confirmLabel = AppStrings.confirmLogoutAction(strings);
+        cancelLabel = AppStrings.confirmDialogCancel(strings);
+        iconData = Icons.logout_rounded;
+      case YouPassConfirmDialogVariant.exitApp:
+        title = AppStrings.confirmExitAppTitle(strings);
+        message = AppStrings.confirmExitAppMessage(strings);
+        confirmLabel = AppStrings.confirmExitAppAction(strings);
+        cancelLabel = AppStrings.confirmExitAppStay(strings);
+        iconData = Icons.exit_to_app_rounded;
+    }
+
+    final iconColor = variant == YouPassConfirmDialogVariant.deleteAccount
         ? AppColors.profileDeleteRed
         : YouPassDialogTheme.iconColor(context);
-    final iconBackground = isDestructive
-        ? YouPassDialogTheme.destructiveIconBackground(context)
-        : YouPassDialogTheme.iconBadgeBackground(context);
+    final iconBackground =
+        variant == YouPassConfirmDialogVariant.deleteAccount
+            ? YouPassDialogTheme.destructiveIconBackground(context)
+            : YouPassDialogTheme.iconBadgeBackground(context);
 
     return YouPassThemedDialogShell(
       padding: const EdgeInsets.fromLTRB(24, 28, 24, 24),

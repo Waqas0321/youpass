@@ -9,6 +9,8 @@ class ProfileWalletCardModel {
     this.expirationMonth,
     this.expirationYear,
     this.holderName,
+    this.gateway,
+    this.chargeable = true,
   });
 
   final String id;
@@ -18,6 +20,8 @@ class ProfileWalletCardModel {
   final int? expirationMonth;
   final int? expirationYear;
   final String? holderName;
+  final String? gateway;
+  final bool chargeable;
 
   factory ProfileWalletCardModel.fromJson(Map<String, dynamic> json) {
     final isDefault = json['is_default'] is bool
@@ -38,6 +42,12 @@ class ProfileWalletCardModel {
         'holder_name',
         altKeys: const ['holderName', 'cardholder_name'],
       ),
+      gateway: JsonReaders.nullableStringWithAlt(
+        json,
+        'gateway',
+        altKeys: const ['payment_gateway', 'paymentGateway'],
+      ),
+      chargeable: json['chargeable'] is bool ? json['chargeable'] as bool : true,
     );
   }
 

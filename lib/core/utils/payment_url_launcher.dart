@@ -27,6 +27,10 @@ class PaymentUrlLauncher {
       return false;
     }
 
-    return launchUrl(uri, mode: LaunchMode.externalApplication);
+    try {
+      return await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      return launchUrl(uri, mode: LaunchMode.platformDefault);
+    }
   }
 }

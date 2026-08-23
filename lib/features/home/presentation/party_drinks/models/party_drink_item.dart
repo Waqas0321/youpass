@@ -16,6 +16,8 @@ class PartyDrinkItem {
     this.imageUrl,
     this.isRecommended = false,
     this.isAvailable = true,
+    this.eventId,
+    this.eventTitle,
   });
 
   final String id;
@@ -30,6 +32,8 @@ class PartyDrinkItem {
   final String? imageUrl;
   final bool isRecommended;
   final bool isAvailable;
+  final String? eventId;
+  final String? eventTitle;
 
   String displayName(AppLocalizations l10n) {
     if (nameText != null && nameText!.isNotEmpty) {

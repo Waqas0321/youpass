@@ -44,7 +44,7 @@ class ProfileWalletTokenizeSessionModel {
 
   factory ProfileWalletTokenizeSessionModel.fromJson(Map<String, dynamic> json) {
     return ProfileWalletTokenizeSessionModel(
-      gateway: JsonReaders.string(json, 'gateway', fallback: 'klap'),
+      gateway: JsonReaders.string(json, 'gateway', fallback: 'kushki'),
       sessionId: _readString(json, 'session_id', 'sessionId'),
       tokenizationUrl: _readString(json, 'tokenization_url', 'tokenizationUrl'),
       successRedirectScheme: _readString(

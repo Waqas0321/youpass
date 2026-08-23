@@ -45,7 +45,7 @@ class CountryCodeRegistry {
     defaultLanguage: 'es',
     defaultCurrency: 'CLP',
     timezone: 'America/Santiago',
-    paymentGateway: 'klap',
+    paymentGateway: 'kushki',
     currencyDecimals: 0,
     currencySymbol: r'$',
   );

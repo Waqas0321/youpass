@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
@@ -8,6 +7,7 @@ import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/core/widgets/auth_bottom_sheet_shell.dart';
 import 'package:youpass/features/home/domain/entities/home_feed_meta_entity.dart';
+import 'package:youpass/features/home/presentation/party_drinks/party_drinks_design_spec.dart';
 
 /// Lets the user pick which event drink menu to open when multiple tickets qualify.
 class PartyDrinkEventChooserSheet {
@@ -23,6 +23,7 @@ class PartyDrinkEventChooserSheet {
       context: context,
       title: AppStrings.partyDrinkEventChooserTitle(l10n),
       maxHeightFactor: 0.62,
+      backgroundColor: PartyDrinksDesignSpec.checkoutSurface,
       child: _PartyDrinkEventChooserBody(
         events: events,
         recommendedEventId: recommendedEventId,
@@ -57,7 +58,7 @@ class _PartyDrinkEventChooserBody extends StatelessWidget {
         AppText(
           AppStrings.partyDrinkEventChooserSubtitle(l10n),
           variant: AppTextVariant.body,
-          color: AppColors.secondaryGrey,
+          color: PartyDrinksDesignSpec.subtitleText,
           fontSize: layout.fontSize(13),
         ),
         SizedBox(height: layout.spacing(16)),
@@ -97,23 +98,27 @@ class _EventOptionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
+    final borderColor = isRecommended
+        ? PartyDrinksDesignSpec.gold
+        : PartyDrinksDesignSpec.checkoutItemCardBorder;
+    final fillColor = isRecommended
+        ? const Color(0xFF2A2208)
+        : PartyDrinksDesignSpec.checkoutItemCardBackground;
 
     return Material(
-      color: isRecommended
-          ? AppColors.drawerMenuHighlight
-          : AppColors.backgroundWhite,
+      color: fillColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(layout.radius(14)),
         side: BorderSide(
-          color: isRecommended
-              ? AppColors.homeAccentYellow
-              : AppColors.lightGreyBorder,
+          color: borderColor,
           width: isRecommended ? 1.5 : 1,
         ),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
+        splashColor: PartyDrinksDesignSpec.gold.withValues(alpha: 0.12),
+        highlightColor: PartyDrinksDesignSpec.gold.withValues(alpha: 0.06),
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: layout.spacing(16),
@@ -129,7 +134,7 @@ class _EventOptionTile extends StatelessWidget {
                       AppText(
                         recommendedLabel,
                         variant: AppTextVariant.sectionCaption,
-                        color: AppColors.homeAccentYellow,
+                        color: PartyDrinksDesignSpec.gold,
                         fontSize: layout.fontSize(11),
                         fontWeight: FontWeight.w700,
                       ),
@@ -138,7 +143,7 @@ class _EventOptionTile extends StatelessWidget {
                     AppText(
                       title,
                       variant: AppTextVariant.bodyEmphasis,
-                      color: AppColors.homeBlack,
+                      color: Colors.white,
                       fontSize: layout.fontSize(15),
                       fontWeight: FontWeight.w700,
                     ),
@@ -147,7 +152,7 @@ class _EventOptionTile extends StatelessWidget {
                       AppText(
                         subtitle!,
                         variant: AppTextVariant.label,
-                        color: AppColors.secondaryGrey,
+                        color: PartyDrinksDesignSpec.subtitleText,
                         fontSize: layout.fontSize(12),
                       ),
                     ],
@@ -156,7 +161,7 @@ class _EventOptionTile extends StatelessWidget {
               ),
               Icon(
                 Icons.chevron_right,
-                color: AppColors.homeBlack,
+                color: PartyDrinksDesignSpec.gold,
                 size: layout.spacing(22),
               ),
             ],

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:youpass/staff_app/core/constants/app_colors.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/core/widgets/app_exit_guard.dart';
+import 'package:youpass/staff_app/core/constants/app_colors.dart';
 import 'package:youpass/staff_app/core/utils/responsive_layout.dart';
 import 'package:youpass/staff_app/core/widgets/app_text.dart';
 import 'package:youpass/staff_app/core/widgets/app_text_variant.dart';
@@ -41,27 +42,29 @@ class _StaffShellScreenState extends State<StaffShellScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<StaffAuthProvider, StaffWorkModeProvider>(
-      builder: (context, authProvider, modeProvider, _) {
-        final profile = authProvider.profile;
+    return AppExitGuard(
+      child: Consumer2<StaffAuthProvider, StaffWorkModeProvider>(
+        builder: (context, authProvider, modeProvider, _) {
+          final profile = authProvider.profile;
 
-        if (profile == null || !profile.hasAnyScanAccess) {
-          return const _StaffNoScanAccessScreen();
-        }
+          if (profile == null || !profile.hasAnyScanAccess) {
+            return const _StaffNoScanAccessScreen();
+          }
 
-        if (!profile.isWorkModeAllowed(modeProvider.mode)) {
-          return profile.canScanProducts
-              ? const StaffHomeScreen()
-              : const StaffAccessValidatorScreen();
-        }
+          if (!profile.isWorkModeAllowed(modeProvider.mode)) {
+            return profile.canScanProducts
+                ? const StaffHomeScreen()
+                : const StaffAccessValidatorScreen();
+          }
 
-        switch (modeProvider.mode) {
-          case StaffWorkMode.accessValidator:
-            return const StaffAccessValidatorScreen();
-          case StaffWorkMode.bar:
-            return const StaffHomeScreen();
-        }
-      },
+          switch (modeProvider.mode) {
+            case StaffWorkMode.accessValidator:
+              return const StaffAccessValidatorScreen();
+            case StaffWorkMode.bar:
+              return const StaffHomeScreen();
+          }
+        },
+      ),
     );
   }
 }

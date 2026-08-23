@@ -86,6 +86,22 @@ class PartyDrinkCardWidget extends StatelessWidget {
                         height: 1.1,
                       ),
                     ),
+                    if (drink.eventTitle != null &&
+                        drink.eventTitle!.trim().isNotEmpty) ...[
+                      SizedBox(height: PartyDrinksDesignSpec.px(context, 2)),
+                      Text(
+                        drink.eventTitle!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: PartyDrinksDesignSpec.px(context, 10),
+                          fontWeight: FontWeight.w600,
+                          color: PartyDrinksDesignSpec.gold,
+                          height: 1.1,
+                        ),
+                      ),
+                    ],
                     SizedBox(height: gap),
                     Text(
                       drink.displayDescription(strings),

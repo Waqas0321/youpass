@@ -40,7 +40,7 @@ class StaffSupervisorSearchEntryScreen extends StatefulWidget {
 
 class _StaffSupervisorSearchEntryScreenState
     extends State<StaffSupervisorSearchEntryScreen> {
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _pageBg = Color(0xFFF8F9FA);
 
   late final StaffSupervisorApiService _supervisorApiService =
@@ -848,7 +848,7 @@ class _QuickFilterChip extends StatelessWidget {
     required this.onTap,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   final ResponsiveLayout layout;
   final IconData icon;
@@ -900,7 +900,7 @@ class _EntryResultCard extends StatelessWidget {
     required this.result,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   final ResponsiveLayout layout;
   final AppLocalizations l10n;
@@ -1268,7 +1268,7 @@ class _InfoCell extends StatelessWidget {
     required this.value,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   final ResponsiveLayout layout;
   final IconData icon;
@@ -1311,7 +1311,7 @@ class _ActionTile extends StatelessWidget {
     required this.onTap,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _tileBg = Color(0xFFFFF8EB);
 
   final ResponsiveLayout layout;

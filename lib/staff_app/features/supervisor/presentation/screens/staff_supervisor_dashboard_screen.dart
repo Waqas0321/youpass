@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:youpass/staff_app/core/constants/app_colors.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/staff_app/core/utils/responsive_layout.dart';
-import 'package:youpass/staff_app/core/widgets/app_snack_bar.dart';
 import 'package:youpass/staff_app/core/widgets/app_text.dart';
 import 'package:youpass/staff_app/core/widgets/app_text_variant.dart';
 import 'package:youpass/staff_app/features/scan/presentation/widgets/staff_scan_screen_header.dart';
@@ -34,7 +33,7 @@ class StaffSupervisorDashboardRoute extends StatelessWidget {
 class StaffSupervisorDashboardScreen extends StatelessWidget {
   const StaffSupervisorDashboardScreen({super.key});
 
-  static const _accent = Color(0xFFE8873A);
+  static const _accent = AppColors.homeAccentYellow;
 
   String _titleForEntry(dynamic l10n, StaffSupervisorBarActionHistoryEntry entry) {
     switch (entry.kind) {

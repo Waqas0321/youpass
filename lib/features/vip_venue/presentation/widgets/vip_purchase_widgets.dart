@@ -213,80 +213,115 @@ class VipPurchasePaymentMethodTileWidget extends StatelessWidget {
     super.key,
     required this.brandLabel,
     required this.cardLabel,
-    required this.defaultLabel,
+    this.defaultLabel,
+    this.selected = true,
+    this.onTap,
+    this.brandColor,
   });
 
   final String brandLabel;
   final String cardLabel;
-  final String defaultLabel;
+  final String? defaultLabel;
+  final bool selected;
+  final VoidCallback? onTap;
+  final Color? brandColor;
 
   @override
   Widget build(BuildContext context) {
     final accent = VipVenueScreenTheme.accent(context);
+    final badgeColor = brandColor ?? AppColors.profileVisaBrand;
 
-    return VipSurfaceCardWidget(
-      borderColor: accent,
-      borderWidth: 1.5,
-      boxShadow: const [],
-      radius: VipVenueDesignSpec.px(context, 12),
-      child: Row(
-        children: [
-          Container(
-            width: VipVenueDesignSpec.px(context, 42),
-            height: VipVenueDesignSpec.px(context, 28),
-            alignment: Alignment.center,
+    return Padding(
+      padding: EdgeInsets.only(bottom: VipVenueDesignSpec.px(context, 10)),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(VipVenueDesignSpec.px(context, 12)),
+          child: Ink(
             decoration: BoxDecoration(
-              color: AppColors.profileVisaBrand,
-              borderRadius: BorderRadius.circular(VipVenueDesignSpec.px(context, 6)),
+              color: VipVenueScreenTheme.cardBackground(context),
+              borderRadius: BorderRadius.circular(VipVenueDesignSpec.px(context, 12)),
+              border: Border.all(
+                color: selected ? accent : VipVenueScreenTheme.cardBorder(context),
+                width: selected ? 1.5 : 1,
+              ),
             ),
-            child: AppText(
-              brandLabel,
-              variant: AppTextVariant.sectionCaption,
-              color: Colors.white,
-              fontSize: VipVenueDesignSpec.px(context, 10),
-              fontWeight: FontWeight.w800,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: VipVenueDesignSpec.px(context, 14),
+                vertical: VipVenueDesignSpec.px(context, 12),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: VipVenueDesignSpec.px(context, 42),
+                    height: VipVenueDesignSpec.px(context, 28),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: badgeColor,
+                      borderRadius:
+                          BorderRadius.circular(VipVenueDesignSpec.px(context, 6)),
+                    ),
+                    child: AppText(
+                      brandLabel,
+                      variant: AppTextVariant.sectionCaption,
+                      color: Colors.white,
+                      fontSize: VipVenueDesignSpec.px(context, 10),
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  SizedBox(width: VipVenueDesignSpec.px(context, 12)),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText(
+                          cardLabel,
+                          variant: AppTextVariant.bodyEmphasis,
+                          color: VipVenueScreenTheme.title(context),
+                          fontSize: VipVenueDesignSpec.px(context, 14),
+                          fontWeight: FontWeight.w700,
+                        ),
+                        if (defaultLabel != null && defaultLabel!.isNotEmpty) ...[
+                          SizedBox(height: VipVenueDesignSpec.px(context, 4)),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: VipVenueDesignSpec.px(context, 8),
+                              vertical: VipVenueDesignSpec.px(context, 2),
+                            ),
+                            decoration: BoxDecoration(
+                              color: accent.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(
+                                VipVenueDesignSpec.px(context, 10),
+                              ),
+                            ),
+                            child: AppText(
+                              defaultLabel!,
+                              variant: AppTextVariant.sectionCaption,
+                              color: accent,
+                              fontSize: VipVenueDesignSpec.px(context, 10),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  Icon(
+                    selected
+                        ? Icons.radio_button_checked
+                        : Icons.radio_button_off,
+                    color: selected
+                        ? accent
+                        : VipVenueScreenTheme.muted(context),
+                    size: VipVenueDesignSpec.px(context, 20),
+                  ),
+                ],
+              ),
             ),
           ),
-          SizedBox(width: VipVenueDesignSpec.px(context, 12)),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppText(
-                  cardLabel,
-                  variant: AppTextVariant.bodyEmphasis,
-                  color: VipVenueScreenTheme.title(context),
-                  fontSize: VipVenueDesignSpec.px(context, 14),
-                  fontWeight: FontWeight.w700,
-                ),
-                SizedBox(height: VipVenueDesignSpec.px(context, 4)),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: VipVenueDesignSpec.px(context, 8),
-                    vertical: VipVenueDesignSpec.px(context, 2),
-                  ),
-                  decoration: BoxDecoration(
-                    color: accent.withValues(alpha: 0.12),
-                    borderRadius:
-                        BorderRadius.circular(VipVenueDesignSpec.px(context, 10)),
-                  ),
-                  child: AppText(
-                    defaultLabel,
-                    variant: AppTextVariant.sectionCaption,
-                    color: accent,
-                    fontSize: VipVenueDesignSpec.px(context, 10),
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Icon(
-            Icons.radio_button_checked,
-            color: accent,
-            size: VipVenueDesignSpec.px(context, 20),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -296,18 +331,25 @@ class VipPurchaseAddPaymentMethodTileWidget extends StatelessWidget {
   const VipPurchaseAddPaymentMethodTileWidget({
     super.key,
     required this.label,
+    this.onTap,
   });
 
   final String label;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final accent = VipVenueScreenTheme.accent(context);
     final radius = VipVenueDesignSpec.px(context, 12);
 
-    return VipDashedBorderContainerWidget(
-      radius: radius,
-      child: Row(
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(radius),
+        child: VipDashedBorderContainerWidget(
+          radius: radius,
+          child: Row(
         children: [
           Container(
             width: VipVenueDesignSpec.px(context, 28),
@@ -338,6 +380,8 @@ class VipPurchaseAddPaymentMethodTileWidget extends StatelessWidget {
             size: VipVenueDesignSpec.px(context, 20),
           ),
         ],
+      ),
+        ),
       ),
     );
   }

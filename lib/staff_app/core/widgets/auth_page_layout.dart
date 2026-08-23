@@ -4,7 +4,7 @@ import 'package:youpass/staff_app/core/utils/responsive_layout.dart';
 import 'package:youpass/staff_app/core/widgets/auth_back_button_widget.dart';
 import 'package:youpass/staff_app/core/widgets/auth_content_container.dart';
 import 'package:youpass/staff_app/core/widgets/auth_scaffold.dart';
-import 'package:youpass/staff_app/core/widgets/youpass_logo.dart';
+import 'package:youpass/core/widgets/youpass_brand_logo.dart';
 
 class AuthPageLayout extends StatelessWidget {
   const AuthPageLayout({
@@ -54,7 +54,7 @@ class AuthPageLayout extends StatelessWidget {
                 AuthBackButtonWidget(onPressed: onBackPressed),
                 SizedBox(height: afterLogoSpacing),
               ],
-              const Center(child: YouPassLogo()),
+              const Center(child: YouPassBrandLogo(compact: true)),
               SizedBox(height: afterLogoSpacing),
               if (header != null) ...[
                 header!,

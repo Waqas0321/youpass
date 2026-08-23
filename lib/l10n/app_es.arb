@@ -285,6 +285,7 @@
   "partyDrinkEventChooserTitle": "¿Qué carta de tragos?",
   "partyDrinkEventChooserSubtitle": "Tienes entradas para más de un evento. Elige qué carta abrir.",
   "partyDrinkEventChooserRecommended": "Sugerido ahora",
+  "partyDrinkChangeEvent": "Cambiar evento",
   "partyDrinkCategoryAll": "Todos",
   "partyDrinkCategoryPiscos": "Piscos",
   "partyDrinkCategoryBeers": "Cervezas",
@@ -516,6 +517,17 @@
   "profileSupport": "SOPORTE",
   "profileWhatsAppSupport": "WhatsApp soporte",
   "profileWriteEmail": "Escribir email",
+  "profileSupportEmailMessage": "Escríbenos a soporte YouPass: {email}",
+  "@profileSupportEmailMessage": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "profileSupportEmailCopy": "Copiar correo",
+  "profileSupportEmailCopied": "Correo copiado",
+  "profileSupportEmailOpen": "Abrir app de correo",
   "profileFaq": "Preguntas frecuentes",
   "profileLogout": "Cerrar sesión",
   "profileDeleteAccount": "Eliminar cuenta",
@@ -559,6 +571,18 @@
   "profileGenderOtherValue": "Otro",
   "profileGenderPreferNotSayValue": "Prefiero no decir",
   "profileCategoryBenefits": "Mis beneficios",
+  "profileUnlockTierTitle": "Desbloquear {tier}",
+  "@profileUnlockTierTitle": {
+    "placeholders": {
+      "tier": { "type": "String" }
+    }
+  },
+  "profileUnlockTierButton": "Consultar soporte sobre {tier}",
+  "@profileUnlockTierButton": {
+    "placeholders": {
+      "tier": { "type": "String" }
+    }
+  },
   "profileFaqTitle": "Preguntas frecuentes",
   "profileFaqSearch": "Buscar",
   "profileFaqHelpful": "¿Te fue útil?",
@@ -588,6 +612,10 @@
   "confirmDeleteAccountTitle": "¿Eliminar tu cuenta?",
   "confirmDeleteAccountMessage": "Esto elimina permanentemente tu cuenta, entradas y datos de perfil. Enviaremos un código de verificación para confirmar.",
   "confirmDeleteAccountAction": "Continuar",
+  "confirmExitAppTitle": "¿Salir de YouPass?",
+  "confirmExitAppMessage": "¿Seguro que quieres cerrar la aplicación?",
+  "confirmExitAppAction": "Salir",
+  "confirmExitAppStay": "Quedarme",
   "ticketsTabUpcoming": "PRÓXIMOS",
   "ticketsTabPast": "EVENTOS PASADOS",
   "ticketsStatusActive": "ACTIVO",

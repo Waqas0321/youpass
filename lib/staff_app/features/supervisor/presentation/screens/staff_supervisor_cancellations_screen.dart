@@ -42,7 +42,7 @@ class StaffSupervisorCancellationsScreen extends StatefulWidget {
 
 class _StaffSupervisorCancellationsScreenState
     extends State<StaffSupervisorCancellationsScreen> {
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _pageBg = Color(0xFFF8F9FA);
 
   final TextEditingController _reasonController = TextEditingController();
@@ -309,7 +309,7 @@ class _ExecuteFooter extends StatelessWidget {
     required this.onPressed,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _pageBg = Color(0xFFF8F9FA);
 
   final ResponsiveLayout layout;
@@ -369,7 +369,7 @@ class _ActionRadioTile extends StatelessWidget {
     required this.onTap,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   final ResponsiveLayout layout;
   final String label;

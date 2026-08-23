@@ -16,7 +16,7 @@ class StaffSupervisorEntryEventsTimeline extends StatelessWidget {
     this.showTitle = true,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _successGreen = Color(0xFF22C55E);
 
   final ResponsiveLayout layout;

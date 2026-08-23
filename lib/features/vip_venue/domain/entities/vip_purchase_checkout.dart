@@ -3,7 +3,7 @@ import 'package:youpass/features/ticket_assignment/domain/entities/event_checkou
 import 'package:youpass/features/vip_venue/domain/entities/vip_purchase_session.dart';
 
 extension VipPurchaseSessionCheckout on VipPurchaseSession {
-  EventCheckoutRequestEntity buildCheckoutRequest() {
+  EventCheckoutRequestEntity buildCheckoutRequest({String? paymentMethodId}) {
     if (isVipTablePurchase) {
       final table = selectedTable!;
       final zone = selectedZone!;
@@ -13,6 +13,7 @@ extension VipPurchaseSessionCheckout on VipPurchaseSession {
         tier: 'vip',
         type: 'vip_table',
         lockId: tableLockId,
+        paymentMethodId: paymentMethodId,
       );
     }
 
@@ -24,6 +25,7 @@ extension VipPurchaseSessionCheckout on VipPurchaseSession {
         quantity: offering.quantity,
         tier: offering.mapsToTier ?? 'general',
         type: offering.mapsToType ?? 'general',
+        paymentMethodId: paymentMethodId,
       );
     }
 
@@ -36,6 +38,7 @@ extension VipPurchaseSessionCheckout on VipPurchaseSession {
             ),
           )
           .toList(),
+      paymentMethodId: paymentMethodId,
     );
   }
 }

@@ -591,6 +591,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get partyDrinkEventChooserRecommended => 'Suggested now';
 
   @override
+  String get partyDrinkChangeEvent => 'Change event';
+
+  @override
   String get partyDrinkCategoryAll => 'All';
 
   @override
@@ -1039,6 +1042,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileWriteEmail => 'Send email';
 
   @override
+  String profileSupportEmailMessage(String email) {
+    return 'Write to YouPass support at $email';
+  }
+
+  @override
+  String get profileSupportEmailCopy => 'Copy address';
+
+  @override
+  String get profileSupportEmailCopied => 'Email copied';
+
+  @override
+  String get profileSupportEmailOpen => 'Open mail app';
+
+  @override
   String get profileFaq => 'Frequently asked questions';
 
   @override
@@ -1148,6 +1165,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileCategoryBenefits => 'My benefits';
 
   @override
+  String profileUnlockTierTitle(String tier) {
+    return 'Unlock $tier';
+  }
+
+  @override
+  String profileUnlockTierButton(String tier) {
+    return 'Ask support about $tier';
+  }
+
+  @override
   String get profileFaqTitle => 'Frequently asked questions';
 
   @override
@@ -1219,6 +1246,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get confirmDeleteAccountAction => 'Continue';
+
+  @override
+  String get confirmExitAppTitle => 'Exit YouPass?';
+
+  @override
+  String get confirmExitAppMessage => 'Are you sure you want to close the app?';
+
+  @override
+  String get confirmExitAppAction => 'Exit';
+
+  @override
+  String get confirmExitAppStay => 'Stay';
 
   @override
   String get ticketsTabUpcoming => 'Active / Upcoming';

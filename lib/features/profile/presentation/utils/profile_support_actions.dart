@@ -7,6 +7,7 @@ import 'package:youpass/dependency_injection/injection_container.dart';
 import 'package:youpass/features/profile/data/models/support_faq_model.dart';
 import 'package:youpass/features/profile/data/services/profile_api_service.dart';
 import 'package:youpass/features/profile/presentation/routes/faq_route_args.dart';
+import 'package:youpass/features/profile/presentation/widgets/support_email_dialog.dart';
 import 'package:youpass/routes/app_routes.dart';
 
 class ProfileSupportActions {
@@ -79,16 +80,18 @@ class ProfileSupportActions {
       }
 
       final mailtoUrl = data['mailto_url'] as String?;
+      final email = (data['email'] as String?)?.trim() ?? '';
 
-      if (mailtoUrl == null || mailtoUrl.isEmpty) {
+      if ((mailtoUrl == null || mailtoUrl.isEmpty) && email.isEmpty) {
         AppSnackBar.show(context, strings.errorGeneric);
         return;
       }
 
-      final opened = await PaymentUrlLauncher.openMailto(mailtoUrl);
-      if (!opened && context.mounted) {
-        AppSnackBar.show(context, strings.errorGeneric);
-      }
+      await SupportEmailDialog.show(
+        context: context,
+        email: email.isNotEmpty ? email : Uri.parse(mailtoUrl!).path,
+        mailtoUrl: mailtoUrl,
+      );
     } catch (_) {
       if (context.mounted) {
         AppSnackBar.show(context, strings.errorGeneric);

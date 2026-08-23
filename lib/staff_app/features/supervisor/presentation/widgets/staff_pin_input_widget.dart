@@ -85,7 +85,7 @@ class _StaffPinInputWidgetState extends State<StaffPinInputWidget> {
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
     final theme = YouPassThemeExtension.of(context);
-    const accent = Color(0xFFD4A044);
+    const accent = AppColors.homeAccentYellow;
     final pin = widget.controller.text;
     final activeIndex = pin.length >= widget.length
         ? widget.length - 1

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
+import 'package:youpass/core/widgets/app_exit_guard.dart';
 import 'package:youpass/core/widgets/auth_header_widget.dart';
 import 'package:youpass/core/widgets/auth_page_layout.dart';
 import 'package:youpass/features/auth/presentation/widgets/phone_login_footer_widget.dart';
@@ -28,18 +29,20 @@ class LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final strings = context.l10n;
 
-    return AuthPageLayout(
-      header: AuthHeaderWidget(
-        title: strings.welcomeBackTitle,
-        subtitle: strings.phoneLoginSubtitle,
-      ),
-      body: PhoneLoginFormWidget(
-        phoneController: phoneController,
-        phoneInputKey: phoneInputKey,
-      ),
-      footer: PhoneLoginFooterWidget(
-        phoneController: phoneController,
-        phoneInputKey: phoneInputKey,
+    return AppExitGuard(
+      child: AuthPageLayout(
+        header: AuthHeaderWidget(
+          title: strings.welcomeBackTitle,
+          subtitle: strings.phoneLoginSubtitle,
+        ),
+        body: PhoneLoginFormWidget(
+          phoneController: phoneController,
+          phoneInputKey: phoneInputKey,
+        ),
+        footer: PhoneLoginFooterWidget(
+          phoneController: phoneController,
+          phoneInputKey: phoneInputKey,
+        ),
       ),
     );
   }

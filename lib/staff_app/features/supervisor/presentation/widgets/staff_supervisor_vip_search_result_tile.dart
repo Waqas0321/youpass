@@ -37,7 +37,7 @@ class StaffSupervisorVipSearchResultTile extends StatelessWidget {
             Icon(
               Icons.workspace_premium_outlined,
               size: layout.fontSize(18),
-              color: const Color(0xFFD4A044),
+              color: AppColors.homeAccentYellow,
             ),
             SizedBox(width: layout.spacing(10)),
             Expanded(

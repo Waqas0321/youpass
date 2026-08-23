@@ -306,6 +306,7 @@
   "partyDrinkEventChooserTitle": "Which drink menu?",
   "partyDrinkEventChooserSubtitle": "You have tickets for more than one event. Choose which menu to open.",
   "partyDrinkEventChooserRecommended": "Suggested now",
+  "partyDrinkChangeEvent": "Change event",
   "partyDrinkCategoryAll": "All",
   "partyDrinkCategoryPiscos": "Piscos",
   "partyDrinkCategoryBeers": "Beers",
@@ -537,6 +538,17 @@
   "profileSupport": "SUPPORT",
   "profileWhatsAppSupport": "WhatsApp support",
   "profileWriteEmail": "Send email",
+  "profileSupportEmailMessage": "Write to YouPass support at {email}",
+  "@profileSupportEmailMessage": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "profileSupportEmailCopy": "Copy address",
+  "profileSupportEmailCopied": "Email copied",
+  "profileSupportEmailOpen": "Open mail app",
   "profileFaq": "Frequently asked questions",
   "profileLogout": "Sign out",
   "profileDeleteAccount": "Delete account",
@@ -580,6 +592,18 @@
   "profileGenderOtherValue": "Other",
   "profileGenderPreferNotSayValue": "Prefer not to say",
   "profileCategoryBenefits": "My benefits",
+  "profileUnlockTierTitle": "Unlock {tier}",
+  "@profileUnlockTierTitle": {
+    "placeholders": {
+      "tier": { "type": "String" }
+    }
+  },
+  "profileUnlockTierButton": "Ask support about {tier}",
+  "@profileUnlockTierButton": {
+    "placeholders": {
+      "tier": { "type": "String" }
+    }
+  },
   "profileFaqTitle": "Frequently asked questions",
   "profileFaqSearch": "Search",
   "profileFaqHelpful": "Was this helpful?",
@@ -609,6 +633,10 @@
   "confirmDeleteAccountTitle": "Delete your account?",
   "confirmDeleteAccountMessage": "This permanently removes your account, tickets, and profile data. We will send a verification code to confirm.",
   "confirmDeleteAccountAction": "Continue",
+  "confirmExitAppTitle": "Exit YouPass?",
+  "confirmExitAppMessage": "Are you sure you want to close the app?",
+  "confirmExitAppAction": "Exit",
+  "confirmExitAppStay": "Stay",
   "ticketsTabUpcoming": "Active / Upcoming",
   "ticketsTabPast": "History",
   "ticketsStatusActive": "ACTIVE",

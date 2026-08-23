@@ -3,6 +3,7 @@ import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/network/api_exception.dart';
 import 'package:youpass/core/widgets/app_snack_bar.dart';
+import 'package:youpass/core/widgets/youpass_branded_app_bar_widget.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
 import 'package:youpass/features/profile/data/models/profile_wallet_balance_model.dart';
 import 'package:youpass/features/profile/data/models/profile_wallet_card_model.dart';
@@ -10,10 +11,8 @@ import 'package:youpass/features/profile/data/models/profile_wallet_transaction_
 import 'package:youpass/features/profile/data/services/profile_api_service.dart';
 import 'package:youpass/features/profile/presentation/utils/wallet_add_card_flow.dart';
 import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
-import 'package:youpass/features/profile/presentation/widgets/profile_app_bar_widget.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_design_spec.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_theme.dart';
-import 'package:youpass/features/profile/presentation/widgets/profile_wallet_balance_section_widget.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_wallet_section_widget.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_wallet_transactions_section_widget.dart';
 import 'package:youpass/features/profile/presentation/widgets/wallet_card_action_sheet.dart';
@@ -186,7 +185,6 @@ class _ProfileWalletScreenState extends State<ProfileWalletScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final strings = context.l10n;
     final horizontalPadding =
         ProfileDesignSpec.px(context, ProfileDesignSpec.horizontalPadding);
     final theme = ProfileTheme.of(context);
@@ -195,10 +193,10 @@ class _ProfileWalletScreenState extends State<ProfileWalletScreen> {
       scaffoldKey: scaffoldKey,
       context: context,
       backgroundColor: theme.screenBackground,
-      appBar: ProfileAppBarWidget(
+      appBar: YouPassBrandedAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
-        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
-        title: AppStrings.profileWalletSection(strings),
+        primaryColor: theme.primary,
+        backgroundColor: theme.screenBackground,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(
@@ -219,11 +217,10 @@ class _ProfileWalletScreenState extends State<ProfileWalletScreen> {
               onAddCardTap: handleAddCard,
             ),
             SizedBox(height: ProfileDesignSpec.px(context, 24)),
-            ProfileWalletBalanceSectionWidget(balance: balance),
-            SizedBox(height: ProfileDesignSpec.px(context, 24)),
             ProfileWalletTransactionsSectionWidget(
               transactions: transactions,
               isLoading: isLoadingTransactions,
+              displayCurrency: balance.currency,
             ),
           ],
         ),

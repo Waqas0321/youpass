@@ -227,7 +227,7 @@ class CommerceProductConfigModel {
     this.multiCurrency = true,
     this.multiLanguage = true,
     this.languageSource = 'country_default',
-    this.gateways = const {'CL': 'klap', 'default': 'stripe'},
+    this.gateways = const {'CL': 'kushki', 'default': 'stripe'},
   });
 
   final String countriesScope;

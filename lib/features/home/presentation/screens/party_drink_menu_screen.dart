@@ -12,6 +12,7 @@ import 'package:youpass/features/home/presentation/party_drinks/party_drinks_des
 import 'package:youpass/features/home/presentation/party_drinks/routes/party_drink_menu_route_args.dart';
 import 'package:youpass/features/home/presentation/party_drinks/routes/party_drink_purchase_success_route_args.dart';
 import 'package:youpass/features/home/presentation/party_drinks/utils/party_drink_cart_calculator.dart';
+import 'package:youpass/features/home/presentation/party_drinks/utils/party_drink_purchase_confirmation_factory.dart';
 import 'package:youpass/features/home/presentation/party_drinks/utils/party_drink_cart_quantities.dart';
 import 'package:youpass/features/home/presentation/party_drinks/utils/party_drink_category_filter.dart';
 import 'package:youpass/features/home/presentation/party_drinks/widgets/party_drink_card_widget.dart';
@@ -22,6 +23,7 @@ import 'package:youpass/features/home/presentation/party_drinks/widgets/party_dr
 import 'package:youpass/features/home/presentation/party_drinks/widgets/party_drink_recommendations_header_widget.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
+import 'package:youpass/features/home/presentation/utils/party_mode_navigation.dart';
 import 'package:youpass/features/tickets/data/services/tickets_api_service.dart';
 import 'package:youpass/routes/app_routes.dart';
 
@@ -140,7 +142,10 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
 
       setState(() {
         menuCategories = PartyDrinkMenuMapper.categories(menu);
-        drinks = PartyDrinkMenuMapper.products(menu);
+        drinks = PartyDrinkMenuMapper.products(
+          menu,
+          eventId: resolved.eventId,
+        );
         eventTitle = resolved.eventTitle ?? homeProvider.partyModeEventTitle;
         eventId = resolved.eventId;
         isLoading = false;
@@ -244,19 +249,36 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
       throw StateError('Missing event id');
     }
 
-    try {
-      final order = await GetIt.I<PartyDrinksApiService>().createDrinkOrder(
-        eventId: currentEventId,
-        quantities: {
-          for (final line in cart.lineItems) line.drink.id: line.quantity,
-        },
-      );
+    final api = GetIt.I<PartyDrinksApiService>();
+    final confirmations = <PartyDrinkPurchaseConfirmation>[];
+    final quantitiesByEvent = <String, Map<String, int>>{};
 
+    for (final line in cart.lineItems) {
+      final lineEventId = line.drink.eventId ?? currentEventId;
+      if (lineEventId.isEmpty) {
+        continue;
+      }
+      final bucket = quantitiesByEvent.putIfAbsent(lineEventId, () => {});
+      bucket[line.drink.id] = line.quantity;
+    }
+
+    if (quantitiesByEvent.isEmpty) {
+      quantitiesByEvent[currentEventId] = {
+        for (final line in cart.lineItems) line.drink.id: line.quantity,
+      };
+    }
+
+    try {
+      for (final entry in quantitiesByEvent.entries) {
+        final order = await api.createDrinkOrder(
+          eventId: entry.key,
+          quantities: entry.value,
+        );
+        confirmations.addAll(PartyDrinkOrderMapper.toConfirmations(order));
+      }
       if (!mounted) {
         return;
       }
-
-      final confirmations = PartyDrinkOrderMapper.toConfirmations(order);
       if (confirmations.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -318,16 +340,25 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
     );
   }
 
+  Widget _menuHeader() {
+    final canChange =
+        context.watch<HomeProvider>().partyModeEligibleEvents.length >= 2;
+    return PartyDrinkMenuHeaderWidget(
+      onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
+      subtitle: eventTitle,
+      onChangeEvent: canChange
+          ? () => PartyModeNavigation.changeDrinkMenuEvent(context)
+          : null,
+    );
+  }
+
   Widget _buildLoadingBody({
     required double horizontalPadding,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        PartyDrinkMenuHeaderWidget(
-          onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
-          subtitle: eventTitle,
-        ),
+        _menuHeader(),
         const Expanded(child: Center(child: CircularProgressIndicator())),
       ],
     );
@@ -339,10 +370,7 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        PartyDrinkMenuHeaderWidget(
-          onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
-          subtitle: eventTitle,
-        ),
+        _menuHeader(),
         Expanded(
           child: RefreshIndicator(
             color: PartyDrinksDesignSpec.gold,
@@ -378,10 +406,7 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        PartyDrinkMenuHeaderWidget(
-          onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
-          subtitle: eventTitle,
-        ),
+        _menuHeader(),
         Expanded(
           child: RefreshIndicator(
             color: PartyDrinksDesignSpec.gold,
@@ -436,10 +461,7 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        PartyDrinkMenuHeaderWidget(
-          onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
-          subtitle: eventTitle,
-        ),
+        _menuHeader(),
         PartyDrinkCategoryChipsRowWidget(
           categories: menuCategories,
           selectedCategories: selectedCategories,

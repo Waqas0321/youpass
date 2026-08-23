@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/staff_app/core/constants/app_colors.dart';
 
 /// Scan accent from the QR scanner mockup (~#E6B048).
-const Color staffScanAccent = Color(0xFFE6B048);
+const Color staffScanAccent = AppColors.homeAccentYellow;
 
 /// Shared scan-frame geometry so overlay + labels align with the mockup.
 class StaffScanLayoutMetrics {

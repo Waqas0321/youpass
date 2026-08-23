@@ -100,6 +100,16 @@ class EventCheckoutResultModel extends EventCheckoutResultEntity {
           stripeRaw['clientSecret']?.toString();
     }
 
+    final kushkiRaw = json['kushki'];
+    final klapRaw = json['klap'];
+    final nestedPaymentUrl = kushkiRaw is Map<String, dynamic>
+        ? kushkiRaw['payment_url']?.toString() ??
+            kushkiRaw['paymentUrl']?.toString()
+        : klapRaw is Map<String, dynamic>
+            ? klapRaw['payment_url']?.toString() ??
+                klapRaw['paymentUrl']?.toString()
+            : null;
+
     return EventCheckoutResultModel(
       orderId: json['order_id']?.toString() ?? json['orderId']?.toString() ?? '',
       eventTitle:
@@ -119,7 +129,9 @@ class EventCheckoutResultModel extends EventCheckoutResultEntity {
           qrUnlockRaw == null ? null : DateTime.tryParse(qrUnlockRaw),
       subtotalAmount: json['subtotal_amount'] ?? json['subtotalAmount'],
       serviceFeeAmount: json['service_fee_amount'] ?? json['serviceFeeAmount'],
-      paymentUrl: json['payment_url']?.toString() ?? json['paymentUrl']?.toString(),
+      paymentUrl: json['payment_url']?.toString() ??
+          json['paymentUrl']?.toString() ??
+          nestedPaymentUrl,
       stripeClientSecret: stripeClientSecret,
       serviceFeeRate: _readDouble(json['service_fee_rate'] ?? json['serviceFeeRate']),
       paymentReference: json['payment_reference']?.toString() ??

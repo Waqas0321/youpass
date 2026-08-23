@@ -24,7 +24,7 @@ class StaffSupervisorAccessScaffold extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final Future<void> Function()? onRefresh;
 
-  static const _refreshAccent = Color(0xFFD4A044);
+  static const _refreshAccent = AppColors.homeAccentYellow;
 
   @override
   Widget build(BuildContext context) {

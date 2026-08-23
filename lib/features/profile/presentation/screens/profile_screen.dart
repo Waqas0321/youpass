@@ -322,7 +322,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context: context,
       backgroundColor: theme.screenBackground,
       appBar: ProfileAppBarWidget(
-        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
+        onBack: () => AppDrawerNavigation.goBackToHome(context),
       ),
       body: isLoadingProfile && authProvider.userProfile == null
           ? const ProfileScreenShimmer()
@@ -494,12 +494,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return;
     }
 
-    await context.read<AuthProvider>().logout();
-    if (!context.mounted) {
-      return;
-    }
-
-    Navigator.of(context).pushNamedAndRemoveUntil(
+    final navigator = Navigator.of(context);
+    final authProvider = context.read<AuthProvider>();
+    await authProvider.logout();
+    navigator.pushNamedAndRemoveUntil(
       AppRoutes.login,
       (_) => false,
     );

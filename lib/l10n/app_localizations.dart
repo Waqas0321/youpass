@@ -1160,6 +1160,12 @@ abstract class AppLocalizations {
   /// **'Suggested now'**
   String get partyDrinkEventChooserRecommended;
 
+  /// No description provided for @partyDrinkChangeEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Change event'**
+  String get partyDrinkChangeEvent;
+
   /// No description provided for @partyDrinkCategoryAll.
   ///
   /// In en, this message translates to:
@@ -1940,6 +1946,30 @@ abstract class AppLocalizations {
   /// **'Send email'**
   String get profileWriteEmail;
 
+  /// No description provided for @profileSupportEmailMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Write to YouPass support at {email}'**
+  String profileSupportEmailMessage(String email);
+
+  /// No description provided for @profileSupportEmailCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy address'**
+  String get profileSupportEmailCopy;
+
+  /// No description provided for @profileSupportEmailCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Email copied'**
+  String get profileSupportEmailCopied;
+
+  /// No description provided for @profileSupportEmailOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open mail app'**
+  String get profileSupportEmailOpen;
+
   /// No description provided for @profileFaq.
   ///
   /// In en, this message translates to:
@@ -2138,6 +2168,18 @@ abstract class AppLocalizations {
   /// **'My benefits'**
   String get profileCategoryBenefits;
 
+  /// No description provided for @profileUnlockTierTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock {tier}'**
+  String profileUnlockTierTitle(String tier);
+
+  /// No description provided for @profileUnlockTierButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask support about {tier}'**
+  String profileUnlockTierButton(String tier);
+
   /// No description provided for @profileFaqTitle.
   ///
   /// In en, this message translates to:
@@ -2269,6 +2311,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Continue'**
   String get confirmDeleteAccountAction;
+
+  /// No description provided for @confirmExitAppTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit YouPass?'**
+  String get confirmExitAppTitle;
+
+  /// No description provided for @confirmExitAppMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to close the app?'**
+  String get confirmExitAppMessage;
+
+  /// No description provided for @confirmExitAppAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit'**
+  String get confirmExitAppAction;
+
+  /// No description provided for @confirmExitAppStay.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay'**
+  String get confirmExitAppStay;
 
   /// No description provided for @ticketsTabUpcoming.
   ///

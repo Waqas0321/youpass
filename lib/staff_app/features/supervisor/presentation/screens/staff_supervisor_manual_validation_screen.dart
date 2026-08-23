@@ -46,7 +46,7 @@ class StaffSupervisorManualValidationScreen extends StatefulWidget {
 
 class _StaffSupervisorManualValidationScreenState
     extends State<StaffSupervisorManualValidationScreen> {
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _pageBg = Color(0xFFF8F9FA);
   static const _dangerRed = Color(0xFFDC2626);
 
@@ -470,7 +470,7 @@ class _StaffSupervisorManualValidationScreenState
 class _NoQrBanner extends StatelessWidget {
   const _NoQrBanner({required this.layout, required this.l10n});
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _bannerBg = Color(0xFFFFF8EB);
 
   final ResponsiveLayout layout;
@@ -531,7 +531,7 @@ class _ResultFoundCard extends StatelessWidget {
     required this.orderCode,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   final ResponsiveLayout layout;
   final dynamic l10n;
@@ -649,7 +649,7 @@ class _ValidationReasonSection extends StatelessWidget {
   final String Function(dynamic, StaffSupervisorManualValidationReason) reasonLabel;
   final ValueChanged<StaffSupervisorManualValidationReason> onReasonSelected;
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   @override
   Widget build(BuildContext context) {
@@ -685,7 +685,7 @@ class _IdentityValidationSection extends StatelessWidget {
     required this.result,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _successGreen = Color(0xFF22C55E);
 
   final ResponsiveLayout layout;
@@ -752,7 +752,7 @@ class _IdentityRow extends StatelessWidget {
   final Color? valueColor;
   final Widget? trailing;
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   @override
   Widget build(BuildContext context) {
@@ -793,7 +793,7 @@ class _IdentityRow extends StatelessWidget {
 class _SystemRecordFooter extends StatelessWidget {
   const _SystemRecordFooter({required this.layout, required this.l10n});
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   final ResponsiveLayout layout;
   final dynamic l10n;
@@ -925,7 +925,7 @@ class _ReasonRadioTile extends StatelessWidget {
     required this.onTap,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   final ResponsiveLayout layout;
   final String label;

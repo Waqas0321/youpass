@@ -30,6 +30,7 @@ class TicketAssignmentApiService extends BaseApiService {
       items: request.items,
       tableId: request.tableId,
       zoneId: request.zoneId,
+      lockId: request.lockId,
     ).toJson();
 
     final recaptchaToken = await _recaptchaService.tokenFor('checkout');

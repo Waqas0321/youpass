@@ -241,6 +241,9 @@ class AppStrings {
   static String partyDrinkEventChooserRecommended(AppLocalizations l10n) =>
       l10n.partyDrinkEventChooserRecommended;
 
+  static String partyDrinkChangeEvent(AppLocalizations l10n) =>
+      l10n.partyDrinkChangeEvent;
+
   static String partyDrinkCategoryAll(AppLocalizations l10n) =>
       l10n.partyDrinkCategoryAll;
 
@@ -620,6 +623,18 @@ class AppStrings {
   static String profileWriteEmail(AppLocalizations l10n) =>
       l10n.profileWriteEmail;
 
+  static String profileSupportEmailMessage(AppLocalizations l10n, String email) =>
+      l10n.profileSupportEmailMessage(email);
+
+  static String profileSupportEmailCopy(AppLocalizations l10n) =>
+      l10n.profileSupportEmailCopy;
+
+  static String profileSupportEmailCopied(AppLocalizations l10n) =>
+      l10n.profileSupportEmailCopied;
+
+  static String profileSupportEmailOpen(AppLocalizations l10n) =>
+      l10n.profileSupportEmailOpen;
+
   static String profileFaq(AppLocalizations l10n) => l10n.profileFaq;
 
   static String profileLogout(AppLocalizations l10n) => l10n.profileLogout;
@@ -672,6 +687,12 @@ class AppStrings {
 
   static String profileCategoryBenefits(AppLocalizations l10n) =>
       l10n.profileCategoryBenefits;
+
+  static String profileUnlockTierTitle(AppLocalizations l10n, String tier) =>
+      l10n.profileUnlockTierTitle(tier);
+
+  static String profileUnlockTierButton(AppLocalizations l10n, String tier) =>
+      l10n.profileUnlockTierButton(tier);
 
   static String profileFaqTitle(AppLocalizations l10n) => l10n.profileFaqTitle;
 
@@ -774,6 +795,18 @@ class AppStrings {
 
   static String confirmDeleteAccountAction(AppLocalizations l10n) =>
       l10n.confirmDeleteAccountAction;
+
+  static String confirmExitAppTitle(AppLocalizations l10n) =>
+      l10n.confirmExitAppTitle;
+
+  static String confirmExitAppMessage(AppLocalizations l10n) =>
+      l10n.confirmExitAppMessage;
+
+  static String confirmExitAppAction(AppLocalizations l10n) =>
+      l10n.confirmExitAppAction;
+
+  static String confirmExitAppStay(AppLocalizations l10n) =>
+      l10n.confirmExitAppStay;
 
   static String ticketsTabUpcoming(AppLocalizations l10n) =>
       l10n.ticketsTabUpcoming;

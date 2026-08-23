@@ -17,7 +17,7 @@ import 'package:youpass/staff_app/routes/app_routes.dart';
 class StaffSupervisorAccessDashboardScreen extends StatelessWidget {
   const StaffSupervisorAccessDashboardScreen({super.key});
 
-  static const _accent = Color(0xFFE8873A);
+  static const _accent = AppColors.homeAccentYellow;
 
   void _showComingSoon(BuildContext context, String feature) {
     AppSnackBar.show(context, '$feature — ${context.l10n.staffSupervisorComingSoon}');

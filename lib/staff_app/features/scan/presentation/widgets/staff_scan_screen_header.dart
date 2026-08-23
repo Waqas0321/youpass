@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:youpass/core/widgets/youpass_brand_logo.dart';
 import 'package:youpass/staff_app/core/constants/app_colors.dart';
 import 'package:youpass/staff_app/core/utils/responsive_layout.dart';
-import 'package:youpass/staff_app/core/widgets/youpass_logo.dart';
 import 'package:youpass/staff_app/features/scan/presentation/widgets/staff_scan_viewfinder_overlay.dart';
 
 class StaffScanScreenHeader extends StatelessWidget {
@@ -44,7 +44,9 @@ class StaffScanScreenHeader extends StatelessWidget {
                     ),
                   ),
                   const Expanded(
-                    child: YouPassLogo(color: staffScanAccent),
+                    child: Center(
+                      child: YouPassBrandLogo(compact: true),
+                    ),
                   ),
                   SizedBox(width: layout.spacing(48)),
                 ],

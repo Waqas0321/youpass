@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:youpass/staff_app/core/constants/app_colors.dart';
 
 abstract final class StaffSupervisorDesign {
-  static const accent = Color(0xFFD4A044);
+  /// Brand accent — YouPass yellow.
+  static const accent = AppColors.homeAccentYellow;
   static const pageBackground = Color(0xFFF8F9FA);
   static const successGreen = Color(0xFF22C55E);
   static const successBackground = Color(0xFFECFDF5);

@@ -18,7 +18,7 @@ class StaffSupervisorPageHeader extends StatelessWidget {
   final String subtitle;
   final VoidCallback? onBack;
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   @override
   Widget build(BuildContext context) {

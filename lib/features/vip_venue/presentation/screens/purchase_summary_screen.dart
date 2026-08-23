@@ -10,6 +10,10 @@ import 'package:youpass/features/invitations/presentation/routes/event_ticket_ro
 import 'package:youpass/features/invitations/presentation/utils/invitations_qr_helper.dart';
 import 'package:youpass/features/invitations/presentation/widgets/invitation_qr_unavailable_dialog.dart';
 import 'package:youpass/core/utils/payment_url_launcher.dart';
+import 'package:youpass/dependency_injection/injection_container.dart';
+import 'package:youpass/features/profile/data/models/profile_wallet_card_model.dart';
+import 'package:youpass/features/profile/data/services/profile_api_service.dart';
+import 'package:youpass/features/profile/presentation/utils/wallet_add_card_flow.dart';
 import 'package:youpass/features/ticket_assignment/domain/entities/event_checkout_result_entity.dart';
 import 'package:youpass/features/ticket_assignment/presentation/providers/ticket_assignment_provider.dart';
 import 'package:youpass/features/ticket_assignment/presentation/routes/assign_tickets_route_args.dart';
@@ -57,11 +61,55 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
   String? checkoutTicketId;
   String? checkoutOrderId;
   String? checkoutSeatLabel;
+  List<ProfileWalletCardModel> _walletCards = const [];
+  String? _selectedCardId;
+  bool _loadingCards = true;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _warmCheckout());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(_loadWalletCards());
+      unawaited(_warmCheckout());
+    });
+  }
+
+  Future<void> _loadWalletCards() async {
+    try {
+      final cards = await sl<ProfileApiService>().fetchWalletCards();
+      if (!mounted) {
+        return;
+      }
+      String? selected = _selectedCardId;
+      if (selected == null || !cards.any((card) => card.id == selected)) {
+        selected = null;
+        for (final card in cards) {
+          if (card.isDefault) {
+            selected = card.id;
+            break;
+          }
+        }
+        selected ??= cards.isEmpty ? null : cards.first.id;
+      }
+      setState(() {
+        _walletCards = cards;
+        _selectedCardId = selected;
+        _loadingCards = false;
+      });
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() => _loadingCards = false);
+    }
+  }
+
+  Future<bool> _addPaymentMethod() async {
+    final added = await WalletAddCardFlow().start(context);
+    if (added) {
+      await _loadWalletCards();
+    }
+    return added;
   }
 
   Future<void> _warmCheckout() async {
@@ -193,6 +241,33 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
         }
       }
 
+      if (session.totalAmount > 0) {
+        ProfileWalletCardModel? selected;
+        for (final card in _walletCards) {
+          if (card.id == _selectedCardId) {
+            selected = card;
+            break;
+          }
+        }
+        final needsChargeableCard =
+            selected == null || !selected.chargeable;
+        if (needsChargeableCard) {
+          final added = await _addPaymentMethod();
+          if (!mounted) {
+            return;
+          }
+          final chargeable = _walletCards.any(
+            (card) => card.id == _selectedCardId && card.chargeable,
+          );
+          if (!added || !chargeable) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(AppStrings.vipAddPaymentMethod(context.l10n))),
+            );
+            return;
+          }
+        }
+      }
+
       if (session.totalAmount == 0) {
         final paymentReady =
             await FreeTicketCheckoutPaymentFlow(context).ensureBeforeCheckout();
@@ -235,7 +310,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
     final assignmentProvider = context.read<TicketAssignmentProvider>();
     final result = await assignmentProvider.checkoutEvent(
       eventId: session.event.id,
-      request: session.buildCheckoutRequest(),
+      request: session.buildCheckoutRequest(paymentMethodId: _selectedCardId),
     );
 
     if (!mounted) {
@@ -244,6 +319,16 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
 
     if (result == null) {
       final code = assignmentProvider.errorCode;
+      if (code == 'CARD_NOT_CHARGEABLE') {
+        final added = await _addPaymentMethod();
+        if (!mounted) {
+          return false;
+        }
+        if (added) {
+          return _attemptCheckout(allowTableRelock: allowTableRelock);
+        }
+        return false;
+      }
       if (code == 'TABLE_LOCK_REQUIRED' &&
           allowTableRelock &&
           session.isVipTablePurchase) {
@@ -284,6 +369,12 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
     }
 
     if (result.isPaymentPending) {
+      if (_selectedCardId != null && _selectedCardId!.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppStrings.vipAddPaymentMethod(context.l10n))),
+        );
+        return false;
+      }
       _redirectedToPayment = true;
       await handlePendingPayment(result);
       return false;
@@ -328,7 +419,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
   Future<void> handlePendingPayment(EventCheckoutResultEntity result) async {
     final strings = context.l10n;
 
-    if (result.gateway == 'klap' &&
+    if ((result.gateway == 'klap' || result.gateway == 'kushki') &&
         result.paymentUrl != null &&
         result.paymentUrl!.isNotEmpty) {
       final opened = await PaymentUrlLauncher.openExternalUrl(result.paymentUrl!);
@@ -517,6 +608,11 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
           PurchaseSummaryContentWidget(
             session: session,
             onOfferingQuantityChanged: updateOfferingQuantity,
+            cards: _walletCards,
+            selectedCardId: _selectedCardId,
+            isLoadingCards: _loadingCards,
+            onSelectCard: (card) => setState(() => _selectedCardId = card.id),
+            onAddPaymentMethod: () => unawaited(_addPaymentMethod()),
           ),
         ],
       ),

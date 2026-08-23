@@ -50,7 +50,7 @@ class StaffSupervisorEntryQrOverrideScreen extends StatelessWidget {
 class _StaffSupervisorEntryQrOverrideView extends StatelessWidget {
   const _StaffSupervisorEntryQrOverrideView();
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _pageBg = Color(0xFFF8F9FA);
 
   static const _leftColumnActions = [
@@ -361,7 +361,7 @@ class _StaffSupervisorEntryQrOverrideView extends StatelessWidget {
 class _CriticalBanner extends StatelessWidget {
   const _CriticalBanner({required this.layout, required this.l10n});
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _warningBg = Color(0xFFFFF8EB);
 
   final ResponsiveLayout layout;
@@ -418,7 +418,7 @@ class _ResultCard extends StatelessWidget {
     required this.statusLabel,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
   static const _blockedText = Color(0xFFE85D04);
   static const _successGreen = Color(0xFF22C55E);
 
@@ -711,7 +711,7 @@ class _MetaCell extends StatelessWidget {
     required this.value,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   final ResponsiveLayout layout;
   final IconData icon;
@@ -856,7 +856,7 @@ class _LogsCard extends StatelessWidget {
     required this.logs,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   final ResponsiveLayout layout;
   final AppLocalizations l10n;
@@ -978,7 +978,7 @@ class _ReasonRadioTile extends StatelessWidget {
     required this.onTap,
   });
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   final ResponsiveLayout layout;
   final String label;

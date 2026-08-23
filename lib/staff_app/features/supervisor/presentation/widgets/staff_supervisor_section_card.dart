@@ -17,7 +17,7 @@ class StaffSupervisorSectionCard extends StatelessWidget {
   final Widget? titleWidget;
   final Widget child;
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +131,7 @@ class StaffSupervisorHistoryBullet extends StatelessWidget {
   final String text;
   final bool muted;
 
-  static const _accent = Color(0xFFD4A044);
+  static const _accent = AppColors.homeAccentYellow;
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youpass/core/navigation/invitation_deep_link_service.dart';
+import 'package:youpass/core/widgets/app_exit_guard.dart';
 import 'package:youpass/features/home/presentation/screens/home_screen.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
 import 'package:youpass/features/invitations/presentation/utils/invitation_detail_navigation.dart';
@@ -55,6 +56,6 @@ class MainShellScreenState extends State<MainShellScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const HomeScreen();
+    return const AppExitGuard(child: HomeScreen());
   }
 }

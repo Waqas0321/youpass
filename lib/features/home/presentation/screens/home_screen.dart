@@ -190,6 +190,23 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final homeProvider = context.watch<HomeProvider>();
+    final authProvider = context.watch<AuthProvider>();
+
+    if (authProvider.status == AuthStatus.unauthenticated) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        if (context.read<AuthProvider>().status != AuthStatus.unauthenticated) {
+          return;
+        }
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          AppRoutes.login,
+          (_) => false,
+        );
+      });
+    }
+
     final eligible = homeProvider.partyModeEligible;
     if (_lastPartyModeEligible != eligible) {
       _lastPartyModeEligible = eligible;
@@ -200,7 +217,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       });
     }
 
-    final authProvider = context.watch<AuthProvider>();
     final layout = ResponsiveLayout(context);
     final headerGreeting = HomeUserDisplayHelper.headerGreetingText(
       authProvider,

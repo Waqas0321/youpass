@@ -45,6 +45,15 @@ class AppDrawerNavigation {
       ),
     );
   }
+  static void goBackToHome(BuildContext context) {
+    final navigator = Navigator.of(context);
+    if (navigator.canPop()) {
+      navigator.pop();
+      return;
+    }
+    navigator.pushNamedAndRemoveUntil(AppRoutes.home, (route) => false);
+  }
+
   static void handleMenuSelected(BuildContext context, DrawerMenuId menuId) {
     void navigate() {
       if (!context.mounted) {
@@ -57,11 +66,17 @@ class AppDrawerNavigation {
             (route) => false,
           );
         case DrawerMenuId.profile:
-          _navigateTo(context, AppRoutes.profile);
+          if (ModalRoute.of(context)?.settings.name != AppRoutes.profile) {
+            Navigator.of(context).pushNamed(AppRoutes.profile);
+          }
         case DrawerMenuId.tickets:
-          _navigateTo(context, AppRoutes.myTickets);
+          if (ModalRoute.of(context)?.settings.name != AppRoutes.myTickets) {
+            Navigator.of(context).pushNamed(AppRoutes.myTickets);
+          }
         case DrawerMenuId.favorites:
-          _navigateTo(context, AppRoutes.myFavorites);
+          if (ModalRoute.of(context)?.settings.name != AppRoutes.myFavorites) {
+            Navigator.of(context).pushNamed(AppRoutes.myFavorites);
+          }
         case DrawerMenuId.invitations:
           _navigateTo(context, AppRoutes.myInvitations);
         case DrawerMenuId.drinkMenu:

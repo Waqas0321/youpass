@@ -180,7 +180,6 @@ class _NotificationAdvancedSettingsScreenState
       backgroundColor: theme.screenBackground,
       appBar: ProfileAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
-        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
         title: AppStrings.profileNotificationAdvancedTitle(strings),
       ),
       body: isLoading

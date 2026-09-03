@@ -32,14 +32,15 @@ class AppConstants {
   static String get localApiV1Url =>
       'http://$_localApiHost:$localApiPort/api/v1';
 
-  /// Debug on device: ngrok by default. Simulator localhost:
-  /// `flutter run --dart-define=USE_NGROK_TUNNEL=false`
+  /// Physical device tunnel. Simulator uses localhost by default.
+  /// `flutter run --dart-define=USE_NGROK_TUNNEL=true`
   static const bool useNgrokTunnel = bool.fromEnvironment(
     'USE_NGROK_TUNNEL',
-    defaultValue: true,
+    defaultValue: false,
   );
 
-  /// Default: production in release. Debug uses ngrok/local when enabled.
+  /// Default: production API (Vercel). Local debug:
+  /// `flutter run --dart-define=USE_LOCAL_API=true`
   /// Override: `--dart-define=API_BASE_URL=...`
   static String get apiBaseUrl {
     const override = String.fromEnvironment('API_BASE_URL');
@@ -47,17 +48,20 @@ class AppConstants {
       return override.replaceAll(RegExp(r'/+$'), '');
     }
 
+    if (!kDebugMode) {
+      return productionApiV1Url;
+    }
+
     const useLocalApi = bool.fromEnvironment(
       'USE_LOCAL_API',
       defaultValue: false,
     );
-    if (useLocalApi && kDebugMode) {
+    if (useLocalApi) {
       if (useNgrokTunnel) {
         return devTunnelApiV1Url;
       }
       return localApiV1Url;
     }
-
     return productionApiV1Url;
   }
 

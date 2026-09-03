@@ -55,6 +55,7 @@ class ApiEndpoints {
 
   static String get homeInitialFeed => '$apiV1/home/initial-feed';
   static String get homeUpcomingEvents => '$apiV1/home/upcoming-events';
+  static String get locationsSearch => '$apiV1/locations/search';
   static String get analyticsRegistrationCompleted =>
       '$apiV1/analytics/event/registration-completed';
   static String get eventsFeatured => '$apiV1/events/featured';

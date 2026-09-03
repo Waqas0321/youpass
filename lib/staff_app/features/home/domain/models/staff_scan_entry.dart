@@ -56,7 +56,7 @@ class StaffScanEntry {
       productQuantity: (json['product_quantity'] as num?)?.toInt(),
       scannedAt: scannedAt,
       lastUsedAt: lastUsedAt,
-      timeLabel: scannedAt != null ? _formatTime(scannedAt) : '--:--',
+      timeLabel: scannedAt != null ? _formatDateTime(scannedAt) : '--:--',
       status: outcome == 'already_used'
           ? StaffScanStatus.duplicate
           : StaffScanStatus.success,
@@ -68,7 +68,8 @@ class StaffScanEntry {
     final isDuplicate = status == StaffScanStatus.duplicate;
     final code = entryId ?? transactionId ?? '';
     final payload = (qrPayload != null && qrPayload!.isNotEmpty) ? qrPayload! : code;
-    final lastUsed = lastUsedAt ?? (isDuplicate ? scannedAt : null);
+    final scannedAtLocal = scannedAt;
+    final lastUsed = lastUsedAt ?? (isDuplicate ? scannedAtLocal : null);
 
     return StaffQrScanResult(
       outcome: isDuplicate
@@ -78,16 +79,24 @@ class StaffScanEntry {
       productName: itemName,
       productQuantity: productQuantity ?? 1,
       guestName: guestName,
-      scanTimeLabel: timeLabel,
+      scanTimeLabel:
+          scannedAtLocal != null ? _formatTime(scannedAtLocal) : timeLabel,
       transactionId: transactionId ?? code,
       qrPayload: payload,
       eventName: eventTitle,
       entryId: code.isNotEmpty ? code : null,
       accessLevel: accessLevel,
       barName: barName,
-      lastUsedTimeLabel:
-          lastUsed != null ? _formatTime(lastUsed) : (isDuplicate ? timeLabel : null),
-      lastUsedDateLabel: lastUsed != null ? _formatDate(lastUsed) : null,
+      lastUsedTimeLabel: lastUsed != null
+          ? _formatTime(lastUsed)
+          : (isDuplicate && scannedAtLocal != null
+              ? _formatTime(scannedAtLocal)
+              : null),
+      lastUsedDateLabel: lastUsed != null
+          ? _formatDate(lastUsed)
+          : (isDuplicate && scannedAtLocal != null
+              ? _formatDate(scannedAtLocal)
+              : null),
     );
   }
 
@@ -115,6 +124,10 @@ class StaffScanEntry {
 
   static String _formatDate(DateTime dateTime) {
     return DateFormat('d MMM y').format(dateTime);
+  }
+
+  static String _formatDateTime(DateTime dateTime) {
+    return DateFormat('d MMM y · HH:mm').format(dateTime);
   }
 }
 

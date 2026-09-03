@@ -22,6 +22,7 @@ import 'package:youpass/staff_app/features/home/presentation/widgets/staff_recen
 import 'package:youpass/staff_app/features/scan/data/staff_scan_api_service.dart';
 import 'package:youpass/staff_app/features/scan/presentation/utils/open_staff_qr_scanner.dart';
 import 'package:youpass/staff_app/features/scan/routes/staff_qr_scan_route_args.dart';
+import 'package:youpass/staff_app/routes/app_routes.dart';
 
 class StaffAccessValidatorScreen extends StatefulWidget {
   const StaffAccessValidatorScreen({
@@ -88,13 +89,25 @@ class _StaffAccessValidatorScreenState extends State<StaffAccessValidatorScreen>
     }
   }
 
+  Future<void> _openManualEntry() async {
+    final refreshed = await Navigator.of(context).pushNamed<bool>(
+      StaffAppRoutes.manualCodeEntry,
+      arguments: const StaffQrScanRouteArgs(purpose: StaffQrScanPurpose.entry),
+    );
+    if (mounted && refreshed == true) {
+      await _loadRecentAccess();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
     final profile = context.watch<StaffAuthProvider>().profile;
     final workMode = context.watch<StaffWorkModeProvider>().mode;
     final showDrawer = profile?.shouldShowMenuDrawer(workMode) ?? false;
-    final showManualEntry = profile?.hasEntrySupervisorAccess ?? false;
+    // PREVIOUS: Manual Entry opened supervisor mode for supervisors only.
+    // final showManualEntry = profile?.hasEntrySupervisorAccess ?? false;
+    final showSupervisorMode = profile?.hasEntrySupervisorAccess ?? false;
 
     return Scaffold(
       backgroundColor: AppColors.backgroundWhite,
@@ -118,8 +131,10 @@ class _StaffAccessValidatorScreenState extends State<StaffAccessValidatorScreen>
                   children: [
                     StaffAccessValidatorCard(
                       onScanTap: _openScanner,
-                      onManualEntryTap: () => openStaffSupervisorFlow(context),
-                      showManualEntry: showManualEntry,
+                      onManualEntryTap: _openManualEntry,
+                      onSupervisorModeTap: () => openStaffSupervisorFlow(context),
+                      showManualEntry: true,
+                      showSupervisorMode: showSupervisorMode,
                     ),
                     if (_activeEventName != null) ...[
                       SizedBox(height: layout.spacing(24)),

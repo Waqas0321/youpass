@@ -8,6 +8,7 @@ import 'package:youpass/staff_app/core/utils/responsive_layout.dart';
 import 'package:youpass/staff_app/core/widgets/app_text.dart';
 import 'package:youpass/staff_app/core/widgets/app_text_variant.dart';
 import 'package:youpass/staff_app/features/supervisor/domain/models/staff_supervisor_consumption_result.dart';
+import 'package:youpass/staff_app/features/supervisor/drinks/domain/models/staff_supervisor_drink_search_result.dart';
 import 'package:youpass/staff_app/features/supervisor/drinks/presentation/providers/staff_supervisor_drink_lookup_provider.dart';
 import 'package:youpass/staff_app/features/supervisor/drinks/presentation/widgets/staff_supervisor_drink_consumption_card.dart';
 import 'package:youpass/staff_app/features/supervisor/drinks/presentation/widgets/staff_supervisor_drink_search_field.dart';
@@ -49,12 +50,25 @@ class _StaffSupervisorCancellationsScreenState
   final TextEditingController _pinController = TextEditingController();
 
   StaffSupervisorCancellationAction? _selectedAction;
+  _RestoreReasonPreset? _selectedReason;
 
   @override
   void dispose() {
     _reasonController.dispose();
     _pinController.dispose();
     super.dispose();
+  }
+
+  String _composeReasonNotes() {
+    final preset = _selectedReason;
+    if (preset == null) {
+      return _reasonController.text.trim();
+    }
+    if (preset == _RestoreReasonPreset.other) {
+      final note = _reasonController.text.trim();
+      return note.isEmpty ? 'Other' : 'Other: $note';
+    }
+    return preset.label;
   }
 
   Future<void> _submitCancellation(
@@ -68,7 +82,7 @@ class _StaffSupervisorCancellationsScreenState
 
     final success = await provider.submitCancellation(
       pin: _pinController.text,
-      notes: _reasonController.text.trim(),
+      notes: _composeReasonNotes(),
       action: action,
     );
 
@@ -98,10 +112,26 @@ class _StaffSupervisorCancellationsScreenState
       StaffSupervisorCancellationAction.cancelConsumption =>
         l10n.staffSupervisorCancelConsumption,
       StaffSupervisorCancellationAction.revertValidation =>
-        l10n.staffSupervisorRevertValidation,
+        l10n.staffSupervisorRestoreConsumptionAction,
       StaffSupervisorCancellationAction.releaseBlockedQr =>
         l10n.staffSupervisorReleaseBlockedQr,
     };
+  }
+
+  List<StaffSupervisorCancellationAction> _availableActions(
+    StaffSupervisorDrinkSearchDetail detail,
+  ) {
+    // Contextual: Restore only when redeemed. Other legacy actions remain
+    // available only for blocked/error edge cases (commented primary radios).
+    if (detail.status == StaffSupervisorDrinkStatus.validated ||
+        detail.isValidated) {
+      return const [StaffSupervisorCancellationAction.revertValidation];
+    }
+    if (detail.status == StaffSupervisorDrinkStatus.blocked) {
+      return const [StaffSupervisorCancellationAction.releaseBlockedQr];
+    }
+    // PREVIOUS: always showed cancel / restore / release.
+    return const [];
   }
 
   InputDecoration _inputDecoration(ResponsiveLayout layout, {required String hint}) {
@@ -129,6 +159,26 @@ class _StaffSupervisorCancellationsScreenState
     );
   }
 
+  bool _canSubmit(StaffSupervisorDrinkLookupProvider provider) {
+    if (provider.detail == null ||
+        provider.isSubmitting ||
+        _selectedAction == null ||
+        _pinController.text.length != 4) {
+      return false;
+    }
+    if (_selectedAction == StaffSupervisorCancellationAction.revertValidation) {
+      if (_selectedReason == null) {
+        return false;
+      }
+      if (_selectedReason == _RestoreReasonPreset.other &&
+          _reasonController.text.trim().isEmpty) {
+        return false;
+      }
+      return true;
+    }
+    return _reasonController.text.trim().isNotEmpty;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -137,14 +187,16 @@ class _StaffSupervisorCancellationsScreenState
     return Consumer<StaffSupervisorDrinkLookupProvider>(
       builder: (context, provider, _) {
         final detail = provider.detail;
+        final availableActions =
+            detail == null ? const <StaffSupervisorCancellationAction>[] : _availableActions(detail);
 
         return Scaffold(
           backgroundColor: _pageBg,
           body: Column(
             children: [
               StaffSupervisorPageHeader(
-                title: l10n.staffSupervisorCancellationsScreenTitle,
-                subtitle: l10n.staffSupervisorCancellationsScreenSubtitle,
+                title: l10n.staffSupervisorSearchManagePurchaseTitle,
+                subtitle: l10n.staffSupervisorSearchManagePurchaseLine1,
               ),
               Expanded(
                 child: ListView(
@@ -159,7 +211,14 @@ class _StaffSupervisorCancellationsScreenState
                       controller: provider.search,
                       hint: l10n.staffSupervisorSearchPlaceholder,
                       sectionTitle: l10n.staffSupervisorSearchConsumptionHeading,
-                      onResultSelected: provider.onSearchResultSelected,
+                      onResultSelected: (result) {
+                        setState(() {
+                          _selectedAction = null;
+                          _selectedReason = null;
+                          _reasonController.clear();
+                        });
+                        provider.onSearchResultSelected(result);
+                      },
                     ),
                     if (provider.isLoadingDetail)
                       Padding(
@@ -197,30 +256,80 @@ class _StaffSupervisorCancellationsScreenState
                         l10n: l10n,
                         detail: detail,
                       ),
-                      SizedBox(height: layout.spacing(14)),
-                      StaffSupervisorSectionCard(
-                        title: l10n.staffSupervisorActionsTitle,
-                        child: Column(
-                          children: StaffSupervisorCancellationAction.values
-                              .map(
-                                (action) => _ActionRadioTile(
-                                  layout: layout,
-                                  label: _actionLabel(l10n, action),
-                                  selected: _selectedAction == action,
-                                  onTap: () =>
-                                      setState(() => _selectedAction = action),
-                                ),
-                              )
-                              .toList(),
+                      if (availableActions.isEmpty) ...[
+                        SizedBox(height: layout.spacing(14)),
+                        AppText(
+                          l10n.staffSupervisorNoRestoreActionAvailable,
+                          variant: AppTextVariant.body,
+                          color: AppColors.secondaryGrey,
+                          fontSize: layout.fontSize(13),
+                          height: 1.4,
                         ),
-                      ),
-                      SizedBox(height: layout.spacing(14)),
-                      StaffSupervisorSectionCard(
-                        title: l10n.staffSupervisorReasonTitle,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            TextField(
+                      ] else ...[
+                        SizedBox(height: layout.spacing(14)),
+                        StaffSupervisorSectionCard(
+                          title: l10n.staffSupervisorActionsTitle,
+                          child: Column(
+                            children: availableActions
+                                .map(
+                                  (action) => _ActionRadioTile(
+                                    layout: layout,
+                                    label: _actionLabel(l10n, action),
+                                    selected: _selectedAction == action,
+                                    onTap: () => setState(() {
+                                      _selectedAction = action;
+                                      if (action !=
+                                          StaffSupervisorCancellationAction
+                                              .revertValidation) {
+                                        _selectedReason = null;
+                                      }
+                                    }),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                        if (_selectedAction ==
+                            StaffSupervisorCancellationAction.revertValidation) ...[
+                          SizedBox(height: layout.spacing(14)),
+                          StaffSupervisorSectionCard(
+                            title: l10n.staffSupervisorRestoreReasonTitle,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                for (final reason in _RestoreReasonPreset.values)
+                                  _ActionRadioTile(
+                                    layout: layout,
+                                    label: reason.localized(l10n),
+                                    selected: _selectedReason == reason,
+                                    onTap: () =>
+                                        setState(() => _selectedReason = reason),
+                                  ),
+                                if (_selectedReason ==
+                                    _RestoreReasonPreset.other) ...[
+                                  SizedBox(height: layout.spacing(10)),
+                                  TextField(
+                                    controller: _reasonController,
+                                    maxLines: 2,
+                                    onChanged: (_) => setState(() {}),
+                                    style: TextStyle(
+                                      fontSize: layout.fontSize(14),
+                                      color: AppColors.homeBlack,
+                                    ),
+                                    decoration: _inputDecoration(
+                                      layout,
+                                      hint: l10n.staffSupervisorRestoreReasonOtherHint,
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                        ] else if (_selectedAction != null) ...[
+                          SizedBox(height: layout.spacing(14)),
+                          StaffSupervisorSectionCard(
+                            title: l10n.staffSupervisorReasonTitle,
+                            child: TextField(
                               controller: _reasonController,
                               maxLines: 3,
                               onChanged: (_) => setState(() {}),
@@ -233,46 +342,33 @@ class _StaffSupervisorCancellationsScreenState
                                 hint: l10n.staffSupervisorReasonPlaceholder,
                               ),
                             ),
-                            SizedBox(height: layout.spacing(8)),
-                            AppText(
-                              l10n.staffSupervisorReasonHint,
-                              variant: AppTextVariant.body,
-                              color: AppColors.secondaryGrey,
-                              fontSize: layout.fontSize(12),
-                              style: const TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ],
+                          ),
+                        ],
+                        SizedBox(height: layout.spacing(14)),
+                        StaffSupervisorSectionCard(
+                          title: l10n.staffSupervisorAuthorizationTitle,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              AppText(
+                                l10n.staffSupervisorAuthorizationPinLabel,
+                                variant: AppTextVariant.label,
+                                color: AppColors.secondaryGrey,
+                                fontSize: layout.fontSize(13),
+                                fontWeight: FontWeight.w500,
+                              ),
+                              SizedBox(height: layout.spacing(12)),
+                              StaffPinInputWidget(
+                                controller: _pinController,
+                                style: StaffPinInputStyle.boxes,
+                                obscureBoxDigits: true,
+                                autofocus: false,
+                                onChanged: (_) => setState(() {}),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(height: layout.spacing(14)),
-                      StaffSupervisorSectionCard(
-                        title: l10n.staffSupervisorAuthorizationTitle,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            StaffSupervisorDetailRow(
-                              label: l10n.staffSupervisorAuthorizationSupervisorLabel,
-                              value: 'Admin-02',
-                            ),
-                            SizedBox(height: layout.spacing(4)),
-                            AppText(
-                              l10n.staffSupervisorAuthorizationPinLabel,
-                              variant: AppTextVariant.label,
-                              color: AppColors.secondaryGrey,
-                              fontSize: layout.fontSize(13),
-                              fontWeight: FontWeight.w500,
-                            ),
-                            SizedBox(height: layout.spacing(12)),
-                            StaffPinInputWidget(
-                              controller: _pinController,
-                              style: StaffPinInputStyle.boxes,
-                              obscureBoxDigits: true,
-                              autofocus: false,
-                              onChanged: (_) => setState(() {}),
-                            ),
-                          ],
-                        ),
-                      ),
+                      ],
                       SizedBox(height: layout.spacing(14)),
                       StaffSupervisorDrinkHistorySection(
                         layout: layout,
@@ -283,21 +379,48 @@ class _StaffSupervisorCancellationsScreenState
                   ],
                 ),
               ),
-              _ExecuteFooter(
-                layout: layout,
-                label: l10n.staffSupervisorExecuteCancellationButton,
-                enabled: detail != null &&
-                    !provider.isSubmitting &&
-                    _selectedAction != null &&
-                    _reasonController.text.trim().isNotEmpty &&
-                    _pinController.text.length == 4,
-                onPressed: () => _submitCancellation(context, provider),
-              ),
+              if (availableActions.isNotEmpty)
+                _ExecuteFooter(
+                  layout: layout,
+                  label: l10n.staffSupervisorRestoreExecuteButton,
+                  enabled: _canSubmit(provider),
+                  onPressed: () => _submitCancellation(context, provider),
+                ),
             ],
           ),
         );
       },
     );
+  }
+}
+
+enum _RestoreReasonPreset {
+  productNotDelivered,
+  accidentalScan,
+  operationalIssue,
+  other,
+}
+
+extension on _RestoreReasonPreset {
+  String get label {
+    return switch (this) {
+      _RestoreReasonPreset.productNotDelivered => 'Product not delivered',
+      _RestoreReasonPreset.accidentalScan => 'Accidental scan',
+      _RestoreReasonPreset.operationalIssue => 'Operational issue',
+      _RestoreReasonPreset.other => 'Other',
+    };
+  }
+
+  String localized(dynamic l10n) {
+    return switch (this) {
+      _RestoreReasonPreset.productNotDelivered =>
+        l10n.staffSupervisorRestoreReasonProductNotDelivered,
+      _RestoreReasonPreset.accidentalScan =>
+        l10n.staffSupervisorRestoreReasonAccidentalScan,
+      _RestoreReasonPreset.operationalIssue =>
+        l10n.staffSupervisorRestoreReasonOperationalIssue,
+      _RestoreReasonPreset.other => l10n.staffSupervisorRestoreReasonOther,
+    };
   }
 }
 

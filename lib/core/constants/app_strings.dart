@@ -226,6 +226,24 @@ class AppStrings {
   static String partyModeUnavailable(AppLocalizations l10n) =>
       l10n.partyModeUnavailable;
 
+  static String partyModeUnavailableForRequirements(
+    AppLocalizations l10n, {
+    required bool hasPurchasedTicket,
+    required bool ticketScanned,
+    required bool atEventLocation,
+  }) {
+    if (!hasPurchasedTicket) {
+      return l10n.partyModeNeedTicket;
+    }
+    if (!ticketScanned) {
+      return l10n.partyModeNeedScan;
+    }
+    if (!atEventLocation) {
+      return l10n.partyModeNeedLocation;
+    }
+    return l10n.partyModeUnavailable;
+  }
+
   static String partyDrinkMenuEmpty(AppLocalizations l10n) =>
       l10n.partyDrinkMenuEmpty;
 

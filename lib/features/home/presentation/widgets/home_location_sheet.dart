@@ -9,6 +9,7 @@ import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_field.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/core/widgets/auth_bottom_sheet_shell.dart';
+import 'package:youpass/features/home/domain/entities/location_suggestion_entity.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 
 /// Location chooser for Upcoming Events: GPS near-me or typed city/area.
@@ -17,6 +18,8 @@ class HomeLocationSheet {
 
   static Future<void> show(BuildContext context) {
     final l10n = context.l10n;
+    final provider = context.read<HomeProvider>();
+    provider.resetLocationSearchDraft();
     return AuthBottomSheetShell.show<void>(
       context: context,
       title: AppStrings.homeLocationSheetTitle(l10n),
@@ -57,7 +60,10 @@ class _HomeLocationSheetBodyState extends State<_HomeLocationSheetBody> {
 
     return Consumer<HomeProvider>(
       builder: (context, provider, _) {
-        final suggestions = provider.locationSuggestionsFor(_controller.text);
+        final query = _controller.text.trim();
+        final localSuggestions = provider.locationSuggestionsFor(query);
+        final remoteSuggestions = provider.locationSearchResults;
+        final showRemote = query.length >= 2;
         final hasActiveLocation = provider.hasActiveLocationContext;
         final nearMeSelected = provider.nearMeEnabled;
 
@@ -120,7 +126,7 @@ class _HomeLocationSheetBodyState extends State<_HomeLocationSheetBody> {
                                     ? Icons.my_location
                                     : Icons.my_location_outlined,
                                 size: layout.fontSize(18),
-                                color: AppColors.homeAccentYellow,
+                                color: AppColors.homeBlack,
                               ),
                             SizedBox(width: layout.spacing(10)),
                             Expanded(
@@ -156,44 +162,70 @@ class _HomeLocationSheetBodyState extends State<_HomeLocationSheetBody> {
                     controller: _controller,
                     hintText: AppStrings.homeLocationTypeHint(l10n),
                     textInputAction: TextInputAction.search,
-                    onChanged: (_) => setState(() {}),
+                    onChanged: provider.onLocationQueryChanged,
                   ),
-                  if (suggestions.isNotEmpty) ...[
+                  if (provider.isLocationSearchLoading) ...[
+                    SizedBox(height: layout.spacing(16)),
+                    const Center(
+                      child: SizedBox(
+                        width: 22,
+                        height: 22,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: AppColors.primaryMustard,
+                        ),
+                      ),
+                    ),
+                  ] else if (showRemote && remoteSuggestions.isNotEmpty) ...[
                     SizedBox(height: layout.spacing(8)),
-                    ...suggestions.map((suggestion) {
-                      final selected = provider.typedLocationQuery
-                              .toLowerCase() ==
-                          suggestion.toLowerCase();
-                      return Column(
-                        children: [
-                          ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            dense: true,
-                            leading: Icon(
-                              Icons.location_city_outlined,
-                              size: layout.fontSize(20),
-                              color: AppColors.homeAccentYellow,
-                            ),
-                            title: AppText(
-                              suggestion,
-                              variant: AppTextVariant.body,
-                              fontSize: layout.fontSize(14),
-                              fontWeight: selected
-                                  ? FontWeight.w700
-                                  : FontWeight.w500,
-                              color: AppColors.homeBlack,
-                            ),
-                            trailing: selected
-                                ? const Icon(
-                                    Icons.check,
-                                    size: 18,
-                                    color: AppColors.primaryMustard,
-                                  )
-                                : null,
-                            onTap: () => _applyTyped(context, suggestion),
-                          ),
-                          Divider(height: 1, color: theme.cardBorder),
-                        ],
+                    ...remoteSuggestions.map((suggestion) {
+                      return _LocationResultTile(
+                        title: suggestion.label,
+                        subtitle: suggestion.displaySubtitle,
+                        selected: provider.typedLocationQuery.toLowerCase() ==
+                            suggestion.city.toLowerCase(),
+                        onTap: () => _applyRemote(context, suggestion),
+                        dividerColor: theme.cardBorder,
+                      );
+                    }),
+                  ] else if (showRemote &&
+                      provider.locationSearchError != null) ...[
+                    SizedBox(height: layout.spacing(12)),
+                    AppText(
+                      'Location search is temporarily unavailable. Try again.',
+                      variant: AppTextVariant.body,
+                      color: AppColors.secondaryGrey,
+                      fontSize: layout.fontSize(13),
+                    ),
+                    if (localSuggestions.isNotEmpty) ...[
+                      SizedBox(height: layout.spacing(8)),
+                      ...localSuggestions.map((suggestion) {
+                        return _LocationResultTile(
+                          title: suggestion,
+                          selected: provider.typedLocationQuery.toLowerCase() ==
+                              suggestion.toLowerCase(),
+                          onTap: () => _applyTyped(context, suggestion),
+                          dividerColor: theme.cardBorder,
+                        );
+                      }),
+                    ],
+                  ] else if (showRemote) ...[
+                    SizedBox(height: layout.spacing(12)),
+                    AppText(
+                      'No matching places found.',
+                      variant: AppTextVariant.body,
+                      color: AppColors.secondaryGrey,
+                      fontSize: layout.fontSize(13),
+                    ),
+                  ] else if (localSuggestions.isNotEmpty) ...[
+                    SizedBox(height: layout.spacing(8)),
+                    ...localSuggestions.map((suggestion) {
+                      return _LocationResultTile(
+                        title: suggestion,
+                        selected: provider.typedLocationQuery.toLowerCase() ==
+                            suggestion.toLowerCase(),
+                        onTap: () => _applyTyped(context, suggestion),
+                        dividerColor: theme.cardBorder,
                       );
                     }),
                   ],
@@ -238,7 +270,14 @@ class _HomeLocationSheetBodyState extends State<_HomeLocationSheetBody> {
                   ElevatedButton(
                     onPressed: _controller.text.trim().isEmpty
                         ? null
-                        : () => _applyTyped(context, _controller.text),
+                        : () {
+                            final matches = provider.locationSearchResults;
+                            if (matches.isNotEmpty) {
+                              _applyRemote(context, matches.first);
+                              return;
+                            }
+                            _applyTyped(context, _controller.text);
+                          },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.homeAccentYellow,
                       disabledBackgroundColor: AppColors.drawerGoldBadge,
@@ -280,5 +319,78 @@ class _HomeLocationSheetBodyState extends State<_HomeLocationSheetBody> {
     if (context.mounted) {
       Navigator.of(context).pop();
     }
+  }
+
+  Future<void> _applyRemote(
+    BuildContext context,
+    LocationSuggestionEntity place,
+  ) async {
+    await context.read<HomeProvider>().applyLocationSuggestion(place);
+    if (context.mounted) {
+      Navigator.of(context).pop();
+    }
+  }
+}
+
+class _LocationResultTile extends StatelessWidget {
+  const _LocationResultTile({
+    required this.title,
+    required this.selected,
+    required this.onTap,
+    required this.dividerColor,
+    this.subtitle,
+  });
+
+  final String title;
+  final String? subtitle;
+  final bool selected;
+  final VoidCallback onTap;
+  final Color dividerColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final layout = ResponsiveLayout(context);
+    final subtitleText = subtitle?.trim();
+
+    return Column(
+      children: [
+        Material(
+          color: Colors.transparent,
+          child: ListTile(
+            contentPadding: EdgeInsets.zero,
+            dense: true,
+            leading: Icon(
+              Icons.location_on_outlined,
+              size: layout.fontSize(20),
+              color: AppColors.homeBlack,
+            ),
+            title: AppText(
+              title,
+              variant: AppTextVariant.body,
+              fontSize: layout.fontSize(14),
+              fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+              color: AppColors.homeBlack,
+            ),
+            subtitle: subtitleText == null || subtitleText.isEmpty
+                ? null
+                : AppText(
+                    subtitleText,
+                    variant: AppTextVariant.body,
+                    fontSize: layout.fontSize(12),
+                    color: AppColors.secondaryGrey,
+                  ),
+            trailing: selected
+                ? const Icon(
+                    Icons.check,
+                    size: 18,
+                    color: AppColors.primaryMustard,
+                  )
+                : null,
+            onTap: onTap,
+          ),
+        ),
+        Divider(height: 1, color: dividerColor),
+      ],
+    );
   }
 }

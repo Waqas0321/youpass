@@ -178,6 +178,23 @@ void main() {
     expect(homeProvider.showSearchHistory, isTrue);
     expect(homeProvider.upcomingEvents, isNotEmpty);
   });
+
+  test('locationSuggestionsFor returns curated cities', () async {
+    when(() => mockHomeRepository.getHomeFeed())
+        .thenAnswer((_) async => TestFixtures.testHomeFeed);
+    when(() => mockHomeRepository.getFilteredEvents(any())).thenAnswer(
+      (_) async => TestFixtures.testFilteredHomeEvents,
+    );
+
+    await homeProvider.loadHomeData();
+
+    final emptySuggestions = homeProvider.locationSuggestionsFor('');
+    expect(emptySuggestions, contains('Santiago'));
+    expect(emptySuggestions, contains('Valparaíso'));
+
+    final sanSuggestions = homeProvider.locationSuggestionsFor('san');
+    expect(sanSuggestions, contains('Santiago'));
+  });
 }
 
 class Listener {

@@ -35,18 +35,34 @@ class StaffSupervisorDrinkConsumptionCard extends StatelessWidget {
             label: l10n.staffSupervisorConsumptionUserLabel,
             value: detail.guestName,
           ),
+          if (detail.orderCode.isNotEmpty)
+            StaffSupervisorDetailRow(
+              label: l10n.staffSupervisorRedemptionDetailOrder,
+              value: detail.orderCode,
+            ),
           StaffSupervisorDetailRow(
             label: l10n.staffSupervisorConsumptionProductLabel,
-            value: detail.productName,
+            value: detail.productQuantity > 1
+                ? '${detail.productName} x${detail.productQuantity}'
+                : detail.productName,
+          ),
+          StaffSupervisorDetailRow(
+            label: l10n.staffSupervisorRedemptionDetailCode,
+            value: detail.consumptionId,
           ),
           if ((detail.barName ?? '').isNotEmpty)
             StaffSupervisorDetailRow(
               label: l10n.staffSupervisorConsumptionBarLabel,
               value: detail.barName!,
             ),
+          if ((detail.purchaseAtLabel ?? '').isNotEmpty)
+            StaffSupervisorDetailRow(
+              label: l10n.staffSupervisorConsumptionPurchaseTimeLabel,
+              value: detail.purchaseAtLabel!,
+            ),
           if ((detail.validatedAtLabel ?? detail.lastUsedAtLabel ?? '').isNotEmpty)
             StaffSupervisorDetailRow(
-              label: l10n.staffSupervisorConsumptionTimeLabel,
+              label: l10n.staffSupervisorConsumptionRedemptionTimeLabel,
               value: detail.validatedAtLabel ?? detail.lastUsedAtLabel ?? '—',
             ),
           Padding(
@@ -56,10 +72,6 @@ class StaffSupervisorDrinkConsumptionCard extends StatelessWidget {
               thickness: 1,
               color: AppColors.homeDividerGrey,
             ),
-          ),
-          StaffSupervisorDetailRow(
-            label: l10n.staffSupervisorConsumptionIdLabel,
-            value: detail.consumptionId,
           ),
           StaffSupervisorDetailRow(
             label: l10n.staffSupervisorConsumptionStatusLabel,
@@ -79,7 +91,7 @@ class StaffSupervisorDrinkConsumptionCard extends StatelessWidget {
   String _statusLabel() {
     switch (detail.status) {
       case StaffSupervisorDrinkStatus.validated:
-        return l10n.staffSupervisorConsumptionStatusValidated;
+        return l10n.staffSupervisorRedemptionResultRedeemed;
       case StaffSupervisorDrinkStatus.pending:
         return l10n.staffSupervisorHistoryPending;
       case StaffSupervisorDrinkStatus.cancelled:

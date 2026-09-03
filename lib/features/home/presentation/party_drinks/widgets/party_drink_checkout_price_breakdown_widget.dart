@@ -23,12 +23,6 @@ class PartyDrinkCheckoutPriceBreakdownWidget extends StatelessWidget {
           label: AppStrings.partyDrinkCheckoutSubtotal(strings),
           value: PartyDrinkPriceFormatter.format(context, cart.subtotalClp),
         ),
-        SizedBox(height: PartyDrinksDesignSpec.px(context, 12)),
-        _PriceRow(
-          label: AppStrings.partyDrinkCheckoutServiceCharge(strings),
-          value: PartyDrinkPriceFormatter.format(context, cart.serviceChargeClp),
-          showInfo: true,
-        ),
         SizedBox(height: PartyDrinksDesignSpec.px(context, 16)),
         _PriceRow(
           label: AppStrings.partyDrinkCheckoutTotal(strings),

@@ -11,7 +11,6 @@ import 'package:youpass/features/home/presentation/widgets/home_category_filters
 import 'package:youpass/features/events/presentation/utils/event_detail_screen_actions.dart';
 import 'package:youpass/features/vip_venue/presentation/utils/vip_purchase_screen_actions.dart';
 import 'package:youpass/features/home/presentation/widgets/home_events_section_widget.dart';
-import 'package:youpass/features/home/presentation/widgets/home_country_picker_sheet.dart';
 import 'package:youpass/features/home/presentation/widgets/home_greeting_widget.dart';
 import 'package:youpass/features/home/presentation/widgets/home_location_sheet.dart';
 import 'package:youpass/features/home/presentation/widgets/home_search_bar_widget.dart';
@@ -137,6 +136,9 @@ class _HomeFeedWidgetState extends State<HomeFeedWidget> {
             feed: widget.feed,
             categoryId: categoryId,
           ),
+          onCountrySelected: (countryCode) {
+            homeProvider.changeSessionCountry(countryCode);
+          },
         ),
         SizedBox(height: layout.spacing(20)),
         Expanded(
@@ -164,17 +166,6 @@ class _HomeFeedWidgetState extends State<HomeFeedWidget> {
                               ? homeProvider.searchResults
                               : homeProvider.upcomingEvents,
                           sectionTitle: widget.upcomingSectionTitle,
-                          headerActionSemanticLabel:
-                              AppStrings.homeLocationSheetTitle(l10n),
-                          headerActionIcon: homeProvider.hasActiveLocationContext
-                              ? Icons.location_on
-                              : Icons.location_on_outlined,
-                          headerActionIconSize: layout.fontSize(17 * 1.35),
-                          headerActionSelected:
-                              homeProvider.hasActiveLocationContext,
-                          headerActionLoading: homeProvider.isNearMeLoading,
-                          onHeaderActionTap: () =>
-                              HomeLocationSheet.show(context),
                           isLoading: homeProvider.isSearchMode
                               ? homeProvider.isSearchLoading
                               : homeProvider.isLoadingUpcoming ||
@@ -191,6 +182,19 @@ class _HomeFeedWidgetState extends State<HomeFeedWidget> {
                                 onSubmitted: homeProvider.submitSearch,
                                 onFocusChanged: homeProvider.setSearchFocused,
                                 onFilterTap: () => HomeSearchFiltersSheet.show(context),
+                                onLocationTap: () =>
+                                    HomeLocationSheet.show(context),
+                                locationSemanticLabel:
+                                    AppStrings.homeLocationSheetTitle(l10n),
+                                locationIcon:
+                                    homeProvider.hasActiveLocationContext
+                                        ? Icons.location_on
+                                        : Icons.location_on_outlined,
+                                locationIconSize:
+                                    layout.fontSize(17 * 1.35 * 1.25),
+                                locationSelected:
+                                    homeProvider.hasActiveLocationContext,
+                                locationLoading: homeProvider.isNearMeLoading,
                                 filtersEnabled: widget.feed.searchConfig.filtersEnabled,
                               ),
                               SizedBox(height: layout.spacing(10)),
@@ -244,15 +248,7 @@ class _HomeFeedWidgetState extends State<HomeFeedWidget> {
     required String categoryId,
   }) async {
     if (homeProvider.isCountryCategory(categoryId)) {
-      final currentCode = homeProvider.resolveSessionCountryCode() ?? 'CL';
-      final selected = await HomeCountryPickerSheet.show(
-        context,
-        selectedCountryCode: currentCode,
-      );
-      if (selected == null || !context.mounted) {
-        return;
-      }
-      await homeProvider.changeSessionCountry(selected);
+      // Country chip opens its own anchored dropdown.
       return;
     }
 

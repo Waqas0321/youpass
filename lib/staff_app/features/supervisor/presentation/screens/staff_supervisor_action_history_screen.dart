@@ -33,50 +33,38 @@ class StaffSupervisorActionHistoryScreen extends StatelessWidget {
   const StaffSupervisorActionHistoryScreen({super.key});
 
   String _entryTitle(dynamic l10n, StaffSupervisorActionHistoryEntry entry) {
-    return switch (entry.kind) {
-      'release_qr' => l10n.staffSupervisorActionHistoryKindReleaseQr,
-      'revalidate_qr' => l10n.staffSupervisorActionHistoryKindRevalidateQr,
-      'revert_validation' => l10n.staffSupervisorActionHistoryKindRevertValidation,
-      'authorize_reentry' => l10n.staffSupervisorActionHistoryKindAuthorizeReentry,
-      'temporary_unlock' => l10n.staffSupervisorActionHistoryKindTemporaryUnlock,
-      'release_reentry' => l10n.staffSupervisorActionHistoryKindReleaseReentry,
-      'block_qr' => l10n.staffSupervisorActionHistoryKindBlockQr,
-      'escalate_alert' => l10n.staffSupervisorActionHistoryKindEscalateAlert,
-      'authorize_entry' => l10n.staffSupervisorActionHistoryKindAuthorizeEntry,
-      'generate_temporary_qr' =>
-        l10n.staffSupervisorActionHistoryKindGenerateTemporaryQr,
-      'reject_access' => l10n.staffSupervisorActionHistoryKindRejectAccess,
-      'authorize_extra_guest' =>
-        l10n.staffSupervisorActionHistoryKindAuthorizeExtraGuest,
-      'change_access' => l10n.staffSupervisorActionHistoryKindChangeAccess,
-      'move_guest' => l10n.staffSupervisorActionHistoryKindMoveGuest,
-      'release_invitation' =>
-        l10n.staffSupervisorActionHistoryKindReleaseInvitation,
-      'offline_mode_enabled' =>
-        l10n.staffSupervisorActionHistoryKindOfflineModeEnabled,
-      'offline_mode_disabled' =>
-        l10n.staffSupervisorActionHistoryKindOfflineModeDisabled,
-      'validations_paused' => l10n.staffSupervisorActionHistoryKindValidationsPaused,
-      'validations_resumed' => l10n.staffSupervisorActionHistoryKindValidationsResumed,
-      'vip_access_blocked' => l10n.staffSupervisorActionHistoryKindVipAccessBlocked,
-      'vip_access_unblocked' =>
-        l10n.staffSupervisorActionHistoryKindVipAccessUnblocked,
-      'scanner_restarted' => l10n.staffSupervisorActionHistoryKindScannerRestarted,
-      'staff_alert' => l10n.staffSupervisorActionHistoryKindStaffAlert,
-      _ => entry.kind.replaceAll('_', ' '),
+    final resultLabel = switch (entry.result) {
+      StaffSupervisorAccessResult.valid => l10n.staffSupervisorAccessResultValid,
+      StaffSupervisorAccessResult.reEntry => l10n.staffSupervisorAccessResultReEntry,
+      StaffSupervisorAccessResult.rejected => l10n.staffSupervisorAccessResultRejected,
+      StaffSupervisorAccessResult.supervisor =>
+        l10n.staffSupervisorAccessResultSupervisor,
+      StaffSupervisorAccessResult.unknown => entry.kind.replaceAll('_', ' '),
     };
+
+    final guest = entry.guestName ?? entry.targetLabel;
+    final code = entry.entryCode;
+    if (guest != null && guest.isNotEmpty && code != null && code.isNotEmpty) {
+      return '$resultLabel · $guest · $code';
+    }
+    if (guest != null && guest.isNotEmpty) {
+      return '$resultLabel · $guest';
+    }
+    return resultLabel;
   }
 
   String? _targetLabel(StaffSupervisorActionHistoryEntry entry) {
-    if (entry.targetLabel != null && entry.targetLabel!.trim().isNotEmpty) {
-      return entry.targetLabel;
+    final parts = <String>[
+      if (entry.ticketType != null && entry.ticketType!.trim().isNotEmpty)
+        entry.ticketType!,
+      if (entry.accessPoint != null && entry.accessPoint!.trim().isNotEmpty)
+        entry.accessPoint!,
+      if (entry.notes != null && entry.notes!.trim().isNotEmpty) entry.notes!,
+    ];
+    if (parts.isEmpty) {
+      return null;
     }
-
-    if (entry.notes != null && entry.notes!.trim().isNotEmpty) {
-      return entry.notes;
-    }
-
-    return null;
+    return parts.join(' · ');
   }
 
   void _openEntryHistory(
@@ -93,7 +81,7 @@ class StaffSupervisorActionHistoryScreen extends StatelessWidget {
       StaffAppRoutes.supervisorEntryHistory,
       arguments: StaffSupervisorEntryHistoryRouteArgs(
         ticketId: ticketId,
-        guestName: entry.targetLabel ?? history.eventTitle,
+        guestName: entry.guestName ?? entry.targetLabel ?? history.eventTitle,
         eventTitle: history.eventTitle,
         qrId: entry.entryCode ?? '',
       ),
@@ -146,6 +134,16 @@ class StaffSupervisorActionHistoryScreen extends StatelessWidget {
         return StaffSupervisorAccessScaffold(
           onRefresh: () => provider.loadHistory(refresh: true),
           children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: layout.spacing(8)),
+              child: AppText(
+                l10n.staffSupervisorAccessHistoryTitle,
+                variant: AppTextVariant.headline,
+                color: AppColors.homeAccentYellow,
+                fontWeight: FontWeight.w800,
+                fontSize: layout.fontSize(20),
+              ),
+            ),
             if (history.eventTitle.isNotEmpty)
               Padding(
                 padding: EdgeInsets.only(bottom: layout.spacing(14)),
@@ -158,7 +156,7 @@ class StaffSupervisorActionHistoryScreen extends StatelessWidget {
               ),
             if (history.actions.isEmpty)
               AppText(
-                l10n.staffSupervisorActionHistoryEmpty,
+                l10n.staffSupervisorAccessHistoryEmpty,
                 variant: AppTextVariant.body,
                 textAlign: TextAlign.center,
                 color: AppColors.secondaryGrey,

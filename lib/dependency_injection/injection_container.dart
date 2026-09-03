@@ -59,6 +59,7 @@ import 'package:youpass/features/favorites/domain/repositories/favorites_reposit
 import 'package:youpass/features/favorites/presentation/providers/favorites_provider.dart';
 import 'package:youpass/features/home/data/repositories/home_repository_impl.dart';
 import 'package:youpass/features/home/domain/repositories/home_repository.dart';
+import 'package:youpass/features/home/data/services/locations_api_service.dart';
 import 'package:youpass/features/home/domain/usecases/get_filtered_home_events_usecase.dart';
 import 'package:youpass/features/home/domain/usecases/get_home_feed_usecase.dart';
 import 'package:youpass/features/home/domain/usecases/get_upcoming_home_events_usecase.dart';
@@ -311,6 +312,9 @@ Future<void> initDependencies() async {
     ..registerLazySingleton<GetUpcomingHomeEventsUseCase>(
       () => GetUpcomingHomeEventsUseCase(sl<EventsRepository>()),
     )
+    ..registerLazySingleton<LocationsApiService>(
+      () => LocationsApiService(sl<ApiClient>()),
+    )
     ..registerLazySingleton<HomeProvider>(
       () => HomeProvider(
         getHomeFeedUseCase: sl<GetHomeFeedUseCase>(),
@@ -320,6 +324,7 @@ Future<void> initDependencies() async {
         toggleEventFavoriteUseCase: sl<ToggleEventFavoriteUseCase>(),
         searchHistoryCache: sl<HomeSearchHistoryCache>(),
         userLocationService: sl<UserLocationService>(),
+        locationsApiService: sl<LocationsApiService>(),
         analyticsApiService: sl<AnalyticsApiService>(),
       ),
     )

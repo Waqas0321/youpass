@@ -3,6 +3,7 @@ import 'package:youpass/staff_app/features/auth/presentation/screens/verificatio
 import 'package:youpass/staff_app/features/auth/routes/verification_route_args.dart';
 import 'package:youpass/staff_app/features/home/presentation/screens/staff_recent_scans_list_screen.dart';
 import 'package:youpass/staff_app/features/home/routes/staff_recent_scans_list_route_args.dart';
+import 'package:youpass/staff_app/features/scan/presentation/screens/staff_manual_code_entry_screen.dart';
 import 'package:youpass/staff_app/features/scan/presentation/screens/staff_qr_scan_result_screen.dart';
 import 'package:youpass/staff_app/features/scan/presentation/screens/staff_qr_scan_screen.dart';
 import 'package:youpass/staff_app/features/scan/routes/staff_qr_scan_result_route_args.dart';
@@ -59,6 +60,15 @@ abstract final class StaffRouteGenerator {
         return MaterialPageRoute(
           settings: settings,
           builder: (_) => StaffQrScanScreen(purpose: purpose),
+        );
+      case StaffAppRoutes.manualCodeEntry:
+        final manualArgs = settings.arguments;
+        final purpose = manualArgs is StaffQrScanRouteArgs
+            ? manualArgs.purpose
+            : StaffQrScanPurpose.product;
+        return MaterialPageRoute<bool?>(
+          settings: settings,
+          builder: (_) => StaffManualCodeEntryScreen(purpose: purpose),
         );
       case StaffAppRoutes.qrScanResult:
         final args = settings.arguments;

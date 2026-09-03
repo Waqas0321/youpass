@@ -4,6 +4,7 @@ import 'package:youpass/features/events/domain/entities/event_entity.dart';
 import 'package:youpass/features/home/data/models/home_feed_labels.dart';
 import 'package:youpass/features/home/data/models/home_feed_model.dart';
 import 'package:youpass/features/home/domain/entities/event_category_entity.dart';
+import 'package:youpass/features/home/domain/entities/home_search_filters_entity.dart';
 
 class HomeMockData {
   HomeMockData._();
@@ -74,6 +75,20 @@ class HomeMockData {
       ],
       carouselEvents: carouselEvents,
       featuredEvents: featuredEvents,
+      searchFiltersConfig: const HomeSearchFiltersConfigEntity(
+        datePresets: [],
+        venueTypes: [],
+        cities: [
+          HomeCityFilterEntity(
+            id: 'santiago',
+            label: 'Santiago',
+            zones: ['Las Condes', 'Providencia'],
+          ),
+          HomeCityFilterEntity(id: 'valparaiso', label: 'Valparaíso'),
+          HomeCityFilterEntity(id: 'vina-del-mar', label: 'Viña del Mar'),
+        ],
+        priceRange: HomePriceRangeEntity(min: 0, max: 500000, currency: 'CLP'),
+      ),
     );
   }
 }

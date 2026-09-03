@@ -45,6 +45,12 @@ class StaffSupervisorEntryQrOverrideProvider extends ChangeNotifier {
   String? contextError;
   String? submitError;
 
+  /// True when opened from Search/Manage with a single contextual action.
+  bool get isContextualActionLocked =>
+      _args?.initialAction != null &&
+      _args!.initialAction!.trim().isNotEmpty &&
+      selectedAction != null;
+
   bool get canSubmit {
     if (contextData == null || isSubmitting) {
       return false;
@@ -71,6 +77,9 @@ class StaffSupervisorEntryQrOverrideProvider extends ChangeNotifier {
   }
 
   void selectAction(StaffSupervisorEntryOverrideAction action) {
+    if (isContextualActionLocked) {
+      return;
+    }
     selectedAction = action;
     notifyListeners();
   }

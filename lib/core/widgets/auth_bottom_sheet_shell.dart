@@ -51,7 +51,7 @@ class AuthBottomSheetShell extends StatelessWidget {
     final theme = YouPassThemeExtension.of(context);
     final maxHeight = MediaQuery.sizeOf(context).height * maxHeightFactor;
 
-    return ColoredBox(
+    return Material(
       color: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       child: SafeArea(
         child: SizedBox(

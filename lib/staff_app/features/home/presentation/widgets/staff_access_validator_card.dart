@@ -12,12 +12,17 @@ class StaffAccessValidatorCard extends StatelessWidget {
     super.key,
     this.onScanTap,
     this.onManualEntryTap,
+    this.onSupervisorModeTap,
+    // Kept for compatibility; Manual Entry is always available to regular staff.
     this.showManualEntry = true,
+    this.showSupervisorMode = false,
   });
 
   final VoidCallback? onScanTap;
   final VoidCallback? onManualEntryTap;
+  final VoidCallback? onSupervisorModeTap;
   final bool showManualEntry;
+  final bool showSupervisorMode;
 
   @override
   Widget build(BuildContext context) {
@@ -95,38 +100,73 @@ class StaffAccessValidatorCard extends StatelessWidget {
             ),
           ),
         ),
+        // Manual Entry is now a regular-staff action (same validation as QR).
         if (showManualEntry) ...[
-        SizedBox(height: layout.spacing(12)),
-        SizedBox(
-          width: double.infinity,
-          child: OutlinedButton(
-            onPressed: onManualEntryTap,
-            style: OutlinedButton.styleFrom(
-              foregroundColor: AppColors.primaryMustard,
-              backgroundColor: AppColors.backgroundWhite,
-              side: BorderSide(color: AppColors.primaryMustard, width: 1.5),
-              padding: EdgeInsets.symmetric(vertical: layout.spacing(16)),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(layout.radius(18)),
+          SizedBox(height: layout.spacing(12)),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: onManualEntryTap,
+              style: OutlinedButton.styleFrom(
+                foregroundColor: AppColors.primaryMustard,
+                backgroundColor: AppColors.backgroundWhite,
+                side: BorderSide(color: AppColors.primaryMustard, width: 1.5),
+                padding: EdgeInsets.symmetric(vertical: layout.spacing(16)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(layout.radius(18)),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.keyboard_outlined, size: layout.spacing(20)),
+                  SizedBox(width: layout.spacing(10)),
+                  AppText(
+                    l10n.staffManualEntryButton,
+                    variant: AppTextVariant.button,
+                    color: AppColors.primaryMustard,
+                    fontWeight: FontWeight.w700,
+                    fontSize: layout.fontSize(14),
+                    letterSpacing: 0.6,
+                  ),
+                ],
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.keyboard_outlined, size: layout.spacing(20)),
-                SizedBox(width: layout.spacing(10)),
-                AppText(
-                  l10n.staffManualEntryButton,
-                  variant: AppTextVariant.button,
-                  color: AppColors.primaryMustard,
-                  fontWeight: FontWeight.w700,
-                  fontSize: layout.fontSize(14),
-                  letterSpacing: 0.6,
+          ),
+        ],
+        // Supervisor Mode is PIN-protected and only for exception handling.
+        if (showSupervisorMode) ...[
+          SizedBox(height: layout.spacing(12)),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: onSupervisorModeTap,
+              style: OutlinedButton.styleFrom(
+                foregroundColor: AppColors.homeBlack,
+                backgroundColor: AppColors.backgroundWhite,
+                side: const BorderSide(color: AppColors.homeDividerGrey, width: 1.5),
+                padding: EdgeInsets.symmetric(vertical: layout.spacing(16)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(layout.radius(18)),
                 ),
-              ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.lock_outline_rounded, size: layout.spacing(20)),
+                  SizedBox(width: layout.spacing(10)),
+                  AppText(
+                    l10n.staffSupervisorModeButton,
+                    variant: AppTextVariant.button,
+                    color: AppColors.homeBlack,
+                    fontWeight: FontWeight.w700,
+                    fontSize: layout.fontSize(14),
+                    letterSpacing: 0.6,
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
         ],
       ],
     );

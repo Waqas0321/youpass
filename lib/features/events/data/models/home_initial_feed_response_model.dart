@@ -170,7 +170,53 @@ class HomeInitialFeedResponseModel {
           JsonReaders.nullableString(value, 'eventId'),
       eventTitle: JsonReaders.nullableString(value, 'event_title') ??
           JsonReaders.nullableString(value, 'eventTitle'),
+      scannedEventId: JsonReaders.nullableString(value, 'scanned_event_id') ??
+          JsonReaders.nullableString(value, 'scannedEventId'),
+      scannedEventTitle:
+          JsonReaders.nullableString(value, 'scanned_event_title') ??
+              JsonReaders.nullableString(value, 'scannedEventTitle'),
       eligibleEvents: eligibleEvents,
+      requirements: _parsePartyModeRequirements(
+        value['requirements'],
+      ),
+    );
+  }
+
+  static HomePartyModeRequirementsEntity _parsePartyModeRequirements(
+    Object? value,
+  ) {
+    if (value is! Map<String, dynamic>) {
+      return const HomePartyModeRequirementsEntity();
+    }
+
+    return HomePartyModeRequirementsEntity(
+      hasPurchasedTicket: JsonReaders.boolean(
+        value,
+        'has_purchased_ticket',
+        fallback: JsonReaders.boolean(
+          value,
+          'hasPurchasedTicket',
+          fallback: false,
+        ),
+      ),
+      ticketScanned: JsonReaders.boolean(
+        value,
+        'ticket_scanned',
+        fallback: JsonReaders.boolean(
+          value,
+          'ticketScanned',
+          fallback: false,
+        ),
+      ),
+      atEventLocation: JsonReaders.boolean(
+        value,
+        'at_event_location',
+        fallback: JsonReaders.boolean(
+          value,
+          'atEventLocation',
+          fallback: false,
+        ),
+      ),
     );
   }
 

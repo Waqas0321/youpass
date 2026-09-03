@@ -154,7 +154,9 @@ class _StaffSupervisorEntryQrOverrideView extends StatelessWidget {
                             ),
                             SizedBox(height: layout.spacing(14)),
                             StaffSupervisorSectionCard(
-                              title: l10n.staffSupervisorOverrideActionsTitle,
+                              title: provider.isContextualActionLocked
+                                  ? l10n.staffSupervisorAuthorizeReentryAction
+                                  : l10n.staffSupervisorOverrideActionsTitle,
                               child: _buildActionsGrid(l10n, layout, provider),
                             ),
                             SizedBox(height: layout.spacing(14)),
@@ -211,7 +213,11 @@ class _StaffSupervisorEntryQrOverrideView extends StatelessWidget {
               ),
               if (overrideContext != null)
                 StaffSupervisorExecuteFooter(
-                  label: l10n.staffSupervisorExecuteOverrideButton,
+                  label: provider.isContextualActionLocked &&
+                          provider.selectedAction ==
+                              StaffSupervisorEntryOverrideAction.authorizeReentry
+                      ? l10n.staffSupervisorAuthorizeReentryAction
+                      : l10n.staffSupervisorExecuteOverrideButton,
                   enabled: provider.canSubmit,
                   isLoading: provider.isSubmitting,
                   leading: StaffSupervisorShieldStarIcon(
@@ -273,6 +279,18 @@ class _StaffSupervisorEntryQrOverrideView extends StatelessWidget {
     ResponsiveLayout layout,
     StaffSupervisorEntryQrOverrideProvider provider,
   ) {
+    // Contextual lock: when opened from Search/Manage with one action,
+    // do not show the old multi-option override menu.
+    final lockedAction = provider.selectedAction;
+    final isContextual = provider.isContextualActionLocked;
+
+    if (isContextual && lockedAction != null) {
+      return _ActionRadioTileLocked(
+        layout: layout,
+        label: _actionLabel(l10n, lockedAction),
+      );
+    }
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1032,6 +1050,57 @@ class _ReasonRadioTile extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _ActionRadioTileLocked extends StatelessWidget {
+  const _ActionRadioTileLocked({
+    required this.layout,
+    required this.label,
+  });
+
+  static const _accent = AppColors.homeAccentYellow;
+
+  final ResponsiveLayout layout;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: layout.spacing(8)),
+      child: Row(
+        children: [
+          Container(
+            width: layout.spacing(18),
+            height: layout.spacing(18),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: _accent, width: 2),
+            ),
+            child: Center(
+              child: Container(
+                width: layout.spacing(8),
+                height: layout.spacing(8),
+                decoration: const BoxDecoration(
+                  color: _accent,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: layout.spacing(10)),
+          Expanded(
+            child: AppText(
+              label,
+              variant: AppTextVariant.body,
+              color: AppColors.homeBlack,
+              fontWeight: FontWeight.w700,
+              fontSize: layout.fontSize(13),
+            ),
+          ),
+        ],
       ),
     );
   }

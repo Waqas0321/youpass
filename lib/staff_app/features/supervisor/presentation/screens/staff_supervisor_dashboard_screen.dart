@@ -36,17 +36,25 @@ class StaffSupervisorDashboardScreen extends StatelessWidget {
   static const _accent = AppColors.homeAccentYellow;
 
   String _titleForEntry(dynamic l10n, StaffSupervisorBarActionHistoryEntry entry) {
-    switch (entry.kind) {
-      case 'cancel_consumption':
-        return l10n.staffSupervisorActionConsumptionCancelled;
-      case 'release_qr':
-      case 'release_blocked_qr':
-        return l10n.staffSupervisorActionQrReleased;
-      case 'authorize_consumption':
-      case 'generate_temporary_qr':
-        return l10n.staffSupervisorActionManualValidation;
-      default:
-        return entry.kind.replaceAll('_', ' ');
+    switch (entry.result) {
+      case StaffSupervisorRedemptionResult.redeemed:
+        return l10n.staffSupervisorRedemptionResultRedeemed;
+      case StaffSupervisorRedemptionResult.restored:
+        return l10n.staffSupervisorRedemptionResultRestored;
+      case StaffSupervisorRedemptionResult.duplicateAttempt:
+        return l10n.staffSupervisorRedemptionResultDuplicate;
+      case StaffSupervisorRedemptionResult.supervisor:
+        return l10n.staffSupervisorRedemptionResultSupervisor;
+      case StaffSupervisorRedemptionResult.unknown:
+        switch (entry.kind) {
+          case 'cancel_consumption':
+            return l10n.staffSupervisorActionConsumptionCancelled;
+          case 'release_qr':
+          case 'release_blocked_qr':
+            return l10n.staffSupervisorActionQrReleased;
+          default:
+            return entry.kind.replaceAll('_', ' ');
+        }
     }
   }
 
@@ -74,7 +82,7 @@ class StaffSupervisorDashboardScreen extends StatelessWidget {
 
     return Consumer<StaffSupervisorBarDashboardProvider>(
       builder: (context, provider, _) {
-        final latest = provider.history?.actions.firstOrNull;
+        // final latest = provider.history?.actions.firstOrNull;
 
         return Scaffold(
           backgroundColor: AppColors.backgroundWhite,
@@ -109,55 +117,49 @@ class StaffSupervisorDashboardScreen extends StatelessWidget {
                       fontSize: layout.fontSize(14),
                     ),
                     SizedBox(height: layout.spacing(24)),
+                    // Target menu: SEARCH / MANAGE PURCHASE + REDEMPTION HISTORY only.
                     StaffSupervisorToolCard(
-                      icon: Icons.warning_amber_rounded,
-                      title: l10n.staffSupervisorCancellationsTitle,
+                      icon: Icons.search_rounded,
+                      title: l10n.staffSupervisorSearchManagePurchaseTitle,
                       lines: [
-                        l10n.staffSupervisorCancelConsumption,
-                        l10n.staffSupervisorRevertValidation,
-                        l10n.staffSupervisorReleaseBlockedQr,
+                        l10n.staffSupervisorSearchManagePurchaseLine1,
+                        l10n.staffSupervisorSearchManagePurchaseLine2,
                       ],
                       actionLabel: l10n.staffSupervisorGoButton,
+                      // Reuses existing drink search + restore/revert tools.
                       onActionTap: () => Navigator.of(context).pushNamed(
                         StaffAppRoutes.supervisorCancellations,
                       ),
                     ),
                     SizedBox(height: layout.spacing(14)),
                     StaffSupervisorToolCard(
-                      icon: Icons.check_circle_outline_rounded,
-                      title: l10n.staffSupervisorManualValidationTitle,
-                      lines: latest == null
-                          ? [l10n.staffSupervisorSearchPlaceholder]
-                          : [
-                              l10n.staffSupervisorManualValidationUser(
-                                latest.guestName,
-                              ),
-                              if (latest.entryId != null && latest.entryId!.isNotEmpty)
-                                l10n.staffSupervisorManualValidationCode(
-                                  latest.entryId!,
-                                ),
-                            ],
+                      icon: Icons.history_rounded,
+                      title: l10n.staffSupervisorRedemptionHistoryTitle,
+                      lines: [
+                        l10n.staffSupervisorRedemptionHistoryLine1,
+                        l10n.staffSupervisorRedemptionHistoryLine2,
+                      ],
                       actionLabel: l10n.staffSupervisorGoButton,
                       onActionTap: () => Navigator.of(context).pushNamed(
-                        StaffAppRoutes.supervisorManualValidation,
+                        StaffAppRoutes.supervisorBarActionHistory,
                       ),
                     ),
-                    SizedBox(height: layout.spacing(14)),
-                    StaffSupervisorToolCard(
-                      icon: Icons.lock_outline_rounded,
-                      title: l10n.staffSupervisorQrOverrideTitle,
-                      lines: latest == null
-                          ? [l10n.staffSupervisorSearchPlaceholder]
-                          : [
-                              l10n.staffSupervisorQrOverrideSupervisor(
-                                latest.supervisorName,
-                              ),
-                            ],
-                      actionLabel: l10n.staffSupervisorGoButton,
-                      onActionTap: () => Navigator.of(context).pushNamed(
-                        StaffAppRoutes.supervisorQrOverride,
-                      ),
-                    ),
+                    // PREVIOUS top-level tools (commented out — screens kept):
+                    // StaffSupervisorToolCard(
+                    //   icon: Icons.warning_amber_rounded,
+                    //   title: l10n.staffSupervisorCancellationsTitle,
+                    //   ...
+                    // ),
+                    // StaffSupervisorToolCard(
+                    //   icon: Icons.check_circle_outline_rounded,
+                    //   title: l10n.staffSupervisorManualValidationTitle,
+                    //   ...
+                    // ),
+                    // StaffSupervisorToolCard(
+                    //   icon: Icons.lock_outline_rounded,
+                    //   title: l10n.staffSupervisorQrOverrideTitle,
+                    //   ...
+                    // ),
                     SizedBox(height: layout.spacing(28)),
                     if (provider.isLoading)
                       const Center(child: CircularProgressIndicator())

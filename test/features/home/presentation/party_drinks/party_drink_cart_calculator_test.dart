@@ -27,12 +27,12 @@ void main() {
       expect(summary.lineItems, hasLength(2));
     });
 
-    test('includes service charge in grand total', () {
+    test('drink checkout has no service charge', () {
       final summary = PartyDrinkCartCalculator.summarize({'piscola': 1}, drinks);
 
       expect(summary.subtotalClp, 4500);
-      expect(summary.serviceChargeClp, 1000);
-      expect(summary.grandTotalClp, 5500);
+      expect(summary.serviceChargeClp, 0);
+      expect(summary.grandTotalClp, 4500);
     });
 
     test('ignores zero or missing quantities', () {

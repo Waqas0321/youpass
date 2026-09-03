@@ -31,6 +31,11 @@ class FiestaModeToggleThumbWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: backgroundColor,
         shape: BoxShape.circle,
+        // Single outline only when ON — track already has a gold border; stacking
+        // another ring on the flush right edge reads as a double circle.
+        border: isFiestaMode
+            ? Border.all(color: AppColors.homeAccentYellow, width: 1)
+            : null,
       ),
       alignment: Alignment.center,
       child: Padding(

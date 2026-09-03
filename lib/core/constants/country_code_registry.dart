@@ -93,10 +93,18 @@ class CountryCodeRegistry {
   }
 
   static CountryCode findByIsoCode(String isoCode) {
-    return _countries.firstWhere(
-      (country) => country.isoCode == isoCode.toUpperCase(),
-      orElse: () => defaultCountry,
-    );
+    final normalized = isoCode.toUpperCase();
+    for (final country in _countries) {
+      if (country.isoCode == normalized) {
+        return country;
+      }
+    }
+    for (final country in CountryCodesData.all) {
+      if (country.isoCode == normalized) {
+        return country;
+      }
+    }
+    return defaultCountry;
   }
 
   static CountryCode? findByCurrency(String currencyCode) {
@@ -106,16 +114,22 @@ class CountryCodeRegistry {
         return country;
       }
     }
+    for (final country in CountryCodesData.all) {
+      if (country.defaultCurrency == normalized) {
+        return country;
+      }
+    }
     return null;
   }
 
   static List<CountryCode> search(String query) {
     final normalized = query.trim().toLowerCase();
+    final pool = _countries.length > 1 ? _countries : fallbackCountries;
     if (normalized.isEmpty) {
-      return _countries;
+      return pool;
     }
 
-    return _countries.where((country) {
+    return pool.where((country) {
       return country.name.toLowerCase().contains(normalized) ||
           country.isoCode.toLowerCase().contains(normalized) ||
           country.dialCode.contains(normalized) ||

@@ -34,24 +34,54 @@ class HomePartyModeEligibleEventEntity extends Equatable {
   List<Object?> get props => [eventId, eventTitle, startsAt, endsAt];
 }
 
+class HomePartyModeRequirementsEntity extends Equatable {
+  const HomePartyModeRequirementsEntity({
+    this.hasPurchasedTicket = false,
+    this.ticketScanned = false,
+    this.atEventLocation = false,
+  });
+
+  final bool hasPurchasedTicket;
+  final bool ticketScanned;
+  final bool atEventLocation;
+
+  @override
+  List<Object?> get props =>
+      [hasPurchasedTicket, ticketScanned, atEventLocation];
+}
+
 class HomePartyModeEntity extends Equatable {
   const HomePartyModeEntity({
     this.enabled = false,
     this.bannerVisible = true,
     this.eventId,
     this.eventTitle,
+    this.scannedEventId,
+    this.scannedEventTitle,
     this.eligibleEvents = const [],
+    this.requirements = const HomePartyModeRequirementsEntity(),
   });
 
   final bool enabled;
   final bool bannerVisible;
   final String? eventId;
   final String? eventTitle;
+  final String? scannedEventId;
+  final String? scannedEventTitle;
   final List<HomePartyModeEligibleEventEntity> eligibleEvents;
+  final HomePartyModeRequirementsEntity requirements;
 
   @override
-  List<Object?> get props =>
-      [enabled, bannerVisible, eventId, eventTitle, eligibleEvents];
+  List<Object?> get props => [
+        enabled,
+        bannerVisible,
+        eventId,
+        eventTitle,
+        scannedEventId,
+        scannedEventTitle,
+        eligibleEvents,
+        requirements,
+      ];
 }
 
 class HomeFeaturedInvitationEntity extends Equatable {

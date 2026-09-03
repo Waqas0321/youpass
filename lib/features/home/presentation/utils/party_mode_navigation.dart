@@ -38,10 +38,7 @@ class PartyModeNavigation {
     }
 
     if (selected == null) {
-      AppSnackBar.show(
-        context,
-        AppStrings.partyModeUnavailable(context.l10n),
-      );
+      _showUnavailableInstruction(context);
       return;
     }
 
@@ -64,10 +61,7 @@ class PartyModeNavigation {
       if (!context.mounted) {
         return;
       }
-      AppSnackBar.show(
-        context,
-        AppStrings.partyModeUnavailable(context.l10n),
-      );
+      _showUnavailableInstruction(context);
     }
   }
 
@@ -137,6 +131,18 @@ class PartyModeNavigation {
     );
   }
 
+  static void _showUnavailableInstruction(BuildContext context) {
+    final homeProvider = context.read<HomeProvider>();
+    final requirements = homeProvider.partyModeRequirements;
+    final message = AppStrings.partyModeUnavailableForRequirements(
+      context.l10n,
+      hasPurchasedTicket: requirements.hasPurchasedTicket,
+      ticketScanned: requirements.ticketScanned,
+      atEventLocation: requirements.atEventLocation,
+    );
+    AppSnackBar.showInstruction(context, message);
+  }
+
   static Future<HomePartyModeEligibleEventEntity?>
       _resolveOrRefreshDrinkMenuEvent(BuildContext context) async {
     var selected = await resolveDrinkMenuEvent(context);
@@ -150,7 +156,7 @@ class PartyModeNavigation {
     final homeProvider = context.read<HomeProvider>();
     try {
       await homeProvider.refreshPartyModeEligibility().timeout(
-        const Duration(seconds: 4),
+        const Duration(seconds: 2),
       );
     } catch (_) {
       // Keep cached eligibility if refresh/GPS is slow or fails.
@@ -199,7 +205,10 @@ class PartyModeNavigation {
 
     if (eligible.isEmpty) {
       await preference.clear();
-      if (recommendedId != null && recommendedId.isNotEmpty) {
+      // Only open a menu from recommended id when Party Mode is actually enabled.
+      if (homeProvider.partyModeEligible &&
+          recommendedId != null &&
+          recommendedId.isNotEmpty) {
         return HomePartyModeEligibleEventEntity(
           eventId: recommendedId,
           eventTitle: recommendedTitle ?? '',

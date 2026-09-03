@@ -57,9 +57,9 @@ class _FiestaModeToggleWidgetState extends State<FiestaModeToggleWidget> {
     final on = _progress >= 0.5;
     final brandColor = on ? AppColors.homeAccentYellow : AppColors.homeBlack;
     final trackColor = on ? AppColors.homeBlack : const Color(0xFFF2F2F2);
-    final borderColor = on
-        ? AppColors.homeAccentYellow.withValues(alpha: 0.55)
-        : const Color(0xFFE0E0E0);
+    // When ON, avoid a gold track stroke — it stacked with the thumb ring (double circle).
+    final borderColor =
+        on ? const Color(0xFF2A2A2A) : const Color(0xFFE0E0E0);
     final badgeLabel = on
         ? AppStrings.brandBadgeOn(l10n)
         : AppStrings.brandBadgeOff(l10n);
@@ -83,6 +83,7 @@ class _FiestaModeToggleWidgetState extends State<FiestaModeToggleWidget> {
       label: modeLabel,
       toggled: widget.isFiestaMode,
       child: GestureDetector(
+        onTap: widget.onToggle,
         onHorizontalDragUpdate: (details) => _onDragUpdate(details, travel),
         onHorizontalDragEnd: (_) => _onDragEnd(),
         onHorizontalDragCancel: _onDragEnd,

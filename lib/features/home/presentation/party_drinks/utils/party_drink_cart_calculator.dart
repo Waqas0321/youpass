@@ -15,10 +15,10 @@ class PartyDrinkCartSummary {
 
   int get subtotalClp => totalClp;
 
-  int get serviceChargeClp =>
-      hasItems && subtotalClp > 0 ? PartyDrinkCartCalculator.serviceChargeClp : 0;
+  /// Drink / product checkout has no service charge (tickets only).
+  int get serviceChargeClp => 0;
 
-  int get grandTotalClp => subtotalClp + serviceChargeClp;
+  int get grandTotalClp => subtotalClp;
 }
 
 class PartyDrinkCartLineItem {
@@ -36,7 +36,7 @@ class PartyDrinkCartLineItem {
 class PartyDrinkCartCalculator {
   PartyDrinkCartCalculator._();
 
-  static const int serviceChargeClp = 1000;
+  static const int serviceChargeClp = 0;
 
   static PartyDrinkCartSummary summarize(
     Map<String, int> quantities,

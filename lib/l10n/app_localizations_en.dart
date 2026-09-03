@@ -574,6 +574,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Party Mode opens when you have a scanned ticket at a live event.';
 
   @override
+  String get partyModeNeedTicket => 'Buy a ticket first to unlock Party Mode.';
+
+  @override
+  String get partyModeNeedScan =>
+      'Have your ticket scanned at the door to unlock Party Mode.';
+
+  @override
+  String get partyModeNeedLocation =>
+      'Go to the event venue to unlock Party Mode.';
+
+  @override
   String get partyDrinkMenuEmpty =>
       'The drink menu for this event will appear here soon.';
 
@@ -2696,6 +2707,185 @@ class AppLocalizationsEn extends AppLocalizations {
   String get staffManualEntryButton => 'MANUAL ENTRY';
 
   @override
+  String get staffSupervisorModeButton => 'SUPERVISOR MODE';
+
+  @override
+  String get staffManualEntryScreenTitle => 'Manual entry';
+
+  @override
+  String get staffManualEntryScreenSubtitle =>
+      'Type the ticket code to validate entry. Results match QR scanning and cannot be overridden.';
+
+  @override
+  String get staffManualConsumptionScreenTitle => 'Manual consumption';
+
+  @override
+  String get staffManualConsumptionScreenSubtitle =>
+      'Type the redemption code to validate the purchase. Results match QR scanning and cannot be overridden.';
+
+  @override
+  String get staffManualEntryCodeHint => '8F7A2B';
+
+  @override
+  String get staffManualEntryValidateButton => 'VALIDATE';
+
+  @override
+  String get staffScanConsumptionTitle => 'SCAN CONSUMPTION';
+
+  @override
+  String get staffSupervisorSearchManageTicketTitle => 'Search / Manage ticket';
+
+  @override
+  String get staffSupervisorSearchManageTicketDescription =>
+      'Find a ticket by code, name, phone, ID, or purchase ID, then take only the actions that fit its status.';
+
+  @override
+  String get staffSupervisorAccessHistoryTitle => 'Access history';
+
+  @override
+  String get staffSupervisorAccessHistoryDescription =>
+      'Review recent entry activity and open any record for full details.';
+
+  @override
+  String get staffSupervisorSearchManagePurchaseTitle =>
+      'Search / Manage purchase';
+
+  @override
+  String get staffSupervisorSearchManagePurchaseLine1 =>
+      'Find an order by code, name, phone, or purchase ID';
+
+  @override
+  String get staffSupervisorSearchManagePurchaseLine2 =>
+      'Restore consumption when delivery failed';
+
+  @override
+  String get staffSupervisorRedemptionHistoryTitle => 'Redemption history';
+
+  @override
+  String get staffSupervisorRedemptionHistoryLine1 =>
+      'Recent drink redemptions and restorations';
+
+  @override
+  String get staffSupervisorRedemptionHistoryLine2 =>
+      'Open any record for full audit details';
+
+  @override
+  String get staffSupervisorAuthorizeReentryAction => 'Authorize re-entry';
+
+  @override
+  String get staffSupervisorRegisterExceptionalEntryAction =>
+      'Register exceptional entry';
+
+  @override
+  String get staffSupervisorNoActionForBlockedTicket =>
+      'This ticket is blocked or cancelled. No authorization action is available.';
+
+  @override
+  String get staffSupervisorNoActionForActiveTicket =>
+      'This ticket is active and unused. No supervisor override is required.';
+
+  @override
+  String get staffSupervisorNoRestoreActionAvailable =>
+      'No exceptional action is available for this purchase status.';
+
+  @override
+  String get staffSupervisorRestoreConsumptionAction => 'Restore consumption';
+
+  @override
+  String get staffSupervisorRestoreReasonTitle => 'Restore reason';
+
+  @override
+  String get staffSupervisorRestoreReasonProductNotDelivered =>
+      'Product not delivered';
+
+  @override
+  String get staffSupervisorRestoreReasonAccidentalScan => 'Accidental scan';
+
+  @override
+  String get staffSupervisorRestoreReasonOperationalIssue =>
+      'Operational issue';
+
+  @override
+  String get staffSupervisorRestoreReasonOther => 'Other';
+
+  @override
+  String get staffSupervisorRestoreReasonOtherHint => 'Describe the issue';
+
+  @override
+  String get staffSupervisorRestoreExecuteButton => 'RESTORE CONSUMPTION';
+
+  @override
+  String get staffSupervisorAccessHistoryEmpty =>
+      'No entry activity yet for this event.';
+
+  @override
+  String get staffSupervisorAccessResultValid => 'VALID';
+
+  @override
+  String get staffSupervisorAccessResultReEntry => 'RE-ENTRY';
+
+  @override
+  String get staffSupervisorAccessResultRejected => 'REJECTED';
+
+  @override
+  String get staffSupervisorAccessResultSupervisor => 'SUPERVISOR';
+
+  @override
+  String get staffSupervisorRedemptionHistoryEmpty =>
+      'No redemptions yet for this event.';
+
+  @override
+  String get staffSupervisorRedemptionResultRedeemed => 'REDEEMED';
+
+  @override
+  String get staffSupervisorRedemptionResultRestored => 'RESTORED';
+
+  @override
+  String get staffSupervisorRedemptionResultDuplicate => 'DUPLICATE ATTEMPT';
+
+  @override
+  String get staffSupervisorRedemptionResultSupervisor => 'SUPERVISOR';
+
+  @override
+  String get staffSupervisorRedemptionDetailTitle => 'Redemption details';
+
+  @override
+  String get staffSupervisorRedemptionDetailResult => 'Result';
+
+  @override
+  String get staffSupervisorRedemptionDetailProduct => 'Product';
+
+  @override
+  String get staffSupervisorRedemptionDetailCustomer => 'Customer';
+
+  @override
+  String get staffSupervisorRedemptionDetailOrder => 'Order ID';
+
+  @override
+  String get staffSupervisorRedemptionDetailCode => 'Manual code';
+
+  @override
+  String get staffSupervisorRedemptionDetailBar => 'Bar / location';
+
+  @override
+  String get staffSupervisorRedemptionDetailStaff => 'Staff';
+
+  @override
+  String get staffSupervisorRedemptionDetailTime => 'Time';
+
+  @override
+  String get staffSupervisorRedemptionDetailStatus => 'Current status';
+
+  @override
+  String get staffSupervisorSearchEntryTicketTypeLabel => 'Ticket';
+
+  @override
+  String get staffSupervisorSearchEntryPurchaseStatusLabel => 'Purchase status';
+
+  @override
+  String get staffSupervisorSearchEntryAccessPointLabel => 'Access point';
+
+  @override
   String get staffRecentScansTitle => 'Recent scans';
 
   @override
@@ -2917,6 +3107,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get staffSupervisorConsumptionTimeLabel => 'Validation time';
+
+  @override
+  String get staffSupervisorConsumptionPurchaseTimeLabel => 'Purchase time';
+
+  @override
+  String get staffSupervisorConsumptionRedemptionTimeLabel => 'Redemption time';
 
   @override
   String get staffSupervisorConsumptionIdLabel => 'Consumption ID';
@@ -3747,7 +3943,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get staffSupervisorSearchEntryPlaceholder =>
-      'Name / phone / QR / purchase ID / VIP table';
+      'Name / phone / RUT / QR / purchase ID / VIP table';
 
   @override
   String get staffSupervisorSearchEntryHeaderSubtitle =>
@@ -3815,6 +4011,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get staffSupervisorEntryStatusUsed => 'USED';
+
+  @override
+  String get staffSupervisorEntryStatusAlreadyUsed => 'ALREADY USED';
 
   @override
   String get staffSupervisorEntryStatusBlocked => 'BLOCKED';

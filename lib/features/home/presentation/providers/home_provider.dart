@@ -15,6 +15,8 @@ import 'package:youpass/features/home/domain/usecases/get_filtered_home_events_u
 import 'package:youpass/features/home/domain/usecases/get_home_feed_usecase.dart';
 import 'package:youpass/features/home/domain/usecases/search_home_events_usecase.dart';
 import 'package:youpass/core/services/user_location_service.dart';
+import 'package:youpass/features/home/data/services/locations_api_service.dart';
+import 'package:youpass/features/home/domain/entities/location_suggestion_entity.dart';
 import 'package:youpass/features/home/domain/usecases/get_upcoming_home_events_usecase.dart';
 import 'package:youpass/features/home/domain/usecases/toggle_event_favorite_usecase.dart';
 import 'package:youpass/core/theme/presentation/providers/app_theme_provider.dart';
@@ -31,6 +33,7 @@ class HomeProvider extends ChangeNotifier {
     required this.toggleEventFavoriteUseCase,
     required this.searchHistoryCache,
     required this.userLocationService,
+    this.locationsApiService,
     AnalyticsApiService? analyticsApiService,
   }) : _analyticsApiService = analyticsApiService;
 
@@ -41,6 +44,7 @@ class HomeProvider extends ChangeNotifier {
   final ToggleEventFavoriteUseCase toggleEventFavoriteUseCase;
   final HomeSearchHistoryCache searchHistoryCache;
   final UserLocationService userLocationService;
+  final LocationsApiService? locationsApiService;
   final AnalyticsApiService? _analyticsApiService;
 
   HomeStatus status = HomeStatus.initial;
@@ -55,6 +59,9 @@ class HomeProvider extends ChangeNotifier {
   String? get partyModeEventTitle => homeFeed?.partyMode?.eventTitle;
   List<HomePartyModeEligibleEventEntity> get partyModeEligibleEvents =>
       homeFeed?.partyMode?.eligibleEvents ?? const [];
+  HomePartyModeRequirementsEntity get partyModeRequirements =>
+      homeFeed?.partyMode?.requirements ??
+      const HomePartyModeRequirementsEntity();
   bool highlightPendingInvitation = false;
   String? highlightedInvitationTitle;
   String? highlightedInvitationId;
@@ -91,6 +98,12 @@ class HomeProvider extends ChangeNotifier {
   double? userLongitude;
   double? draftLatitude;
   double? draftLongitude;
+  Timer? _locationSearchDebounce;
+  int _locationSearchGeneration = 0;
+  String locationDraftQuery = '';
+  List<LocationSuggestionEntity> locationSearchResults = const [];
+  bool isLocationSearchLoading = false;
+  String? locationSearchError;
 
   bool get hasActiveLocationContext =>
       nearMeEnabled ||
@@ -98,8 +111,10 @@ class HomeProvider extends ChangeNotifier {
 
   String get typedLocationQuery => appliedFilters.city?.trim() ?? '';
 
+  /// Local curated/fallback suggestions (empty query or offline fallback).
   List<String> locationSuggestionsFor(String query) {
-    final normalized = query.trim().toLowerCase();
+    final trimmed = query.trim();
+    final normalized = trimmed.toLowerCase();
     final suggestions = <String>{};
 
     final configCities = homeFeed?.searchConfig.cities ?? const [];
@@ -110,6 +125,16 @@ class HomeProvider extends ChangeNotifier {
       }
       if (normalized.isEmpty || label.toLowerCase().contains(normalized)) {
         suggestions.add(label);
+      }
+      for (final zone in city.zones) {
+        final zoneLabel = zone.trim();
+        if (zoneLabel.isEmpty) {
+          continue;
+        }
+        if (normalized.isEmpty ||
+            zoneLabel.toLowerCase().contains(normalized)) {
+          suggestions.add(zoneLabel);
+        }
       }
     }
 
@@ -127,10 +152,77 @@ class HomeProvider extends ChangeNotifier {
       if (normalized.isEmpty || cityPart.toLowerCase().contains(normalized)) {
         suggestions.add(cityPart);
       }
+      if (normalized.isNotEmpty &&
+          location.toLowerCase().contains(normalized)) {
+        suggestions.add(location);
+      }
     }
 
-    final sorted = suggestions.toList()..sort();
+    final sorted = suggestions.toList()
+      ..sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
     return sorted.take(8).toList();
+  }
+
+  void onLocationQueryChanged(String value) {
+    locationDraftQuery = value;
+    locationSearchError = null;
+    final trimmed = value.trim();
+
+    _locationSearchDebounce?.cancel();
+
+    if (trimmed.length < 2) {
+      locationSearchResults = const [];
+      isLocationSearchLoading = false;
+      notifyListeners();
+      return;
+    }
+
+    isLocationSearchLoading = true;
+    notifyListeners();
+
+    _locationSearchDebounce = Timer(const Duration(milliseconds: 350), () {
+      unawaited(_searchRemoteLocations(trimmed));
+    });
+  }
+
+  Future<void> _searchRemoteLocations(String query) async {
+    final api = locationsApiService;
+    if (api == null) {
+      isLocationSearchLoading = false;
+      locationSearchResults = const [];
+      notifyListeners();
+      return;
+    }
+
+    final generation = ++_locationSearchGeneration;
+    try {
+      final results = await api.searchLocations(query: query, limit: 8);
+      if (generation != _locationSearchGeneration) {
+        return;
+      }
+      locationSearchResults = results;
+      locationSearchError = null;
+    } catch (error) {
+      if (generation != _locationSearchGeneration) {
+        return;
+      }
+      locationSearchResults = const [];
+      locationSearchError = error.toString();
+    } finally {
+      if (generation == _locationSearchGeneration) {
+        isLocationSearchLoading = false;
+        notifyListeners();
+      }
+    }
+  }
+
+  void resetLocationSearchDraft({String? seedQuery}) {
+    _locationSearchDebounce?.cancel();
+    _locationSearchGeneration++;
+    locationDraftQuery = seedQuery ?? typedLocationQuery;
+    locationSearchResults = const [];
+    isLocationSearchLoading = false;
+    locationSearchError = null;
   }
 
   bool isDraftNearMeLoading = false;
@@ -337,6 +429,34 @@ class HomeProvider extends ChangeNotifier {
       clearZone: true,
     );
     draftFilters = appliedFilters;
+    resetLocationSearchDraft(seedQuery: trimmed);
+    notifyListeners();
+
+    if (searchQuery.trim().isNotEmpty || _appliedHasActiveSelections()) {
+      await _runSearch(saveHistory: false);
+    } else {
+      await _loadUpcomingEvents(reset: true);
+    }
+  }
+
+  Future<void> applyLocationSuggestion(LocationSuggestionEntity place) async {
+    final city = place.city.trim().isNotEmpty ? place.city.trim() : place.label.trim();
+    if (city.isEmpty) {
+      return;
+    }
+
+    nearMeEnabled = false;
+    userLatitude = place.latitude;
+    userLongitude = place.longitude;
+    draftNearMeEnabled = false;
+    draftLatitude = place.latitude;
+    draftLongitude = place.longitude;
+    appliedFilters = appliedFilters.copyWith(
+      city: city,
+      clearZone: true,
+    );
+    draftFilters = appliedFilters;
+    resetLocationSearchDraft(seedQuery: city);
     notifyListeners();
 
     if (searchQuery.trim().isNotEmpty || _appliedHasActiveSelections()) {
@@ -355,6 +475,7 @@ class HomeProvider extends ChangeNotifier {
     draftLongitude = null;
     appliedFilters = appliedFilters.copyWith(clearCity: true, clearZone: true);
     draftFilters = appliedFilters;
+    resetLocationSearchDraft(seedQuery: '');
     notifyListeners();
 
     if (searchQuery.trim().isNotEmpty || _appliedHasActiveSelections()) {
@@ -902,6 +1023,8 @@ class HomeProvider extends ChangeNotifier {
   @override
   void dispose() {
     _searchDebounce?.cancel();
+    _locationSearchDebounce?.cancel();
+    _filterPreviewDebounce?.cancel();
     super.dispose();
   }
 

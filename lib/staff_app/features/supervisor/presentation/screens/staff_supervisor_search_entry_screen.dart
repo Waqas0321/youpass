@@ -585,51 +585,77 @@ class _StaffSupervisorSearchEntryScreenState
           letterSpacing: 0.8,
         ),
         SizedBox(height: layout.spacing(12)),
-        Row(
+        // Contextual actions only — based on ticket status (no permanent action menu).
+        Wrap(
+          spacing: layout.spacing(8),
+          runSpacing: layout.spacing(8),
           children: [
-            Expanded(
+            SizedBox(
+              width: (MediaQuery.sizeOf(context).width - layout.spacing(48)) / 2 -
+                  layout.spacing(4),
               child: _ActionTile(
                 layout: layout,
                 icon: Icons.description_outlined,
                 label: l10n.staffSupervisorSearchEntryActionHistory,
-                onTap: _selectedResult == null ? () {} : _openEntryHistory,
+                onTap: _openEntryHistory,
               ),
             ),
-            SizedBox(width: layout.spacing(8)),
-            Expanded(
-              child: _ActionTile(
-                layout: layout,
-                icon: Icons.refresh_rounded,
-                label: l10n.staffSupervisorOverrideRevalidateQr,
-                onTap: _selectedResult == null
-                    ? () {}
-                    : () => _openEntryOverride(initialAction: 'revalidate_qr'),
+            if (_selectedResult!.status == StaffSupervisorEntryStatus.used ||
+                _selectedResult!.status == StaffSupervisorEntryStatus.validated)
+              SizedBox(
+                width: (MediaQuery.sizeOf(context).width - layout.spacing(48)) /
+                        2 -
+                    layout.spacing(4),
+                child: _ActionTile(
+                  layout: layout,
+                  icon: Icons.login_rounded,
+                  label: l10n.staffSupervisorAuthorizeReentryAction,
+                  onTap: () =>
+                      _openEntryOverride(initialAction: 'authorize_reentry'),
+                ),
               ),
-            ),
-            SizedBox(width: layout.spacing(8)),
-            Expanded(
-              child: _ActionTile(
-                layout: layout,
-                icon: Icons.lock_open_rounded,
-                label: l10n.staffSupervisorOverrideReleaseQr,
-                onTap: _selectedResult == null
-                    ? () {}
-                    : () => _openEntryOverride(initialAction: 'release_qr'),
+            // Exceptional entry only for technical/error tickets — not for unused active.
+            if (_selectedResult!.status == StaffSupervisorEntryStatus.error)
+              SizedBox(
+                width: (MediaQuery.sizeOf(context).width - layout.spacing(48)) /
+                        2 -
+                    layout.spacing(4),
+                child: _ActionTile(
+                  layout: layout,
+                  icon: Icons.verified_user_outlined,
+                  label: l10n.staffSupervisorRegisterExceptionalEntryAction,
+                  onTap: _openEntryManualValidation,
+                ),
               ),
-            ),
-            SizedBox(width: layout.spacing(8)),
-            Expanded(
-              child: _ActionTile(
-                layout: layout,
-                icon: Icons.manage_accounts_outlined,
-                label: l10n.staffSupervisorSearchEntryActionOverride,
-                onTap: _selectedResult == null
-                    ? () {}
-                    : _openEntryManualValidation,
-              ),
-            ),
+            // PREVIOUS always-visible actions (commented out):
+            // revalidate_qr, release_qr, manage_accounts override tiles
+            // exceptional entry for pending
           ],
         ),
+        // ACTIVE unused (pending): history only — no force/authorization buttons.
+        if (_selectedResult!.status == StaffSupervisorEntryStatus.pending)
+          Padding(
+            padding: EdgeInsets.only(top: layout.spacing(8)),
+            child: AppText(
+              l10n.staffSupervisorNoActionForActiveTicket,
+              variant: AppTextVariant.body,
+              color: AppColors.secondaryGrey,
+              fontSize: layout.fontSize(13),
+              height: 1.4,
+            ),
+          ),
+        // CANCELLED / REFUNDED / BLOCKED: no authorization buttons — status only.
+        if (_selectedResult!.status == StaffSupervisorEntryStatus.blocked)
+          Padding(
+            padding: EdgeInsets.only(top: layout.spacing(8)),
+            child: AppText(
+              l10n.staffSupervisorNoActionForBlockedTicket,
+              variant: AppTextVariant.body,
+              color: AppColors.secondaryGrey,
+              fontSize: layout.fontSize(13),
+              height: 1.4,
+            ),
+          ),
         if (_recentEvents.isNotEmpty) ...[
           SizedBox(height: layout.spacing(20)),
           Container(
@@ -949,11 +975,10 @@ class _EntryResultCard extends StatelessWidget {
   String _statusLabel(_StatusStyle style) {
     switch (style.labelKey) {
       case _StatusLabel.validated:
-        return l10n.staffSupervisorEntryStatusValidated;
+      case _StatusLabel.used:
+        return l10n.staffSupervisorEntryStatusAlreadyUsed;
       case _StatusLabel.pending:
         return l10n.staffSupervisorEntryStatusPending;
-      case _StatusLabel.used:
-        return l10n.staffSupervisorEntryStatusUsed;
       case _StatusLabel.error:
         return l10n.staffSupervisorEntryStatusError;
       case _StatusLabel.blocked:
@@ -1137,12 +1162,39 @@ class _EntryResultCard extends StatelessWidget {
                   label: l10n.staffSupervisorOverrideQrIdLabel,
                   value: result.qrId,
                 ),
+                if (result.ticketTypeLabel != null &&
+                    result.ticketTypeLabel!.trim().isNotEmpty) ...[
+                  SizedBox(height: layout.spacing(6)),
+                  _IdRow(
+                    layout: layout,
+                    label: l10n.staffSupervisorSearchEntryTicketTypeLabel,
+                    value: result.ticketTypeLabel!,
+                  ),
+                ],
                 SizedBox(height: layout.spacing(6)),
                 _IdRow(
                   layout: layout,
                   label: l10n.staffSupervisorSearchEntryPurchaseIdLabel,
                   value: result.purchaseId,
                 ),
+                if (result.purchaseStatus != null &&
+                    result.purchaseStatus!.trim().isNotEmpty) ...[
+                  SizedBox(height: layout.spacing(6)),
+                  _IdRow(
+                    layout: layout,
+                    label: l10n.staffSupervisorSearchEntryPurchaseStatusLabel,
+                    value: result.purchaseStatus!,
+                  ),
+                ],
+                if (result.accessPoint != null &&
+                    result.accessPoint!.trim().isNotEmpty) ...[
+                  SizedBox(height: layout.spacing(6)),
+                  _IdRow(
+                    layout: layout,
+                    label: l10n.staffSupervisorSearchEntryAccessPointLabel,
+                    value: result.accessPoint!,
+                  ),
+                ],
                 SizedBox(height: layout.spacing(14)),
                 Divider(color: AppColors.homeDividerGrey, height: 1),
                 SizedBox(height: layout.spacing(14)),

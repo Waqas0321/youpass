@@ -78,6 +78,7 @@ class StaffSupervisorDrinkSearchResult {
     required this.eventId,
     required this.eventTitle,
     required this.recentEvents,
+    this.purchaseAtLabel,
   });
 
   final String redemptionId;
@@ -93,6 +94,7 @@ class StaffSupervisorDrinkSearchResult {
   final String consumptionId;
   final StaffSupervisorDrinkStatus status;
   final String? validatedAtLabel;
+  final String? purchaseAtLabel;
   final String? barName;
   final String? scannerId;
   final bool isValidated;
@@ -116,6 +118,7 @@ class StaffSupervisorDrinkSearchResult {
       consumptionId: json['consumption_id'] as String? ?? '',
       status: _parseStatus(json['status'] as String?),
       validatedAtLabel: json['validated_at_label'] as String?,
+      purchaseAtLabel: json['purchase_at_label'] as String?,
       barName: json['bar_name'] as String?,
       scannerId: json['scanner_id'] as String?,
       isValidated: json['is_validated'] as bool? ?? false,
@@ -179,6 +182,7 @@ class StaffSupervisorDrinkSearchDetail extends StaffSupervisorDrinkSearchResult 
     required super.eventId,
     required super.eventTitle,
     required super.recentEvents,
+    super.purchaseAtLabel,
     required this.lastIdDigits,
     required this.isDocumentConfirmed,
     required this.isQrUnavailable,
@@ -206,6 +210,7 @@ class StaffSupervisorDrinkSearchDetail extends StaffSupervisorDrinkSearchResult 
       consumptionId: summary.consumptionId,
       status: summary.status,
       validatedAtLabel: summary.validatedAtLabel,
+      purchaseAtLabel: summary.purchaseAtLabel,
       barName: summary.barName,
       scannerId: summary.scannerId,
       isValidated: summary.isValidated,

@@ -16,8 +16,9 @@ class ConfigCategoryMapper {
             return EventCategoryEntity(
               id: category.id,
               label: isCountry
-                  ? (category.countryCode?.trim().toUpperCase() ??
-                      _stripCountryLabelPrefix(category.label))
+                  ? CountryCodeList.findByIsoCode(
+                      category.countryCode!.trim().toUpperCase(),
+                    ).name
                   : category.label,
               icon: _iconForCategory(category),
               leadingEmoji:
@@ -29,14 +30,6 @@ class ConfigCategoryMapper {
           },
         )
         .toList();
-  }
-
-  static String _stripCountryLabelPrefix(String label) {
-    final parts = label.trim().split(RegExp(r'\s+'));
-    if (parts.length >= 2 && parts.first.runes.length <= 2) {
-      return parts.sublist(1).join(' ');
-    }
-    return label;
   }
 
   static String? _flagEmojiForCountry(ConfigCategoryModel category) {

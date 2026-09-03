@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:youpass/staff_app/core/constants/app_colors.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/staff_app/core/utils/responsive_layout.dart';
-import 'package:youpass/staff_app/core/widgets/app_snack_bar.dart';
 import 'package:youpass/staff_app/core/widgets/app_text.dart';
 import 'package:youpass/staff_app/core/widgets/app_text_variant.dart';
 import 'package:youpass/staff_app/features/home/presentation/widgets/staff_connection_status_bar.dart';
@@ -13,15 +12,16 @@ import 'package:youpass/staff_app/features/supervisor/presentation/providers/sta
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_access_tool_card.dart';
 import 'package:youpass/staff_app/routes/app_routes.dart';
 
-/// Supervisor dashboard for access/ticket validation — design-only tools hub.
+/// Supervisor dashboard for access/ticket validation — exception tools only.
 class StaffSupervisorAccessDashboardScreen extends StatelessWidget {
   const StaffSupervisorAccessDashboardScreen({super.key});
 
   static const _accent = AppColors.homeAccentYellow;
 
-  void _showComingSoon(BuildContext context, String feature) {
-    AppSnackBar.show(context, '$feature — ${context.l10n.staffSupervisorComingSoon}');
-  }
+  // PREVIOUS (kept for reference — do not delete):
+  // void _showComingSoon(BuildContext context, String feature) {
+  //   AppSnackBar.show(context, '$feature — ${context.l10n.staffSupervisorComingSoon}');
+  // }
 
   void _exitSupervisorMode(BuildContext context) {
     context.read<StaffSupervisorSessionProvider>().lock();
@@ -81,10 +81,11 @@ class StaffSupervisorAccessDashboardScreen extends StatelessWidget {
                   height: 1.45,
                 ),
                 SizedBox(height: layout.spacing(24)),
+                // Target menu: SEARCH / MANAGE TICKET + ACCESS HISTORY only.
                 StaffSupervisorAccessToolCard(
                   icon: Icons.search_rounded,
-                  title: l10n.staffSupervisorSearchEntryTitle,
-                  description: l10n.staffSupervisorSearchEntryDescription,
+                  title: l10n.staffSupervisorSearchManageTicketTitle,
+                  description: l10n.staffSupervisorSearchManageTicketDescription,
                   actionLabel: l10n.staffSupervisorGoButton,
                   onActionTap: () => Navigator.of(context).pushNamed(
                     StaffAppRoutes.supervisorSearchEntry,
@@ -92,64 +93,25 @@ class StaffSupervisorAccessDashboardScreen extends StatelessWidget {
                 ),
                 SizedBox(height: layout.spacing(12)),
                 StaffSupervisorAccessToolCard(
-                  icon: Icons.content_copy_rounded,
-                  title: l10n.staffSupervisorResolveDuplicateTitle,
-                  description: l10n.staffSupervisorResolveDuplicateDescription,
-                  actionLabel: l10n.staffSupervisorGoButton,
-                  onActionTap: () => Navigator.of(context).pushNamed(
-                    StaffAppRoutes.supervisorResolveDuplicate,
-                  ),
-                ),
-                SizedBox(height: layout.spacing(12)),
-                StaffSupervisorAccessToolCard(
-                  icon: Icons.qr_code_2_rounded,
-                  title: l10n.staffSupervisorQrOverrideTitle,
-                  description: l10n.staffSupervisorEntryOverrideDescription,
-                  actionLabel: l10n.staffSupervisorGoButton,
-                  onActionTap: () => Navigator.of(context).pushNamed(
-                    StaffAppRoutes.supervisorEntryQrOverride,
-                  ),
-                ),
-                SizedBox(height: layout.spacing(12)),
-                StaffSupervisorAccessToolCard(
-                  icon: Icons.verified_user_outlined,
-                  title: l10n.staffSupervisorEntryManualValidationTitle,
-                  description: l10n.staffSupervisorEntryManualValidationDescription,
-                  actionLabel: l10n.staffSupervisorGoButton,
-                  onActionTap: () => Navigator.of(context).pushNamed(
-                    StaffAppRoutes.supervisorEntryManualValidation,
-                  ),
-                ),
-                SizedBox(height: layout.spacing(12)),
-                StaffSupervisorAccessToolCard(
-                  icon: Icons.star_outline_rounded,
-                  title: l10n.staffSupervisorVipManagementTitle,
-                  description: l10n.staffSupervisorVipManagementDescription,
-                  actionLabel: l10n.staffSupervisorGoButton,
-                  onActionTap: () => Navigator.of(context).pushNamed(
-                    StaffAppRoutes.supervisorVipManagement,
-                  ),
-                ),
-                SizedBox(height: layout.spacing(12)),
-                StaffSupervisorAccessToolCard(
-                  icon: Icons.monitor_heart_outlined,
-                  title: l10n.staffSupervisorSystemStatusTitle,
-                  description: l10n.staffSupervisorSystemStatusDescription,
-                  actionLabel: l10n.staffSupervisorGoButton,
-                  onActionTap: () => Navigator.of(context).pushNamed(
-                    StaffAppRoutes.supervisorSystemStatus,
-                  ),
-                ),
-                SizedBox(height: layout.spacing(12)),
-                StaffSupervisorAccessToolCard(
                   icon: Icons.history_rounded,
-                  title: l10n.staffSupervisorActionHistoryTitle,
-                  description: l10n.staffSupervisorActionHistoryDescription,
+                  title: l10n.staffSupervisorAccessHistoryTitle,
+                  description: l10n.staffSupervisorAccessHistoryDescription,
                   actionLabel: l10n.staffSupervisorGoButton,
                   onActionTap: () => Navigator.of(context).pushNamed(
                     StaffAppRoutes.supervisorActionHistory,
                   ),
                 ),
+                // PREVIOUS tools (commented out — still routed if opened by deep link):
+                // StaffSupervisorAccessToolCard(
+                //   icon: Icons.content_copy_rounded,
+                //   title: l10n.staffSupervisorResolveDuplicateTitle,
+                //   ...
+                //   onActionTap: () => Navigator.pushNamed(...supervisorResolveDuplicate),
+                // ),
+                // StaffSupervisorAccessToolCard(... supervisorEntryQrOverride ...),
+                // StaffSupervisorAccessToolCard(... supervisorEntryManualValidation ...),
+                // StaffSupervisorAccessToolCard(... supervisorVipManagement ...),
+                // StaffSupervisorAccessToolCard(... supervisorSystemStatus ...),
                 SizedBox(height: layout.spacing(24)),
                 OutlinedButton.icon(
                   onPressed: () => _exitSupervisorMode(context),

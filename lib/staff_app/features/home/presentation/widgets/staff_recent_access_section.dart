@@ -178,7 +178,9 @@ class StaffRecentAccessTile extends StatelessWidget {
                 entry.timeLabel,
                 variant: AppTextVariant.listTrailing,
                 color: AppColors.secondaryGrey,
-                fontSize: layout.fontSize(13),
+                fontSize: layout.fontSize(12),
+                textAlign: TextAlign.right,
+                maxLines: 2,
               ),
               if (onTap != null) ...[
                 SizedBox(width: layout.spacing(4)),

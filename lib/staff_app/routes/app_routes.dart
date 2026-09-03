@@ -4,6 +4,7 @@ abstract final class StaffAppRoutes {
   static const String qrScan = '/staff/scan/qr';
   static const String qrScanResult = '/staff/scan/qr/result';
   static const String recentScansList = '/staff/home/recent-scans';
+  static const String manualCodeEntry = '/staff/scan/manual-code';
   static const String supervisorPin = '/staff/supervisor/pin';
   static const String supervisorDashboard = '/staff/supervisor/dashboard';
   static const String supervisorCancellations = '/staff/supervisor/cancellations';

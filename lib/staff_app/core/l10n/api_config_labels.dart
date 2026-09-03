@@ -10,7 +10,7 @@ abstract final class ApiConfigLabels {
 
     const useLocalApi = bool.fromEnvironment(
       'USE_LOCAL_API',
-      defaultValue: true,
+      defaultValue: false,
     );
 
     if (useLocalApi) {
@@ -19,7 +19,6 @@ abstract final class ApiConfigLabels {
       }
       return l10n.staffApiEnvDevLocal;
     }
-
     return l10n.staffApiEnvProduction;
   }
 }

@@ -83,6 +83,9 @@ class StaffSupervisorEntrySearchResult {
     required this.isVip,
     required this.eventTitle,
     required this.recentEvents,
+    this.purchaseStatus,
+    this.ticketTypeLabel,
+    this.accessPoint,
   });
 
   final String invitationId;
@@ -92,6 +95,9 @@ class StaffSupervisorEntrySearchResult {
   final List<String> vipTags;
   final String qrId;
   final String purchaseId;
+  final String? purchaseStatus;
+  final String? ticketTypeLabel;
+  final String? accessPoint;
   final StaffSupervisorEntryStatus status;
   final String entryTimeLabel;
   final String validatorId;
@@ -112,6 +118,9 @@ class StaffSupervisorEntrySearchResult {
           .toList(),
       qrId: json['qr_id'] as String? ?? '',
       purchaseId: json['purchase_id'] as String? ?? '—',
+      purchaseStatus: json['purchase_status'] as String?,
+      ticketTypeLabel: json['ticket_type_label'] as String?,
+      accessPoint: json['access_point'] as String?,
       status: _parseStatus(json['status'] as String?),
       entryTimeLabel: json['entry_time_label'] as String? ?? '—',
       validatorId: json['validator_label'] as String? ?? '—',
@@ -130,6 +139,8 @@ class StaffSupervisorEntrySearchResult {
     switch (value) {
       case 'validated':
         return StaffSupervisorEntryStatus.validated;
+      case 'used':
+        return StaffSupervisorEntryStatus.used;
       case 'pending':
         return StaffSupervisorEntryStatus.pending;
       case 'error':

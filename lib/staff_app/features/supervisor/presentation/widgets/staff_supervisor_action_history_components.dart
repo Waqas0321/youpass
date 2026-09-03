@@ -71,27 +71,49 @@ class _ActionHistoryRow extends StatelessWidget {
   final VoidCallback? onTap;
 
   (Color, IconData) get _badgeStyle {
-    return switch (entry.category) {
-      StaffSupervisorActionHistoryCategory.entryOverride => (
-          StaffSupervisorDesign.accent,
-          Icons.qr_code_2_rounded,
-        ),
-      StaffSupervisorActionHistoryCategory.duplicate => (
-          const Color(0xFFEF4444),
-          Icons.warning_amber_rounded,
-        ),
-      StaffSupervisorActionHistoryCategory.manualValidation => (
-          const Color(0xFF2563EB),
-          Icons.badge_outlined,
-        ),
-      StaffSupervisorActionHistoryCategory.vip => (
+    return switch (entry.result) {
+      StaffSupervisorAccessResult.valid => (
           StaffSupervisorDesign.successGreen,
-          Icons.workspace_premium_outlined,
+          Icons.check_circle_rounded,
         ),
-      StaffSupervisorActionHistoryCategory.system => (
-          AppColors.secondaryGrey,
-          Icons.monitor_heart_outlined,
+      StaffSupervisorAccessResult.reEntry => (
+          StaffSupervisorDesign.accent,
+          Icons.login_rounded,
         ),
+      StaffSupervisorAccessResult.rejected => (
+          const Color(0xFFEF4444),
+          Icons.block_rounded,
+        ),
+      StaffSupervisorAccessResult.supervisor => (
+          const Color(0xFF2563EB),
+          Icons.verified_user_outlined,
+        ),
+      StaffSupervisorAccessResult.unknown => switch (entry.category) {
+          StaffSupervisorActionHistoryCategory.access => (
+              StaffSupervisorDesign.successGreen,
+              Icons.door_front_door_outlined,
+            ),
+          StaffSupervisorActionHistoryCategory.entryOverride => (
+              StaffSupervisorDesign.accent,
+              Icons.qr_code_2_rounded,
+            ),
+          StaffSupervisorActionHistoryCategory.duplicate => (
+              const Color(0xFFEF4444),
+              Icons.warning_amber_rounded,
+            ),
+          StaffSupervisorActionHistoryCategory.manualValidation => (
+              const Color(0xFF2563EB),
+              Icons.badge_outlined,
+            ),
+          StaffSupervisorActionHistoryCategory.vip => (
+              StaffSupervisorDesign.successGreen,
+              Icons.workspace_premium_outlined,
+            ),
+          StaffSupervisorActionHistoryCategory.system => (
+              AppColors.secondaryGrey,
+              Icons.monitor_heart_outlined,
+            ),
+        },
     };
   }
 

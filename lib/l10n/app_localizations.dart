@@ -1130,6 +1130,24 @@ abstract class AppLocalizations {
   /// **'Party Mode opens when you have a scanned ticket at a live event.'**
   String get partyModeUnavailable;
 
+  /// No description provided for @partyModeNeedTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy a ticket first to unlock Party Mode.'**
+  String get partyModeNeedTicket;
+
+  /// No description provided for @partyModeNeedScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Have your ticket scanned at the door to unlock Party Mode.'**
+  String get partyModeNeedScan;
+
+  /// No description provided for @partyModeNeedLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to the event venue to unlock Party Mode.'**
+  String get partyModeNeedLocation;
+
   /// No description provided for @partyDrinkMenuEmpty.
   ///
   /// In en, this message translates to:
@@ -4764,6 +4782,330 @@ abstract class AppLocalizations {
   /// **'MANUAL ENTRY'**
   String get staffManualEntryButton;
 
+  /// No description provided for @staffSupervisorModeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'SUPERVISOR MODE'**
+  String get staffSupervisorModeButton;
+
+  /// No description provided for @staffManualEntryScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual entry'**
+  String get staffManualEntryScreenTitle;
+
+  /// No description provided for @staffManualEntryScreenSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Type the ticket code to validate entry. Results match QR scanning and cannot be overridden.'**
+  String get staffManualEntryScreenSubtitle;
+
+  /// No description provided for @staffManualConsumptionScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual consumption'**
+  String get staffManualConsumptionScreenTitle;
+
+  /// No description provided for @staffManualConsumptionScreenSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Type the redemption code to validate the purchase. Results match QR scanning and cannot be overridden.'**
+  String get staffManualConsumptionScreenSubtitle;
+
+  /// No description provided for @staffManualEntryCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'8F7A2B'**
+  String get staffManualEntryCodeHint;
+
+  /// No description provided for @staffManualEntryValidateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'VALIDATE'**
+  String get staffManualEntryValidateButton;
+
+  /// No description provided for @staffScanConsumptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SCAN CONSUMPTION'**
+  String get staffScanConsumptionTitle;
+
+  /// No description provided for @staffSupervisorSearchManageTicketTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search / Manage ticket'**
+  String get staffSupervisorSearchManageTicketTitle;
+
+  /// No description provided for @staffSupervisorSearchManageTicketDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a ticket by code, name, phone, ID, or purchase ID, then take only the actions that fit its status.'**
+  String get staffSupervisorSearchManageTicketDescription;
+
+  /// No description provided for @staffSupervisorAccessHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Access history'**
+  String get staffSupervisorAccessHistoryTitle;
+
+  /// No description provided for @staffSupervisorAccessHistoryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Review recent entry activity and open any record for full details.'**
+  String get staffSupervisorAccessHistoryDescription;
+
+  /// No description provided for @staffSupervisorSearchManagePurchaseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search / Manage purchase'**
+  String get staffSupervisorSearchManagePurchaseTitle;
+
+  /// No description provided for @staffSupervisorSearchManagePurchaseLine1.
+  ///
+  /// In en, this message translates to:
+  /// **'Find an order by code, name, phone, or purchase ID'**
+  String get staffSupervisorSearchManagePurchaseLine1;
+
+  /// No description provided for @staffSupervisorSearchManagePurchaseLine2.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore consumption when delivery failed'**
+  String get staffSupervisorSearchManagePurchaseLine2;
+
+  /// No description provided for @staffSupervisorRedemptionHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Redemption history'**
+  String get staffSupervisorRedemptionHistoryTitle;
+
+  /// No description provided for @staffSupervisorRedemptionHistoryLine1.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent drink redemptions and restorations'**
+  String get staffSupervisorRedemptionHistoryLine1;
+
+  /// No description provided for @staffSupervisorRedemptionHistoryLine2.
+  ///
+  /// In en, this message translates to:
+  /// **'Open any record for full audit details'**
+  String get staffSupervisorRedemptionHistoryLine2;
+
+  /// No description provided for @staffSupervisorAuthorizeReentryAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorize re-entry'**
+  String get staffSupervisorAuthorizeReentryAction;
+
+  /// No description provided for @staffSupervisorRegisterExceptionalEntryAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Register exceptional entry'**
+  String get staffSupervisorRegisterExceptionalEntryAction;
+
+  /// No description provided for @staffSupervisorNoActionForBlockedTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'This ticket is blocked or cancelled. No authorization action is available.'**
+  String get staffSupervisorNoActionForBlockedTicket;
+
+  /// No description provided for @staffSupervisorNoActionForActiveTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'This ticket is active and unused. No supervisor override is required.'**
+  String get staffSupervisorNoActionForActiveTicket;
+
+  /// No description provided for @staffSupervisorNoRestoreActionAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No exceptional action is available for this purchase status.'**
+  String get staffSupervisorNoRestoreActionAvailable;
+
+  /// No description provided for @staffSupervisorRestoreConsumptionAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore consumption'**
+  String get staffSupervisorRestoreConsumptionAction;
+
+  /// No description provided for @staffSupervisorRestoreReasonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore reason'**
+  String get staffSupervisorRestoreReasonTitle;
+
+  /// No description provided for @staffSupervisorRestoreReasonProductNotDelivered.
+  ///
+  /// In en, this message translates to:
+  /// **'Product not delivered'**
+  String get staffSupervisorRestoreReasonProductNotDelivered;
+
+  /// No description provided for @staffSupervisorRestoreReasonAccidentalScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Accidental scan'**
+  String get staffSupervisorRestoreReasonAccidentalScan;
+
+  /// No description provided for @staffSupervisorRestoreReasonOperationalIssue.
+  ///
+  /// In en, this message translates to:
+  /// **'Operational issue'**
+  String get staffSupervisorRestoreReasonOperationalIssue;
+
+  /// No description provided for @staffSupervisorRestoreReasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get staffSupervisorRestoreReasonOther;
+
+  /// No description provided for @staffSupervisorRestoreReasonOtherHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe the issue'**
+  String get staffSupervisorRestoreReasonOtherHint;
+
+  /// No description provided for @staffSupervisorRestoreExecuteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'RESTORE CONSUMPTION'**
+  String get staffSupervisorRestoreExecuteButton;
+
+  /// No description provided for @staffSupervisorAccessHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No entry activity yet for this event.'**
+  String get staffSupervisorAccessHistoryEmpty;
+
+  /// No description provided for @staffSupervisorAccessResultValid.
+  ///
+  /// In en, this message translates to:
+  /// **'VALID'**
+  String get staffSupervisorAccessResultValid;
+
+  /// No description provided for @staffSupervisorAccessResultReEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'RE-ENTRY'**
+  String get staffSupervisorAccessResultReEntry;
+
+  /// No description provided for @staffSupervisorAccessResultRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'REJECTED'**
+  String get staffSupervisorAccessResultRejected;
+
+  /// No description provided for @staffSupervisorAccessResultSupervisor.
+  ///
+  /// In en, this message translates to:
+  /// **'SUPERVISOR'**
+  String get staffSupervisorAccessResultSupervisor;
+
+  /// No description provided for @staffSupervisorRedemptionHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No redemptions yet for this event.'**
+  String get staffSupervisorRedemptionHistoryEmpty;
+
+  /// No description provided for @staffSupervisorRedemptionResultRedeemed.
+  ///
+  /// In en, this message translates to:
+  /// **'REDEEMED'**
+  String get staffSupervisorRedemptionResultRedeemed;
+
+  /// No description provided for @staffSupervisorRedemptionResultRestored.
+  ///
+  /// In en, this message translates to:
+  /// **'RESTORED'**
+  String get staffSupervisorRedemptionResultRestored;
+
+  /// No description provided for @staffSupervisorRedemptionResultDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'DUPLICATE ATTEMPT'**
+  String get staffSupervisorRedemptionResultDuplicate;
+
+  /// No description provided for @staffSupervisorRedemptionResultSupervisor.
+  ///
+  /// In en, this message translates to:
+  /// **'SUPERVISOR'**
+  String get staffSupervisorRedemptionResultSupervisor;
+
+  /// No description provided for @staffSupervisorRedemptionDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Redemption details'**
+  String get staffSupervisorRedemptionDetailTitle;
+
+  /// No description provided for @staffSupervisorRedemptionDetailResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Result'**
+  String get staffSupervisorRedemptionDetailResult;
+
+  /// No description provided for @staffSupervisorRedemptionDetailProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Product'**
+  String get staffSupervisorRedemptionDetailProduct;
+
+  /// No description provided for @staffSupervisorRedemptionDetailCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer'**
+  String get staffSupervisorRedemptionDetailCustomer;
+
+  /// No description provided for @staffSupervisorRedemptionDetailOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Order ID'**
+  String get staffSupervisorRedemptionDetailOrder;
+
+  /// No description provided for @staffSupervisorRedemptionDetailCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual code'**
+  String get staffSupervisorRedemptionDetailCode;
+
+  /// No description provided for @staffSupervisorRedemptionDetailBar.
+  ///
+  /// In en, this message translates to:
+  /// **'Bar / location'**
+  String get staffSupervisorRedemptionDetailBar;
+
+  /// No description provided for @staffSupervisorRedemptionDetailStaff.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff'**
+  String get staffSupervisorRedemptionDetailStaff;
+
+  /// No description provided for @staffSupervisorRedemptionDetailTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get staffSupervisorRedemptionDetailTime;
+
+  /// No description provided for @staffSupervisorRedemptionDetailStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Current status'**
+  String get staffSupervisorRedemptionDetailStatus;
+
+  /// No description provided for @staffSupervisorSearchEntryTicketTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket'**
+  String get staffSupervisorSearchEntryTicketTypeLabel;
+
+  /// No description provided for @staffSupervisorSearchEntryPurchaseStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase status'**
+  String get staffSupervisorSearchEntryPurchaseStatusLabel;
+
+  /// No description provided for @staffSupervisorSearchEntryAccessPointLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Access point'**
+  String get staffSupervisorSearchEntryAccessPointLabel;
+
   /// No description provided for @staffRecentScansTitle.
   ///
   /// In en, this message translates to:
@@ -5159,6 +5501,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Validation time'**
   String get staffSupervisorConsumptionTimeLabel;
+
+  /// No description provided for @staffSupervisorConsumptionPurchaseTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase time'**
+  String get staffSupervisorConsumptionPurchaseTimeLabel;
+
+  /// No description provided for @staffSupervisorConsumptionRedemptionTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Redemption time'**
+  String get staffSupervisorConsumptionRedemptionTimeLabel;
 
   /// No description provided for @staffSupervisorConsumptionIdLabel.
   ///
@@ -6615,7 +6969,7 @@ abstract class AppLocalizations {
   /// No description provided for @staffSupervisorSearchEntryPlaceholder.
   ///
   /// In en, this message translates to:
-  /// **'Name / phone / QR / purchase ID / VIP table'**
+  /// **'Name / phone / RUT / QR / purchase ID / VIP table'**
   String get staffSupervisorSearchEntryPlaceholder;
 
   /// No description provided for @staffSupervisorSearchEntryHeaderSubtitle.
@@ -6743,6 +7097,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'USED'**
   String get staffSupervisorEntryStatusUsed;
+
+  /// No description provided for @staffSupervisorEntryStatusAlreadyUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'ALREADY USED'**
+  String get staffSupervisorEntryStatusAlreadyUsed;
 
   /// No description provided for @staffSupervisorEntryStatusBlocked.
   ///

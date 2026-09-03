@@ -199,7 +199,9 @@ class StaffRecentScanTile extends StatelessWidget {
                     entry.timeLabel,
                     variant: AppTextVariant.listTrailing,
                     color: AppColors.secondaryGrey,
-                    fontSize: layout.fontSize(13),
+                    fontSize: layout.fontSize(12),
+                    textAlign: TextAlign.right,
+                    maxLines: 2,
                   ),
                   if (entry.status == StaffScanStatus.duplicate) ...[
                     SizedBox(height: layout.spacing(2)),

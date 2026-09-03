@@ -13,6 +13,7 @@ class CategoryChipWidget extends StatelessWidget {
     required this.onTap,
     this.leadingEmoji,
     this.showLeadingIcon = true,
+    this.showTrailingChevron = false,
   });
 
   final String label;
@@ -21,6 +22,7 @@ class CategoryChipWidget extends StatelessWidget {
   final VoidCallback onTap;
   final String? leadingEmoji;
   final bool showLeadingIcon;
+  final bool showTrailingChevron;
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +80,14 @@ class CategoryChipWidget extends StatelessWidget {
                   fontSize: layout.fontSize(14),
                   fontWeight: FontWeight.w700,
                 ),
+                if (showTrailingChevron) ...[
+                  SizedBox(width: layout.spacing(4)),
+                  Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    size: layout.fontSize(18),
+                    color: foregroundColor,
+                  ),
+                ],
               ],
             ),
           ),

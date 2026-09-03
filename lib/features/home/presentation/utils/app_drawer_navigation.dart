@@ -11,6 +11,7 @@ import 'package:youpass/features/home/presentation/widgets/drawer/drawer_design_
 import 'package:youpass/features/home/presentation/widgets/drawer/home_drawer_widget.dart';
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
 import 'package:youpass/features/home/presentation/utils/party_mode_navigation.dart';
+import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/routes/app_routes.dart';
 class AppDrawerNavigation {
   AppDrawerNavigation._();
@@ -126,9 +127,16 @@ class AppDrawerNavigation {
       replaceCurrent: true,
     );
     if (!opened && context.mounted) {
-      AppSnackBar.show(
+      final homeProvider = context.read<HomeProvider>();
+      final requirements = homeProvider.partyModeRequirements;
+      AppSnackBar.showInstruction(
         context,
-        AppStrings.partyModeUnavailable(context.l10n),
+        AppStrings.partyModeUnavailableForRequirements(
+          context.l10n,
+          hasPurchasedTicket: requirements.hasPurchasedTicket,
+          ticketScanned: requirements.ticketScanned,
+          atEventLocation: requirements.atEventLocation,
+        ),
       );
     }
   }

@@ -21,6 +21,7 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
     this.cards = const [],
     this.selectedCardId,
     this.isLoadingCards = false,
+    this.isAddingPaymentMethod = false,
     this.onSelectCard,
     this.onAddPaymentMethod,
   });
@@ -30,6 +31,7 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
   final List<ProfileWalletCardModel> cards;
   final String? selectedCardId;
   final bool isLoadingCards;
+  final bool isAddingPaymentMethod;
   final ValueChanged<ProfileWalletCardModel>? onSelectCard;
   final VoidCallback? onAddPaymentMethod;
 
@@ -196,6 +198,7 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
         VipPurchaseAddPaymentMethodTileWidget(
           label: AppStrings.vipAddPaymentMethod(strings),
           onTap: onAddPaymentMethod,
+          isLoading: isAddingPaymentMethod,
         ),
         SizedBox(height: VipVenueDesignSpec.px(context, 16)),
         VipPurchaseAssignTicketsInfoWidget(

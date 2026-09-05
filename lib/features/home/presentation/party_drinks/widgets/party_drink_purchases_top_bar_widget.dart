@@ -5,10 +5,10 @@ import 'package:youpass/features/home/presentation/party_drinks/party_drinks_des
 class PartyDrinkPurchasesTopBarWidget extends StatelessWidget {
   const PartyDrinkPurchasesTopBarWidget({
     super.key,
-    required this.onDrawerTap,
+    required this.onBackTap,
   });
 
-  final VoidCallback onDrawerTap;
+  final VoidCallback onBackTap;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class PartyDrinkPurchasesTopBarWidget extends StatelessWidget {
       context,
       PartyDrinksDesignSpec.horizontalPadding,
     );
-    final iconSize = PartyDrinksDesignSpec.px(context, 22);
+    final iconSize = PartyDrinksDesignSpec.px(context, 20);
     final sideSlot = PartyDrinksDesignSpec.px(context, 40);
 
     return Padding(
@@ -31,14 +31,14 @@ class PartyDrinkPurchasesTopBarWidget extends StatelessWidget {
         child: Row(
           children: [
             IconButton(
-              onPressed: onDrawerTap,
+              onPressed: onBackTap,
               padding: EdgeInsets.zero,
               constraints: BoxConstraints(
                 minWidth: sideSlot,
                 minHeight: sideSlot,
               ),
               icon: Icon(
-                Icons.menu,
+                Icons.arrow_back_ios_new,
                 color: PartyDrinksDesignSpec.gold,
                 size: iconSize,
               ),

@@ -95,10 +95,12 @@ class MyInvitationsScreenState extends State<MyInvitationsScreen> {
         scrolledUnderElevation: 0,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
-          icon: const Icon(
-            Icons.menu,
+          onPressed: () =>
+              AppDrawerNavigation.openDrawer(context, scaffoldKey),
+          icon: Icon(
+            Icons.arrow_back_ios_new,
             color: InvitationsDesignSpec.primary,
+            size: InvitationsDesignSpec.px(context, 20),
           ),
         ),
         title: Text(

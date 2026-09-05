@@ -227,6 +227,7 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
     return VipFlowScaffold(
       title: AppStrings.vipTicketSelectionHeading(strings),
       subtitle: session.event.title,
+      showMenu: false,
       bottomBar: showBottomBar
           ? TicketSelectionBottomBarWidget(
               session: session,

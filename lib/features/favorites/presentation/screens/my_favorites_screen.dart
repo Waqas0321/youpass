@@ -74,7 +74,7 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
       scaffoldKey: scaffoldKey,
       context: context,
       appBar: YouPassBrandedAppBarWidget(
-        onBack: () => AppDrawerNavigation.goBackToHome(context),
+        onBack: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
         primaryColor: FavoritesDesignSpec.primary,
       ),
       body: favoritesProvider.isLoading
@@ -104,7 +104,7 @@ class _MyFavoritesScreenState extends State<MyFavoritesScreen> {
                       FavoritesSectionHeaderWidget(
                         title: AppStrings.drawerMyFavorites(strings),
                         subtitle: AppStrings.favoritesEventsSubtitle(strings),
-                        leadingIcon: Icons.favorite_outline,
+                        leadingIcon: Icons.favorite,
                         leadingIconColor: FavoritesDesignSpec.favoriteActive,
                       ),
                       SizedBox(height: FavoritesDesignSpec.px(context, 14)),

@@ -725,6 +725,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Show this code at the bar to receive your drink.';
 
   @override
+  String get partyDrinkQrAcceptedTitle => 'QR accepted!';
+
+  @override
+  String get partyDrinkQrAcceptedMessage =>
+      'Your drink code was scanned successfully. Enjoy!';
+
+  @override
   String partyDrinkPurchaseValidity(String target) {
     return 'This code is valid for $target.';
   }
@@ -2591,6 +2598,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your tickets are ready in My Tickets.';
 
   @override
+  String get vipPurchaseGoToMyTickets => 'Go to my tickets';
+
+  @override
   String vipTableLockCountdown(String time) {
     return 'Complete payment in $time';
   }
@@ -2671,6 +2681,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String waitlistOfferBanner(String time) {
     return 'A slot is waiting for you! Confirm before $time';
   }
+
+  @override
+  String get waitlistAlreadyHasCourtesy =>
+      'You already have a courtesy invitation';
+
+  @override
+  String get waitlistAlreadyHasCourtesyHint =>
+      'You don\'t need the waiting list for this event. Open your invitations to view or manage it.';
+
+  @override
+  String get waitlistAlreadyOnWaitlist => 'You are already on the waiting list';
+
+  @override
+  String get waitlistDisabled => 'Waiting list is not enabled for this event';
+
+  @override
+  String get waitlistNotAvailable =>
+      'Courtesy slots are still available. You can request an invitation instead of joining the waiting list.';
+
+  @override
+  String get waitlistViewInvitations => 'View invitations';
+
+  @override
+  String get waitlistStatusTitle => 'Waiting list unavailable';
 
   @override
   String get errorStaffNotFound =>

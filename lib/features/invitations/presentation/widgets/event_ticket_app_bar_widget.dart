@@ -31,9 +31,9 @@ class EventTicketAppBarWidget extends StatelessWidget implements PreferredSizeWi
       leading: IconButton(
         onPressed: onBack,
         icon: Icon(
-          Icons.arrow_back,
+          Icons.arrow_back_ios_new,
           color: QrScreenTheme.accent(context),
-          size: InvitationsDesignSpec.px(context, 24),
+          size: InvitationsDesignSpec.px(context, 20),
         ),
       ),
       title: Text(

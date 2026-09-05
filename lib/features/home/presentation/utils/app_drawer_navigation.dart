@@ -13,20 +13,42 @@ import 'package:youpass/features/invitations/presentation/providers/invitations_
 import 'package:youpass/features/home/presentation/utils/party_mode_navigation.dart';
 import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/routes/app_routes.dart';
+
 class AppDrawerNavigation {
   AppDrawerNavigation._();
+
+  static bool _pendingOpenHomeDrawer = false;
+  static final ValueNotifier<int> openHomeDrawerSignal = ValueNotifier<int>(0);
+
+  static bool get hasPendingOpenHomeDrawer => _pendingOpenHomeDrawer;
+
+  static bool consumePendingOpenHomeDrawer() {
+    final shouldOpen = _pendingOpenHomeDrawer;
+    _pendingOpenHomeDrawer = false;
+    return shouldOpen;
+  }
+
+  static void requestOpenHomeDrawer() {
+    _pendingOpenHomeDrawer = true;
+    openHomeDrawerSignal.value++;
+  }
+
   static Widget buildDrawer(
     BuildContext context, {
     required ValueChanged<DrawerMenuId> onMenuSelected,
   }) {
-  final invitationsProvider = context.watch<InvitationsProvider>();
+    final invitationsProvider = context.watch<InvitationsProvider>();
 
     return HomeDrawerWidget(
       invitationsBadgeCount: invitationsProvider.invitationsBadgeCount,
       onMenuSelected: onMenuSelected,
     );
   }
-  static void openDrawer(BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
+
+  static void openDrawer(
+    BuildContext context,
+    GlobalKey<ScaffoldState> scaffoldKey,
+  ) {
     context.read<InvitationsProvider>().refreshDrawerBadge();
     scaffoldKey.currentState?.openDrawer();
   }
@@ -46,13 +68,26 @@ class AppDrawerNavigation {
       ),
     );
   }
-  static void goBackToHome(BuildContext context) {
+
+  /// Returns to home. When [openDrawer] is true (default), opens the home
+  /// hamburger drawer after navigation — used by drawer destination back arrows.
+  static void goBackToHome(BuildContext context, {bool openDrawer = true}) {
+    if (openDrawer) {
+      _pendingOpenHomeDrawer = true;
+    }
+
     final navigator = Navigator.of(context);
     if (navigator.canPop()) {
       navigator.pop();
-      return;
+    } else {
+      navigator.pushNamedAndRemoveUntil(AppRoutes.home, (route) => false);
     }
-    navigator.pushNamedAndRemoveUntil(AppRoutes.home, (route) => false);
+
+    if (openDrawer) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        openHomeDrawerSignal.value++;
+      });
+    }
   }
 
   static void handleMenuSelected(BuildContext context, DrawerMenuId menuId) {

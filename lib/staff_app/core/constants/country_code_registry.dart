@@ -1,3 +1,4 @@
+import 'package:youpass/core/constants/latam_country_codes.dart';
 import 'package:youpass/staff_app/core/constants/country_codes_data.dart';
 import 'package:youpass/staff_app/core/models/country_code.dart';
 
@@ -50,10 +51,30 @@ class CountryCodeRegistry {
     currencySymbol: r'$',
   );
 
-  static List<CountryCode> get fallbackCountries => [
-        _defaultCountry,
-        ...CountryCodesData.all.where(
-          (country) => country.isoCode != _defaultCountry.isoCode,
-        ),
-      ];
+  static List<CountryCode> _sortWithDefaultFirst(
+    List<CountryCode> list,
+    String preferredIso,
+  ) {
+    final sorted = List<CountryCode>.from(list);
+    sorted.sort((a, b) => a.name.compareTo(b.name));
+
+    final preferredIndex =
+        sorted.indexWhere((country) => country.isoCode == preferredIso);
+    if (preferredIndex > 0) {
+      final preferred = sorted.removeAt(preferredIndex);
+      sorted.insert(0, preferred);
+    }
+
+    return sorted;
+  }
+
+  static List<CountryCode> get fallbackCountries {
+    final latam = CountryCodesData.all
+        .where(
+          (country) =>
+              kLatamCountryIsoCodes.contains(country.isoCode.toUpperCase()),
+        )
+        .toList();
+    return _sortWithDefaultFirst(latam, _defaultCountry.isoCode);
+  }
 }

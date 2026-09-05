@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:youpass/core/constants/app_strings.dart';
@@ -30,13 +32,18 @@ class PartyDrinkOrdersListScreen extends StatefulWidget {
       _PartyDrinkOrdersListScreenState();
 }
 
-class _PartyDrinkOrdersListScreenState extends State<PartyDrinkOrdersListScreen> {
+class _PartyDrinkOrdersListScreenState extends State<PartyDrinkOrdersListScreen>
+    with WidgetsBindingObserver {
+  static const _pendingRefreshInterval = Duration(seconds: 2);
+
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   bool isLoading = true;
+  bool _isRefreshing = false;
   String? errorMessage;
   List<EventDrinkOrderModel> orders = const [];
   PartyDrinkPurchasesTab selectedTab = PartyDrinkPurchasesTab.pending;
   bool isOpeningQr = false;
+  Timer? _pendingRefreshTimer;
 
   bool get _isCourtesies => widget.mode == PartyDrinkOrdersListMode.courtesies;
 
@@ -51,14 +58,50 @@ class _PartyDrinkOrdersListScreenState extends State<PartyDrinkOrdersListScreen>
   @override
   void initState() {
     super.initState();
-    _loadOrders();
+    WidgetsBinding.instance.addObserver(this);
+    unawaited(_loadOrders());
+    _syncPendingRefreshTimer();
   }
 
-  Future<void> _loadOrders() async {
-    setState(() {
-      isLoading = true;
-      errorMessage = null;
+  @override
+  void dispose() {
+    _pendingRefreshTimer?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && mounted) {
+      unawaited(_loadOrders(showLoader: false));
+    }
+  }
+
+  void _syncPendingRefreshTimer() {
+    _pendingRefreshTimer?.cancel();
+    if (selectedTab != PartyDrinkPurchasesTab.pending) {
+      return;
+    }
+    _pendingRefreshTimer = Timer.periodic(_pendingRefreshInterval, (_) {
+      if (!mounted || isOpeningQr || _isRefreshing) {
+        return;
+      }
+      unawaited(_loadOrders(showLoader: false));
     });
+  }
+
+  Future<void> _loadOrders({bool showLoader = true}) async {
+    if (_isRefreshing) {
+      return;
+    }
+    _isRefreshing = true;
+
+    if (showLoader && mounted) {
+      setState(() {
+        isLoading = true;
+        errorMessage = null;
+      });
+    }
 
     try {
       final response = await GetIt.I<PartyDrinksApiService>().fetchMyDrinkOrders(
@@ -70,6 +113,7 @@ class _PartyDrinkOrdersListScreenState extends State<PartyDrinkOrdersListScreen>
       setState(() {
         orders = response.orders;
         isLoading = false;
+        errorMessage = null;
       });
     } catch (error) {
       if (!mounted) {
@@ -79,6 +123,8 @@ class _PartyDrinkOrdersListScreenState extends State<PartyDrinkOrdersListScreen>
         errorMessage = error.toString();
         isLoading = false;
       });
+    } finally {
+      _isRefreshing = false;
     }
   }
 
@@ -137,6 +183,10 @@ class _PartyDrinkOrdersListScreenState extends State<PartyDrinkOrdersListScreen>
           initialIndex: initialIndex >= 0 ? initialIndex : 0,
         ),
       );
+
+      if (mounted) {
+        await _loadOrders(showLoader: false);
+      }
     } catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -148,6 +198,12 @@ class _PartyDrinkOrdersListScreenState extends State<PartyDrinkOrdersListScreen>
         setState(() => isOpeningQr = false);
       }
     }
+  }
+
+  void _onTabSelected(PartyDrinkPurchasesTab tab) {
+    setState(() => selectedTab = tab);
+    _syncPendingRefreshTimer();
+    unawaited(_loadOrders(showLoader: false));
   }
 
   String _emptyMessage(BuildContext context) {
@@ -169,7 +225,7 @@ class _PartyDrinkOrdersListScreenState extends State<PartyDrinkOrdersListScreen>
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         PartyDrinkPurchasesTopBarWidget(
-          onDrawerTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
+          onBackTap: () => AppDrawerNavigation.goBackToHome(context),
         ),
         PartyDrinkPurchasesHeaderWidget(
           title: _isCourtesies
@@ -181,7 +237,7 @@ class _PartyDrinkOrdersListScreenState extends State<PartyDrinkOrdersListScreen>
         ),
         PartyDrinkPurchasesTabsWidget(
           selectedTab: selectedTab,
-          onTabSelected: (tab) => setState(() => selectedTab = tab),
+          onTabSelected: _onTabSelected,
         ),
       ],
     );
@@ -281,7 +337,7 @@ class _PartyDrinkOrdersListScreenState extends State<PartyDrinkOrdersListScreen>
             _buildFixedHeader(context),
             Expanded(
               child: RefreshIndicator(
-                onRefresh: _loadOrders,
+                onRefresh: () => _loadOrders(),
                 child: _buildScrollableContent(horizontalPadding),
               ),
             ),

@@ -730,6 +730,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Muestra este código en la barra para recibir tu trago.';
 
   @override
+  String get partyDrinkQrAcceptedTitle => '¡QR aceptado!';
+
+  @override
+  String get partyDrinkQrAcceptedMessage =>
+      'Tu código fue escaneado correctamente. ¡Disfruta!';
+
+  @override
   String partyDrinkPurchaseValidity(String target) {
     return 'Este código es válido para $target.';
   }
@@ -2607,6 +2614,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Tus entradas ya están en Mis entradas.';
 
   @override
+  String get vipPurchaseGoToMyTickets => 'Ir a mis entradas';
+
+  @override
   String vipTableLockCountdown(String time) {
     return 'Completa el pago en $time';
   }
@@ -2687,6 +2697,31 @@ class AppLocalizationsEs extends AppLocalizations {
   String waitlistOfferBanner(String time) {
     return '¡Hay un cupo para ti! Confirma antes de $time';
   }
+
+  @override
+  String get waitlistAlreadyHasCourtesy =>
+      'Ya tienes una invitación de cortesía';
+
+  @override
+  String get waitlistAlreadyHasCourtesyHint =>
+      'No necesitas la lista de espera para este evento. Abre tus invitaciones para verla o gestionarla.';
+
+  @override
+  String get waitlistAlreadyOnWaitlist => 'Ya estás en la lista de espera';
+
+  @override
+  String get waitlistDisabled =>
+      'La lista de espera no está habilitada para este evento';
+
+  @override
+  String get waitlistNotAvailable =>
+      'Todavía hay cupos de cortesía disponibles. Puedes solicitar una invitación en lugar de unirte a la lista de espera.';
+
+  @override
+  String get waitlistViewInvitations => 'Ver invitaciones';
+
+  @override
+  String get waitlistStatusTitle => 'Lista de espera no disponible';
 
   @override
   String get errorStaffNotFound =>

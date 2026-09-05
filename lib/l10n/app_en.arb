@@ -366,6 +366,8 @@
   "partyDrinkCheckoutSecurePayment": "100% secure payment",
   "partyDrinkPurchaseSuccessTitle": "Purchase complete!",
   "partyDrinkPurchaseSuccessSubtitle": "Show this code at the bar to receive your drink.",
+  "partyDrinkQrAcceptedTitle": "QR accepted!",
+  "partyDrinkQrAcceptedMessage": "Your drink code was scanned successfully. Enjoy!",
   "partyDrinkPurchaseValidity": "This code is valid for {target}.",
   "@partyDrinkPurchaseValidity": {
     "placeholders": {
@@ -1410,6 +1412,7 @@
   },
   "vipPurchaseSuccessTitle": "Purchase successful!",
   "vipPurchaseSuccessMessage": "Your tickets are ready in My Tickets.",
+  "vipPurchaseGoToMyTickets": "Go to my tickets",
   "vipTableLockCountdown": "Complete payment in {time}",
   "@vipTableLockCountdown": {
     "placeholders": {
@@ -1467,6 +1470,13 @@
       }
     }
   },
+  "waitlistAlreadyHasCourtesy": "You already have a courtesy invitation",
+  "waitlistAlreadyHasCourtesyHint": "You don't need the waiting list for this event. Open your invitations to view or manage it.",
+  "waitlistAlreadyOnWaitlist": "You are already on the waiting list",
+  "waitlistDisabled": "Waiting list is not enabled for this event",
+  "waitlistNotAvailable": "Courtesy slots are still available. You can request an invitation instead of joining the waiting list.",
+  "waitlistViewInvitations": "View invitations",
+  "waitlistStatusTitle": "Waiting list unavailable",
   "errorStaffNotFound": "No staff account found for this number. Ask your admin to register you.",
   "errorNetworkConnection": "Could not reach the server. Check your connection and try again.",
   "staffScanQrTitle": "SCAN QR",

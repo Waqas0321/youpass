@@ -204,12 +204,12 @@ class VipFlowNotificationButtonWidget extends StatelessWidget {
 class VipFlowTopBarWidget extends StatelessWidget {
   const VipFlowTopBarWidget({
     super.key,
-    required this.onMenuTap,
+    this.onMenuTap,
     this.brandedHeader = false,
     this.showNotification = false,
   });
 
-  final VoidCallback onMenuTap;
+  final VoidCallback? onMenuTap;
   final bool brandedHeader;
   final bool showNotification;
 
@@ -218,6 +218,7 @@ class VipFlowTopBarWidget extends StatelessWidget {
     final horizontalPadding =
         VipVenueDesignSpec.px(context, VipVenueDesignSpec.horizontalPadding);
     final iconSize = VipVenueDesignSpec.px(context, 24);
+    final showMenu = onMenuTap != null;
 
     return SizedBox(
       height: kToolbarHeight,
@@ -225,12 +226,15 @@ class VipFlowTopBarWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
         child: Row(
           children: [
-            _VipFlowHeaderIconButton(
-              icon: Icons.menu,
-              color: AppColors.homeAccentYellow,
-              iconSize: iconSize,
-              onPressed: onMenuTap,
-            ),
+            if (showMenu)
+              _VipFlowHeaderIconButton(
+                icon: Icons.menu,
+                color: AppColors.homeAccentYellow,
+                iconSize: iconSize,
+                onPressed: onMenuTap!,
+              )
+            else
+              SizedBox(width: iconSize + VipVenueDesignSpec.px(context, 16)),
             if (brandedHeader)
               const Expanded(child: Center(child: YouPassLogo()))
             else

@@ -206,7 +206,6 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
         children: [
           EventDetailHeaderWidget(
             onBack: () => Navigator.of(context).pop(),
-            onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
             isFavorite: _headerIsFavorite,
             isFavoriteEnabled: !isFavoritePending,
             onFavoriteToggle: isLoading && current == null

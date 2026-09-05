@@ -184,7 +184,6 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
       context: context,
       appBar: YouPassBrandedAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
-        onMenuTap: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
         primaryColor: FavoritesDesignSpec.primary,
       ),
       body: isInitialLoading

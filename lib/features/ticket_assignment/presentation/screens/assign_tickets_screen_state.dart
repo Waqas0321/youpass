@@ -59,7 +59,7 @@ class AssignTicketsScreenState extends State<AssignTicketsScreen> {
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: Icon(
-            Icons.arrow_back,
+            Icons.arrow_back_ios_new,
             color: appBarAccent,
           ),
         ),

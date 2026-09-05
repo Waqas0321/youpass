@@ -12,11 +12,14 @@ class PurchaseSuccessDialog {
 
   static Future<void> show(
     BuildContext context, {
+    required int ticketCount,
     required VoidCallback onAssignTickets,
+    required VoidCallback onGoToMyTickets,
     required VoidCallback onViewQr,
     required VoidCallback onClose,
   }) {
     final strings = context.l10n;
+    final canAssignTickets = ticketCount > 1;
 
     return showDialog<void>(
       context: context,
@@ -60,10 +63,16 @@ class PurchaseSuccessDialog {
                     ),
                     SizedBox(height: VipVenueDesignSpec.px(context, 20)),
                     VipPrimaryButtonWidget(
-                      label: AppStrings.ticketAssignmentTitle(strings),
+                      label: canAssignTickets
+                          ? AppStrings.ticketAssignmentTitle(strings)
+                          : AppStrings.vipPurchaseGoToMyTickets(strings),
                       onPressed: () {
                         Navigator.of(dialogContext).pop();
-                        onAssignTickets();
+                        if (canAssignTickets) {
+                          onAssignTickets();
+                        } else {
+                          onGoToMyTickets();
+                        }
                       },
                     ),
                     SizedBox(height: VipVenueDesignSpec.px(context, 10)),

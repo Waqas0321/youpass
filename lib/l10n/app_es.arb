@@ -345,6 +345,8 @@
   "partyDrinkCheckoutSecurePayment": "Pago 100% seguro",
   "partyDrinkPurchaseSuccessTitle": "¡Compra realizada!",
   "partyDrinkPurchaseSuccessSubtitle": "Muestra este código en la barra para recibir tu trago.",
+  "partyDrinkQrAcceptedTitle": "¡QR aceptado!",
+  "partyDrinkQrAcceptedMessage": "Tu código fue escaneado correctamente. ¡Disfruta!",
   "partyDrinkPurchaseValidity": "Este código es válido para {target}.",
   "@partyDrinkPurchaseValidity": {
     "placeholders": {
@@ -1389,6 +1391,7 @@
   },
   "vipPurchaseSuccessTitle": "¡Compra exitosa!",
   "vipPurchaseSuccessMessage": "Tus entradas ya están en Mis entradas.",
+  "vipPurchaseGoToMyTickets": "Ir a mis entradas",
   "vipTableLockCountdown": "Completa el pago en {time}",
   "@vipTableLockCountdown": {
     "placeholders": {
@@ -1425,6 +1428,13 @@
   "waitlistLeaveConfirm": "Salir de la lista",
   "waitlistClaimSlot": "RECLAMAR MI CUPO",
   "waitlistOfferBanner": "¡Hay un cupo para ti! Confirma antes de {time}",
+  "waitlistAlreadyHasCourtesy": "Ya tienes una invitación de cortesía",
+  "waitlistAlreadyHasCourtesyHint": "No necesitas la lista de espera para este evento. Abre tus invitaciones para verla o gestionarla.",
+  "waitlistAlreadyOnWaitlist": "Ya estás en la lista de espera",
+  "waitlistDisabled": "La lista de espera no está habilitada para este evento",
+  "waitlistNotAvailable": "Todavía hay cupos de cortesía disponibles. Puedes solicitar una invitación en lugar de unirte a la lista de espera.",
+  "waitlistViewInvitations": "Ver invitaciones",
+  "waitlistStatusTitle": "Lista de espera no disponible",
   "errorStaffNotFound": "No hay una cuenta de staff con este número. Pide a tu admin que te registre.",
   "errorNetworkConnection": "No se pudo conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.",
   "staffScanQrTitle": "ESCANEAR QR",

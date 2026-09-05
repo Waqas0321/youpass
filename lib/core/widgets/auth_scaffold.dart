@@ -37,7 +37,7 @@ class AuthScaffold extends StatelessWidget {
                       onPressed:
                           onBackPressed ?? () => Navigator.of(context).pop(),
                       icon: Icon(
-                        Icons.arrow_back,
+                        Icons.arrow_back_ios_new,
                         color: Theme.of(context).colorScheme.onSurface,
                         size: layout.iconSize,
                       ),

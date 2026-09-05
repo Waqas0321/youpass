@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:youpass/core/theme/qr_screen_theme.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
 import 'package:youpass/core/services/screen_secure_service.dart';
+import 'package:youpass/features/home/data/services/party_drinks_api_service.dart';
 import 'package:youpass/features/home/presentation/party_drinks/party_drinks_design_spec.dart';
 import 'package:youpass/features/home/presentation/party_drinks/routes/party_drink_purchase_success_route_args.dart';
 import 'package:youpass/features/home/presentation/party_drinks/utils/party_drink_purchase_confirmation_factory.dart';
 import 'package:youpass/features/home/presentation/party_drinks/widgets/party_drink_purchase_success_content_widgets.dart';
+import 'package:youpass/features/home/presentation/party_drinks/widgets/party_drink_qr_accepted_dialog.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 
 class PartyDrinkPurchaseSuccessScreen extends StatefulWidget {
@@ -27,9 +31,16 @@ class PartyDrinkPurchaseSuccessScreen extends StatefulWidget {
 
 class _PartyDrinkPurchaseSuccessScreenState
     extends State<PartyDrinkPurchaseSuccessScreen> {
+  static const _pollInterval = Duration(milliseconds: 500);
+
   final ScreenSecureService _screenSecureService = sl<ScreenSecureService>();
+  final PartyDrinksApiService _partyDrinksApi = sl<PartyDrinksApiService>();
   late final PageController _pageController;
   late int _currentIndex;
+  Timer? _pollTimer;
+  bool _isPolling = false;
+  bool _isShowingAcceptedDialog = false;
+  final Set<String> _acceptedKeys = <String>{};
 
   List<PartyDrinkPurchaseConfirmation> get _confirmations =>
       widget.args.confirmations.isNotEmpty
@@ -48,13 +59,117 @@ class _PartyDrinkPurchaseSuccessScreenState
     );
     _pageController = PageController(initialPage: _currentIndex);
     _screenSecureService.enable();
+    _startRedemptionPolling();
   }
 
   @override
   void dispose() {
+    _pollTimer?.cancel();
     _pageController.dispose();
     _screenSecureService.disable();
     super.dispose();
+  }
+
+  void _startRedemptionPolling() {
+    final hasTrackableOrders = _confirmations.any(
+      (confirmation) =>
+          confirmation.orderId != null && confirmation.orderId!.isNotEmpty,
+    );
+    if (!hasTrackableOrders) {
+      return;
+    }
+
+    _pollTimer?.cancel();
+    _pollTimer = Timer.periodic(_pollInterval, (_) {
+      unawaited(_checkRedemptionStatus());
+    });
+    unawaited(_checkRedemptionStatus());
+  }
+
+  String _acceptanceKey(PartyDrinkPurchaseConfirmation confirmation) {
+    final lineId = confirmation.lineId?.trim() ?? '';
+    if (lineId.isNotEmpty) {
+      return lineId;
+    }
+    return confirmation.orderId?.trim() ?? confirmation.entryCode;
+  }
+
+  Future<void> _checkRedemptionStatus() async {
+    if (!mounted || _isPolling || _isShowingAcceptedDialog) {
+      return;
+    }
+
+    final confirmation = _activeConfirmation;
+    final orderId = confirmation.orderId?.trim() ?? '';
+    if (orderId.isEmpty) {
+      return;
+    }
+
+    final key = _acceptanceKey(confirmation);
+    if (_acceptedKeys.contains(key)) {
+      return;
+    }
+
+    _isPolling = true;
+    try {
+      final order = await _partyDrinksApi.fetchDrinkOrder(orderId);
+      if (!mounted) {
+        return;
+      }
+
+      final lineId = confirmation.lineId?.trim() ?? '';
+      final isRedeemed = lineId.isEmpty
+          ? order.status == 'redeemed' || order.qrStatus == 'redeemed'
+          : order.lineItems.any(
+              (line) => line.lineId == lineId && line.isRedeemed,
+            );
+
+      if (!isRedeemed) {
+        return;
+      }
+
+      _acceptedKeys.add(key);
+      await _showAcceptedFeedback();
+    } catch (_) {
+      // Ignore transient polling errors while waiting for a staff scan.
+    } finally {
+      _isPolling = false;
+    }
+  }
+
+  Future<void> _showAcceptedFeedback() async {
+    if (!mounted || _isShowingAcceptedDialog) {
+      return;
+    }
+
+    _isShowingAcceptedDialog = true;
+    _pollTimer?.cancel();
+    try {
+      await PartyDrinkQrAcceptedDialog.show(context);
+      if (!mounted) {
+        return;
+      }
+
+      final nextIndex = _confirmations.indexWhere(
+        (confirmation) => !_acceptedKeys.contains(_acceptanceKey(confirmation)),
+      );
+      if (nextIndex == -1) {
+        Navigator.of(context).pop();
+        return;
+      }
+
+      setState(() => _currentIndex = nextIndex);
+      if (_pageController.hasClients) {
+        await _pageController.animateToPage(
+          nextIndex,
+          duration: const Duration(milliseconds: 280),
+          curve: Curves.easeOut,
+        );
+      }
+      _startRedemptionPolling();
+    } finally {
+      _isShowingAcceptedDialog = false;
+    }
   }
 
   double _qrPageHeight(BuildContext context) {
@@ -88,9 +203,9 @@ class _PartyDrinkPurchaseSuccessScreenState
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: Icon(
-            Icons.arrow_back,
+            Icons.arrow_back_ios_new,
             color: QrScreenTheme.accent(context),
-            size: InvitationsDesignSpec.px(context, 24),
+            size: InvitationsDesignSpec.px(context, 20),
           ),
         ),
       ),

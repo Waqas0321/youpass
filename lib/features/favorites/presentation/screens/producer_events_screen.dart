@@ -156,7 +156,7 @@ class _ProducerEventsScreenState extends State<ProducerEventsScreen> {
     return Scaffold(
       appBar: YouPassBrandedAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
-        primaryColor: FavoritesDesignSpec.titleText,
+        primaryColor: FavoritesDesignSpec.primary,
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())

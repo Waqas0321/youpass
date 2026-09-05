@@ -6,14 +6,12 @@ class EventDetailHeaderWidget extends StatelessWidget {
   const EventDetailHeaderWidget({
     super.key,
     required this.onBack,
-    this.onMenuTap,
     this.isFavorite = false,
     this.onFavoriteToggle,
     this.isFavoriteEnabled = true,
   });
 
   final VoidCallback onBack;
-  final VoidCallback? onMenuTap;
   final bool isFavorite;
   final VoidCallback? onFavoriteToggle;
   final bool isFavoriteEnabled;
@@ -32,22 +30,13 @@ class EventDetailHeaderWidget extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: onBack,
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  color: theme.iconDefault,
+                  color: AppColors.homeAccentYellow,
                   size: 20,
                 ),
               ),
               const Spacer(),
-              if (onMenuTap != null)
-                IconButton(
-                  onPressed: onMenuTap,
-                  icon: const Icon(
-                    Icons.menu,
-                    color: AppColors.homeAccentYellow,
-                    size: 24,
-                  ),
-                ),
               if (onFavoriteToggle != null)
                 IconButton(
                   onPressed: isFavoriteEnabled ? onFavoriteToggle : null,

@@ -322,7 +322,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context: context,
       backgroundColor: theme.screenBackground,
       appBar: ProfileAppBarWidget(
-        onBack: () => AppDrawerNavigation.goBackToHome(context),
+        onBack: () => AppDrawerNavigation.openDrawer(context, scaffoldKey),
       ),
       body: isLoadingProfile && authProvider.userProfile == null
           ? const ProfileScreenShimmer()

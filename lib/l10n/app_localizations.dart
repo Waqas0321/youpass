@@ -1394,6 +1394,18 @@ abstract class AppLocalizations {
   /// **'Show this code at the bar to receive your drink.'**
   String get partyDrinkPurchaseSuccessSubtitle;
 
+  /// No description provided for @partyDrinkQrAcceptedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'QR accepted!'**
+  String get partyDrinkQrAcceptedTitle;
+
+  /// No description provided for @partyDrinkQrAcceptedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your drink code was scanned successfully. Enjoy!'**
+  String get partyDrinkQrAcceptedMessage;
+
   /// No description provided for @partyDrinkPurchaseValidity.
   ///
   /// In en, this message translates to:
@@ -4590,6 +4602,12 @@ abstract class AppLocalizations {
   /// **'Your tickets are ready in My Tickets.'**
   String get vipPurchaseSuccessMessage;
 
+  /// No description provided for @vipPurchaseGoToMyTickets.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to my tickets'**
+  String get vipPurchaseGoToMyTickets;
+
   /// No description provided for @vipTableLockCountdown.
   ///
   /// In en, this message translates to:
@@ -4721,6 +4739,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A slot is waiting for you! Confirm before {time}'**
   String waitlistOfferBanner(String time);
+
+  /// No description provided for @waitlistAlreadyHasCourtesy.
+  ///
+  /// In en, this message translates to:
+  /// **'You already have a courtesy invitation'**
+  String get waitlistAlreadyHasCourtesy;
+
+  /// No description provided for @waitlistAlreadyHasCourtesyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t need the waiting list for this event. Open your invitations to view or manage it.'**
+  String get waitlistAlreadyHasCourtesyHint;
+
+  /// No description provided for @waitlistAlreadyOnWaitlist.
+  ///
+  /// In en, this message translates to:
+  /// **'You are already on the waiting list'**
+  String get waitlistAlreadyOnWaitlist;
+
+  /// No description provided for @waitlistDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting list is not enabled for this event'**
+  String get waitlistDisabled;
+
+  /// No description provided for @waitlistNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Courtesy slots are still available. You can request an invitation instead of joining the waiting list.'**
+  String get waitlistNotAvailable;
+
+  /// No description provided for @waitlistViewInvitations.
+  ///
+  /// In en, this message translates to:
+  /// **'View invitations'**
+  String get waitlistViewInvitations;
+
+  /// No description provided for @waitlistStatusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting list unavailable'**
+  String get waitlistStatusTitle;
 
   /// No description provided for @errorStaffNotFound.
   ///

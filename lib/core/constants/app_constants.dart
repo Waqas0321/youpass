@@ -39,8 +39,7 @@ class AppConstants {
     defaultValue: false,
   );
 
-  /// Default: production API (Vercel). Local debug:
-  /// `flutter run --dart-define=USE_LOCAL_API=true`
+  /// Default debug: production Vercel. Local: `--dart-define=USE_LOCAL_API=true`
   /// Override: `--dart-define=API_BASE_URL=...`
   static String get apiBaseUrl {
     const override = String.fromEnvironment('API_BASE_URL');

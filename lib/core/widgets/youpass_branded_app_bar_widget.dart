@@ -53,9 +53,9 @@ class YouPassBrandedAppBarWidget extends StatelessWidget
           ? IconButton(
               onPressed: onBack,
               icon: Icon(
-                Icons.arrow_back,
+                Icons.arrow_back_ios_new,
                 color: primaryColor,
-                size: 24,
+                size: 20,
               ),
             )
           : IconButton(

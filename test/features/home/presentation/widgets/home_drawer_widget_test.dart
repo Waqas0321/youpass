@@ -121,20 +121,16 @@ void main() {
     expect(find.text(strings.drawerMyFavorites), findsNothing);
     expect(find.text(strings.drawerMyTickets), findsNothing);
     expect(find.text(strings.drawerInvitations), findsNothing);
-    expect(find.text(strings.drawerMyProfile), findsOneWidget);
+    expect(find.text(strings.drawerMyProfile), findsNothing);
     expect(find.text(strings.drawerDrinkMenu), findsOneWidget);
     expect(find.text(strings.drawerMyPurchases), findsOneWidget);
     expect(find.text(strings.invitationsFilterCourtesy), findsOneWidget);
+    expect(find.text(strings.profileLogout), findsNothing);
 
-    final profileFinder = find.text(strings.drawerMyProfile);
     final drinkMenuFinder = find.text(strings.drawerDrinkMenu);
     final purchasesFinder = find.text(strings.drawerMyPurchases);
     final cortesiasFinder = find.text(strings.invitationsFilterCourtesy);
 
-    expect(
-      tester.getTopLeft(drinkMenuFinder).dy,
-      greaterThan(tester.getTopLeft(profileFinder).dy),
-    );
     expect(
       tester.getTopLeft(purchasesFinder).dy,
       greaterThan(tester.getTopLeft(drinkMenuFinder).dy),
@@ -186,9 +182,10 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 50));
 
-    expect(find.text(strings.drawerMyProfile), findsOneWidget);
+    expect(find.text(strings.drawerMyProfile), findsNothing);
     expect(find.text('Carta de tragos'), findsOneWidget);
     expect(find.text('Mis compras'), findsOneWidget);
     expect(find.text('Cortesías'), findsOneWidget);
+    expect(find.text(strings.profileLogout), findsNothing);
   });
 }

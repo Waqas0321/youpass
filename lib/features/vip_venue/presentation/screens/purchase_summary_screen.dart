@@ -64,6 +64,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
   List<ProfileWalletCardModel> _walletCards = const [];
   String? _selectedCardId;
   bool _loadingCards = true;
+  bool _addingPaymentMethod = false;
 
   @override
   void initState() {
@@ -105,11 +106,24 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
   }
 
   Future<bool> _addPaymentMethod() async {
-    final added = await WalletAddCardFlow().start(context);
-    if (added) {
-      await _loadWalletCards();
+    if (_addingPaymentMethod) {
+      return false;
     }
-    return added;
+
+    setState(() => _addingPaymentMethod = true);
+    try {
+      final added = await WalletAddCardFlow().start(context);
+      if (added) {
+        await _loadWalletCards();
+      }
+      return added;
+    } finally {
+      if (mounted) {
+        setState(() => _addingPaymentMethod = false);
+      } else {
+        _addingPaymentMethod = false;
+      }
+    }
   }
 
   Future<void> _warmCheckout() async {
@@ -393,7 +407,11 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
 
     await PurchaseSuccessDialog.show(
       context,
+      ticketCount: session.isVipTablePurchase
+          ? (session.selectedTable?.capacity ?? 1)
+          : session.selectedTicketCount,
       onAssignTickets: navigateToAssignTickets,
+      onGoToMyTickets: navigateToMyTickets,
       onViewQr: openTicketQr,
       onClose: navigateHomeAfterPurchase,
     );
@@ -595,6 +613,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
       child: VipFlowScaffold(
       title: AppStrings.vipPurchaseSummaryTitle(strings),
       subtitle: session.event.title,
+      showMenu: false,
       body: ListView(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, padding),
         children: [
@@ -611,8 +630,11 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
             cards: _walletCards,
             selectedCardId: _selectedCardId,
             isLoadingCards: _loadingCards,
+            isAddingPaymentMethod: _addingPaymentMethod,
             onSelectCard: (card) => setState(() => _selectedCardId = card.id),
-            onAddPaymentMethod: () => unawaited(_addPaymentMethod()),
+            onAddPaymentMethod: _addingPaymentMethod
+                ? null
+                : () => unawaited(_addPaymentMethod()),
           ),
         ],
       ),

@@ -332,20 +332,23 @@ class VipPurchaseAddPaymentMethodTileWidget extends StatelessWidget {
     super.key,
     required this.label,
     this.onTap,
+    this.isLoading = false,
   });
 
   final String label;
   final VoidCallback? onTap;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
     final accent = VipVenueScreenTheme.accent(context);
     final radius = VipVenueDesignSpec.px(context, 12);
+    final enabled = onTap != null && !isLoading;
 
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: onTap,
+        onTap: enabled ? onTap : null,
         borderRadius: BorderRadius.circular(radius),
         child: VipDashedBorderContainerWidget(
           radius: radius,
@@ -358,11 +361,19 @@ class VipPurchaseAddPaymentMethodTileWidget extends StatelessWidget {
               shape: BoxShape.circle,
               border: Border.all(color: accent, width: 1.5),
             ),
-            child: Icon(
-              Icons.add,
-              color: accent,
-              size: VipVenueDesignSpec.px(context, 16),
-            ),
+            child: isLoading
+                ? Padding(
+                    padding: EdgeInsets.all(VipVenueDesignSpec.px(context, 5)),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: accent,
+                    ),
+                  )
+                : Icon(
+                    Icons.add,
+                    color: accent,
+                    size: VipVenueDesignSpec.px(context, 16),
+                  ),
           ),
           SizedBox(width: VipVenueDesignSpec.px(context, 12)),
           Expanded(

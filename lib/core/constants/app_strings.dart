@@ -370,6 +370,12 @@ class AppStrings {
   static String partyDrinkPurchaseSuccessSubtitle(AppLocalizations l10n) =>
       l10n.partyDrinkPurchaseSuccessSubtitle;
 
+  static String partyDrinkQrAcceptedTitle(AppLocalizations l10n) =>
+      l10n.partyDrinkQrAcceptedTitle;
+
+  static String partyDrinkQrAcceptedMessage(AppLocalizations l10n) =>
+      l10n.partyDrinkQrAcceptedMessage;
+
   static String partyDrinkPurchaseValidity(
     AppLocalizations l10n,
     String target,
@@ -1280,6 +1286,9 @@ class AppStrings {
   static String vipPurchaseSuccessMessage(AppLocalizations l10n) =>
       l10n.vipPurchaseSuccessMessage;
 
+  static String vipPurchaseGoToMyTickets(AppLocalizations l10n) =>
+      l10n.vipPurchaseGoToMyTickets;
+
   static String vipTableLockCountdown(AppLocalizations l10n, String time) =>
       l10n.vipTableLockCountdown(time);
 
@@ -1997,6 +2006,28 @@ class AppStrings {
 
   static String waitlistOfferBanner(AppLocalizations l10n, String time) =>
       l10n.waitlistOfferBanner(time);
+
+  static String waitlistAlreadyHasCourtesy(AppLocalizations l10n) =>
+      l10n.waitlistAlreadyHasCourtesy;
+
+  static String waitlistAlreadyHasCourtesyHint(AppLocalizations l10n) =>
+      l10n.waitlistAlreadyHasCourtesyHint;
+
+  static String waitlistAlreadyOnWaitlist(AppLocalizations l10n) =>
+      l10n.waitlistAlreadyOnWaitlist;
+
+  static String waitlistDisabled(AppLocalizations l10n) => l10n.waitlistDisabled;
+
+  static String waitlistNotAvailable(AppLocalizations l10n) =>
+      l10n.waitlistNotAvailable;
+
+  static String waitlistViewInvitations(AppLocalizations l10n) =>
+      l10n.waitlistViewInvitations;
+
+  static String waitlistStatusTitle(AppLocalizations l10n) =>
+      l10n.waitlistStatusTitle;
+
+  static String backButton(AppLocalizations l10n) => l10n.backButton;
 
   static HomeFeedLabels homeFeedLabels(AppLocalizations l10n) {
     return HomeFeedLabels(

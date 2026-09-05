@@ -1,4 +1,5 @@
 import 'package:youpass/core/constants/country_codes_data.dart';
+import 'package:youpass/core/constants/latam_country_codes.dart';
 import 'package:youpass/core/models/country_code.dart';
 import 'package:youpass/core/network/config_api_service.dart';
 import 'package:youpass/core/config/app_product_config.dart';
@@ -71,7 +72,14 @@ class CountryCodeRegistry {
     List<CountryCode> list, {
     String? defaultCountryCode,
   }) {
-    _countries = _sortWithDefaultFirst(list, defaultCountryCode ?? 'CL');
+    final latamOnly = list
+        .where(
+          (country) =>
+              kLatamCountryIsoCodes.contains(country.isoCode.toUpperCase()),
+        )
+        .toList();
+    final source = latamOnly.isNotEmpty ? latamOnly : fallbackCountries;
+    _countries = _sortWithDefaultFirst(source, defaultCountryCode ?? 'CL');
     _defaultCountryCode = defaultCountryCode ?? _countries.first.isoCode;
   }
 
@@ -151,10 +159,13 @@ class CountryCodeRegistry {
     currencySymbol: r'$',
   );
 
-  static List<CountryCode> get fallbackCountries => [
-        _defaultCountry,
-        ...CountryCodesData.all.where(
-          (country) => country.isoCode != _defaultCountry.isoCode,
-        ),
-      ];
+  static List<CountryCode> get fallbackCountries {
+    final latam = CountryCodesData.all
+        .where(
+          (country) =>
+              kLatamCountryIsoCodes.contains(country.isoCode.toUpperCase()),
+        )
+        .toList();
+    return _sortWithDefaultFirst(latam, _defaultCountry.isoCode);
+  }
 }

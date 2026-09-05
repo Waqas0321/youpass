@@ -34,8 +34,8 @@ abstract final class ApiConfig {
       return productionApiV1Url;
     }
 
-    // Default to production so debug builds hit the redeployed Vercel API.
-    // Local backend: `flutter run --dart-define=USE_LOCAL_API=true`
+    // Default debug → production Vercel. Local:
+    // `flutter run --dart-define=USE_LOCAL_API=true`
     const useLocalApi = bool.fromEnvironment(
       'USE_LOCAL_API',
       defaultValue: false,

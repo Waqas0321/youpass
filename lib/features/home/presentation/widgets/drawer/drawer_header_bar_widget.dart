@@ -23,7 +23,7 @@ class DrawerHeaderBarWidget extends StatelessWidget {
           IconButton(
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(
-              Icons.arrow_back,
+              Icons.arrow_back_ios_new,
               color: theme.gold,
               size: DrawerDesignSpec.px(context, DrawerDesignSpec.backIconSize),
             ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/utils/webview_platform_init.dart';
+import 'package:youpass/core/widgets/youpass_branded_app_bar_widget.dart';
 import 'package:youpass/features/invitations/domain/entities/payment_method_request_entity.dart';
 import 'package:youpass/features/profile/data/models/profile_wallet_data_model.dart';
 import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
-import 'package:youpass/features/profile/presentation/widgets/profile_app_bar_widget.dart';
 import 'package:youpass/features/profile/presentation/widgets/profile_theme.dart';
 
 class KlapTokenizeWebViewScreen extends StatefulWidget {
@@ -105,13 +106,10 @@ class _KlapTokenizeWebViewScreenState extends State<KlapTokenizeWebViewScreen> {
       scaffoldKey: scaffoldKey,
       context: context,
       backgroundColor: theme.screenBackground,
-      appBar: ProfileAppBarWidget(
+      appBar: YouPassBrandedAppBarWidget(
         onBack: () => Navigator.of(context).pop(),
-        title: widget.session.gateway == 'kushki'
-            ? 'Kushki'
-            : widget.session.gateway == 'stripe'
-                ? 'Stripe'
-                : 'Klap',
+        primaryColor: AppColors.homeAccentYellow,
+        backgroundColor: theme.screenBackground,
       ),
       body: !platformReady || controller == null
           ? Center(

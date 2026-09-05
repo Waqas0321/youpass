@@ -59,9 +59,10 @@ class HomeDrawerWidget extends StatelessWidget {
                       ),
               ),
             ),
-            DrawerFooterActionsWidget(
-              onSelect: (menuId) => _selectMenu(context, menuId),
-            ),
+            if (!isPartyMode)
+              DrawerFooterActionsWidget(
+                onSelect: (menuId) => _selectMenu(context, menuId),
+              ),
           ],
         ),
       ),

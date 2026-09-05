@@ -46,10 +46,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     scrollController.addListener(_handleScroll);
     _startBadgeRefreshTimer();
+    AppDrawerNavigation.openHomeDrawerSignal
+        .addListener(_handleOpenHomeDrawerRequest);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) {
         return;
       }
+      _handleOpenHomeDrawerRequest();
       final homeProvider = context.read<HomeProvider>();
       if (homeProvider.homeFeed == null) {
         await homeProvider.loadHomeDataIfNeeded();
@@ -93,11 +96,29 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    AppDrawerNavigation.openHomeDrawerSignal
+        .removeListener(_handleOpenHomeDrawerRequest);
     _badgeRefreshTimer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     scrollController.removeListener(_handleScroll);
     scrollController.dispose();
     super.dispose();
+  }
+
+  void _handleOpenHomeDrawerRequest() {
+    if (!mounted || !AppDrawerNavigation.hasPendingOpenHomeDrawer) {
+      return;
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      if (!AppDrawerNavigation.consumePendingOpenHomeDrawer()) {
+        return;
+      }
+      openDrawer();
+    });
   }
 
   void _startBadgeRefreshTimer() {

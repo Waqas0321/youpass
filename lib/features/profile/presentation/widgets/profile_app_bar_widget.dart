@@ -40,7 +40,7 @@ class ProfileAppBarWidget extends StatelessWidget implements PreferredSizeWidget
           ? IconButton(
               onPressed: onBack,
               icon: Icon(
-                Icons.arrow_back,
+                Icons.arrow_back_ios_new,
                 color: accent,
                 size: ProfileDesignSpec.px(context, ProfileDesignSpec.backIconSize),
               ),

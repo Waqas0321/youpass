@@ -1406,6 +1406,18 @@ abstract class AppLocalizations {
   /// **'Your drink code was scanned successfully. Enjoy!'**
   String get partyDrinkQrAcceptedMessage;
 
+  /// No description provided for @entryTicketQrAcceptedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'QR accepted!'**
+  String get entryTicketQrAcceptedTitle;
+
+  /// No description provided for @entryTicketQrAcceptedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your entry ticket was scanned successfully. Enjoy!'**
+  String get entryTicketQrAcceptedMessage;
+
   /// No description provided for @partyDrinkPurchaseValidity.
   ///
   /// In en, this message translates to:

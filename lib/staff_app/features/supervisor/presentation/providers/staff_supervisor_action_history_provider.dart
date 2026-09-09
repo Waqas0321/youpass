@@ -22,7 +22,7 @@ class StaffSupervisorActionHistoryProvider extends ChangeNotifier {
 
   Future<void> initialize() => loadHistory();
 
-  Future<void> loadHistory({bool refresh = false}) async {
+  Future<void> loadHistory({bool refresh = false, int? limit}) async {
     if (refresh) {
       isRefreshing = true;
       loadError = null;
@@ -33,7 +33,10 @@ class StaffSupervisorActionHistoryProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      history = await _apiService.getActionHistory(eventId: history?.eventId);
+      history = await _apiService.getActionHistory(
+        eventId: history?.eventId,
+        limit: limit,
+      );
       loadError = null;
     } on ApiException catch (error) {
       loadError = error.message.isNotEmpty ? error.message : _genericError;

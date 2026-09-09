@@ -19,6 +19,7 @@ class VipFlowScaffold extends StatefulWidget {
     this.headerStyle = VipFlowHeaderStyle.leftTitle,
     this.showNotification = false,
     this.showMenu = false,
+    this.onBack,
   });
 
   final String title;
@@ -28,6 +29,7 @@ class VipFlowScaffold extends StatefulWidget {
   final VipFlowHeaderStyle headerStyle;
   final bool showNotification;
   final bool showMenu;
+  final VoidCallback? onBack;
 
   @override
   State<VipFlowScaffold> createState() => _VipFlowScaffoldState();
@@ -50,10 +52,12 @@ class _VipFlowScaffoldState extends State<VipFlowScaffold> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (widget.showMenu ||
+            if (widget.onBack != null ||
+                widget.showMenu ||
                 widget.headerStyle == VipFlowHeaderStyle.branded ||
                 widget.showNotification)
               VipFlowTopBarWidget(
+                onBack: widget.onBack,
                 onMenuTap: widget.showMenu
                     ? () =>
                         AppDrawerNavigation.openDrawer(context, scaffoldKey)

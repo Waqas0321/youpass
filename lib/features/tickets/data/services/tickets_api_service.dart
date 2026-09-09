@@ -8,6 +8,7 @@ import 'package:youpass/features/tickets/data/models/tickets_list_response_model
 import 'package:youpass/features/tickets/data/models/tickets_yearly_summary_model.dart';
 import 'package:youpass/features/tickets/domain/entities/past_event_entity.dart';
 import 'package:youpass/features/tickets/domain/entities/past_tickets_query.dart';
+import 'package:youpass/features/tickets/domain/entities/ticket_display_status.dart';
 import 'package:youpass/features/tickets/domain/entities/tickets_page_result.dart';
 import 'package:youpass/features/tickets/domain/entities/upcoming_ticket_entity.dart';
 
@@ -84,6 +85,15 @@ class TicketsApiService extends BaseApiService {
       ),
       authenticated: true,
     );
+  }
+
+  Future<TicketDisplayStatus?> fetchTicketStatus(String ticketId) async {
+    final data = await getData(
+      ApiEndpoints.ticketById(ticketId),
+      authenticated: true,
+    );
+
+    return TicketDisplayStatusParsing.fromApi(data['status']?.toString());
   }
 
   String _withQuery(String endpoint, Map<String, String> params) {

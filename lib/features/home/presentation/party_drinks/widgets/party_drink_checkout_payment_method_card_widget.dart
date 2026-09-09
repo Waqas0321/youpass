@@ -23,10 +23,6 @@ class PartyDrinkCheckoutPaymentMethodCardWidget extends StatelessWidget {
     final strings = context.l10n;
     final radius = PartyDrinksDesignSpec.px(context, 14);
     final iconSize = PartyDrinksDesignSpec.px(context, 40);
-    final brand = (card?.brand ?? 'visa').toLowerCase();
-    final brandLabel = brand == 'mastercard'
-        ? AppStrings.paymentBrandMastercard(strings)
-        : AppStrings.paymentBrandVisa(strings);
     final cardLine = card == null
         ? AppStrings.vipAddPaymentMethod(strings)
         : '${AppStrings.partyDrinkCheckoutCreditCard(strings)} ${AppStrings.partyDrinkCheckoutCardMask(strings, card!.lastFour)}';
@@ -81,40 +77,21 @@ class PartyDrinkCheckoutPaymentMethodCardWidget extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: PartyDrinksDesignSpec.px(context, 4)),
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            cardLine,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: PartyDrinksDesignSpec.px(context, 14),
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        if (card != null) ...[
-                          SizedBox(width: PartyDrinksDesignSpec.px(context, 8)),
-                          Text(
-                            brandLabel,
-                            style: TextStyle(
-                              fontSize: PartyDrinksDesignSpec.px(context, 10),
-                              fontWeight: FontWeight.w800,
-                              color: brand == 'mastercard'
-                                  ? const Color(0xFFEB001B)
-                                  : const Color(0xFF1A1F71),
-                              letterSpacing: 0.5,
-                            ),
-                          ),
-                        ],
-                      ],
+                    Text(
+                      cardLine,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: PartyDrinksDesignSpec.px(context, 14),
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),
               ),
-              if (card != null)
+              if (card != null) ...[
+                SizedBox(width: PartyDrinksDesignSpec.px(context, 8)),
                 Text(
                   AppStrings.partyDrinkCheckoutChangePayment(strings),
                   style: TextStyle(
@@ -123,6 +100,7 @@ class PartyDrinkCheckoutPaymentMethodCardWidget extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
+              ],
               Icon(
                 Icons.chevron_right_rounded,
                 size: PartyDrinksDesignSpec.px(context, 20),

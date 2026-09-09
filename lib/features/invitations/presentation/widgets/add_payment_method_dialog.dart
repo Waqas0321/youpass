@@ -10,6 +10,8 @@ import 'package:youpass/features/invitations/domain/entities/payment_method_requ
 import 'package:youpass/features/invitations/presentation/providers/invitations_provider.dart';
 import 'package:flutter/services.dart';
 import 'package:youpass/features/invitations/presentation/utils/card_expiry_input_formatter.dart';
+import 'package:youpass/features/invitations/presentation/utils/card_expiry_validator.dart';
+import 'package:youpass/features/invitations/presentation/utils/card_number_input_formatter.dart';
 import 'package:youpass/features/invitations/presentation/widgets/payment_method_field_widget.dart';
 
 class AddPaymentMethodDialog extends StatefulWidget {
@@ -58,6 +60,15 @@ class AddPaymentMethodDialogState extends State<AddPaymentMethodDialog> {
       isSaving = true;
       errorMessage = null;
     });
+
+    final expiryError = CardExpiryValidator.validate(expiryController.text);
+    if (expiryError != null) {
+      setState(() {
+        isSaving = false;
+        errorMessage = expiryError;
+      });
+      return;
+    }
 
     final request = PaymentMethodRequestEntity(
       cardNumber: cardNumberController.text,
@@ -128,10 +139,10 @@ class AddPaymentMethodDialogState extends State<AddPaymentMethodDialog> {
             hint: AppStrings.invitationsCardNumberHint(strings),
             icon: Icons.credit_card_outlined,
             keyboardType: TextInputType.number,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              LengthLimitingTextInputFormatter(16),
+            inputFormatters: const [
+              CardNumberInputFormatter(),
             ],
+            maxLength: 19,
           ),
           const SizedBox(height: 12),
           Row(
@@ -143,7 +154,7 @@ class AddPaymentMethodDialogState extends State<AddPaymentMethodDialog> {
                   hint: AppStrings.invitationsCardExpiryHint(strings),
                   icon: Icons.calendar_today_outlined,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [CardExpiryInputFormatter()],
+                  inputFormatters: const [CardExpiryInputFormatter()],
                   maxLength: 5,
                 ),
               ),

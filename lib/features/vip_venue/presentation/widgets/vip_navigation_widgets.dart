@@ -204,11 +204,13 @@ class VipFlowNotificationButtonWidget extends StatelessWidget {
 class VipFlowTopBarWidget extends StatelessWidget {
   const VipFlowTopBarWidget({
     super.key,
+    this.onBack,
     this.onMenuTap,
     this.brandedHeader = false,
     this.showNotification = false,
   });
 
+  final VoidCallback? onBack;
   final VoidCallback? onMenuTap;
   final bool brandedHeader;
   final bool showNotification;
@@ -219,6 +221,7 @@ class VipFlowTopBarWidget extends StatelessWidget {
         VipVenueDesignSpec.px(context, VipVenueDesignSpec.horizontalPadding);
     final iconSize = VipVenueDesignSpec.px(context, 24);
     final showMenu = onMenuTap != null;
+    final showBack = onBack != null;
 
     return SizedBox(
       height: kToolbarHeight,
@@ -226,7 +229,14 @@ class VipFlowTopBarWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
         child: Row(
           children: [
-            if (showMenu)
+            if (showBack)
+              _VipFlowHeaderIconButton(
+                icon: Icons.arrow_back_ios_new_rounded,
+                color: AppColors.homeAccentYellow,
+                iconSize: VipVenueDesignSpec.px(context, 20),
+                onPressed: onBack!,
+              )
+            else if (showMenu)
               _VipFlowHeaderIconButton(
                 icon: Icons.menu,
                 color: AppColors.homeAccentYellow,

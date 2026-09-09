@@ -22,6 +22,9 @@ class EventEntity extends Equatable {
     this.travelTimeMinutes,
     this.startsAt,
     this.waitlist,
+    this.canPurchase,
+    this.hasTicketOfferings,
+    this.isSoldOut,
   });
 
   final String id;
@@ -42,6 +45,12 @@ class EventEntity extends Equatable {
   final int? travelTimeMinutes;
   final DateTime? startsAt;
   final EventWaitlistStatusEntity? waitlist;
+  /// From listing API. `null` = unknown (legacy); `false` = no tickets to buy.
+  final bool? canPurchase;
+  final bool? hasTicketOfferings;
+  final bool? isSoldOut;
+
+  bool get canShowBuyTicketsCta => canPurchase != false;
 
   EventEntity copyWith({
     bool? isFavorite,
@@ -50,6 +59,9 @@ class EventEntity extends Equatable {
     bool clearDistance = false,
     EventWaitlistStatusEntity? waitlist,
     bool clearWaitlist = false,
+    bool? canPurchase,
+    bool? hasTicketOfferings,
+    bool? isSoldOut,
   }) {
     return EventEntity(
       id: id,
@@ -71,6 +83,9 @@ class EventEntity extends Equatable {
           clearDistance ? null : (travelTimeMinutes ?? this.travelTimeMinutes),
       startsAt: startsAt,
       waitlist: clearWaitlist ? null : (waitlist ?? this.waitlist),
+      canPurchase: canPurchase ?? this.canPurchase,
+      hasTicketOfferings: hasTicketOfferings ?? this.hasTicketOfferings,
+      isSoldOut: isSoldOut ?? this.isSoldOut,
     );
   }
 
@@ -94,5 +109,8 @@ class EventEntity extends Equatable {
         travelTimeMinutes,
         startsAt,
         waitlist,
+        canPurchase,
+        hasTicketOfferings,
+        isSoldOut,
       ];
 }

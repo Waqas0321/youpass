@@ -18,12 +18,38 @@ import 'package:youpass/staff_app/features/scan/presentation/widgets/staff_scan_
 import 'package:youpass/staff_app/features/supervisor/data/staff_supervisor_api_service.dart';
 import 'package:youpass/staff_app/features/supervisor/domain/models/staff_supervisor_entry_search_result.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_entry_events_timeline.dart';
+import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_inline_access_history_section.dart';
+import 'package:youpass/staff_app/features/supervisor/presentation/providers/staff_supervisor_action_history_provider.dart';
 import 'package:youpass/staff_app/features/supervisor/routes/staff_supervisor_entry_history_route_args.dart';
 import 'package:youpass/staff_app/features/supervisor/routes/staff_supervisor_entry_manual_validation_route_args.dart';
 import 'package:youpass/staff_app/features/supervisor/routes/staff_supervisor_entry_qr_override_route_args.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_entry_search_result_tile.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 import 'package:youpass/staff_app/routes/app_routes.dart';
+
+class StaffSupervisorSearchEntryRoute extends StatelessWidget {
+  const StaffSupervisorSearchEntryRoute({
+    super.key,
+    this.supervisorApiService,
+  });
+
+  final StaffSupervisorApiService? supervisorApiService;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return ChangeNotifierProvider(
+      create: (_) => StaffSupervisorActionHistoryProvider(
+        apiService: supervisorApiService,
+        genericError: l10n.staffSupervisorActionHistoryLoadError,
+      )..loadHistory(limit: 20),
+      child: StaffSupervisorSearchEntryScreen(
+        supervisorApiService: supervisorApiService,
+      ),
+    );
+  }
+}
 
 class StaffSupervisorSearchEntryScreen extends StatefulWidget {
   const StaffSupervisorSearchEntryScreen({
@@ -87,6 +113,13 @@ class _StaffSupervisorSearchEntryScreenState
   void _updateDropdownVisibility() {
     _isDropdownVisible =
         _searchFocusNode.hasFocus && _canSearch && _activeFilter == null;
+  }
+
+  bool get _showIdleHistory {
+    return _selectedResult == null &&
+        !_hasSearched &&
+        _activeFilter == null &&
+        _searchController.text.trim().isEmpty;
   }
 
   bool get _showInlineResults {
@@ -614,8 +647,9 @@ class _StaffSupervisorSearchEntryScreenState
                       _openEntryOverride(initialAction: 'authorize_reentry'),
                 ),
               ),
-            // Exceptional entry only for technical/error tickets — not for unused active.
-            if (_selectedResult!.status == StaffSupervisorEntryStatus.error)
+            // Unused active tickets (dead phone / no QR) and technical errors.
+            if (_selectedResult!.status == StaffSupervisorEntryStatus.pending ||
+                _selectedResult!.status == StaffSupervisorEntryStatus.error)
               SizedBox(
                 width: (MediaQuery.sizeOf(context).width - layout.spacing(48)) /
                         2 -
@@ -627,23 +661,8 @@ class _StaffSupervisorSearchEntryScreenState
                   onTap: _openEntryManualValidation,
                 ),
               ),
-            // PREVIOUS always-visible actions (commented out):
-            // revalidate_qr, release_qr, manage_accounts override tiles
-            // exceptional entry for pending
           ],
         ),
-        // ACTIVE unused (pending): history only — no force/authorization buttons.
-        if (_selectedResult!.status == StaffSupervisorEntryStatus.pending)
-          Padding(
-            padding: EdgeInsets.only(top: layout.spacing(8)),
-            child: AppText(
-              l10n.staffSupervisorNoActionForActiveTicket,
-              variant: AppTextVariant.body,
-              color: AppColors.secondaryGrey,
-              fontSize: layout.fontSize(13),
-              height: 1.4,
-            ),
-          ),
         // CANCELLED / REFUNDED / BLOCKED: no authorization buttons — status only.
         if (_selectedResult!.status == StaffSupervisorEntryStatus.blocked)
           Padding(
@@ -841,6 +860,8 @@ class _StaffSupervisorSearchEntryScreenState
                           ..._buildInlineResultsSection(l10n, layout),
                           ..._buildEmptySearchState(l10n, layout),
                           ..._buildSelectedDetailSection(l10n, layout),
+                          if (_showIdleHistory)
+                            const StaffSupervisorInlineAccessHistorySection(),
                         ],
                       ),
                     ),

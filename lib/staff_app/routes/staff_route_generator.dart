@@ -92,39 +92,48 @@ abstract final class StaffRouteGenerator {
         );
       case StaffAppRoutes.supervisorPin:
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => const StaffSupervisorPinScreen(),
         );
       case StaffAppRoutes.supervisorDashboard:
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => const StaffSupervisorDashboardRoute(),
         );
       case StaffAppRoutes.supervisorCancellations:
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => const StaffSupervisorCancellationsRoute(),
         );
       case StaffAppRoutes.supervisorManualValidation:
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => const StaffSupervisorManualValidationRoute(),
         );
       case StaffAppRoutes.supervisorQrOverride:
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => const StaffSupervisorQrOverrideRoute(),
         );
       case StaffAppRoutes.supervisorBarActionHistory:
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => const StaffSupervisorBarActionHistoryRoute(),
         );
       case StaffAppRoutes.supervisorAccessDashboard:
         return MaterialPageRoute(
-          builder: (_) => const StaffSupervisorAccessDashboardScreen(),
+          settings: settings,
+          builder: (_) => const StaffSupervisorAccessDashboardRoute(),
         );
       case StaffAppRoutes.supervisorSearchEntry:
         return MaterialPageRoute(
-          builder: (_) => const StaffSupervisorSearchEntryScreen(),
+          settings: settings,
+          builder: (_) => const StaffSupervisorSearchEntryRoute(),
         );
       case StaffAppRoutes.supervisorResolveDuplicate:
         final duplicateArgs = settings.arguments;
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => StaffSupervisorResolveDuplicateScreen(
             args: duplicateArgs is StaffSupervisorResolveDuplicateRouteArgs
                 ? duplicateArgs
@@ -134,6 +143,7 @@ abstract final class StaffRouteGenerator {
       case StaffAppRoutes.supervisorEntryQrOverride:
         final overrideArgs = settings.arguments;
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => StaffSupervisorEntryQrOverrideScreen(
             args: overrideArgs is StaffSupervisorEntryQrOverrideRouteArgs
                 ? overrideArgs
@@ -143,6 +153,7 @@ abstract final class StaffRouteGenerator {
       case StaffAppRoutes.supervisorEntryManualValidation:
         final manualValidationArgs = settings.arguments;
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => StaffSupervisorEntryManualValidationRoute(
             args: manualValidationArgs
                     is StaffSupervisorEntryManualValidationRouteArgs
@@ -154,26 +165,34 @@ abstract final class StaffRouteGenerator {
         final historyArgs = settings.arguments;
         if (historyArgs is! StaffSupervisorEntryHistoryRouteArgs) {
           return MaterialPageRoute(
+            settings: settings,
             builder: (_) => const StaffSupervisorSearchEntryScreen(),
           );
         }
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => StaffSupervisorEntryHistoryScreen(args: historyArgs),
         );
       case StaffAppRoutes.supervisorVipManagement:
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => const StaffSupervisorVipManagementRoute(),
         );
       case StaffAppRoutes.supervisorSystemStatus:
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => const StaffSupervisorSystemStatusRoute(),
         );
       case StaffAppRoutes.supervisorActionHistory:
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => const StaffSupervisorActionHistoryRoute(),
         );
       default:
-        return MaterialPageRoute(builder: (_) => const StaffShellScreen());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const StaffShellScreen(),
+        );
     }
   }
 }

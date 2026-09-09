@@ -228,6 +228,7 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
       title: AppStrings.vipTicketSelectionHeading(strings),
       subtitle: session.event.title,
       showMenu: false,
+      onBack: () => Navigator.of(context).pop(),
       bottomBar: showBottomBar
           ? TicketSelectionBottomBarWidget(
               session: session,

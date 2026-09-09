@@ -13,6 +13,7 @@ import 'package:youpass/staff_app/features/supervisor/drinks/presentation/provid
 import 'package:youpass/staff_app/features/supervisor/drinks/presentation/widgets/staff_supervisor_drink_consumption_card.dart';
 import 'package:youpass/staff_app/features/supervisor/drinks/presentation/widgets/staff_supervisor_drink_search_field.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_pin_input_widget.dart';
+import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_inline_bar_history_section.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_page_header.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_section_card.dart';
 
@@ -23,11 +24,20 @@ class StaffSupervisorCancellationsRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return ChangeNotifierProvider(
-      create: (_) => StaffSupervisorDrinkLookupProvider(
-        genericSearchError: l10n.staffSupervisorSearchDrinkSearchError,
-        genericLoadError: l10n.staffSupervisorSearchDrinkSearchError,
-      ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => StaffSupervisorDrinkLookupProvider(
+            genericSearchError: l10n.staffSupervisorSearchDrinkSearchError,
+            genericLoadError: l10n.staffSupervisorSearchDrinkSearchError,
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => StaffSupervisorBarDashboardProvider(
+            genericLoadError: l10n.staffSupervisorSearchDrinkSearchError,
+          )..loadRecentActions(limit: 20),
+        ),
+      ],
       child: const StaffSupervisorCancellationsScreen(),
     );
   }
@@ -227,35 +237,41 @@ class _StaffSupervisorCancellationsScreenState
                           child: CircularProgressIndicator(color: _accent),
                         ),
                       )
-                    else if (provider.detailError != null)
-                      Padding(
-                        padding: EdgeInsets.only(top: layout.spacing(14)),
-                        child: AppText(
-                          provider.detailError!,
-                          variant: AppTextVariant.body,
-                          color: const Color(0xFFEF4444),
-                          fontSize: layout.fontSize(13),
-                          textAlign: TextAlign.center,
-                        ),
-                      )
-                    else if (provider.submitError != null)
-                      Padding(
-                        padding: EdgeInsets.only(top: layout.spacing(14)),
-                        child: AppText(
-                          provider.submitError!,
-                          variant: AppTextVariant.body,
-                          color: const Color(0xFFEF4444),
-                          fontSize: layout.fontSize(13),
-                          textAlign: TextAlign.center,
-                        ),
-                      )
                     else if (detail != null) ...[
+                      if (provider.detailError != null ||
+                          provider.submitError != null)
+                        Padding(
+                          padding: EdgeInsets.only(top: layout.spacing(14)),
+                          child: AppText(
+                            provider.detailError ?? provider.submitError!,
+                            variant: AppTextVariant.body,
+                            color: const Color(0xFFEF4444),
+                            fontSize: layout.fontSize(13),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                       SizedBox(height: layout.spacing(14)),
                       StaffSupervisorDrinkConsumptionCard(
                         layout: layout,
                         l10n: l10n,
                         detail: detail,
                       ),
+                    ] else ...[
+                      if (provider.detailError != null ||
+                          provider.submitError != null)
+                        Padding(
+                          padding: EdgeInsets.only(top: layout.spacing(14)),
+                          child: AppText(
+                            provider.detailError ?? provider.submitError!,
+                            variant: AppTextVariant.body,
+                            color: const Color(0xFFEF4444),
+                            fontSize: layout.fontSize(13),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      const StaffSupervisorInlineBarHistorySection(),
+                    ],
+                    if (detail != null) ...[
                       if (availableActions.isEmpty) ...[
                         SizedBox(height: layout.spacing(14)),
                         AppText(

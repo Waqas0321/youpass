@@ -158,11 +158,13 @@ class EventBrowseCardWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: FavoritesDesignSpec.px(context, 4)),
-                  EventBrowseCardActionButtonWidget(
-                    label: AppStrings.buyTickets(strings),
-                    onPressed: onBuyTicket,
-                  ),
+                  if (event.canShowBuyTicketsCta) ...[
+                    SizedBox(height: FavoritesDesignSpec.px(context, 4)),
+                    EventBrowseCardActionButtonWidget(
+                      label: AppStrings.buyTickets(strings),
+                      onPressed: onBuyTicket,
+                    ),
+                  ],
                 ],
               ),
             ),

@@ -175,10 +175,12 @@ class EventListCardWidget extends StatelessWidget {
                                       ),
                                     ),
                                   )
-                                : _BuyTicketsButton(
-                                    label: AppStrings.buyTickets(strings),
-                                    onPressed: onBuyTicket ?? onEventTap,
-                                  ),
+                                : event.canShowBuyTicketsCta
+                                    ? _BuyTicketsButton(
+                                        label: AppStrings.buyTickets(strings),
+                                        onPressed: onBuyTicket ?? onEventTap,
+                                      )
+                                    : const SizedBox.shrink(),
                           ),
                         ],
                       ),

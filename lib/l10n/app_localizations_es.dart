@@ -737,6 +737,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Tu código fue escaneado correctamente. ¡Disfruta!';
 
   @override
+  String get entryTicketQrAcceptedTitle => '¡QR aceptado!';
+
+  @override
+  String get entryTicketQrAcceptedMessage =>
+      'Tu entrada fue escaneada correctamente. ¡Disfruta!';
+
+  @override
   String partyDrinkPurchaseValidity(String target) {
     return 'Este código es válido para $target.';
   }

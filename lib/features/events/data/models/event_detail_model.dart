@@ -19,6 +19,9 @@ class EventDetailModel extends EventDetailEntity {
     super.eventTypeSlug,
     super.countryCode,
     super.isFavorite,
+    super.canPurchase,
+    super.hasTicketOfferings,
+    super.isSoldOut,
     super.description,
     super.venueName,
     super.city,
@@ -50,6 +53,9 @@ class EventDetailModel extends EventDetailEntity {
       eventTypeSlug: base.eventTypeSlug,
       countryCode: base.countryCode,
       isFavorite: base.isFavorite,
+      canPurchase: base.canPurchase,
+      hasTicketOfferings: base.hasTicketOfferings,
+      isSoldOut: base.isSoldOut,
       description: JsonReaders.nullableString(json, 'description') ??
           JsonReaders.nullableString(json, 'short_description'),
       venueName: JsonReaders.nullableString(json, 'venue_name') ??

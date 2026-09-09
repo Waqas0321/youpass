@@ -376,6 +376,12 @@ class AppStrings {
   static String partyDrinkQrAcceptedMessage(AppLocalizations l10n) =>
       l10n.partyDrinkQrAcceptedMessage;
 
+  static String entryTicketQrAcceptedTitle(AppLocalizations l10n) =>
+      l10n.entryTicketQrAcceptedTitle;
+
+  static String entryTicketQrAcceptedMessage(AppLocalizations l10n) =>
+      l10n.entryTicketQrAcceptedMessage;
+
   static String partyDrinkPurchaseValidity(
     AppLocalizations l10n,
     String target,

@@ -347,6 +347,8 @@
   "partyDrinkPurchaseSuccessSubtitle": "Muestra este código en la barra para recibir tu trago.",
   "partyDrinkQrAcceptedTitle": "¡QR aceptado!",
   "partyDrinkQrAcceptedMessage": "Tu código fue escaneado correctamente. ¡Disfruta!",
+  "entryTicketQrAcceptedTitle": "¡QR aceptado!",
+  "entryTicketQrAcceptedMessage": "Tu entrada fue escaneada correctamente. ¡Disfruta!",
   "partyDrinkPurchaseValidity": "Este código es válido para {target}.",
   "@partyDrinkPurchaseValidity": {
     "placeholders": {

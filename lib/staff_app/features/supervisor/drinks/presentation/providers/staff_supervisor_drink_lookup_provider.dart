@@ -252,13 +252,13 @@ class StaffSupervisorBarDashboardProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> loadRecentActions() async {
+  Future<void> loadRecentActions({int limit = 3}) async {
     isLoading = true;
     loadError = null;
     notifyListeners();
 
     try {
-      history = await _apiService.getActionHistory(limit: 3);
+      history = await _apiService.getActionHistory(limit: limit);
       isLoading = false;
       notifyListeners();
     } on ApiException catch (error) {

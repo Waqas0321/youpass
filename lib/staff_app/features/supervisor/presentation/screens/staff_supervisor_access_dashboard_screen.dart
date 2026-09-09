@@ -8,28 +8,33 @@ import 'package:youpass/staff_app/core/widgets/app_text.dart';
 import 'package:youpass/staff_app/core/widgets/app_text_variant.dart';
 import 'package:youpass/staff_app/features/home/presentation/widgets/staff_connection_status_bar.dart';
 import 'package:youpass/staff_app/features/scan/presentation/widgets/staff_scan_screen_header.dart';
-import 'package:youpass/staff_app/features/supervisor/presentation/providers/staff_supervisor_session_provider.dart';
+import 'package:youpass/staff_app/features/supervisor/presentation/providers/staff_supervisor_action_history_provider.dart';
+import 'package:youpass/staff_app/features/supervisor/presentation/utils/exit_staff_supervisor_mode.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_access_tool_card.dart';
+import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_inline_access_history_section.dart';
 import 'package:youpass/staff_app/routes/app_routes.dart';
 
 /// Supervisor dashboard for access/ticket validation — exception tools only.
+class StaffSupervisorAccessDashboardRoute extends StatelessWidget {
+  const StaffSupervisorAccessDashboardRoute({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return ChangeNotifierProvider(
+      create: (_) => StaffSupervisorActionHistoryProvider(
+        genericError: l10n.staffSupervisorActionHistoryLoadError,
+      )..loadHistory(limit: 20),
+      child: const StaffSupervisorAccessDashboardScreen(),
+    );
+  }
+}
+
 class StaffSupervisorAccessDashboardScreen extends StatelessWidget {
   const StaffSupervisorAccessDashboardScreen({super.key});
 
   static const _accent = AppColors.homeAccentYellow;
-
-  // PREVIOUS (kept for reference — do not delete):
-  // void _showComingSoon(BuildContext context, String feature) {
-  //   AppSnackBar.show(context, '$feature — ${context.l10n.staffSupervisorComingSoon}');
-  // }
-
-  void _exitSupervisorMode(BuildContext context) {
-    context.read<StaffSupervisorSessionProvider>().lock();
-    Navigator.of(context).popUntil((route) {
-      return route.settings.name != StaffAppRoutes.supervisorPin &&
-          route.settings.name != StaffAppRoutes.supervisorAccessDashboard;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +86,6 @@ class StaffSupervisorAccessDashboardScreen extends StatelessWidget {
                   height: 1.45,
                 ),
                 SizedBox(height: layout.spacing(24)),
-                // Target menu: SEARCH / MANAGE TICKET + ACCESS HISTORY only.
                 StaffSupervisorAccessToolCard(
                   icon: Icons.search_rounded,
                   title: l10n.staffSupervisorSearchManageTicketTitle,
@@ -101,20 +105,11 @@ class StaffSupervisorAccessDashboardScreen extends StatelessWidget {
                     StaffAppRoutes.supervisorActionHistory,
                   ),
                 ),
-                // PREVIOUS tools (commented out — still routed if opened by deep link):
-                // StaffSupervisorAccessToolCard(
-                //   icon: Icons.content_copy_rounded,
-                //   title: l10n.staffSupervisorResolveDuplicateTitle,
-                //   ...
-                //   onActionTap: () => Navigator.pushNamed(...supervisorResolveDuplicate),
-                // ),
-                // StaffSupervisorAccessToolCard(... supervisorEntryQrOverride ...),
-                // StaffSupervisorAccessToolCard(... supervisorEntryManualValidation ...),
-                // StaffSupervisorAccessToolCard(... supervisorVipManagement ...),
-                // StaffSupervisorAccessToolCard(... supervisorSystemStatus ...),
+                // Ticket / door scan history fills the idle space under the tools.
+                const StaffSupervisorInlineAccessHistorySection(),
                 SizedBox(height: layout.spacing(24)),
                 OutlinedButton.icon(
-                  onPressed: () => _exitSupervisorMode(context),
+                  onPressed: () => exitStaffSupervisorMode(context),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.secondaryGrey,
                     side: const BorderSide(color: AppColors.homeDividerGrey),

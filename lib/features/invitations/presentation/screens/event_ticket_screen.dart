@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
 import 'package:youpass/core/services/screen_secure_service.dart';
@@ -5,9 +7,13 @@ import 'package:youpass/features/invitations/domain/entities/invitation_ticket_e
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 import 'package:youpass/features/invitations/presentation/routes/event_ticket_route_args.dart';
 import 'package:youpass/features/invitations/presentation/widgets/event_ticket_app_bar_widget.dart';
+import 'package:youpass/features/invitations/presentation/widgets/event_ticket_qr_accepted_dialog.dart';
 import 'package:youpass/features/invitations/presentation/widgets/event_ticket_qr_section_widget.dart';
 import 'package:youpass/features/invitations/presentation/widgets/event_ticket_ready_header_widget.dart';
 import 'package:youpass/features/invitations/presentation/widgets/event_ticket_summary_card_widget.dart';
+import 'package:youpass/features/tickets/data/services/tickets_api_service.dart';
+import 'package:youpass/features/tickets/domain/entities/ticket_display_status.dart';
+import 'package:youpass/features/tickets/presentation/providers/tickets_provider.dart';
 
 class EventTicketScreen extends StatefulWidget {
   const EventTicketScreen({
@@ -31,18 +37,97 @@ class EventTicketScreen extends StatefulWidget {
 }
 
 class EventTicketScreenState extends State<EventTicketScreen> {
+  static const _pollInterval = Duration(milliseconds: 500);
+
   final ScreenSecureService _screenSecureService = sl<ScreenSecureService>();
+  final TicketsApiService _ticketsApi = sl<TicketsApiService>();
+
+  Timer? _pollTimer;
+  bool _isPolling = false;
+  bool _isShowingAcceptedDialog = false;
+  bool _didAcceptScan = false;
 
   @override
   void initState() {
     super.initState();
     _screenSecureService.enable();
+    _startValidationPolling();
   }
 
   @override
   void dispose() {
+    _pollTimer?.cancel();
     _screenSecureService.disable();
     super.dispose();
+  }
+
+  void _startValidationPolling() {
+    final ticketId = widget.ticket.invitationId.trim();
+    if (ticketId.isEmpty || !widget.showQrCode) {
+      return;
+    }
+
+    _pollTimer?.cancel();
+    _pollTimer = Timer.periodic(_pollInterval, (_) {
+      unawaited(_checkValidationStatus());
+    });
+    unawaited(_checkValidationStatus());
+  }
+
+  Future<void> _checkValidationStatus() async {
+    if (!mounted ||
+        _isPolling ||
+        _isShowingAcceptedDialog ||
+        _didAcceptScan) {
+      return;
+    }
+
+    final ticketId = widget.ticket.invitationId.trim();
+    if (ticketId.isEmpty) {
+      return;
+    }
+
+    _isPolling = true;
+    try {
+      final status = await _ticketsApi.fetchTicketStatus(ticketId);
+      if (!mounted || status != TicketDisplayStatus.validated) {
+        return;
+      }
+
+      _didAcceptScan = true;
+      await _showAcceptedFeedback();
+    } catch (_) {
+      // Ignore transient polling errors while waiting for a staff scan.
+    } finally {
+      _isPolling = false;
+    }
+  }
+
+  Future<void> _showAcceptedFeedback() async {
+    if (!mounted || _isShowingAcceptedDialog) {
+      return;
+    }
+
+    _isShowingAcceptedDialog = true;
+    _pollTimer?.cancel();
+    try {
+      await EventTicketQrAcceptedDialog.show(context);
+      if (!mounted) {
+        return;
+      }
+
+      try {
+        final ticketsProvider = sl<TicketsProvider>();
+        unawaited(ticketsProvider.refreshUpcoming());
+        unawaited(ticketsProvider.ensurePastLoaded());
+      } catch (_) {
+        // Tickets provider may be unavailable outside the tickets flow.
+      }
+
+      Navigator.of(context).pop();
+    } finally {
+      _isShowingAcceptedDialog = false;
+    }
   }
 
   @override

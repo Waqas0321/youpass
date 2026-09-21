@@ -8,28 +8,15 @@ import 'package:youpass/staff_app/core/widgets/app_text.dart';
 import 'package:youpass/staff_app/core/widgets/app_text_variant.dart';
 import 'package:youpass/staff_app/features/supervisor/drinks/domain/models/staff_supervisor_bar_action_history_result.dart';
 import 'package:youpass/staff_app/features/supervisor/drinks/presentation/providers/staff_supervisor_drink_lookup_provider.dart';
+import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_redemption_detail_sheet.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_section_card.dart';
 import 'package:youpass/staff_app/routes/app_routes.dart';
 
-/// Compact bar scan / redemption history for the idle search screen.
+/// Compact bar scan / redemption history for supervisor idle screens.
 class StaffSupervisorInlineBarHistorySection extends StatelessWidget {
   const StaffSupervisorInlineBarHistorySection({super.key});
 
   static const _accent = AppColors.homeAccentYellow;
-
-  String _resultLabel(dynamic l10n, StaffSupervisorBarActionHistoryEntry entry) {
-    return switch (entry.result) {
-      StaffSupervisorRedemptionResult.redeemed =>
-        l10n.staffSupervisorRedemptionResultRedeemed,
-      StaffSupervisorRedemptionResult.restored =>
-        l10n.staffSupervisorRedemptionResultRestored,
-      StaffSupervisorRedemptionResult.duplicateAttempt =>
-        l10n.staffSupervisorRedemptionResultDuplicate,
-      StaffSupervisorRedemptionResult.supervisor =>
-        l10n.staffSupervisorRedemptionResultSupervisor,
-      StaffSupervisorRedemptionResult.unknown => entry.kind.replaceAll('_', ' '),
-    };
-  }
 
   Color _resultColor(StaffSupervisorBarActionHistoryEntry entry) {
     return switch (entry.result) {
@@ -117,8 +104,15 @@ class StaffSupervisorInlineBarHistorySection extends StatelessWidget {
                       _InlineHistoryRow(
                         layout: layout,
                         entry: entries[i],
-                        resultLabel: _resultLabel(l10n, entries[i]),
+                        resultLabel: staffSupervisorRedemptionResultLabel(
+                          l10n,
+                          entries[i],
+                        ),
                         resultColor: _resultColor(entries[i]),
+                        onTap: () => showStaffSupervisorRedemptionDetailSheet(
+                          context,
+                          entries[i],
+                        ),
                       ),
                       if (i < entries.length - 1)
                         Divider(
@@ -143,12 +137,14 @@ class _InlineHistoryRow extends StatelessWidget {
     required this.entry,
     required this.resultLabel,
     required this.resultColor,
+    required this.onTap,
   });
 
   final ResponsiveLayout layout;
   final StaffSupervisorBarActionHistoryEntry entry;
   final String resultLabel;
   final Color resultColor;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -169,58 +165,70 @@ class _InlineHistoryRow extends StatelessWidget {
       if (entry.barName != null && entry.barName!.isNotEmpty) entry.barName!,
     ];
 
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: layout.spacing(10)),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: layout.spacing(32),
-            height: layout.spacing(32),
-            decoration: BoxDecoration(
-              color: resultColor.withValues(alpha: 0.15),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.local_bar_rounded,
-              color: resultColor,
-              size: layout.spacing(18),
-            ),
-          ),
-          SizedBox(width: layout.spacing(12)),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppText(
-                  title.isEmpty ? resultLabel : title,
-                  variant: AppTextVariant.listTitle,
-                  color: AppColors.homeBlack,
-                  fontWeight: FontWeight.w700,
-                  fontSize: layout.fontSize(14),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(layout.radius(8)),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: layout.spacing(10)),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: layout.spacing(32),
+                height: layout.spacing(32),
+                decoration: BoxDecoration(
+                  color: resultColor.withValues(alpha: 0.15),
+                  shape: BoxShape.circle,
                 ),
-                if (subtitleParts.isNotEmpty) ...[
-                  SizedBox(height: layout.spacing(2)),
-                  AppText(
-                    subtitleParts.join(' · '),
-                    variant: AppTextVariant.body,
-                    color: AppColors.secondaryGrey,
-                    fontSize: layout.fontSize(12),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ],
-            ),
+                child: Icon(
+                  Icons.local_bar_rounded,
+                  color: resultColor,
+                  size: layout.spacing(18),
+                ),
+              ),
+              SizedBox(width: layout.spacing(12)),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText(
+                      title.isEmpty ? resultLabel : title,
+                      variant: AppTextVariant.listTitle,
+                      color: AppColors.homeBlack,
+                      fontWeight: FontWeight.w700,
+                      fontSize: layout.fontSize(14),
+                    ),
+                    if (subtitleParts.isNotEmpty) ...[
+                      SizedBox(height: layout.spacing(2)),
+                      AppText(
+                        subtitleParts.join(' · '),
+                        variant: AppTextVariant.body,
+                        color: AppColors.secondaryGrey,
+                        fontSize: layout.fontSize(12),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              SizedBox(width: layout.spacing(8)),
+              AppText(
+                entry.timeLabel,
+                variant: AppTextVariant.listTrailing,
+                color: AppColors.secondaryGrey,
+                fontSize: layout.fontSize(12),
+              ),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: AppColors.homeAccentYellow,
+                size: layout.spacing(20),
+              ),
+            ],
           ),
-          SizedBox(width: layout.spacing(8)),
-          AppText(
-            entry.timeLabel,
-            variant: AppTextVariant.listTrailing,
-            color: AppColors.secondaryGrey,
-            fontSize: layout.fontSize(12),
-          ),
-        ],
+        ),
       ),
     );
   }

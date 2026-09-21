@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:youpass/dependency_injection/injection_container.dart';
 import 'package:youpass/core/services/screen_secure_service.dart';
+import 'package:youpass/features/home/presentation/providers/home_provider.dart';
 import 'package:youpass/features/invitations/domain/entities/invitation_ticket_entity.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 import 'package:youpass/features/invitations/presentation/routes/event_ticket_route_args.dart';
@@ -14,6 +15,7 @@ import 'package:youpass/features/invitations/presentation/widgets/event_ticket_s
 import 'package:youpass/features/tickets/data/services/tickets_api_service.dart';
 import 'package:youpass/features/tickets/domain/entities/ticket_display_status.dart';
 import 'package:youpass/features/tickets/presentation/providers/tickets_provider.dart';
+import 'package:youpass/routes/app_routes.dart';
 
 class EventTicketScreen extends StatefulWidget {
   const EventTicketScreen({
@@ -124,7 +126,17 @@ class EventTicketScreenState extends State<EventTicketScreen> {
         // Tickets provider may be unavailable outside the tickets flow.
       }
 
-      Navigator.of(context).pop();
+      try {
+        sl<HomeProvider>().requestPartyModeActivateTip();
+      } catch (_) {
+        // Home provider should always be registered; ignore if DI is mid-reset.
+      }
+
+      // Return to Home so the Party Mode activation tip can show.
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        AppRoutes.home,
+        (_) => false,
+      );
     } finally {
       _isShowingAcceptedDialog = false;
     }

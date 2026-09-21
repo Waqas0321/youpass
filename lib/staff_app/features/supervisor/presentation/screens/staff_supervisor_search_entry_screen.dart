@@ -17,9 +17,9 @@ import 'package:youpass/staff_app/features/home/presentation/widgets/staff_conne
 import 'package:youpass/staff_app/features/scan/presentation/widgets/staff_scan_screen_header.dart';
 import 'package:youpass/staff_app/features/supervisor/data/staff_supervisor_api_service.dart';
 import 'package:youpass/staff_app/features/supervisor/domain/models/staff_supervisor_entry_search_result.dart';
+import 'package:youpass/staff_app/features/supervisor/presentation/providers/staff_supervisor_action_history_provider.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_entry_events_timeline.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_inline_access_history_section.dart';
-import 'package:youpass/staff_app/features/supervisor/presentation/providers/staff_supervisor_action_history_provider.dart';
 import 'package:youpass/staff_app/features/supervisor/routes/staff_supervisor_entry_history_route_args.dart';
 import 'package:youpass/staff_app/features/supervisor/routes/staff_supervisor_entry_manual_validation_route_args.dart';
 import 'package:youpass/staff_app/features/supervisor/routes/staff_supervisor_entry_qr_override_route_args.dart';
@@ -41,7 +41,6 @@ class StaffSupervisorSearchEntryRoute extends StatelessWidget {
 
     return ChangeNotifierProvider(
       create: (_) => StaffSupervisorActionHistoryProvider(
-        apiService: supervisorApiService,
         genericError: l10n.staffSupervisorActionHistoryLoadError,
       )..loadHistory(limit: 20),
       child: StaffSupervisorSearchEntryScreen(

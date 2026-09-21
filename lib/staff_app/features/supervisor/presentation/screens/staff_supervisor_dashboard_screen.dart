@@ -6,8 +6,8 @@ import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/staff_app/core/utils/responsive_layout.dart';
 import 'package:youpass/staff_app/core/widgets/app_text.dart';
 import 'package:youpass/staff_app/core/widgets/app_text_variant.dart';
-import 'package:youpass/staff_app/features/scan/presentation/widgets/staff_scan_screen_header.dart';
 import 'package:youpass/staff_app/routes/app_routes.dart';
+import 'package:youpass/staff_app/features/scan/presentation/widgets/staff_scan_screen_header.dart';
 import 'package:youpass/staff_app/features/supervisor/drinks/presentation/providers/staff_supervisor_drink_lookup_provider.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_inline_bar_history_section.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_tool_card.dart';
@@ -71,7 +71,6 @@ class StaffSupervisorDashboardScreen extends StatelessWidget {
                   fontSize: layout.fontSize(14),
                 ),
                 SizedBox(height: layout.spacing(24)),
-                // Target menu: SEARCH / MANAGE PURCHASE + REDEMPTION HISTORY only.
                 StaffSupervisorToolCard(
                   icon: Icons.search_rounded,
                   title: l10n.staffSupervisorSearchManagePurchaseTitle,
@@ -80,7 +79,6 @@ class StaffSupervisorDashboardScreen extends StatelessWidget {
                     l10n.staffSupervisorSearchManagePurchaseLine2,
                   ],
                   actionLabel: l10n.staffSupervisorGoButton,
-                  // Reuses existing drink search + restore/revert tools.
                   onActionTap: () => Navigator.of(context).pushNamed(
                     StaffAppRoutes.supervisorCancellations,
                   ),
@@ -98,22 +96,6 @@ class StaffSupervisorDashboardScreen extends StatelessWidget {
                     StaffAppRoutes.supervisorBarActionHistory,
                   ),
                 ),
-                // PREVIOUS top-level tools (commented out — screens kept):
-                // StaffSupervisorToolCard(
-                //   icon: Icons.warning_amber_rounded,
-                //   title: l10n.staffSupervisorCancellationsTitle,
-                //   ...
-                // ),
-                // StaffSupervisorToolCard(
-                //   icon: Icons.check_circle_outline_rounded,
-                //   title: l10n.staffSupervisorManualValidationTitle,
-                //   ...
-                // ),
-                // StaffSupervisorToolCard(
-                //   icon: Icons.lock_outline_rounded,
-                //   title: l10n.staffSupervisorQrOverrideTitle,
-                //   ...
-                // ),
                 const StaffSupervisorInlineBarHistorySection(),
               ],
             ),

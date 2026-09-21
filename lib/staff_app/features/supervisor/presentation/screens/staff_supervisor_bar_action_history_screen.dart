@@ -9,8 +9,8 @@ import 'package:youpass/staff_app/core/widgets/app_text_variant.dart';
 import 'package:youpass/staff_app/features/supervisor/drinks/domain/models/staff_supervisor_bar_action_history_result.dart';
 import 'package:youpass/staff_app/features/supervisor/drinks/presentation/providers/staff_supervisor_drink_lookup_provider.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_page_header.dart';
+import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_redemption_detail_sheet.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_section_card.dart';
-import 'package:youpass/staff_app/routes/app_routes.dart';
 
 class StaffSupervisorBarActionHistoryRoute extends StatelessWidget {
   const StaffSupervisorBarActionHistoryRoute({super.key});
@@ -56,104 +56,7 @@ class StaffSupervisorBarActionHistoryScreen extends StatelessWidget {
   }
 
   void _openDetail(BuildContext context, StaffSupervisorBarActionHistoryEntry entry) {
-    final l10n = context.l10n;
-    final layout = ResponsiveLayout(context);
-
-    showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: AppColors.backgroundWhite,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(layout.radius(20)),
-        ),
-      ),
-      builder: (sheetContext) {
-        final rows = <(String, String)>[
-          (l10n.staffSupervisorRedemptionDetailResult, _resultLabel(l10n, entry)),
-          if (entry.productName != null && entry.productName!.isNotEmpty)
-            (
-              l10n.staffSupervisorRedemptionDetailProduct,
-              entry.productQuantity != null && entry.productQuantity! > 1
-                  ? '${entry.productName} x${entry.productQuantity}'
-                  : entry.productName!,
-            ),
-          if (entry.guestName.isNotEmpty)
-            (l10n.staffSupervisorRedemptionDetailCustomer, entry.guestName),
-          if (entry.orderId != null && entry.orderId!.isNotEmpty)
-            (l10n.staffSupervisorRedemptionDetailOrder, entry.orderId!),
-          if (entry.manualCode != null && entry.manualCode!.isNotEmpty)
-            (l10n.staffSupervisorRedemptionDetailCode, entry.manualCode!),
-          if (entry.barName != null && entry.barName!.isNotEmpty)
-            (l10n.staffSupervisorRedemptionDetailBar, entry.barName!),
-          if (entry.supervisorName.isNotEmpty)
-            (l10n.staffSupervisorRedemptionDetailStaff, entry.supervisorName),
-          (l10n.staffSupervisorRedemptionDetailTime, entry.timeLabel),
-          if (entry.currentStatus != null && entry.currentStatus!.isNotEmpty)
-            (l10n.staffSupervisorRedemptionDetailStatus, entry.currentStatus!),
-        ];
-
-        return Padding(
-          padding: EdgeInsets.fromLTRB(
-            layout.spacing(20),
-            layout.spacing(16),
-            layout.spacing(20),
-            layout.spacing(28),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AppText(
-                l10n.staffSupervisorRedemptionDetailTitle,
-                variant: AppTextVariant.headline,
-                fontWeight: FontWeight.w800,
-                fontSize: layout.fontSize(18),
-                color: AppColors.homeBlack,
-              ),
-              SizedBox(height: layout.spacing(16)),
-              for (final row in rows) ...[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: layout.spacing(110),
-                      child: AppText(
-                        row.$1,
-                        variant: AppTextVariant.label,
-                        color: AppColors.secondaryGrey,
-                        fontSize: layout.fontSize(12),
-                      ),
-                    ),
-                    Expanded(
-                      child: AppText(
-                        row.$2,
-                        variant: AppTextVariant.body,
-                        color: AppColors.homeBlack,
-                        fontWeight: FontWeight.w600,
-                        fontSize: layout.fontSize(13),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: layout.spacing(10)),
-              ],
-              if (entry.redemptionId != null && entry.redemptionId!.isNotEmpty) ...[
-                SizedBox(height: layout.spacing(8)),
-                FilledButton(
-                  onPressed: () {
-                    Navigator.of(sheetContext).pop();
-                    Navigator.of(context).pushNamed(
-                      StaffAppRoutes.supervisorCancellations,
-                    );
-                  },
-                  child: Text(l10n.staffSupervisorSearchManagePurchaseTitle),
-                ),
-              ],
-            ],
-          ),
-        );
-      },
-    );
+    showStaffSupervisorRedemptionDetailSheet(context, entry);
   }
 
   @override

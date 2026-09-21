@@ -244,6 +244,17 @@ class AppStrings {
     return l10n.partyModeUnavailable;
   }
 
+  /// Tip after a door scan — ticket is known scanned, so skip the "need scan" copy.
+  static String partyModeActivateTipAfterScan(
+    AppLocalizations l10n, {
+    required bool atEventLocation,
+  }) {
+    if (!atEventLocation) {
+      return l10n.partyModeNeedLocation;
+    }
+    return l10n.partyModeUnavailable;
+  }
+
   static String partyDrinkMenuEmpty(AppLocalizations l10n) =>
       l10n.partyDrinkMenuEmpty;
 

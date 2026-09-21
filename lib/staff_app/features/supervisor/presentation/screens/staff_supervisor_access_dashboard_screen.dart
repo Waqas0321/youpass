@@ -105,7 +105,6 @@ class StaffSupervisorAccessDashboardScreen extends StatelessWidget {
                     StaffAppRoutes.supervisorActionHistory,
                   ),
                 ),
-                // Ticket / door scan history fills the idle space under the tools.
                 const StaffSupervisorInlineAccessHistorySection(),
                 SizedBox(height: layout.spacing(24)),
                 OutlinedButton.icon(
@@ -132,6 +131,7 @@ class StaffSupervisorAccessDashboardScreen extends StatelessWidget {
           ),
           StaffConnectionStatusBar(
             validatorLabel: l10n.staffSupervisorValidatorLabel('VAL-AC-02'),
+            style: StaffConnectionStatusStyle.supervisorCompact,
           ),
         ],
       ),

@@ -6,6 +6,7 @@ import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/home_error_extension.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
+import 'package:youpass/core/widgets/app_snack_bar.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/core/widgets/home_top_bar_widget.dart';
@@ -61,7 +62,36 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       homeProvider.trackRegistrationCompletedIfNeeded();
       _maybeShowPendingDeletionNotice();
       _loadWaitlistOffersIfAuthenticated();
+      await _maybeShowPartyModeActivateTip();
     });
+  }
+
+  Future<void> _maybeShowPartyModeActivateTip() async {
+    final homeProvider = context.read<HomeProvider>();
+    if (!homeProvider.consumePartyModeActivateTip()) {
+      return;
+    }
+
+    try {
+      await homeProvider.refreshPartyModeEligibility();
+    } catch (_) {
+      // Still show the tip with whatever eligibility we already have.
+    }
+    if (!mounted) {
+      return;
+    }
+
+    if (context.read<AppThemeProvider>().isFiestaMode) {
+      return;
+    }
+
+    final requirements = homeProvider.partyModeRequirements;
+    final message = AppStrings.partyModeActivateTipAfterScan(
+      context.l10n,
+      atEventLocation: requirements.atEventLocation ||
+          homeProvider.partyModeEligible,
+    );
+    AppSnackBar.showInstruction(context, message);
   }
 
   void _loadWaitlistOffersIfAuthenticated() {

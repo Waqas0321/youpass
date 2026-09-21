@@ -8,9 +8,9 @@ import 'package:youpass/staff_app/core/widgets/app_text.dart';
 import 'package:youpass/staff_app/core/widgets/app_text_variant.dart';
 import 'package:youpass/staff_app/features/supervisor/domain/models/staff_supervisor_action_history_result.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/providers/staff_supervisor_action_history_provider.dart';
+import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_access_detail_sheet.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_design.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_section_card.dart';
-import 'package:youpass/staff_app/features/supervisor/routes/staff_supervisor_entry_history_route_args.dart';
 import 'package:youpass/staff_app/routes/app_routes.dart';
 
 /// Compact ticket / access scan history for the idle search-entry screen.
@@ -57,24 +57,15 @@ class StaffSupervisorInlineAccessHistorySection extends StatelessWidget {
     };
   }
 
-  void _openEntryHistory(
+  void _openDetail(
     BuildContext context,
     StaffSupervisorActionHistoryEntry entry,
     StaffSupervisorActionHistoryResult history,
   ) {
-    final ticketId = entry.ticketId;
-    if (ticketId == null || ticketId.isEmpty) {
-      return;
-    }
-
-    Navigator.of(context).pushNamed(
-      StaffAppRoutes.supervisorEntryHistory,
-      arguments: StaffSupervisorEntryHistoryRouteArgs(
-        ticketId: ticketId,
-        guestName: entry.guestName ?? entry.targetLabel ?? history.eventTitle,
-        eventTitle: history.eventTitle,
-        qrId: entry.entryCode ?? '',
-      ),
+    showStaffSupervisorAccessDetailSheet(
+      context,
+      entry: entry,
+      history: history,
     );
   }
 
@@ -159,7 +150,7 @@ class StaffSupervisorInlineAccessHistorySection extends StatelessWidget {
                         badgeStyle: _badgeStyle(entries[i]),
                         onTap: history == null
                             ? null
-                            : () => _openEntryHistory(
+                            : () => _openDetail(
                                   context,
                                   entries[i],
                                   history,
@@ -212,60 +203,70 @@ class _InlineAccessHistoryRow extends StatelessWidget {
         entry.accessPoint!,
     ];
 
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: layout.spacing(10)),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: layout.spacing(32),
-              height: layout.spacing(32),
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.15),
-                shape: BoxShape.circle,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(layout.radius(8)),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: layout.spacing(10)),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: layout.spacing(32),
+                height: layout.spacing(32),
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.15),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  icon,
+                  color: color,
+                  size: layout.spacing(18),
+                ),
               ),
-              child: Icon(
-                icon,
-                color: color,
-                size: layout.spacing(18),
-              ),
-            ),
-            SizedBox(width: layout.spacing(12)),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppText(
-                    title,
-                    variant: AppTextVariant.listTitle,
-                    color: AppColors.homeBlack,
-                    fontWeight: FontWeight.w700,
-                    fontSize: layout.fontSize(14),
-                  ),
-                  if (subtitleParts.isNotEmpty) ...[
-                    SizedBox(height: layout.spacing(2)),
+              SizedBox(width: layout.spacing(12)),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     AppText(
-                      subtitleParts.join(' · '),
-                      variant: AppTextVariant.body,
-                      color: AppColors.secondaryGrey,
-                      fontSize: layout.fontSize(12),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                      title,
+                      variant: AppTextVariant.listTitle,
+                      color: AppColors.homeBlack,
+                      fontWeight: FontWeight.w700,
+                      fontSize: layout.fontSize(14),
                     ),
+                    if (subtitleParts.isNotEmpty) ...[
+                      SizedBox(height: layout.spacing(2)),
+                      AppText(
+                        subtitleParts.join(' · '),
+                        variant: AppTextVariant.body,
+                        color: AppColors.secondaryGrey,
+                        fontSize: layout.fontSize(12),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
-            ),
-            SizedBox(width: layout.spacing(8)),
-            AppText(
-              entry.timeLabel,
-              variant: AppTextVariant.listTrailing,
-              color: AppColors.secondaryGrey,
-              fontSize: layout.fontSize(12),
-            ),
-          ],
+              SizedBox(width: layout.spacing(8)),
+              AppText(
+                entry.timeLabel,
+                variant: AppTextVariant.listTrailing,
+                color: AppColors.secondaryGrey,
+                fontSize: layout.fontSize(12),
+              ),
+              if (onTap != null)
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: AppColors.homeAccentYellow,
+                  size: layout.spacing(20),
+                ),
+            ],
+          ),
         ),
       ),
     );

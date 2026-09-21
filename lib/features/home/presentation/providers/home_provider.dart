@@ -55,6 +55,7 @@ class HomeProvider extends ChangeNotifier {
   bool isFilteringEvents = false;
   bool showPartyModeBanner = false;
   bool partyModeEligible = false;
+  bool _pendingPartyModeActivateTip = false;
   String? get partyModeEventId => homeFeed?.partyMode?.eventId;
   String? get partyModeEventTitle => homeFeed?.partyMode?.eventTitle;
   List<HomePartyModeEligibleEventEntity> get partyModeEligibleEvents =>
@@ -902,6 +903,19 @@ class HomeProvider extends ChangeNotifier {
     showPartyModeBanner = partyModeEligible;
   }
 
+  /// After a door scan acceptance popup, Home should show how to activate Party Mode.
+  void requestPartyModeActivateTip() {
+    _pendingPartyModeActivateTip = true;
+  }
+
+  bool consumePartyModeActivateTip() {
+    if (!_pendingPartyModeActivateTip) {
+      return false;
+    }
+    _pendingPartyModeActivateTip = false;
+    return true;
+  }
+
   Future<void> syncPartyModeTheme(AppThemeProvider themeProvider) async {
     // Visual Party Mode is user-toggled from the home header. Eligibility
     // still gates party features without forcing the theme off.
@@ -1036,6 +1050,7 @@ class HomeProvider extends ChangeNotifier {
     isFilteringEvents = false;
     showPartyModeBanner = false;
     partyModeEligible = false;
+    _pendingPartyModeActivateTip = false;
     highlightPendingInvitation = false;
     highlightedInvitationTitle = null;
     highlightedInvitationId = null;

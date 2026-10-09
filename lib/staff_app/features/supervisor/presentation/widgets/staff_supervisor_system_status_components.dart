@@ -25,20 +25,22 @@ StaffSupervisorHealthStatusStyle staffSupervisorHealthStatusStyle(
   String Function(StaffSupervisorSystemHealthStatus status) statusLabel,
 ) {
   return switch (status) {
-    StaffSupervisorSystemHealthStatus.online => StaffSupervisorHealthStatusStyle(
+    StaffSupervisorSystemHealthStatus.online =>
+      StaffSupervisorHealthStatusStyle(
         color: StaffSupervisorDesign.successGreen,
         label: statusLabel(status),
       ),
     StaffSupervisorSystemHealthStatus.slow => StaffSupervisorHealthStatusStyle(
-        color: StaffSupervisorDesign.accent,
-        label: statusLabel(status),
-      ),
+      color: StaffSupervisorDesign.accent,
+      label: statusLabel(status),
+    ),
     StaffSupervisorSystemHealthStatus.operational =>
       StaffSupervisorHealthStatusStyle(
         color: StaffSupervisorDesign.successGreen,
         label: statusLabel(status),
       ),
-    StaffSupervisorSystemHealthStatus.disabled => StaffSupervisorHealthStatusStyle(
+    StaffSupervisorSystemHealthStatus.disabled =>
+      StaffSupervisorHealthStatusStyle(
         color: StaffSupervisorDesign.dangerRed,
         label: statusLabel(status),
         showDisabledX: true,
@@ -52,11 +54,7 @@ StaffSupervisorHealthStatusStyle staffSupervisorHealthStatusStyle(
 }
 
 class StaffSupervisorStatusDot extends StatelessWidget {
-  const StaffSupervisorStatusDot({
-    super.key,
-    required this.color,
-    this.size,
-  });
+  const StaffSupervisorStatusDot({super.key, required this.color, this.size});
 
   final Color color;
   final double? size;
@@ -141,20 +139,14 @@ class _HealthIconBadge extends StatelessWidget {
     return Container(
       width: layout.spacing(28),
       height: layout.spacing(28),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: backgroundColor, shape: BoxShape.circle),
       child: Icon(icon, color: iconColor, size: layout.spacing(16)),
     );
   }
 }
 
 class _StatusIndicator extends StatelessWidget {
-  const _StatusIndicator({
-    required this.layout,
-    required this.statusStyle,
-  });
+  const _StatusIndicator({required this.layout, required this.statusStyle});
 
   final ResponsiveLayout layout;
   final StaffSupervisorHealthStatusStyle statusStyle;
@@ -207,25 +199,25 @@ class _StatusIndicator extends StatelessWidget {
 ) {
   return switch (kind) {
     StaffSupervisorGeneralHealthKind.system => (
-        Icons.dns_rounded,
-        StaffSupervisorDesign.successGreen.withValues(alpha: 0.14),
-        StaffSupervisorDesign.successGreen,
-      ),
+      Icons.dns_rounded,
+      StaffSupervisorDesign.successGreen.withValues(alpha: 0.14),
+      StaffSupervisorDesign.successGreen,
+    ),
     StaffSupervisorGeneralHealthKind.sync => (
-        Icons.sync_rounded,
-        StaffSupervisorDesign.accent.withValues(alpha: 0.18),
-        StaffSupervisorDesign.accent,
-      ),
+      Icons.sync_rounded,
+      StaffSupervisorDesign.accent.withValues(alpha: 0.18),
+      StaffSupervisorDesign.accent,
+    ),
     StaffSupervisorGeneralHealthKind.database => (
-        Icons.storage_rounded,
-        StaffSupervisorDesign.successGreen.withValues(alpha: 0.14),
-        StaffSupervisorDesign.successGreen,
-      ),
+      Icons.storage_rounded,
+      StaffSupervisorDesign.successGreen.withValues(alpha: 0.14),
+      StaffSupervisorDesign.successGreen,
+    ),
     StaffSupervisorGeneralHealthKind.offlineMode => (
-        Icons.wifi_off_rounded,
-        AppColors.secondaryGrey.withValues(alpha: 0.14),
-        AppColors.secondaryGrey,
-      ),
+      Icons.wifi_off_rounded,
+      AppColors.secondaryGrey.withValues(alpha: 0.14),
+      AppColors.secondaryGrey,
+    ),
   };
 }
 
@@ -347,7 +339,10 @@ class StaffSupervisorGeneralStatusCard extends StatelessWidget {
       title: title,
       child: Column(
         children: items.map((item) {
-          final style = staffSupervisorHealthStatusStyle(item.status, statusLabel);
+          final style = staffSupervisorHealthStatusStyle(
+            item.status,
+            statusLabel,
+          );
           final (icon, bg, fg) = _generalHealthIconStyle(item.kind);
           return StaffSupervisorHealthStatusRow(
             layout: layout,
@@ -390,8 +385,10 @@ class StaffSupervisorActiveScannersCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           ...scanners.map((scanner) {
-            final style =
-                staffSupervisorHealthStatusStyle(scanner.status, statusLabel);
+            final style = staffSupervisorHealthStatusStyle(
+              scanner.status,
+              statusLabel,
+            );
             return Padding(
               padding: EdgeInsets.only(bottom: layout.spacing(12)),
               child: Row(
@@ -537,8 +534,7 @@ class StaffSupervisorEventFlowCard extends StatelessWidget {
   Color _valueColor(StaffSupervisorEventFlowKind kind) {
     return switch (kind) {
       StaffSupervisorEventFlowKind.general ||
-      StaffSupervisorEventFlowKind.vip =>
-        StaffSupervisorDesign.accent,
+      StaffSupervisorEventFlowKind.vip => StaffSupervisorDesign.accent,
       _ => AppColors.homeBlack,
     };
   }
@@ -685,25 +681,25 @@ class StaffSupervisorQuickActionsCard extends StatelessWidget {
   (IconData, Color) _styleFor(StaffSupervisorQuickActionKind kind) {
     return switch (kind) {
       StaffSupervisorQuickActionKind.offlineMode => (
-          Icons.wifi_off_rounded,
-          StaffSupervisorDesign.accent,
-        ),
+        Icons.wifi_off_rounded,
+        StaffSupervisorDesign.accent,
+      ),
       StaffSupervisorQuickActionKind.pauseValidations => (
-          Icons.pause_rounded,
-          StaffSupervisorDesign.accent,
-        ),
+        Icons.pause_rounded,
+        StaffSupervisorDesign.accent,
+      ),
       StaffSupervisorQuickActionKind.manualAccess => (
-          Icons.person_add_alt_1_rounded,
-          StaffSupervisorDesign.accent,
-        ),
+        Icons.person_add_alt_1_rounded,
+        StaffSupervisorDesign.accent,
+      ),
       StaffSupervisorQuickActionKind.blockVip => (
-          Icons.lock_outline_rounded,
-          StaffSupervisorDesign.dangerRed,
-        ),
+        Icons.lock_outline_rounded,
+        StaffSupervisorDesign.dangerRed,
+      ),
       StaffSupervisorQuickActionKind.staffAlert => (
-          Icons.campaign_outlined,
-          const Color(0xFF2563EB),
-        ),
+        Icons.campaign_outlined,
+        const Color(0xFF2563EB),
+      ),
     };
   }
 

@@ -62,10 +62,7 @@ abstract class BaseApiService {
     required T Function(Map<String, dynamic> json) fromJson,
     bool authenticated = false,
   }) async {
-    final data = await getData(
-      endpoint,
-      authenticated: authenticated,
-    );
+    final data = await getData(endpoint, authenticated: authenticated);
     return fromJson(data);
   }
 }

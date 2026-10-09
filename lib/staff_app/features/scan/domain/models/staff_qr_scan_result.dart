@@ -2,10 +2,7 @@ import 'package:intl/intl.dart';
 
 import 'package:youpass/staff_app/features/scan/routes/staff_qr_scan_route_args.dart';
 
-enum StaffQrScanOutcome {
-  valid,
-  alreadyUsed,
-}
+enum StaffQrScanOutcome { valid, alreadyUsed, pendingSync }
 
 class StaffQrScanResult {
   const StaffQrScanResult({
@@ -42,7 +39,55 @@ class StaffQrScanResult {
 
   bool get isValid => outcome == StaffQrScanOutcome.valid;
 
+  bool get isPendingSync => outcome == StaffQrScanOutcome.pendingSync;
+
   bool get isEntryScan => purpose == StaffQrScanPurpose.entry;
+
+  factory StaffQrScanResult.pendingOffline({
+    required String qrPayload,
+    required StaffQrScanPurpose purpose,
+    required String clientScanId,
+    required DateTime scannedAt,
+  }) {
+    return StaffQrScanResult(
+      outcome: StaffQrScanOutcome.pendingSync,
+      purpose: purpose,
+      productName: purpose == StaffQrScanPurpose.entry
+          ? 'Entry (pending sync)'
+          : 'Product (pending sync)',
+      guestName: 'Offline scan',
+      scanTimeLabel: _formatTime(scannedAt),
+      transactionId: clientScanId,
+      entryId: clientScanId,
+      qrPayload: qrPayload,
+      eventName: 'Will sync when online',
+    );
+  }
+
+  /// Local duplicate — same QR already queued or seen in recent cache offline.
+  factory StaffQrScanResult.alreadyUsedOffline({
+    required String qrPayload,
+    required StaffQrScanPurpose purpose,
+    required DateTime lastUsedAt,
+    String? priorId,
+  }) {
+    final id = priorId ?? '';
+    return StaffQrScanResult(
+      outcome: StaffQrScanOutcome.alreadyUsed,
+      purpose: purpose,
+      productName: purpose == StaffQrScanPurpose.entry
+          ? 'Entry already scanned'
+          : 'Product already scanned',
+      guestName: 'Offline scan',
+      scanTimeLabel: _formatTime(lastUsedAt),
+      transactionId: id,
+      entryId: id.isNotEmpty ? id : null,
+      qrPayload: qrPayload,
+      eventName: 'Already scanned on this device',
+      lastUsedTimeLabel: _formatTime(lastUsedAt),
+      lastUsedDateLabel: _formatDate(lastUsedAt),
+    );
+  }
 
   factory StaffQrScanResult.fromApiJson(
     Map<String, dynamic> json, {
@@ -61,11 +106,13 @@ class StaffQrScanResult {
     return StaffQrScanResult(
       outcome: outcome,
       purpose: purpose,
-      productName: (json['product_name'] ?? json['ticket_type'] ?? '') as String,
+      productName:
+          (json['product_name'] ?? json['ticket_type'] ?? '') as String,
       productQuantity: (json['product_quantity'] as num?)?.toInt() ?? 1,
       guestName: json['guest_name'] as String? ?? '',
       scanTimeLabel: _formatTime(displayTime),
-      transactionId: (json['transaction_id'] ?? json['entry_id'] ?? '') as String,
+      transactionId:
+          (json['transaction_id'] ?? json['entry_id'] ?? '') as String,
       qrPayload: qrPayload,
       eventName: json['event_title'] as String?,
       entryId: json['entry_id'] as String?,
@@ -82,7 +129,8 @@ class StaffQrScanResult {
     StaffQrScanPurpose purpose = StaffQrScanPurpose.product,
   }) {
     final normalized = qrPayload.trim().toLowerCase();
-    final isUsed = normalized.contains('used') ||
+    final isUsed =
+        normalized.contains('used') ||
         normalized.contains('usado') ||
         normalized.endsWith('-dup');
 
@@ -95,16 +143,18 @@ class StaffQrScanResult {
             : 'Jager Bomb',
         guestName: 'Daniel Rojas',
         scanTimeLabel: '00:48',
-        eventName:
-            purpose == StaffQrScanPurpose.entry ? 'YouFest 2026' : null,
-        entryId:
-            purpose == StaffQrScanPurpose.entry ? 'YP-2026-VIP-01234' : null,
+        eventName: purpose == StaffQrScanPurpose.entry ? 'YouFest 2026' : null,
+        entryId: purpose == StaffQrScanPurpose.entry
+            ? 'YP-2026-VIP-01234'
+            : null,
         accessLevel: purpose == StaffQrScanPurpose.entry ? 'VIP 1' : null,
-        transactionId:
-            purpose == StaffQrScanPurpose.entry ? 'YP-2026-VIP-01234' : '004892',
+        transactionId: purpose == StaffQrScanPurpose.entry
+            ? 'YP-2026-VIP-01234'
+            : '004892',
         qrPayload: qrPayload,
-        lastUsedTimeLabel:
-            purpose == StaffQrScanPurpose.entry ? '00:38 hrs' : '00:41',
+        lastUsedTimeLabel: purpose == StaffQrScanPurpose.entry
+            ? '00:38 hrs'
+            : '00:41',
         lastUsedDateLabel: purpose == StaffQrScanPurpose.entry
             ? '24 de mayo de 2026'
             : '24 de mayo de 2024',
@@ -114,18 +164,19 @@ class StaffQrScanResult {
     return StaffQrScanResult(
       outcome: StaffQrScanOutcome.valid,
       purpose: purpose,
-      productName:
-          purpose == StaffQrScanPurpose.entry ? 'VIP Mesa' : 'Jager Bomb',
+      productName: purpose == StaffQrScanPurpose.entry
+          ? 'VIP Mesa'
+          : 'Jager Bomb',
       productQuantity: 1,
       guestName: 'Daniel Rojas',
       scanTimeLabel: '00:42',
       eventName: purpose == StaffQrScanPurpose.entry ? 'YouFest 2026' : null,
-      entryId:
-          purpose == StaffQrScanPurpose.entry ? 'YP-2026-VIP-01234' : null,
+      entryId: purpose == StaffQrScanPurpose.entry ? 'YP-2026-VIP-01234' : null,
       accessLevel: purpose == StaffQrScanPurpose.entry ? 'VIP 1' : null,
       barName: purpose == StaffQrScanPurpose.entry ? null : 'Red Bull',
-      transactionId:
-          purpose == StaffQrScanPurpose.entry ? 'YP-2026-VIP-01234' : '004892',
+      transactionId: purpose == StaffQrScanPurpose.entry
+          ? 'YP-2026-VIP-01234'
+          : '004892',
       qrPayload: qrPayload,
     );
   }

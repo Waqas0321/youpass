@@ -28,10 +28,7 @@ class EventTicketScreen extends StatefulWidget {
   final bool showQrCode;
 
   static Widget fromRouteArgs(EventTicketRouteArgs args) {
-    return EventTicketScreen(
-      ticket: args.ticket,
-      showQrCode: args.showQrCode,
-    );
+    return EventTicketScreen(ticket: args.ticket, showQrCode: args.showQrCode);
   }
 
   @override
@@ -77,10 +74,7 @@ class EventTicketScreenState extends State<EventTicketScreen> {
   }
 
   Future<void> _checkValidationStatus() async {
-    if (!mounted ||
-        _isPolling ||
-        _isShowingAcceptedDialog ||
-        _didAcceptScan) {
+    if (!mounted || _isPolling || _isShowingAcceptedDialog || _didAcceptScan) {
       return;
     }
 
@@ -133,10 +127,9 @@ class EventTicketScreenState extends State<EventTicketScreen> {
       }
 
       // Return to Home so the Party Mode activation tip can show.
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        AppRoutes.home,
-        (_) => false,
-      );
+      Navigator.of(
+        context,
+      ).pushNamedAndRemoveUntil(AppRoutes.home, (_) => false);
     } finally {
       _isShowingAcceptedDialog = false;
     }
@@ -144,8 +137,10 @@ class EventTicketScreenState extends State<EventTicketScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final horizontalPadding =
-        InvitationsDesignSpec.px(context, InvitationsDesignSpec.horizontalPadding);
+    final horizontalPadding = InvitationsDesignSpec.px(
+      context,
+      InvitationsDesignSpec.horizontalPadding,
+    );
 
     return Scaffold(
       appBar: EventTicketAppBarWidget(

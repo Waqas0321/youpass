@@ -69,8 +69,9 @@ class _PartyDrinkEventChooserBody extends StatelessWidget {
                 ? null
                 : dateFormat.format(event.startsAt!.toLocal()),
             isRecommended: event.eventId == recommendedEventId,
-            recommendedLabel:
-                AppStrings.partyDrinkEventChooserRecommended(l10n),
+            recommendedLabel: AppStrings.partyDrinkEventChooserRecommended(
+              l10n,
+            ),
             onTap: () => Navigator.of(context).pop(event),
           ),
           SizedBox(height: layout.spacing(10)),
@@ -109,10 +110,7 @@ class _EventOptionTile extends StatelessWidget {
       color: fillColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(layout.radius(14)),
-        side: BorderSide(
-          color: borderColor,
-          width: isRecommended ? 1.5 : 1,
-        ),
+        side: BorderSide(color: borderColor, width: isRecommended ? 1.5 : 1),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(

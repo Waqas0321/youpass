@@ -113,7 +113,11 @@ class TicketOfferingRowWidget extends StatelessWidget {
                       ),
                     ),
                     child: AppText(
-                      AppStrings.vipTicketSoldOutBadge(strings),
+                      AppStrings.vipTicketUnavailableBadge(
+                        strings,
+                        isSoldOut: offering.isSoldOut,
+                        status: offering.status,
+                      ),
                       variant: AppTextVariant.body,
                       color: VipVenueScreenTheme.muted(context),
                       fontSize: VipVenueDesignSpec.px(context, 11),
@@ -147,6 +151,7 @@ class TicketOfferingRowWidget extends StatelessWidget {
               child: VipTicketQuantityStepperWidget(
                 quantity: offering.quantity,
                 minQuantity: 1,
+                maxQuantity: offering.maxPerUser,
                 onChanged: onQuantityChanged,
                 alignControlsEnd: true,
                 accentColor: isVip ? accent : null,

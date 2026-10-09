@@ -47,8 +47,10 @@ String _supervisorActionKindLabel(AppLocalizations l10n, String kind) {
   return switch (kind) {
     'release_qr' => l10n.staffSupervisorActionHistoryKindReleaseQr,
     'revalidate_qr' => l10n.staffSupervisorActionHistoryKindRevalidateQr,
-    'revert_validation' => l10n.staffSupervisorActionHistoryKindRevertValidation,
-    'authorize_reentry' => l10n.staffSupervisorActionHistoryKindAuthorizeReentry,
+    'revert_validation' =>
+      l10n.staffSupervisorActionHistoryKindRevertValidation,
+    'authorize_reentry' =>
+      l10n.staffSupervisorActionHistoryKindAuthorizeReentry,
     'temporary_unlock' => l10n.staffSupervisorActionHistoryKindTemporaryUnlock,
     'release_reentry' => l10n.staffSupervisorActionHistoryKindReleaseReentry,
     'block_qr' => l10n.staffSupervisorActionHistoryKindBlockQr,
@@ -75,7 +77,8 @@ String _supervisorActionKindLabel(AppLocalizations l10n, String kind) {
       l10n.staffSupervisorActionHistoryKindVipAccessBlocked,
     'vip_access_unblocked' =>
       l10n.staffSupervisorActionHistoryKindVipAccessUnblocked,
-    'scanner_restarted' => l10n.staffSupervisorActionHistoryKindScannerRestarted,
+    'scanner_restarted' =>
+      l10n.staffSupervisorActionHistoryKindScannerRestarted,
     'staff_alert' => l10n.staffSupervisorActionHistoryKindStaffAlert,
     'cancel_consumption' => l10n.staffSupervisorCancelConsumption,
     'release_blocked_qr' => l10n.staffSupervisorReleaseBlockedQr,

@@ -134,6 +134,8 @@ class AuthMessageLocalizer {
         return l10n.errorGeneric;
       case 'MISSING_ACCESS_TOKEN':
         return l10n.errorMissingAccessToken;
+      case 'ACCOUNT_BLOCKED':
+        return l10n.errorAccountBlocked;
       case 'UNAUTHORIZED':
       case 'SESSION_INVALID':
       case 'AUTHENTICATION_REQUIRED':

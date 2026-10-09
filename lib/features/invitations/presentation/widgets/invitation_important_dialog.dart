@@ -28,7 +28,10 @@ class InvitationImportantDialog extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const YouPassDialogIconBadge(icon: Icons.warning_amber_rounded, iconSize: 32),
+          const YouPassDialogIconBadge(
+            icon: Icons.warning_amber_rounded,
+            iconSize: 32,
+          ),
           const SizedBox(height: 16),
           Text(
             AppStrings.invitationsImportantTitle(strings),

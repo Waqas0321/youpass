@@ -17,7 +17,7 @@ void main() {
 
     final strings = lookupAppLocalizations(AppLocale.english);
     expect(find.text(strings.backButton), findsOneWidget);
-    expect(find.text(strings.phoneLoginSubtitle), findsOneWidget);
+    expect(find.text(strings.registerPhoneSubtitle), findsOneWidget);
     expect(find.text(strings.sendCodeButton), findsOneWidget);
     expect(find.byType(YouPassPrimaryButton), findsOneWidget);
     expect(find.text(strings.signInLink), findsOneWidget);

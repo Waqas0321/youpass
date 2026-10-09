@@ -3,10 +3,7 @@ import 'package:youpass/core/theme/invitations_screen_theme.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 
 class InvitationsEmptyStateWidget extends StatelessWidget {
-  const InvitationsEmptyStateWidget({
-    super.key,
-    required this.message,
-  });
+  const InvitationsEmptyStateWidget({super.key, required this.message});
 
   final String message;
 
@@ -29,7 +26,9 @@ class InvitationsEmptyStateWidget extends StatelessWidget {
             child: Icon(
               Icons.mail_outline_rounded,
               size: InvitationsDesignSpec.px(context, 34),
-              color: InvitationsScreenTheme.accent(context).withValues(alpha: 0.8),
+              color: InvitationsScreenTheme.accent(
+                context,
+              ).withValues(alpha: 0.8),
             ),
           ),
           SizedBox(height: InvitationsDesignSpec.px(context, 16)),

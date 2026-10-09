@@ -10,8 +10,8 @@ class StaffSupervisorVipManagementProvider extends ChangeNotifier {
   StaffSupervisorVipManagementProvider({
     StaffSupervisorApiService? apiService,
     required String genericError,
-  })  : _apiService = apiService ?? StaffSupervisorApiService(ApiClient()),
-        _genericError = genericError {
+  }) : _apiService = apiService ?? StaffSupervisorApiService(ApiClient()),
+       _genericError = genericError {
     search = StaffSupervisorVipSearchController(
       apiService: _apiService,
       genericSearchError: genericError,
@@ -48,7 +48,8 @@ class StaffSupervisorVipManagementProvider extends ChangeNotifier {
       return false;
     }
 
-    if (reasonController.text.trim().isEmpty || pinController.text.length != 4) {
+    if (reasonController.text.trim().isEmpty ||
+        pinController.text.length != 4) {
       return false;
     }
 

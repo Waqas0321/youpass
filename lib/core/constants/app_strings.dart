@@ -6,7 +6,8 @@ import 'package:youpass/l10n/app_localizations.dart';
 class AppStrings {
   AppStrings._();
 
-  static String defaultGuestName(AppLocalizations l10n) => l10n.defaultGuestName;
+  static String defaultGuestName(AppLocalizations l10n) =>
+      l10n.defaultGuestName;
 
   static String brandBadgeOff(AppLocalizations l10n) => l10n.brandBadgeOff;
 
@@ -85,11 +86,13 @@ class AppStrings {
   static String homeSearchSuggestionsTitle(AppLocalizations l10n) =>
       l10n.homeSearchSuggestionsTitle;
 
-  static String homeFiltersTitle(AppLocalizations l10n) => l10n.homeFiltersTitle;
+  static String homeFiltersTitle(AppLocalizations l10n) =>
+      l10n.homeFiltersTitle;
 
   static String homeFiltersDate(AppLocalizations l10n) => l10n.homeFiltersDate;
 
-  static String homeFiltersPrice(AppLocalizations l10n) => l10n.homeFiltersPrice;
+  static String homeFiltersPrice(AppLocalizations l10n) =>
+      l10n.homeFiltersPrice;
 
   static String homeFiltersCityZone(AppLocalizations l10n) =>
       l10n.homeFiltersCityZone;
@@ -106,9 +109,11 @@ class AppStrings {
   static String homeFiltersZoneLabel(AppLocalizations l10n) =>
       l10n.homeFiltersZoneLabel;
 
-  static String homeFiltersClear(AppLocalizations l10n) => l10n.homeFiltersClear;
+  static String homeFiltersClear(AppLocalizations l10n) =>
+      l10n.homeFiltersClear;
 
-  static String homeFiltersApply(AppLocalizations l10n) => l10n.homeFiltersApply;
+  static String homeFiltersApply(AppLocalizations l10n) =>
+      l10n.homeFiltersApply;
 
   static String homeFiltersApplyCount(AppLocalizations l10n, int count) =>
       l10n.homeFiltersApplyCount(count);
@@ -146,7 +151,8 @@ class AppStrings {
 
   static String buyTickets(AppLocalizations l10n) => l10n.buyTickets;
 
-  static String eventDetailTitle(AppLocalizations l10n) => l10n.eventDetailTitle;
+  static String eventDetailTitle(AppLocalizations l10n) =>
+      l10n.eventDetailTitle;
 
   static String eventDetailAboutSection(AppLocalizations l10n) =>
       l10n.eventDetailAboutSection;
@@ -175,8 +181,7 @@ class AppStrings {
   static String eventDetailUnfollowPromoter(
     AppLocalizations l10n,
     String name,
-  ) =>
-      l10n.eventDetailUnfollowPromoter(name);
+  ) => l10n.eventDetailUnfollowPromoter(name);
 
   static String homeCategoryLabel(AppLocalizations l10n, String categoryId) {
     switch (categoryId) {
@@ -339,11 +344,13 @@ class AppStrings {
   static String partyDrinkCheckoutCreditCard(AppLocalizations l10n) =>
       l10n.partyDrinkCheckoutCreditCard;
 
+  static String partyDrinkCheckoutNoCharge(AppLocalizations l10n) =>
+      l10n.partyDrinkCheckoutNoCharge;
+
   static String partyDrinkCheckoutCardMask(
     AppLocalizations l10n,
     String last4,
-  ) =>
-      l10n.partyDrinkCheckoutCardMask(last4);
+  ) => l10n.partyDrinkCheckoutCardMask(last4);
 
   static String partyDrinkCheckoutProducts(AppLocalizations l10n, int count) =>
       l10n.partyDrinkCheckoutProducts(count);
@@ -396,8 +403,7 @@ class AppStrings {
   static String partyDrinkPurchaseValidity(
     AppLocalizations l10n,
     String target,
-  ) =>
-      l10n.partyDrinkPurchaseValidity(target);
+  ) => l10n.partyDrinkPurchaseValidity(target);
 
   static String partyDrinkPurchaseShowBartender(AppLocalizations l10n) =>
       l10n.partyDrinkPurchaseShowBartender;
@@ -414,21 +420,26 @@ class AppStrings {
   static String partyDrinkPurchasesTabUsed(AppLocalizations l10n) =>
       l10n.partyDrinkPurchasesTabUsed;
 
-  static String partyDrinkPurchasesOrderLabel(AppLocalizations l10n, String id) =>
-      l10n.partyDrinkPurchasesOrderLabel(id);
+  static String partyDrinkPurchasesOrderLabel(
+    AppLocalizations l10n,
+    String id,
+  ) => l10n.partyDrinkPurchasesOrderLabel(id);
 
   static String partyDrinkPurchasesQuantityLabel(
     AppLocalizations l10n,
     int count,
     String name,
-  ) =>
-      l10n.partyDrinkPurchasesQuantityLabel(count, name);
+  ) => l10n.partyDrinkPurchasesQuantityLabel(count, name);
 
-  static String partyDrinkPurchasesBoughtAgo(AppLocalizations l10n, String timeAgo) =>
-      l10n.partyDrinkPurchasesBoughtAgo(timeAgo);
+  static String partyDrinkPurchasesBoughtAgo(
+    AppLocalizations l10n,
+    String timeAgo,
+  ) => l10n.partyDrinkPurchasesBoughtAgo(timeAgo);
 
-  static String partyDrinkPurchasesRedeemedAgo(AppLocalizations l10n, String timeAgo) =>
-      l10n.partyDrinkPurchasesRedeemedAgo(timeAgo);
+  static String partyDrinkPurchasesRedeemedAgo(
+    AppLocalizations l10n,
+    String timeAgo,
+  ) => l10n.partyDrinkPurchasesRedeemedAgo(timeAgo);
 
   static String partyDrinkPurchasesViewQr(AppLocalizations l10n) =>
       l10n.partyDrinkPurchasesViewQr;
@@ -454,8 +465,7 @@ class AppStrings {
   static String partyDrinkCourtesiesReceivedAgo(
     AppLocalizations l10n,
     String timeAgo,
-  ) =>
-      l10n.partyDrinkCourtesiesReceivedAgo(timeAgo);
+  ) => l10n.partyDrinkCourtesiesReceivedAgo(timeAgo);
 
   static String partyDrinkCourtesiesEmptyPending(AppLocalizations l10n) =>
       l10n.partyDrinkCourtesiesEmptyPending;
@@ -468,9 +478,11 @@ class AppStrings {
 
   static String drawerTierGold(AppLocalizations l10n) => l10n.drawerTierGold;
 
-  static String drawerTierSilver(AppLocalizations l10n) => l10n.drawerTierSilver;
+  static String drawerTierSilver(AppLocalizations l10n) =>
+      l10n.drawerTierSilver;
 
-  static String drawerTierBronze(AppLocalizations l10n) => l10n.drawerTierBronze;
+  static String drawerTierBronze(AppLocalizations l10n) =>
+      l10n.drawerTierBronze;
 
   static String drawerTierPlatinum(AppLocalizations l10n) =>
       l10n.drawerTierPlatinum;
@@ -487,18 +499,21 @@ class AppStrings {
 
   static String profilePhone(AppLocalizations l10n) => l10n.profilePhone;
 
-  static String profileChangePhone(AppLocalizations l10n) => l10n.profileChangePhone;
+  static String profileChangePhone(AppLocalizations l10n) =>
+      l10n.profileChangePhone;
 
   static String profileEmail(AppLocalizations l10n) => l10n.profileEmail;
 
-  static String profileBirthDate(AppLocalizations l10n) => l10n.profileBirthDate;
+  static String profileBirthDate(AppLocalizations l10n) =>
+      l10n.profileBirthDate;
 
   static String profileGender(AppLocalizations l10n) => l10n.profileGender;
 
   static String profileGenderMaleValue(AppLocalizations l10n) =>
       l10n.profileGenderMaleValue;
 
-  static String profileInstagram(AppLocalizations l10n) => l10n.profileInstagram;
+  static String profileInstagram(AppLocalizations l10n) =>
+      l10n.profileInstagram;
 
   static String profileEditData(AppLocalizations l10n) => l10n.profileEditData;
 
@@ -664,8 +679,10 @@ class AppStrings {
   static String profileWriteEmail(AppLocalizations l10n) =>
       l10n.profileWriteEmail;
 
-  static String profileSupportEmailMessage(AppLocalizations l10n, String email) =>
-      l10n.profileSupportEmailMessage(email);
+  static String profileSupportEmailMessage(
+    AppLocalizations l10n,
+    String email,
+  ) => l10n.profileSupportEmailMessage(email);
 
   static String profileSupportEmailCopy(AppLocalizations l10n) =>
       l10n.profileSupportEmailCopy;
@@ -704,14 +721,16 @@ class AppStrings {
   static String profilePhotoChooseSource(AppLocalizations l10n) =>
       l10n.profilePhotoChooseSource;
 
-  static String profilePhotoTake(AppLocalizations l10n) => l10n.profilePhotoTake;
+  static String profilePhotoTake(AppLocalizations l10n) =>
+      l10n.profilePhotoTake;
 
   static String profilePhotoGallery(AppLocalizations l10n) =>
       l10n.profilePhotoGallery;
 
   static String profileNotAdded(AppLocalizations l10n) => l10n.profileNotAdded;
 
-  static String profileEditTitle(AppLocalizations l10n) => l10n.profileEditTitle;
+  static String profileEditTitle(AppLocalizations l10n) =>
+      l10n.profileEditTitle;
 
   static String profileSave(AppLocalizations l10n) => l10n.profileSave;
 
@@ -737,7 +756,8 @@ class AppStrings {
 
   static String profileFaqTitle(AppLocalizations l10n) => l10n.profileFaqTitle;
 
-  static String profileFaqSearch(AppLocalizations l10n) => l10n.profileFaqSearch;
+  static String profileFaqSearch(AppLocalizations l10n) =>
+      l10n.profileFaqSearch;
 
   static String profileFaqHelpful(AppLocalizations l10n) =>
       l10n.profileFaqHelpful;
@@ -804,8 +824,7 @@ class AppStrings {
     AppLocalizations l10n,
     String date,
     int days,
-  ) =>
-      l10n.accountDeletionPendingBannerSubtitle(date, days);
+  ) => l10n.accountDeletionPendingBannerSubtitle(date, days);
 
   static String accountDeletionCancelAction(AppLocalizations l10n) =>
       l10n.accountDeletionCancelAction;
@@ -875,13 +894,9 @@ class AppStrings {
   static String ticketsInvitationExpires(
     AppLocalizations l10n,
     String deadline,
-  ) =>
-      l10n.ticketsInvitationExpires(deadline);
+  ) => l10n.ticketsInvitationExpires(deadline);
 
-  static String ticketsQrCountdown(
-    AppLocalizations l10n,
-    String eventDate,
-  ) =>
+  static String ticketsQrCountdown(AppLocalizations l10n, String eventDate) =>
       l10n.ticketsQrCountdown(eventDate);
 
   static String ticketsQrUnavailable(AppLocalizations l10n) =>
@@ -907,14 +922,16 @@ class AppStrings {
   static String bottomNavInvitations(AppLocalizations l10n) =>
       l10n.bottomNavInvitations;
 
-  static String bottomNavTickets(AppLocalizations l10n) => l10n.bottomNavTickets;
+  static String bottomNavTickets(AppLocalizations l10n) =>
+      l10n.bottomNavTickets;
 
   static String ticketsViewQr(AppLocalizations l10n) => l10n.ticketsViewQr;
 
   static String ticketsAssignEntries(AppLocalizations l10n) =>
       l10n.ticketsAssignEntries;
 
-  static String ticketsAssignVip(AppLocalizations l10n) => l10n.ticketsAssignVip;
+  static String ticketsAssignVip(AppLocalizations l10n) =>
+      l10n.ticketsAssignVip;
 
   static String ticketsViewAssigned(AppLocalizations l10n) =>
       l10n.ticketsViewAssigned;
@@ -931,7 +948,8 @@ class AppStrings {
   static String ticketsFiltersLabel(AppLocalizations l10n) =>
       l10n.ticketsFiltersLabel;
 
-  static String ticketsFilterAll(AppLocalizations l10n) => l10n.ticketsFilterAll;
+  static String ticketsFilterAll(AppLocalizations l10n) =>
+      l10n.ticketsFilterAll;
 
   static String ticketsFilterParties(AppLocalizations l10n) =>
       l10n.ticketsFilterParties;
@@ -939,26 +957,26 @@ class AppStrings {
   static String ticketsFilterConcerts(AppLocalizations l10n) =>
       l10n.ticketsFilterConcerts;
 
-  static String ticketsFilterBar(AppLocalizations l10n) => l10n.ticketsFilterBar;
+  static String ticketsFilterBar(AppLocalizations l10n) =>
+      l10n.ticketsFilterBar;
 
   static String ticketsYearlySummaryAttended(
     AppLocalizations l10n, {
     required int count,
     required int year,
-  }) =>
-      l10n.ticketsYearlySummaryAttended(count, year);
+  }) => l10n.ticketsYearlySummaryAttended(count, year);
 
   static String ticketsYearlySummaryProducer(
     AppLocalizations l10n, {
     required String name,
     required int count,
-  }) =>
-      l10n.ticketsYearlySummaryProducer(name, count);
+  }) => l10n.ticketsYearlySummaryProducer(name, count);
 
   static String ticketsEmptyUpcoming(AppLocalizations l10n) =>
       l10n.ticketsEmptyUpcoming;
 
-  static String ticketsEmptyPast(AppLocalizations l10n) => l10n.ticketsEmptyPast;
+  static String ticketsEmptyPast(AppLocalizations l10n) =>
+      l10n.ticketsEmptyPast;
 
   static String ticketsRetry(AppLocalizations l10n) => l10n.ticketsRetry;
 
@@ -974,17 +992,22 @@ class AppStrings {
   static String ticketAssignmentSummarySubtitle(
     AppLocalizations l10n,
     int count,
-  ) =>
-      l10n.ticketAssignmentSummarySubtitle(count);
+  ) => l10n.ticketAssignmentSummarySubtitle(count);
 
-  static String ticketAssignmentAvailableCount(AppLocalizations l10n, int count) =>
-      l10n.ticketAssignmentAvailableCount(count);
+  static String ticketAssignmentAvailableCount(
+    AppLocalizations l10n,
+    int count,
+  ) => l10n.ticketAssignmentAvailableCount(count);
 
-  static String ticketAssignmentPendingCount(AppLocalizations l10n, int count) =>
-      l10n.ticketAssignmentPendingCount(count);
+  static String ticketAssignmentPendingCount(
+    AppLocalizations l10n,
+    int count,
+  ) => l10n.ticketAssignmentPendingCount(count);
 
-  static String ticketAssignmentClaimedCount(AppLocalizations l10n, int count) =>
-      l10n.ticketAssignmentClaimedCount(count);
+  static String ticketAssignmentClaimedCount(
+    AppLocalizations l10n,
+    int count,
+  ) => l10n.ticketAssignmentClaimedCount(count);
 
   static String ticketAssignmentSentSectionTitle(AppLocalizations l10n) =>
       l10n.ticketAssignmentSentSectionTitle;
@@ -995,8 +1018,7 @@ class AppStrings {
   static String ticketAssignmentSendNewSectionSubtitle(
     AppLocalizations l10n,
     int count,
-  ) =>
-      l10n.ticketAssignmentSendNewSectionSubtitle(count);
+  ) => l10n.ticketAssignmentSendNewSectionSubtitle(count);
 
   static String ticketAssignmentAcceptedBadge(AppLocalizations l10n) =>
       l10n.ticketAssignmentAcceptedBadge;
@@ -1058,8 +1080,9 @@ class AppStrings {
   static String ticketAssignmentSentSuccess(AppLocalizations l10n) =>
       l10n.ticketAssignmentSentSuccess;
 
-  static String ticketAssignmentContactsPermissionDenied(AppLocalizations l10n) =>
-      l10n.ticketAssignmentContactsPermissionDenied;
+  static String ticketAssignmentContactsPermissionDenied(
+    AppLocalizations l10n,
+  ) => l10n.ticketAssignmentContactsPermissionDenied;
 
   static String ticketAssignmentMissingOrder(AppLocalizations l10n) =>
       l10n.ticketAssignmentMissingOrder;
@@ -1137,14 +1160,12 @@ class AppStrings {
     AppLocalizations l10n,
     String ticketCount,
     String amount,
-  ) =>
-      l10n.vipTicketSelectionSummaryLine(ticketCount, amount);
+  ) => l10n.vipTicketSelectionSummaryLine(ticketCount, amount);
 
   static String vipContinueWithTickets(
     AppLocalizations l10n,
     String ticketCount,
-  ) =>
-      l10n.vipContinueWithTickets(ticketCount);
+  ) => l10n.vipContinueWithTickets(ticketCount);
 
   static String vipBackButton(AppLocalizations l10n) => l10n.vipBackButton;
 
@@ -1157,13 +1178,28 @@ class AppStrings {
   static String vipTicketSoldOutBadge(AppLocalizations l10n) =>
       l10n.vipTicketSoldOutBadge;
 
+  /// Badge for a ticket that can't be bought: only "Sold out" when it truly is.
+  static String vipTicketUnavailableBadge(
+    AppLocalizations l10n, {
+    required bool isSoldOut,
+    String? status,
+  }) {
+    if (isSoldOut) return l10n.vipTicketSoldOutBadge;
+    if (status == 'paused') return l10n.vipTicketPausedBadge;
+    return l10n.vipTicketUnavailableBadge;
+  }
+
+  static String vipTicketsSalesUnavailable(AppLocalizations l10n) =>
+      l10n.vipTicketsSalesUnavailable;
+
   static String vipTicketsNoneAvailable(AppLocalizations l10n) =>
       l10n.vipTicketsNoneAvailable;
 
   static String vipTicketsAllSoldOut(AppLocalizations l10n) =>
       l10n.vipTicketsAllSoldOut;
 
-  static String vipSecurePayment(AppLocalizations l10n) => l10n.vipSecurePayment;
+  static String vipSecurePayment(AppLocalizations l10n) =>
+      l10n.vipSecurePayment;
 
   static String vipMesasVipTitle(AppLocalizations l10n) =>
       l10n.vipMesasVipTitle;
@@ -1183,14 +1219,14 @@ class AppStrings {
   static String vipFloorPlanDimensions(AppLocalizations l10n) =>
       l10n.vipFloorPlanDimensions;
 
-  static String vipFloorPlanSize(AppLocalizations l10n) => l10n.vipFloorPlanSize;
+  static String vipFloorPlanSize(AppLocalizations l10n) =>
+      l10n.vipFloorPlanSize;
 
   static String vipFloorPlanSubtitle(
     AppLocalizations l10n,
     String venue,
     String size,
-  ) =>
-      l10n.vipFloorPlanSubtitle(venue, size);
+  ) => l10n.vipFloorPlanSubtitle(venue, size);
 
   static String vipTapVipZoneTitle(AppLocalizations l10n) =>
       l10n.vipTapVipZoneTitle;
@@ -1230,8 +1266,7 @@ class AppStrings {
     AppLocalizations l10n,
     String label,
     int quantity,
-  ) =>
-      l10n.vipPurchaseOfferingLine(label, quantity);
+  ) => l10n.vipPurchaseOfferingLine(label, quantity);
 
   static String vipTableReserve(AppLocalizations l10n, String table) =>
       l10n.vipTableReserve(table);
@@ -1240,8 +1275,7 @@ class AppStrings {
     AppLocalizations l10n,
     String table,
     String zone,
-  ) =>
-      l10n.vipTableDetailTitle(table, zone);
+  ) => l10n.vipTableDetailTitle(table, zone);
 
   static String vipTableCapacity(AppLocalizations l10n, int count) =>
       l10n.vipTableCapacity(count);
@@ -1250,8 +1284,7 @@ class AppStrings {
     AppLocalizations l10n,
     int bottles,
     int vouchers,
-  ) =>
-      l10n.vipTableIncludes(bottles, vouchers);
+  ) => l10n.vipTableIncludes(bottles, vouchers);
 
   static String vipTableBottles(AppLocalizations l10n, int count) =>
       l10n.vipTableBottles(count);
@@ -1281,8 +1314,7 @@ class AppStrings {
     String entries,
     String access,
     String vouchers,
-  ) =>
-      l10n.vipPurchaseTicketDetailsLine(entries, access, vouchers);
+  ) => l10n.vipPurchaseTicketDetailsLine(entries, access, vouchers);
 
   static String vipTotal(AppLocalizations l10n) => l10n.vipPurchaseTotal;
 
@@ -1309,8 +1341,10 @@ class AppStrings {
   static String vipTableLockCountdown(AppLocalizations l10n, String time) =>
       l10n.vipTableLockCountdown(time);
 
-  static String vipTableLockReservedCountdown(AppLocalizations l10n, String time) =>
-      l10n.vipTableLockReservedCountdown(time);
+  static String vipTableLockReservedCountdown(
+    AppLocalizations l10n,
+    String time,
+  ) => l10n.vipTableLockReservedCountdown(time);
 
   static String vipTableLockExpired(AppLocalizations l10n) =>
       l10n.vipTableLockExpired;
@@ -1360,10 +1394,7 @@ class AppStrings {
   static String vipDanceFloorGeneral(AppLocalizations l10n) =>
       l10n.vipDanceFloorGeneral;
 
-  static String vipTableDistributionTitle(
-    AppLocalizations l10n,
-    String zone,
-  ) =>
+  static String vipTableDistributionTitle(AppLocalizations l10n, String zone) =>
       l10n.vipTableDistributionTitle(zone);
 
   static String vipTableDistributionStage(AppLocalizations l10n) =>
@@ -1389,29 +1420,28 @@ class AppStrings {
     String people,
     String bottles,
     String vouchers,
-  ) =>
-      l10n.vipTableIncludesShort(people, bottles, vouchers);
+  ) => l10n.vipTableIncludesShort(people, bottles, vouchers);
 
   static String vipPurchaseSummaryItemTitle(
     AppLocalizations l10n,
     String table,
     String zone,
     String event,
-  ) =>
-      l10n.vipPurchaseSummaryItemTitle(table, zone, event);
+  ) => l10n.vipPurchaseSummaryItemTitle(table, zone, event);
 
-  static String vipPurchaseTotal(AppLocalizations l10n) => l10n.vipPurchaseTotal;
+  static String vipPurchaseTotal(AppLocalizations l10n) =>
+      l10n.vipPurchaseTotal;
 
   static String vipPurchaseAssignTicketsInfo(
     AppLocalizations l10n,
     String myTickets,
-  ) =>
-      l10n.vipPurchaseAssignTicketsInfo(myTickets);
+  ) => l10n.vipPurchaseAssignTicketsInfo(myTickets);
 
   static String ticketsStatistics(AppLocalizations l10n) =>
       l10n.ticketsStatistics;
 
-  static String ticketsStatEntry(AppLocalizations l10n) => l10n.ticketsStatEntry;
+  static String ticketsStatEntry(AppLocalizations l10n) =>
+      l10n.ticketsStatEntry;
 
   static String ticketsStatConsumption(AppLocalizations l10n) =>
       l10n.ticketsStatConsumption;
@@ -1451,8 +1481,10 @@ class AppStrings {
   static String favoritesViewEvents(AppLocalizations l10n) =>
       l10n.favoritesViewEvents;
 
-  static String favoritesSavedProducersCount(AppLocalizations l10n, int count) =>
-      l10n.favoritesSavedProducersCount(count);
+  static String favoritesSavedProducersCount(
+    AppLocalizations l10n,
+    int count,
+  ) => l10n.favoritesSavedProducersCount(count);
 
   static String favoritesYoufestDescription(AppLocalizations l10n) =>
       l10n.favoritesYoufestDescription;
@@ -1481,8 +1513,7 @@ class AppStrings {
   static String producerEventsUpcomingSubtitle(
     AppLocalizations l10n,
     String producerName,
-  ) =>
-      l10n.producerEventsUpcomingSubtitle(producerName);
+  ) => l10n.producerEventsUpcomingSubtitle(producerName);
 
   static String producerEventsSearchHint(AppLocalizations l10n) =>
       l10n.producerEventsSearchHint;
@@ -1499,8 +1530,10 @@ class AppStrings {
   static String producerEventPrepay(AppLocalizations l10n) =>
       l10n.producerEventPrepay;
 
-  static String producerEventsAvailableCount(AppLocalizations l10n, int count) =>
-      l10n.producerEventsAvailableCount(count);
+  static String producerEventsAvailableCount(
+    AppLocalizations l10n,
+    int count,
+  ) => l10n.producerEventsAvailableCount(count);
 
   static String drawerMyInvitations(AppLocalizations l10n) =>
       l10n.drawerMyInvitations;
@@ -1554,8 +1587,7 @@ class AppStrings {
     AppLocalizations l10n,
     String deadline,
     String amount,
-  ) =>
-      l10n.invitationsGuaranteedPassMessage(deadline, amount);
+  ) => l10n.invitationsGuaranteedPassMessage(deadline, amount);
 
   static String invitationsGuaranteedPassTerms(AppLocalizations l10n) =>
       l10n.invitationsGuaranteedPassTerms;
@@ -1563,8 +1595,10 @@ class AppStrings {
   static String invitationsGpTermsRequired(AppLocalizations l10n) =>
       l10n.invitationsGpTermsRequired;
 
-  static String invitationsPreauthNotice(AppLocalizations l10n, String amount) =>
-      l10n.invitationsPreauthNotice(amount);
+  static String invitationsPreauthNotice(
+    AppLocalizations l10n,
+    String amount,
+  ) => l10n.invitationsPreauthNotice(amount);
 
   static String invitationsDiscountedPayTitle(AppLocalizations l10n) =>
       l10n.invitationsDiscountedPayTitle;
@@ -1572,14 +1606,22 @@ class AppStrings {
   static String invitationsDiscountedPayMessage(
     AppLocalizations l10n,
     String amount,
-  ) =>
-      l10n.invitationsDiscountedPayMessage(amount);
+  ) => l10n.invitationsDiscountedPayMessage(amount);
 
-  static String invitationsDiscountPercent(AppLocalizations l10n, int percent) =>
-      l10n.invitationsDiscountPercent(percent);
+  static String invitationsDiscountPercent(
+    AppLocalizations l10n,
+    int percent,
+  ) => l10n.invitationsDiscountPercent(percent);
 
+  /// API labels arrive as "Until Fri 16 Oct · 15:35"; drop "Until" so the
+  /// localized "Cancel by …" prefix doesn't read "Cancel by Until …".
   static String invitationsCancelBy(AppLocalizations l10n, String deadline) =>
-      l10n.invitationsCancelBy(deadline);
+      l10n.invitationsCancelBy(
+        deadline.replaceFirst(
+          RegExp(r'^\s*until\s+', caseSensitive: false),
+          '',
+        ),
+      );
 
   static String invitationsAcceptGuaranteed(AppLocalizations l10n) =>
       l10n.invitationsAcceptGuaranteed;
@@ -1609,8 +1651,7 @@ class AppStrings {
     AppLocalizations l10n,
     String amount,
     String deadline,
-  ) =>
-      l10n.invitationsGpWarningBody(amount, deadline);
+  ) => l10n.invitationsGpWarningBody(amount, deadline);
 
   static String invitationsBiometricReason(AppLocalizations l10n) =>
       l10n.invitationsBiometricReason;
@@ -1625,8 +1666,7 @@ class AppStrings {
     AppLocalizations l10n,
     String event,
     String deadline,
-  ) =>
-      l10n.invitationsGpActiveMessage(event, deadline);
+  ) => l10n.invitationsGpActiveMessage(event, deadline);
 
   static String invitationsGpActiveCta(AppLocalizations l10n) =>
       l10n.invitationsGpActiveCta;
@@ -1832,6 +1872,23 @@ class AppStrings {
   static String invitationsCardSavedReminderCancel(AppLocalizations l10n) =>
       l10n.invitationsCardSavedReminderCancel;
 
+  /// Uses the invitation's real deadline; falls back to the generic 48h text.
+  static String invitationsCardSavedReminderCancelBy(
+    AppLocalizations l10n,
+    String? deadlineLabel,
+  ) {
+    final deadline = deadlineLabel
+        ?.replaceFirst(
+          RegExp(r'^\s*(until|hasta)\s+', caseSensitive: false),
+          '',
+        )
+        .trim();
+    if (deadline == null || deadline.isEmpty) {
+      return l10n.invitationsCardSavedReminderCancel;
+    }
+    return l10n.invitationsCardSavedReminderCancelBy(deadline);
+  }
+
   static String eventTicketScreenTitle(AppLocalizations l10n) =>
       l10n.eventTicketScreenTitle;
 
@@ -1850,7 +1907,8 @@ class AppStrings {
   static String welcomeFallbackSubtitle(AppLocalizations l10n) =>
       l10n.welcomeFallbackSubtitle;
 
-  static String paymentBrandVisa(AppLocalizations l10n) => l10n.paymentBrandVisa;
+  static String paymentBrandVisa(AppLocalizations l10n) =>
+      l10n.paymentBrandVisa;
 
   static String paymentBrandMastercard(AppLocalizations l10n) =>
       l10n.paymentBrandMastercard;
@@ -1865,14 +1923,16 @@ class AppStrings {
 
   static String emailInvalid(AppLocalizations l10n) => l10n.emailInvalid;
 
-  static String passwordRequired(AppLocalizations l10n) => l10n.passwordRequired;
+  static String passwordRequired(AppLocalizations l10n) =>
+      l10n.passwordRequired;
 
   static String passwordMinLength(AppLocalizations l10n) =>
       l10n.passwordMinLength;
 
   static String phoneHintChile(AppLocalizations l10n) => l10n.phoneHintChile;
 
-  static String phoneHintGeneric(AppLocalizations l10n) => l10n.phoneHintGeneric;
+  static String phoneHintGeneric(AppLocalizations l10n) =>
+      l10n.phoneHintGeneric;
 
   static String phoneHintPakistan(AppLocalizations l10n) =>
       l10n.phoneHintPakistan;
@@ -1928,7 +1988,8 @@ class AppStrings {
   static String mockStayDuration5h14m(AppLocalizations l10n) =>
       l10n.mockStayDuration5h14m;
 
-  static String mockSeatVipTable(AppLocalizations l10n) => l10n.mockSeatVipTable;
+  static String mockSeatVipTable(AppLocalizations l10n) =>
+      l10n.mockSeatVipTable;
 
   static String mockProducerYoufest(AppLocalizations l10n) =>
       l10n.mockProducerYoufest;
@@ -1999,27 +2060,37 @@ class AppStrings {
 
   static String mockTime2130Hrs(AppLocalizations l10n) => l10n.mockTime2130Hrs;
 
-  static String waitlistJoinButton(AppLocalizations l10n) => l10n.waitlistJoinButton;
+  static String waitlistJoinButton(AppLocalizations l10n) =>
+      l10n.waitlistJoinButton;
 
-  static String waitlistLeave(AppLocalizations l10n) => l10n.waitlistLeaveButton;
+  static String waitlistLeave(AppLocalizations l10n) =>
+      l10n.waitlistLeaveButton;
 
-  static String waitlistJoinTitle(AppLocalizations l10n) => l10n.waitlistJoinTitle;
+  static String waitlistJoinTitle(AppLocalizations l10n) =>
+      l10n.waitlistJoinTitle;
 
-  static String waitlistJoinConfirm(AppLocalizations l10n) => l10n.waitlistJoinConfirm;
+  static String waitlistJoinConfirm(AppLocalizations l10n) =>
+      l10n.waitlistJoinConfirm;
 
   static String waitlistJoinSuccess(AppLocalizations l10n, String eventName) =>
       l10n.waitlistJoinSuccess(eventName);
 
-  static String waitlistEstimatedPosition(AppLocalizations l10n, String position) =>
-      l10n.waitlistEstimatedPosition(position);
+  static String waitlistEstimatedPosition(
+    AppLocalizations l10n,
+    String position,
+  ) => l10n.waitlistEstimatedPosition(position);
 
-  static String waitlistLeaveTitle(AppLocalizations l10n) => l10n.waitlistLeaveTitle;
+  static String waitlistLeaveTitle(AppLocalizations l10n) =>
+      l10n.waitlistLeaveTitle;
 
-  static String waitlistLeaveMessage(AppLocalizations l10n) => l10n.waitlistLeaveMessage;
+  static String waitlistLeaveMessage(AppLocalizations l10n) =>
+      l10n.waitlistLeaveMessage;
 
-  static String waitlistLeaveConfirm(AppLocalizations l10n) => l10n.waitlistLeaveConfirm;
+  static String waitlistLeaveConfirm(AppLocalizations l10n) =>
+      l10n.waitlistLeaveConfirm;
 
-  static String waitlistClaimSlot(AppLocalizations l10n) => l10n.waitlistClaimSlot;
+  static String waitlistClaimSlot(AppLocalizations l10n) =>
+      l10n.waitlistClaimSlot;
 
   static String waitlistOfferBanner(AppLocalizations l10n, String time) =>
       l10n.waitlistOfferBanner(time);
@@ -2033,7 +2104,8 @@ class AppStrings {
   static String waitlistAlreadyOnWaitlist(AppLocalizations l10n) =>
       l10n.waitlistAlreadyOnWaitlist;
 
-  static String waitlistDisabled(AppLocalizations l10n) => l10n.waitlistDisabled;
+  static String waitlistDisabled(AppLocalizations l10n) =>
+      l10n.waitlistDisabled;
 
   static String waitlistNotAvailable(AppLocalizations l10n) =>
       l10n.waitlistNotAvailable;

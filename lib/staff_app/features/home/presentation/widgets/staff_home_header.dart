@@ -45,11 +45,7 @@ class StaffHomeHeader extends StatelessWidget {
                   )
                 : null,
           ),
-          const Expanded(
-            child: Center(
-              child: YouPassBrandLogo(compact: true),
-            ),
-          ),
+          const Expanded(child: Center(child: YouPassBrandLogo(compact: true))),
           SizedBox(
             width: sideSlotWidth,
             child: showDrawer

@@ -7,10 +7,7 @@ import 'package:youpass/features/invitations/presentation/utils/invitations_prod
 import 'package:youpass/features/invitations/presentation/utils/invitations_text_factory.dart';
 
 class InvitationTypeBadgeWidget extends StatelessWidget {
-  const InvitationTypeBadgeWidget({
-    super.key,
-    required this.invitation,
-  });
+  const InvitationTypeBadgeWidget({super.key, required this.invitation});
 
   final InvitationEntity invitation;
 
@@ -18,9 +15,13 @@ class InvitationTypeBadgeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = context.l10n;
     final kind = InvitationsProductKindResolver.resolve(invitation);
-    final color = InvitationsProductKindStyle.parseHexColor(invitation.typeColorHex) ??
+    final color =
+        InvitationsProductKindStyle.parseHexColor(invitation.typeColorHex) ??
         InvitationsProductKindStyle.colorFor(kind);
-    final label = InvitationsTextFactory.productLabelForInvitation(strings, invitation);
+    final label = InvitationsTextFactory.productLabelForInvitation(
+      strings,
+      invitation,
+    );
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -29,7 +30,9 @@ class InvitationTypeBadgeWidget extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(InvitationsDesignSpec.px(context, 6)),
+        borderRadius: BorderRadius.circular(
+          InvitationsDesignSpec.px(context, 6),
+        ),
         border: Border.all(color: color, width: 1.2),
       ),
       child: Text(

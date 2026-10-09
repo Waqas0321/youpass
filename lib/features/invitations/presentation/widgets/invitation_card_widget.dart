@@ -54,16 +54,22 @@ class InvitationCardWidget extends StatelessWidget {
     final showViewQr = isConfirmed || invitation.canFetchQrFromApi;
     final typeColor =
         InvitationsProductKindStyle.parseHexColor(invitation.typeColorHex) ??
-            InvitationsProductKindStyle.colorFor(
-              InvitationsProductKindResolver.resolve(invitation),
-            );
+        InvitationsProductKindStyle.colorFor(
+          InvitationsProductKindResolver.resolve(invitation),
+        );
     final imageWidth = InvitationsDesignSpec.px(
       context,
       InvitationsDesignSpec.cardImageWidth,
     );
     final imageGap = InvitationsDesignSpec.px(context, 12);
-    final radius = InvitationsDesignSpec.px(context, InvitationsDesignSpec.cardRadius);
-    final qrCountdown = InvitationsTextFactory.qrAvailabilityLabel(strings, invitation);
+    final radius = InvitationsDesignSpec.px(
+      context,
+      InvitationsDesignSpec.cardRadius,
+    );
+    final qrCountdown = InvitationsTextFactory.qrAvailabilityLabel(
+      strings,
+      invitation,
+    );
 
     return Container(
       margin: EdgeInsets.only(bottom: InvitationsDesignSpec.px(context, 14)),
@@ -107,18 +113,29 @@ class InvitationCardWidget extends StatelessWidget {
                                 child: Text(
                                   invitation.eventTitle,
                                   style: TextStyle(
-                                    fontSize: InvitationsDesignSpec.px(context, 15),
+                                    fontSize: InvitationsDesignSpec.px(
+                                      context,
+                                      15,
+                                    ),
                                     fontWeight: FontWeight.w700,
-                                    color: InvitationsScreenTheme.title(context),
+                                    color: InvitationsScreenTheme.title(
+                                      context,
+                                    ),
                                     height: 1.2,
                                   ),
                                 ),
                               ),
-                              SizedBox(width: InvitationsDesignSpec.px(context, 8)),
-                              InvitationStatusIconWidget(status: invitation.status),
+                              SizedBox(
+                                width: InvitationsDesignSpec.px(context, 8),
+                              ),
+                              InvitationStatusIconWidget(
+                                status: invitation.status,
+                              ),
                             ],
                           ),
-                          SizedBox(height: InvitationsDesignSpec.px(context, 8)),
+                          SizedBox(
+                            height: InvitationsDesignSpec.px(context, 8),
+                          ),
                           InvitationMetaRowWidget(
                             icon: Icons.location_on_outlined,
                             label: invitation.locationLabel,
@@ -129,13 +146,23 @@ class InvitationCardWidget extends StatelessWidget {
                           ),
                           InvitationMetaRowWidget(
                             icon: Icons.diamond_outlined,
-                            label: InvitationsTextFactory.tierLabel(strings, invitation),
+                            label: InvitationsTextFactory.tierLabel(
+                              strings,
+                              invitation,
+                            ),
                           ),
-                          SizedBox(height: InvitationsDesignSpec.px(context, 6)),
+                          SizedBox(
+                            height: InvitationsDesignSpec.px(context, 6),
+                          ),
                           InvitationTypeBadgeWidget(invitation: invitation),
-                          if (InvitationsTextFactory.acceptByLabel(strings, invitation) !=
+                          if (InvitationsTextFactory.acceptByLabel(
+                                strings,
+                                invitation,
+                              ) !=
                               null) ...[
-                            SizedBox(height: InvitationsDesignSpec.px(context, 6)),
+                            SizedBox(
+                              height: InvitationsDesignSpec.px(context, 6),
+                            ),
                             InvitationMetaRowWidget(
                               icon: Icons.timer_outlined,
                               label: InvitationsTextFactory.acceptByLabel(
@@ -146,7 +173,9 @@ class InvitationCardWidget extends StatelessWidget {
                             ),
                           ],
                           if (qrCountdown != null) ...[
-                            SizedBox(height: InvitationsDesignSpec.px(context, 6)),
+                            SizedBox(
+                              height: InvitationsDesignSpec.px(context, 6),
+                            ),
                             InvitationMetaRowWidget(
                               icon: Icons.qr_code_2_outlined,
                               label: qrCountdown,
@@ -154,7 +183,9 @@ class InvitationCardWidget extends StatelessWidget {
                             ),
                           ],
                           InvitationStatusLineWidget(status: invitation.status),
-                          SizedBox(height: InvitationsDesignSpec.px(context, 10)),
+                          SizedBox(
+                            height: InvitationsDesignSpec.px(context, 10),
+                          ),
                         ],
                       ),
                     ),
@@ -163,7 +194,9 @@ class InvitationCardWidget extends StatelessWidget {
                       left: 0,
                       bottom: 0,
                       width: imageWidth,
-                      child: InvitationCardEventImageWidget(invitation: invitation),
+                      child: InvitationCardEventImageWidget(
+                        invitation: invitation,
+                      ),
                     ),
                   ],
                 ),
@@ -217,9 +250,12 @@ class InvitationCardWidget extends StatelessWidget {
                   enabled: false,
                 ),
                 SizedBox(height: InvitationsDesignSpec.px(context, 8)),
-                if (!invitation.canCancel)
+                if (!invitation.canCancel &&
+                    invitation.isCancellationDeadlinePassed)
                   Padding(
-                    padding: EdgeInsets.only(bottom: InvitationsDesignSpec.px(context, 8)),
+                    padding: EdgeInsets.only(
+                      bottom: InvitationsDesignSpec.px(context, 8),
+                    ),
                     child: Text(
                       AppStrings.invitationsCancellationDeadlinePassed(strings),
                       style: TextStyle(

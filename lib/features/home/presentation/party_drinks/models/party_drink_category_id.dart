@@ -1,7 +1,1 @@
-enum PartyDrinkCategoryId {
-  all,
-  piscos,
-  beers,
-  sparkling,
-  energy,
-}
+enum PartyDrinkCategoryId { all, piscos, beers, sparkling, energy }

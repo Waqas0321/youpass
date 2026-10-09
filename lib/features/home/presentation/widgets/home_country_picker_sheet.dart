@@ -4,28 +4,38 @@ import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_colors.dart';
 import 'package:youpass/core/constants/country_code_list.dart';
 import 'package:youpass/core/constants/country_code_registry.dart';
-import 'package:youpass/core/constants/country_codes_data.dart';
+import 'package:youpass/core/constants/latam_country_codes.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/models/country_code.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
 
-/// Home country picker — dropdown under the country chip with the full country list.
+/// Home country picker — Latin America only (product scope).
 class HomeCountryPickerSheet {
   HomeCountryPickerSheet._();
 
-  /// Full worldwide list so any country can be selected for home browsing.
+  /// LATAM countries only (Chile first via registry fallback sorting).
   static List<CountryCode> get _allCountriesSorted {
     final byCode = <String, CountryCode>{};
-    for (final country in CountryCodeRegistry.fallbackCountries) {
-      byCode[country.isoCode.toUpperCase()] = country;
+    for (final country in CountryCodeRegistry.countries) {
+      final iso = country.isoCode.toUpperCase();
+      if (kLatamCountryIsoCodes.contains(iso)) {
+        byCode[iso] = country;
+      }
     }
-    for (final country in CountryCodesData.all) {
-      byCode.putIfAbsent(country.isoCode.toUpperCase(), () => country);
+    for (final country in CountryCodeRegistry.fallbackCountries) {
+      final iso = country.isoCode.toUpperCase();
+      if (kLatamCountryIsoCodes.contains(iso)) {
+        byCode.putIfAbsent(iso, () => country);
+      }
     }
     final sorted = byCode.values.toList()
-      ..sort((a, b) => a.name.compareTo(b.name));
+      ..sort((a, b) {
+        if (a.isoCode == 'CL') return -1;
+        if (b.isoCode == 'CL') return 1;
+        return a.name.compareTo(b.name);
+      });
     return sorted;
   }
 

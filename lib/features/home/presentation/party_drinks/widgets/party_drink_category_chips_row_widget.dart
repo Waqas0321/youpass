@@ -99,8 +99,9 @@ class _PartyDrinkCategoryChip extends StatelessWidget {
     final borderColor = isSelected
         ? PartyDrinksDesignSpec.gold
         : PartyDrinksDesignSpec.gold.withValues(alpha: 0.55);
-    final textColor =
-        isSelected ? Colors.black : Theme.of(context).colorScheme.onSurface;
+    final textColor = isSelected
+        ? Colors.black
+        : Theme.of(context).colorScheme.onSurface;
     final iconColor = isSelected ? Colors.black : PartyDrinksDesignSpec.gold;
 
     return SizedBox(
@@ -112,7 +113,9 @@ class _PartyDrinkCategoryChip extends StatelessWidget {
           borderRadius: radius,
           child: Ink(
             decoration: BoxDecoration(
-              color: isSelected ? PartyDrinksDesignSpec.gold : Colors.transparent,
+              color: isSelected
+                  ? PartyDrinksDesignSpec.gold
+                  : Colors.transparent,
               borderRadius: radius,
               border: Border.all(color: borderColor, width: 1.2),
             ),

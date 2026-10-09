@@ -2,6 +2,7 @@
   "@@locale": "es",
   "welcomeBackTitle": "BIENVENIDO DE VUELTA",
   "phoneLoginSubtitle": "Inicia sesión con tu número y recibe tu código por WhatsApp",
+  "registerPhoneSubtitle": "Ingresa tu número y te enviaremos un código por WhatsApp para crear tu cuenta",
   "codeSentWhatsApp": "Código enviado a tu WhatsApp",
   "codeSentSms": "Código enviado por SMS",
   "phoneNumberLabel": "NÚMERO TELEFÓNICO",
@@ -185,7 +186,7 @@
   "otpInvalidLength": "El código debe tener 6 dígitos",
   "registerFullNameRequired": "Ingresa tu nombre completo",
   "registerIdDocumentRequired": "Ingresa tu RUT o pasaporte",
-  "registerBirthDateRequired": "Selecciona tu fecha de nacimiento",
+  "registerBirthDateRequired": "Ingresa tu fecha de nacimiento como DD/MM/AAAA",
   "registerGenderRequired": "Selecciona tu género",
   "registerEmailRequired": "Ingresa tu correo electrónico",
   "registerTermsRequired": "Debes aceptar los términos y condiciones",
@@ -243,6 +244,7 @@
   "errorUserExists": "Este número ya está registrado",
   "errorResendCooldown": "Reenviar código en {seconds} segundos",
   "errorMaxResends": "Demasiados reenvíos. Inténtalo más tarde.",
+  "errorAccountBlocked": "Tu cuenta ha sido bloqueada. Contacta a soporte en soporte@youpass.app.",
   "errorBlocked": "Demasiados intentos fallidos. Inténtalo más tarde.",
   "errorValidation": "Revisa la información ingresada",
   "routeNotFound": "Ruta no encontrada",
@@ -254,11 +256,11 @@
   "idDocumentLabel": "RUT O PASAPORTE",
   "idDocumentHint": "Ingresa tu RUT o pasaporte",
   "birthDateLabel": "FECHA DE NACIMIENTO",
-  "birthDateHint": "Selecciona tu fecha de nacimiento",
+  "birthDateHint": "DD/MM/AAAA",
   "genderLabel": "GÉNERO",
   "genderHint": "Selecciona tu género",
-  "genderMale": "Masculino",
-  "genderFemale": "Femenino",
+  "genderMale": "Hombre",
+  "genderFemale": "Mujer",
   "genderOther": "Otro",
   "genderPreferNotToSay": "Prefiero no decir",
   "emailLabel": "CORREO ELECTRÓNICO",
@@ -295,7 +297,7 @@
   "partyDrinkCategorySparkling": "Espumantes",
   "partyDrinkCategoryEnergy": "Energético",
   "partyDrinkQuickRecommendations": "Recomendaciones rápidas",
-  "partyDrinkQuickRecommendationsSubtitle": "Los más pedidos en YouFest",
+  "partyDrinkQuickRecommendationsSubtitle": "Lo más pedido esta noche",
   "partyDrinkMockPiscola": "Piscola",
   "partyDrinkMockPiscolaDesc": "Pisco + Bebida kola",
   "partyDrinkMockJagerBomb": "Jager Bomb",
@@ -318,6 +320,7 @@
   },
   "partyDrinkCheckoutPaymentMethod": "Método de pago",
   "partyDrinkCheckoutCreditCard": "Tarjeta de crédito",
+  "partyDrinkCheckoutNoCharge": "Cortesía · sin cargo",
   "partyDrinkCheckoutCardMask": "**** {last4}",
   "@partyDrinkCheckoutCardMask": {
     "placeholders": {
@@ -968,6 +971,14 @@
   "invitationsCardSavedMessage": "Tu medio de pago ha sido registrado correctamente. Recuerda lo siguiente:",
   "invitationsCardSavedReminderCharge": "Si confirmas tu asistencia y no te presentas al evento, se te cobrará el valor total de la entrada.",
   "invitationsCardSavedReminderCancel": "Si deseas anular tu asistencia, debes hacerlo con al menos 48 horas de anticipación para evitar el cobro.",
+  "invitationsCardSavedReminderCancelBy": "Si deseas anular tu asistencia, debes hacerlo antes del {deadline} para evitar el cobro.",
+  "@invitationsCardSavedReminderCancelBy": {
+    "placeholders": {
+      "deadline": {
+        "type": "String"
+      }
+    }
+  },
   "eventTicketScreenTitle": "Entrada del evento",
   "eventTicketReadyTitle": "¡Tu entrada está lista!",
   "eventTicketReadySubtitle": "Muestra este código en el acceso para ingresar al evento.",
@@ -1167,6 +1178,9 @@
     }
   },
   "vipTicketSoldOutBadge": "Agotado",
+  "vipTicketPausedBadge": "Pausado",
+  "vipTicketUnavailableBadge": "No disponible",
+  "vipTicketsSalesUnavailable": "La venta de entradas no está disponible por ahora. Vuelve pronto.",
   "vipTicketsNoneAvailable": "No hay entradas disponibles para este evento.",
   "vipTicketsAllSoldOut": "Todas las entradas de este evento están agotadas.",
   "errorCheckoutInsufficientStock": "No hay suficientes entradas. Reduce la cantidad o elige otra opción.",
@@ -1438,6 +1452,7 @@
   "waitlistViewInvitations": "Ver invitaciones",
   "waitlistStatusTitle": "Lista de espera no disponible",
   "errorStaffNotFound": "No hay una cuenta de staff con este número. Pide a tu admin que te registre.",
+  "errorStaffAccessPaused": "Tu acceso de staff está pausado. Contacta al administrador del evento.",
   "errorNetworkConnection": "No se pudo conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.",
   "staffScanQrTitle": "ESCANEAR QR",
   "staffScanQrSubtitle": "Toca para iniciar el escaneo",
@@ -1532,6 +1547,7 @@
   "staffSupervisorPinContinueButton": "CONTINUAR",
   "staffSupervisorPinFooter": "Solo personal autorizado puede acceder.",
   "staffSupervisorPinInvalid": "PIN incorrecto. Intenta de nuevo.",
+  "staffSupervisorPinOfflineSetupRequired": "Conéctate una vez e ingresa tu PIN de supervisor. Después podrás desbloquear sin conexión en este dispositivo.",
   "staffSupervisorPinNotConfigured": "Aún no hay PIN supervisor configurado. Pide a un administrador que genere uno.",
   "staffSupervisorPinAccessDenied": "Tu cuenta no está autorizada para el modo supervisor.",
   "staffSupervisorDashboardTitle": "MODO SUPERVISOR",

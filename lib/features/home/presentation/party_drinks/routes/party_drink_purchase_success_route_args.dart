@@ -37,9 +37,7 @@ class PartyDrinkPurchaseSuccessRouteArgs {
   factory PartyDrinkPurchaseSuccessRouteArgs.fromConfirmation(
     PartyDrinkPurchaseConfirmation confirmation,
   ) {
-    return PartyDrinkPurchaseSuccessRouteArgs(
-      confirmations: [confirmation],
-    );
+    return PartyDrinkPurchaseSuccessRouteArgs(confirmations: [confirmation]);
   }
 
   factory PartyDrinkPurchaseSuccessRouteArgs.fromConfirmations(

@@ -89,37 +89,37 @@ class StaffRecentScansSection extends StatelessWidget {
                   ),
                 )
               : entries.isEmpty
-                  ? Padding(
-                      padding: EdgeInsets.all(layout.spacing(20)),
-                      child: AppText(
-                        emptyMessage ?? l10n.staffRecentScansEmpty,
-                        variant: AppTextVariant.body,
-                        textAlign: TextAlign.center,
-                        color: AppColors.secondaryGrey,
-                        fontSize: layout.fontSize(14),
-                        height: 1.4,
+              ? Padding(
+                  padding: EdgeInsets.all(layout.spacing(20)),
+                  child: AppText(
+                    emptyMessage ?? l10n.staffRecentScansEmpty,
+                    variant: AppTextVariant.body,
+                    textAlign: TextAlign.center,
+                    color: AppColors.secondaryGrey,
+                    fontSize: layout.fontSize(14),
+                    height: 1.4,
+                  ),
+                )
+              : Column(
+                  children: [
+                    for (var index = 0; index < entries.length; index++) ...[
+                      StaffRecentScanTile(
+                        entry: entries[index],
+                        onTap: onScanTap == null
+                            ? null
+                            : () => onScanTap!(entries[index]),
                       ),
-                    )
-                  : Column(
-                      children: [
-                        for (var index = 0; index < entries.length; index++) ...[
-                          StaffRecentScanTile(
-                            entry: entries[index],
-                            onTap: onScanTap == null
-                                ? null
-                                : () => onScanTap!(entries[index]),
-                          ),
-                          if (index < entries.length - 1)
-                            Divider(
-                              height: 1,
-                              thickness: 1,
-                              color: AppColors.homeDividerGrey,
-                              indent: layout.spacing(68),
-                              endIndent: layout.spacing(16),
-                            ),
-                        ],
-                      ],
-                    ),
+                      if (index < entries.length - 1)
+                        Divider(
+                          height: 1,
+                          thickness: 1,
+                          color: AppColors.homeDividerGrey,
+                          indent: layout.spacing(68),
+                          endIndent: layout.spacing(16),
+                        ),
+                    ],
+                  ],
+                ),
         ),
       ],
     );
@@ -127,11 +127,7 @@ class StaffRecentScansSection extends StatelessWidget {
 }
 
 class StaffRecentScanTile extends StatelessWidget {
-  const StaffRecentScanTile({
-    super.key,
-    required this.entry,
-    this.onTap,
-  });
+  const StaffRecentScanTile({super.key, required this.entry, this.onTap});
 
   final StaffScanEntry entry;
   final VoidCallback? onTap;
@@ -255,10 +251,7 @@ class _StatusBadge extends StatelessWidget {
     return Container(
       width: layout.spacing(28),
       height: layout.spacing(28),
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: Icon(
         isSuccess ? Icons.check_rounded : Icons.close_rounded,
         color: AppColors.backgroundWhite,

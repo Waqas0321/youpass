@@ -58,7 +58,10 @@ class PartyDrinkPurchaseSuccessFooterWidget extends StatelessWidget {
     return Column(
       children: [
         Text(
-          AppStrings.partyDrinkPurchaseValidity(strings, confirmation.validityTarget),
+          AppStrings.partyDrinkPurchaseValidity(
+            strings,
+            confirmation.validityTarget,
+          ),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: PartyDrinksDesignSpec.px(context, 14),

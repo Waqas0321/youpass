@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_strings.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
-import 'package:youpass/features/home/presentation/party_drinks/data/party_drink_checkout_mock_payment.dart';
 import 'package:youpass/features/home/presentation/party_drinks/party_drinks_design_spec.dart';
+import 'package:youpass/features/profile/data/models/profile_wallet_card_model.dart';
 import 'package:youpass/features/home/presentation/party_drinks/utils/party_drink_cart_calculator.dart';
 import 'package:youpass/features/home/presentation/party_drinks/utils/party_drink_price_formatter.dart';
 
@@ -10,10 +10,14 @@ class PartyDrinkCheckoutBarWidget extends StatelessWidget {
   const PartyDrinkCheckoutBarWidget({
     super.key,
     required this.cart,
+    this.card,
     this.onBuyTap,
   });
 
   final PartyDrinkCartSummary cart;
+
+  /// User's default wallet card; null shows only the generic "credit card" label.
+  final ProfileWalletCardModel? card;
   final VoidCallback? onBuyTap;
 
   @override
@@ -60,36 +64,27 @@ class PartyDrinkCheckoutBarWidget extends StatelessWidget {
                         color: const Color(0xFF212121),
                       ),
                       SizedBox(width: PartyDrinksDesignSpec.px(context, 6)),
+                      // Brand + last four scale down together so the full brand stays
+                      // readable in the narrow bar column instead of ellipsizing.
                       Expanded(
-                        child: Text(
-                          AppStrings.partyDrinkCheckoutCreditCard(strings),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: PartyDrinksDesignSpec.px(context, 12),
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF212121),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            cart.grandTotalClp <= 0
+                                ? AppStrings.partyDrinkCheckoutNoCharge(strings)
+                                : card != null
+                                ? '${card!.maskedLabel.split(' ').first} •${card!.lastFour}'
+                                : AppStrings.partyDrinkCheckoutCreditCard(
+                                    strings,
+                                  ),
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontSize: PartyDrinksDesignSpec.px(context, 12),
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF212121),
+                            ),
                           ),
-                        ),
-                      ),
-                      Text(
-                        AppStrings.partyDrinkCheckoutCardMask(
-                          strings,
-                          PartyDrinkCheckoutMockPayment.cardLast4,
-                        ),
-                        style: TextStyle(
-                          fontSize: PartyDrinksDesignSpec.px(context, 12),
-                          color: const Color(0xFF212121),
-                        ),
-                      ),
-                      SizedBox(width: PartyDrinksDesignSpec.px(context, 6)),
-                      Text(
-                        AppStrings.paymentBrandVisa(strings),
-                        style: TextStyle(
-                          fontSize: PartyDrinksDesignSpec.px(context, 11),
-                          fontWeight: FontWeight.w800,
-                          color: const Color(0xFF1A1F71),
-                          letterSpacing: 0.4,
                         ),
                       ),
                     ],
@@ -112,7 +107,10 @@ class PartyDrinkCheckoutBarWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    AppStrings.partyDrinkCheckoutProducts(strings, cart.itemCount),
+                    AppStrings.partyDrinkCheckoutProducts(
+                      strings,
+                      cart.itemCount,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(

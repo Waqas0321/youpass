@@ -5,11 +5,9 @@ import 'package:youpass/core/theme/qr_screen_theme.dart';
 import 'package:youpass/core/theme/youpass_themed_colors.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 
-class EventTicketAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  const EventTicketAppBarWidget({
-    super.key,
-    required this.onBack,
-  });
+class EventTicketAppBarWidget extends StatelessWidget
+    implements PreferredSizeWidget {
+  const EventTicketAppBarWidget({super.key, required this.onBack});
 
   final VoidCallback onBack;
 

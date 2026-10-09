@@ -16,6 +16,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Sign in with your number and receive your code via WhatsApp';
 
   @override
+  String get registerPhoneSubtitle =>
+      'Enter your number and we\'ll send you a code via WhatsApp to create your account';
+
+  @override
   String get codeSentWhatsApp => 'Code sent to your WhatsApp';
 
   @override
@@ -375,7 +379,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get registerIdDocumentRequired => 'Enter your ID or passport';
 
   @override
-  String get registerBirthDateRequired => 'Select your date of birth';
+  String get registerBirthDateRequired =>
+      'Enter your date of birth as DD/MM/YYYY';
 
   @override
   String get registerGenderRequired => 'Select your gender';
@@ -461,6 +466,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorMaxResends => 'Too many resend attempts. Try again later.';
 
   @override
+  String get errorAccountBlocked =>
+      'Your account has been blocked. Please contact support at soporte@youpass.app.';
+
+  @override
   String get errorBlocked => 'Too many failed attempts. Try again later.';
 
   @override
@@ -495,7 +504,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get birthDateLabel => 'DATE OF BIRTH';
 
   @override
-  String get birthDateHint => 'Select your date of birth';
+  String get birthDateHint => 'DD/MM/YYYY';
 
   @override
   String get genderLabel => 'GENDER';
@@ -623,8 +632,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get partyDrinkQuickRecommendations => 'Quick recommendations';
 
   @override
-  String get partyDrinkQuickRecommendationsSubtitle =>
-      'Most ordered at YouFest';
+  String get partyDrinkQuickRecommendationsSubtitle => 'Most ordered tonight';
 
   @override
   String get partyDrinkMockPiscola => 'Piscola';
@@ -672,6 +680,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get partyDrinkCheckoutCreditCard => 'Credit card';
+
+  @override
+  String get partyDrinkCheckoutNoCharge => 'Courtesy · no charge';
 
   @override
   String partyDrinkCheckoutCardMask(String last4) {
@@ -1891,6 +1902,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'If you wish to cancel your attendance, you must do so at least 48 hours in advance to avoid being charged.';
 
   @override
+  String invitationsCardSavedReminderCancelBy(String deadline) {
+    return 'If you wish to cancel your attendance, you must do so before $deadline to avoid being charged.';
+  }
+
+  @override
   String get eventTicketScreenTitle => 'Event ticket';
 
   @override
@@ -2343,6 +2359,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get vipTicketSoldOutBadge => 'Sold out';
 
   @override
+  String get vipTicketPausedBadge => 'Paused';
+
+  @override
+  String get vipTicketUnavailableBadge => 'Not available';
+
+  @override
+  String get vipTicketsSalesUnavailable =>
+      'Ticket sales are not available right now. Check back soon.';
+
+  @override
   String get vipTicketsNoneAvailable => 'No tickets available for this event.';
 
   @override
@@ -2718,6 +2744,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'No staff account found for this number. Ask your admin to register you.';
 
   @override
+  String get errorStaffAccessPaused =>
+      'Your staff access is paused. Contact the event administrator.';
+
+  @override
   String get errorNetworkConnection =>
       'Could not reach the server. Check your connection and try again.';
 
@@ -3021,6 +3051,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get staffSupervisorPinInvalid => 'Incorrect PIN. Try again.';
+
+  @override
+  String get staffSupervisorPinOfflineSetupRequired =>
+      'Connect once and enter your supervisor PIN. After that, offline unlock works on this device.';
 
   @override
   String get staffSupervisorPinNotConfigured =>

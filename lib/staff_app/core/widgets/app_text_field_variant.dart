@@ -1,4 +1,1 @@
-enum AppTextFieldVariant {
-  outlined,
-  borderless,
-}
+enum AppTextFieldVariant { outlined, borderless }

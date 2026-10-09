@@ -18,7 +18,9 @@ class InvitationsListResponseModel {
     final meta = json['meta'];
     return InvitationsListResponseModel(
       invitations: InvitationModel.listFromPayload(items),
-      waitlistEntries: WaitlistEntryModel.listFromPayload(json['waitlist_entries']),
+      waitlistEntries: WaitlistEntryModel.listFromPayload(
+        json['waitlist_entries'],
+      ),
       summary: meta is Map<String, dynamic>
           ? InvitationsSummaryModel.fromJson(meta)
           : null,

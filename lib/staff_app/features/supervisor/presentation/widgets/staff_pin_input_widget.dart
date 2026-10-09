@@ -64,8 +64,9 @@ class _StaffPinInputWidgetState extends State<StaffPinInputWidget> {
 
   void _handleChanged(String value) {
     final digits = value.replaceAll(RegExp(r'\D'), '');
-    final trimmed =
-        digits.length > widget.length ? digits.substring(0, widget.length) : digits;
+    final trimmed = digits.length > widget.length
+        ? digits.substring(0, widget.length)
+        : digits;
 
     if (trimmed != widget.controller.text) {
       widget.controller.value = TextEditingValue(
@@ -98,8 +99,8 @@ class _StaffPinInputWidgetState extends State<StaffPinInputWidget> {
     final stackAlignment = expandFullWidth
         ? Alignment.center
         : widget.mainAxisAlignment == MainAxisAlignment.start
-            ? Alignment.centerLeft
-            : Alignment.center;
+        ? Alignment.centerLeft
+        : Alignment.center;
 
     Widget buildPinRow({bool fullWidth = false}) {
       if (fullWidth) {
@@ -157,7 +158,8 @@ class _StaffPinInputWidgetState extends State<StaffPinInputWidget> {
           ? LayoutBuilder(
               builder: (context, constraints) {
                 final totalGap = boxGap * (widget.length - 1);
-                final cellSize = (constraints.maxWidth - totalGap) / widget.length;
+                final cellSize =
+                    (constraints.maxWidth - totalGap) / widget.length;
 
                 return Stack(
                   alignment: stackAlignment,
@@ -273,22 +275,22 @@ class _PinCell extends StatelessWidget {
         ),
         child: hasDigit
             ? (obscureBoxDigits
-                ? Container(
-                    width: layout.spacing(8),
-                    height: layout.spacing(8),
-                    decoration: const BoxDecoration(
-                      color: AppColors.homeBlack,
-                      shape: BoxShape.circle,
-                    ),
-                  )
-                : Text(
-                    pin[index],
-                    style: TextStyle(
-                      color: AppColors.homeBlack,
-                      fontSize: layout.fontSize(18),
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ))
+                  ? Container(
+                      width: layout.spacing(8),
+                      height: layout.spacing(8),
+                      decoration: const BoxDecoration(
+                        color: AppColors.homeBlack,
+                        shape: BoxShape.circle,
+                      ),
+                    )
+                  : Text(
+                      pin[index],
+                      style: TextStyle(
+                        color: AppColors.homeBlack,
+                        fontSize: layout.fontSize(18),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ))
             : null,
       );
     }

@@ -85,6 +85,31 @@ class InvitationsProvider extends ChangeNotifier {
     if (eventTypeFilters.isEmpty) {
       await _loadEventTypeFilters();
     }
+
+    // The provider outlives the screen: refresh in the background so invitations
+    // sent while the app was open (e.g. from the admin panel) show up on reopen.
+    if (status == InvitationsStatus.ready) {
+      await refreshSilently();
+    }
+  }
+
+  /// Reloads the feed without switching to the loading state (no shimmer flash).
+  Future<void> refreshSilently() async {
+    try {
+      final feedFuture = fetchInvitationsFeedUseCase();
+      final summaryFuture = fetchInvitationsSummaryUseCase();
+      final paymentMethodsFuture = checkSavedPaymentMethodsUseCase();
+
+      final feed = await feedFuture;
+      final summary = await summaryFuture;
+      hasPaymentMethod = await loadHasPaymentMethodSafely(paymentMethodsFuture);
+      invitations = feed.invitations;
+      waitlistEntries = feed.waitlistEntries;
+      invitationsBadgeCount = summary.newCount;
+      notifyListeners();
+    } catch (_) {
+      // Keep showing the cached list; the user can pull to refresh.
+    }
   }
 
   Future<void> _loadEventTypeFilters() async {
@@ -261,7 +286,10 @@ class InvitationsProvider extends ChangeNotifier {
     beginSubmit(invitationId, InvitationSubmitAction.confirm);
 
     try {
-      final updated = await confirmInvitationUseCase(invitationId, params: params);
+      final updated = await confirmInvitationUseCase(
+        invitationId,
+        params: params,
+      );
       invitations = replaceInvitation(updated);
       await refreshDrawerBadge();
       return true;

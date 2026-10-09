@@ -55,8 +55,7 @@ class StaffSupervisorEntrySearchController extends ChangeNotifier {
   }
 
   void _updateDropdownVisibility({required bool notify}) {
-    isDropdownVisible =
-        canSearch && (focusNode.hasFocus || results.isNotEmpty);
+    isDropdownVisible = canSearch && (focusNode.hasFocus || results.isNotEmpty);
     if (notify) {
       notifyListeners();
     }

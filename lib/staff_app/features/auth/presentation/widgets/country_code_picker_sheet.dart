@@ -74,7 +74,9 @@ class CountryCodePickerSheetState extends State<CountryCodePickerSheet> {
     filteredCountries = availableCountries;
     searchController.addListener(updateFilteredCountries);
     if (widget.scrollToSelectedOnOpen) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => scrollToSelectedCountry());
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => scrollToSelectedCountry(),
+      );
     }
   }
 
@@ -110,7 +112,9 @@ class CountryCodePickerSheetState extends State<CountryCodePickerSheet> {
       );
     });
     if (widget.scrollToSelectedOnOpen) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => scrollToSelectedCountry());
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => scrollToSelectedCountry(),
+      );
     }
   }
 
@@ -151,9 +155,7 @@ class CountryCodePickerSheetState extends State<CountryCodePickerSheet> {
             autofocus: widget.autofocusSearch,
           ),
         ),
-        Expanded(
-          child: buildCountryList(layout),
-        ),
+        Expanded(child: buildCountryList(layout)),
       ],
     );
   }
@@ -177,18 +179,14 @@ class CountryCodePickerSheetState extends State<CountryCodePickerSheet> {
       physics: const AlwaysScrollableScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: layout.spacing(16)),
       itemCount: filteredCountries.length,
-      separatorBuilder: (_, index) => Divider(
-        height: 1,
-        color: theme.cardBorder,
-      ),
+      separatorBuilder: (_, index) =>
+          Divider(height: 1, color: theme.cardBorder),
       itemBuilder: (context, index) {
         final country = filteredCountries[index];
         final isSelected = country.isoCode == widget.selectedCountry.isoCode;
 
         return ListTile(
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: layout.spacing(8),
-          ),
+          contentPadding: EdgeInsets.symmetric(horizontal: layout.spacing(8)),
           leading: AppText(
             country.flagEmoji,
             variant: AppTextVariant.emojiLarge,

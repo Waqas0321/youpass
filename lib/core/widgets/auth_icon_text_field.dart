@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text_field.dart';
 import 'package:youpass/core/widgets/app_text_field_variant.dart';
@@ -16,6 +17,7 @@ class AuthIconTextField extends StatelessWidget {
     this.leading,
     this.keyboardType,
     this.textInputAction,
+    this.inputFormatters,
   }) : assert(icon != null || leading != null);
 
   final String label;
@@ -25,6 +27,7 @@ class AuthIconTextField extends StatelessWidget {
   final Widget? leading;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +49,7 @@ class AuthIconTextField extends StatelessWidget {
                 variant: AppTextFieldVariant.borderless,
                 keyboardType: keyboardType,
                 textInputAction: textInputAction,
+                inputFormatters: inputFormatters,
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: layout.spacing(12),
                   vertical: layout.spacing(16),

@@ -1,5 +1,1 @@
-enum InvitationQrStatus {
-  locked,
-  available,
-  expired,
-}
+enum InvitationQrStatus { locked, available, expired }

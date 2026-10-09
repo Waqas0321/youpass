@@ -30,7 +30,8 @@ class StaffSupervisorAccessScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
     final l10n = context.l10n;
-    final listPadding = padding ??
+    final listPadding =
+        padding ??
         EdgeInsets.fromLTRB(
           layout.spacing(20),
           0,
@@ -39,9 +40,7 @@ class StaffSupervisorAccessScaffold extends StatelessWidget {
         );
 
     final listView = ListView(
-      physics: onRefresh != null
-          ? const AlwaysScrollableScrollPhysics()
-          : null,
+      physics: onRefresh != null ? const AlwaysScrollableScrollPhysics() : null,
       padding: listPadding,
       children: children,
     );

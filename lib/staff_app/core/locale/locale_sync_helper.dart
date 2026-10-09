@@ -5,7 +5,9 @@ import 'package:youpass/staff_app/core/models/country_code.dart';
 
 abstract final class LocaleSyncHelper {
   static void applyCountry(BuildContext context, CountryCode country) {
-    context.read<LocaleProvider>().setLocaleFromLanguageCode(country.defaultLanguage);
+    context.read<LocaleProvider>().setLocaleFromLanguageCode(
+      country.defaultLanguage,
+    );
   }
 
   static void applyCountryIso(BuildContext context, String isoCode) {

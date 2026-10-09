@@ -26,7 +26,11 @@ class StaffSupervisorEntryMetaCell extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, color: StaffSupervisorDesign.accent, size: layout.spacing(16)),
+        Icon(
+          icon,
+          color: StaffSupervisorDesign.accent,
+          size: layout.spacing(16),
+        ),
         SizedBox(height: layout.spacing(4)),
         AppText(
           label,
@@ -252,12 +256,14 @@ class StaffSupervisorIdentitySection extends StatelessWidget {
                       vertical: layout.spacing(4),
                     ),
                     decoration: BoxDecoration(
-                      color: StaffSupervisorDesign.successGreen
-                          .withValues(alpha: 0.12),
+                      color: StaffSupervisorDesign.successGreen.withValues(
+                        alpha: 0.12,
+                      ),
                       borderRadius: BorderRadius.circular(layout.radius(8)),
                       border: Border.all(
-                        color: StaffSupervisorDesign.successGreen
-                            .withValues(alpha: 0.35),
+                        color: StaffSupervisorDesign.successGreen.withValues(
+                          alpha: 0.35,
+                        ),
                       ),
                     ),
                     child: Row(
@@ -313,7 +319,11 @@ class _IdentityRow extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: StaffSupervisorDesign.accent, size: layout.spacing(20)),
+          Icon(
+            icon,
+            color: StaffSupervisorDesign.accent,
+            size: layout.spacing(20),
+          ),
           SizedBox(width: layout.spacing(10)),
           Expanded(
             child: Column(
@@ -391,9 +401,17 @@ class StaffSupervisorSystemRecordBar extends StatelessWidget {
               runSpacing: layout.spacing(6),
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                _Chip(layout: layout, icon: Icons.person_outline_rounded, text: supervisorText),
+                _Chip(
+                  layout: layout,
+                  icon: Icons.person_outline_rounded,
+                  text: supervisorText,
+                ),
                 _Dot(layout: layout),
-                _Chip(layout: layout, icon: Icons.schedule_rounded, text: timeText),
+                _Chip(
+                  layout: layout,
+                  icon: Icons.schedule_rounded,
+                  text: timeText,
+                ),
                 _Dot(layout: layout),
                 Row(
                   mainAxisSize: MainAxisSize.min,
@@ -415,7 +433,9 @@ class StaffSupervisorSystemRecordBar extends StatelessWidget {
                           color: StaffSupervisorDesign.warningBackground,
                           borderRadius: BorderRadius.circular(layout.radius(8)),
                           border: Border.all(
-                            color: StaffSupervisorDesign.accent.withValues(alpha: 0.35),
+                            color: StaffSupervisorDesign.accent.withValues(
+                              alpha: 0.35,
+                            ),
                           ),
                         ),
                         child: AppText(

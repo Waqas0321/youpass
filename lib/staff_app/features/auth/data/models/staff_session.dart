@@ -6,6 +6,7 @@ class StaffProfile {
     required this.status,
     required this.permissionIds,
     this.roleLabel,
+    this.roleSlug,
     this.zoneLabel,
   });
 
@@ -15,6 +16,7 @@ class StaffProfile {
   final String status;
   final List<String> permissionIds;
   final String? roleLabel;
+  final String? roleSlug;
   final String? zoneLabel;
 
   factory StaffProfile.fromJson(Map<String, dynamic> json) {
@@ -31,9 +33,21 @@ class StaffProfile {
           ? permissions.map((item) => item.toString()).toList()
           : const [],
       roleLabel: role is Map ? role['label'] as String? : null,
+      roleSlug: role is Map ? role['slug'] as String? : null,
       zoneLabel: zone is Map ? zone['label'] as String? : null,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'phone': phone,
+    'status': status,
+    'permission_ids': permissionIds,
+    if (roleLabel != null || roleSlug != null)
+      'role': {'label': ?roleLabel, 'slug': ?roleSlug},
+    if (zoneLabel != null) 'zone': {'label': zoneLabel},
+  };
 }
 
 class StaffSession {
@@ -42,18 +56,21 @@ class StaffSession {
     required this.staff,
     this.sessionId,
     this.expiresAt,
+    this.offlineSigningSecret,
   });
 
   final String accessToken;
   final StaffProfile staff;
   final String? sessionId;
   final String? expiresAt;
+  final String? offlineSigningSecret;
 
   factory StaffSession.fromJson(Map<String, dynamic> json) {
     return StaffSession(
       accessToken: json['access_token'] as String? ?? '',
       sessionId: json['session_id'] as String?,
       expiresAt: json['expires_at'] as String?,
+      offlineSigningSecret: json['offline_signing_secret'] as String?,
       staff: StaffProfile.fromJson(
         json['staff'] as Map<String, dynamic>? ?? const {},
       ),

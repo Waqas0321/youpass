@@ -10,7 +10,7 @@ import 'package:youpass/staff_app/core/utils/responsive_layout.dart';
 import 'package:youpass/staff_app/features/auth/domain/staff_scan_permissions.dart';
 import 'package:youpass/staff_app/features/auth/presentation/providers/staff_auth_provider.dart';
 import 'package:youpass/staff_app/features/home/domain/models/staff_scan_entry.dart';
-import 'package:youpass/staff_app/features/home/presentation/widgets/staff_connection_status_bar.dart';
+import 'package:youpass/staff_app/features/home/presentation/widgets/staff_live_connection_status_bar.dart';
 import 'package:youpass/staff_app/features/home/presentation/widgets/staff_home_header.dart';
 import 'package:youpass/staff_app/features/home/presentation/widgets/staff_menu_drawer.dart';
 import 'package:youpass/staff_app/features/home/presentation/widgets/staff_recent_scan_tile.dart';
@@ -20,16 +20,14 @@ import 'package:youpass/staff_app/features/home/presentation/providers/staff_wor
 import 'package:youpass/staff_app/features/supervisor/presentation/utils/open_staff_supervisor_flow.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/utils/staff_supervisor_access.dart';
 import 'package:youpass/staff_app/features/home/presentation/widgets/staff_scan_card.dart';
+import 'package:youpass/staff_app/features/scan/data/staff_offline_scan_sync_service.dart';
 import 'package:youpass/staff_app/features/scan/data/staff_scan_api_service.dart';
 import 'package:youpass/staff_app/features/scan/presentation/utils/open_staff_qr_scanner.dart';
 import 'package:youpass/staff_app/features/scan/routes/staff_qr_scan_route_args.dart';
 import 'package:youpass/staff_app/routes/app_routes.dart';
 
 class StaffHomeScreen extends StatefulWidget {
-  const StaffHomeScreen({
-    super.key,
-    this.scanApiService,
-  });
+  const StaffHomeScreen({super.key, this.scanApiService});
 
   final StaffScanApiService? scanApiService;
 
@@ -40,6 +38,8 @@ class StaffHomeScreen extends StatefulWidget {
 class _StaffHomeScreenState extends State<StaffHomeScreen> {
   late final StaffScanApiService _scanApiService =
       widget.scanApiService ?? StaffScanApiService(ApiClient());
+  late final StaffOfflineScanSyncService _offlineSyncService =
+      StaffOfflineScanSyncService(scanApiService: _scanApiService);
 
   List<StaffScanEntry> _recentScans = const [];
   bool _isLoadingRecent = true;
@@ -47,30 +47,25 @@ class _StaffHomeScreenState extends State<StaffHomeScreen> {
   @override
   void initState() {
     super.initState();
+    _offlineSyncService.start();
     _loadRecentScans();
   }
 
-  Future<void> _loadRecentScans() async {
-    setState(() => _isLoadingRecent = true);
+  @override
+  void dispose() {
+    _offlineSyncService.stop();
+    super.dispose();
+  }
 
-    try {
-      final response = await _scanApiService.fetchRecentProductScans();
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _recentScans = response.scans;
-        _isLoadingRecent = false;
-      });
-    } catch (_) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _recentScans = const [];
-        _isLoadingRecent = false;
-      });
+  Future<void> _loadRecentScans() async {
+    final response = await _scanApiService.fetchRecentProductScans();
+    if (!mounted) {
+      return;
     }
+    setState(() {
+      _recentScans = response.scans;
+      _isLoadingRecent = false;
+    });
   }
 
   Future<void> _openScanner() async {
@@ -86,7 +81,9 @@ class _StaffHomeScreenState extends State<StaffHomeScreen> {
   Future<void> _openManualEntry() async {
     final refreshed = await Navigator.of(context).pushNamed<bool>(
       StaffAppRoutes.manualCodeEntry,
-      arguments: const StaffQrScanRouteArgs(purpose: StaffQrScanPurpose.product),
+      arguments: const StaffQrScanRouteArgs(
+        purpose: StaffQrScanPurpose.product,
+      ),
     );
     if (mounted && refreshed == true) {
       await _loadRecentScans();
@@ -159,7 +156,7 @@ class _StaffHomeScreenState extends State<StaffHomeScreen> {
                 ),
               ),
             ),
-            const StaffConnectionStatusBar(),
+            const StaffLiveConnectionStatusBar(),
           ],
         ),
       ),

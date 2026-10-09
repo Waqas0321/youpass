@@ -83,37 +83,37 @@ class StaffRecentAccessSection extends StatelessWidget {
                   ),
                 )
               : scans.isEmpty
-                  ? Padding(
-                      padding: EdgeInsets.all(layout.spacing(20)),
-                      child: AppText(
-                        emptyMessage ?? l10n.staffRecentAccessEmpty,
-                        variant: AppTextVariant.body,
-                        textAlign: TextAlign.center,
-                        color: AppColors.secondaryGrey,
-                        fontSize: layout.fontSize(14),
-                        height: 1.4,
+              ? Padding(
+                  padding: EdgeInsets.all(layout.spacing(20)),
+                  child: AppText(
+                    emptyMessage ?? l10n.staffRecentAccessEmpty,
+                    variant: AppTextVariant.body,
+                    textAlign: TextAlign.center,
+                    color: AppColors.secondaryGrey,
+                    fontSize: layout.fontSize(14),
+                    height: 1.4,
+                  ),
+                )
+              : Column(
+                  children: [
+                    for (var index = 0; index < scans.length; index++) ...[
+                      StaffRecentAccessTile(
+                        entry: scans[index].toAccessEntry(),
+                        onTap: onScanTap == null
+                            ? null
+                            : () => onScanTap!(scans[index]),
                       ),
-                    )
-                  : Column(
-                      children: [
-                        for (var index = 0; index < scans.length; index++) ...[
-                          StaffRecentAccessTile(
-                            entry: scans[index].toAccessEntry(),
-                            onTap: onScanTap == null
-                                ? null
-                                : () => onScanTap!(scans[index]),
-                          ),
-                          if (index < scans.length - 1)
-                            Divider(
-                              height: 1,
-                              thickness: 1,
-                              color: AppColors.homeDividerGrey,
-                              indent: layout.spacing(60),
-                              endIndent: layout.spacing(16),
-                            ),
-                        ],
-                      ],
-                    ),
+                      if (index < scans.length - 1)
+                        Divider(
+                          height: 1,
+                          thickness: 1,
+                          color: AppColors.homeDividerGrey,
+                          indent: layout.spacing(60),
+                          endIndent: layout.spacing(16),
+                        ),
+                    ],
+                  ],
+                ),
         ),
       ],
     );
@@ -121,11 +121,7 @@ class StaffRecentAccessSection extends StatelessWidget {
 }
 
 class StaffRecentAccessTile extends StatelessWidget {
-  const StaffRecentAccessTile({
-    super.key,
-    required this.entry,
-    this.onTap,
-  });
+  const StaffRecentAccessTile({super.key, required this.entry, this.onTap});
 
   final StaffAccessEntry entry;
   final VoidCallback? onTap;
@@ -212,10 +208,7 @@ class _StatusBadge extends StatelessWidget {
     return Container(
       width: layout.spacing(32),
       height: layout.spacing(32),
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: Icon(
         isSuccess ? Icons.check_rounded : Icons.close_rounded,
         color: AppColors.backgroundWhite,

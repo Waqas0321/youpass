@@ -50,7 +50,9 @@ class PartyDrinkMenuHeaderWidget extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: SizedBox(
-                      width: layout.iconSize + PartyDrinksDesignSpec.px(context, 8),
+                      width:
+                          layout.iconSize +
+                          PartyDrinksDesignSpec.px(context, 8),
                       height: topBarHeight,
                       child: IconButton(
                         padding: EdgeInsets.zero,

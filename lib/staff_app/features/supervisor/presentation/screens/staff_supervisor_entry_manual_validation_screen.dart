@@ -24,10 +24,7 @@ import 'package:youpass/staff_app/features/supervisor/routes/staff_supervisor_en
 import 'package:youpass/l10n/app_localizations.dart';
 
 class StaffSupervisorEntryManualValidationRoute extends StatelessWidget {
-  const StaffSupervisorEntryManualValidationRoute({
-    super.key,
-    this.args,
-  });
+  const StaffSupervisorEntryManualValidationRoute({super.key, this.args});
 
   final StaffSupervisorEntryManualValidationRouteArgs? args;
 
@@ -173,10 +170,7 @@ class StaffSupervisorEntryManualValidationScreen extends StatelessWidget {
 }
 
 class _EmptySearchState extends StatelessWidget {
-  const _EmptySearchState({
-    required this.provider,
-    required this.l10n,
-  });
+  const _EmptySearchState({required this.provider, required this.l10n});
 
   final StaffSupervisorEntryManualValidationProvider provider;
   final AppLocalizations l10n;
@@ -245,7 +239,8 @@ class _LoadedEntryState extends StatelessWidget {
           qrStatusText: l10n.staffSupervisorQrStatusUnavailable,
           footer: contextData.isPending
               ? StaffSupervisorManualAccessReasonPanel<
-                  StaffSupervisorEntryManualReason>(
+                  StaffSupervisorEntryManualReason
+                >(
                   title: l10n.staffSupervisorEntryManualReasonTitle,
                   leftOptions: const [
                     StaffSupervisorEntryManualReason.phoneBattery,
@@ -259,7 +254,8 @@ class _LoadedEntryState extends StatelessWidget {
                   selectedValue: provider.selectedReason,
                   optionLabel: (reason) => _reasonLabel(l10n, reason),
                   onOptionSelected: provider.selectReason,
-                  showOtherField: provider.selectedReason ==
+                  showOtherField:
+                      provider.selectedReason ==
                       StaffSupervisorEntryManualReason.other,
                   otherController: provider.otherReasonController,
                   otherPlaceholder:
@@ -290,8 +286,10 @@ class _LoadedEntryState extends StatelessWidget {
                   child: StaffSupervisorActionTile(
                     icon: Icons.check_rounded,
                     label: l10n.staffSupervisorEntryManualAuthorizeEntry,
-                    selected: provider.selectedAction ==
-                        StaffSupervisorEntryManualValidationAction.authorizeEntry,
+                    selected:
+                        provider.selectedAction ==
+                        StaffSupervisorEntryManualValidationAction
+                            .authorizeEntry,
                     onTap: () => provider.selectAction(
                       StaffSupervisorEntryManualValidationAction.authorizeEntry,
                     ),
@@ -302,7 +300,8 @@ class _LoadedEntryState extends StatelessWidget {
                   child: StaffSupervisorActionTile(
                     icon: Icons.qr_code_scanner_rounded,
                     label: l10n.staffSupervisorGenerateTemporaryQrButton,
-                    selected: provider.selectedAction ==
+                    selected:
+                        provider.selectedAction ==
                         StaffSupervisorEntryManualValidationAction
                             .generateTemporaryQr,
                     onTap: () => provider.selectAction(
@@ -318,7 +317,8 @@ class _LoadedEntryState extends StatelessWidget {
                     label: l10n.staffSupervisorEntryManualRejectAccess,
                     borderColor: StaffSupervisorDesign.dangerRed,
                     foregroundColor: StaffSupervisorDesign.dangerRed,
-                    selected: provider.selectedAction ==
+                    selected:
+                        provider.selectedAction ==
                         StaffSupervisorEntryManualValidationAction.rejectAccess,
                     onTap: () => provider.selectAction(
                       StaffSupervisorEntryManualValidationAction.rejectAccess,
@@ -342,7 +342,9 @@ class _LoadedEntryState extends StatelessWidget {
         SizedBox(height: layout.spacing(14)),
         StaffSupervisorSystemRecordBar(
           title: l10n.staffSupervisorSystemRecordTitle,
-          supervisorText: l10n.staffSupervisorSystemRecordSupervisor(supervisorName),
+          supervisorText: l10n.staffSupervisorSystemRecordSupervisor(
+            supervisorName,
+          ),
           timeText: l10n.staffSupervisorSystemRecordTime(
             contextData.systemRecordTimeLabel,
           ),

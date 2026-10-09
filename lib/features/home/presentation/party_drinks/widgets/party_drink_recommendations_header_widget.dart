@@ -12,9 +12,15 @@ class PartyDrinkRecommendationsHeaderWidget extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
-        PartyDrinksDesignSpec.px(context, PartyDrinksDesignSpec.horizontalPadding),
+        PartyDrinksDesignSpec.px(
+          context,
+          PartyDrinksDesignSpec.horizontalPadding,
+        ),
         PartyDrinksDesignSpec.px(context, 20),
-        PartyDrinksDesignSpec.px(context, PartyDrinksDesignSpec.horizontalPadding),
+        PartyDrinksDesignSpec.px(
+          context,
+          PartyDrinksDesignSpec.horizontalPadding,
+        ),
         PartyDrinksDesignSpec.px(context, 12),
       ),
       child: Row(

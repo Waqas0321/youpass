@@ -144,7 +144,10 @@ class StaffAccessValidatorCard extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppColors.homeBlack,
                 backgroundColor: AppColors.backgroundWhite,
-                side: const BorderSide(color: AppColors.homeDividerGrey, width: 1.5),
+                side: const BorderSide(
+                  color: AppColors.homeDividerGrey,
+                  width: 1.5,
+                ),
                 padding: EdgeInsets.symmetric(vertical: layout.spacing(16)),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(layout.radius(18)),

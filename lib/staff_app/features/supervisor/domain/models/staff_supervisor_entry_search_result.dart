@@ -1,24 +1,8 @@
-enum StaffSupervisorEntryStatus {
-  validated,
-  pending,
-  used,
-  blocked,
-  error,
-}
+enum StaffSupervisorEntryStatus { validated, pending, used, blocked, error }
 
-enum StaffSupervisorEntryQuickFilter {
-  vip,
-  used,
-  error,
-  duplicate,
-}
+enum StaffSupervisorEntryQuickFilter { vip, used, error, duplicate }
 
-enum StaffSupervisorEntryEventKind {
-  validated,
-  reentry,
-  supervisor,
-  unknown,
-}
+enum StaffSupervisorEntryEventKind { validated, reentry, supervisor, unknown }
 
 class StaffSupervisorEntryEventLog {
   const StaffSupervisorEntryEventLog({
@@ -125,7 +109,8 @@ class StaffSupervisorEntrySearchResult {
       entryTimeLabel: json['entry_time_label'] as String? ?? '—',
       validatorId: json['validator_label'] as String? ?? '—',
       vipTableLabel: json['vip_table_label'] as String? ?? '—',
-      associatedEntriesLabel: json['associated_entries_label'] as String? ?? '—',
+      associatedEntriesLabel:
+          json['associated_entries_label'] as String? ?? '—',
       isVip: json['is_vip'] as bool? ?? false,
       eventTitle: json['event_title'] as String? ?? '',
       recentEvents: (json['recent_events'] as List<dynamic>? ?? const [])
@@ -162,7 +147,9 @@ class StaffSupervisorEntrySearchResponse {
   final List<StaffSupervisorEntrySearchResult> results;
   final int total;
 
-  factory StaffSupervisorEntrySearchResponse.fromJson(Map<String, dynamic> json) {
+  factory StaffSupervisorEntrySearchResponse.fromJson(
+    Map<String, dynamic> json,
+  ) {
     final rawResults = json['results'];
     final resultsList = rawResults is List<dynamic> ? rawResults : const [];
 
@@ -229,7 +216,8 @@ class StaffSupervisorEntryHistoryResponse {
   }
 }
 
-extension StaffSupervisorEntryQuickFilterApi on StaffSupervisorEntryQuickFilter {
+extension StaffSupervisorEntryQuickFilterApi
+    on StaffSupervisorEntryQuickFilter {
   String get apiValue {
     switch (this) {
       case StaffSupervisorEntryQuickFilter.vip:

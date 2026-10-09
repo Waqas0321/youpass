@@ -17,8 +17,7 @@ class InvitationDetailRouteArgs {
   }) {
     return InvitationDetailRouteArgs(
       invitationId: invitationId,
-      initialInvitation:
-          invitation is InvitationEntity ? invitation : null,
+      initialInvitation: invitation is InvitationEntity ? invitation : null,
     );
   }
 }

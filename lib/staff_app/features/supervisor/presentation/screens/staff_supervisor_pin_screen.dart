@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -6,6 +7,8 @@ import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 import 'package:youpass/staff_app/core/network/api_client.dart';
 import 'package:youpass/staff_app/core/network/api_exception.dart';
+import 'package:youpass/staff_app/core/network/staff_connectivity.dart';
+import 'package:youpass/staff_app/core/storage/staff_token_store.dart';
 import 'package:youpass/staff_app/core/utils/responsive_layout.dart';
 import 'package:youpass/staff_app/core/widgets/app_snack_bar.dart';
 import 'package:youpass/staff_app/core/widgets/app_text.dart';
@@ -22,18 +25,26 @@ class StaffSupervisorPinScreen extends StatefulWidget {
   const StaffSupervisorPinScreen({
     super.key,
     this.supervisorApiService,
+    this.tokenStore,
+    this.connectivity,
   });
 
   final StaffSupervisorApiService? supervisorApiService;
+  final StaffTokenStore? tokenStore;
+  final Connectivity? connectivity;
 
   @override
-  State<StaffSupervisorPinScreen> createState() => _StaffSupervisorPinScreenState();
+  State<StaffSupervisorPinScreen> createState() =>
+      _StaffSupervisorPinScreenState();
 }
 
 class _StaffSupervisorPinScreenState extends State<StaffSupervisorPinScreen> {
   final TextEditingController _pinController = TextEditingController();
   late final StaffSupervisorApiService _supervisorApiService =
       widget.supervisorApiService ?? StaffSupervisorApiService(ApiClient());
+  late final StaffTokenStore _tokenStore =
+      widget.tokenStore ?? StaffTokenStore();
+  late final Connectivity _connectivity = widget.connectivity ?? Connectivity();
 
   bool _isPinComplete = false;
   bool _isSubmitting = false;
@@ -58,9 +69,58 @@ class _StaffSupervisorPinScreenState extends State<StaffSupervisorPinScreen> {
         return l10n.staffSupervisorPinNotConfigured;
       case 'SUPERVISOR_ACCESS_DENIED':
         return l10n.staffSupervisorPinAccessDenied;
+      case 'SUPERVISOR_PIN_OFFLINE_UNAVAILABLE':
+        return error.message;
       default:
         return error.message;
     }
+  }
+
+  Future<void> _unlockAndContinue() async {
+    final session = context.read<StaffSupervisorSessionProvider>();
+    final mode = context.read<StaffWorkModeProvider>().mode;
+    await session.unlock();
+    if (!mounted) {
+      return;
+    }
+    Navigator.of(
+      context,
+    ).pushReplacementNamed(supervisorDashboardRouteForMode(mode));
+  }
+
+  Future<bool> _tryOfflinePin(String pin) async {
+    final secret = await _tokenStore.readOfflineSigningSecret();
+    if (secret == null || secret.isEmpty) {
+      return false;
+    }
+    return _tokenStore.verifySupervisorPinLocally(
+      pin: pin,
+      signingSecret: secret,
+    );
+  }
+
+  Future<void> _cachePinVerifier(String pin) async {
+    final secret = await _tokenStore.readOfflineSigningSecret();
+    if (secret == null || secret.isEmpty) {
+      return;
+    }
+    await _tokenStore.saveSupervisorPinVerifier(
+      pin: pin,
+      signingSecret: secret,
+    );
+  }
+
+  bool _looksLikeNetworkError(Object error) {
+    if (error is ApiException && error.code == 'NETWORK_ERROR') {
+      return true;
+    }
+    final message = error.toString().toLowerCase();
+    return message.contains('timeout') ||
+        message.contains('socket') ||
+        message.contains('network') ||
+        message.contains('connection') ||
+        message.contains('failed host lookup') ||
+        message.contains('unreachable');
   }
 
   Future<void> _handleContinue() async {
@@ -70,30 +130,87 @@ class _StaffSupervisorPinScreenState extends State<StaffSupervisorPinScreen> {
 
     final l10n = context.l10n;
     final pin = _pinController.text.trim();
+    if (pin.length != StaffSupervisorSessionProvider.pinLength) {
+      return;
+    }
 
     setState(() {
       _isSubmitting = true;
     });
 
+    var unlocked = false;
     try {
-      await _supervisorApiService.validatePin(pin: pin);
-      if (!mounted) {
+      final online = await staffIsOnline(_connectivity);
+
+      if (!online) {
+        final ok = await _tryOfflinePin(pin);
+        if (!mounted) {
+          return;
+        }
+        if (!ok) {
+          final hasVerifier = await _tokenStore.hasSupervisorPinVerifier();
+          if (!mounted) {
+            return;
+          }
+          AppSnackBar.show(
+            context,
+            hasVerifier
+                ? l10n.staffSupervisorPinInvalid
+                : l10n.staffSupervisorPinOfflineSetupRequired,
+          );
+          return;
+        }
+        unlocked = true;
+        await _unlockAndContinue();
         return;
       }
 
-      context.read<StaffSupervisorSessionProvider>().unlock();
-      Navigator.of(context).pushReplacementNamed(
-        supervisorDashboardRouteForMode(
-          context.read<StaffWorkModeProvider>().mode,
-        ),
-      );
-    } on ApiException catch (error) {
-      if (!mounted) {
-        return;
+      try {
+        await _supervisorApiService.validatePin(pin: pin);
+        await _cachePinVerifier(pin);
+        if (!mounted) {
+          return;
+        }
+        unlocked = true;
+        await _unlockAndContinue();
+      } catch (error) {
+        if (!mounted) {
+          return;
+        }
+        if (_looksLikeNetworkError(error)) {
+          final ok = await _tryOfflinePin(pin);
+          if (!mounted) {
+            return;
+          }
+          if (ok) {
+            unlocked = true;
+            await _unlockAndContinue();
+            return;
+          }
+          final hasVerifier = await _tokenStore.hasSupervisorPinVerifier();
+          if (!mounted) {
+            return;
+          }
+          AppSnackBar.show(
+            context,
+            hasVerifier
+                ? l10n.staffSupervisorPinInvalid
+                : l10n.staffSupervisorPinOfflineSetupRequired,
+          );
+          return;
+        }
+        if (error is ApiException) {
+          AppSnackBar.show(context, _messageForError(error, l10n));
+        } else {
+          AppSnackBar.show(context, error.toString());
+        }
       }
-      AppSnackBar.show(context, _messageForError(error, l10n));
     } finally {
       if (mounted) {
+        // A rejected PIN is cleared so the supervisor can retype it straight away.
+        if (!unlocked) {
+          _pinController.clear();
+        }
         setState(() {
           _isSubmitting = false;
         });

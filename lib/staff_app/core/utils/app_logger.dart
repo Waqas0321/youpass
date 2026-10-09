@@ -195,7 +195,9 @@ class AppLogger {
         return MapEntry(key, '******');
       }
 
-      if (key == 'code' && value is String && RegExp(r'^\d{4,8}$').hasMatch(value)) {
+      if (key == 'code' &&
+          value is String &&
+          RegExp(r'^\d{4,8}$').hasMatch(value)) {
         return MapEntry(key, '******');
       }
 

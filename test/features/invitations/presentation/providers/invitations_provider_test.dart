@@ -86,7 +86,7 @@ void main() {
     expect(provider.invitationsBadgeCount, 1);
   });
 
-  test('ensureLoaded skips reload when already ready', () async {
+  test('ensureLoaded refreshes silently when already ready', () async {
     when(() => mockRepository.fetchInvitationsFeed())
         .thenAnswer((_) async => testFeed);
     when(() => mockRepository.fetchSummary())
@@ -95,9 +95,14 @@ void main() {
         .thenAnswer((_) async => false);
 
     await provider.loadInvitations();
+    final statuses = <InvitationsStatus>[];
+    provider.addListener(() => statuses.add(provider.status));
     await provider.ensureLoaded();
 
-    verify(() => mockRepository.fetchInvitationsFeed()).called(1);
+    // Reopening the screen picks up new invitations without a loading flash.
+    verify(() => mockRepository.fetchInvitationsFeed()).called(2);
+    expect(statuses, isNot(contains(InvitationsStatus.loading)));
+    expect(provider.status, InvitationsStatus.ready);
   });
 
   test('reset clears invitations state', () async {

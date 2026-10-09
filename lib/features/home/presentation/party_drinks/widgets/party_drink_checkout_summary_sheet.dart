@@ -30,14 +30,22 @@ class PartyDrinkCheckoutSummarySheet extends StatefulWidget {
   final Map<String, int> quantities;
   final List<PartyDrinkItem> drinks;
   final ValueChanged<Map<String, int>> onQuantitiesChanged;
-  final Future<void> Function(PartyDrinkCartSummary cart) onPurchaseCompleted;
+  final Future<void> Function(
+    PartyDrinkCartSummary cart,
+    String? paymentMethodId,
+  )
+  onPurchaseCompleted;
 
   static Future<void> show({
     required BuildContext context,
     required Map<String, int> quantities,
     required List<PartyDrinkItem> drinks,
     required ValueChanged<Map<String, int>> onQuantitiesChanged,
-    required Future<void> Function(PartyDrinkCartSummary cart) onPurchaseCompleted,
+    required Future<void> Function(
+      PartyDrinkCartSummary cart,
+      String? paymentMethodId,
+    )
+    onPurchaseCompleted,
   }) {
     return showModalBottomSheet<void>(
       context: context,
@@ -90,7 +98,9 @@ class _PartyDrinkCheckoutSummarySheetState
   }
 
   void _adjustQuantity(String drinkId, int delta) {
-    setState(() => PartyDrinkCartQuantities.adjust(_quantities, drinkId, delta));
+    setState(
+      () => PartyDrinkCartQuantities.adjust(_quantities, drinkId, delta),
+    );
     _notifyParent();
     if (!_cart.hasItems && mounted) {
       Navigator.of(context).pop();
@@ -213,7 +223,10 @@ class _PartyDrinkCheckoutSummarySheetState
                 );
               }),
               ListTile(
-                leading: const Icon(Icons.add_circle_outline, color: Colors.white),
+                leading: const Icon(
+                  Icons.add_circle_outline,
+                  color: Colors.white,
+                ),
                 title: Text(
                   AppStrings.vipAddPaymentMethod(strings),
                   style: const TextStyle(color: Colors.white),
@@ -245,10 +258,7 @@ class _PartyDrinkCheckoutSummarySheetState
     }
 
     if (_selectedCard == null && cart.grandTotalClp > 0) {
-      AppSnackBar.show(
-        context,
-        AppStrings.vipAddPaymentMethod(context.l10n),
-      );
+      AppSnackBar.show(context, AppStrings.vipAddPaymentMethod(context.l10n));
       await _openPaymentMethodPicker();
       if (_selectedCard == null) {
         return;
@@ -258,7 +268,11 @@ class _PartyDrinkCheckoutSummarySheetState
     setState(() => _isSubmitting = true);
 
     try {
-      await widget.onPurchaseCompleted(cart);
+      // Courtesy-only carts are free: the backend must not charge a card.
+      await widget.onPurchaseCompleted(
+        cart,
+        cart.grandTotalClp > 0 ? _selectedCard?.id : null,
+      );
       if (mounted) {
         Navigator.of(context).pop();
       }
@@ -298,7 +312,9 @@ class _PartyDrinkCheckoutSummarySheetState
                 PartyDrinkCheckoutSheetHeaderWidget(onCloseTap: _close),
                 Expanded(
                   child: ListView(
-                    padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: horizontalPadding,
+                    ),
                     children: [
                       ...cart.lineItems.map(
                         (lineItem) => PartyDrinkCheckoutLineItemWidget(
@@ -312,13 +328,16 @@ class _PartyDrinkCheckoutSummarySheetState
                       SizedBox(height: PartyDrinksDesignSpec.px(context, 20)),
                       PartyDrinkCheckoutPriceBreakdownWidget(cart: cart),
                       SizedBox(height: PartyDrinksDesignSpec.px(context, 20)),
-                      PartyDrinkCheckoutPaymentMethodCardWidget(
-                        card: _selectedCard,
-                        isLoading: _loadingCards,
-                        isBusy: _updatingPaymentMethod,
-                        onTap: _openPaymentMethodPicker,
-                      ),
-                      SizedBox(height: PartyDrinksDesignSpec.px(context, 16)),
+                      // Courtesy-only carts are never charged, so no card is shown.
+                      if (cart.grandTotalClp > 0) ...[
+                        PartyDrinkCheckoutPaymentMethodCardWidget(
+                          card: _selectedCard,
+                          isLoading: _loadingCards,
+                          isBusy: _updatingPaymentMethod,
+                          onTap: _openPaymentMethodPicker,
+                        ),
+                        SizedBox(height: PartyDrinksDesignSpec.px(context, 16)),
+                      ],
                     ],
                   ),
                 ),

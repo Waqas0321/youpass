@@ -264,7 +264,9 @@ class _TicketSelectionScreenState extends State<TicketSelectionScreen> {
                         bottom: VipVenueDesignSpec.px(context, 12),
                       ),
                       child: _EmptyStateMessage(
-                        message: AppStrings.vipTicketsAllSoldOut(strings),
+                        message: _quantityOfferings.every((o) => o.isSoldOut)
+                            ? AppStrings.vipTicketsAllSoldOut(strings)
+                            : AppStrings.vipTicketsSalesUnavailable(strings),
                       ),
                     ),
                   if (_generalOfferings.isNotEmpty) ...[

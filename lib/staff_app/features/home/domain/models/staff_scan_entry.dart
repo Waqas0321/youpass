@@ -59,15 +59,64 @@ class StaffScanEntry {
       timeLabel: scannedAt != null ? _formatDateTime(scannedAt) : '--:--',
       status: outcome == 'already_used'
           ? StaffScanStatus.duplicate
+          : outcome == 'pending_sync'
+          ? StaffScanStatus.success
           : StaffScanStatus.success,
       icon: _iconForItemName(itemName),
     );
   }
 
+  factory StaffScanEntry.fromOfflineQueueItem({
+    required String scanType,
+    required String qrPayload,
+    required String clientScanId,
+    required DateTime scannedAt,
+    StaffScanStatus status = StaffScanStatus.success,
+    DateTime? lastUsedAt,
+  }) {
+    final isEntry = scanType == 'entry';
+    final isDuplicate = status == StaffScanStatus.duplicate;
+    final scannedLocal = scannedAt.toLocal();
+    return StaffScanEntry(
+      itemName: isDuplicate
+          ? (isEntry ? 'Entry already scanned' : 'Product already scanned')
+          : (isEntry ? 'Entry (pending sync)' : 'Product (pending sync)'),
+      guestName: 'Offline scan',
+      eventTitle: isDuplicate
+          ? 'Already scanned on this device'
+          : 'Will sync when online',
+      transactionId: clientScanId,
+      entryId: clientScanId,
+      qrPayload: qrPayload,
+      scannedAt: scannedLocal,
+      lastUsedAt: lastUsedAt?.toLocal() ?? (isDuplicate ? scannedLocal : null),
+      timeLabel: _formatDateTime(scannedLocal),
+      status: status,
+      icon: isEntry ? StaffScanItemIcon.drink : StaffScanItemIcon.bottle,
+    );
+  }
+
+  Map<String, dynamic> toCacheJson() => {
+    'item_name': itemName,
+    'guest_name': guestName,
+    'event_title': eventTitle,
+    'transaction_id': transactionId,
+    'entry_id': entryId,
+    'qr_payload': qrPayload,
+    'access_level': accessLevel,
+    'bar_name': barName,
+    'product_quantity': productQuantity,
+    'scanned_at': scannedAt?.toUtc().toIso8601String(),
+    'last_used_at': lastUsedAt?.toUtc().toIso8601String(),
+    'outcome': status == StaffScanStatus.duplicate ? 'already_used' : 'valid',
+  };
+
   StaffQrScanResult toQrScanResult(StaffQrScanPurpose purpose) {
     final isDuplicate = status == StaffScanStatus.duplicate;
     final code = entryId ?? transactionId ?? '';
-    final payload = (qrPayload != null && qrPayload!.isNotEmpty) ? qrPayload! : code;
+    final payload = (qrPayload != null && qrPayload!.isNotEmpty)
+        ? qrPayload!
+        : code;
     final scannedAtLocal = scannedAt;
     final lastUsed = lastUsedAt ?? (isDuplicate ? scannedAtLocal : null);
 
@@ -79,8 +128,9 @@ class StaffScanEntry {
       productName: itemName,
       productQuantity: productQuantity ?? 1,
       guestName: guestName,
-      scanTimeLabel:
-          scannedAtLocal != null ? _formatTime(scannedAtLocal) : timeLabel,
+      scanTimeLabel: scannedAtLocal != null
+          ? _formatTime(scannedAtLocal)
+          : timeLabel,
       transactionId: transactionId ?? code,
       qrPayload: payload,
       eventName: eventTitle,
@@ -90,13 +140,13 @@ class StaffScanEntry {
       lastUsedTimeLabel: lastUsed != null
           ? _formatTime(lastUsed)
           : (isDuplicate && scannedAtLocal != null
-              ? _formatTime(scannedAtLocal)
-              : null),
+                ? _formatTime(scannedAtLocal)
+                : null),
       lastUsedDateLabel: lastUsed != null
           ? _formatDate(lastUsed)
           : (isDuplicate && scannedAtLocal != null
-              ? _formatDate(scannedAtLocal)
-              : null),
+                ? _formatDate(scannedAtLocal)
+                : null),
     );
   }
 

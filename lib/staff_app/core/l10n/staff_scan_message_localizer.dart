@@ -32,11 +32,17 @@ class StaffScanMessageLocalizer {
         return l10n.staffScanErrorQrInvalid;
       case 'STAFF_PERMISSION_DENIED':
         return l10n.staffScanErrorPermissionDenied;
+      case 'STAFF_INACTIVE':
+        return l10n.errorStaffAccessPaused;
       case 'UNAUTHORIZED':
       case 'SESSION_INVALID':
         return l10n.staffScanErrorSessionExpired;
       case 'NETWORK_ERROR':
         return l10n.errorNetworkConnection;
+      case 'OFFLINE_SECRET_MISSING':
+        return fallbackMessage?.isNotEmpty == true
+            ? fallbackMessage!
+            : l10n.errorNetworkConnection;
     }
 
     if (fallbackMessage != null && fallbackMessage.isNotEmpty) {

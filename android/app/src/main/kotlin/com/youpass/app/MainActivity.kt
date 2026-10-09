@@ -1,4 +1,4 @@
-package com.youpass.youpass
+package com.youpass.app
 
 import io.flutter.embedding.android.FlutterActivity
 

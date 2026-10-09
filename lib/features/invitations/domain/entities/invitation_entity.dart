@@ -32,6 +32,7 @@ class InvitationEntity extends Equatable {
     this.noShowChargeLabel,
     this.customMessage,
     this.cancellationDeadlineLabel,
+    this.cancellationDeadline,
     this.entryCode,
     this.qrPayload,
     this.qrStatus,
@@ -72,6 +73,13 @@ class InvitationEntity extends Equatable {
   final String? noShowChargeLabel;
   final String? customMessage;
   final String? cancellationDeadlineLabel;
+
+  /// Raw deadline; used to only say "deadline has passed" when it really has.
+  final DateTime? cancellationDeadline;
+
+  bool get isCancellationDeadlinePassed =>
+      cancellationDeadline != null &&
+      DateTime.now().isAfter(cancellationDeadline!);
   final String? entryCode;
   final String? qrPayload;
   final InvitationQrStatus? qrStatus;
@@ -109,43 +117,44 @@ class InvitationEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        eventId,
-        eventTypeSlug,
-        eventTitle,
-        locationLabel,
-        dateTimeLabel,
-        imageAssetPath,
-        tier,
-        status,
-        type,
-        source,
-        productKind,
-        productLabel,
-        typeColorHex,
-        requiresPaymentMethod,
-        termsAcceptedRequired,
-        chargeAmount,
-        chargeCurrency,
-        discountPercent,
-        acceptAmount,
-        acceptAmountLabel,
-        noShowChargeAmount,
-        noShowChargeLabel,
-        customMessage,
-        cancellationDeadlineLabel,
-        entryCode,
-        qrPayload,
-        qrStatus,
-        invitedBy,
-        expiresAtLabel,
-        assignedSlot,
-        statusLabel,
-        deepLink,
-        canConfirm,
-        canReject,
-        canCancel,
-        canViewQr,
-        preauthActive,
-      ];
+    id,
+    eventId,
+    eventTypeSlug,
+    eventTitle,
+    locationLabel,
+    dateTimeLabel,
+    imageAssetPath,
+    tier,
+    status,
+    type,
+    source,
+    productKind,
+    productLabel,
+    typeColorHex,
+    requiresPaymentMethod,
+    termsAcceptedRequired,
+    chargeAmount,
+    chargeCurrency,
+    discountPercent,
+    acceptAmount,
+    acceptAmountLabel,
+    noShowChargeAmount,
+    noShowChargeLabel,
+    customMessage,
+    cancellationDeadlineLabel,
+    cancellationDeadline,
+    entryCode,
+    qrPayload,
+    qrStatus,
+    invitedBy,
+    expiresAtLabel,
+    assignedSlot,
+    statusLabel,
+    deepLink,
+    canConfirm,
+    canReject,
+    canCancel,
+    canViewQr,
+    preauthActive,
+  ];
 }

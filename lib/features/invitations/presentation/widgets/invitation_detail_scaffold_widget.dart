@@ -6,10 +6,8 @@ import 'package:youpass/features/invitations/presentation/providers/invitations_
 import 'package:youpass/features/invitations/presentation/routes/invitation_detail_route_args.dart';
 import 'package:youpass/features/home/presentation/utils/app_drawer_navigation.dart';
 
-typedef InvitationDetailBuilder = Widget Function(
-  BuildContext context,
-  InvitationEntity invitation,
-);
+typedef InvitationDetailBuilder =
+    Widget Function(BuildContext context, InvitationEntity invitation);
 
 /// Loads invitation detail once and renders [builder] when ready.
 class InvitationDetailScaffoldWidget extends StatefulWidget {
@@ -46,7 +44,9 @@ class _InvitationDetailScaffoldWidgetState
 
   Future<void> _loadDetail() async {
     final provider = context.read<InvitationsProvider>();
-    final loaded = await provider.loadInvitationDetail(widget.args.invitationId);
+    final loaded = await provider.loadInvitationDetail(
+      widget.args.invitationId,
+    );
 
     if (!mounted) {
       return;
@@ -81,8 +81,8 @@ class _InvitationDetailScaffoldWidgetState
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : item == null
-              ? Center(child: Text(errorMessage ?? strings.errorGeneric))
-              : widget.builder(context, item),
+          ? Center(child: Text(errorMessage ?? strings.errorGeneric))
+          : widget.builder(context, item),
     );
   }
 }

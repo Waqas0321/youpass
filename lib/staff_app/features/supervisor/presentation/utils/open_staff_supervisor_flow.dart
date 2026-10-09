@@ -22,6 +22,7 @@ void openStaffSupervisorFlow(BuildContext context) {
 
   final dashboardRoute = supervisorDashboardRouteForMode(mode);
 
+  // Already unlocked this staff login — open dashboard without asking PIN again.
   if (session.isUnlocked) {
     Navigator.of(context).pushNamed(dashboardRoute);
     return;

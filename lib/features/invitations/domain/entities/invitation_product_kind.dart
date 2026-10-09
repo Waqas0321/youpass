@@ -1,8 +1,4 @@
-enum InvitationProductKind {
-  free,
-  guaranteedPass,
-  discounted,
-}
+enum InvitationProductKind { free, guaranteedPass, discounted }
 
 extension InvitationProductKindX on InvitationProductKind {
   String get apiValue {

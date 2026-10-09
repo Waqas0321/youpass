@@ -127,9 +127,8 @@ class StaffSupervisorApiService extends BaseApiService {
     );
   }
 
-  Future<StaffSupervisorEntryOverrideContext> getEntryOverrideContextByEntryCode(
-    String entryCode,
-  ) {
+  Future<StaffSupervisorEntryOverrideContext>
+  getEntryOverrideContextByEntryCode(String entryCode) {
     return getModel(
       StaffApiEndpoints.supervisorEntryOverrideByEntryCode(entryCode),
       authenticated: true,
@@ -145,11 +144,7 @@ class StaffSupervisorApiService extends BaseApiService {
   }) {
     return postModel(
       StaffApiEndpoints.supervisorEntryOverride(ticketId),
-      body: {
-        'pin': pin,
-        'action': action.apiValue,
-        'notes': notes.trim(),
-      },
+      body: {'pin': pin, 'action': action.apiValue, 'notes': notes.trim()},
       authenticated: true,
       fromJson: StaffSupervisorEntryOverrideContext.fromJson,
     );
@@ -163,19 +158,14 @@ class StaffSupervisorApiService extends BaseApiService {
   }) {
     return postModel(
       StaffApiEndpoints.supervisorEntryOverrideByEntryCode(entryCode),
-      body: {
-        'pin': pin,
-        'action': action.apiValue,
-        'notes': notes.trim(),
-      },
+      body: {'pin': pin, 'action': action.apiValue, 'notes': notes.trim()},
       authenticated: true,
       fromJson: StaffSupervisorEntryOverrideContext.fromJson,
     );
   }
 
-  Future<StaffSupervisorEntryManualValidationContext> getEntryManualValidationContext(
-    String ticketId,
-  ) {
+  Future<StaffSupervisorEntryManualValidationContext>
+  getEntryManualValidationContext(String ticketId) {
     return getModel(
       StaffApiEndpoints.supervisorEntryManualValidation(ticketId),
       authenticated: true,
@@ -184,7 +174,7 @@ class StaffSupervisorApiService extends BaseApiService {
   }
 
   Future<StaffSupervisorEntryManualValidationContext>
-      getEntryManualValidationContextByEntryCode(String entryCode) {
+  getEntryManualValidationContextByEntryCode(String entryCode) {
     return getModel(
       StaffApiEndpoints.supervisorEntryManualValidationByEntryCode(entryCode),
       authenticated: true,
@@ -192,7 +182,8 @@ class StaffSupervisorApiService extends BaseApiService {
     );
   }
 
-  Future<StaffSupervisorEntryManualValidationApplyResult> applyEntryManualValidation({
+  Future<StaffSupervisorEntryManualValidationApplyResult>
+  applyEntryManualValidation({
     required String ticketId,
     required String pin,
     required StaffSupervisorEntryManualValidationAction action,
@@ -213,7 +204,7 @@ class StaffSupervisorApiService extends BaseApiService {
   }
 
   Future<StaffSupervisorEntryManualValidationApplyResult>
-      applyEntryManualValidationByEntryCode({
+  applyEntryManualValidationByEntryCode({
     required String entryCode,
     required String pin,
     required StaffSupervisorEntryManualValidationAction action,
@@ -286,7 +277,8 @@ class StaffSupervisorApiService extends BaseApiService {
           'guest_name': guestName.trim(),
         if (guestPhone != null && guestPhone.trim().isNotEmpty)
           'guest_phone': guestPhone.trim(),
-        if (slotId != null && slotId.trim().isNotEmpty) 'slot_id': slotId.trim(),
+        if (slotId != null && slotId.trim().isNotEmpty)
+          'slot_id': slotId.trim(),
         if (targetSlotId != null && targetSlotId.trim().isNotEmpty)
           'target_slot_id': targetSlotId.trim(),
         if (accessLabel != null && accessLabel.trim().isNotEmpty)

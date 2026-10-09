@@ -11,10 +11,7 @@ import 'package:youpass/staff_app/features/scan/presentation/widgets/staff_scan_
 import 'package:youpass/staff_app/features/scan/presentation/widgets/staff_scan_viewfinder_overlay.dart';
 
 class StaffEntryInvalidResultScreen extends StatelessWidget {
-  const StaffEntryInvalidResultScreen({
-    super.key,
-    required this.result,
-  });
+  const StaffEntryInvalidResultScreen({super.key, required this.result});
 
   final StaffQrScanResult result;
 
@@ -87,7 +84,10 @@ class StaffEntryInvalidResultScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.chevron_left_rounded, size: layout.spacing(20)),
+                      Icon(
+                        Icons.chevron_left_rounded,
+                        size: layout.spacing(20),
+                      ),
                       SizedBox(width: layout.spacing(10)),
                       AppText(
                         l10n.staffScanResultBackButton,
@@ -151,7 +151,9 @@ class _EntryInvalidCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(layout.radius(24)),
         boxShadow: [
           BoxShadow(
-            color: StaffEntryInvalidResultScreen._cardRed.withValues(alpha: 0.28),
+            color: StaffEntryInvalidResultScreen._cardRed.withValues(
+              alpha: 0.28,
+            ),
             blurRadius: layout.spacing(18),
             offset: Offset(0, layout.spacing(8)),
           ),
@@ -319,9 +321,7 @@ class _EntryInvalidRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: compact ? 0 : layout.spacing(12),
-      ),
+      padding: EdgeInsets.symmetric(vertical: compact ? 0 : layout.spacing(12)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -365,10 +365,7 @@ class _EntryInvalidRow extends StatelessWidget {
 }
 
 class _EntryInvalidIconCircle extends StatelessWidget {
-  const _EntryInvalidIconCircle({
-    required this.layout,
-    required this.icon,
-  });
+  const _EntryInvalidIconCircle({required this.layout, required this.icon});
 
   final ResponsiveLayout layout;
   final IconData icon;

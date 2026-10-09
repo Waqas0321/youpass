@@ -62,7 +62,10 @@ class _StaffSupervisorResolveDuplicateView extends StatelessWidget {
     }
 
     if (success) {
-      AppSnackBar.show(context, context.l10n.staffSupervisorDuplicateResolvedSuccess);
+      AppSnackBar.show(
+        context,
+        context.l10n.staffSupervisorDuplicateResolvedSuccess,
+      );
       Navigator.of(context).pop();
       return;
     }
@@ -73,7 +76,10 @@ class _StaffSupervisorResolveDuplicateView extends StatelessWidget {
     }
   }
 
-  static String _validatorFooterLabel(BuildContext context, AppLocalizations l10n) {
+  static String _validatorFooterLabel(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) {
     final zoneLabel = context.read<StaffAuthProvider>().profile?.zoneLabel;
     if (zoneLabel == null || zoneLabel.isEmpty) {
       return l10n.staffSupervisorValidatorLabel('VAL-AC-02');
@@ -90,7 +96,10 @@ class _StaffSupervisorResolveDuplicateView extends StatelessWidget {
     );
   }
 
-  static String _reasonLabel(AppLocalizations l10n, StaffSupervisorDuplicateReason reason) {
+  static String _reasonLabel(
+    AppLocalizations l10n,
+    StaffSupervisorDuplicateReason reason,
+  ) {
     return switch (reason) {
       StaffSupervisorDuplicateReason.sharedScreenshot =>
         l10n.staffSupervisorDuplicateReasonScreenshot,
@@ -104,7 +113,10 @@ class _StaffSupervisorResolveDuplicateView extends StatelessWidget {
     };
   }
 
-  static String _actionLabel(AppLocalizations l10n, StaffSupervisorDuplicateAction action) {
+  static String _actionLabel(
+    AppLocalizations l10n,
+    StaffSupervisorDuplicateAction action,
+  ) {
     return switch (action) {
       StaffSupervisorDuplicateAction.revalidateQr =>
         l10n.staffSupervisorOverrideRevalidateQr,
@@ -117,7 +129,10 @@ class _StaffSupervisorResolveDuplicateView extends StatelessWidget {
     };
   }
 
-  static String _logTitle(AppLocalizations l10n, StaffSupervisorDuplicateQrLog log) {
+  static String _logTitle(
+    AppLocalizations l10n,
+    StaffSupervisorDuplicateQrLog log,
+  ) {
     return switch (log.kind) {
       StaffSupervisorDuplicateQrLogKind.validated =>
         l10n.staffSupervisorDuplicateLogValidated,
@@ -134,301 +149,339 @@ class _StaffSupervisorResolveDuplicateView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<StaffSupervisorResolveDuplicateProvider>(
       builder: (context, provider, _) {
-    final l10n = context.l10n;
-    final layout = ResponsiveLayout(context);
-    final alert = provider.alert;
+        final l10n = context.l10n;
+        final layout = ResponsiveLayout(context);
+        final alert = provider.alert;
 
-    return Scaffold(
-      backgroundColor: _pageBg,
-      body: Column(
-        children: [
-          StaffScanScreenHeader(showBottomDivider: true),
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-              layout.spacing(20),
-              layout.spacing(8),
-              layout.spacing(20),
-              layout.spacing(12),
-            ),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: AppText(
-                l10n.staffSupervisorSearchEntryHeaderSubtitle,
-                variant: AppTextVariant.body,
-                color: AppColors.secondaryGrey,
-                fontSize: layout.fontSize(13),
-                fontWeight: FontWeight.w500,
+        return Scaffold(
+          backgroundColor: _pageBg,
+          body: Column(
+            children: [
+              StaffScanScreenHeader(showBottomDivider: true),
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                  layout.spacing(20),
+                  layout.spacing(8),
+                  layout.spacing(20),
+                  layout.spacing(12),
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: AppText(
+                    l10n.staffSupervisorSearchEntryHeaderSubtitle,
+                    variant: AppTextVariant.body,
+                    color: AppColors.secondaryGrey,
+                    fontSize: layout.fontSize(13),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
-            ),
-          ),
-          Expanded(
-            child: alert == null && !provider.isLoadingAlert
-                ? ListView(
-                    padding: EdgeInsets.fromLTRB(
-                      layout.spacing(20),
-                      0,
-                      layout.spacing(20),
-                      layout.spacing(12),
-                    ),
-                    children: [
-                      StaffSupervisorEntrySearchField(
-                        controller: provider.search,
-                        hint: l10n.staffSupervisorDuplicateSearchHint,
-                        wrapInCard: false,
-                        onResultSelected: provider.onSearchResultSelected,
-                      ),
-                      if (provider.alertError != null) ...[
-                        SizedBox(height: layout.spacing(24)),
-                        AppText(
-                          provider.alertError!,
-                          variant: AppTextVariant.body,
-                          textAlign: TextAlign.center,
-                          color: const Color(0xFFEF4444),
-                          fontSize: layout.fontSize(14),
+              Expanded(
+                child: alert == null && !provider.isLoadingAlert
+                    ? ListView(
+                        padding: EdgeInsets.fromLTRB(
+                          layout.spacing(20),
+                          0,
+                          layout.spacing(20),
+                          layout.spacing(12),
                         ),
-                      ],
-                    ],
-                  ): ListView(
-              padding: EdgeInsets.fromLTRB(
-                layout.spacing(20),
-                0,
-                layout.spacing(20),
-                layout.spacing(12),
-              ),
-              children: [
-                if (provider.isLoadingAlert)
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: layout.spacing(32)),
-                    child: const Center(
-                      child: CircularProgressIndicator(color: _accent),
-                    ),
-                  )
-                else if (alert != null) ...[
-                  _DuplicateAlertBanner(layout: layout, l10n: l10n),
-                  if (!alert.isPending) ...[
-                    SizedBox(height: layout.spacing(10)),
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(layout.spacing(12)),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFECFDF5),
-                        borderRadius: BorderRadius.circular(layout.radius(12)),
-                        border: Border.all(
-                          color: const Color(0xFF22C55E).withValues(alpha: 0.35),
-                        ),
-                      ),
-                      child: Row(
                         children: [
-                          Icon(
-                            Icons.check_circle_rounded,
-                            color: const Color(0xFF22C55E),
-                            size: layout.spacing(20),
+                          StaffSupervisorEntrySearchField(
+                            controller: provider.search,
+                            hint: l10n.staffSupervisorDuplicateSearchHint,
+                            wrapInCard: false,
+                            onResultSelected: provider.onSearchResultSelected,
                           ),
-                          SizedBox(width: layout.spacing(8)),
-                          Expanded(
-                            child: AppText(
-                              l10n.staffSupervisorDuplicateAlreadyResolved,
+                          if (provider.alertError != null) ...[
+                            SizedBox(height: layout.spacing(24)),
+                            AppText(
+                              provider.alertError!,
                               variant: AppTextVariant.body,
-                              color: AppColors.homeBlack,
-                              fontWeight: FontWeight.w600,
-                              fontSize: layout.fontSize(13),
+                              textAlign: TextAlign.center,
+                              color: const Color(0xFFEF4444),
+                              fontSize: layout.fontSize(14),
                             ),
-                          ),
+                          ],
+                        ],
+                      )
+                    : ListView(
+                        padding: EdgeInsets.fromLTRB(
+                          layout.spacing(20),
+                          0,
+                          layout.spacing(20),
+                          layout.spacing(12),
+                        ),
+                        children: [
+                          if (provider.isLoadingAlert)
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: layout.spacing(32),
+                              ),
+                              child: const Center(
+                                child: CircularProgressIndicator(
+                                  color: _accent,
+                                ),
+                              ),
+                            )
+                          else if (alert != null) ...[
+                            _DuplicateAlertBanner(layout: layout, l10n: l10n),
+                            if (!alert.isPending) ...[
+                              SizedBox(height: layout.spacing(10)),
+                              Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.all(layout.spacing(12)),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFECFDF5),
+                                  borderRadius: BorderRadius.circular(
+                                    layout.radius(12),
+                                  ),
+                                  border: Border.all(
+                                    color: const Color(
+                                      0xFF22C55E,
+                                    ).withValues(alpha: 0.35),
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.check_circle_rounded,
+                                      color: const Color(0xFF22C55E),
+                                      size: layout.spacing(20),
+                                    ),
+                                    SizedBox(width: layout.spacing(8)),
+                                    Expanded(
+                                      child: AppText(
+                                        l10n.staffSupervisorDuplicateAlreadyResolved,
+                                        variant: AppTextVariant.body,
+                                        color: AppColors.homeBlack,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: layout.fontSize(13),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                            SizedBox(height: layout.spacing(14)),
+                            _GuestInfoCard(
+                              layout: layout,
+                              l10n: l10n,
+                              alert: alert,
+                            ),
+                            SizedBox(height: layout.spacing(16)),
+                            AppText(
+                              l10n.staffSupervisorDuplicateCurrentStatusTitle,
+                              variant: AppTextVariant.label,
+                              color: AppColors.secondaryGrey,
+                              fontWeight: FontWeight.w700,
+                              fontSize: layout.fontSize(12),
+                              letterSpacing: 0.8,
+                            ),
+                            SizedBox(height: layout.spacing(10)),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: _AccessSnapshotCard(
+                                    layout: layout,
+                                    l10n: l10n,
+                                    title: l10n
+                                        .staffSupervisorDuplicateLastValidTitle,
+                                    snapshot: alert.lastValidAccess,
+                                    isValid: true,
+                                  ),
+                                ),
+                                SizedBox(width: layout.spacing(10)),
+                                Expanded(
+                                  child: _AccessSnapshotCard(
+                                    layout: layout,
+                                    l10n: l10n,
+                                    title: l10n
+                                        .staffSupervisorDuplicateNewAttemptTitle,
+                                    snapshot: alert.newAttempt,
+                                    isValid: false,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: layout.spacing(18)),
+                            if (alert.isPending) ...[
+                              AppText(
+                                l10n.staffSupervisorDuplicatePossibleReasonTitle,
+                                variant: AppTextVariant.label,
+                                color: AppColors.secondaryGrey,
+                                fontWeight: FontWeight.w700,
+                                fontSize: layout.fontSize(12),
+                                letterSpacing: 0.8,
+                              ),
+                              SizedBox(height: layout.spacing(10)),
+                              Container(
+                                padding: EdgeInsets.all(layout.spacing(14)),
+                                decoration: BoxDecoration(
+                                  color: AppColors.backgroundWhite,
+                                  borderRadius: BorderRadius.circular(
+                                    layout.radius(14),
+                                  ),
+                                  border: Border.all(
+                                    color: AppColors.homeDividerGrey,
+                                  ),
+                                ),
+                                child: Wrap(
+                                  spacing: layout.spacing(12),
+                                  runSpacing: layout.spacing(8),
+                                  children: StaffSupervisorDuplicateReason
+                                      .values
+                                      .map(
+                                        (reason) => SizedBox(
+                                          width:
+                                              (MediaQuery.sizeOf(
+                                                    context,
+                                                  ).width -
+                                                  layout.spacing(68)) /
+                                              2,
+                                          child: _ReasonRadioTile(
+                                            layout: layout,
+                                            label: _reasonLabel(l10n, reason),
+                                            selected:
+                                                provider.selectedReason ==
+                                                reason,
+                                            onTap: () =>
+                                                provider.selectReason(reason),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                              ),
+                              SizedBox(height: layout.spacing(18)),
+                              AppText(
+                                l10n.staffSupervisorDuplicateSupervisorActionsTitle,
+                                variant: AppTextVariant.label,
+                                color: AppColors.secondaryGrey,
+                                fontWeight: FontWeight.w700,
+                                fontSize: layout.fontSize(12),
+                                letterSpacing: 0.8,
+                              ),
+                              SizedBox(height: layout.spacing(10)),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: _SupervisorActionTile(
+                                      layout: layout,
+                                      icon: Icons.refresh_rounded,
+                                      label: _actionLabel(
+                                        l10n,
+                                        StaffSupervisorDuplicateAction
+                                            .revalidateQr,
+                                      ),
+                                      selected:
+                                          provider.selectedAction ==
+                                          StaffSupervisorDuplicateAction
+                                              .revalidateQr,
+                                      onTap: () => provider.selectAction(
+                                        StaffSupervisorDuplicateAction
+                                            .revalidateQr,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: layout.spacing(8)),
+                                  Expanded(
+                                    child: _SupervisorActionTile(
+                                      layout: layout,
+                                      icon: Icons.lock_open_rounded,
+                                      label: _actionLabel(
+                                        l10n,
+                                        StaffSupervisorDuplicateAction
+                                            .releaseReentry,
+                                      ),
+                                      selected:
+                                          provider.selectedAction ==
+                                          StaffSupervisorDuplicateAction
+                                              .releaseReentry,
+                                      onTap: () => provider.selectAction(
+                                        StaffSupervisorDuplicateAction
+                                            .releaseReentry,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: layout.spacing(8)),
+                                  Expanded(
+                                    child: _SupervisorActionTile(
+                                      layout: layout,
+                                      icon: Icons.block_rounded,
+                                      label: _actionLabel(
+                                        l10n,
+                                        StaffSupervisorDuplicateAction.blockQr,
+                                      ),
+                                      selected:
+                                          provider.selectedAction ==
+                                          StaffSupervisorDuplicateAction
+                                              .blockQr,
+                                      onTap: () => provider.selectAction(
+                                        StaffSupervisorDuplicateAction.blockQr,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: layout.spacing(8)),
+                                  Expanded(
+                                    child: _SupervisorActionTile(
+                                      layout: layout,
+                                      icon: Icons.warning_amber_rounded,
+                                      label: _actionLabel(
+                                        l10n,
+                                        StaffSupervisorDuplicateAction
+                                            .escalateAlert,
+                                      ),
+                                      selected:
+                                          provider.selectedAction ==
+                                          StaffSupervisorDuplicateAction
+                                              .escalateAlert,
+                                      onTap: () => provider.selectAction(
+                                        StaffSupervisorDuplicateAction
+                                            .escalateAlert,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: layout.spacing(18)),
+                              StaffSupervisorPinReasonForm(
+                                pinController: provider.pinController,
+                                reasonController: provider.reasonController,
+                                pinLabel:
+                                    l10n.staffSupervisorAuthorizationPinLabel,
+                                reasonLabel: l10n.staffSupervisorReasonTitle,
+                                reasonHint: l10n
+                                    .staffSupervisorDuplicateReasonPlaceholder,
+                                onChanged: provider.notifyFormChanged,
+                                reasonMaxLines: 3,
+                              ),
+                            ],
+                            SizedBox(height: layout.spacing(18)),
+                            _QrHistoryCard(
+                              layout: layout,
+                              l10n: l10n,
+                              logs: alert.qrHistory,
+                              titleForLog: (log) => _logTitle(l10n, log),
+                            ),
+                          ],
                         ],
                       ),
-                    ),
-                  ],
-                  SizedBox(height: layout.spacing(14)),
-                  _GuestInfoCard(
-                    layout: layout,
-                    l10n: l10n,
-                    alert: alert,
-                  ),
-                  SizedBox(height: layout.spacing(16)),
-                  AppText(
-                    l10n.staffSupervisorDuplicateCurrentStatusTitle,
-                    variant: AppTextVariant.label,
-                    color: AppColors.secondaryGrey,
-                    fontWeight: FontWeight.w700,
-                    fontSize: layout.fontSize(12),
-                    letterSpacing: 0.8,
-                  ),
-                  SizedBox(height: layout.spacing(10)),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: _AccessSnapshotCard(
-                          layout: layout,
-                          l10n: l10n,
-                          title: l10n.staffSupervisorDuplicateLastValidTitle,
-                          snapshot: alert.lastValidAccess,
-                          isValid: true,
-                        ),
-                      ),
-                      SizedBox(width: layout.spacing(10)),
-                      Expanded(
-                        child: _AccessSnapshotCard(
-                          layout: layout,
-                          l10n: l10n,
-                          title: l10n.staffSupervisorDuplicateNewAttemptTitle,
-                          snapshot: alert.newAttempt,
-                          isValid: false,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: layout.spacing(18)),
-                  if (alert.isPending) ...[
-                  AppText(
-                    l10n.staffSupervisorDuplicatePossibleReasonTitle,
-                    variant: AppTextVariant.label,
-                    color: AppColors.secondaryGrey,
-                    fontWeight: FontWeight.w700,
-                    fontSize: layout.fontSize(12),
-                    letterSpacing: 0.8,
-                  ),
-                  SizedBox(height: layout.spacing(10)),
-                  Container(
-                    padding: EdgeInsets.all(layout.spacing(14)),
-                    decoration: BoxDecoration(
-                      color: AppColors.backgroundWhite,
-                      borderRadius: BorderRadius.circular(layout.radius(14)),
-                      border: Border.all(color: AppColors.homeDividerGrey),
-                    ),
-                    child: Wrap(
-                      spacing: layout.spacing(12),
-                      runSpacing: layout.spacing(8),
-                      children: StaffSupervisorDuplicateReason.values
-                          .map(
-                            (reason) => SizedBox(
-                              width: (MediaQuery.sizeOf(context).width -
-                                      layout.spacing(68)) /
-                                  2,
-                              child: _ReasonRadioTile(
-                                layout: layout,
-                                label: _reasonLabel(l10n, reason),
-                                selected: provider.selectedReason == reason,
-                                onTap: () => provider.selectReason(reason),
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                  SizedBox(height: layout.spacing(18)),
-                  AppText(
-                    l10n.staffSupervisorDuplicateSupervisorActionsTitle,
-                    variant: AppTextVariant.label,
-                    color: AppColors.secondaryGrey,
-                    fontWeight: FontWeight.w700,
-                    fontSize: layout.fontSize(12),
-                    letterSpacing: 0.8,
-                  ),
-                  SizedBox(height: layout.spacing(10)),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _SupervisorActionTile(
-                          layout: layout,
-                          icon: Icons.refresh_rounded,
-                          label: _actionLabel(
-                            l10n,
-                            StaffSupervisorDuplicateAction.revalidateQr,
-                          ),
-                          selected: provider.selectedAction ==
-                              StaffSupervisorDuplicateAction.revalidateQr,
-                          onTap: () => provider.selectAction(
-                            StaffSupervisorDuplicateAction.revalidateQr,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: layout.spacing(8)),
-                      Expanded(
-                        child: _SupervisorActionTile(
-                          layout: layout,
-                          icon: Icons.lock_open_rounded,
-                          label: _actionLabel(
-                            l10n,
-                            StaffSupervisorDuplicateAction.releaseReentry,
-                          ),
-                          selected: provider.selectedAction ==
-                              StaffSupervisorDuplicateAction.releaseReentry,
-                          onTap: () => provider.selectAction(
-                            StaffSupervisorDuplicateAction.releaseReentry,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: layout.spacing(8)),
-                      Expanded(
-                        child: _SupervisorActionTile(
-                          layout: layout,
-                          icon: Icons.block_rounded,
-                          label: _actionLabel(
-                            l10n,
-                            StaffSupervisorDuplicateAction.blockQr,
-                          ),
-                          selected: provider.selectedAction ==
-                              StaffSupervisorDuplicateAction.blockQr,
-                          onTap: () => provider.selectAction(
-                            StaffSupervisorDuplicateAction.blockQr,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: layout.spacing(8)),
-                      Expanded(
-                        child: _SupervisorActionTile(
-                          layout: layout,
-                          icon: Icons.warning_amber_rounded,
-                          label: _actionLabel(
-                            l10n,
-                            StaffSupervisorDuplicateAction.escalateAlert,
-                          ),
-                          selected: provider.selectedAction ==
-                              StaffSupervisorDuplicateAction.escalateAlert,
-                          onTap: () => provider.selectAction(
-                            StaffSupervisorDuplicateAction.escalateAlert,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: layout.spacing(18)),
-                  StaffSupervisorPinReasonForm(
-                    pinController: provider.pinController,
-                    reasonController: provider.reasonController,
-                    pinLabel: l10n.staffSupervisorAuthorizationPinLabel,
-                    reasonLabel: l10n.staffSupervisorReasonTitle,
-                    reasonHint: l10n.staffSupervisorDuplicateReasonPlaceholder,
-                    onChanged: provider.notifyFormChanged,
-                    reasonMaxLines: 3,
-                  ),
-                  ],
-                  SizedBox(height: layout.spacing(18)),
-                  _QrHistoryCard(
-                    layout: layout,
-                    l10n: l10n,
-                    logs: alert.qrHistory,
-                    titleForLog: (log) => _logTitle(l10n, log),
-                  ),
-                ],
-              ],
-            ),
+              ),
+              if (alert != null && alert.isPending)
+                StaffSupervisorExecuteFooter(
+                  label: l10n.staffSupervisorExecuteDuplicateButton,
+                  enabled: provider.canSubmit,
+                  isLoading: provider.isSubmitting,
+                  icon: Icons.verified_user_outlined,
+                  onPressed: () => _handleSubmit(context, provider),
+                ),
+              StaffConnectionStatusBar(
+                validatorLabel: _validatorFooterLabel(context, l10n),
+              ),
+            ],
           ),
-          if (alert != null && alert.isPending)
-            StaffSupervisorExecuteFooter(
-              label: l10n.staffSupervisorExecuteDuplicateButton,
-              enabled: provider.canSubmit,
-              isLoading: provider.isSubmitting,
-              icon: Icons.verified_user_outlined,
-              onPressed: () => _handleSubmit(context, provider),
-            ),
-          StaffConnectionStatusBar(
-            validatorLabel: _validatorFooterLabel(context, l10n),
-          ),
-        ],
-      ),
-    );
+        );
       },
     );
   }
@@ -458,7 +511,11 @@ class _DuplicateAlertBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.warning_amber_rounded, color: _accent, size: layout.spacing(22)),
+          Icon(
+            Icons.warning_amber_rounded,
+            color: _accent,
+            size: layout.spacing(22),
+          ),
           SizedBox(width: layout.spacing(10)),
           AppText(
             l10n.staffSupervisorDuplicateAlertTitle,
@@ -946,17 +1003,17 @@ class _QrHistoryCard extends StatelessWidget {
             final color = log.isSuccess
                 ? _successGreen
                 : log.isRejected
-                    ? _dangerRed
-                    : log.isResolved
-                        ? _successGreen
-                        : _accent;
+                ? _dangerRed
+                : log.isResolved
+                ? _successGreen
+                : _accent;
             final icon = log.isSuccess
                 ? Icons.check_circle_rounded
                 : log.isRejected
-                    ? Icons.cancel_rounded
-                    : log.isResolved
-                        ? Icons.verified_user_rounded
-                        : Icons.schedule_rounded;
+                ? Icons.cancel_rounded
+                : log.isResolved
+                ? Icons.verified_user_rounded
+                : Icons.schedule_rounded;
 
             return IntrinsicHeight(
               child: Row(
@@ -1008,7 +1065,9 @@ class _QrHistoryCard extends StatelessWidget {
                           AppText(
                             log.detail,
                             variant: AppTextVariant.body,
-                            color: log.isPending ? _accent : AppColors.homeBlack,
+                            color: log.isPending
+                                ? _accent
+                                : AppColors.homeBlack,
                             fontWeight: FontWeight.w600,
                             fontSize: layout.fontSize(13),
                           ),

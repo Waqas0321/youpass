@@ -9,10 +9,7 @@ import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_form_utils.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_supervisor_section_card.dart';
 
-enum StaffSupervisorPinReasonLayout {
-  vertical,
-  horizontal,
-}
+enum StaffSupervisorPinReasonLayout { vertical, horizontal }
 
 /// Shared PIN + mandatory reason block used across supervisor access screens.
 class StaffSupervisorPinReasonForm extends StatelessWidget {
@@ -120,7 +117,8 @@ class StaffSupervisorPinReasonForm extends StatelessWidget {
     final pinGap = layoutMetrics.spacing(4);
     final pinFieldWidth = pinBoxSize * 4 + pinGap * 3;
     final pinCardWidth =
-        pinFieldWidth + layoutMetrics.spacing(_SplitInputCard.compactPadding * 2);
+        pinFieldWidth +
+        layoutMetrics.spacing(_SplitInputCard.compactPadding * 2);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,11 +258,7 @@ class _FieldLabel extends StatelessWidget {
 
     return Row(
       children: [
-        Icon(
-          icon,
-          color: StaffSupervisorDesign.accent,
-          size: iconSize,
-        ),
+        Icon(icon, color: StaffSupervisorDesign.accent, size: iconSize),
         SizedBox(width: layout.spacing(compact ? 4 : 6)),
         Expanded(
           child: AppText(

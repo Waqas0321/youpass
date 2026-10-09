@@ -17,19 +17,17 @@ class PartyDrinksApiService extends BaseApiService {
   Future<EventDrinkOrderModel> createDrinkOrder({
     required String eventId,
     required Map<String, int> quantities,
+    String? paymentMethodId,
   }) {
     return postModel(
       ApiEndpoints.eventDrinkOrders(eventId),
       body: {
         'items': quantities.entries
             .where((entry) => entry.value > 0)
-            .map(
-              (entry) => {
-                'product_id': entry.key,
-                'quantity': entry.value,
-              },
-            )
+            .map((entry) => {'product_id': entry.key, 'quantity': entry.value})
             .toList(),
+        if (paymentMethodId != null && paymentMethodId.isNotEmpty)
+          'payment_method_id': paymentMethodId,
       },
       fromJson: EventDrinkOrderModel.fromJson,
       authenticated: true,

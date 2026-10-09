@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:youpass/core/constants/auth_layout_constants.dart';
 import 'package:youpass/core/config/app_product_config.dart';
@@ -8,13 +7,13 @@ import 'package:youpass/core/locale/locale_provider.dart';
 import 'package:youpass/core/l10n/app_localizations_extension.dart';
 import 'package:youpass/core/l10n/auth_error_extension.dart';
 import 'package:youpass/core/widgets/app_snack_bar.dart';
+import 'package:youpass/core/utils/birth_date_input_formatter.dart';
 import 'package:youpass/core/utils/phone_formatter.dart';
 import 'package:youpass/core/utils/phone_validators.dart';
 import 'package:youpass/core/utils/responsive_layout.dart';
 import 'package:youpass/core/widgets/app_text.dart';
 import 'package:youpass/core/widgets/app_text_variant.dart';
 import 'package:youpass/core/widgets/auth_icon_text_field.dart';
-import 'package:youpass/core/widgets/auth_picker_field.dart';
 import 'package:youpass/core/widgets/youpass_primary_button.dart';
 import 'package:youpass/features/auth/domain/entities/otp_purpose.dart';
 import 'package:youpass/features/auth/domain/entities/register_request_entity.dart';
@@ -22,7 +21,6 @@ import 'package:youpass/features/auth/presentation/providers/auth_provider.dart'
 import 'package:youpass/features/auth/presentation/utils/auth_navigation.dart';
 import 'package:youpass/features/auth/presentation/utils/register_otp_flow.dart';
 import 'package:youpass/features/auth/presentation/widgets/gender_checkbox_group_widget.dart';
-import 'package:youpass/features/profile/presentation/widgets/profile_instagram_icon.dart';
 import 'package:youpass/features/auth/presentation/widgets/phone_input_widget.dart';
 import 'package:youpass/features/auth/presentation/widgets/register_terms_widget.dart';
 import 'package:youpass/features/auth/routes/register_route_args.dart';
@@ -42,11 +40,10 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
   final TextEditingController idDocumentController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController instagramController = TextEditingController();
+  final TextEditingController birthDateController = TextEditingController();
   final GlobalKey<PhoneInputWidgetState> phoneInputKey =
       GlobalKey<PhoneInputWidgetState>();
 
-  DateTime? birthDate;
   String? selectedGender;
   bool termsAccepted = false;
 
@@ -69,41 +66,30 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
     idDocumentController.dispose();
     phoneController.dispose();
     emailController.dispose();
-    instagramController.dispose();
+    birthDateController.dispose();
     super.dispose();
   }
 
-  String? formatBirthDate(BuildContext context) {
-    if (birthDate == null) {
-      return null;
-    }
-
-    final locale = Localizations.localeOf(context).toString();
-    return DateFormat.yMMMd(locale).format(birthDate!);
-  }
-
   String formatBirthDateApi() {
-    if (birthDate == null) {
-      return '';
-    }
-
-    return DateFormat('yyyy-MM-dd').format(birthDate!);
+    return formatBirthDateApiFromDdMmYyyy(birthDateController.text);
   }
 
-  Future<void> pickBirthDate() async {
+  bool isBirthDateValid() {
+    final parsed = parseBirthDateDdMmYyyy(birthDateController.text);
+    if (parsed == null) {
+      return false;
+    }
+
     final now = DateTime.now();
     final minAge = AppProductConfig.registration.minAgeYears;
     final maxBirthDate = DateTime(now.year - minAge, now.month, now.day);
-    final pickedDate = await showDatePicker(
-      context: context,
-      initialDate: birthDate ?? maxBirthDate,
-      firstDate: DateTime(1900),
-      lastDate: maxBirthDate,
-    );
-
-    if (pickedDate != null) {
-      setState(() => birthDate = pickedDate);
+    if (parsed.isAfter(maxBirthDate)) {
+      return false;
     }
+    if (parsed.isBefore(DateTime(1900))) {
+      return false;
+    }
+    return true;
   }
 
   String? validatePhoneStep(AppLocalizations l10n) {
@@ -124,7 +110,7 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
     if (idDocumentController.text.trim().isEmpty) {
       return l10n.registerIdDocumentRequired;
     }
-    if (birthDate == null) {
+    if (!isBirthDateValid()) {
       return l10n.registerBirthDateRequired;
     }
     if (selectedGender == null) {
@@ -170,7 +156,6 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
         birthDate: formatBirthDateApi(),
         gender: selectedGender!,
         email: emailController.text.trim(),
-        instagram: instagramController.text.trim(),
         acceptTerms: termsAccepted,
         preferredLanguage: context.read<LocaleProvider>().locale.languageCode,
       ),
@@ -311,12 +296,14 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
           textInputAction: TextInputAction.next,
         ),
         SizedBox(height: fieldGap),
-        AuthPickerField(
+        AuthIconTextField(
           label: strings.birthDateLabel,
+          controller: birthDateController,
           hintText: strings.birthDateHint,
           icon: Icons.calendar_today_outlined,
-          value: formatBirthDate(context),
-          onTap: pickBirthDate,
+          keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.next,
+          inputFormatters: [BirthDateInputFormatter()],
         ),
         SizedBox(height: fieldGap),
         GenderCheckboxGroupWidget(
@@ -330,20 +317,6 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
           hintText: strings.emailHint,
           icon: Icons.mail_outline,
           keyboardType: TextInputType.emailAddress,
-          textInputAction: TextInputAction.next,
-        ),
-        SizedBox(height: fieldGap),
-        AuthIconTextField(
-          label: strings.instagramLabel,
-          controller: instagramController,
-          hintText: strings.instagramHint,
-          leading: ProfileInstagramIcon(
-            color: Theme.of(context)
-                .colorScheme
-                .onSurfaceVariant
-                .withValues(alpha: 0.7),
-            size: layout.fontSize(22),
-          ),
           textInputAction: TextInputAction.done,
         ),
         SizedBox(height: layout.spacing(24)),

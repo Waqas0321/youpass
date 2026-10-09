@@ -29,8 +29,9 @@ class YouPassPrimaryButton extends StatelessWidget {
         onPressed: isEnabled && !isLoading ? onPressed : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryMustard,
-          disabledBackgroundColor:
-              AppColors.primaryMustard.withValues(alpha: 0.5),
+          disabledBackgroundColor: AppColors.primaryMustard.withValues(
+            alpha: 0.5,
+          ),
           foregroundColor: AppColors.darkNavy,
           elevation: 0,
           shape: RoundedRectangleBorder(

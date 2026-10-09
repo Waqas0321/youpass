@@ -17,7 +17,6 @@ import 'package:youpass/staff_app/core/widgets/youpass_link_text.dart';
 import 'package:youpass/staff_app/core/widgets/youpass_primary_button.dart';
 import 'package:youpass/staff_app/features/auth/presentation/providers/staff_auth_provider.dart';
 import 'package:youpass/staff_app/features/home/presentation/utils/sync_staff_work_mode.dart';
-import 'package:youpass/staff_app/features/auth/presentation/utils/otp_autofill_helper.dart';
 import 'package:youpass/staff_app/features/auth/presentation/widgets/otp_input_widget.dart';
 import 'package:youpass/staff_app/features/auth/presentation/widgets/resend_code_widget.dart';
 import 'package:youpass/staff_app/features/auth/presentation/widgets/verification_header_widget.dart';
@@ -44,11 +43,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
   @override
   void initState() {
     super.initState();
-    secondsRemaining = OtpPolicy.resolveResendCooldown(args.resendCooldownSeconds);
+    secondsRemaining = OtpPolicy.resolveResendCooldown(
+      args.resendCooldownSeconds,
+    );
     _startResendTimer(secondsRemaining);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      applyPrefillOtp(args.prefillOtpCode, autoValidate: true);
-    });
+    // OTP must come from WhatsApp (or OS SMS autofill). Never prefill from API.
   }
 
   @override
@@ -61,17 +60,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   bool get canResend => secondsRemaining <= 0;
 
   void applyPrefillOtp(String? code, {bool autoValidate = false}) {
-    final normalized = OtpAutofillHelper.normalizePrefillCode(code);
-    if (normalized == null) {
-      return;
-    }
-
-    OtpAutofillHelper.applyToController(otpController, normalized);
-    handleOtpChanged(normalized);
-
-    if (autoValidate && mounted) {
-      scheduleAutoValidate();
-    }
+    // Intentionally no-op: API/dev codes must not auto-fill the verification field.
   }
 
   void scheduleAutoValidate() {
@@ -134,7 +123,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
       _startResendTimer(
         OtpPolicy.resolveResendCooldown(result.resendAvailableInSeconds),
       );
-      applyPrefillOtp(result.devOtpCode, autoValidate: true);
       return;
     }
 
@@ -171,10 +159,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
     if (success) {
       syncStaffWorkModeFromAuth(context);
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        StaffAppRoutes.home,
-        (_) => false,
-      );
+      Navigator.of(
+        context,
+      ).pushNamedAndRemoveUntil(StaffAppRoutes.home, (_) => false);
       return;
     }
 

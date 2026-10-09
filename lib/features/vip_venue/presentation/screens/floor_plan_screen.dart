@@ -209,6 +209,7 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
             zones: plan.zones,
             selectedZoneId: selectedZoneId,
             onZoneTap: selectZone,
+            eventTitle: widget.args.session.event.title,
           ),
           SizedBox(height: VipVenueDesignSpec.px(context, 16)),
           const VenueMapLegendWidget(),

@@ -8,10 +8,7 @@ import 'package:youpass/staff_app/core/widgets/app_text_variant.dart';
 import 'package:youpass/staff_app/core/widgets/auth_header_widget.dart';
 
 class VerificationHeaderWidget extends StatelessWidget {
-  const VerificationHeaderWidget({
-    super.key,
-    required this.phoneDisplay,
-  });
+  const VerificationHeaderWidget({super.key, required this.phoneDisplay});
 
   final String phoneDisplay;
 

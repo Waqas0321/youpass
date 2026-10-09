@@ -27,7 +27,9 @@ class InvitationsFooterNoteWidget extends StatelessWidget {
             width: iconSize,
             height: iconSize,
             decoration: BoxDecoration(
-              color: InvitationsScreenTheme.accent(context).withValues(alpha: 0.15),
+              color: InvitationsScreenTheme.accent(
+                context,
+              ).withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
             alignment: Alignment.center,

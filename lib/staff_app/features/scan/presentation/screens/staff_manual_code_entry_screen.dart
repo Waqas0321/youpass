@@ -19,10 +19,7 @@ import 'package:youpass/staff_app/routes/app_routes.dart';
 
 /// Regular-staff manual code validation (same API path as QR scanning).
 class StaffManualCodeEntryScreen extends StatefulWidget {
-  const StaffManualCodeEntryScreen({
-    super.key,
-    required this.purpose,
-  });
+  const StaffManualCodeEntryScreen({super.key, required this.purpose});
 
   final StaffQrScanPurpose purpose;
 
@@ -31,7 +28,8 @@ class StaffManualCodeEntryScreen extends StatefulWidget {
       _StaffManualCodeEntryScreenState();
 }
 
-class _StaffManualCodeEntryScreenState extends State<StaffManualCodeEntryScreen> {
+class _StaffManualCodeEntryScreenState
+    extends State<StaffManualCodeEntryScreen> {
   final TextEditingController _codeController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final StaffScanApiService _scanApiService = StaffScanApiService(ApiClient());
@@ -86,7 +84,9 @@ class _StaffManualCodeEntryScreenState extends State<StaffManualCodeEntryScreen>
         StaffScanMessageLocalizer.fromError(context.l10n, error),
       );
       if (error is ApiException &&
-          (error.code == 'UNAUTHORIZED' || error.code == 'SESSION_INVALID')) {
+          (error.code == 'UNAUTHORIZED' ||
+              error.code == 'SESSION_INVALID' ||
+              error.code == 'STAFF_INACTIVE')) {
         Navigator.of(context).pop();
         return;
       }
@@ -219,14 +219,12 @@ class _StaffManualCodeEntryScreenState extends State<StaffManualCodeEntryScreen>
                 SizedBox(
                   width: double.infinity,
                   child: FilledButton(
-                    onPressed: _isSubmitting || !_canSubmit
-                        ? null
-                        : _submit,
+                    onPressed: _isSubmitting || !_canSubmit ? null : _submit,
                     style: FilledButton.styleFrom(
                       backgroundColor: AppColors.primaryMustard,
                       foregroundColor: AppColors.backgroundWhite,
-                      disabledBackgroundColor:
-                          AppColors.primaryMustard.withValues(alpha: 0.4),
+                      disabledBackgroundColor: AppColors.primaryMustard
+                          .withValues(alpha: 0.4),
                       padding: EdgeInsets.symmetric(
                         vertical: layout.spacing(16),
                       ),

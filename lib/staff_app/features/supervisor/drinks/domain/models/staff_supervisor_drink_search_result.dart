@@ -13,12 +13,7 @@ enum StaffSupervisorDrinkQuickFilter {
   duplicate,
 }
 
-enum StaffSupervisorDrinkEventKind {
-  validated,
-  duplicate,
-  supervisor,
-  unknown,
-}
+enum StaffSupervisorDrinkEventKind { validated, duplicate, supervisor, unknown }
 
 class StaffSupervisorDrinkEventLog {
   const StaffSupervisorDrinkEventLog({
@@ -160,7 +155,8 @@ class StaffSupervisorDrinkSearchResult {
   }
 }
 
-class StaffSupervisorDrinkSearchDetail extends StaffSupervisorDrinkSearchResult {
+class StaffSupervisorDrinkSearchDetail
+    extends StaffSupervisorDrinkSearchResult {
   const StaffSupervisorDrinkSearchDetail({
     required super.redemptionId,
     required super.orderId,
@@ -235,7 +231,9 @@ class StaffSupervisorDrinkSearchResponse {
   final List<StaffSupervisorDrinkSearchResult> results;
   final int total;
 
-  factory StaffSupervisorDrinkSearchResponse.fromJson(Map<String, dynamic> json) {
+  factory StaffSupervisorDrinkSearchResponse.fromJson(
+    Map<String, dynamic> json,
+  ) {
     final rawResults = json['results'];
     final resultsList = rawResults is List<dynamic> ? rawResults : const [];
 
@@ -259,7 +257,8 @@ class StaffSupervisorDrinkSearchResponse {
   }
 }
 
-extension StaffSupervisorDrinkQuickFilterApi on StaffSupervisorDrinkQuickFilter {
+extension StaffSupervisorDrinkQuickFilterApi
+    on StaffSupervisorDrinkQuickFilter {
   String get apiValue {
     switch (this) {
       case StaffSupervisorDrinkQuickFilter.validated:

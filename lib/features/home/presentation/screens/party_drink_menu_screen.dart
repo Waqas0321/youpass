@@ -1,3 +1,6 @@
+import 'package:youpass/features/profile/data/services/profile_api_service.dart';
+import 'package:youpass/features/profile/data/models/profile_wallet_card_model.dart';
+import 'package:youpass/dependency_injection/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
@@ -28,11 +31,7 @@ import 'package:youpass/features/tickets/data/services/tickets_api_service.dart'
 import 'package:youpass/routes/app_routes.dart';
 
 class PartyDrinkMenuScreen extends StatefulWidget {
-  const PartyDrinkMenuScreen({
-    super.key,
-    this.eventId,
-    this.eventTitle,
-  });
+  const PartyDrinkMenuScreen({super.key, this.eventId, this.eventTitle});
 
   final String? eventId;
   final String? eventTitle;
@@ -83,12 +82,34 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
 
   bool get _showRecommendations => _recommendedDrinks.isNotEmpty;
 
+  /// Card shown in the checkout bar (default wallet card); the summary sheet
+  /// still lets the user pick another one.
+  ProfileWalletCardModel? _checkoutCard;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadMenu();
+      _loadCheckoutCard();
     });
+  }
+
+  Future<void> _loadCheckoutCard() async {
+    try {
+      final cards = await sl<ProfileApiService>().fetchWalletCards();
+      if (!mounted || cards.isEmpty) {
+        return;
+      }
+      setState(() {
+        _checkoutCard = cards.firstWhere(
+          (card) => card.isDefault,
+          orElse: () => cards.first,
+        );
+      });
+    } catch (_) {
+      // Bar falls back to a generic label; checkout sheet handles card errors.
+    }
   }
 
   Future<void> _refreshMenu() async {
@@ -142,10 +163,7 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
 
       setState(() {
         menuCategories = PartyDrinkMenuMapper.categories(menu);
-        drinks = PartyDrinkMenuMapper.products(
-          menu,
-          eventId: resolved.eventId,
-        );
+        drinks = PartyDrinkMenuMapper.products(menu, eventId: resolved.eventId);
         eventTitle = resolved.eventTitle ?? homeProvider.partyModeEventTitle;
         eventId = resolved.eventId;
         isLoading = false;
@@ -216,8 +234,10 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
 
   void _toggleCategory(String categorySlug) {
     setState(() {
-      selectedCategories =
-          PartyDrinkCategoryFilter.toggleCategory(selectedCategories, categorySlug);
+      selectedCategories = PartyDrinkCategoryFilter.toggleCategory(
+        selectedCategories,
+        categorySlug,
+      );
     });
   }
 
@@ -237,14 +257,19 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
     );
   }
 
-  Future<void> _completePurchase(PartyDrinkCartSummary cart) async {
+  Future<void> _completePurchase(
+    PartyDrinkCartSummary cart,
+    String? paymentMethodId,
+  ) async {
     final currentEventId = eventId;
     if (currentEventId == null || currentEventId.isEmpty) {
       if (!mounted) {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Could not determine the event for this order.')),
+        const SnackBar(
+          content: Text('Could not determine the event for this order.'),
+        ),
       );
       throw StateError('Missing event id');
     }
@@ -273,6 +298,7 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
         final order = await api.createDrinkOrder(
           eventId: entry.key,
           quantities: entry.value,
+          paymentMethodId: paymentMethodId,
         );
         confirmations.addAll(PartyDrinkOrderMapper.toConfirmations(order));
       }
@@ -294,15 +320,14 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
 
       setState(() => quantities.clear());
 
-      await Navigator.of(context).pushNamed(
-        AppRoutes.partyDrinkPurchaseSuccess,
-        arguments: args,
-      );
+      await Navigator.of(
+        context,
+      ).pushNamed(AppRoutes.partyDrinkPurchaseSuccess, arguments: args);
     } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(error.toString())),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(error.toString())));
       }
       rethrow;
     }
@@ -352,9 +377,7 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
     );
   }
 
-  Widget _buildLoadingBody({
-    required double horizontalPadding,
-  }) {
+  Widget _buildLoadingBody({required double horizontalPadding}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -364,9 +387,7 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
     );
   }
 
-  Widget _buildErrorBody({
-    required double horizontalPadding,
-  }) {
+  Widget _buildErrorBody({required double horizontalPadding}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -400,9 +421,7 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
     );
   }
 
-  Widget _buildEmptyMenuBody({
-    required double horizontalPadding,
-  }) {
+  Widget _buildEmptyMenuBody({required double horizontalPadding}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -512,7 +531,10 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final gap = PartyDrinksDesignSpec.px(context, PartyDrinksDesignSpec.gridGap);
+    final gap = PartyDrinksDesignSpec.px(
+      context,
+      PartyDrinksDesignSpec.gridGap,
+    );
     final horizontalPadding = PartyDrinksDesignSpec.px(
       context,
       PartyDrinksDesignSpec.horizontalPadding,
@@ -537,10 +559,12 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
             Positioned(
               left: horizontalPadding,
               right: horizontalPadding,
-              bottom: MediaQuery.paddingOf(context).bottom +
+              bottom:
+                  MediaQuery.paddingOf(context).bottom +
                   PartyDrinksDesignSpec.px(context, 12),
               child: PartyDrinkCheckoutBarWidget(
                 cart: cart,
+                card: _checkoutCard,
                 onBuyTap: _openCheckoutSummary,
               ),
             ),
@@ -551,10 +575,7 @@ class _PartyDrinkMenuScreenState extends State<PartyDrinkMenuScreen> {
 }
 
 class _PartyDrinkEventContext {
-  const _PartyDrinkEventContext({
-    required this.eventId,
-    this.eventTitle,
-  });
+  const _PartyDrinkEventContext({required this.eventId, this.eventTitle});
 
   final String eventId;
   final String? eventTitle;

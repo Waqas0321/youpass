@@ -39,10 +39,7 @@ class PartyDrinkCardWidget extends StatelessWidget {
 
         return Material(
           color: PartyDrinksDesignSpec.cardBackground,
-          shape: RoundedRectangleBorder(
-            borderRadius: radius,
-            side: borderSide,
-          ),
+          shape: RoundedRectangleBorder(borderRadius: radius, side: borderSide),
           clipBehavior: Clip.antiAlias,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -117,7 +114,9 @@ class PartyDrinkCardWidget extends StatelessWidget {
                     if (drink.volumeMl > 0) ...[
                       SizedBox(height: gap),
                       Align(
-                        child: PartyDrinkVolumeBadgeWidget(volumeMl: drink.volumeMl),
+                        child: PartyDrinkVolumeBadgeWidget(
+                          volumeMl: drink.volumeMl,
+                        ),
                       ),
                     ],
                     SizedBox(height: PartyDrinksDesignSpec.px(context, 10)),

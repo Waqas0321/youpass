@@ -8,12 +8,10 @@
     <!-- Ticket assignment: pick a contact from the phone book -->
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
-    <!-- Profile photo: pick from gallery (Android 13+) -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-    <!-- Profile photo: pick from gallery (Android 12 and below) -->
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32"/>
+    <!-- Profile photo uses the Android Photo Picker / system gallery intent.
+         Do NOT declare READ_MEDIA_IMAGES or READ_EXTERNAL_STORAGE — one-time
+         profile photo selection does not qualify under Google Play's Photo and
+         Video Permissions policy. -->
 
     <!-- Near me: GPS-based event sorting on home -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -24,7 +22,7 @@
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
 
     <application
-        android:label="youpass"
+        android:label="YouPass"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"

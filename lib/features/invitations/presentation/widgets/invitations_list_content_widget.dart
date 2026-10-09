@@ -59,7 +59,7 @@ class InvitationsListContentWidget extends StatelessWidget {
   final ValueChanged<WaitlistEntryEntity> onLeaveWaitlist;
   final ValueChanged<WaitlistEntryEntity> onClaimWaitlistSlot;
   final bool Function(String invitationId, InvitationSubmitAction action)
-      isActionLoading;
+  isActionLoading;
   final bool Function(String invitationId) isAnyActionLoading;
 
   String _emptyMessage(BuildContext context) {
@@ -78,8 +78,10 @@ class InvitationsListContentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    final horizontalPadding =
-        InvitationsDesignSpec.px(context, InvitationsDesignSpec.horizontalPadding);
+    final horizontalPadding = InvitationsDesignSpec.px(
+      context,
+      InvitationsDesignSpec.horizontalPadding,
+    );
     final bottomPadding = InvitationsDesignSpec.px(context, 24);
 
     return Column(
@@ -156,13 +158,15 @@ class InvitationsListContentWidget extends StatelessWidget {
                       );
                     }
 
-                    final invitation = invitations[index - waitlistEntries.length];
+                    final invitation =
+                        invitations[index - waitlistEntries.length];
                     final waiting = isAnyActionLoading(invitation.id);
                     return InvitationCardWidget(
                       invitation: invitation,
                       isWaitingForConfirmation: waiting,
-                      onOpenDetail:
-                          waiting ? null : () => onOpenDetail(invitation),
+                      onOpenDetail: waiting
+                          ? null
+                          : () => onOpenDetail(invitation),
                       onConfirm: invitation.status.isPending && !waiting
                           ? () => onConfirmAttendance(invitation)
                           : null,
@@ -185,7 +189,8 @@ class InvitationsListContentWidget extends StatelessWidget {
                         invitation.id,
                         InvitationSubmitAction.cancel,
                       ),
-                      isViewQrLoading: invitation.canFetchQrFromApi &&
+                      isViewQrLoading:
+                          invitation.canFetchQrFromApi &&
                           isActionLoading(
                             invitation.id,
                             InvitationSubmitAction.viewQr,

@@ -32,8 +32,36 @@ class LocaleProvider extends ChangeNotifier {
     setLocale(CountryLocaleMapper.localeForLanguageCode(languageCode));
   }
 
-  /// Phone / billing country must not change UI language.
-  void setLocaleFromCountry(String isoCode) {}
+  /// Chile (and other Spanish LatAm countries) use Spanish UI by default.
+  void setLocaleFromCountry(String isoCode) {
+    final code = isoCode.trim().toUpperCase();
+    const spanishCountries = {
+      'CL',
+      'AR',
+      'MX',
+      'PE',
+      'CO',
+      'UY',
+      'PY',
+      'BO',
+      'EC',
+      'VE',
+      'CR',
+      'PA',
+      'GT',
+      'SV',
+      'HN',
+      'NI',
+      'DO',
+    };
+    if (spanishCountries.contains(code)) {
+      setSpanish();
+      return;
+    }
+    if (code == 'BR') {
+      setPortuguese();
+    }
+  }
 
   void setEnglish() => setLocale(AppLocale.english);
 
@@ -50,7 +78,13 @@ class LocaleProvider extends ChangeNotifier {
       }
     }
 
-    // Honor the full preferred-languages list (e.g. en then es).
+    // Prefer Spanish when the device offers it (Chile / LatAm).
+    for (final locale in PlatformDispatcher.instance.locales) {
+      if (locale.languageCode.toLowerCase() == 'es') {
+        return AppLocale.spanish;
+      }
+    }
+
     for (final locale in PlatformDispatcher.instance.locales) {
       final matched = AppLocale.fromLanguageCode(locale.languageCode);
       if (matched != null) {
@@ -58,6 +92,6 @@ class LocaleProvider extends ChangeNotifier {
       }
     }
 
-    return AppLocale.resolveSupported(PlatformDispatcher.instance.locale);
+    return AppLocale.defaultLocale;
   }
 }

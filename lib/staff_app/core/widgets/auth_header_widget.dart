@@ -4,11 +4,7 @@ import 'package:youpass/staff_app/core/widgets/app_text.dart';
 import 'package:youpass/staff_app/core/widgets/app_text_variant.dart';
 
 class AuthHeaderWidget extends StatelessWidget {
-  const AuthHeaderWidget({
-    super.key,
-    required this.title,
-    this.subtitle,
-  });
+  const AuthHeaderWidget({super.key, required this.title, this.subtitle});
 
   final String title;
   final String? subtitle;

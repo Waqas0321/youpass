@@ -31,6 +31,7 @@ class InvitationModel extends InvitationEntity {
     super.noShowChargeLabel,
     super.customMessage,
     super.cancellationDeadlineLabel,
+    super.cancellationDeadline,
     super.entryCode,
     super.qrPayload,
     super.qrStatus,
@@ -69,9 +70,12 @@ class InvitationModel extends InvitationEntity {
       tier: _parseTier(json['tier'] ?? json['ticket_tier']),
       type: json['type']?.toString(),
       source: json['source']?.toString(),
-      productKind: json['product_kind']?.toString() ?? json['productKind']?.toString(),
-      productLabel: json['product_label']?.toString() ?? json['productLabel']?.toString(),
-      typeColorHex: json['type_color']?.toString() ?? json['typeColor']?.toString(),
+      productKind:
+          json['product_kind']?.toString() ?? json['productKind']?.toString(),
+      productLabel:
+          json['product_label']?.toString() ?? json['productLabel']?.toString(),
+      typeColorHex:
+          json['type_color']?.toString() ?? json['typeColor']?.toString(),
       status: _parseStatus(json['lifecycle_state'] ?? json['status']),
       requiresPaymentMethod: _parseBool(
         json['requires_payment_method'] ?? json['requiresPaymentMethod'],
@@ -82,27 +86,43 @@ class InvitationModel extends InvitationEntity {
       chargeAmount: _parseDouble(
         json['entry_value'] ?? json['charge_amount'] ?? json['chargeAmount'],
       ),
-      chargeCurrency: json['charge_currency']?.toString() ?? json['chargeCurrency']?.toString(),
+      chargeCurrency:
+          json['charge_currency']?.toString() ??
+          json['chargeCurrency']?.toString(),
       discountPercent: _parseInt(
-        json['discount_percentage'] ?? json['discount_percent'] ?? json['discountPercent'],
+        json['discount_percentage'] ??
+            json['discount_percent'] ??
+            json['discountPercent'],
       ),
       acceptAmount: _parseDouble(
         json['amount_to_pay'] ?? json['accept_amount'] ?? json['acceptAmount'],
       ),
       acceptAmountLabel:
-          json['accept_amount_label']?.toString() ?? json['acceptAmountLabel']?.toString(),
-      noShowChargeAmount:
-          _parseDouble(json['no_show_charge_amount'] ?? json['noShowChargeAmount']),
+          json['accept_amount_label']?.toString() ??
+          json['acceptAmountLabel']?.toString(),
+      noShowChargeAmount: _parseDouble(
+        json['no_show_charge_amount'] ?? json['noShowChargeAmount'],
+      ),
       noShowChargeLabel:
-          json['no_show_charge_label']?.toString() ?? json['noShowChargeLabel']?.toString(),
-      customMessage: json['custom_message']?.toString() ?? json['customMessage']?.toString(),
-      cancellationDeadlineLabel: json['cancellation_deadline_label']?.toString() ??
+          json['no_show_charge_label']?.toString() ??
+          json['noShowChargeLabel']?.toString(),
+      customMessage:
+          json['custom_message']?.toString() ??
+          json['customMessage']?.toString(),
+      cancellationDeadlineLabel:
+          json['cancellation_deadline_label']?.toString() ??
           json['cancellationDeadlineLabel']?.toString(),
-      entryCode: json['entry_code']?.toString() ?? json['entryCode']?.toString(),
-      qrPayload: json['qr_payload']?.toString() ?? json['qrPayload']?.toString(),
+      cancellationDeadline: DateTime.tryParse(
+        '${json['cancellation_deadline'] ?? json['cancellationDeadline'] ?? ''}',
+      ),
+      entryCode:
+          json['entry_code']?.toString() ?? json['entryCode']?.toString(),
+      qrPayload:
+          json['qr_payload']?.toString() ?? json['qrPayload']?.toString(),
       qrStatus: _parseQrStatus(json['qr_status'] ?? json['qrStatus']),
       invitedBy: _parseInvitedBy(json['invited_by'] ?? json['invitedBy']),
-      expiresAtLabel: json['expires_at_label']?.toString() ??
+      expiresAtLabel:
+          json['expires_at_label']?.toString() ??
           json['expiresAtLabel']?.toString(),
       assignedSlot:
           json['assigned_slot']?.toString() ?? json['assignedSlot']?.toString(),
@@ -113,8 +133,9 @@ class InvitationModel extends InvitationEntity {
       canReject: _parseBool(json['can_reject'] ?? json['canReject']),
       canCancel: _parseBool(json['can_cancel'] ?? json['canCancel']),
       canViewQr: _parseBool(json['can_view_qr'] ?? json['canViewQr']),
-      preauthActive:
-          _parseBool(json['preauth_active'] ?? json['preauthActive']),
+      preauthActive: _parseBool(
+        json['preauth_active'] ?? json['preauthActive'],
+      ),
     );
   }
 
@@ -248,7 +269,8 @@ class InvitationModel extends InvitationEntity {
     }
 
     if (payload is Map<String, dynamic>) {
-      final nested = payload['invitations'] ?? payload['items'] ?? payload['data'];
+      final nested =
+          payload['invitations'] ?? payload['items'] ?? payload['data'];
       return listFromPayload(nested);
     }
 

@@ -110,6 +110,12 @@ abstract class AppLocalizations {
   /// **'Sign in with your number and receive your code via WhatsApp'**
   String get phoneLoginSubtitle;
 
+  /// No description provided for @registerPhoneSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your number and we\'ll send you a code via WhatsApp to create your account'**
+  String get registerPhoneSubtitle;
+
   /// No description provided for @codeSentWhatsApp.
   ///
   /// In en, this message translates to:
@@ -773,7 +779,7 @@ abstract class AppLocalizations {
   /// No description provided for @registerBirthDateRequired.
   ///
   /// In en, this message translates to:
-  /// **'Select your date of birth'**
+  /// **'Enter your date of birth as DD/MM/YYYY'**
   String get registerBirthDateRequired;
 
   /// No description provided for @registerGenderRequired.
@@ -908,6 +914,12 @@ abstract class AppLocalizations {
   /// **'Too many resend attempts. Try again later.'**
   String get errorMaxResends;
 
+  /// No description provided for @errorAccountBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been blocked. Please contact support at soporte@youpass.app.'**
+  String get errorAccountBlocked;
+
   /// No description provided for @errorBlocked.
   ///
   /// In en, this message translates to:
@@ -977,7 +989,7 @@ abstract class AppLocalizations {
   /// No description provided for @birthDateHint.
   ///
   /// In en, this message translates to:
-  /// **'Select your date of birth'**
+  /// **'DD/MM/YYYY'**
   String get birthDateHint;
 
   /// No description provided for @genderLabel.
@@ -1223,7 +1235,7 @@ abstract class AppLocalizations {
   /// No description provided for @partyDrinkQuickRecommendationsSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Most ordered at YouFest'**
+  /// **'Most ordered tonight'**
   String get partyDrinkQuickRecommendationsSubtitle;
 
   /// No description provided for @partyDrinkMockPiscola.
@@ -1315,6 +1327,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Credit card'**
   String get partyDrinkCheckoutCreditCard;
+
+  /// No description provided for @partyDrinkCheckoutNoCharge.
+  ///
+  /// In en, this message translates to:
+  /// **'Courtesy · no charge'**
+  String get partyDrinkCheckoutNoCharge;
 
   /// No description provided for @partyDrinkCheckoutCardMask.
   ///
@@ -3434,6 +3452,12 @@ abstract class AppLocalizations {
   /// **'If you wish to cancel your attendance, you must do so at least 48 hours in advance to avoid being charged.'**
   String get invitationsCardSavedReminderCancel;
 
+  /// No description provided for @invitationsCardSavedReminderCancelBy.
+  ///
+  /// In en, this message translates to:
+  /// **'If you wish to cancel your attendance, you must do so before {deadline} to avoid being charged.'**
+  String invitationsCardSavedReminderCancelBy(String deadline);
+
   /// No description provided for @eventTicketScreenTitle.
   ///
   /// In en, this message translates to:
@@ -4190,6 +4214,24 @@ abstract class AppLocalizations {
   /// **'Sold out'**
   String get vipTicketSoldOutBadge;
 
+  /// No description provided for @vipTicketPausedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get vipTicketPausedBadge;
+
+  /// No description provided for @vipTicketUnavailableBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Not available'**
+  String get vipTicketUnavailableBadge;
+
+  /// No description provided for @vipTicketsSalesUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket sales are not available right now. Check back soon.'**
+  String get vipTicketsSalesUnavailable;
+
   /// No description provided for @vipTicketsNoneAvailable.
   ///
   /// In en, this message translates to:
@@ -4800,6 +4842,12 @@ abstract class AppLocalizations {
   /// **'No staff account found for this number. Ask your admin to register you.'**
   String get errorStaffNotFound;
 
+  /// No description provided for @errorStaffAccessPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Your staff access is paused. Contact the event administrator.'**
+  String get errorStaffAccessPaused;
+
   /// No description provided for @errorNetworkConnection.
   ///
   /// In en, this message translates to:
@@ -5363,6 +5411,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Incorrect PIN. Try again.'**
   String get staffSupervisorPinInvalid;
+
+  /// No description provided for @staffSupervisorPinOfflineSetupRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect once and enter your supervisor PIN. After that, offline unlock works on this device.'**
+  String get staffSupervisorPinOfflineSetupRequired;
 
   /// No description provided for @staffSupervisorPinNotConfigured.
   ///

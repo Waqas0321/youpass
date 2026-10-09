@@ -46,7 +46,8 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
     FocusManager.instance.primaryFocus?.unfocus();
 
     final country =
-        phoneInputKey.currentState?.currentCountry ?? CountryCodeList.defaultCountry;
+        phoneInputKey.currentState?.currentCountry ??
+        CountryCodeList.defaultCountry;
     final phoneDigits = resolvePhoneDigits();
     final l10n = context.l10n;
     final validationError = PhoneValidators.validateNationalNumber(
@@ -84,7 +85,6 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
             result.resendAvailableInSeconds,
           ),
           expiresInSeconds: OtpPolicy.resolveOtpTtl(result.expiresInSeconds),
-          prefillOtpCode: result.devOtpCode,
         ),
       );
       return;
@@ -123,10 +123,7 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
         ),
         if (_errorMessage != null) ...[
           SizedBox(height: layout.spacing(12)),
-          AppText(
-            _errorMessage!,
-            variant: AppTextVariant.error,
-          ),
+          AppText(_errorMessage!, variant: AppTextVariant.error),
         ],
         SizedBox(height: layout.spacing(28)),
         YouPassPrimaryButton(

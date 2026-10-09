@@ -44,10 +44,7 @@ class PartyDrinkPurchasesTabsWidget extends StatelessWidget {
                 onTap: () => onTabSelected(PartyDrinkPurchasesTab.pending),
               ),
             ),
-            Container(
-              width: dividerWidth,
-              color: PartyDrinksDesignSpec.gold,
-            ),
+            Container(width: dividerWidth, color: PartyDrinksDesignSpec.gold),
             Expanded(
               child: _TabSegment(
                 label: AppStrings.partyDrinkPurchasesTabUsed(strings),

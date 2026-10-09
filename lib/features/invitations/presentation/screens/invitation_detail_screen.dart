@@ -38,8 +38,7 @@ class InvitationDetailScreen extends StatelessWidget {
       InvitationProductKind.guaranteedPass =>
         AppStrings.invitationsGuaranteedPassDetailTitle(strings),
       InvitationProductKind.discounted ||
-      InvitationProductKind.free =>
-        AppStrings.invitationsDetailTitle(strings),
+      InvitationProductKind.free => AppStrings.invitationsDetailTitle(strings),
     };
   }
 
@@ -63,8 +62,7 @@ class InvitationDetailScreen extends StatelessWidget {
           switch (kind) {
             InvitationProductKind.guaranteedPass =>
               InvitationDetailGuaranteedPassPanelWidget(invitation: invitation),
-            InvitationProductKind.free ||
-            InvitationProductKind.discounted =>
+            InvitationProductKind.free || InvitationProductKind.discounted =>
               InvitationDetailActionsWidget(invitation: invitation),
           },
         ],

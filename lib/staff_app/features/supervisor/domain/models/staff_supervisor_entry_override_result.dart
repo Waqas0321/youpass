@@ -6,13 +6,16 @@ enum StaffSupervisorEntryOverrideAction {
   temporaryUnlock,
 }
 
-extension StaffSupervisorEntryOverrideActionApi on StaffSupervisorEntryOverrideAction {
+extension StaffSupervisorEntryOverrideActionApi
+    on StaffSupervisorEntryOverrideAction {
   String get apiValue {
     return switch (this) {
       StaffSupervisorEntryOverrideAction.releaseQr => 'release_qr',
       StaffSupervisorEntryOverrideAction.revalidateQr => 'revalidate_qr',
-      StaffSupervisorEntryOverrideAction.revertValidation => 'revert_validation',
-      StaffSupervisorEntryOverrideAction.authorizeReentry => 'authorize_reentry',
+      StaffSupervisorEntryOverrideAction.revertValidation =>
+        'revert_validation',
+      StaffSupervisorEntryOverrideAction.authorizeReentry =>
+        'authorize_reentry',
       StaffSupervisorEntryOverrideAction.temporaryUnlock => 'temporary_unlock',
     };
   }
@@ -100,7 +103,8 @@ class StaffSupervisorEntryOverrideContext {
   final String scannerId;
   final List<StaffSupervisorEntryOverrideLog> logs;
 
-  StaffSupervisorEntryOverrideResult get result => StaffSupervisorEntryOverrideResult(
+  StaffSupervisorEntryOverrideResult get result =>
+      StaffSupervisorEntryOverrideResult(
         guestName: guestName,
         initials: initials,
         eventName: eventName,
@@ -114,7 +118,9 @@ class StaffSupervisorEntryOverrideContext {
         entryStatus: entryStatus,
       );
 
-  factory StaffSupervisorEntryOverrideContext.fromJson(Map<String, dynamic> json) {
+  factory StaffSupervisorEntryOverrideContext.fromJson(
+    Map<String, dynamic> json,
+  ) {
     final logsJson = json['logs'] as List<dynamic>? ?? const [];
 
     return StaffSupervisorEntryOverrideContext(

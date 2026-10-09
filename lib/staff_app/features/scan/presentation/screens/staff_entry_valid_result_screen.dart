@@ -11,10 +11,7 @@ import 'package:youpass/staff_app/features/scan/presentation/widgets/staff_scan_
 import 'package:youpass/staff_app/features/scan/presentation/widgets/staff_scan_viewfinder_overlay.dart';
 
 class StaffEntryValidResultScreen extends StatelessWidget {
-  const StaffEntryValidResultScreen({
-    super.key,
-    required this.result,
-  });
+  const StaffEntryValidResultScreen({super.key, required this.result});
 
   final StaffQrScanResult result;
 
@@ -84,10 +81,7 @@ class StaffEntryValidResultScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        Icons.smartphone_rounded,
-                        size: layout.spacing(20),
-                      ),
+                      Icon(Icons.smartphone_rounded, size: layout.spacing(20)),
                       SizedBox(width: layout.spacing(10)),
                       AppText(
                         l10n.staffEntryValidAllowButton,
@@ -153,7 +147,9 @@ class _EntryValidCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(layout.radius(24)),
         boxShadow: [
           BoxShadow(
-            color: StaffEntryValidResultScreen._cardGreen.withValues(alpha: 0.28),
+            color: StaffEntryValidResultScreen._cardGreen.withValues(
+              alpha: 0.28,
+            ),
             blurRadius: layout.spacing(18),
             offset: Offset(0, layout.spacing(8)),
           ),
@@ -408,10 +404,7 @@ class _EntryValidSplitRow extends StatelessWidget {
 }
 
 class _EntryValidIconCircle extends StatelessWidget {
-  const _EntryValidIconCircle({
-    required this.layout,
-    required this.icon,
-  });
+  const _EntryValidIconCircle({required this.layout, required this.icon});
 
   final ResponsiveLayout layout;
   final IconData icon;

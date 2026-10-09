@@ -123,14 +123,15 @@ Future<void> showStaffSupervisorRedemptionDetailSheet(
               ),
               SizedBox(height: layout.spacing(10)),
             ],
-            if (entry.redemptionId != null && entry.redemptionId!.isNotEmpty) ...[
+            if (entry.redemptionId != null &&
+                entry.redemptionId!.isNotEmpty) ...[
               SizedBox(height: layout.spacing(8)),
               FilledButton(
                 onPressed: () {
                   Navigator.of(sheetContext).pop();
-                  Navigator.of(context).pushNamed(
-                    StaffAppRoutes.supervisorCancellations,
-                  );
+                  Navigator.of(
+                    context,
+                  ).pushNamed(StaffAppRoutes.supervisorCancellations);
                 },
                 child: Text(l10n.staffSupervisorSearchManagePurchaseTitle),
               ),

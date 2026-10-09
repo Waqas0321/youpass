@@ -60,7 +60,9 @@ class StaffSupervisorBarActionHistoryEntry {
     }
   }
 
-  factory StaffSupervisorBarActionHistoryEntry.fromJson(Map<String, dynamic> json) {
+  factory StaffSupervisorBarActionHistoryEntry.fromJson(
+    Map<String, dynamic> json,
+  ) {
     return StaffSupervisorBarActionHistoryEntry(
       id: json['id'] as String? ?? '',
       scope: json['scope'] as String? ?? '',
@@ -99,7 +101,9 @@ class StaffSupervisorBarActionHistoryResult {
   final List<StaffSupervisorBarActionHistoryEntry> actions;
   final int total;
 
-  factory StaffSupervisorBarActionHistoryResult.fromJson(Map<String, dynamic> json) {
+  factory StaffSupervisorBarActionHistoryResult.fromJson(
+    Map<String, dynamic> json,
+  ) {
     final rawActions = json['actions'];
     final actionsList = rawActions is List<dynamic> ? rawActions : const [];
 

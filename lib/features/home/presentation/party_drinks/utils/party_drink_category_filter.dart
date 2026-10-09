@@ -3,10 +3,7 @@ import 'package:youpass/features/home/presentation/party_drinks/models/party_dri
 class PartyDrinkCategoryFilter {
   PartyDrinkCategoryFilter._();
 
-  static Set<String> toggleCategory(
-    Set<String> current,
-    String categorySlug,
-  ) {
+  static Set<String> toggleCategory(Set<String> current, String categorySlug) {
     if (categorySlug == PartyDrinkMenuCategory.allSlug) {
       return {PartyDrinkMenuCategory.allSlug};
     }

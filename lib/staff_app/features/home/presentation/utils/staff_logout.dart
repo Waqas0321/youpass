@@ -14,11 +14,8 @@ Future<void> performStaffLogout(BuildContext context) async {
 
   await authProvider.logout();
 
-  supervisorSession.lock();
+  await supervisorSession.lock();
   workMode.syncForProfile(null);
 
-  navigator.pushNamedAndRemoveUntil(
-    AppRoutes.login,
-    (_) => false,
-  );
+  navigator.pushNamedAndRemoveUntil(AppRoutes.login, (_) => false);
 }

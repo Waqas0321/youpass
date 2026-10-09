@@ -58,8 +58,9 @@ class CountryCodeRegistry {
     final sorted = List<CountryCode>.from(list);
     sorted.sort((a, b) => a.name.compareTo(b.name));
 
-    final preferredIndex =
-        sorted.indexWhere((country) => country.isoCode == preferredIso);
+    final preferredIndex = sorted.indexWhere(
+      (country) => country.isoCode == preferredIso,
+    );
     if (preferredIndex > 0) {
       final preferred = sorted.removeAt(preferredIndex);
       sorted.insert(0, preferred);

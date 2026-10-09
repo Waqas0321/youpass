@@ -8,9 +8,7 @@ class AppSnackBar {
   static void show(BuildContext context, String message) {
     final messenger = ScaffoldMessenger.of(context);
     messenger.hideCurrentSnackBar();
-    messenger.showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    messenger.showSnackBar(SnackBar(content: Text(message)));
   }
 
   static void showSuccess(BuildContext context, String message) {

@@ -10,6 +10,7 @@ class VipTicketQuantityStepperWidget extends StatelessWidget {
     required this.quantity,
     required this.onChanged,
     this.minQuantity = 0,
+    this.maxQuantity,
     this.alignControlsEnd = false,
     this.accentColor,
   });
@@ -17,6 +18,9 @@ class VipTicketQuantityStepperWidget extends StatelessWidget {
   final int quantity;
   final ValueChanged<int> onChanged;
   final int minQuantity;
+
+  /// Upper bound (e.g. per-user ticket limit); null = no cap.
+  final int? maxQuantity;
   final bool alignControlsEnd;
   final Color? accentColor;
 
@@ -25,6 +29,7 @@ class VipTicketQuantityStepperWidget extends StatelessWidget {
     final accent = accentColor ?? VipVenueScreenTheme.accent(context);
     final barHeight = VipVenueDesignSpec.px(context, 40);
     final buttonSize = VipVenueDesignSpec.px(context, 28);
+    final canIncrement = maxQuantity == null || quantity < maxQuantity!;
 
     final controls = Row(
       mainAxisSize: MainAxisSize.min,
@@ -44,12 +49,15 @@ class VipTicketQuantityStepperWidget extends StatelessWidget {
           fontWeight: FontWeight.w800,
         ),
         SizedBox(width: VipVenueDesignSpec.px(context, 12)),
-        VipQuantityStepperButtonWidget(
-          icon: Icons.add,
-          onPressed: () => onChanged(quantity + 1),
-          size: buttonSize,
-          filled: true,
-          accent: accent,
+        _absorbWhenCapped(
+          canIncrement,
+          VipQuantityStepperButtonWidget(
+            icon: Icons.add,
+            onPressed: canIncrement ? () => onChanged(quantity + 1) : null,
+            size: buttonSize,
+            filled: true,
+            accent: accent,
+          ),
         ),
       ],
     );
@@ -80,17 +88,33 @@ class VipTicketQuantityStepperWidget extends StatelessWidget {
                   fontSize: VipVenueDesignSpec.px(context, 16),
                   fontWeight: FontWeight.w800,
                 ),
-                VipQuantityStepperButtonWidget(
-                  icon: Icons.add,
-                  onPressed: () => onChanged(quantity + 1),
-                  size: buttonSize,
-                  filled: true,
-                  accent: accent,
+                _absorbWhenCapped(
+                  canIncrement,
+                  VipQuantityStepperButtonWidget(
+                    icon: Icons.add,
+                    onPressed: canIncrement ? () => onChanged(quantity + 1) : null,
+                    size: buttonSize,
+                    filled: true,
+                    accent: accent,
+                  ),
                 ),
               ],
             ),
     );
   }
+}
+
+/// A disabled "+" must swallow taps; otherwise they reach the parent ticket card,
+/// whose tap toggles the selection off.
+Widget _absorbWhenCapped(bool canIncrement, Widget button) {
+  if (canIncrement) {
+    return button;
+  }
+  return GestureDetector(
+    behavior: HitTestBehavior.opaque,
+    onTap: () {},
+    child: button,
+  );
 }
 
 class VipQuantityStepperButtonWidget extends StatelessWidget {
@@ -111,10 +135,11 @@ class VipQuantityStepperButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final background = filled
+    final disabled = onPressed == null;
+    final background = filled && !disabled
         ? accent ?? VipVenueScreenTheme.accent(context)
         : VipVenueScreenTheme.stepperButtonBackground(context);
-    final iconColor = filled
+    final iconColor = filled && !disabled
         ? Colors.white
         : onPressed == null
             ? VipVenueScreenTheme.muted(context)

@@ -77,7 +77,6 @@ class RegisterOtpFlow {
       statusMessage: whatsAppCheck.message.isNotEmpty
           ? whatsAppCheck.message
           : OtpDeliveryMessage.sentConfirmation(l10n),
-      prefillOtpCode: result.devOtpCode,
     );
 
     Navigator.of(context).pushNamed(

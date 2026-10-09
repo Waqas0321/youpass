@@ -14,7 +14,10 @@ class DiscountedAcceptDialog extends StatelessWidget {
 
   final InvitationEntity invitation;
 
-  static Future<bool> show(BuildContext context, InvitationEntity invitation) async {
+  static Future<bool> show(
+    BuildContext context,
+    InvitationEntity invitation,
+  ) async {
     final result = await showDialog<bool>(
       context: context,
       barrierDismissible: true,
@@ -26,7 +29,8 @@ class DiscountedAcceptDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    final amount = invitation.acceptAmountLabel ??
+    final amount =
+        invitation.acceptAmountLabel ??
         invitation.chargeAmount?.toStringAsFixed(0) ??
         '—';
     final discount = invitation.discountPercent;

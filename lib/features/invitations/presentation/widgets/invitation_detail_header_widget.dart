@@ -41,7 +41,10 @@ class InvitationDetailHeaderWidget extends StatelessWidget {
         ],
         ClipRRect(
           borderRadius: BorderRadius.circular(
-            InvitationsDesignSpec.px(context, InvitationsDesignSpec.imageRadius),
+            InvitationsDesignSpec.px(
+              context,
+              InvitationsDesignSpec.imageRadius,
+            ),
           ),
           child: SizedBox(
             height: InvitationsDesignSpec.px(context, 180),

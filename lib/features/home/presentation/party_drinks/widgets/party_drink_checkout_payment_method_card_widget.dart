@@ -25,7 +25,7 @@ class PartyDrinkCheckoutPaymentMethodCardWidget extends StatelessWidget {
     final iconSize = PartyDrinksDesignSpec.px(context, 40);
     final cardLine = card == null
         ? AppStrings.vipAddPaymentMethod(strings)
-        : '${AppStrings.partyDrinkCheckoutCreditCard(strings)} ${AppStrings.partyDrinkCheckoutCardMask(strings, card!.lastFour)}';
+        : '${card!.maskedLabel.split(' ').first} ${AppStrings.partyDrinkCheckoutCardMask(strings, card!.lastFour)}';
 
     return Material(
       color: Colors.transparent,
@@ -36,7 +36,9 @@ class PartyDrinkCheckoutPaymentMethodCardWidget extends StatelessWidget {
           decoration: BoxDecoration(
             color: PartyDrinksDesignSpec.checkoutSurface,
             borderRadius: BorderRadius.circular(radius),
-            border: Border.all(color: PartyDrinksDesignSpec.checkoutPaymentBorder),
+            border: Border.all(
+              color: PartyDrinksDesignSpec.checkoutPaymentBorder,
+            ),
           ),
           padding: EdgeInsets.all(PartyDrinksDesignSpec.px(context, 14)),
           child: Row(

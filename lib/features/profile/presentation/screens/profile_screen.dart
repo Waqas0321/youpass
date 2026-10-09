@@ -290,7 +290,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         resendCooldownSeconds: result.resendAvailableInSeconds,
         deliveryChannel: result.channel,
         statusMessage: result.message,
-        prefillOtpCode: result.devOtpCode,
       ),
     );
   }

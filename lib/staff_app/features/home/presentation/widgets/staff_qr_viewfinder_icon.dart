@@ -42,10 +42,7 @@ class StaffQrViewfinderIcon extends StatelessWidget {
       dataModuleShape: QrDataModuleShape.square,
       color: color,
     );
-    final eyeStyle = QrEyeStyle(
-      eyeShape: QrEyeShape.square,
-      color: color,
-    );
+    final eyeStyle = QrEyeStyle(eyeShape: QrEyeShape.square, color: color);
 
     return SizedBox(
       width: iconSize,

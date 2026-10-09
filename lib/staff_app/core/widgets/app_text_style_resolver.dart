@@ -91,10 +91,7 @@ class AppTextStyleResolver {
           color: primaryText,
         );
       case AppTextVariant.bodyLarge:
-        return TextStyle(
-          fontSize: layout.fontSize(16),
-          color: secondaryText,
-        );
+        return TextStyle(fontSize: layout.fontSize(16), color: secondaryText);
       case AppTextVariant.appBar:
         return TextStyle(
           fontSize: layout.fontSize(18),
@@ -129,10 +126,7 @@ class AppTextStyleResolver {
           color: secondaryText.withValues(alpha: 0.5),
         );
       case AppTextVariant.error:
-        return TextStyle(
-          fontSize: layout.bodyFontSize,
-          color: primaryText,
-        );
+        return TextStyle(fontSize: layout.bodyFontSize, color: primaryText);
       case AppTextVariant.timer:
         return TextStyle(
           fontSize: layout.bodyFontSize,

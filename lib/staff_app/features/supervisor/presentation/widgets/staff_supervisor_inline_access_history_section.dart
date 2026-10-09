@@ -21,7 +21,8 @@ class StaffSupervisorInlineAccessHistorySection extends StatelessWidget {
 
   String _resultLabel(dynamic l10n, StaffSupervisorActionHistoryEntry entry) {
     return switch (entry.result) {
-      StaffSupervisorAccessResult.valid => l10n.staffSupervisorAccessResultValid,
+      StaffSupervisorAccessResult.valid =>
+        l10n.staffSupervisorAccessResultValid,
       StaffSupervisorAccessResult.reEntry =>
         l10n.staffSupervisorAccessResultReEntry,
       StaffSupervisorAccessResult.rejected =>
@@ -35,25 +36,25 @@ class StaffSupervisorInlineAccessHistorySection extends StatelessWidget {
   (Color, IconData) _badgeStyle(StaffSupervisorActionHistoryEntry entry) {
     return switch (entry.result) {
       StaffSupervisorAccessResult.valid => (
-          StaffSupervisorDesign.successGreen,
-          Icons.check_circle_rounded,
-        ),
+        StaffSupervisorDesign.successGreen,
+        Icons.check_circle_rounded,
+      ),
       StaffSupervisorAccessResult.reEntry => (
-          StaffSupervisorDesign.accent,
-          Icons.login_rounded,
-        ),
+        StaffSupervisorDesign.accent,
+        Icons.login_rounded,
+      ),
       StaffSupervisorAccessResult.rejected => (
-          const Color(0xFFEF4444),
-          Icons.block_rounded,
-        ),
+        const Color(0xFFEF4444),
+        Icons.block_rounded,
+      ),
       StaffSupervisorAccessResult.supervisor => (
-          const Color(0xFF2563EB),
-          Icons.verified_user_outlined,
-        ),
+        const Color(0xFF2563EB),
+        Icons.verified_user_outlined,
+      ),
       StaffSupervisorAccessResult.unknown => (
-          AppColors.secondaryGrey,
-          Icons.qr_code_scanner_rounded,
-        ),
+        AppColors.secondaryGrey,
+        Icons.qr_code_scanner_rounded,
+      ),
     };
   }
 
@@ -96,9 +97,9 @@ class StaffSupervisorInlineAccessHistorySection extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () => Navigator.of(context).pushNamed(
-                    StaffAppRoutes.supervisorActionHistory,
-                  ),
+                  onPressed: () => Navigator.of(
+                    context,
+                  ).pushNamed(StaffAppRoutes.supervisorActionHistory),
                   style: TextButton.styleFrom(
                     foregroundColor: AppColors.primaryMustard,
                     padding: EdgeInsets.zero,
@@ -150,11 +151,7 @@ class StaffSupervisorInlineAccessHistorySection extends StatelessWidget {
                         badgeStyle: _badgeStyle(entries[i]),
                         onTap: history == null
                             ? null
-                            : () => _openDetail(
-                                  context,
-                                  entries[i],
-                                  history,
-                                ),
+                            : () => _openDetail(context, entries[i], history),
                       ),
                       if (i < entries.length - 1)
                         Divider(
@@ -220,11 +217,7 @@ class _InlineAccessHistoryRow extends StatelessWidget {
                   color: color.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  icon,
-                  color: color,
-                  size: layout.spacing(18),
-                ),
+                child: Icon(icon, color: color, size: layout.spacing(18)),
               ),
               SizedBox(width: layout.spacing(12)),
               Expanded(

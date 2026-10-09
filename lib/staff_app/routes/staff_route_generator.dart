@@ -155,7 +155,8 @@ abstract final class StaffRouteGenerator {
         return MaterialPageRoute(
           settings: settings,
           builder: (_) => StaffSupervisorEntryManualValidationRoute(
-            args: manualValidationArgs
+            args:
+                manualValidationArgs
                     is StaffSupervisorEntryManualValidationRouteArgs
                 ? manualValidationArgs
                 : null,

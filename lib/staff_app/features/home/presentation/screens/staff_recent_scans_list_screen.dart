@@ -30,7 +30,8 @@ class StaffRecentScansListScreen extends StatefulWidget {
       _StaffRecentScansListScreenState();
 }
 
-class _StaffRecentScansListScreenState extends State<StaffRecentScansListScreen> {
+class _StaffRecentScansListScreenState
+    extends State<StaffRecentScansListScreen> {
   static const _pageLimit = 50;
 
   late final StaffScanApiService _scanApiService =
@@ -48,46 +49,31 @@ class _StaffRecentScansListScreenState extends State<StaffRecentScansListScreen>
   }
 
   Future<void> _loadScans() async {
-    setState(() => _isLoading = true);
+    final response = _isEntryList
+        ? await _scanApiService.fetchRecentEntryScans(limit: _pageLimit)
+        : await _scanApiService.fetchRecentProductScans(limit: _pageLimit);
 
-    try {
-      final response = _isEntryList
-          ? await _scanApiService.fetchRecentEntryScans(limit: _pageLimit)
-          : await _scanApiService.fetchRecentProductScans(limit: _pageLimit);
-
-      if (!mounted) {
-        return;
-      }
-
-      setState(() {
-        _scans = response.scans;
-        _isLoading = false;
-      });
-    } catch (_) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _scans = const [];
-        _isLoading = false;
-      });
+    if (!mounted) {
+      return;
     }
+
+    setState(() {
+      _scans = response.scans;
+      _isLoading = false;
+    });
   }
 
   void _openScanDetail(StaffScanEntry scan) {
-    openStaffScanResultDetail(
-      context,
-      scan: scan,
-      purpose: widget.purpose,
-    );
+    openStaffScanResultDetail(context, scan: scan, purpose: widget.purpose);
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final layout = ResponsiveLayout(context);
-    final title =
-        _isEntryList ? l10n.staffRecentAccessTitle : l10n.staffRecentScansTitle;
+    final title = _isEntryList
+        ? l10n.staffRecentAccessTitle
+        : l10n.staffRecentScansTitle;
     final emptyMessage = _isEntryList
         ? l10n.staffRecentAccessEmpty
         : l10n.staffRecentScansEmpty;

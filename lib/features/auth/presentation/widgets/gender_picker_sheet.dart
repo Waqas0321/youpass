@@ -40,7 +40,12 @@ class GenderPickerSheet extends StatelessWidget {
               label: option.labelFor(locale),
             ),
           )
-          .where((option) => option.value.isNotEmpty && option.label.isNotEmpty)
+          .where(
+            (option) =>
+                option.value.isNotEmpty &&
+                option.label.isNotEmpty &&
+                option.value != 'prefer_not_to_say',
+          )
           .toList();
       if (resolved.isNotEmpty) {
         return resolved;
@@ -51,7 +56,6 @@ class GenderPickerSheet extends StatelessWidget {
       (value: 'male', label: strings.genderMale),
       (value: 'female', label: strings.genderFemale),
       (value: 'other', label: strings.genderOther),
-      (value: 'prefer_not_to_say', label: strings.genderPreferNotToSay),
     ];
   }
 

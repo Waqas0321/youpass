@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class ResponsiveLayout {
   ResponsiveLayout(BuildContext context)
-      : mediaQuery = MediaQuery.of(context),
-        size = MediaQuery.sizeOf(context);
+    : mediaQuery = MediaQuery.of(context),
+      size = MediaQuery.sizeOf(context);
 
   final MediaQueryData mediaQuery;
   final Size size;

@@ -9,8 +9,8 @@ class StaffSupervisorSystemStatusProvider extends ChangeNotifier {
   StaffSupervisorSystemStatusProvider({
     StaffSupervisorApiService? apiService,
     required String genericError,
-  })  : _apiService = apiService ?? StaffSupervisorApiService(ApiClient()),
-        _genericError = genericError;
+  }) : _apiService = apiService ?? StaffSupervisorApiService(ApiClient()),
+       _genericError = genericError;
 
   final StaffSupervisorApiService _apiService;
   final String _genericError;

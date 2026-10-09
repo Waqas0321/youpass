@@ -31,8 +31,14 @@ class ResendCodeWidget extends StatelessWidget {
       );
     }
 
-    final bodyStyle = AppTextStyleResolver.resolve(context, AppTextVariant.body);
-    final timerStyle = AppTextStyleResolver.resolve(context, AppTextVariant.timer);
+    final bodyStyle = AppTextStyleResolver.resolve(
+      context,
+      AppTextVariant.body,
+    );
+    final timerStyle = AppTextStyleResolver.resolve(
+      context,
+      AppTextVariant.timer,
+    );
 
     return Center(
       child: Text.rich(

@@ -26,7 +26,8 @@ class AppConstants {
   /// Remote dev tunnel (physical devices). Same as production unless you run ngrok locally.
   static const String devTunnelApiV1Url = productionApiV1Url;
 
-  static const int localApiPort = 3002;
+  /// Matches local backend default (`PORT` / nodemon on youpass-backend).
+  static const int localApiPort = 3003;
 
   /// Simulator / emulator localhost backend.
   static String get localApiV1Url =>

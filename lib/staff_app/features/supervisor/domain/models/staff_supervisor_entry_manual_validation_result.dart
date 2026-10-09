@@ -10,10 +10,12 @@ extension StaffSupervisorEntryManualValidationActionApi
     on StaffSupervisorEntryManualValidationAction {
   String get apiValue {
     return switch (this) {
-      StaffSupervisorEntryManualValidationAction.authorizeEntry => 'authorize_entry',
+      StaffSupervisorEntryManualValidationAction.authorizeEntry =>
+        'authorize_entry',
       StaffSupervisorEntryManualValidationAction.generateTemporaryQr =>
         'generate_temporary_qr',
-      StaffSupervisorEntryManualValidationAction.rejectAccess => 'reject_access',
+      StaffSupervisorEntryManualValidationAction.rejectAccess =>
+        'reject_access',
     };
   }
 }
@@ -24,7 +26,8 @@ enum StaffSupervisorEntryManualValidationSystemStatus {
   rejected,
 }
 
-extension StaffSupervisorEntryManualReasonApi on StaffSupervisorEntryManualReason {
+extension StaffSupervisorEntryManualReasonApi
+    on StaffSupervisorEntryManualReason {
   String get apiValue {
     return switch (this) {
       StaffSupervisorEntryManualReason.phoneBattery => 'phone_battery',
@@ -108,7 +111,8 @@ class StaffSupervisorEntryManualValidationContext {
       isQrUnavailable: data['is_qr_unavailable'] as bool? ?? true,
       entryStatus: data['entry_status'] as String? ?? 'pending',
       systemStatus: _parseSystemStatus(data['system_status'] as String?),
-      systemRecordTimeLabel: data['system_record_time_label'] as String? ?? '--',
+      systemRecordTimeLabel:
+          data['system_record_time_label'] as String? ?? '--',
       canAuthorize: data['can_authorize'] as bool? ?? false,
     );
   }
@@ -149,7 +153,8 @@ class StaffSupervisorEntryManualValidationResult {
   final bool isQrUnavailable;
 }
 
-typedef StaffSupervisorEntryManualReason = StaffSupervisorManualValidationReason;
+typedef StaffSupervisorEntryManualReason =
+    StaffSupervisorManualValidationReason;
 
 class StaffSupervisorTemporaryQr {
   const StaffSupervisorTemporaryQr({
@@ -171,7 +176,8 @@ class StaffSupervisorTemporaryQr {
       qrPayload: json['qr_payload'] as String? ?? '',
       entryCode: json['entry_code'] as String? ?? '',
       guestName: json['guest_name'] as String? ?? '',
-      expiresAt: DateTime.tryParse(json['expires_at'] as String? ?? '') ??
+      expiresAt:
+          DateTime.tryParse(json['expires_at'] as String? ?? '') ??
           DateTime.now(),
       validityMinutes: json['validity_minutes'] as int? ?? 30,
     );

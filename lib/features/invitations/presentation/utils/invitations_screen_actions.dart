@@ -42,10 +42,9 @@ class InvitationsScreenActions {
       return;
     }
 
-    await Navigator.of(context).pushNamedAndRemoveUntil(
-      AppRoutes.login,
-      (_) => false,
-    );
+    await Navigator.of(
+      context,
+    ).pushNamedAndRemoveUntil(AppRoutes.login, (_) => false);
   }
 
   Future<void> openTicket(InvitationEntity invitation) async {
@@ -101,7 +100,8 @@ class InvitationsScreenActions {
         await InvitationQrUnavailableDialog.show(
           context,
           title: InvitationsQrHelper.lockedTitle(strings),
-          message: provider.localizedErrorMessage(strings) ??
+          message:
+              provider.localizedErrorMessage(strings) ??
               InvitationsQrHelper.lockedMessage(strings),
           subtitle: InvitationsQrHelper.unlockSubtitle(
             strings,
@@ -189,18 +189,16 @@ class InvitationsScreenActions {
 
   Future<void> openInvitationDetail(InvitationEntity invitation) async {
     final destination = InvitationDetailNavigation.resolve(invitation);
-    await Navigator.of(context).pushNamed(
-      destination.route,
-      arguments: destination.args,
-    );
+    await Navigator.of(
+      context,
+    ).pushNamed(destination.route, arguments: destination.args);
   }
 
   Future<void> openInvitationDetailById(String invitationId) async {
     final destination = InvitationDetailNavigation.resolveById(invitationId);
-    await Navigator.of(context).pushNamed(
-      destination.route,
-      arguments: destination.args,
-    );
+    await Navigator.of(
+      context,
+    ).pushNamed(destination.route, arguments: destination.args);
   }
 
   Future<void> confirmAttendance(InvitationEntity invitation) async {
@@ -222,18 +220,25 @@ class InvitationsScreenActions {
         }
 
         await invitationsProvider.refreshPaymentMethodStatus();
+        final hadCard = invitationsProvider.hasPaymentMethod;
 
         if (!await ensurePaymentMethod() || !context.mounted) {
           return;
         }
 
+        const params = ConfirmInvitationParams(acceptChargeTerms: true);
+        // "Card saved" only makes sense right after adding a card; with a card
+        // already on file the user accepted the terms in the dialog above.
+        if (hadCard) {
+          await finalizeConfirmation(invitation.id, params: params);
+          return;
+        }
         await PaymentSavedSuccessDialog.show(
           context,
-          onConfirmAttendance: () => finalizeConfirmation(
-            invitation.id,
-            params: const ConfirmInvitationParams(acceptChargeTerms: true),
-          ),
+          onConfirmAttendance: () =>
+              finalizeConfirmation(invitation.id, params: params),
           onReject: () => rejectInvitation(invitation.id),
+          cancellationDeadlineLabel: invitation.cancellationDeadlineLabel,
         );
         return;
       case InvitationProductKind.guaranteedPass:
@@ -244,13 +249,19 @@ class InvitationsScreenActions {
         if (!proceed || !context.mounted) {
           return;
         }
+        final hadCard = invitationsProvider.hasPaymentMethod;
         if (!await ensurePaymentMethod() || !context.mounted) {
+          return;
+        }
+        if (hadCard) {
+          await finalizeConfirmation(invitation.id);
           return;
         }
         await PaymentSavedSuccessDialog.show(
           context,
           onConfirmAttendance: () => finalizeConfirmation(invitation.id),
           onReject: () => rejectInvitation(invitation.id),
+          cancellationDeadlineLabel: invitation.cancellationDeadlineLabel,
         );
         return;
     }
@@ -279,15 +290,14 @@ class InvitationsScreenActions {
   }
 
   Future<void> cancelInvitation(InvitationEntity invitation) async {
-    await GuaranteedPassFlowActions(context).cancelConfirmedPass(
-      invitation,
-      popOnSuccess: false,
-    );
+    await GuaranteedPassFlowActions(
+      context,
+    ).cancelConfirmedPass(invitation, popOnSuccess: false);
   }
 
   void showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 }

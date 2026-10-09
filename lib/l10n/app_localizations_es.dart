@@ -16,6 +16,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Inicia sesión con tu número y recibe tu código por WhatsApp';
 
   @override
+  String get registerPhoneSubtitle =>
+      'Ingresa tu número y te enviaremos un código por WhatsApp para crear tu cuenta';
+
+  @override
   String get codeSentWhatsApp => 'Código enviado a tu WhatsApp';
 
   @override
@@ -377,7 +381,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get registerIdDocumentRequired => 'Ingresa tu RUT o pasaporte';
 
   @override
-  String get registerBirthDateRequired => 'Selecciona tu fecha de nacimiento';
+  String get registerBirthDateRequired =>
+      'Ingresa tu fecha de nacimiento como DD/MM/AAAA';
 
   @override
   String get registerGenderRequired => 'Selecciona tu género';
@@ -464,6 +469,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get errorMaxResends => 'Demasiados reenvíos. Inténtalo más tarde.';
 
   @override
+  String get errorAccountBlocked =>
+      'Tu cuenta ha sido bloqueada. Contacta a soporte en soporte@youpass.app.';
+
+  @override
   String get errorBlocked =>
       'Demasiados intentos fallidos. Inténtalo más tarde.';
 
@@ -499,7 +508,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get birthDateLabel => 'FECHA DE NACIMIENTO';
 
   @override
-  String get birthDateHint => 'Selecciona tu fecha de nacimiento';
+  String get birthDateHint => 'DD/MM/AAAA';
 
   @override
   String get genderLabel => 'GÉNERO';
@@ -508,10 +517,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get genderHint => 'Selecciona tu género';
 
   @override
-  String get genderMale => 'Masculino';
+  String get genderMale => 'Hombre';
 
   @override
-  String get genderFemale => 'Femenino';
+  String get genderFemale => 'Mujer';
 
   @override
   String get genderOther => 'Otro';
@@ -629,7 +638,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get partyDrinkQuickRecommendationsSubtitle =>
-      'Los más pedidos en YouFest';
+      'Lo más pedido esta noche';
 
   @override
   String get partyDrinkMockPiscola => 'Piscola';
@@ -677,6 +686,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get partyDrinkCheckoutCreditCard => 'Tarjeta de crédito';
+
+  @override
+  String get partyDrinkCheckoutNoCharge => 'Cortesía · sin cargo';
 
   @override
   String partyDrinkCheckoutCardMask(String last4) {
@@ -1900,6 +1912,11 @@ class AppLocalizationsEs extends AppLocalizations {
       'Si deseas anular tu asistencia, debes hacerlo con al menos 48 horas de anticipación para evitar el cobro.';
 
   @override
+  String invitationsCardSavedReminderCancelBy(String deadline) {
+    return 'Si deseas anular tu asistencia, debes hacerlo antes del $deadline para evitar el cobro.';
+  }
+
+  @override
   String get eventTicketScreenTitle => 'Entrada del evento';
 
   @override
@@ -2354,6 +2371,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get vipTicketSoldOutBadge => 'Agotado';
 
   @override
+  String get vipTicketPausedBadge => 'Pausado';
+
+  @override
+  String get vipTicketUnavailableBadge => 'No disponible';
+
+  @override
+  String get vipTicketsSalesUnavailable =>
+      'La venta de entradas no está disponible por ahora. Vuelve pronto.';
+
+  @override
   String get vipTicketsNoneAvailable =>
       'No hay entradas disponibles para este evento.';
 
@@ -2735,6 +2762,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'No hay una cuenta de staff con este número. Pide a tu admin que te registre.';
 
   @override
+  String get errorStaffAccessPaused =>
+      'Tu acceso de staff está pausado. Contacta al administrador del evento.';
+
+  @override
   String get errorNetworkConnection =>
       'No se pudo conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.';
 
@@ -3040,6 +3071,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get staffSupervisorPinInvalid => 'PIN incorrecto. Intenta de nuevo.';
+
+  @override
+  String get staffSupervisorPinOfflineSetupRequired =>
+      'Conéctate una vez e ingresa tu PIN de supervisor. Después podrás desbloquear sin conexión en este dispositivo.';
 
   @override
   String get staffSupervisorPinNotConfigured =>

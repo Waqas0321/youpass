@@ -15,7 +15,8 @@ class InvitationsTextFactory {
       return false;
     }
 
-    final kind = InvitationProductKindX.fromApi(invitation.productKind) ??
+    final kind =
+        InvitationProductKindX.fromApi(invitation.productKind) ??
         InvitationProductKind.free;
     if (kind != InvitationProductKind.free) {
       return false;
@@ -25,10 +26,7 @@ class InvitationsTextFactory {
     return entryValue <= 0;
   }
 
-  static String statusLabel(
-    AppLocalizations strings,
-    InvitationStatus status,
-  ) {
+  static String statusLabel(AppLocalizations strings, InvitationStatus status) {
     switch (status) {
       case InvitationStatus.accepted:
       case InvitationStatus.confirmed:
@@ -65,7 +63,8 @@ class InvitationsTextFactory {
     AppLocalizations strings,
     InvitationEntity invitation,
   ) {
-    final kind = InvitationProductKindX.fromApi(invitation.productKind) ??
+    final kind =
+        InvitationProductKindX.fromApi(invitation.productKind) ??
         InvitationProductKind.free;
 
     if (kind == InvitationProductKind.guaranteedPass ||

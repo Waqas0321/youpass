@@ -16,11 +16,7 @@ class PaymentSavedReminderRowWidget extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
-          icon,
-          size: 18,
-          color: YouPassDialogTheme.infoPanelIcon(context),
-        ),
+        Icon(icon, size: 18, color: YouPassDialogTheme.infoPanelIcon(context)),
         const SizedBox(width: 8),
         Expanded(
           child: Text(

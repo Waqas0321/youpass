@@ -12,10 +12,7 @@ import 'package:youpass/staff_app/features/scan/presentation/widgets/staff_scan_
 import 'package:youpass/staff_app/features/scan/presentation/widgets/staff_scan_viewfinder_overlay.dart';
 
 class StaffQrScanResultScreen extends StatelessWidget {
-  const StaffQrScanResultScreen({
-    super.key,
-    required this.result,
-  });
+  const StaffQrScanResultScreen({super.key, required this.result});
 
   final StaffQrScanResult result;
 
@@ -28,6 +25,9 @@ class StaffQrScanResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (result.isPendingSync) {
+      return _PendingOfflineSyncScreen(result: result);
+    }
     if (result.isEntryScan && result.isValid) {
       return StaffEntryValidResultScreen(result: result);
     }
@@ -64,10 +64,7 @@ class StaffQrScanResultScreen extends StatelessWidget {
                         : l10n.staffScanResultUsedSubtitle,
                   ),
                   SizedBox(height: layout.spacing(24)),
-                  _InfoCard(
-                    layout: layout,
-                    result: result,
-                  ),
+                  _InfoCard(layout: layout, result: result),
                   SizedBox(height: layout.spacing(20)),
                   if (result.isValid)
                     _NoticeBox(
@@ -140,8 +137,9 @@ class _StatusHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color =
-        isValid ? StaffQrScanResultScreen._successGreen : StaffQrScanResultScreen._errorRed;
+    final color = isValid
+        ? StaffQrScanResultScreen._successGreen
+        : StaffQrScanResultScreen._errorRed;
     final softColor = isValid
         ? StaffQrScanResultScreen._successGreenSoft
         : StaffQrScanResultScreen._errorRedSoft;
@@ -151,10 +149,7 @@ class _StatusHero extends StatelessWidget {
         Container(
           width: layout.spacing(88),
           height: layout.spacing(88),
-          decoration: BoxDecoration(
-            color: softColor,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: softColor, shape: BoxShape.circle),
           child: Icon(
             isValid ? Icons.check_rounded : Icons.close_rounded,
             color: color,
@@ -187,10 +182,7 @@ class _StatusHero extends StatelessWidget {
 }
 
 class _InfoCard extends StatelessWidget {
-  const _InfoCard({
-    required this.layout,
-    required this.result,
-  });
+  const _InfoCard({required this.layout, required this.result});
 
   final ResponsiveLayout layout;
   final StaffQrScanResult result;
@@ -340,11 +332,7 @@ class _InfoRow extends StatelessWidget {
                       ),
                     ),
                   )
-                : Icon(
-                    icon,
-                    color: staffScanAccent,
-                    size: layout.spacing(20),
-                  ),
+                : Icon(icon, color: staffScanAccent, size: layout.spacing(20)),
           ),
           SizedBox(width: layout.spacing(12)),
           Expanded(
@@ -430,11 +418,7 @@ class _NoticeBox extends StatelessWidget {
               color: staffScanAccent.withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              icon,
-              color: staffScanAccent,
-              size: layout.spacing(16),
-            ),
+            child: Icon(icon, color: staffScanAccent, size: layout.spacing(16)),
           ),
           SizedBox(width: layout.spacing(12)),
           Expanded(
@@ -586,6 +570,107 @@ class _PrimaryActionButton extends StatelessWidget {
               fontWeight: FontWeight.w700,
               fontSize: layout.fontSize(14),
               letterSpacing: 0.8,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PendingOfflineSyncScreen extends StatelessWidget {
+  const _PendingOfflineSyncScreen({required this.result});
+
+  final StaffQrScanResult result;
+
+  static const _amber = Color(0xFFF59E0B);
+  static const _amberSoft = Color(0xFFFEF3C7);
+
+  @override
+  Widget build(BuildContext context) {
+    final layout = ResponsiveLayout(context);
+
+    return Scaffold(
+      backgroundColor: AppColors.backgroundWhite,
+      body: SafeArea(
+        child: Column(
+          children: [
+            StaffScanScreenHeader(onBack: () => Navigator.of(context).pop()),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: layout.spacing(24)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: layout.spacing(88),
+                      height: layout.spacing(88),
+                      decoration: const BoxDecoration(
+                        color: _amberSoft,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.cloud_off_outlined,
+                        size: layout.spacing(44),
+                        color: _amber,
+                      ),
+                    ),
+                    SizedBox(height: layout.spacing(24)),
+                    AppText(
+                      'Saved offline',
+                      variant: AppTextVariant.headline,
+                      fontWeight: FontWeight.w700,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: layout.spacing(12)),
+                    AppText(
+                      'No network right now. This scan is signed and queued — '
+                      'it will sync automatically when you reconnect.',
+                      variant: AppTextVariant.body,
+                      color: AppColors.secondaryGrey,
+                      textAlign: TextAlign.center,
+                    ),
+                    if (result.qrPayload.trim().isNotEmpty) ...[
+                      SizedBox(height: layout.spacing(16)),
+                      AppText(
+                        result.qrPayload,
+                        variant: AppTextVariant.sectionCaption,
+                        color: AppColors.secondaryGrey,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                layout.spacing(24),
+                0,
+                layout.spacing(24),
+                layout.spacing(24),
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                height: layout.spacing(52),
+                child: ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: staffScanAccent,
+                    foregroundColor: AppColors.backgroundWhite,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(layout.radius(14)),
+                    ),
+                  ),
+                  child: AppText(
+                    'Continue scanning',
+                    variant: AppTextVariant.button,
+                    color: AppColors.backgroundWhite,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

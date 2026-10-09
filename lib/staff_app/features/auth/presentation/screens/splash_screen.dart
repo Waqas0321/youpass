@@ -23,9 +23,9 @@ class _SplashScreenState extends State<SplashScreen> {
     final auth = context.read<StaffAuthProvider>();
     final hasSession = await auth.restoreSession();
     if (!mounted) return;
-    Navigator.of(context).pushReplacementNamed(
-      hasSession ? StaffAppRoutes.home : AppRoutes.login,
-    );
+    Navigator.of(
+      context,
+    ).pushReplacementNamed(hasSession ? StaffAppRoutes.home : AppRoutes.login);
   }
 
   @override

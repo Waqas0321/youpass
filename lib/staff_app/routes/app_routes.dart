@@ -7,7 +7,8 @@ abstract final class StaffAppRoutes {
   static const String manualCodeEntry = '/staff/scan/manual-code';
   static const String supervisorPin = '/staff/supervisor/pin';
   static const String supervisorDashboard = '/staff/supervisor/dashboard';
-  static const String supervisorCancellations = '/staff/supervisor/cancellations';
+  static const String supervisorCancellations =
+      '/staff/supervisor/cancellations';
   static const String supervisorManualValidation =
       '/staff/supervisor/manual-validation';
   static const String supervisorQrOverride = '/staff/supervisor/qr-override';

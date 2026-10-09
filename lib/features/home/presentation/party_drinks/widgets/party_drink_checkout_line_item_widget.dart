@@ -24,8 +24,14 @@ class PartyDrinkCheckoutLineItemWidget extends StatelessWidget {
     final drink = lineItem.drink;
     final px = PartyDrinksDesignSpec.px;
     final imageSize = px(context, PartyDrinksDesignSpec.checkoutItemImageSize);
-    final imageRadius = px(context, PartyDrinksDesignSpec.checkoutItemImageRadius);
-    final cardRadius = px(context, PartyDrinksDesignSpec.checkoutItemCardRadius);
+    final imageRadius = px(
+      context,
+      PartyDrinksDesignSpec.checkoutItemImageRadius,
+    );
+    final cardRadius = px(
+      context,
+      PartyDrinksDesignSpec.checkoutItemCardRadius,
+    );
 
     return Padding(
       padding: EdgeInsets.only(
@@ -35,7 +41,9 @@ class PartyDrinkCheckoutLineItemWidget extends StatelessWidget {
         color: PartyDrinksDesignSpec.checkoutItemCardBackground,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(cardRadius),
-          side: const BorderSide(color: PartyDrinksDesignSpec.checkoutItemCardBorder),
+          side: const BorderSide(
+            color: PartyDrinksDesignSpec.checkoutItemCardBorder,
+          ),
         ),
         clipBehavior: Clip.antiAlias,
         child: Padding(
@@ -60,7 +68,7 @@ class PartyDrinkCheckoutLineItemWidget extends StatelessWidget {
                   children: [
                     Text(
                       drink.displayName(context.l10n),
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: px(context, 15),
@@ -86,7 +94,7 @@ class PartyDrinkCheckoutLineItemWidget extends StatelessWidget {
               ),
               SizedBox(width: px(context, 10)),
               SizedBox(
-                width: px(context, 104),
+                width: px(context, 72),
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerRight,

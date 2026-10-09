@@ -3,10 +3,7 @@ import 'package:youpass/staff_app/core/theme/youpass_theme_extension.dart';
 import 'package:youpass/staff_app/core/utils/responsive_layout.dart';
 
 class AuthFieldContainer extends StatelessWidget {
-  const AuthFieldContainer({
-    super.key,
-    required this.child,
-  });
+  const AuthFieldContainer({super.key, required this.child});
 
   final Widget child;
 

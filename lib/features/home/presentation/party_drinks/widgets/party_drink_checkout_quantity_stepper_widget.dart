@@ -61,11 +61,7 @@ class PartyDrinkCheckoutQuantityStepperWidget extends StatelessWidget {
                   ),
                 ),
                 const _GoldDivider(),
-                _StepperTap(
-                  width: tapWidth,
-                  label: '+',
-                  onTap: onIncrement,
-                ),
+                _StepperTap(width: tapWidth, label: '+', onTap: onIncrement),
               ],
             ),
           ),
@@ -80,10 +76,7 @@ class _GoldDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 1,
-      color: PartyDrinksDesignSpec.gold,
-    );
+    return Container(width: 1, color: PartyDrinksDesignSpec.gold);
   }
 }
 

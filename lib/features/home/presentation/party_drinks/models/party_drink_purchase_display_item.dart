@@ -9,8 +9,7 @@ class PartyDrinkPurchaseDisplayItem {
   final EventDrinkOrderModel order;
   final EventDrinkOrderLineModel line;
 
-  bool get isRedeemed =>
-      line.isRedeemed || order.status == 'redeemed';
+  bool get isRedeemed => line.isRedeemed || order.status == 'redeemed';
 
   bool get canViewQr => !isRedeemed;
 
@@ -19,9 +18,10 @@ class PartyDrinkPurchaseDisplayItem {
     if (fromApi != null && fromApi.isNotEmpty) {
       return fromApi;
     }
-    final suffix = order.orderId.length >= 5
-        ? order.orderId.substring(order.orderId.length - 5).toUpperCase()
+    // Mirrors the backend/admin format: #ORD- + last 7 chars of the order id.
+    final suffix = order.orderId.length >= 7
+        ? order.orderId.substring(order.orderId.length - 7).toUpperCase()
         : order.orderId.toUpperCase();
-    return '#$suffix';
+    return '#ORD-$suffix';
   }
 }

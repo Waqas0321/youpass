@@ -49,7 +49,10 @@ class _StaffSupervisorSystemStatusScreenState
     StaffSupervisorQuickActionKind.staffAlert,
   ];
 
-  String _generalHealthLabel(dynamic l10n, StaffSupervisorGeneralHealthKind kind) {
+  String _generalHealthLabel(
+    dynamic l10n,
+    StaffSupervisorGeneralHealthKind kind,
+  ) {
     return switch (kind) {
       StaffSupervisorGeneralHealthKind.system =>
         l10n.staffSupervisorSystemHealthSystem,
@@ -258,7 +261,9 @@ class _StaffSupervisorSystemStatusScreenState
     StaffSupervisorQuickActionKind action,
   ) {
     if (action == StaffSupervisorQuickActionKind.manualAccess) {
-      Navigator.of(context).pushNamed(StaffAppRoutes.supervisorEntryManualValidation);
+      Navigator.of(
+        context,
+      ).pushNamed(StaffAppRoutes.supervisorEntryManualValidation);
       return;
     }
 

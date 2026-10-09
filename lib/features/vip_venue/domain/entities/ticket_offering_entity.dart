@@ -20,6 +20,7 @@ class TicketOfferingEntity extends Equatable {
     this.vouchersPerTicket = 1,
     this.isSoldOut = false,
     this.isSelectable = true,
+    this.maxPerUser,
   });
 
   final String id;
@@ -39,6 +40,9 @@ class TicketOfferingEntity extends Equatable {
   final int vouchersPerTicket;
   final bool isSoldOut;
   final bool isSelectable;
+
+  /// Admin "limit per user" (null = unlimited); caps the quantity stepper.
+  final int? maxPerUser;
 
   String get displayName => (name?.trim().isNotEmpty == true ? name!.trim() : label);
 
@@ -80,6 +84,7 @@ class TicketOfferingEntity extends Equatable {
       vouchersPerTicket: vouchersPerTicket,
       isSoldOut: isSoldOut ?? this.isSoldOut,
       isSelectable: isSelectable ?? this.isSelectable,
+      maxPerUser: maxPerUser,
     );
   }
 
@@ -102,5 +107,6 @@ class TicketOfferingEntity extends Equatable {
         vouchersPerTicket,
         isSoldOut,
         isSelectable,
+        maxPerUser,
       ];
 }

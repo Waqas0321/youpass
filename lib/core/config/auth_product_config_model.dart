@@ -149,8 +149,8 @@ class RegistrationProductConfigModel {
     this.profilePhotoAfterRegister = true,
     this.minAgeYears = 18,
     this.genderOptions = const [],
-    this.termsUrl,
-    this.privacyUrl,
+    this.termsUrl = 'https://youpass-backend-two.vercel.app/terms',
+    this.privacyUrl = 'https://youpass-backend-two.vercel.app/privacy',
   });
 
   final List<String> requiredFields;
@@ -189,9 +189,11 @@ class RegistrationProductConfigModel {
       minAgeYears: JsonReaders.integer(json, 'min_age_years', fallback: 18),
       genderOptions: genderOptions,
       termsUrl: JsonReaders.nullableString(json, 'terms_url') ??
-          JsonReaders.nullableString(json, 'termsUrl'),
+          JsonReaders.nullableString(json, 'termsUrl') ??
+          RegistrationProductConfigModel.defaults.termsUrl,
       privacyUrl: JsonReaders.nullableString(json, 'privacy_url') ??
-          JsonReaders.nullableString(json, 'privacyUrl'),
+          JsonReaders.nullableString(json, 'privacyUrl') ??
+          RegistrationProductConfigModel.defaults.privacyUrl,
     );
   }
 

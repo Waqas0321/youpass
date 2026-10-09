@@ -24,7 +24,9 @@ class LocaleProvider extends ChangeNotifier {
   }
 
   void setLocaleFromLanguageCode(String languageCode) {
-    setLocale(AppLocale.fromLanguageCode(languageCode) ?? AppLocale.defaultLocale);
+    setLocale(
+      AppLocale.fromLanguageCode(languageCode) ?? AppLocale.defaultLocale,
+    );
   }
 
   void setLocaleFromCountry(String isoCode) {
@@ -45,7 +47,12 @@ class LocaleProvider extends ChangeNotifier {
       }
     }
 
-    final deviceLocale = WidgetsBinding.instance.platformDispatcher.locale;
-    return AppLocale.resolveSupported(deviceLocale);
+    for (final locale in WidgetsBinding.instance.platformDispatcher.locales) {
+      if (locale.languageCode.toLowerCase() == 'es') {
+        return AppLocale.spanish;
+      }
+    }
+
+    return AppLocale.defaultLocale;
   }
 }

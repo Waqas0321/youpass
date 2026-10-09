@@ -6,10 +6,7 @@ import 'package:youpass/staff_app/core/utils/responsive_layout.dart';
 import 'package:youpass/staff_app/core/widgets/app_text.dart';
 import 'package:youpass/staff_app/core/widgets/app_text_variant.dart';
 
-enum StaffConnectionStatusStyle {
-  standard,
-  supervisorCompact,
-}
+enum StaffConnectionStatusStyle { standard, supervisorCompact }
 
 class StaffConnectionStatusBar extends StatelessWidget {
   const StaffConnectionStatusBar({
@@ -117,7 +114,9 @@ class StaffConnectionStatusBar extends StatelessWidget {
                       ),
                       SizedBox(width: layout.spacing(6)),
                       AppText(
-                        isOnline ? l10n.staffOnlineStatus : l10n.staffAwayStatus,
+                        isOnline
+                            ? l10n.staffOnlineStatus
+                            : l10n.staffAwayStatus,
                         variant: AppTextVariant.body,
                         color: AppColors.secondaryGrey,
                         fontSize: layout.fontSize(14),

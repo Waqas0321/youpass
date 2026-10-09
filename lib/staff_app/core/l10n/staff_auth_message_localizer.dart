@@ -27,6 +27,8 @@ class StaffAuthMessageLocalizer {
     switch (code) {
       case 'STAFF_NOT_FOUND':
         return l10n.errorStaffNotFound;
+      case 'STAFF_INACTIVE':
+        return l10n.errorStaffAccessPaused;
       case 'INVALID_PHONE':
       case 'PHONE_INVALID':
         return l10n.errorInvalidPhone;

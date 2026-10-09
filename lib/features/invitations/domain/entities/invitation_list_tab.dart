@@ -1,4 +1,1 @@
-enum InvitationListTab {
-  pending,
-  confirmed,
-}
+enum InvitationListTab { pending, confirmed }

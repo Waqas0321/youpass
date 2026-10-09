@@ -6,12 +6,7 @@ enum StaffSupervisorSystemHealthStatus {
   disconnected,
 }
 
-enum StaffSupervisorGeneralHealthKind {
-  system,
-  sync,
-  database,
-  offlineMode,
-}
+enum StaffSupervisorGeneralHealthKind { system, sync, database, offlineMode }
 
 enum StaffSupervisorEventFlowKind {
   general,
@@ -67,10 +62,7 @@ class StaffSupervisorGeneralHealthItem {
 }
 
 class StaffSupervisorScannerItem {
-  const StaffSupervisorScannerItem({
-    required this.id,
-    required this.status,
-  });
+  const StaffSupervisorScannerItem({required this.id, required this.status});
 
   final String id;
   final StaffSupervisorSystemHealthStatus status;
@@ -84,10 +76,7 @@ class StaffSupervisorScannerItem {
 }
 
 class StaffSupervisorEventFlowItem {
-  const StaffSupervisorEventFlowItem({
-    required this.kind,
-    required this.count,
-  });
+  const StaffSupervisorEventFlowItem({required this.kind, required this.count});
 
   final StaffSupervisorEventFlowKind kind;
   final int count;
@@ -101,10 +90,7 @@ class StaffSupervisorEventFlowItem {
 }
 
 class StaffSupervisorSystemLogEntry {
-  const StaffSupervisorSystemLogEntry({
-    required this.time,
-    required this.kind,
-  });
+  const StaffSupervisorSystemLogEntry({required this.time, required this.kind});
 
   final String time;
   final StaffSupervisorSystemLogKind kind;
@@ -156,30 +142,44 @@ class StaffSupervisorSystemStatusResult {
     return scanners.isNotEmpty ? scanners.first : null;
   }
 
-  factory StaffSupervisorSystemStatusResult.fromJson(Map<String, dynamic> json) {
-    final flags = json['operational_flags'] as Map<String, dynamic>? ?? const {};
+  factory StaffSupervisorSystemStatusResult.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final flags =
+        json['operational_flags'] as Map<String, dynamic>? ?? const {};
     return StaffSupervisorSystemStatusResult(
       eventId: json['event_id'] as String? ?? '',
       eventTitle: json['event_title'] as String? ?? '',
       generalHealth: (json['general_health'] as List<dynamic>? ?? const [])
-          .map((item) => StaffSupervisorGeneralHealthItem.fromJson(
-                item as Map<String, dynamic>,
-              ))
+          .map(
+            (item) => StaffSupervisorGeneralHealthItem.fromJson(
+              item as Map<String, dynamic>,
+            ),
+          )
           .toList(),
       scanners: (json['scanners'] as List<dynamic>? ?? const [])
-          .map((item) =>
-              StaffSupervisorScannerItem.fromJson(item as Map<String, dynamic>))
+          .map(
+            (item) => StaffSupervisorScannerItem.fromJson(
+              item as Map<String, dynamic>,
+            ),
+          )
           .toList(),
       alerts: (json['alerts'] as List<dynamic>? ?? const [])
           .map((item) => _parseAlertKind(item as String?))
           .toList(),
       eventFlow: (json['event_flow'] as List<dynamic>? ?? const [])
-          .map((item) =>
-              StaffSupervisorEventFlowItem.fromJson(item as Map<String, dynamic>))
+          .map(
+            (item) => StaffSupervisorEventFlowItem.fromJson(
+              item as Map<String, dynamic>,
+            ),
+          )
           .toList(),
       logs: (json['logs'] as List<dynamic>? ?? const [])
-          .map((item) =>
-              StaffSupervisorSystemLogEntry.fromJson(item as Map<String, dynamic>))
+          .map(
+            (item) => StaffSupervisorSystemLogEntry.fromJson(
+              item as Map<String, dynamic>,
+            ),
+          )
           .toList(),
       riskLevel: json['risk_level'] == null
           ? null
@@ -343,11 +343,10 @@ extension StaffSupervisorQuickActionKindApi on StaffSupervisorQuickActionKind {
   }
 }
 
-enum StaffSupervisorSystemBackendAction {
-  restartScanner,
-}
+enum StaffSupervisorSystemBackendAction { restartScanner }
 
-extension StaffSupervisorSystemBackendActionApi on StaffSupervisorSystemBackendAction {
+extension StaffSupervisorSystemBackendActionApi
+    on StaffSupervisorSystemBackendAction {
   String get apiValue {
     return switch (this) {
       StaffSupervisorSystemBackendAction.restartScanner => 'restart_scanner',

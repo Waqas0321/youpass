@@ -38,7 +38,9 @@ class StaffSupervisorActionHistoryList extends StatelessWidget {
               title: entryTitle(entries[index]),
               supervisorPrefix: supervisorPrefix,
               targetText: targetLabel?.call(entries[index]),
-              onTap: onEntryTap == null ? null : () => onEntryTap!(entries[index]),
+              onTap: onEntryTap == null
+                  ? null
+                  : () => onEntryTap!(entries[index]),
             ),
             if (index < entries.length - 1)
               Divider(
@@ -73,47 +75,47 @@ class _ActionHistoryRow extends StatelessWidget {
   (Color, IconData) get _badgeStyle {
     return switch (entry.result) {
       StaffSupervisorAccessResult.valid => (
-          StaffSupervisorDesign.successGreen,
-          Icons.check_circle_rounded,
-        ),
+        StaffSupervisorDesign.successGreen,
+        Icons.check_circle_rounded,
+      ),
       StaffSupervisorAccessResult.reEntry => (
-          StaffSupervisorDesign.accent,
-          Icons.login_rounded,
-        ),
+        StaffSupervisorDesign.accent,
+        Icons.login_rounded,
+      ),
       StaffSupervisorAccessResult.rejected => (
-          const Color(0xFFEF4444),
-          Icons.block_rounded,
-        ),
+        const Color(0xFFEF4444),
+        Icons.block_rounded,
+      ),
       StaffSupervisorAccessResult.supervisor => (
-          const Color(0xFF2563EB),
-          Icons.verified_user_outlined,
-        ),
+        const Color(0xFF2563EB),
+        Icons.verified_user_outlined,
+      ),
       StaffSupervisorAccessResult.unknown => switch (entry.category) {
-          StaffSupervisorActionHistoryCategory.access => (
-              StaffSupervisorDesign.successGreen,
-              Icons.door_front_door_outlined,
-            ),
-          StaffSupervisorActionHistoryCategory.entryOverride => (
-              StaffSupervisorDesign.accent,
-              Icons.qr_code_2_rounded,
-            ),
-          StaffSupervisorActionHistoryCategory.duplicate => (
-              const Color(0xFFEF4444),
-              Icons.warning_amber_rounded,
-            ),
-          StaffSupervisorActionHistoryCategory.manualValidation => (
-              const Color(0xFF2563EB),
-              Icons.badge_outlined,
-            ),
-          StaffSupervisorActionHistoryCategory.vip => (
-              StaffSupervisorDesign.successGreen,
-              Icons.workspace_premium_outlined,
-            ),
-          StaffSupervisorActionHistoryCategory.system => (
-              AppColors.secondaryGrey,
-              Icons.monitor_heart_outlined,
-            ),
-        },
+        StaffSupervisorActionHistoryCategory.access => (
+          StaffSupervisorDesign.successGreen,
+          Icons.door_front_door_outlined,
+        ),
+        StaffSupervisorActionHistoryCategory.entryOverride => (
+          StaffSupervisorDesign.accent,
+          Icons.qr_code_2_rounded,
+        ),
+        StaffSupervisorActionHistoryCategory.duplicate => (
+          const Color(0xFFEF4444),
+          Icons.warning_amber_rounded,
+        ),
+        StaffSupervisorActionHistoryCategory.manualValidation => (
+          const Color(0xFF2563EB),
+          Icons.badge_outlined,
+        ),
+        StaffSupervisorActionHistoryCategory.vip => (
+          StaffSupervisorDesign.successGreen,
+          Icons.workspace_premium_outlined,
+        ),
+        StaffSupervisorActionHistoryCategory.system => (
+          AppColors.secondaryGrey,
+          Icons.monitor_heart_outlined,
+        ),
+      },
     };
   }
 
@@ -124,11 +126,12 @@ class _ActionHistoryRow extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-              onTap: onTap != null &&
-                      entry.ticketId != null &&
-                      entry.ticketId!.isNotEmpty
-                  ? onTap
-                  : null,
+        onTap:
+            onTap != null &&
+                entry.ticketId != null &&
+                entry.ticketId!.isNotEmpty
+            ? onTap
+            : null,
         borderRadius: BorderRadius.circular(layout.radius(8)),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: layout.spacing(10)),
@@ -142,7 +145,11 @@ class _ActionHistoryRow extends StatelessWidget {
                   color: badgeColor.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(badgeIcon, color: badgeColor, size: layout.spacing(18)),
+                child: Icon(
+                  badgeIcon,
+                  color: badgeColor,
+                  size: layout.spacing(18),
+                ),
               ),
               SizedBox(width: layout.spacing(12)),
               Expanded(

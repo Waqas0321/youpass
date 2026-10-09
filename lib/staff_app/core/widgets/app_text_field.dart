@@ -98,7 +98,8 @@ class AppTextField extends StatelessWidget {
     TextStyle hintStyle,
   ) {
     final radius = BorderRadius.circular(layout.radius(12));
-    final padding = contentPadding ??
+    final padding =
+        contentPadding ??
         EdgeInsets.symmetric(
           horizontal: layout.spacing(12),
           vertical: layout.spacing(16),

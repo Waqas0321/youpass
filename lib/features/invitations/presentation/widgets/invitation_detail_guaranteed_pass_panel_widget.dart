@@ -36,7 +36,9 @@ class InvitationDetailGuaranteedPassPanelWidget extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: InvitationsDesignSpec.guaranteedTypeGold.withValues(alpha: 0.6),
+              color: InvitationsDesignSpec.guaranteedTypeGold.withValues(
+                alpha: 0.6,
+              ),
               width: 1.5,
             ),
           ),

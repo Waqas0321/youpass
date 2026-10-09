@@ -32,16 +32,16 @@ class PaymentMethodRequestEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        cardNumber,
-        expiry,
-        cvv,
-        cardholderName,
-        paymentMethodId,
-        gateway,
-        brand,
-        lastFour,
-        expirationMonth,
-        expirationYear,
-        setAsDefault,
-      ];
+    cardNumber,
+    expiry,
+    cvv,
+    cardholderName,
+    paymentMethodId,
+    gateway,
+    brand,
+    lastFour,
+    expirationMonth,
+    expirationYear,
+    setAsDefault,
+  ];
 }

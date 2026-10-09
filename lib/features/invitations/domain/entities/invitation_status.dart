@@ -9,6 +9,7 @@ enum InvitationStatus {
   validated,
   charged,
   failed,
+
   /// Legacy aliases kept for backward-compatible parsing.
   pending,
   confirmed,

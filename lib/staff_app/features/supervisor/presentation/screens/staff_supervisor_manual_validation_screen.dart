@@ -225,12 +225,15 @@ class _StaffSupervisorManualValidationScreenState
                     StaffSupervisorDrinkSearchField(
                       controller: provider.search,
                       hint: l10n.staffSupervisorSearchPlaceholder,
-                      sectionTitle: l10n.staffSupervisorSearchConsumptionHeading,
+                      sectionTitle:
+                          l10n.staffSupervisorSearchConsumptionHeading,
                       onResultSelected: provider.onSearchResultSelected,
                     ),
                     if (provider.isLoadingDetail)
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: layout.spacing(24)),
+                        padding: EdgeInsets.symmetric(
+                          vertical: layout.spacing(24),
+                        ),
                         child: const Center(
                           child: CircularProgressIndicator(color: _accent),
                         ),
@@ -247,215 +250,238 @@ class _StaffSupervisorManualValidationScreenState
                         ),
                       )
                     else if (result != null && detail != null) ...[
-                  SizedBox(height: layout.spacing(14)),
-                  _ResultFoundCard(
-                    layout: layout,
-                    l10n: l10n,
-                    result: result,
-                    orderCode: detail.orderCode,
-                  ),
-                  SizedBox(height: layout.spacing(14)),
-                  StaffSupervisorSectionCard(
-                    child: layout.isTablet
-                        ? Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: _ValidationReasonSection(
-                                  layout: layout,
-                                  l10n: l10n,
-                                  selectedReason: _selectedReason,
-                                  reasonLabel: _reasonLabel,
-                                  onReasonSelected: (reason) =>
-                                      setState(() => _selectedReason = reason),
+                      SizedBox(height: layout.spacing(14)),
+                      _ResultFoundCard(
+                        layout: layout,
+                        l10n: l10n,
+                        result: result,
+                        orderCode: detail.orderCode,
+                      ),
+                      SizedBox(height: layout.spacing(14)),
+                      StaffSupervisorSectionCard(
+                        child: layout.isTablet
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: _ValidationReasonSection(
+                                      layout: layout,
+                                      l10n: l10n,
+                                      selectedReason: _selectedReason,
+                                      reasonLabel: _reasonLabel,
+                                      onReasonSelected: (reason) => setState(
+                                        () => _selectedReason = reason,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: layout.spacing(16)),
+                                  Expanded(
+                                    child: _IdentityValidationSection(
+                                      layout: layout,
+                                      l10n: l10n,
+                                      result: result,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  _ValidationReasonSection(
+                                    layout: layout,
+                                    l10n: l10n,
+                                    selectedReason: _selectedReason,
+                                    reasonLabel: _reasonLabel,
+                                    onReasonSelected: (reason) => setState(
+                                      () => _selectedReason = reason,
+                                    ),
+                                  ),
+                                  SizedBox(height: layout.spacing(20)),
+                                  _IdentityValidationSection(
+                                    layout: layout,
+                                    l10n: l10n,
+                                    result: result,
+                                  ),
+                                ],
+                              ),
+                      ),
+                      SizedBox(height: layout.spacing(14)),
+                      StaffSupervisorSectionCard(
+                        title: l10n.staffSupervisorActionsTitle,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            SizedBox(
+                              height: layout.buttonHeight,
+                              child: ElevatedButton.icon(
+                                onPressed:
+                                    !provider.isSubmitting &&
+                                        _canSubmitManualValidation
+                                    ? () => _submitManualValidation(
+                                        context,
+                                        provider,
+                                        StaffSupervisorBarManualValidationAction
+                                            .authorizeConsumption,
+                                      )
+                                    : null,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: _accent,
+                                  foregroundColor: AppColors.backgroundWhite,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      layout.radius(14),
+                                    ),
+                                  ),
+                                ),
+                                icon: Icon(
+                                  Icons.check_rounded,
+                                  size: layout.spacing(20),
+                                ),
+                                label: AppText(
+                                  l10n.staffSupervisorAuthorizeConsumptionButton,
+                                  variant: AppTextVariant.button,
+                                  color: AppColors.backgroundWhite,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: layout.fontSize(14),
+                                  letterSpacing: 0.7,
                                 ),
                               ),
-                              SizedBox(width: layout.spacing(16)),
-                              Expanded(
-                                child: _IdentityValidationSection(
-                                  layout: layout,
-                                  l10n: l10n,
-                                  result: result,
+                            ),
+                            SizedBox(height: layout.spacing(10)),
+                            SizedBox(
+                              height: layout.buttonHeight,
+                              child: OutlinedButton.icon(
+                                onPressed:
+                                    !provider.isSubmitting &&
+                                        _canSubmitManualValidation
+                                    ? () => _submitManualValidation(
+                                        context,
+                                        provider,
+                                        StaffSupervisorBarManualValidationAction
+                                            .generateTemporaryQr,
+                                      )
+                                    : null,
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: _accent,
+                                  side: const BorderSide(
+                                    color: _accent,
+                                    width: 1.5,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      layout.radius(14),
+                                    ),
+                                  ),
+                                ),
+                                icon: Icon(
+                                  Icons.qr_code_scanner_rounded,
+                                  size: layout.spacing(20),
+                                  color: _accent,
+                                ),
+                                label: AppText(
+                                  l10n.staffSupervisorGenerateTemporaryQrButton,
+                                  variant: AppTextVariant.button,
+                                  color: _accent,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: layout.fontSize(14),
+                                  letterSpacing: 0.7,
                                 ),
                               ),
-                            ],
-                          )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              _ValidationReasonSection(
-                                layout: layout,
-                                l10n: l10n,
-                                selectedReason: _selectedReason,
-                                reasonLabel: _reasonLabel,
-                                onReasonSelected: (reason) =>
-                                    setState(() => _selectedReason = reason),
-                              ),
-                              SizedBox(height: layout.spacing(20)),
-                              _IdentityValidationSection(
-                                layout: layout,
-                                l10n: l10n,
-                                result: result,
-                              ),
-                            ],
-                          ),
-                  ),
-                  SizedBox(height: layout.spacing(14)),
-                  StaffSupervisorSectionCard(
-                    title: l10n.staffSupervisorActionsTitle,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        SizedBox(
-                          height: layout.buttonHeight,
-                          child: ElevatedButton.icon(
-                            onPressed: !provider.isSubmitting &&
-                                    _canSubmitManualValidation
-                                ? () => _submitManualValidation(
-                                      context,
-                                      provider,
-                                      StaffSupervisorBarManualValidationAction
-                                          .authorizeConsumption,
-                                    )
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: _accent,
-                              foregroundColor: AppColors.backgroundWhite,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(layout.radius(14)),
+                            ),
+                            SizedBox(height: layout.spacing(10)),
+                            SizedBox(
+                              height: layout.buttonHeight,
+                              child: OutlinedButton.icon(
+                                onPressed:
+                                    !provider.isSubmitting &&
+                                        _canSubmitManualValidation
+                                    ? () => _submitManualValidation(
+                                        context,
+                                        provider,
+                                        StaffSupervisorBarManualValidationAction
+                                            .rejectConsumption,
+                                      )
+                                    : null,
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: _dangerRed,
+                                  side: const BorderSide(
+                                    color: _dangerRed,
+                                    width: 1.5,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      layout.radius(14),
+                                    ),
+                                  ),
+                                ),
+                                icon: Icon(
+                                  Icons.close_rounded,
+                                  size: layout.spacing(20),
+                                  color: _dangerRed,
+                                ),
+                                label: AppText(
+                                  l10n.staffSupervisorRejectButton,
+                                  variant: AppTextVariant.button,
+                                  color: _dangerRed,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: layout.fontSize(14),
+                                  letterSpacing: 0.7,
+                                ),
                               ),
                             ),
-                            icon: Icon(Icons.check_rounded,
-                                size: layout.spacing(20)),
-                            label: AppText(
-                              l10n.staffSupervisorAuthorizeConsumptionButton,
-                              variant: AppTextVariant.button,
-                              color: AppColors.backgroundWhite,
-                              fontWeight: FontWeight.w800,
-                              fontSize: layout.fontSize(14),
-                              letterSpacing: 0.7,
-                            ),
-                          ),
+                          ],
                         ),
-                        SizedBox(height: layout.spacing(10)),
-                        SizedBox(
-                          height: layout.buttonHeight,
-                          child: OutlinedButton.icon(
-                            onPressed: !provider.isSubmitting &&
-                                    _canSubmitManualValidation
-                                ? () => _submitManualValidation(
-                                      context,
-                                      provider,
-                                      StaffSupervisorBarManualValidationAction
-                                          .generateTemporaryQr,
-                                    )
-                                : null,
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: _accent,
-                              side: const BorderSide(color: _accent, width: 1.5),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(layout.radius(14)),
+                      ),
+                      SizedBox(height: layout.spacing(14)),
+                      StaffSupervisorSectionCard(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            AppText(
+                              l10n.staffSupervisorAuthorizationPinLabel,
+                              variant: AppTextVariant.label,
+                              color: AppColors.secondaryGrey,
+                              fontSize: layout.fontSize(13),
+                              fontWeight: FontWeight.w500,
+                            ),
+                            SizedBox(height: layout.spacing(12)),
+                            StaffPinInputWidget(
+                              controller: _pinController,
+                              style: StaffPinInputStyle.boxes,
+                              obscureBoxDigits: true,
+                              autofocus: false,
+                              onChanged: (_) => setState(() {}),
+                            ),
+                            SizedBox(height: layout.spacing(20)),
+                            AppText(
+                              l10n.staffSupervisorReasonTitle,
+                              variant: AppTextVariant.label,
+                              color: AppColors.secondaryGrey,
+                              fontSize: layout.fontSize(13),
+                              fontWeight: FontWeight.w500,
+                            ),
+                            SizedBox(height: layout.spacing(10)),
+                            TextField(
+                              controller: _reasonController,
+                              maxLines: 3,
+                              onChanged: (_) => setState(() {}),
+                              style: TextStyle(
+                                fontSize: layout.fontSize(14),
+                                color: AppColors.homeBlack,
+                              ),
+                              decoration: _inputDecoration(
+                                layout,
+                                hint: l10n
+                                    .staffSupervisorValidationReasonPlaceholder,
                               ),
                             ),
-                            icon: Icon(Icons.qr_code_scanner_rounded,
-                                size: layout.spacing(20), color: _accent),
-                            label: AppText(
-                              l10n.staffSupervisorGenerateTemporaryQrButton,
-                              variant: AppTextVariant.button,
-                              color: _accent,
-                              fontWeight: FontWeight.w800,
-                              fontSize: layout.fontSize(14),
-                              letterSpacing: 0.7,
-                            ),
-                          ),
+                          ],
                         ),
-                        SizedBox(height: layout.spacing(10)),
-                        SizedBox(
-                          height: layout.buttonHeight,
-                          child: OutlinedButton.icon(
-                            onPressed: !provider.isSubmitting &&
-                                    _canSubmitManualValidation
-                                ? () => _submitManualValidation(
-                                      context,
-                                      provider,
-                                      StaffSupervisorBarManualValidationAction
-                                          .rejectConsumption,
-                                    )
-                                : null,
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: _dangerRed,
-                              side: const BorderSide(color: _dangerRed, width: 1.5),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(layout.radius(14)),
-                              ),
-                            ),
-                            icon: Icon(Icons.close_rounded,
-                                size: layout.spacing(20), color: _dangerRed),
-                            label: AppText(
-                              l10n.staffSupervisorRejectButton,
-                              variant: AppTextVariant.button,
-                              color: _dangerRed,
-                              fontWeight: FontWeight.w800,
-                              fontSize: layout.fontSize(14),
-                              letterSpacing: 0.7,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: layout.spacing(14)),
-                  StaffSupervisorSectionCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        AppText(
-                          l10n.staffSupervisorAuthorizationPinLabel,
-                          variant: AppTextVariant.label,
-                          color: AppColors.secondaryGrey,
-                          fontSize: layout.fontSize(13),
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(height: layout.spacing(12)),
-                        StaffPinInputWidget(
-                          controller: _pinController,
-                          style: StaffPinInputStyle.boxes,
-                          obscureBoxDigits: true,
-                          autofocus: false,
-                          onChanged: (_) => setState(() {}),
-                        ),
-                        SizedBox(height: layout.spacing(20)),
-                        AppText(
-                          l10n.staffSupervisorReasonTitle,
-                          variant: AppTextVariant.label,
-                          color: AppColors.secondaryGrey,
-                          fontSize: layout.fontSize(13),
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(height: layout.spacing(10)),
-                        TextField(
-                          controller: _reasonController,
-                          maxLines: 3,
-                          onChanged: (_) => setState(() {}),
-                          style: TextStyle(
-                            fontSize: layout.fontSize(14),
-                            color: AppColors.homeBlack,
-                          ),
-                          decoration: _inputDecoration(
-                            layout,
-                            hint: l10n.staffSupervisorValidationReasonPlaceholder,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: layout.spacing(14)),
-                  _SystemRecordFooter(layout: layout, l10n: l10n),
-                ],
+                      ),
+                      SizedBox(height: layout.spacing(14)),
+                      _SystemRecordFooter(layout: layout, l10n: l10n),
+                    ],
                   ],
                 ),
               ),
@@ -548,7 +574,9 @@ class _ResultFoundCard extends StatelessWidget {
             right: 0,
             top: layout.spacing(4),
             child: AppText(
-              orderCode.isNotEmpty ? orderCode : l10n.staffSupervisorResultPurchaseLabel,
+              orderCode.isNotEmpty
+                  ? orderCode
+                  : l10n.staffSupervisorResultPurchaseLabel,
               variant: AppTextVariant.body,
               color: AppColors.homeDividerGrey,
               fontSize: layout.fontSize(28),
@@ -646,7 +674,8 @@ class _ValidationReasonSection extends StatelessWidget {
   final ResponsiveLayout layout;
   final dynamic l10n;
   final StaffSupervisorManualValidationReason? selectedReason;
-  final String Function(dynamic, StaffSupervisorManualValidationReason) reasonLabel;
+  final String Function(dynamic, StaffSupervisorManualValidationReason)
+  reasonLabel;
   final ValueChanged<StaffSupervisorManualValidationReason> onReasonSelected;
 
   static const _accent = AppColors.homeAccentYellow;

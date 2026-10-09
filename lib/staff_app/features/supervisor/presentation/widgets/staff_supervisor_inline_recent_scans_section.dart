@@ -78,10 +78,8 @@ class _StaffSupervisorInlineRecentScansSectionState
         entries: _entries,
         isLoading: _isLoading,
         emptyMessage: emptyMessage,
-        onViewAllTap: () => openStaffRecentScansList(
-          context,
-          purpose: widget.purpose,
-        ),
+        onViewAllTap: () =>
+            openStaffRecentScansList(context, purpose: widget.purpose),
         onScanTap: (scan) => openStaffScanResultDetail(
           context,
           scan: scan,

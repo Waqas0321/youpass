@@ -44,8 +44,9 @@ class AppText extends StatelessWidget {
       height: height,
     );
 
-    final effectiveStyle =
-        style == null ? resolvedStyle : resolvedStyle.merge(style);
+    final effectiveStyle = style == null
+        ? resolvedStyle
+        : resolvedStyle.merge(style);
 
     return Text(
       data,

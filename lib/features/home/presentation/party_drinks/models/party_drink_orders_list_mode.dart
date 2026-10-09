@@ -1,4 +1,1 @@
-enum PartyDrinkOrdersListMode {
-  purchases,
-  courtesies,
-}
+enum PartyDrinkOrdersListMode { purchases, courtesies }

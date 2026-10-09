@@ -13,10 +13,7 @@ enum StaffSupervisorDuplicateAction {
   escalateAlert,
 }
 
-enum StaffSupervisorDuplicateAlertStatus {
-  pending,
-  resolved,
-}
+enum StaffSupervisorDuplicateAlertStatus { pending, resolved }
 
 enum StaffSupervisorDuplicateQrLogKind {
   validated,
@@ -137,8 +134,7 @@ class StaffSupervisorDuplicateAlert {
       qrId: json['qr_id'] as String? ?? '',
       purchaseId: json['purchase_id'] as String? ?? '',
       isVip: json['is_vip'] as bool? ?? false,
-      isPending: json['is_pending'] as bool? ??
-          statusRaw != 'resolved',
+      isPending: json['is_pending'] as bool? ?? statusRaw != 'resolved',
       status: statusRaw == 'resolved'
           ? StaffSupervisorDuplicateAlertStatus.resolved
           : StaffSupervisorDuplicateAlertStatus.pending,

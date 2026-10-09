@@ -6,10 +6,7 @@ import 'package:youpass/features/home/presentation/party_drinks/utils/party_drin
 import 'package:youpass/features/home/presentation/party_drinks/utils/party_drink_price_formatter.dart';
 
 class PartyDrinkCheckoutPriceBreakdownWidget extends StatelessWidget {
-  const PartyDrinkCheckoutPriceBreakdownWidget({
-    super.key,
-    required this.cart,
-  });
+  const PartyDrinkCheckoutPriceBreakdownWidget({super.key, required this.cart});
 
   final PartyDrinkCartSummary cart;
 
@@ -57,6 +54,7 @@ class _PriceRow extends StatelessWidget {
         : PartyDrinksDesignSpec.px(context, 15);
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         if (showInfo)
           Flexible(
@@ -98,23 +96,21 @@ class _PriceRow extends StatelessWidget {
             ),
           ),
         SizedBox(width: PartyDrinksDesignSpec.px(context, 12)),
-        Expanded(
-          child: Align(
+        // Flexible (not Expanded) so spaceBetween pins the value to the right edge.
+        Flexible(
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
             alignment: Alignment.centerRight,
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.centerRight,
-              child: Text(
-                value,
-                maxLines: 1,
-                softWrap: false,
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontSize: valueSize,
-                  fontWeight: emphasized ? FontWeight.w800 : FontWeight.w600,
-                  color: Colors.white,
-                  height: 1.1,
-                ),
+            child: Text(
+              value,
+              maxLines: 1,
+              softWrap: false,
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                fontSize: valueSize,
+                fontWeight: emphasized ? FontWeight.w800 : FontWeight.w600,
+                color: Colors.white,
+                height: 1.1,
               ),
             ),
           ),

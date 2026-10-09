@@ -6,10 +6,7 @@ import 'package:youpass/features/invitations/presentation/invitations_design_spe
 import 'package:youpass/features/invitations/presentation/widgets/bold_check_painter.dart';
 
 class InvitationStatusIconWidget extends StatelessWidget {
-  const InvitationStatusIconWidget({
-    super.key,
-    required this.status,
-  });
+  const InvitationStatusIconWidget({super.key, required this.status});
 
   final InvitationStatus status;
 

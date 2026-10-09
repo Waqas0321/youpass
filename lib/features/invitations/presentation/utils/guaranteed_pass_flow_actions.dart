@@ -20,7 +20,8 @@ class GuaranteedPassFlowActions {
 
   final BuildContext context;
 
-  InvitationsScreenActions get _screenActions => InvitationsScreenActions(context);
+  InvitationsScreenActions get _screenActions =>
+      InvitationsScreenActions(context);
 
   /// Section 14.3B list-screen flow — Important modal → card → confirm.
   Future<void> acceptFromList(InvitationEntity invitation) async {

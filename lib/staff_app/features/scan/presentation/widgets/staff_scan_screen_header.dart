@@ -44,9 +44,7 @@ class StaffScanScreenHeader extends StatelessWidget {
                     ),
                   ),
                   const Expanded(
-                    child: Center(
-                      child: YouPassBrandLogo(compact: true),
-                    ),
+                    child: Center(child: YouPassBrandLogo(compact: true)),
                   ),
                   SizedBox(width: layout.spacing(48)),
                 ],

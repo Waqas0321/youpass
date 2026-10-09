@@ -7,11 +7,13 @@ abstract final class StaffApiEndpoints {
   static const me = '/staff-auth/me';
   static const scanEntry = '/staff/scan/entry';
   static const scanProduct = '/staff/scan/product';
+  static const scanSync = '/staff/scan/sync';
   static const scanRecent = '/staff/scan/recent';
   static const supervisorValidatePin = '/staff/supervisor/validate-pin';
   static const supervisorSearchEntries = '/staff/supervisor/entries/search';
   static const supervisorSearchDrinks = '/staff/supervisor/drinks/search';
-  static const supervisorDrinkActionHistory = '/staff/supervisor/drinks/action-history';
+  static const supervisorDrinkActionHistory =
+      '/staff/supervisor/drinks/action-history';
   static String supervisorDrinkDetail(String redemptionId) =>
       '/staff/supervisor/drinks/$redemptionId';
   static String supervisorDrinkCancellation(String redemptionId) =>
@@ -40,12 +42,14 @@ abstract final class StaffApiEndpoints {
       '/staff/supervisor/entries/$ticketId/manual-validation';
   static String supervisorEntryManualValidationByEntryCode(String entryCode) =>
       '/staff/supervisor/entries/by-entry/${Uri.encodeComponent(entryCode)}/manual-validation';
-  static const supervisorVipTablesSearch = '/staff/supervisor/vip-tables/search';
+  static const supervisorVipTablesSearch =
+      '/staff/supervisor/vip-tables/search';
   static String supervisorVipTable(String orderId) =>
       '/staff/supervisor/vip-tables/$orderId';
   static String supervisorVipTableActions(String orderId) =>
       '/staff/supervisor/vip-tables/$orderId/actions';
   static const supervisorSystemStatus = '/staff/supervisor/system-status';
-  static const supervisorSystemStatusActions = '/staff/supervisor/system-status/actions';
+  static const supervisorSystemStatusActions =
+      '/staff/supervisor/system-status/actions';
   static const supervisorActionHistory = '/staff/supervisor/action-history';
 }

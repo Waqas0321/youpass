@@ -92,8 +92,9 @@ class PartyDrinkCatalog {
     List<PartyDrinkItem> drinks,
     Set<String> categorySlugs,
   ) {
-    return drinksForCategories(drinks, categorySlugs)
-        .where((drink) => drink.isRecommended)
-        .toList();
+    return drinksForCategories(
+      drinks,
+      categorySlugs,
+    ).where((drink) => drink.isRecommended).toList();
   }
 }

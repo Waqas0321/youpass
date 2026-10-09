@@ -36,6 +36,12 @@ extension StaffProfileScanPermissions on StaffProfile {
     if (canScanTickets && !canScanProducts) {
       return StaffWorkMode.accessValidator;
     }
+    // Both permissions: start where the staff member is assigned (door vs bar).
+    final slug = roleSlug?.toLowerCase();
+    final label = roleLabel?.toLowerCase();
+    if (slug == 'tickets' || label == 'tickets' || label == 'entradas') {
+      return StaffWorkMode.accessValidator;
+    }
     return StaffWorkMode.bar;
   }
 }

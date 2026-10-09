@@ -21,12 +21,12 @@ class InvitationTicketEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        invitationId,
-        eventTitle,
-        dateTimeLabel,
-        locationLabel,
-        entryCode,
-        qrPayload,
-        seatLabel,
-      ];
+    invitationId,
+    eventTitle,
+    dateTimeLabel,
+    locationLabel,
+    entryCode,
+    qrPayload,
+    seatLabel,
+  ];
 }

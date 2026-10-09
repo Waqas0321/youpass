@@ -49,7 +49,9 @@ class PaymentMethodFieldWidget extends StatelessWidget {
           decoration: InputDecoration(
             hintText: hint,
             counterText: '',
-            hintStyle: TextStyle(color: YouPassThemedColors.secondaryText(context)),
+            hintStyle: TextStyle(
+              color: YouPassThemedColors.secondaryText(context),
+            ),
             prefixIcon: icon == null
                 ? null
                 : Icon(

@@ -14,8 +14,8 @@ class StaffSupervisorEntryQrOverrideProvider extends ChangeNotifier {
     StaffSupervisorApiService? apiService,
     required String genericSearchError,
     required String genericLoadError,
-  })  : _apiService = apiService ?? StaffSupervisorApiService(ApiClient()),
-        _args = args {
+  }) : _apiService = apiService ?? StaffSupervisorApiService(ApiClient()),
+       _args = args {
     search = StaffSupervisorEntrySearchController(
       apiService: _apiService,
       genericSearchError: genericSearchError,
@@ -105,10 +105,7 @@ class StaffSupervisorEntryQrOverrideProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> loadContext({
-    String? ticketId,
-    String? entryCode,
-  }) async {
+  Future<void> loadContext({String? ticketId, String? entryCode}) async {
     isLoadingContext = true;
     contextError = null;
     contextData = null;

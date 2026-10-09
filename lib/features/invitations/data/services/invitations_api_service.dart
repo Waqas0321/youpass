@@ -51,7 +51,8 @@ class InvitationsApiService extends BaseApiService {
     }
 
     if (raw is Map<String, dynamic>) {
-      final methods = raw['payment_methods'] ??
+      final methods =
+          raw['payment_methods'] ??
           raw['paymentMethods'] ??
           raw['cards'] ??
           raw['items'];
@@ -98,10 +99,8 @@ class InvitationsApiService extends BaseApiService {
   Future<InvitationTicketModel> fetchTicket(String invitationId) {
     return getModel(
       ApiEndpoints.invitationTicket(invitationId),
-      fromJson: (json) => InvitationTicketModel.fromJson(
-        json,
-        invitationId: invitationId,
-      ),
+      fromJson: (json) =>
+          InvitationTicketModel.fromJson(json, invitationId: invitationId),
       authenticated: true,
     );
   }

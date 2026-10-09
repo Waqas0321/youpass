@@ -79,11 +79,7 @@ class StaffSupervisorPageHeader extends StatelessWidget {
                 ],
               ),
             ),
-            Divider(
-              height: 1,
-              thickness: 1,
-              color: AppColors.homeDividerGrey,
-            ),
+            Divider(height: 1, thickness: 1, color: AppColors.homeDividerGrey),
           ],
         ),
       ),

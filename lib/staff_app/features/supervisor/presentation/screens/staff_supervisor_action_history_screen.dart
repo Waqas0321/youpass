@@ -34,9 +34,12 @@ class StaffSupervisorActionHistoryScreen extends StatelessWidget {
 
   String _entryTitle(dynamic l10n, StaffSupervisorActionHistoryEntry entry) {
     final resultLabel = switch (entry.result) {
-      StaffSupervisorAccessResult.valid => l10n.staffSupervisorAccessResultValid,
-      StaffSupervisorAccessResult.reEntry => l10n.staffSupervisorAccessResultReEntry,
-      StaffSupervisorAccessResult.rejected => l10n.staffSupervisorAccessResultRejected,
+      StaffSupervisorAccessResult.valid =>
+        l10n.staffSupervisorAccessResultValid,
+      StaffSupervisorAccessResult.reEntry =>
+        l10n.staffSupervisorAccessResultReEntry,
+      StaffSupervisorAccessResult.rejected =>
+        l10n.staffSupervisorAccessResultRejected,
       StaffSupervisorAccessResult.supervisor =>
         l10n.staffSupervisorAccessResultSupervisor,
       StaffSupervisorAccessResult.unknown => entry.kind.replaceAll('_', ' '),
@@ -110,7 +113,8 @@ class StaffSupervisorActionHistoryScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     AppText(
-                      provider.loadError ?? l10n.staffSupervisorActionHistoryLoadError,
+                      provider.loadError ??
+                          l10n.staffSupervisorActionHistoryLoadError,
                       variant: AppTextVariant.body,
                       textAlign: TextAlign.center,
                       color: AppColors.secondaryGrey,
@@ -165,9 +169,11 @@ class StaffSupervisorActionHistoryScreen extends StatelessWidget {
               StaffSupervisorActionHistoryList(
                 entries: history.actions,
                 entryTitle: (entry) => _entryTitle(l10n, entry),
-                supervisorPrefix: l10n.staffSupervisorVipHistorySupervisorPrefix,
+                supervisorPrefix:
+                    l10n.staffSupervisorVipHistorySupervisorPrefix,
                 targetLabel: _targetLabel,
-                onEntryTap: (entry) => _openEntryHistory(context, entry, history),
+                onEntryTap: (entry) =>
+                    _openEntryHistory(context, entry, history),
               ),
           ],
         );

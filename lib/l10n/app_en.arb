@@ -2,6 +2,7 @@
   "@@locale": "en",
   "welcomeBackTitle": "WELCOME BACK",
   "phoneLoginSubtitle": "Sign in with your number and receive your code via WhatsApp",
+  "registerPhoneSubtitle": "Enter your number and we'll send you a code via WhatsApp to create your account",
   "codeSentWhatsApp": "Code sent to your WhatsApp",
   "codeSentSms": "Code sent via SMS",
   "phoneNumberLabel": "PHONE NUMBER",
@@ -199,7 +200,7 @@
   "otpInvalidLength": "The code must be 6 digits",
   "registerFullNameRequired": "Enter your full name",
   "registerIdDocumentRequired": "Enter your ID or passport",
-  "registerBirthDateRequired": "Select your date of birth",
+  "registerBirthDateRequired": "Enter your date of birth as DD/MM/YYYY",
   "registerGenderRequired": "Select your gender",
   "registerEmailRequired": "Enter your email",
   "registerTermsRequired": "You must accept the terms and conditions",
@@ -264,6 +265,7 @@
     }
   },
   "errorMaxResends": "Too many resend attempts. Try again later.",
+  "errorAccountBlocked": "Your account has been blocked. Please contact support at soporte@youpass.app.",
   "errorBlocked": "Too many failed attempts. Try again later.",
   "errorValidation": "Please check the information entered",
   "routeNotFound": "Route not found",
@@ -275,7 +277,7 @@
   "idDocumentLabel": "ID OR PASSPORT",
   "idDocumentHint": "Enter your ID or passport",
   "birthDateLabel": "DATE OF BIRTH",
-  "birthDateHint": "Select your date of birth",
+  "birthDateHint": "DD/MM/YYYY",
   "genderLabel": "GENDER",
   "genderHint": "Select your gender",
   "genderMale": "Male",
@@ -316,7 +318,7 @@
   "partyDrinkCategorySparkling": "Sparkling wines",
   "partyDrinkCategoryEnergy": "Energy drinks",
   "partyDrinkQuickRecommendations": "Quick recommendations",
-  "partyDrinkQuickRecommendationsSubtitle": "Most ordered at YouFest",
+  "partyDrinkQuickRecommendationsSubtitle": "Most ordered tonight",
   "partyDrinkMockPiscola": "Piscola",
   "partyDrinkMockPiscolaDesc": "Pisco + cola drink",
   "partyDrinkMockJagerBomb": "Jager Bomb",
@@ -339,6 +341,7 @@
   },
   "partyDrinkCheckoutPaymentMethod": "Payment method",
   "partyDrinkCheckoutCreditCard": "Credit card",
+  "partyDrinkCheckoutNoCharge": "Courtesy · no charge",
   "partyDrinkCheckoutCardMask": "**** {last4}",
   "@partyDrinkCheckoutCardMask": {
     "placeholders": {
@@ -989,6 +992,14 @@
   "invitationsCardSavedMessage": "Your payment method has been registered correctly. Remember the following:",
   "invitationsCardSavedReminderCharge": "If you confirm attendance and do not show up, you will be charged the full ticket price.",
   "invitationsCardSavedReminderCancel": "If you wish to cancel your attendance, you must do so at least 48 hours in advance to avoid being charged.",
+  "invitationsCardSavedReminderCancelBy": "If you wish to cancel your attendance, you must do so before {deadline} to avoid being charged.",
+  "@invitationsCardSavedReminderCancelBy": {
+    "placeholders": {
+      "deadline": {
+        "type": "String"
+      }
+    }
+  },
   "eventTicketScreenTitle": "Event ticket",
   "eventTicketReadyTitle": "Your ticket is ready!",
   "eventTicketReadySubtitle": "Show this code at the entrance to enter the event.",
@@ -1188,6 +1199,9 @@
     }
   },
   "vipTicketSoldOutBadge": "Sold out",
+  "vipTicketPausedBadge": "Paused",
+  "vipTicketUnavailableBadge": "Not available",
+  "vipTicketsSalesUnavailable": "Ticket sales are not available right now. Check back soon.",
   "vipTicketsNoneAvailable": "No tickets available for this event.",
   "vipTicketsAllSoldOut": "All tickets for this event are sold out.",
   "errorCheckoutInsufficientStock": "Not enough tickets available. Lower the quantity or choose another option.",
@@ -1480,6 +1494,7 @@
   "waitlistViewInvitations": "View invitations",
   "waitlistStatusTitle": "Waiting list unavailable",
   "errorStaffNotFound": "No staff account found for this number. Ask your admin to register you.",
+  "errorStaffAccessPaused": "Your staff access is paused. Contact the event administrator.",
   "errorNetworkConnection": "Could not reach the server. Check your connection and try again.",
   "staffScanQrTitle": "SCAN QR",
   "staffScanQrSubtitle": "Tap to start scanning",
@@ -1574,6 +1589,7 @@
   "staffSupervisorPinContinueButton": "CONTINUE",
   "staffSupervisorPinFooter": "Only authorized staff can access.",
   "staffSupervisorPinInvalid": "Incorrect PIN. Try again.",
+  "staffSupervisorPinOfflineSetupRequired": "Connect once and enter your supervisor PIN. After that, offline unlock works on this device.",
   "staffSupervisorPinNotConfigured": "Supervisor PIN has not been set up yet. Ask an administrator to generate one.",
   "staffSupervisorPinAccessDenied": "Your account is not authorized for supervisor mode.",
   "staffSupervisorDashboardTitle": "SUPERVISOR MODE",

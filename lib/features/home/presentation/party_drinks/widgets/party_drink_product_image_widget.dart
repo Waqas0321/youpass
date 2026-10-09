@@ -48,11 +48,7 @@ class PartyDrinkProductImageWidget extends StatelessWidget {
       width: width,
       height: height,
       child: const Center(
-        child: Icon(
-          Icons.local_bar_outlined,
-          color: Colors.white54,
-          size: 40,
-        ),
+        child: Icon(Icons.local_bar_outlined, color: Colors.white54, size: 40),
       ),
     );
   }

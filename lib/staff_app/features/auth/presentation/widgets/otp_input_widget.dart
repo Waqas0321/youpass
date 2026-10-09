@@ -97,68 +97,68 @@ class OtpInputWidgetState extends State<OtpInputWidget> {
               alignment: Alignment.center,
               children: [
                 Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(OtpPolicy.codeLength, (index) {
-                  final digit = index < otpValue.length ? otpValue[index] : '';
-                  final isActive = focusNode.hasFocus && index == activeIndex;
-                  final hasDigit = digit.isNotEmpty;
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(OtpPolicy.codeLength, (index) {
+                    final digit = index < otpValue.length
+                        ? otpValue[index]
+                        : '';
+                    final isActive = focusNode.hasFocus && index == activeIndex;
+                    final hasDigit = digit.isNotEmpty;
 
-                  return Container(
-                    width: boxWidth,
-                    height: boxHeight,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: theme.inputFill,
-                      borderRadius: BorderRadius.circular(boxRadius),
-                      border: Border.all(
-                        color: isActive
-                            ? AppColors.primaryMustard
-                            : theme.cardBorder,
-                        width: isActive ? 1.5 : 1,
+                    return Container(
+                      width: boxWidth,
+                      height: boxHeight,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: theme.inputFill,
+                        borderRadius: BorderRadius.circular(boxRadius),
+                        border: Border.all(
+                          color: isActive
+                              ? AppColors.primaryMustard
+                              : theme.cardBorder,
+                          width: isActive ? 1.5 : 1,
+                        ),
                       ),
-                    ),
-                    child: AppText(
-                      hasDigit ? digit : '—',
-                      variant: hasDigit
-                          ? AppTextVariant.bodyEmphasis
-                          : AppTextVariant.otpPlaceholder,
-                      fontSize: layout.fontSize(18),
-                    ),
-                  );
-                }),
-              ),
-              Opacity(
-                opacity: 0,
-                child: SizedBox(
-                  width: constraints.maxWidth,
-                  height: boxHeight,
-                  child: TextField(
-                    controller: widget.controller,
-                    focusNode: focusNode,
-                    autofocus: widget.autofocus,
-                    keyboardType: TextInputType.number,
-                    textInputAction: TextInputAction.done,
-                    maxLength: OtpPolicy.codeLength,
-                    autofillHints: const [AutofillHints.oneTimeCode],
-                    enableInteractiveSelection: false,
-                    showCursor: false,
-                    contextMenuBuilder: (context, editableTextState) {
-                      return const SizedBox.shrink();
-                    },
-                    onChanged: handleOtpChanged,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    decoration: const InputDecoration(
-                      counterText: '',
-                      border: InputBorder.none,
+                      child: AppText(
+                        hasDigit ? digit : '—',
+                        variant: hasDigit
+                            ? AppTextVariant.bodyEmphasis
+                            : AppTextVariant.otpPlaceholder,
+                        fontSize: layout.fontSize(18),
+                      ),
+                    );
+                  }),
+                ),
+                Opacity(
+                  opacity: 0,
+                  child: SizedBox(
+                    width: constraints.maxWidth,
+                    height: boxHeight,
+                    child: TextField(
+                      controller: widget.controller,
+                      focusNode: focusNode,
+                      autofocus: widget.autofocus,
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.done,
+                      maxLength: OtpPolicy.codeLength,
+                      autofillHints: const [AutofillHints.oneTimeCode],
+                      enableInteractiveSelection: false,
+                      showCursor: false,
+                      contextMenuBuilder: (context, editableTextState) {
+                        return const SizedBox.shrink();
+                      },
+                      onChanged: handleOtpChanged,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      decoration: const InputDecoration(
+                        counterText: '',
+                        border: InputBorder.none,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
         );
       },
     );

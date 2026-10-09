@@ -28,7 +28,7 @@ class RegisterScreen extends StatelessWidget {
         title: strings.createAccountTitle,
         subtitle: hasVerifiedOtp
             ? strings.createAccountSubtitle
-            : strings.phoneLoginSubtitle,
+            : strings.registerPhoneSubtitle,
       ),
       body: RegisterFormWidget(routeArgs: routeArgs),
       footer: const RegisterFooterWidget(),

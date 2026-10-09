@@ -24,10 +24,8 @@ class PartyDrinkQrAcceptedDialog extends StatefulWidget {
       context: context,
       barrierDismissible: false,
       barrierColor: Colors.black.withValues(alpha: 0.72),
-      builder: (_) => PartyDrinkQrAcceptedDialog(
-        title: title,
-        message: message,
-      ),
+      builder: (_) =>
+          PartyDrinkQrAcceptedDialog(title: title, message: message),
     );
   }
 
@@ -36,7 +34,8 @@ class PartyDrinkQrAcceptedDialog extends StatefulWidget {
       _PartyDrinkQrAcceptedDialogState();
 }
 
-class _PartyDrinkQrAcceptedDialogState extends State<PartyDrinkQrAcceptedDialog> {
+class _PartyDrinkQrAcceptedDialogState
+    extends State<PartyDrinkQrAcceptedDialog> {
   static const _successGreen = Color(0xFF22C55E);
 
   @override

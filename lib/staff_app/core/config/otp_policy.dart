@@ -5,7 +5,8 @@ class OtpPolicy {
 
   static int get codeLength => OtpConstants.fallbackCodeLength;
 
-  static int get resendCooldownSeconds => OtpConstants.fallbackResendCooldownSeconds;
+  static int get resendCooldownSeconds =>
+      OtpConstants.fallbackResendCooldownSeconds;
 
   static int get otpTtlSeconds => OtpConstants.fallbackOtpTtlSeconds;
 

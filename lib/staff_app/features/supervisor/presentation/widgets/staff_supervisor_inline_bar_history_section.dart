@@ -22,7 +22,9 @@ class StaffSupervisorInlineBarHistorySection extends StatelessWidget {
     return switch (entry.result) {
       StaffSupervisorRedemptionResult.redeemed => const Color(0xFF22C55E),
       StaffSupervisorRedemptionResult.restored => _accent,
-      StaffSupervisorRedemptionResult.duplicateAttempt => const Color(0xFFEF4444),
+      StaffSupervisorRedemptionResult.duplicateAttempt => const Color(
+        0xFFEF4444,
+      ),
       StaffSupervisorRedemptionResult.supervisor => const Color(0xFF2563EB),
       StaffSupervisorRedemptionResult.unknown => AppColors.secondaryGrey,
     };
@@ -54,9 +56,9 @@ class StaffSupervisorInlineBarHistorySection extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () => Navigator.of(context).pushNamed(
-                    StaffAppRoutes.supervisorBarActionHistory,
-                  ),
+                  onPressed: () => Navigator.of(
+                    context,
+                  ).pushNamed(StaffAppRoutes.supervisorBarActionHistory),
                   style: TextButton.styleFrom(
                     foregroundColor: AppColors.primaryMustard,
                     padding: EdgeInsets.zero,

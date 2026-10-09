@@ -114,10 +114,7 @@ class _StaffSupervisorCancellationsScreenState
     }
   }
 
-  String _actionLabel(
-    dynamic l10n,
-    StaffSupervisorCancellationAction action,
-  ) {
+  String _actionLabel(dynamic l10n, StaffSupervisorCancellationAction action) {
     return switch (action) {
       StaffSupervisorCancellationAction.cancelConsumption =>
         l10n.staffSupervisorCancelConsumption,
@@ -144,7 +141,10 @@ class _StaffSupervisorCancellationsScreenState
     return const [];
   }
 
-  InputDecoration _inputDecoration(ResponsiveLayout layout, {required String hint}) {
+  InputDecoration _inputDecoration(
+    ResponsiveLayout layout, {
+    required String hint,
+  }) {
     return InputDecoration(
       hintText: hint,
       hintStyle: TextStyle(
@@ -197,8 +197,9 @@ class _StaffSupervisorCancellationsScreenState
     return Consumer<StaffSupervisorDrinkLookupProvider>(
       builder: (context, provider, _) {
         final detail = provider.detail;
-        final availableActions =
-            detail == null ? const <StaffSupervisorCancellationAction>[] : _availableActions(detail);
+        final availableActions = detail == null
+            ? const <StaffSupervisorCancellationAction>[]
+            : _availableActions(detail);
 
         return Scaffold(
           backgroundColor: _pageBg,
@@ -220,7 +221,8 @@ class _StaffSupervisorCancellationsScreenState
                     StaffSupervisorDrinkSearchField(
                       controller: provider.search,
                       hint: l10n.staffSupervisorSearchPlaceholder,
-                      sectionTitle: l10n.staffSupervisorSearchConsumptionHeading,
+                      sectionTitle:
+                          l10n.staffSupervisorSearchConsumptionHeading,
                       onResultSelected: (result) {
                         setState(() {
                           _selectedAction = null;
@@ -232,7 +234,9 @@ class _StaffSupervisorCancellationsScreenState
                     ),
                     if (provider.isLoadingDetail)
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: layout.spacing(24)),
+                        padding: EdgeInsets.symmetric(
+                          vertical: layout.spacing(24),
+                        ),
                         child: const Center(
                           child: CircularProgressIndicator(color: _accent),
                         ),
@@ -306,20 +310,23 @@ class _StaffSupervisorCancellationsScreenState
                           ),
                         ),
                         if (_selectedAction ==
-                            StaffSupervisorCancellationAction.revertValidation) ...[
+                            StaffSupervisorCancellationAction
+                                .revertValidation) ...[
                           SizedBox(height: layout.spacing(14)),
                           StaffSupervisorSectionCard(
                             title: l10n.staffSupervisorRestoreReasonTitle,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                for (final reason in _RestoreReasonPreset.values)
+                                for (final reason
+                                    in _RestoreReasonPreset.values)
                                   _ActionRadioTile(
                                     layout: layout,
                                     label: reason.localized(l10n),
                                     selected: _selectedReason == reason,
-                                    onTap: () =>
-                                        setState(() => _selectedReason = reason),
+                                    onTap: () => setState(
+                                      () => _selectedReason = reason,
+                                    ),
                                   ),
                                 if (_selectedReason ==
                                     _RestoreReasonPreset.other) ...[
@@ -334,7 +341,8 @@ class _StaffSupervisorCancellationsScreenState
                                     ),
                                     decoration: _inputDecoration(
                                       layout,
-                                      hint: l10n.staffSupervisorRestoreReasonOtherHint,
+                                      hint: l10n
+                                          .staffSupervisorRestoreReasonOtherHint,
                                     ),
                                   ),
                                 ],
@@ -477,8 +485,9 @@ class _ExecuteFooter extends StatelessWidget {
               backgroundColor: _accent,
               disabledBackgroundColor: _accent.withValues(alpha: 0.42),
               foregroundColor: AppColors.backgroundWhite,
-              disabledForegroundColor:
-                  AppColors.backgroundWhite.withValues(alpha: 0.85),
+              disabledForegroundColor: AppColors.backgroundWhite.withValues(
+                alpha: 0.85,
+              ),
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(layout.radius(16)),

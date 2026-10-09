@@ -33,6 +33,16 @@ class StaffSupervisorDashboardScreen extends StatelessWidget {
 
   static const _accent = AppColors.homeAccentYellow;
 
+  /// Restores/redemptions done on the pushed screen must show up in Recent actions.
+  static Future<void> _openAndRefresh(
+    BuildContext context,
+    String route,
+  ) async {
+    final provider = context.read<StaffSupervisorBarDashboardProvider>();
+    await Navigator.of(context).pushNamed(route);
+    await provider.loadRecentActions(limit: 20);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -79,7 +89,8 @@ class StaffSupervisorDashboardScreen extends StatelessWidget {
                     l10n.staffSupervisorSearchManagePurchaseLine2,
                   ],
                   actionLabel: l10n.staffSupervisorGoButton,
-                  onActionTap: () => Navigator.of(context).pushNamed(
+                  onActionTap: () => _openAndRefresh(
+                    context,
                     StaffAppRoutes.supervisorCancellations,
                   ),
                 ),
@@ -92,7 +103,8 @@ class StaffSupervisorDashboardScreen extends StatelessWidget {
                     l10n.staffSupervisorRedemptionHistoryLine2,
                   ],
                   actionLabel: l10n.staffSupervisorGoButton,
-                  onActionTap: () => Navigator.of(context).pushNamed(
+                  onActionTap: () => _openAndRefresh(
+                    context,
                     StaffAppRoutes.supervisorBarActionHistory,
                   ),
                 ),

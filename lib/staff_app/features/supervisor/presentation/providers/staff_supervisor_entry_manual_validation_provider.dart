@@ -14,8 +14,8 @@ class StaffSupervisorEntryManualValidationProvider extends ChangeNotifier {
     StaffSupervisorApiService? apiService,
     required String genericSearchError,
     required String genericLoadError,
-  })  : _apiService = apiService ?? StaffSupervisorApiService(ApiClient()),
-        _args = args {
+  }) : _apiService = apiService ?? StaffSupervisorApiService(ApiClient()),
+       _args = args {
     search = StaffSupervisorEntrySearchController(
       apiService: _apiService,
       genericSearchError: genericSearchError,
@@ -51,7 +51,8 @@ class StaffSupervisorEntryManualValidationProvider extends ChangeNotifier {
       return false;
     }
 
-    final hasOtherDetails = selectedReason != StaffSupervisorEntryManualReason.other ||
+    final hasOtherDetails =
+        selectedReason != StaffSupervisorEntryManualReason.other ||
         otherReasonController.text.trim().isNotEmpty;
 
     return selectedAction != null &&
@@ -90,10 +91,7 @@ class StaffSupervisorEntryManualValidationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadContext({
-    String? ticketId,
-    String? entryCode,
-  }) async {
+  Future<void> loadContext({String? ticketId, String? entryCode}) async {
     isLoadingContext = true;
     contextError = null;
     contextData = null;
@@ -104,7 +102,9 @@ class StaffSupervisorEntryManualValidationProvider extends ChangeNotifier {
 
     try {
       final loaded = entryCode != null && entryCode.isNotEmpty
-          ? await _apiService.getEntryManualValidationContextByEntryCode(entryCode)
+          ? await _apiService.getEntryManualValidationContextByEntryCode(
+              entryCode,
+            )
           : await _apiService.getEntryManualValidationContext(ticketId!);
 
       contextData = loaded;

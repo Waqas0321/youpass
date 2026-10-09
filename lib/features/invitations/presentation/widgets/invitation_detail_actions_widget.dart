@@ -38,15 +38,19 @@ class InvitationDetailActionsWidget extends StatelessWidget {
         SizedBox(height: InvitationsDesignSpec.px(context, 20)),
         if (isPending) ...[
           InvitationFilledActionButtonWidget(
-            label: confirmLabel ?? AppStrings.invitationsConfirmAttendance(strings),
+            label:
+                confirmLabel ??
+                AppStrings.invitationsConfirmAttendance(strings),
             onPressed: () => actions.confirmAttendance(invitation),
-            backgroundColor: confirmBackgroundColor ?? InvitationsDesignSpec.primary,
+            backgroundColor:
+                confirmBackgroundColor ?? InvitationsDesignSpec.primary,
           ),
           SizedBox(height: InvitationsDesignSpec.px(context, 8)),
           InvitationCardSecondaryActionsWidget(
             leftLabel: AppStrings.invitationsReject(strings),
-            onLeftPressed:
-                invitation.canReject ? () => actions.rejectInvitation(invitation.id) : null,
+            onLeftPressed: invitation.canReject
+                ? () => actions.rejectInvitation(invitation.id)
+                : null,
             onViewQr: () => actions.openTicket(invitation),
             isQrAvailable: invitation.canFetchQrFromApi,
             leftIsReject: true,

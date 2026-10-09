@@ -35,6 +35,7 @@ class _StaffQrScanScreenState extends State<StaffQrScanScreen> {
   final MobileScannerController _controller = MobileScannerController(
     detectionSpeed: DetectionSpeed.normal,
     facing: CameraFacing.back,
+    autoStart: true,
   );
   final StaffScanApiService _scanApiService = StaffScanApiService(ApiClient());
 
@@ -92,15 +93,14 @@ class _StaffQrScanScreenState extends State<StaffQrScanScreen> {
       );
 
       if (error is ApiException &&
-          (error.code == 'UNAUTHORIZED' || error.code == 'SESSION_INVALID')) {
+          (error.code == 'UNAUTHORIZED' ||
+              error.code == 'SESSION_INVALID' ||
+              error.code == 'STAFF_INACTIVE')) {
         Navigator.of(context).pop();
         return;
       }
 
-      await _controller.start();
-      if (mounted) {
-        setState(() => _isProcessingScan = false);
-      }
+      await _restartScanner();
       return;
     }
 
@@ -122,7 +122,15 @@ class _StaffQrScanScreenState extends State<StaffQrScanScreen> {
       return;
     }
 
-    await _controller.start();
+    await _restartScanner();
+  }
+
+  Future<void> _restartScanner() async {
+    try {
+      await _controller.start();
+    } catch (_) {
+      // Ignore re-entrant start while controller is still initializing.
+    }
     if (mounted) {
       setState(() => _isProcessingScan = false);
     }
@@ -290,10 +298,7 @@ class _CameraFallback extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFF1C1C1C),
-            Color(0xFF080808),
-          ],
+          colors: [Color(0xFF1C1C1C), Color(0xFF080808)],
         ),
       ),
     );

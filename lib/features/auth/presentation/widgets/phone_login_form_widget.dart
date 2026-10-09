@@ -116,7 +116,6 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
           phoneDisplay: staffResult.phoneDisplay,
           resendCooldownSeconds: staffResult.resendAvailableInSeconds,
           expiresInSeconds: staffResult.expiresInSeconds,
-          prefillOtpCode: staffResult.devOtpCode,
         ),
       );
       return;
@@ -181,7 +180,6 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
           statusMessage: whatsAppCheck.message.isNotEmpty
               ? whatsAppCheck.message
               : OtpDeliveryMessage.sentConfirmation(l10n),
-          prefillOtpCode: result.devOtpCode,
         ),
       );
       return;
@@ -198,7 +196,6 @@ class PhoneLoginFormWidgetState extends State<PhoneLoginFormWidget> {
       statusMessage: whatsAppCheck.message.isNotEmpty
           ? whatsAppCheck.message
           : OtpDeliveryMessage.sentConfirmation(l10n),
-      prefillOtpCode: result.devOtpCode,
     );
 
     Navigator.of(context).pushNamed(

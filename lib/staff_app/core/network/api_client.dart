@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:package_info_plus/package_info_plus.dart';
 
+import 'package:youpass/core/security/device_id_service.dart';
 import 'package:youpass/staff_app/core/config/api_config.dart';
 import 'package:youpass/staff_app/core/utils/app_logger.dart';
 import '../constants/app_constants.dart';
@@ -11,19 +13,22 @@ import '../storage/staff_token_store.dart';
 import 'api_exception.dart';
 
 class ApiClient {
-  ApiClient({http.Client? client, StaffTokenStore? tokenStore})
-      : httpClient = client ?? http.Client(),
-        _tokenStore = tokenStore ?? StaffTokenStore();
+  ApiClient({
+    http.Client? client,
+    StaffTokenStore? tokenStore,
+    DeviceIdService? deviceIdService,
+  }) : httpClient = client ?? http.Client(),
+       _tokenStore = tokenStore ?? StaffTokenStore(),
+       _deviceIdService = deviceIdService ?? DeviceIdService();
 
   final http.Client httpClient;
   final StaffTokenStore _tokenStore;
+  final DeviceIdService _deviceIdService;
+  PackageInfo? _packageInfo;
 
   String get baseUrl => ApiConfig.apiBaseUrl;
 
-  Future<http.Response> get(
-    String path, {
-    bool authenticated = false,
-  }) async {
+  Future<http.Response> get(String path, {bool authenticated = false}) async {
     final headers = await _headers(authenticated: authenticated);
     final url = '$baseUrl$path';
     return _send(
@@ -31,10 +36,7 @@ class ApiClient {
       url: url,
       headers: headers,
       request: () => httpClient
-          .get(
-            Uri.parse(url),
-            headers: headers,
-          )
+          .get(Uri.parse(url), headers: headers)
           .timeout(AppConstants.apiTimeout),
     );
   }
@@ -56,11 +58,7 @@ class ApiClient {
       headers: headers,
       body: body,
       request: () => httpClient
-          .post(
-            Uri.parse(url),
-            headers: headers,
-            body: encodedBody,
-          )
+          .post(Uri.parse(url), headers: headers, body: encodedBody)
           .timeout(AppConstants.apiTimeout),
     );
   }
@@ -110,10 +108,7 @@ class ApiClient {
           error: error,
           stackTrace: stackTrace,
         );
-        throw ApiException(
-          code: 'NETWORK_ERROR',
-          message: 'Request timed out',
-        );
+        throw ApiException(code: 'NETWORK_ERROR', message: 'Request timed out');
       } on SocketException catch (error, stackTrace) {
         if (attempt == 0 && _shouldRetryTransientNetworkError(error)) {
           await Future<void>.delayed(const Duration(milliseconds: 400));
@@ -144,7 +139,41 @@ class ApiClient {
           code: 'NETWORK_ERROR',
           message: 'Connection failed — try again',
         );
+      } on HandshakeException catch (error, stackTrace) {
+        AppLogger.apiFailure(
+          method: method,
+          url: url,
+          error: error,
+          stackTrace: stackTrace,
+        );
+        throw ApiException(
+          code: 'NETWORK_ERROR',
+          message: 'Could not reach the server',
+        );
+      } on OSError catch (error, stackTrace) {
+        AppLogger.apiFailure(
+          method: method,
+          url: url,
+          error: error,
+          stackTrace: stackTrace,
+        );
+        throw ApiException(
+          code: 'NETWORK_ERROR',
+          message: 'Could not reach the server',
+        );
       } catch (error, stackTrace) {
+        if (_looksLikeNetworkFailure(error)) {
+          AppLogger.apiFailure(
+            method: method,
+            url: url,
+            error: error,
+            stackTrace: stackTrace,
+          );
+          throw ApiException(
+            code: 'NETWORK_ERROR',
+            message: 'Could not reach the server',
+          );
+        }
         AppLogger.apiFailure(
           method: method,
           url: url,
@@ -161,6 +190,19 @@ class ApiClient {
     );
   }
 
+  bool _looksLikeNetworkFailure(Object error) {
+    final message = error.toString().toLowerCase();
+    return message.contains('socket') ||
+        message.contains('network') ||
+        message.contains('connection') ||
+        message.contains('failed host lookup') ||
+        message.contains('unreachable') ||
+        message.contains('timed out') ||
+        message.contains('timeout') ||
+        message.contains('broken pipe') ||
+        message.contains('connection abort');
+  }
+
   bool _shouldRetryTransientNetworkError(Object error) {
     final message = error.toString().toLowerCase();
     return message.contains('connection closed') ||
@@ -172,11 +214,20 @@ class ApiClient {
     required bool authenticated,
     bool includeJson = false,
   }) async {
+    final deviceId = await _deviceIdService.getId();
+    _packageInfo ??= await PackageInfo.fromPlatform();
+
     final headers = <String, String>{
       if (includeJson) 'Content-Type': 'application/json',
+      'X-Device-Id': deviceId,
+      'X-Platform': Platform.isIOS
+          ? 'ios'
+          : Platform.isAndroid
+          ? 'android'
+          : 'other',
+      'X-App-Version': _packageInfo!.version,
       if (ApiConfig.usesNgrokTunnel) ...{
         'ngrok-skip-browser-warning': 'true',
-        // Avoid stale keep-alive sockets through ngrok after backend restarts.
         'Connection': 'close',
       },
     };

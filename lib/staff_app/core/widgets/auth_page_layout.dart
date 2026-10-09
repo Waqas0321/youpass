@@ -31,11 +31,13 @@ class AuthPageLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layout = ResponsiveLayout(context);
-    final topSpacing = logoTopSpacing ??
+    final topSpacing =
+        logoTopSpacing ??
         (showVolterBackButton
             ? AuthLayoutConstants.compactTop(layout)
             : layout.spacing(24));
-    final afterLogoSpacing = headerSpacing ??
+    final afterLogoSpacing =
+        headerSpacing ??
         (showVolterBackButton
             ? AuthLayoutConstants.backAfterLogo(layout)
             : AuthLayoutConstants.headerAfterLogo(layout));

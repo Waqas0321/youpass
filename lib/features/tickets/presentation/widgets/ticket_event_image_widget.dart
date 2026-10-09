@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:youpass/core/constants/app_assets.dart';
 import 'package:youpass/core/widgets/app_asset_image.dart';
 import 'package:youpass/core/widgets/event_network_image.dart';
 
@@ -26,7 +25,8 @@ class TicketEventImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (_usesNetwork) {
+    // No event image: neutral placeholder (same as home), not the stock dummy photo.
+    if (_usesNetwork || imagePath.trim().isEmpty) {
       return EventNetworkImage(
         imageUrl: imagePath,
         width: width,
@@ -37,7 +37,7 @@ class TicketEventImageWidget extends StatelessWidget {
     }
 
     return AppAssetImage(
-      assetPath: imagePath.isEmpty ? AppAssets.dummyImage : imagePath,
+      assetPath: imagePath,
       width: width,
       height: height,
       fit: fit,

@@ -5,10 +5,7 @@ import 'package:youpass/staff_app/core/widgets/app_text.dart';
 import 'package:youpass/staff_app/core/widgets/app_text_variant.dart';
 
 class AuthBackButtonWidget extends StatelessWidget {
-  const AuthBackButtonWidget({
-    super.key,
-    this.onPressed,
-  });
+  const AuthBackButtonWidget({super.key, this.onPressed});
 
   final VoidCallback? onPressed;
 

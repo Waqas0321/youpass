@@ -41,7 +41,8 @@ class InvitationsFilterChipsWidget extends StatelessWidget {
           child: Row(
             children: [
               for (var i = 0; i < eventTypes.length; i++) ...[
-                if (i > 0) SizedBox(width: InvitationsDesignSpec.px(context, 8)),
+                if (i > 0)
+                  SizedBox(width: InvitationsDesignSpec.px(context, 8)),
                 YouPassFilterChipWidget(
                   label: EventCategoryMapper.labelForType(
                     strings,

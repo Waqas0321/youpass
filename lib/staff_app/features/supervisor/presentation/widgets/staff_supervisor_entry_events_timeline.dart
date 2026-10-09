@@ -59,13 +59,14 @@ class StaffSupervisorEntryEventsTimeline extends StatelessWidget {
         ...List.generate(logs.length, (index) {
           final log = logs[index];
           final isLast = index == logs.length - 1;
-          final isSupervisor = log.kind == StaffSupervisorEntryEventKind.supervisor;
+          final isSupervisor =
+              log.kind == StaffSupervisorEntryEventKind.supervisor;
           final iconColor = isSupervisor ? _accent : _successGreen;
           final icon = log.isSuccess
               ? Icons.check_circle_rounded
               : log.isReentry
-                  ? Icons.refresh_rounded
-                  : Icons.person_outline_rounded;
+              ? Icons.refresh_rounded
+              : Icons.person_outline_rounded;
           final subtitle = isSupervisor ? log.detail : log.timeLabel;
           final trailing = isSupervisor ? log.timeLabel : log.detail;
 

@@ -33,6 +33,7 @@ class TicketOfferingModel extends TicketOfferingEntity {
     super.type,
     super.name,
     super.status,
+    super.maxPerUser,
   });
 
   @override
@@ -59,6 +60,7 @@ class TicketOfferingModel extends TicketOfferingEntity {
       type: type,
       name: name,
       status: status,
+      maxPerUser: maxPerUser,
     );
   }
 
@@ -102,6 +104,7 @@ class TicketOfferingModel extends TicketOfferingEntity {
           JsonReaders.nullableString(json, 'mapsToType'),
       currency: JsonReaders.string(json, 'currency', fallback: 'CLP'),
       description: JsonReaders.nullableString(json, 'description'),
+      maxPerUser: _readPositiveInt(json['max_per_user'] ?? json['maxPerUser']),
       badgeLabel: JsonReaders.nullableString(json, 'badge_label') ??
           JsonReaders.nullableString(json, 'badgeLabel'),
       vouchersPerTicket: JsonReaders.integerValue(
@@ -119,6 +122,11 @@ class TicketOfferingModel extends TicketOfferingEntity {
       return value;
     }
     return false;
+  }
+
+  static int? _readPositiveInt(Object? value) {
+    final parsed = value is num ? value.toInt() : int.tryParse('${value ?? ''}');
+    return parsed != null && parsed > 0 ? parsed : null;
   }
 }
 

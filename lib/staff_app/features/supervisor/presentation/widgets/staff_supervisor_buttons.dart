@@ -88,11 +88,13 @@ class StaffSupervisorExecuteFooter extends StatelessWidget {
             onPressed: enabled && !isLoading ? onPressed : null,
             style: ElevatedButton.styleFrom(
               backgroundColor: StaffSupervisorDesign.accent,
-              disabledBackgroundColor:
-                  StaffSupervisorDesign.accent.withValues(alpha: 0.42),
+              disabledBackgroundColor: StaffSupervisorDesign.accent.withValues(
+                alpha: 0.42,
+              ),
               foregroundColor: AppColors.backgroundWhite,
-              disabledForegroundColor:
-                  AppColors.backgroundWhite.withValues(alpha: 0.85),
+              disabledForegroundColor: AppColors.backgroundWhite.withValues(
+                alpha: 0.85,
+              ),
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(layout.radius(16)),
@@ -107,8 +109,7 @@ class StaffSupervisorExecuteFooter extends StatelessWidget {
                       color: AppColors.backgroundWhite,
                     ),
                   )
-                : leading ??
-                    Icon(icon, size: layout.spacing(20)),
+                : leading ?? Icon(icon, size: layout.spacing(20)),
             label: AppText(
               label,
               variant: AppTextVariant.button,

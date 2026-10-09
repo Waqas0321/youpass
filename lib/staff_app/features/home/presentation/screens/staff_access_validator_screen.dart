@@ -15,20 +15,18 @@ import 'package:youpass/staff_app/features/supervisor/presentation/utils/open_st
 import 'package:youpass/staff_app/features/supervisor/presentation/utils/staff_supervisor_access.dart';
 import 'package:youpass/staff_app/features/home/presentation/widgets/staff_access_validator_card.dart';
 import 'package:youpass/staff_app/features/home/presentation/widgets/staff_active_event_banner.dart';
-import 'package:youpass/staff_app/features/home/presentation/widgets/staff_connection_status_bar.dart';
+import 'package:youpass/staff_app/features/home/presentation/widgets/staff_live_connection_status_bar.dart';
 import 'package:youpass/staff_app/features/home/presentation/widgets/staff_home_header.dart';
 import 'package:youpass/staff_app/features/home/presentation/widgets/staff_menu_drawer.dart';
 import 'package:youpass/staff_app/features/home/presentation/widgets/staff_recent_access_section.dart';
+import 'package:youpass/staff_app/features/scan/data/staff_offline_scan_sync_service.dart';
 import 'package:youpass/staff_app/features/scan/data/staff_scan_api_service.dart';
 import 'package:youpass/staff_app/features/scan/presentation/utils/open_staff_qr_scanner.dart';
 import 'package:youpass/staff_app/features/scan/routes/staff_qr_scan_route_args.dart';
 import 'package:youpass/staff_app/routes/app_routes.dart';
 
 class StaffAccessValidatorScreen extends StatefulWidget {
-  const StaffAccessValidatorScreen({
-    super.key,
-    this.scanApiService,
-  });
+  const StaffAccessValidatorScreen({super.key, this.scanApiService});
 
   final StaffScanApiService? scanApiService;
 
@@ -37,9 +35,12 @@ class StaffAccessValidatorScreen extends StatefulWidget {
       _StaffAccessValidatorScreenState();
 }
 
-class _StaffAccessValidatorScreenState extends State<StaffAccessValidatorScreen> {
+class _StaffAccessValidatorScreenState
+    extends State<StaffAccessValidatorScreen> {
   late final StaffScanApiService _scanApiService =
       widget.scanApiService ?? StaffScanApiService(ApiClient());
+  late final StaffOfflineScanSyncService _offlineSyncService =
+      StaffOfflineScanSyncService(scanApiService: _scanApiService);
 
   List<StaffScanEntry> _recentAccess = const [];
   String? _activeEventName;
@@ -48,42 +49,34 @@ class _StaffAccessValidatorScreenState extends State<StaffAccessValidatorScreen>
   @override
   void initState() {
     super.initState();
+    _offlineSyncService.start();
     _loadRecentAccess();
   }
 
-  Future<void> _loadRecentAccess() async {
-    setState(() => _isLoadingRecent = true);
+  @override
+  void dispose() {
+    _offlineSyncService.stop();
+    super.dispose();
+  }
 
-    try {
-      final response = await _scanApiService.fetchRecentEntryScans();
-      if (!mounted) {
-        return;
-      }
+  Future<void> _loadRecentAccess() async {
+    // Show cached / pending offline immediately so offline doesn't spin forever.
+    final cached = await _scanApiService.fetchRecentEntryScans();
+    if (mounted) {
       setState(() {
-        _recentAccess = response.scans;
-        _activeEventName = response.scans
+        _recentAccess = cached.scans;
+        _activeEventName = cached.scans
             .map((scan) => scan.eventTitle)
             .whereType<String>()
             .where((title) => title.isNotEmpty)
             .firstOrNull;
         _isLoadingRecent = false;
       });
-    } catch (_) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _recentAccess = const [];
-        _isLoadingRecent = false;
-      });
     }
   }
 
   Future<void> _openScanner() async {
-    await openStaffQrScannerAndWait(
-      context,
-      purpose: StaffQrScanPurpose.entry,
-    );
+    await openStaffQrScannerAndWait(context, purpose: StaffQrScanPurpose.entry);
     if (mounted) {
       await _loadRecentAccess();
     }
@@ -132,7 +125,8 @@ class _StaffAccessValidatorScreenState extends State<StaffAccessValidatorScreen>
                     StaffAccessValidatorCard(
                       onScanTap: _openScanner,
                       onManualEntryTap: _openManualEntry,
-                      onSupervisorModeTap: () => openStaffSupervisorFlow(context),
+                      onSupervisorModeTap: () =>
+                          openStaffSupervisorFlow(context),
                       showManualEntry: true,
                       showSupervisorMode: showSupervisorMode,
                     ),
@@ -159,7 +153,7 @@ class _StaffAccessValidatorScreenState extends State<StaffAccessValidatorScreen>
                 ),
               ),
             ),
-            const StaffConnectionStatusBar(),
+            const StaffLiveConnectionStatusBar(),
           ],
         ),
       ),

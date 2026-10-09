@@ -20,11 +20,7 @@ class YouPassLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: YouPassBrandLogo(
-        width: width,
-        color: color,
-        compact: compact,
-      ),
+      child: YouPassBrandLogo(width: width, color: color, compact: compact),
     );
   }
 }

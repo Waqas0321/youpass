@@ -17,7 +17,8 @@ class GuaranteedPassActiveScreen extends StatefulWidget {
       _GuaranteedPassActiveScreenState();
 }
 
-class _GuaranteedPassActiveScreenState extends State<GuaranteedPassActiveScreen> {
+class _GuaranteedPassActiveScreenState
+    extends State<GuaranteedPassActiveScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -76,10 +77,9 @@ class _GuaranteedPassActiveScreenState extends State<GuaranteedPassActiveScreen>
                     label: AppStrings.invitationsGpActiveCta(strings),
                     backgroundColor: InvitationsDesignSpec.guaranteedTypeGold,
                     onPressed: () {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                        AppRoutes.home,
-                        (_) => false,
-                      );
+                      Navigator.of(
+                        context,
+                      ).pushNamedAndRemoveUntil(AppRoutes.home, (_) => false);
                     },
                   ),
                 ],

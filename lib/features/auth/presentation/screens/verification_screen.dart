@@ -26,7 +26,6 @@ import 'package:youpass/features/auth/presentation/widgets/verification_form_wid
 import 'package:youpass/features/auth/presentation/widgets/verification_header_widget.dart';
 import 'package:youpass/features/auth/routes/verification_route_args.dart';
 import 'package:youpass/features/auth/presentation/utils/auth_navigation.dart';
-import 'package:youpass/features/auth/presentation/utils/otp_autofill_helper.dart';
 import 'package:youpass/l10n/app_localizations.dart';
 
 class VerificationScreen extends StatefulWidget {
@@ -67,26 +66,11 @@ class VerificationScreenState extends State<VerificationScreen> {
         OtpPolicy.resolveOtpTtl(args.expiresInSeconds);
     startResendTimer(secondsRemaining);
     startExpiryTimer(codeExpirySecondsRemaining);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      applyPrefillOtp(
-        args.prefillOtpCode,
-        autoValidate: purpose != OtpPurpose.register,
-      );
-    });
+    // OTP must come from WhatsApp (or OS SMS autofill). Never prefill from API.
   }
 
   void applyPrefillOtp(String? code, {bool autoValidate = false}) {
-    final normalized = OtpAutofillHelper.normalizePrefillCode(code);
-    if (normalized == null) {
-      return;
-    }
-
-    OtpAutofillHelper.applyToController(otpController, normalized);
-    handleOtpChanged(normalized);
-
-    if (autoValidate && mounted && !isVerifyBlocked) {
-      handleValidateCode();
-    }
+    // Intentionally no-op: API/dev codes must not auto-fill the verification field.
   }
 
   @override
@@ -194,10 +178,6 @@ class VerificationScreenState extends State<VerificationScreen> {
           isCodeComplete = false;
         });
         otpController.clear();
-        applyPrefillOtp(
-          result.devOtpCode,
-          autoValidate: purpose != OtpPurpose.register,
-        );
         startResendTimer(
           OtpPolicy.resolveResendCooldown(result.resendAvailableInSeconds),
         );
@@ -227,10 +207,6 @@ class VerificationScreenState extends State<VerificationScreen> {
           isCodeComplete = false;
         });
         otpController.clear();
-        applyPrefillOtp(
-          result.devOtpCode,
-          autoValidate: purpose != OtpPurpose.register,
-        );
         startResendTimer(result.resendAvailableInSeconds);
         return;
       }
@@ -262,10 +238,6 @@ class VerificationScreenState extends State<VerificationScreen> {
         isCodeComplete = false;
       });
       otpController.clear();
-      applyPrefillOtp(
-        result.devOtpCode,
-        autoValidate: purpose != OtpPurpose.register,
-      );
       startResendTimer(
         OtpPolicy.resolveResendCooldown(result.resendAvailableInSeconds),
       );
@@ -390,7 +362,6 @@ class VerificationScreenState extends State<VerificationScreen> {
         birthDate: draft.birthDate,
         gender: draft.gender,
         email: draft.email,
-        instagram: draft.instagram,
         acceptTerms: draft.acceptTerms,
         preferredLanguage: context.read<LocaleProvider>().locale.languageCode,
       ),

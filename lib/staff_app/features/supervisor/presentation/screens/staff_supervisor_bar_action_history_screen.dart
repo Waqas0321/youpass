@@ -31,7 +31,10 @@ class StaffSupervisorBarActionHistoryRoute extends StatelessWidget {
 class StaffSupervisorBarActionHistoryScreen extends StatelessWidget {
   const StaffSupervisorBarActionHistoryScreen({super.key});
 
-  String _resultLabel(dynamic l10n, StaffSupervisorBarActionHistoryEntry entry) {
+  String _resultLabel(
+    dynamic l10n,
+    StaffSupervisorBarActionHistoryEntry entry,
+  ) {
     return switch (entry.result) {
       StaffSupervisorRedemptionResult.redeemed =>
         l10n.staffSupervisorRedemptionResultRedeemed,
@@ -41,7 +44,10 @@ class StaffSupervisorBarActionHistoryScreen extends StatelessWidget {
         l10n.staffSupervisorRedemptionResultDuplicate,
       StaffSupervisorRedemptionResult.supervisor =>
         l10n.staffSupervisorRedemptionResultSupervisor,
-      StaffSupervisorRedemptionResult.unknown => entry.kind.replaceAll('_', ' '),
+      StaffSupervisorRedemptionResult.unknown => entry.kind.replaceAll(
+        '_',
+        ' ',
+      ),
     };
   }
 
@@ -49,13 +55,18 @@ class StaffSupervisorBarActionHistoryScreen extends StatelessWidget {
     return switch (entry.result) {
       StaffSupervisorRedemptionResult.redeemed => const Color(0xFF22C55E),
       StaffSupervisorRedemptionResult.restored => AppColors.homeAccentYellow,
-      StaffSupervisorRedemptionResult.duplicateAttempt => const Color(0xFFEF4444),
+      StaffSupervisorRedemptionResult.duplicateAttempt => const Color(
+        0xFFEF4444,
+      ),
       StaffSupervisorRedemptionResult.supervisor => const Color(0xFF2563EB),
       StaffSupervisorRedemptionResult.unknown => AppColors.secondaryGrey,
     };
   }
 
-  void _openDetail(BuildContext context, StaffSupervisorBarActionHistoryEntry entry) {
+  void _openDetail(
+    BuildContext context,
+    StaffSupervisorBarActionHistoryEntry entry,
+  ) {
     showStaffSupervisorRedemptionDetailSheet(context, entry);
   }
 
@@ -80,50 +91,51 @@ class StaffSupervisorBarActionHistoryScreen extends StatelessWidget {
                 child: provider.isLoading
                     ? const Center(child: CircularProgressIndicator())
                     : provider.loadError != null
-                        ? Center(
-                            child: AppText(
-                              provider.loadError!,
-                              variant: AppTextVariant.body,
-                              color: const Color(0xFFEF4444),
-                              fontSize: layout.fontSize(13),
-                              textAlign: TextAlign.center,
-                            ),
-                          )
-                        : entries.isEmpty
-                            ? Center(
-                                child: AppText(
-                                  l10n.staffSupervisorRedemptionHistoryEmpty,
-                                  variant: AppTextVariant.body,
-                                  color: AppColors.secondaryGrey,
-                                  fontSize: layout.fontSize(13),
-                                ),
-                              )
-                            : ListView(
-                                padding: EdgeInsets.all(layout.spacing(20)),
-                                children: [
-                                  StaffSupervisorSectionCard(
-                                    child: Column(
-                                      children: [
-                                        for (var i = 0; i < entries.length; i++) ...[
-                                          _RedemptionHistoryRow(
-                                            layout: layout,
-                                            entry: entries[i],
-                                            resultLabel: _resultLabel(l10n, entries[i]),
-                                            resultColor: _resultColor(entries[i]),
-                                            onTap: () => _openDetail(context, entries[i]),
-                                          ),
-                                          if (i < entries.length - 1)
-                                            Divider(
-                                              height: 1,
-                                              color: AppColors.homeDividerGrey,
-                                              indent: layout.spacing(44),
-                                            ),
-                                        ],
-                                      ],
-                                    ),
+                    ? Center(
+                        child: AppText(
+                          provider.loadError!,
+                          variant: AppTextVariant.body,
+                          color: const Color(0xFFEF4444),
+                          fontSize: layout.fontSize(13),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    : entries.isEmpty
+                    ? Center(
+                        child: AppText(
+                          l10n.staffSupervisorRedemptionHistoryEmpty,
+                          variant: AppTextVariant.body,
+                          color: AppColors.secondaryGrey,
+                          fontSize: layout.fontSize(13),
+                        ),
+                      )
+                    : ListView(
+                        padding: EdgeInsets.all(layout.spacing(20)),
+                        children: [
+                          StaffSupervisorSectionCard(
+                            child: Column(
+                              children: [
+                                for (var i = 0; i < entries.length; i++) ...[
+                                  _RedemptionHistoryRow(
+                                    layout: layout,
+                                    entry: entries[i],
+                                    resultLabel: _resultLabel(l10n, entries[i]),
+                                    resultColor: _resultColor(entries[i]),
+                                    onTap: () =>
+                                        _openDetail(context, entries[i]),
                                   ),
+                                  if (i < entries.length - 1)
+                                    Divider(
+                                      height: 1,
+                                      color: AppColors.homeDividerGrey,
+                                      indent: layout.spacing(44),
+                                    ),
                                 ],
-                              ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
               ),
             ],
           ),
@@ -155,8 +167,10 @@ class _RedemptionHistoryRow extends StatelessWidget {
     final title = qty != null && qty > 1 ? '$product x$qty' : product;
     final subtitleParts = <String>[
       resultLabel,
-      if (entry.guestName.isNotEmpty && entry.guestName != product) entry.guestName,
-      if (entry.manualCode != null && entry.manualCode!.isNotEmpty) entry.manualCode!,
+      if (entry.guestName.isNotEmpty && entry.guestName != product)
+        entry.guestName,
+      if (entry.manualCode != null && entry.manualCode!.isNotEmpty)
+        entry.manualCode!,
       if (entry.barName != null && entry.barName!.isNotEmpty) entry.barName!,
       if (entry.supervisorName.isNotEmpty) entry.supervisorName,
     ];

@@ -13,15 +13,18 @@ class PaymentSavedSuccessDialog extends StatelessWidget {
     super.key,
     required this.onConfirmAttendance,
     required this.onReject,
+    this.cancellationDeadlineLabel,
   });
 
   final VoidCallback onConfirmAttendance;
   final VoidCallback onReject;
+  final String? cancellationDeadlineLabel;
 
   static Future<void> show(
     BuildContext context, {
     required VoidCallback onConfirmAttendance,
     required VoidCallback onReject,
+    String? cancellationDeadlineLabel,
   }) {
     return showDialog<void>(
       context: context,
@@ -29,6 +32,7 @@ class PaymentSavedSuccessDialog extends StatelessWidget {
       builder: (_) => PaymentSavedSuccessDialog(
         onConfirmAttendance: onConfirmAttendance,
         onReject: onReject,
+        cancellationDeadlineLabel: cancellationDeadlineLabel,
       ),
     );
   }
@@ -44,7 +48,9 @@ class PaymentSavedSuccessDialog extends StatelessWidget {
           YouPassDialogIconBadge(
             icon: Icons.check_circle,
             iconSize: 34,
-            backgroundColor: YouPassDialogTheme.successIconBadgeBackground(context),
+            backgroundColor: YouPassDialogTheme.successIconBadgeBackground(
+              context,
+            ),
             iconColor: YouPassDialogTheme.successIconColor(context),
           ),
           const SizedBox(height: 16),
@@ -74,9 +80,7 @@ class PaymentSavedSuccessDialog extends StatelessWidget {
             decoration: BoxDecoration(
               color: YouPassDialogTheme.infoPanelBackground(context),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: YouPassDialogTheme.border(context),
-              ),
+              border: Border.all(color: YouPassDialogTheme.border(context)),
             ),
             child: Column(
               children: [
@@ -96,7 +100,10 @@ class PaymentSavedSuccessDialog extends StatelessWidget {
                 ),
                 PaymentSavedReminderRowWidget(
                   icon: Icons.schedule,
-                  text: AppStrings.invitationsCardSavedReminderCancel(strings),
+                  text: AppStrings.invitationsCardSavedReminderCancelBy(
+                    strings,
+                    cancellationDeadlineLabel,
+                  ),
                 ),
               ],
             ),

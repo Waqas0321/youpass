@@ -36,6 +36,16 @@ class StaffSupervisorAccessDashboardScreen extends StatelessWidget {
 
   static const _accent = AppColors.homeAccentYellow;
 
+  /// Validations/overrides done on the pushed screen must show up in the history.
+  static Future<void> _openAndRefresh(
+    BuildContext context,
+    String route,
+  ) async {
+    final provider = context.read<StaffSupervisorActionHistoryProvider>();
+    await Navigator.of(context).pushNamed(route);
+    await provider.loadHistory(limit: 20);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -89,9 +99,11 @@ class StaffSupervisorAccessDashboardScreen extends StatelessWidget {
                 StaffSupervisorAccessToolCard(
                   icon: Icons.search_rounded,
                   title: l10n.staffSupervisorSearchManageTicketTitle,
-                  description: l10n.staffSupervisorSearchManageTicketDescription,
+                  description:
+                      l10n.staffSupervisorSearchManageTicketDescription,
                   actionLabel: l10n.staffSupervisorGoButton,
-                  onActionTap: () => Navigator.of(context).pushNamed(
+                  onActionTap: () => _openAndRefresh(
+                    context,
                     StaffAppRoutes.supervisorSearchEntry,
                   ),
                 ),
@@ -101,7 +113,8 @@ class StaffSupervisorAccessDashboardScreen extends StatelessWidget {
                   title: l10n.staffSupervisorAccessHistoryTitle,
                   description: l10n.staffSupervisorAccessHistoryDescription,
                   actionLabel: l10n.staffSupervisorGoButton,
-                  onActionTap: () => Navigator.of(context).pushNamed(
+                  onActionTap: () => _openAndRefresh(
+                    context,
                     StaffAppRoutes.supervisorActionHistory,
                   ),
                 ),

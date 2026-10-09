@@ -29,10 +29,7 @@ class InvitationRejectConfirmDialog extends StatelessWidget {
           Text(
             AppStrings.invitationsRejectConfirmTitle(strings),
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-            ),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 12),
           Text(

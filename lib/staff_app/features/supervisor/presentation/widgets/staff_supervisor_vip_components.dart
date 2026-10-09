@@ -105,7 +105,9 @@ class StaffSupervisorVipTableCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(layout.radius(20)),
                   border: Border.all(
                     color: isActive
-                        ? StaffSupervisorDesign.successGreen.withValues(alpha: 0.5)
+                        ? StaffSupervisorDesign.successGreen.withValues(
+                            alpha: 0.5,
+                          )
                         : StaffSupervisorDesign.accent.withValues(alpha: 0.5),
                   ),
                 ),
@@ -338,7 +340,9 @@ class StaffSupervisorVipGuestList extends StatelessWidget {
               selected: selectedSlotId == guests[index].slotId,
               selectionEnabled: selectionEnabled,
               selectable: isGuestSelectable?.call(guests[index]) ?? true,
-              onTap: onGuestTap == null ? null : () => onGuestTap!(guests[index]),
+              onTap: onGuestTap == null
+                  ? null
+                  : () => onGuestTap!(guests[index]),
             ),
             if (index < guests.length - 1)
               Divider(
@@ -377,10 +381,10 @@ class _GuestRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isEntered = guest.status == StaffSupervisorVipGuestStatus.entered;
-    final statusColor =
-        isEntered ? StaffSupervisorDesign.successGreen : StaffSupervisorDesign.accent;
-    final statusIcon =
-        isEntered ? Icons.check_rounded : Icons.schedule_rounded;
+    final statusColor = isEntered
+        ? StaffSupervisorDesign.successGreen
+        : StaffSupervisorDesign.accent;
+    final statusIcon = isEntered ? Icons.check_rounded : Icons.schedule_rounded;
     final subtitle = isEntered && guest.entryTime != null
         ? enteredSubtitle(guest.entryTime!)
         : pendingSubtitle;
@@ -432,7 +436,9 @@ class _GuestRow extends StatelessWidget {
                           child: AppText(
                             guest.name,
                             variant: AppTextVariant.bodyEmphasis,
-                            color: disabled ? AppColors.secondaryGrey : AppColors.homeBlack,
+                            color: disabled
+                                ? AppColors.secondaryGrey
+                                : AppColors.homeBlack,
                             fontWeight: FontWeight.w700,
                             fontSize: layout.fontSize(14),
                           ),
@@ -446,8 +452,12 @@ class _GuestRow extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               color: StaffSupervisorDesign.tileBackground,
-                              borderRadius: BorderRadius.circular(layout.radius(10)),
-                              border: Border.all(color: StaffSupervisorDesign.tileBorder),
+                              borderRadius: BorderRadius.circular(
+                                layout.radius(10),
+                              ),
+                              border: Border.all(
+                                color: StaffSupervisorDesign.tileBorder,
+                              ),
                             ),
                             child: AppText(
                               'OWNER',
@@ -488,7 +498,9 @@ class _GuestRow extends StatelessWidget {
               else
                 Icon(
                   Icons.chevron_right_rounded,
-                  color: disabled ? AppColors.homeDividerGrey : AppColors.secondaryGrey,
+                  color: disabled
+                      ? AppColors.homeDividerGrey
+                      : AppColors.secondaryGrey,
                   size: layout.spacing(22),
                 ),
             ],
@@ -681,7 +693,9 @@ class StaffSupervisorVipHistorySection extends StatelessWidget {
               entry: entries[index],
               title: entryTitle(entries[index].type),
               supervisorPrefix: supervisorPrefix,
-              onTap: onEntryTap == null ? null : () => onEntryTap!(entries[index]),
+              onTap: onEntryTap == null
+                  ? null
+                  : () => onEntryTap!(entries[index]),
             ),
             if (index < entries.length - 1)
               Divider(
@@ -714,17 +728,17 @@ class _HistoryRow extends StatelessWidget {
   (Color, IconData) get _badgeStyle {
     return switch (entry.type) {
       StaffSupervisorVipHistoryType.extraGuest => (
-          StaffSupervisorDesign.successGreen,
-          Icons.person_add_alt_1_rounded,
-        ),
+        StaffSupervisorDesign.successGreen,
+        Icons.person_add_alt_1_rounded,
+      ),
       StaffSupervisorVipHistoryType.qrReleased => (
-          StaffSupervisorDesign.accent,
-          Icons.lock_open_rounded,
-        ),
+        StaffSupervisorDesign.accent,
+        Icons.lock_open_rounded,
+      ),
       StaffSupervisorVipHistoryType.tableModified => (
-          StaffSupervisorDesign.accent,
-          Icons.workspace_premium_outlined,
-        ),
+        StaffSupervisorDesign.accent,
+        Icons.workspace_premium_outlined,
+      ),
     };
   }
 
@@ -748,7 +762,11 @@ class _HistoryRow extends StatelessWidget {
                   color: badgeColor.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(badgeIcon, color: badgeColor, size: layout.spacing(18)),
+                child: Icon(
+                  badgeIcon,
+                  color: badgeColor,
+                  size: layout.spacing(18),
+                ),
               ),
               SizedBox(width: layout.spacing(12)),
               Expanded(

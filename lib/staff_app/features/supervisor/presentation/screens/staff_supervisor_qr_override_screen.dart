@@ -194,7 +194,9 @@ class _StaffSupervisorQrOverrideScreenState
                     ),
                     if (provider.isLoadingDetail)
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: layout.spacing(24)),
+                        padding: EdgeInsets.symmetric(
+                          vertical: layout.spacing(24),
+                        ),
                         child: const Center(
                           child: CircularProgressIndicator(color: _accent),
                         ),
@@ -222,122 +224,126 @@ class _StaffSupervisorQrOverrideScreenState
                         ),
                       )
                     else if (result != null && detail != null) ...[
-                  SizedBox(height: layout.spacing(14)),
-                  _ResultFoundCard(
-                    layout: layout,
-                    l10n: l10n,
-                    result: result,
-                  ),
-                  SizedBox(height: layout.spacing(14)),
-                  StaffSupervisorSectionCard(
-                    title: l10n.staffSupervisorOverrideActionsTitle,
-                    child: Column(
-                      children: StaffSupervisorQrOverrideAction.values
-                          .map(
-                            (action) => _OverrideRadioTile(
-                              layout: layout,
-                              label: _actionLabel(l10n, action),
-                              selected: _selectedAction == action,
-                              onTap: () =>
-                                  setState(() => _selectedAction = action),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                  SizedBox(height: layout.spacing(14)),
-                  StaffSupervisorSectionCard(
-                    title: l10n.staffSupervisorReasonTitle,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        TextField(
-                          controller: _reasonController,
-                          maxLines: 3,
-                          onChanged: (_) => setState(() {}),
-                          style: TextStyle(
-                            fontSize: layout.fontSize(14),
-                            color: AppColors.homeBlack,
-                          ),
-                          decoration: _inputDecoration(
-                            layout,
-                            hint: l10n.staffSupervisorOverrideReasonPlaceholder,
-                          ),
-                        ),
-                        SizedBox(height: layout.spacing(8)),
-                        AppText(
-                          l10n.staffSupervisorOverrideReasonHint,
-                          variant: AppTextVariant.body,
-                          color: AppColors.secondaryGrey,
-                          fontSize: layout.fontSize(12),
-                          style: const TextStyle(fontStyle: FontStyle.italic),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: layout.spacing(14)),
-                  StaffSupervisorSectionCard(
-                    child: layout.isTablet
-                        ? Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: _AuthorizationSection(
+                      SizedBox(height: layout.spacing(14)),
+                      _ResultFoundCard(
+                        layout: layout,
+                        l10n: l10n,
+                        result: result,
+                      ),
+                      SizedBox(height: layout.spacing(14)),
+                      StaffSupervisorSectionCard(
+                        title: l10n.staffSupervisorOverrideActionsTitle,
+                        child: Column(
+                          children: StaffSupervisorQrOverrideAction.values
+                              .map(
+                                (action) => _OverrideRadioTile(
                                   layout: layout,
-                                  l10n: l10n,
-                                  pinController: _pinController,
-                                  onPinChanged: () => setState(() {}),
+                                  label: _actionLabel(l10n, action),
+                                  selected: _selectedAction == action,
+                                  onTap: () =>
+                                      setState(() => _selectedAction = action),
                                 ),
+                              )
+                              .toList(),
+                        ),
+                      ),
+                      SizedBox(height: layout.spacing(14)),
+                      StaffSupervisorSectionCard(
+                        title: l10n.staffSupervisorReasonTitle,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            TextField(
+                              controller: _reasonController,
+                              maxLines: 3,
+                              onChanged: (_) => setState(() {}),
+                              style: TextStyle(
+                                fontSize: layout.fontSize(14),
+                                color: AppColors.homeBlack,
                               ),
-                              SizedBox(width: layout.spacing(16)),
-                              Expanded(
-                                child: _ExpectedResultSection(
-                                  layout: layout,
-                                  l10n: l10n,
-                                ),
+                              decoration: _inputDecoration(
+                                layout,
+                                hint: l10n
+                                    .staffSupervisorOverrideReasonPlaceholder,
                               ),
-                            ],
-                          )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              _AuthorizationSection(
-                                layout: layout,
-                                l10n: l10n,
-                                pinController: _pinController,
-                                onPinChanged: () => setState(() {}),
-                              ),
-                              SizedBox(height: layout.spacing(20)),
-                              _ExpectedResultSection(
-                                layout: layout,
-                                l10n: l10n,
-                              ),
-                            ],
-                          ),
-                  ),
-                  SizedBox(height: layout.spacing(14)),
-                  StaffSupervisorSectionCard(
-                    title: l10n.staffSupervisorOverrideLogsTitle,
-                    child: Column(
-                      children: logEntries
-                          .map(
-                            (entry) => _QrLogTimelineItem(
-                              layout: layout,
-                              entry: entry,
-                              isLast: entry == logEntries.last,
                             ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ],
+                            SizedBox(height: layout.spacing(8)),
+                            AppText(
+                              l10n.staffSupervisorOverrideReasonHint,
+                              variant: AppTextVariant.body,
+                              color: AppColors.secondaryGrey,
+                              fontSize: layout.fontSize(12),
+                              style: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: layout.spacing(14)),
+                      StaffSupervisorSectionCard(
+                        child: layout.isTablet
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: _AuthorizationSection(
+                                      layout: layout,
+                                      l10n: l10n,
+                                      pinController: _pinController,
+                                      onPinChanged: () => setState(() {}),
+                                    ),
+                                  ),
+                                  SizedBox(width: layout.spacing(16)),
+                                  Expanded(
+                                    child: _ExpectedResultSection(
+                                      layout: layout,
+                                      l10n: l10n,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  _AuthorizationSection(
+                                    layout: layout,
+                                    l10n: l10n,
+                                    pinController: _pinController,
+                                    onPinChanged: () => setState(() {}),
+                                  ),
+                                  SizedBox(height: layout.spacing(20)),
+                                  _ExpectedResultSection(
+                                    layout: layout,
+                                    l10n: l10n,
+                                  ),
+                                ],
+                              ),
+                      ),
+                      SizedBox(height: layout.spacing(14)),
+                      StaffSupervisorSectionCard(
+                        title: l10n.staffSupervisorOverrideLogsTitle,
+                        child: Column(
+                          children: logEntries
+                              .map(
+                                (entry) => _QrLogTimelineItem(
+                                  layout: layout,
+                                  entry: entry,
+                                  isLast: entry == logEntries.last,
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
               _ExecuteFooter(
                 layout: layout,
                 label: l10n.staffSupervisorExecuteOverrideButton,
-                enabled: result != null &&
+                enabled:
+                    result != null &&
                     !provider.isSubmitting &&
                     _selectedAction != null &&
                     _reasonController.text.trim().isNotEmpty &&
@@ -706,8 +712,8 @@ class _QrLogTimelineItem extends StatelessWidget {
     final labelColor = entry.isBlocked
         ? _dangerRed
         : entry.isPending
-            ? _accent
-            : AppColors.homeBlack;
+        ? _accent
+        : AppColors.homeBlack;
 
     return IntrinsicHeight(
       child: Row(
@@ -736,17 +742,16 @@ class _QrLogTimelineItem extends StatelessWidget {
                   color: entry.isPending ? _accent : AppColors.homeDividerGrey,
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: entry.isPending ? _accent : AppColors.lightGreyBorder,
+                    color: entry.isPending
+                        ? _accent
+                        : AppColors.lightGreyBorder,
                     width: 2,
                   ),
                 ),
               ),
               if (!isLast)
                 Expanded(
-                  child: Container(
-                    width: 2,
-                    color: AppColors.homeDividerGrey,
-                  ),
+                  child: Container(width: 2, color: AppColors.homeDividerGrey),
                 ),
             ],
           ),
@@ -806,8 +811,9 @@ class _ExecuteFooter extends StatelessWidget {
               backgroundColor: _accent,
               disabledBackgroundColor: _accent.withValues(alpha: 0.42),
               foregroundColor: AppColors.backgroundWhite,
-              disabledForegroundColor:
-                  AppColors.backgroundWhite.withValues(alpha: 0.85),
+              disabledForegroundColor: AppColors.backgroundWhite.withValues(
+                alpha: 0.85,
+              ),
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(layout.radius(16)),

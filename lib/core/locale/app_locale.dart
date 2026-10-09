@@ -9,7 +9,8 @@ class AppLocale {
 
   static const List<Locale> supported = [english, spanish, portuguese];
 
-  static const Locale defaultLocale = english;
+  /// Chile / LatAm default — Spanish unless the user explicitly chooses another.
+  static const Locale defaultLocale = spanish;
 
   static Locale? fromLanguageCode(String languageCode) {
     switch (languageCode.toLowerCase()) {

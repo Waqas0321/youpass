@@ -18,8 +18,8 @@ class StaffSupervisorDrinkLookupProvider extends ChangeNotifier {
     required String genericSearchError,
     required String genericLoadError,
     StaffSupervisorDrinkQuickFilter? searchFilter,
-  })  : _apiService = apiService ?? StaffSupervisorDrinkApiService(ApiClient()),
-        _genericLoadError = genericLoadError {
+  }) : _apiService = apiService ?? StaffSupervisorDrinkApiService(ApiClient()),
+       _genericLoadError = genericLoadError {
     search = StaffSupervisorDrinkSearchController(
       apiService: _apiService,
       filter: searchFilter,
@@ -39,7 +39,9 @@ class StaffSupervisorDrinkLookupProvider extends ChangeNotifier {
   String? submitError;
   StaffSupervisorDrinkTemporaryQr? temporaryQr;
 
-  Future<void> onSearchResultSelected(StaffSupervisorDrinkSearchResult result) async {
+  Future<void> onSearchResultSelected(
+    StaffSupervisorDrinkSearchResult result,
+  ) async {
     await loadDetail(result.redemptionId);
   }
 
@@ -202,11 +204,12 @@ class StaffSupervisorBarDashboardProvider extends ChangeNotifier {
   StaffSupervisorBarDashboardProvider({
     StaffSupervisorDrinkApiService? apiService,
     required String genericLoadError,
-  })  : _apiService = apiService ?? StaffSupervisorDrinkApiService(ApiClient()),
-        _genericLoadError = genericLoadError;
+  }) : _apiService = apiService ?? StaffSupervisorDrinkApiService(ApiClient()),
+       _genericLoadError = genericLoadError;
 
   final StaffSupervisorDrinkApiService _apiService;
   final String _genericLoadError;
+  bool _disposed = false;
 
   StaffSupervisorBarActionHistoryResult? history;
   bool isLoading = false;
@@ -252,23 +255,38 @@ class StaffSupervisorBarDashboardProvider extends ChangeNotifier {
     }
   }
 
+  void _safeNotify() {
+    if (!_disposed) {
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
   Future<void> loadRecentActions({int limit = 3}) async {
     isLoading = true;
     loadError = null;
-    notifyListeners();
+    _safeNotify();
 
     try {
       history = await _apiService.getActionHistory(limit: limit);
+      if (_disposed) return;
       isLoading = false;
-      notifyListeners();
+      _safeNotify();
     } on ApiException catch (error) {
+      if (_disposed) return;
       isLoading = false;
       loadError = error.message;
-      notifyListeners();
+      _safeNotify();
     } catch (_) {
+      if (_disposed) return;
       isLoading = false;
       loadError = _genericLoadError;
-      notifyListeners();
+      _safeNotify();
     }
   }
 }
@@ -277,33 +295,49 @@ class StaffSupervisorBarActionHistoryProvider extends ChangeNotifier {
   StaffSupervisorBarActionHistoryProvider({
     StaffSupervisorDrinkApiService? apiService,
     required String genericLoadError,
-  })  : _apiService = apiService ?? StaffSupervisorDrinkApiService(ApiClient()),
-        _genericLoadError = genericLoadError;
+  }) : _apiService = apiService ?? StaffSupervisorDrinkApiService(ApiClient()),
+       _genericLoadError = genericLoadError;
 
   final StaffSupervisorDrinkApiService _apiService;
   final String _genericLoadError;
+  bool _disposed = false;
 
   StaffSupervisorBarActionHistoryResult? history;
   bool isLoading = false;
   String? loadError;
 
+  void _safeNotify() {
+    if (!_disposed) {
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
   Future<void> loadHistory() async {
     isLoading = true;
     loadError = null;
-    notifyListeners();
+    _safeNotify();
 
     try {
       history = await _apiService.getActionHistory(limit: 50);
+      if (_disposed) return;
       isLoading = false;
-      notifyListeners();
+      _safeNotify();
     } on ApiException catch (error) {
+      if (_disposed) return;
       isLoading = false;
       loadError = error.message;
-      notifyListeners();
+      _safeNotify();
     } catch (_) {
+      if (_disposed) return;
       isLoading = false;
       loadError = _genericLoadError;
-      notifyListeners();
+      _safeNotify();
     }
   }
 }

@@ -70,12 +70,19 @@ class HomeUserDisplayHelper {
     return HomeGreetingFormatter.abbreviatedName(rawName);
   }
 
-  /// Header row: `Hi, {name}!` — API pre-formatted string wins, else local abbreviation.
+  /// Header row: `Hi, {name}!` — local abbreviation (localized, Cases 1–5) wins.
+  /// The API greeting is English-only and uses a different name rule, so it is
+  /// only a fallback when the profile name isn't loaded yet.
   static String headerGreetingText(
     AuthProvider authProvider,
     AppLocalizations strings, {
     String? apiGreeting,
   }) {
+    final rawName = _rawFullName(authProvider);
+    if (rawName != null && rawName.isNotEmpty) {
+      return AppStrings.homeGreeting(strings, greetingName(authProvider, strings));
+    }
+
     final fromApi = apiGreeting?.trim();
     if (fromApi != null && fromApi.isNotEmpty) {
       return fromApi;

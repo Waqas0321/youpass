@@ -128,7 +128,8 @@ class StaffSupervisorPinDotsInput extends StatefulWidget {
       _StaffSupervisorPinDotsInputState();
 }
 
-class _StaffSupervisorPinDotsInputState extends State<StaffSupervisorPinDotsInput> {
+class _StaffSupervisorPinDotsInputState
+    extends State<StaffSupervisorPinDotsInput> {
   final FocusNode _focusNode = FocusNode();
 
   @override
@@ -180,7 +181,9 @@ class _StaffSupervisorPinDotsInputState extends State<StaffSupervisorPinDotsInpu
           color: AppColors.backgroundWhite,
           borderRadius: BorderRadius.circular(layout.radius(12)),
           border: Border.all(
-            color: hasFocus ? StaffSupervisorDesign.accent : AppColors.homeDividerGrey,
+            color: hasFocus
+                ? StaffSupervisorDesign.accent
+                : AppColors.homeDividerGrey,
             width: hasFocus ? 1.5 : 1,
           ),
         ),
@@ -236,10 +239,7 @@ class _StaffSupervisorPinDotsInputState extends State<StaffSupervisorPinDotsInpu
 }
 
 class StaffSupervisorHighAuthorizationBadge extends StatelessWidget {
-  const StaffSupervisorHighAuthorizationBadge({
-    super.key,
-    required this.label,
-  });
+  const StaffSupervisorHighAuthorizationBadge({super.key, required this.label});
 
   final String label;
 

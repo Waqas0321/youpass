@@ -3,10 +3,7 @@ import 'package:youpass/core/widgets/youpass_logo.dart';
 import 'package:youpass/features/home/presentation/party_drinks/party_drinks_design_spec.dart';
 
 class PartyDrinkPurchasesTopBarWidget extends StatelessWidget {
-  const PartyDrinkPurchasesTopBarWidget({
-    super.key,
-    required this.onBackTap,
-  });
+  const PartyDrinkPurchasesTopBarWidget({super.key, required this.onBackTap});
 
   final VoidCallback onBackTap;
 
@@ -43,11 +40,7 @@ class PartyDrinkPurchasesTopBarWidget extends StatelessWidget {
                 size: iconSize,
               ),
             ),
-            const Expanded(
-              child: Center(
-                child: YouPassLogo(),
-              ),
-            ),
+            const Expanded(child: Center(child: YouPassLogo())),
             SizedBox(width: sideSlot, height: sideSlot),
           ],
         ),

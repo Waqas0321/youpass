@@ -60,7 +60,8 @@ class StaffSupervisorDrinkConsumptionCard extends StatelessWidget {
               label: l10n.staffSupervisorConsumptionPurchaseTimeLabel,
               value: detail.purchaseAtLabel!,
             ),
-          if ((detail.validatedAtLabel ?? detail.lastUsedAtLabel ?? '').isNotEmpty)
+          if ((detail.validatedAtLabel ?? detail.lastUsedAtLabel ?? '')
+              .isNotEmpty)
             StaffSupervisorDetailRow(
               label: l10n.staffSupervisorConsumptionRedemptionTimeLabel,
               value: detail.validatedAtLabel ?? detail.lastUsedAtLabel ?? '—',

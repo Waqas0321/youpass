@@ -35,14 +35,14 @@ class PartyDrinkPurchaseCardWidget extends StatelessWidget {
             ),
           )
         : isCourtesies
-            ? AppStrings.partyDrinkCourtesiesReceivedAgo(
-                strings,
-                PartyDrinkRelativeTimeFormatter.format(strings, order.createdAt),
-              )
-            : AppStrings.partyDrinkPurchasesBoughtAgo(
-                strings,
-                PartyDrinkRelativeTimeFormatter.format(strings, order.createdAt),
-              );
+        ? AppStrings.partyDrinkCourtesiesReceivedAgo(
+            strings,
+            PartyDrinkRelativeTimeFormatter.format(strings, order.createdAt),
+          )
+        : AppStrings.partyDrinkPurchasesBoughtAgo(
+            strings,
+            PartyDrinkRelativeTimeFormatter.format(strings, order.createdAt),
+          );
 
     return Container(
       padding: EdgeInsets.all(PartyDrinksDesignSpec.px(context, 12)),
@@ -97,7 +97,9 @@ class PartyDrinkPurchaseCardWidget extends StatelessWidget {
                         ),
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.92),
-                          fontWeight: isRedeemed ? FontWeight.w400 : FontWeight.w600,
+                          fontWeight: isRedeemed
+                              ? FontWeight.w400
+                              : FontWeight.w600,
                           fontSize: PartyDrinksDesignSpec.px(context, 14),
                           height: 1.15,
                         ),
@@ -129,7 +131,9 @@ class PartyDrinkPurchaseCardWidget extends StatelessWidget {
                 SizedBox(width: PartyDrinksDesignSpec.px(context, 8)),
                 isRedeemed
                     ? _CardActionChip(
-                        label: AppStrings.partyDrinkPurchasesRedeemedBadge(strings),
+                        label: AppStrings.partyDrinkPurchasesRedeemedBadge(
+                          strings,
+                        ),
                         icon: Icons.check_rounded,
                       )
                     : _CardActionChip(
@@ -184,11 +188,7 @@ class _ProductImage extends StatelessWidget {
 }
 
 class _CardActionChip extends StatelessWidget {
-  const _CardActionChip({
-    required this.label,
-    required this.icon,
-    this.onTap,
-  });
+  const _CardActionChip({required this.label, required this.icon, this.onTap});
 
   final String label;
   final IconData icon;

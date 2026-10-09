@@ -82,12 +82,15 @@ class StaffSupervisorVipManagementScreen extends StatelessWidget {
                 statusLabel: l10n.staffSupervisorVipStatusLabel,
                 activeStatusText: l10n.staffSupervisorVipStatusActive,
                 capacityLabel: l10n.staffSupervisorVipCapacityLabel,
-                capacityValue: l10n.staffSupervisorVipCapacityPeople(result.capacity),
+                capacityValue: l10n.staffSupervisorVipCapacityPeople(
+                  result.capacity,
+                ),
                 enteredLabel: l10n.staffSupervisorVipEnteredLabel,
                 enteredValue: '${result.enteredCount}',
                 pendingLabel: l10n.staffSupervisorVipPendingLabel,
                 pendingValue: '${result.pendingCount}',
-                purchaseResponsibleLabel: l10n.staffSupervisorVipPurchaseResponsibleLabel,
+                purchaseResponsibleLabel:
+                    l10n.staffSupervisorVipPurchaseResponsibleLabel,
                 purchaseResponsible: result.purchaseResponsible,
                 purchaseIdLabel: l10n.staffSupervisorSearchEntryPurchaseIdLabel,
                 purchaseId: result.purchaseId,
@@ -97,13 +100,18 @@ class StaffSupervisorVipManagementScreen extends StatelessWidget {
               StaffSupervisorVipGuestList(
                 title: l10n.staffSupervisorVipGuestsTitle,
                 guests: result.guests,
-                enteredSubtitle: (time) => l10n.staffSupervisorVipGuestEntered(time),
+                enteredSubtitle: (time) =>
+                    l10n.staffSupervisorVipGuestEntered(time),
                 pendingSubtitle: l10n.staffSupervisorVipGuestPending,
                 selectedSlotId: provider.selectedSlotId,
                 selectionEnabled: provider.requiresGuestSelection,
-                selectionHint: _guestSelectionHint(l10n, provider.selectedAction),
+                selectionHint: _guestSelectionHint(
+                  l10n,
+                  provider.selectedAction,
+                ),
                 isGuestSelectable: (guest) => switch (provider.selectedAction) {
-                  StaffSupervisorVipAction.releaseInvitation => guest.canRelease,
+                  StaffSupervisorVipAction.releaseInvitation =>
+                    guest.canRelease,
                   StaffSupervisorVipAction.changeAccess => guest.canRelease,
                   StaffSupervisorVipAction.moveGuest => guest.canMove,
                   _ => false,
@@ -121,7 +129,8 @@ class StaffSupervisorVipManagementScreen extends StatelessWidget {
                       child: StaffSupervisorActionTile(
                         icon: Icons.person_add_alt_1_rounded,
                         label: l10n.staffSupervisorVipActionAuthorizeExtra,
-                        selected: provider.selectedAction ==
+                        selected:
+                            provider.selectedAction ==
                             StaffSupervisorVipAction.authorizeExtraGuest,
                         onTap: () => provider.selectAction(
                           StaffSupervisorVipAction.authorizeExtraGuest,
@@ -133,7 +142,8 @@ class StaffSupervisorVipManagementScreen extends StatelessWidget {
                       child: StaffSupervisorActionTile(
                         icon: Icons.workspace_premium_outlined,
                         label: l10n.staffSupervisorVipActionChangeAccess,
-                        selected: provider.selectedAction ==
+                        selected:
+                            provider.selectedAction ==
                             StaffSupervisorVipAction.changeAccess,
                         onTap: () => provider.selectAction(
                           StaffSupervisorVipAction.changeAccess,
@@ -145,7 +155,8 @@ class StaffSupervisorVipManagementScreen extends StatelessWidget {
                       child: StaffSupervisorActionTile(
                         icon: Icons.swap_horiz_rounded,
                         label: l10n.staffSupervisorVipActionMoveGuest,
-                        selected: provider.selectedAction ==
+                        selected:
+                            provider.selectedAction ==
                             StaffSupervisorVipAction.moveGuest,
                         onTap: () => provider.selectAction(
                           StaffSupervisorVipAction.moveGuest,
@@ -157,7 +168,8 @@ class StaffSupervisorVipManagementScreen extends StatelessWidget {
                       child: StaffSupervisorActionTile(
                         icon: Icons.lock_open_rounded,
                         label: l10n.staffSupervisorVipActionReleaseInvitation,
-                        selected: provider.selectedAction ==
+                        selected:
+                            provider.selectedAction ==
                             StaffSupervisorVipAction.releaseInvitation,
                         onTap: () => provider.selectAction(
                           StaffSupervisorVipAction.releaseInvitation,
@@ -210,7 +222,11 @@ class StaffSupervisorVipManagementScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: layout.spacing(14)),
-                      _VipPinReasonForm(provider: provider, l10n: l10n, layout: layout),
+                      _VipPinReasonForm(
+                        provider: provider,
+                        l10n: l10n,
+                        layout: layout,
+                      ),
                     ],
                   ),
                 ),
@@ -227,7 +243,11 @@ class StaffSupervisorVipManagementScreen extends StatelessWidget {
                 ],
                 SizedBox(height: layout.spacing(14)),
                 StaffSupervisorSectionCard(
-                  child: _VipPinReasonForm(provider: provider, l10n: l10n, layout: layout),
+                  child: _VipPinReasonForm(
+                    provider: provider,
+                    l10n: l10n,
+                    layout: layout,
+                  ),
                 ),
               ] else if (provider.selectedAction ==
                   StaffSupervisorVipAction.moveGuest) ...[
@@ -243,7 +263,11 @@ class StaffSupervisorVipManagementScreen extends StatelessWidget {
                 ],
                 SizedBox(height: layout.spacing(14)),
                 StaffSupervisorSectionCard(
-                  child: _VipPinReasonForm(provider: provider, l10n: l10n, layout: layout),
+                  child: _VipPinReasonForm(
+                    provider: provider,
+                    l10n: l10n,
+                    layout: layout,
+                  ),
                 ),
               ] else if (provider.selectedAction ==
                   StaffSupervisorVipAction.releaseInvitation) ...[
@@ -262,7 +286,11 @@ class StaffSupervisorVipManagementScreen extends StatelessWidget {
                             fontSize: layout.fontSize(13),
                           ),
                         ),
-                      _VipPinReasonForm(provider: provider, l10n: l10n, layout: layout),
+                      _VipPinReasonForm(
+                        provider: provider,
+                        l10n: l10n,
+                        layout: layout,
+                      ),
                     ],
                   ),
                 ),
@@ -271,7 +299,8 @@ class StaffSupervisorVipManagementScreen extends StatelessWidget {
               StaffSupervisorVipHistorySection(
                 title: l10n.staffSupervisorVipHistoryTitle,
                 entries: result.history,
-                supervisorPrefix: l10n.staffSupervisorVipHistorySupervisorPrefix,
+                supervisorPrefix:
+                    l10n.staffSupervisorVipHistorySupervisorPrefix,
                 entryTitle: (type) => _historyTitle(l10n, type),
               ),
             ],
@@ -290,7 +319,8 @@ class StaffSupervisorVipManagementScreen extends StatelessWidget {
         l10n.staffSupervisorVipSelectGuestRelease,
       StaffSupervisorVipAction.changeAccess =>
         l10n.staffSupervisorVipSelectGuestChangeAccess,
-      StaffSupervisorVipAction.moveGuest => l10n.staffSupervisorVipSelectGuestMove,
+      StaffSupervisorVipAction.moveGuest =>
+        l10n.staffSupervisorVipSelectGuestMove,
       StaffSupervisorVipAction.authorizeExtraGuest || null => '',
     };
   }
@@ -302,11 +332,12 @@ class StaffSupervisorVipManagementScreen extends StatelessWidget {
     return switch (action) {
       StaffSupervisorVipAction.changeAccess =>
         l10n.staffSupervisorVipActionChangeAccess,
-      StaffSupervisorVipAction.moveGuest => l10n.staffSupervisorVipActionMoveGuest,
+      StaffSupervisorVipAction.moveGuest =>
+        l10n.staffSupervisorVipActionMoveGuest,
       StaffSupervisorVipAction.releaseInvitation =>
         l10n.staffSupervisorVipActionReleaseInvitation,
-      StaffSupervisorVipAction.authorizeExtraGuest || null =>
-        l10n.staffSupervisorVipActionAuthorizeExtra,
+      StaffSupervisorVipAction.authorizeExtraGuest ||
+      null => l10n.staffSupervisorVipActionAuthorizeExtra,
     };
   }
 

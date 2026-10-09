@@ -183,9 +183,11 @@ class YouPassThemeExtension extends ThemeExtension<YouPassThemeExtension> {
           drawerMenuTileBackground ?? this.drawerMenuTileBackground,
       drawerMenuBorder: drawerMenuBorder ?? this.drawerMenuBorder,
       drawerMenuTitle: drawerMenuTitle ?? this.drawerMenuTitle,
-      drawerInvitationsTileBackground: drawerInvitationsTileBackground ??
+      drawerInvitationsTileBackground:
+          drawerInvitationsTileBackground ??
           this.drawerInvitationsTileBackground,
-      drawerInvitationsBadgeBackground: drawerInvitationsBadgeBackground ??
+      drawerInvitationsBadgeBackground:
+          drawerInvitationsBadgeBackground ??
           this.drawerInvitationsBadgeBackground,
       drawerInvitationsBadgeText:
           drawerInvitationsBadgeText ?? this.drawerInvitationsBadgeText,
@@ -222,21 +224,34 @@ class YouPassThemeExtension extends ThemeExtension<YouPassThemeExtension> {
     return YouPassThemeExtension(
       cardBackground: blend(cardBackground, other.cardBackground),
       cardBorder: blend(cardBorder, other.cardBorder),
-      chipSelectedBackground:
-          blend(chipSelectedBackground, other.chipSelectedBackground),
-      chipSelectedForeground:
-          blend(chipSelectedForeground, other.chipSelectedForeground),
-      chipUnselectedBackground:
-          blend(chipUnselectedBackground, other.chipUnselectedBackground),
-      chipUnselectedForeground:
-          blend(chipUnselectedForeground, other.chipUnselectedForeground),
-      chipUnselectedBorder: blend(chipUnselectedBorder, other.chipUnselectedBorder),
+      chipSelectedBackground: blend(
+        chipSelectedBackground,
+        other.chipSelectedBackground,
+      ),
+      chipSelectedForeground: blend(
+        chipSelectedForeground,
+        other.chipSelectedForeground,
+      ),
+      chipUnselectedBackground: blend(
+        chipUnselectedBackground,
+        other.chipUnselectedBackground,
+      ),
+      chipUnselectedForeground: blend(
+        chipUnselectedForeground,
+        other.chipUnselectedForeground,
+      ),
+      chipUnselectedBorder: blend(
+        chipUnselectedBorder,
+        other.chipUnselectedBorder,
+      ),
       searchFill: blend(searchFill, other.searchFill),
       searchBorder: blend(searchBorder, other.searchBorder),
       shimmerBase: blend(shimmerBase, other.shimmerBase),
       shimmerHighlight: blend(shimmerHighlight, other.shimmerHighlight),
-      drawerMenuTileBackground:
-          blend(drawerMenuTileBackground, other.drawerMenuTileBackground),
+      drawerMenuTileBackground: blend(
+        drawerMenuTileBackground,
+        other.drawerMenuTileBackground,
+      ),
       drawerMenuBorder: blend(drawerMenuBorder, other.drawerMenuBorder),
       drawerMenuTitle: blend(drawerMenuTitle, other.drawerMenuTitle),
       drawerInvitationsTileBackground: blend(
@@ -247,25 +262,37 @@ class YouPassThemeExtension extends ThemeExtension<YouPassThemeExtension> {
         drawerInvitationsBadgeBackground,
         other.drawerInvitationsBadgeBackground,
       ),
-      drawerInvitationsBadgeText:
-          blend(drawerInvitationsBadgeText, other.drawerInvitationsBadgeText),
-      drawerAvatarBackground:
-          blend(drawerAvatarBackground, other.drawerAvatarBackground),
-      profileCardBackground:
-          blend(profileCardBackground, other.profileCardBackground),
+      drawerInvitationsBadgeText: blend(
+        drawerInvitationsBadgeText,
+        other.drawerInvitationsBadgeText,
+      ),
+      drawerAvatarBackground: blend(
+        drawerAvatarBackground,
+        other.drawerAvatarBackground,
+      ),
+      profileCardBackground: blend(
+        profileCardBackground,
+        other.profileCardBackground,
+      ),
       profileCardBorder: blend(profileCardBorder, other.profileCardBorder),
       profileRowDivider: blend(profileRowDivider, other.profileRowDivider),
-      profileSectionDivider:
-          blend(profileSectionDivider, other.profileSectionDivider),
+      profileSectionDivider: blend(
+        profileSectionDivider,
+        other.profileSectionDivider,
+      ),
       profileIconBadgeBackground: blend(
         profileIconBadgeBackground,
         other.profileIconBadgeBackground,
       ),
       outlineButtonFill: blend(outlineButtonFill, other.outlineButtonFill),
-      outlineButtonBorder:
-          blend(outlineButtonBorder, other.outlineButtonBorder),
-      outlineButtonForeground:
-          blend(outlineButtonForeground, other.outlineButtonForeground),
+      outlineButtonBorder: blend(
+        outlineButtonBorder,
+        other.outlineButtonBorder,
+      ),
+      outlineButtonForeground: blend(
+        outlineButtonForeground,
+        other.outlineButtonForeground,
+      ),
       inputFill: blend(inputFill, other.inputFill),
       authCurveAccent: blend(authCurveAccent, other.authCurveAccent),
     );

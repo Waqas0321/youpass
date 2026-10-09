@@ -175,8 +175,10 @@ class StaffSupervisorVipTableResult {
   factory StaffSupervisorVipTableResult.fromJson(Map<String, dynamic> json) {
     final guestsJson = json['guests'] as List<dynamic>? ?? const [];
     final historyJson = json['history'] as List<dynamic>? ?? const [];
-    final availableSlotsJson = json['available_slots'] as List<dynamic>? ?? const [];
-    final accessOptionsJson = json['access_options'] as List<dynamic>? ?? const [];
+    final availableSlotsJson =
+        json['available_slots'] as List<dynamic>? ?? const [];
+    final accessOptionsJson =
+        json['access_options'] as List<dynamic>? ?? const [];
 
     return StaffSupervisorVipTableResult(
       orderId: json['order_id'] as String? ?? '',

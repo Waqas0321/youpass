@@ -108,7 +108,8 @@ class _StaffSupervisorEntryQrOverrideView extends StatelessWidget {
                           StaffSupervisorEntrySearchField(
                             controller: provider.search,
                             hint: l10n.staffSupervisorOverrideSearchPlaceholder,
-                            sectionTitle: l10n.staffSupervisorOverrideSearchTitle,
+                            sectionTitle:
+                                l10n.staffSupervisorOverrideSearchTitle,
                             onResultSelected: provider.onSearchResultSelected,
                           ),
                           if (provider.contextError != null) ...[
@@ -137,7 +138,9 @@ class _StaffSupervisorEntryQrOverrideView extends StatelessWidget {
                                 vertical: layout.spacing(32),
                               ),
                               child: const Center(
-                                child: CircularProgressIndicator(color: _accent),
+                                child: CircularProgressIndicator(
+                                  color: _accent,
+                                ),
                               ),
                             )
                           else if (overrideContext != null) ...[
@@ -168,7 +171,8 @@ class _StaffSupervisorEntryQrOverrideView extends StatelessWidget {
                                   TextField(
                                     controller: provider.reasonController,
                                     maxLines: 1,
-                                    onChanged: (_) => provider.notifyFormChanged(),
+                                    onChanged: (_) =>
+                                        provider.notifyFormChanged(),
                                     decoration: staffSupervisorInputDecoration(
                                       layout,
                                       hint: l10n
@@ -213,9 +217,11 @@ class _StaffSupervisorEntryQrOverrideView extends StatelessWidget {
               ),
               if (overrideContext != null)
                 StaffSupervisorExecuteFooter(
-                  label: provider.isContextualActionLocked &&
+                  label:
+                      provider.isContextualActionLocked &&
                           provider.selectedAction ==
-                              StaffSupervisorEntryOverrideAction.authorizeReentry
+                              StaffSupervisorEntryOverrideAction
+                                  .authorizeReentry
                       ? l10n.staffSupervisorAuthorizeReentryAction
                       : l10n.staffSupervisorExecuteOverrideButton,
                   enabled: provider.canSubmit,
@@ -319,7 +325,10 @@ class _StaffSupervisorEntryQrOverrideView extends StatelessWidget {
     );
   }
 
-  static String _validatorFooterLabel(BuildContext context, AppLocalizations l10n) {
+  static String _validatorFooterLabel(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) {
     final zoneLabel = context.read<StaffAuthProvider>().profile?.zoneLabel;
     if (zoneLabel == null || zoneLabel.isEmpty) {
       return l10n.staffSupervisorValidatorLabel('VAL-AC-02');
@@ -397,7 +406,11 @@ class _CriticalBanner extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.warning_amber_rounded, color: _accent, size: layout.spacing(24)),
+          Icon(
+            Icons.warning_amber_rounded,
+            color: _accent,
+            size: layout.spacing(24),
+          ),
           SizedBox(width: layout.spacing(10)),
           Expanded(
             child: Column(
@@ -450,8 +463,8 @@ class _ResultCard extends StatelessWidget {
     final statusColor = result.isBlocked
         ? _blockedText
         : result.isValidated
-            ? _successGreen
-            : AppColors.secondaryGrey;
+        ? _successGreen
+        : AppColors.secondaryGrey;
 
     return StaffSupervisorSectionCard(
       title: l10n.staffSupervisorResultFoundTitle,
@@ -782,8 +795,7 @@ class _ExpectedResultCard extends StatelessWidget {
       StaffSupervisorEntryOverrideAction.releaseQr ||
       StaffSupervisorEntryOverrideAction.revertValidation ||
       StaffSupervisorEntryOverrideAction.authorizeReentry ||
-      StaffSupervisorEntryOverrideAction.temporaryUnlock =>
-        true,
+      StaffSupervisorEntryOverrideAction.temporaryUnlock => true,
       StaffSupervisorEntryOverrideAction.revalidateQr || null => false,
     };
   }
@@ -810,8 +822,11 @@ class _ExpectedResultCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(Icons.check_circle_rounded,
-                color: _successGreen, size: layout.spacing(24)),
+            Icon(
+              Icons.check_circle_rounded,
+              color: _successGreen,
+              size: layout.spacing(24),
+            ),
             SizedBox(width: layout.spacing(10)),
             Expanded(
               child: Column(
@@ -948,8 +963,11 @@ class _LogsCard extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Icon(Icons.schedule_rounded,
-                        color: _accent, size: layout.spacing(16)),
+                    Icon(
+                      Icons.schedule_rounded,
+                      color: _accent,
+                      size: layout.spacing(16),
+                    ),
                     if (!isLast)
                       Expanded(
                         child: Container(
@@ -973,8 +991,9 @@ class _LogsCard extends StatelessWidget {
                       label,
                       variant: AppTextVariant.body,
                       color: log.isPending ? _accent : AppColors.homeBlack,
-                      fontWeight:
-                          log.isPending ? FontWeight.w700 : FontWeight.w500,
+                      fontWeight: log.isPending
+                          ? FontWeight.w700
+                          : FontWeight.w500,
                       fontSize: layout.fontSize(14),
                     ),
                   ),
@@ -1042,7 +1061,9 @@ class _ReasonRadioTile extends StatelessWidget {
                 child: AppText(
                   label,
                   variant: AppTextVariant.body,
-                  color: selected ? AppColors.homeBlack : AppColors.secondaryGrey,
+                  color: selected
+                      ? AppColors.homeBlack
+                      : AppColors.secondaryGrey,
                   fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
                   fontSize: layout.fontSize(13),
                 ),
@@ -1056,10 +1077,7 @@ class _ReasonRadioTile extends StatelessWidget {
 }
 
 class _ActionRadioTileLocked extends StatelessWidget {
-  const _ActionRadioTileLocked({
-    required this.layout,
-    required this.label,
-  });
+  const _ActionRadioTileLocked({required this.layout, required this.label});
 
   static const _accent = AppColors.homeAccentYellow;
 

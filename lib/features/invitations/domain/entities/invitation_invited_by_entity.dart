@@ -1,10 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class InvitationInvitedByEntity extends Equatable {
-  const InvitationInvitedByEntity({
-    required this.name,
-    required this.role,
-  });
+  const InvitationInvitedByEntity({required this.name, required this.role});
 
   final String name;
   final String role;

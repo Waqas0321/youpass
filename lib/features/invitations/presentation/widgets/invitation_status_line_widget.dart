@@ -8,10 +8,7 @@ import 'package:youpass/features/invitations/presentation/invitations_design_spe
 import 'package:youpass/features/invitations/presentation/utils/invitations_text_factory.dart';
 
 class InvitationStatusLineWidget extends StatelessWidget {
-  const InvitationStatusLineWidget({
-    super.key,
-    required this.status,
-  });
+  const InvitationStatusLineWidget({super.key, required this.status});
 
   final InvitationStatus status;
 

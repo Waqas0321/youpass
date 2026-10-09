@@ -32,12 +32,18 @@ class StaffSupervisorWarningBanner extends StatelessWidget {
       decoration: BoxDecoration(
         color: backgroundColor ?? StaffSupervisorDesign.warningBackground,
         borderRadius: BorderRadius.circular(layout.radius(12)),
-        border: Border.all(color: (borderColor ?? accent).withValues(alpha: 0.4)),
+        border: Border.all(
+          color: (borderColor ?? accent).withValues(alpha: 0.4),
+        ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.warning_amber_rounded, color: accent, size: layout.spacing(22)),
+          Icon(
+            Icons.warning_amber_rounded,
+            color: accent,
+            size: layout.spacing(22),
+          ),
           SizedBox(width: layout.spacing(10)),
           Expanded(
             child: Column(

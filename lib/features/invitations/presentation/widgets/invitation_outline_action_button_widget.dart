@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youpass/core/theme/invitations_screen_theme.dart';
 import 'package:youpass/features/invitations/presentation/invitations_design_spec.dart';
 
-enum InvitationOutlineButtonStyle {
-  primary,
-  reject,
-  muted,
-}
+enum InvitationOutlineButtonStyle { primary, reject, muted }
 
 class InvitationOutlineActionButtonWidget extends StatelessWidget {
   const InvitationOutlineActionButtonWidget({
@@ -31,13 +27,13 @@ class InvitationOutlineActionButtonWidget extends StatelessWidget {
     final foregroundColor = isReject
         ? InvitationsDesignSpec.rejectButtonText
         : isMuted
-            ? InvitationsScreenTheme.body(context)
-            : InvitationsScreenTheme.accent(context);
+        ? InvitationsScreenTheme.body(context)
+        : InvitationsScreenTheme.accent(context);
     final borderColor = isReject
         ? InvitationsDesignSpec.rejectButtonBorder
         : isMuted
-            ? InvitationsScreenTheme.cardBorder(context)
-            : InvitationsScreenTheme.accent(context);
+        ? InvitationsScreenTheme.cardBorder(context)
+        : InvitationsScreenTheme.accent(context);
 
     return SizedBox(
       height: InvitationsDesignSpec.px(context, 38),
@@ -45,10 +41,7 @@ class InvitationOutlineActionButtonWidget extends StatelessWidget {
         onPressed: isLoading ? null : onPressed,
         style: OutlinedButton.styleFrom(
           foregroundColor: foregroundColor,
-          side: BorderSide(
-            color: borderColor,
-            width: 1.5,
-          ),
+          side: BorderSide(color: borderColor, width: 1.5),
           backgroundColor: InvitationsScreenTheme.outlineButtonFill(context),
           padding: EdgeInsets.symmetric(
             horizontal: InvitationsDesignSpec.px(context, 8),

@@ -11,7 +11,8 @@ abstract final class ApiConfig {
   /// Remote dev tunnel (real devices). Same as production unless you run ngrok locally.
   static const String devTunnelApiV1Url = productionApiV1Url;
 
-  static const int localApiPort = 3002;
+  /// Must match the customer app (`AppConstants.localApiPort`) and backend `PORT`.
+  static const int localApiPort = 3003;
 
   /// Simulator / emulator localhost backend.
   static String get localApiV1Url =>

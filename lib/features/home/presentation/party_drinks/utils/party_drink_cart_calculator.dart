@@ -22,10 +22,7 @@ class PartyDrinkCartSummary {
 }
 
 class PartyDrinkCartLineItem {
-  const PartyDrinkCartLineItem({
-    required this.drink,
-    required this.quantity,
-  });
+  const PartyDrinkCartLineItem({required this.drink, required this.quantity});
 
   final PartyDrinkItem drink;
   final int quantity;

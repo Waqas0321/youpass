@@ -138,26 +138,23 @@ class _ActionBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final (color, icon) = switch (type) {
       StaffSupervisorActionType.qrReleased => (
-          const Color(0xFF22C55E),
-          Icons.lock_open_rounded,
-        ),
+        const Color(0xFF22C55E),
+        Icons.lock_open_rounded,
+      ),
       StaffSupervisorActionType.manualValidation => (
-          const Color(0xFF22C55E),
-          Icons.check_rounded,
-        ),
+        const Color(0xFF22C55E),
+        Icons.check_rounded,
+      ),
       StaffSupervisorActionType.consumptionCancelled => (
-          const Color(0xFFEF4444),
-          Icons.close_rounded,
-        ),
+        const Color(0xFFEF4444),
+        Icons.close_rounded,
+      ),
     };
 
     return Container(
       width: layout.spacing(32),
       height: layout.spacing(32),
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: Icon(
         icon,
         color: AppColors.backgroundWhite,

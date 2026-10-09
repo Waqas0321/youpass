@@ -51,11 +51,7 @@ class StaffSupervisorToolCard extends StatelessWidget {
               shape: BoxShape.circle,
               border: Border.all(color: const Color(0xFFFDE6B0)),
             ),
-            child: Icon(
-              icon,
-              color: _accent,
-              size: layout.spacing(20),
-            ),
+            child: Icon(icon, color: _accent, size: layout.spacing(20)),
           ),
           SizedBox(width: layout.spacing(12)),
           Expanded(

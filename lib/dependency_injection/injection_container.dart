@@ -146,7 +146,10 @@ Future<void> initDependencies() async {
     ..registerLazySingleton<DeviceIdService>(() => deviceIdService)
     ..registerLazySingleton<DeviceAuthService>(() => DeviceAuthService())
     ..registerLazySingleton<ClientRequestHeaders>(
-      () => ClientRequestHeaders(deviceIdService: sl<DeviceIdService>()),
+      () => ClientRequestHeaders(
+        deviceIdService: sl<DeviceIdService>(),
+        languageCodeLoader: () => sl<LocalePreferenceRepository>().loadLanguageCode(),
+      ),
     )
     ..registerLazySingleton<RecaptchaService>(() => RecaptchaServiceImpl())
     ..registerLazySingleton<ApiClient>(

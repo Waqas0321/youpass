@@ -39,8 +39,7 @@ class PartyDrinksDesignSpec {
   static const double gridGap = 12;
   static const double gridChildAspectRatio = 0.58;
 
-  static BorderRadius get borderRadius =>
-      BorderRadius.circular(cornerRadius);
+  static BorderRadius get borderRadius => BorderRadius.circular(cornerRadius);
 
   static BorderRadius get stepperButtonBorderRadius =>
       BorderRadius.circular(stepperButtonRadius);

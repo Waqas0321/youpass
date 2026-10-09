@@ -20,7 +20,9 @@ class StaffSupervisorDrinkActionApplyResult {
   final StaffSupervisorDrinkSearchDetail? detail;
   final StaffSupervisorDrinkTemporaryQr? temporaryQr;
 
-  factory StaffSupervisorDrinkActionApplyResult.fromJson(Map<String, dynamic> json) {
+  factory StaffSupervisorDrinkActionApplyResult.fromJson(
+    Map<String, dynamic> json,
+  ) {
     final detailJson = json['detail'];
     final temporaryJson = json['temporary_qr'];
 
@@ -62,7 +64,8 @@ class StaffSupervisorDrinkTemporaryQr {
   }
 }
 
-extension StaffSupervisorCancellationActionApi on StaffSupervisorCancellationAction {
+extension StaffSupervisorCancellationActionApi
+    on StaffSupervisorCancellationAction {
   String get apiValue {
     switch (this) {
       case StaffSupervisorCancellationAction.cancelConsumption:
@@ -75,7 +78,8 @@ extension StaffSupervisorCancellationActionApi on StaffSupervisorCancellationAct
   }
 }
 
-extension StaffSupervisorQrOverrideActionApi on StaffSupervisorQrOverrideAction {
+extension StaffSupervisorQrOverrideActionApi
+    on StaffSupervisorQrOverrideAction {
   String get apiValue {
     switch (this) {
       case StaffSupervisorQrOverrideAction.releaseQr:

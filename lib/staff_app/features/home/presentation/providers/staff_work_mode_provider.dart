@@ -19,9 +19,20 @@ class StaffWorkModeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String? _profileId;
+
   void syncForProfile(StaffProfile? profile) {
     if (profile == null) {
+      _profileId = null;
       setMode(StaffWorkMode.bar);
+      return;
+    }
+
+    // A newly signed-in staff member starts in their role's mode (door vs bar);
+    // later syncs keep whatever mode they switched to.
+    if (_profileId != profile.id) {
+      _profileId = profile.id;
+      setMode(profile.preferredWorkMode);
       return;
     }
 

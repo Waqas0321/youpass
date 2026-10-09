@@ -15,29 +15,35 @@ class InvitationTicketModel extends InvitationTicketEntity {
     Map<String, dynamic> json, {
     required String invitationId,
   }) {
-    final entryCode = json['entry_code']?.toString() ??
+    final entryCode =
+        json['entry_code']?.toString() ??
         json['entryCode']?.toString() ??
         json['manual_entry_id']?.toString() ??
         '';
 
     return InvitationTicketModel(
       invitationId: invitationId,
-      eventTitle: json['event_title']?.toString() ??
+      eventTitle:
+          json['event_title']?.toString() ??
           json['eventTitle']?.toString() ??
           json['title']?.toString() ??
           '',
-      dateTimeLabel: json['date_time_label']?.toString() ??
+      dateTimeLabel:
+          json['date_time_label']?.toString() ??
           json['dateTimeLabel']?.toString() ??
           '',
-      locationLabel: json['location']?.toString() ??
+      locationLabel:
+          json['location']?.toString() ??
           json['location_label']?.toString() ??
           '',
       entryCode: entryCode,
-      qrPayload: json['qr_payload']?.toString() ??
+      qrPayload:
+          json['qr_payload']?.toString() ??
           json['qrPayload']?.toString() ??
           json['qr_data']?.toString() ??
           entryCode,
-      seatLabel: json['seat_label']?.toString() ??
+      seatLabel:
+          json['seat_label']?.toString() ??
           json['seatLabel']?.toString() ??
           json['ticket_type_label']?.toString() ??
           json['ticketTypeLabel']?.toString(),

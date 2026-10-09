@@ -28,10 +28,7 @@ import 'package:youpass/l10n/app_localizations.dart';
 import 'package:youpass/staff_app/routes/app_routes.dart';
 
 class StaffSupervisorSearchEntryRoute extends StatelessWidget {
-  const StaffSupervisorSearchEntryRoute({
-    super.key,
-    this.supervisorApiService,
-  });
+  const StaffSupervisorSearchEntryRoute({super.key, this.supervisorApiService});
 
   final StaffSupervisorApiService? supervisorApiService;
 
@@ -193,8 +190,7 @@ class _StaffSupervisorSearchEntryScreenState
       StaffSupervisorEntryQuickFilter.error =>
         l10n.staffSupervisorSearchEntryNoErrorResults,
       StaffSupervisorEntryQuickFilter.duplicate ||
-      null =>
-        l10n.staffSupervisorSearchEntryNoResults,
+      null => l10n.staffSupervisorSearchEntryNoResults,
     };
   }
 
@@ -304,7 +300,9 @@ class _StaffSupervisorSearchEntryScreenState
     _searchFocusNode.unfocus();
 
     try {
-      final detail = await _supervisorApiService.getEntryDetail(result.ticketId);
+      final detail = await _supervisorApiService.getEntryDetail(
+        result.ticketId,
+      );
 
       if (!mounted || requestId != _detailRequestId) {
         return;
@@ -402,10 +400,7 @@ class _StaffSupervisorSearchEntryScreenState
     );
   }
 
-  Widget _buildSearchDropdown(
-    AppLocalizations l10n,
-    ResponsiveLayout layout,
-  ) {
+  Widget _buildSearchDropdown(AppLocalizations l10n, ResponsiveLayout layout) {
     if (!_isDropdownVisible) {
       return const SizedBox.shrink();
     }
@@ -428,63 +423,61 @@ class _StaffSupervisorSearchEntryScreenState
                 ),
               )
             : _hasSearched && !_isLoading && _results.isEmpty
-                ? Padding(
-                    padding: EdgeInsets.all(layout.spacing(16)),
-                    child: AppText(
-                      _emptyResultsMessage(l10n),
-                      variant: AppTextVariant.body,
-                      textAlign: TextAlign.center,
-                      color: _searchError != null
-                          ? const Color(0xFFEF4444)
-                          : AppColors.secondaryGrey,
-                      fontSize: layout.fontSize(13),
+            ? Padding(
+                padding: EdgeInsets.all(layout.spacing(16)),
+                child: AppText(
+                  _emptyResultsMessage(l10n),
+                  variant: AppTextVariant.body,
+                  textAlign: TextAlign.center,
+                  color: _searchError != null
+                      ? const Color(0xFFEF4444)
+                      : AppColors.secondaryGrey,
+                  fontSize: layout.fontSize(13),
+                ),
+              )
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      layout.spacing(14),
+                      layout.spacing(10),
+                      layout.spacing(14),
+                      layout.spacing(6),
                     ),
-                  )
-                : Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(
-                          layout.spacing(14),
-                          layout.spacing(10),
-                          layout.spacing(14),
-                          layout.spacing(6),
-                        ),
-                        child: AppText(
-                          l10n.staffSupervisorSearchEntryResultsCount(
-                            _totalResults,
-                          ),
-                          variant: AppTextVariant.label,
-                          color: AppColors.secondaryGrey,
-                          fontWeight: FontWeight.w700,
-                          fontSize: layout.fontSize(11),
-                          letterSpacing: 0.6,
-                        ),
+                    child: AppText(
+                      l10n.staffSupervisorSearchEntryResultsCount(
+                        _totalResults,
                       ),
-                      Flexible(
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemCount: _results.length,
-                          separatorBuilder: (context, index) => Divider(
-                            height: 1,
-                            color: AppColors.homeDividerGrey.withValues(
-                              alpha: 0.7,
-                            ),
-                          ),
-                          itemBuilder: (context, index) {
-                            final result = _results[index];
-                            return StaffSupervisorEntrySearchResultTile(
-                              layout: layout,
-                              result: result,
-                              onTap: () => _selectResult(result),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                      variant: AppTextVariant.label,
+                      color: AppColors.secondaryGrey,
+                      fontWeight: FontWeight.w700,
+                      fontSize: layout.fontSize(11),
+                      letterSpacing: 0.6,
+                    ),
                   ),
+                  Flexible(
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: _results.length,
+                      separatorBuilder: (context, index) => Divider(
+                        height: 1,
+                        color: AppColors.homeDividerGrey.withValues(alpha: 0.7),
+                      ),
+                      itemBuilder: (context, index) {
+                        final result = _results[index];
+                        return StaffSupervisorEntrySearchResultTile(
+                          layout: layout,
+                          result: result,
+                          onTap: () => _selectResult(result),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }
@@ -528,9 +521,7 @@ class _StaffSupervisorSearchEntryScreenState
       return [
         Padding(
           padding: EdgeInsets.symmetric(vertical: layout.spacing(32)),
-          child: const Center(
-            child: CircularProgressIndicator(color: _accent),
-          ),
+          child: const Center(child: CircularProgressIndicator(color: _accent)),
         ),
       ];
     }
@@ -597,16 +588,10 @@ class _StaffSupervisorSearchEntryScreenState
       if (_isLoadingDetail)
         Padding(
           padding: EdgeInsets.symmetric(vertical: layout.spacing(24)),
-          child: const Center(
-            child: CircularProgressIndicator(color: _accent),
-          ),
+          child: const Center(child: CircularProgressIndicator(color: _accent)),
         )
       else ...[
-        _EntryResultCard(
-          layout: layout,
-          l10n: l10n,
-          result: _selectedResult!,
-        ),
+        _EntryResultCard(layout: layout, l10n: l10n, result: _selectedResult!),
         SizedBox(height: layout.spacing(20)),
         AppText(
           l10n.staffSupervisorActionsTitle,
@@ -623,7 +608,8 @@ class _StaffSupervisorSearchEntryScreenState
           runSpacing: layout.spacing(8),
           children: [
             SizedBox(
-              width: (MediaQuery.sizeOf(context).width - layout.spacing(48)) / 2 -
+              width:
+                  (MediaQuery.sizeOf(context).width - layout.spacing(48)) / 2 -
                   layout.spacing(4),
               child: _ActionTile(
                 layout: layout,
@@ -635,7 +621,8 @@ class _StaffSupervisorSearchEntryScreenState
             if (_selectedResult!.status == StaffSupervisorEntryStatus.used ||
                 _selectedResult!.status == StaffSupervisorEntryStatus.validated)
               SizedBox(
-                width: (MediaQuery.sizeOf(context).width - layout.spacing(48)) /
+                width:
+                    (MediaQuery.sizeOf(context).width - layout.spacing(48)) /
                         2 -
                     layout.spacing(4),
                 child: _ActionTile(
@@ -650,7 +637,8 @@ class _StaffSupervisorSearchEntryScreenState
             if (_selectedResult!.status == StaffSupervisorEntryStatus.pending ||
                 _selectedResult!.status == StaffSupervisorEntryStatus.error)
               SizedBox(
-                width: (MediaQuery.sizeOf(context).width - layout.spacing(48)) /
+                width:
+                    (MediaQuery.sizeOf(context).width - layout.spacing(48)) /
                         2 -
                     layout.spacing(4),
                 child: _ActionTile(
@@ -699,8 +687,11 @@ class _StaffSupervisorSearchEntryScreenState
       children: [
         Row(
           children: [
-            Icon(Icons.search_rounded,
-                color: _accent, size: layout.spacing(18)),
+            Icon(
+              Icons.search_rounded,
+              color: _accent,
+              size: layout.spacing(18),
+            ),
             SizedBox(width: layout.spacing(6)),
             AppText(
               l10n.staffSupervisorSearchEntryByLabel,
@@ -773,9 +764,9 @@ class _StaffSupervisorSearchEntryScreenState
                 layout: layout,
                 icon: Icons.schedule_rounded,
                 label: l10n.staffSupervisorSearchEntryFilterUsed,
-                selected:
-                    _activeFilter == StaffSupervisorEntryQuickFilter.used,
-                onTap: () => _toggleFilter(StaffSupervisorEntryQuickFilter.used),
+                selected: _activeFilter == StaffSupervisorEntryQuickFilter.used,
+                onTap: () =>
+                    _toggleFilter(StaffSupervisorEntryQuickFilter.used),
               ),
             ),
             SizedBox(width: layout.spacing(8)),
@@ -1027,250 +1018,254 @@ class _EntryResultCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              width: layout.spacing(4),
-              color: statusStyle.color,
-            ),
+            Container(width: layout.spacing(4), color: statusStyle.color),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.all(layout.spacing(16)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                AppText(
-                  l10n.staffSupervisorResultFoundTitle,
-                  variant: AppTextVariant.label,
-                  color: AppColors.secondaryGrey,
-                  fontWeight: FontWeight.w700,
-                  fontSize: layout.fontSize(11),
-                  letterSpacing: 0.8,
-                ),
-                SizedBox(height: layout.spacing(12)),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(
-                      clipBehavior: Clip.none,
+                    AppText(
+                      l10n.staffSupervisorResultFoundTitle,
+                      variant: AppTextVariant.label,
+                      color: AppColors.secondaryGrey,
+                      fontWeight: FontWeight.w700,
+                      fontSize: layout.fontSize(11),
+                      letterSpacing: 0.8,
+                    ),
+                    SizedBox(height: layout.spacing(12)),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CircleAvatar(
-                          radius: layout.spacing(24),
-                          backgroundColor: const Color(0xFFFFF8EB),
-                          child: Icon(
-                            Icons.person_rounded,
-                            color: _accent,
-                            size: layout.spacing(28),
-                          ),
-                        ),
-                        if (result.isVip)
-                          Positioned(
-                            right: -2,
-                            bottom: -2,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: layout.spacing(6),
-                                vertical: layout.spacing(2),
-                              ),
-                              decoration: BoxDecoration(
+                        Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            CircleAvatar(
+                              radius: layout.spacing(24),
+                              backgroundColor: const Color(0xFFFFF8EB),
+                              child: Icon(
+                                Icons.person_rounded,
                                 color: _accent,
-                                borderRadius:
-                                    BorderRadius.circular(layout.radius(8)),
-                              ),
-                              child: AppText(
-                                'VIP',
-                                variant: AppTextVariant.label,
-                                color: AppColors.backgroundWhite,
-                                fontWeight: FontWeight.w800,
-                                fontSize: layout.fontSize(9),
+                                size: layout.spacing(28),
                               ),
                             ),
-                          ),
-                      ],
-                    ),
-                    SizedBox(width: layout.spacing(12)),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AppText(
-                            result.guestName,
-                            variant: AppTextVariant.bodyEmphasis,
-                            color: AppColors.homeBlack,
-                            fontWeight: FontWeight.w800,
-                            fontSize: layout.fontSize(17),
-                          ),
-                          SizedBox(height: layout.spacing(8)),
-                          Wrap(
-                            spacing: layout.spacing(6),
-                            runSpacing: layout.spacing(6),
-                            children: result.vipTags
-                                .map(
-                                  (tag) => Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: layout.spacing(8),
-                                      vertical: layout.spacing(4),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: _accent),
-                                      borderRadius: BorderRadius.circular(
-                                        layout.radius(8),
-                                      ),
-                                    ),
-                                    child: AppText(
-                                      tag,
-                                      variant: AppTextVariant.label,
-                                      color: _accent,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: layout.fontSize(11),
+                            if (result.isVip)
+                              Positioned(
+                                right: -2,
+                                bottom: -2,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: layout.spacing(6),
+                                    vertical: layout.spacing(2),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: _accent,
+                                    borderRadius: BorderRadius.circular(
+                                      layout.radius(8),
                                     ),
                                   ),
-                                )
-                                .toList(),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        AppText(
-                          l10n.staffSupervisorConsumptionStatusLabel,
-                          variant: AppTextVariant.body,
-                          color: AppColors.secondaryGrey,
-                          fontSize: layout.fontSize(11),
-                        ),
-                        SizedBox(height: layout.spacing(4)),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: layout.spacing(10),
-                            vertical: layout.spacing(5),
-                          ),
-                          decoration: BoxDecoration(
-                            color: statusStyle.background,
-                            borderRadius:
-                                BorderRadius.circular(layout.radius(20)),
-                            border: Border.all(
-                              color: statusStyle.color.withValues(alpha: 0.4),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                statusStyle.icon,
-                                color: statusStyle.color,
-                                size: layout.spacing(14),
+                                  child: AppText(
+                                    'VIP',
+                                    variant: AppTextVariant.label,
+                                    color: AppColors.backgroundWhite,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: layout.fontSize(9),
+                                  ),
+                                ),
                               ),
-                              SizedBox(width: layout.spacing(4)),
+                          ],
+                        ),
+                        SizedBox(width: layout.spacing(12)),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
                               AppText(
-                                _statusLabel(statusStyle),
-                                variant: AppTextVariant.label,
-                                color: statusStyle.color,
+                                result.guestName,
+                                variant: AppTextVariant.bodyEmphasis,
+                                color: AppColors.homeBlack,
                                 fontWeight: FontWeight.w800,
-                                fontSize: layout.fontSize(11),
-                                letterSpacing: 0.5,
+                                fontSize: layout.fontSize(17),
+                              ),
+                              SizedBox(height: layout.spacing(8)),
+                              Wrap(
+                                spacing: layout.spacing(6),
+                                runSpacing: layout.spacing(6),
+                                children: result.vipTags
+                                    .map(
+                                      (tag) => Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: layout.spacing(8),
+                                          vertical: layout.spacing(4),
+                                        ),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: _accent),
+                                          borderRadius: BorderRadius.circular(
+                                            layout.radius(8),
+                                          ),
+                                        ),
+                                        child: AppText(
+                                          tag,
+                                          variant: AppTextVariant.label,
+                                          color: _accent,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: layout.fontSize(11),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
                               ),
                             ],
                           ),
                         ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            AppText(
+                              l10n.staffSupervisorConsumptionStatusLabel,
+                              variant: AppTextVariant.body,
+                              color: AppColors.secondaryGrey,
+                              fontSize: layout.fontSize(11),
+                            ),
+                            SizedBox(height: layout.spacing(4)),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: layout.spacing(10),
+                                vertical: layout.spacing(5),
+                              ),
+                              decoration: BoxDecoration(
+                                color: statusStyle.background,
+                                borderRadius: BorderRadius.circular(
+                                  layout.radius(20),
+                                ),
+                                border: Border.all(
+                                  color: statusStyle.color.withValues(
+                                    alpha: 0.4,
+                                  ),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    statusStyle.icon,
+                                    color: statusStyle.color,
+                                    size: layout.spacing(14),
+                                  ),
+                                  SizedBox(width: layout.spacing(4)),
+                                  AppText(
+                                    _statusLabel(statusStyle),
+                                    variant: AppTextVariant.label,
+                                    color: statusStyle.color,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: layout.fontSize(11),
+                                    letterSpacing: 0.5,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-                SizedBox(height: layout.spacing(14)),
-                _IdRow(
-                  layout: layout,
-                  label: l10n.staffSupervisorOverrideQrIdLabel,
-                  value: result.qrId,
-                ),
-                if (result.ticketTypeLabel != null &&
-                    result.ticketTypeLabel!.trim().isNotEmpty) ...[
-                  SizedBox(height: layout.spacing(6)),
-                  _IdRow(
-                    layout: layout,
-                    label: l10n.staffSupervisorSearchEntryTicketTypeLabel,
-                    value: result.ticketTypeLabel!,
-                  ),
-                ],
-                SizedBox(height: layout.spacing(6)),
-                _IdRow(
-                  layout: layout,
-                  label: l10n.staffSupervisorSearchEntryPurchaseIdLabel,
-                  value: result.purchaseId,
-                ),
-                if (result.purchaseStatus != null &&
-                    result.purchaseStatus!.trim().isNotEmpty) ...[
-                  SizedBox(height: layout.spacing(6)),
-                  _IdRow(
-                    layout: layout,
-                    label: l10n.staffSupervisorSearchEntryPurchaseStatusLabel,
-                    value: result.purchaseStatus!,
-                  ),
-                ],
-                if (result.accessPoint != null &&
-                    result.accessPoint!.trim().isNotEmpty) ...[
-                  SizedBox(height: layout.spacing(6)),
-                  _IdRow(
-                    layout: layout,
-                    label: l10n.staffSupervisorSearchEntryAccessPointLabel,
-                    value: result.accessPoint!,
-                  ),
-                ],
-                SizedBox(height: layout.spacing(14)),
-                Divider(color: AppColors.homeDividerGrey, height: 1),
-                SizedBox(height: layout.spacing(14)),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _InfoCell(
+                    SizedBox(height: layout.spacing(14)),
+                    _IdRow(
+                      layout: layout,
+                      label: l10n.staffSupervisorOverrideQrIdLabel,
+                      value: result.qrId,
+                    ),
+                    if (result.ticketTypeLabel != null &&
+                        result.ticketTypeLabel!.trim().isNotEmpty) ...[
+                      SizedBox(height: layout.spacing(6)),
+                      _IdRow(
                         layout: layout,
-                        icon: Icons.schedule_rounded,
-                        label: l10n.staffSupervisorSearchEntryTimeLabel,
-                        value: result.entryTimeLabel,
+                        label: l10n.staffSupervisorSearchEntryTicketTypeLabel,
+                        value: result.ticketTypeLabel!,
                       ),
+                    ],
+                    SizedBox(height: layout.spacing(6)),
+                    _IdRow(
+                      layout: layout,
+                      label: l10n.staffSupervisorSearchEntryPurchaseIdLabel,
+                      value: result.purchaseId,
                     ),
-                    Container(
-                      width: 1,
-                      height: layout.spacing(48),
-                      color: AppColors.homeDividerGrey,
-                    ),
-                    Expanded(
-                      child: _InfoCell(
+                    if (result.purchaseStatus != null &&
+                        result.purchaseStatus!.trim().isNotEmpty) ...[
+                      SizedBox(height: layout.spacing(6)),
+                      _IdRow(
                         layout: layout,
-                        icon: Icons.verified_user_outlined,
-                        label: l10n.staffSupervisorSearchEntryValidatorLabel,
-                        value: result.validatorId,
+                        label:
+                            l10n.staffSupervisorSearchEntryPurchaseStatusLabel,
+                        value: result.purchaseStatus!,
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: layout.spacing(12)),
-                Divider(color: AppColors.homeDividerGrey, height: 1),
-                SizedBox(height: layout.spacing(12)),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _InfoCell(
+                    ],
+                    if (result.accessPoint != null &&
+                        result.accessPoint!.trim().isNotEmpty) ...[
+                      SizedBox(height: layout.spacing(6)),
+                      _IdRow(
                         layout: layout,
-                        icon: Icons.workspace_premium_outlined,
-                        label: l10n.staffSupervisorSearchEntryVipTableLabel,
-                        value: result.vipTableLabel,
+                        label: l10n.staffSupervisorSearchEntryAccessPointLabel,
+                        value: result.accessPoint!,
                       ),
+                    ],
+                    SizedBox(height: layout.spacing(14)),
+                    Divider(color: AppColors.homeDividerGrey, height: 1),
+                    SizedBox(height: layout.spacing(14)),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _InfoCell(
+                            layout: layout,
+                            icon: Icons.schedule_rounded,
+                            label: l10n.staffSupervisorSearchEntryTimeLabel,
+                            value: result.entryTimeLabel,
+                          ),
+                        ),
+                        Container(
+                          width: 1,
+                          height: layout.spacing(48),
+                          color: AppColors.homeDividerGrey,
+                        ),
+                        Expanded(
+                          child: _InfoCell(
+                            layout: layout,
+                            icon: Icons.verified_user_outlined,
+                            label:
+                                l10n.staffSupervisorSearchEntryValidatorLabel,
+                            value: result.validatorId,
+                          ),
+                        ),
+                      ],
                     ),
-                    Container(
-                      width: 1,
-                      height: layout.spacing(48),
-                      color: AppColors.homeDividerGrey,
+                    SizedBox(height: layout.spacing(12)),
+                    Divider(color: AppColors.homeDividerGrey, height: 1),
+                    SizedBox(height: layout.spacing(12)),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _InfoCell(
+                            layout: layout,
+                            icon: Icons.workspace_premium_outlined,
+                            label: l10n.staffSupervisorSearchEntryVipTableLabel,
+                            value: result.vipTableLabel,
+                          ),
+                        ),
+                        Container(
+                          width: 1,
+                          height: layout.spacing(48),
+                          color: AppColors.homeDividerGrey,
+                        ),
+                        Expanded(
+                          child: _InfoCell(
+                            layout: layout,
+                            icon: Icons.groups_outlined,
+                            label:
+                                l10n.staffSupervisorSearchEntryAssociatedLabel,
+                            value: result.associatedEntriesLabel,
+                          ),
+                        ),
+                      ],
                     ),
-                    Expanded(
-                      child: _InfoCell(
-                        layout: layout,
-                        icon: Icons.groups_outlined,
-                        label: l10n.staffSupervisorSearchEntryAssociatedLabel,
-                        value: result.associatedEntriesLabel,
-                      ),
-                    ),
-                  ],
-                ),
                   ],
                 ),
               ),

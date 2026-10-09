@@ -79,8 +79,9 @@ class InvitationsRemoteDataSourceImpl implements InvitationsRemoteDataSource {
   @override
   Future<InvitationEntity> fetchInvitationDetail(String invitationId) async {
     if (AppConstants.useInvitationsMockData) {
-      return InvitationsMockData.invitationsFor(_l10n)
-          .firstWhere((item) => item.id == invitationId);
+      return InvitationsMockData.invitationsFor(
+        _l10n,
+      ).firstWhere((item) => item.id == invitationId);
     }
 
     return apiService.fetchInvitationDetail(invitationId);

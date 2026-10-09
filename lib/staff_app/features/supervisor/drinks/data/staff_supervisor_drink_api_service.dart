@@ -75,11 +75,7 @@ class StaffSupervisorDrinkApiService extends BaseApiService {
   }) {
     return postModel(
       StaffApiEndpoints.supervisorDrinkCancellation(redemptionId),
-      body: {
-        'pin': pin,
-        'action': action.apiValue,
-        'notes': notes.trim(),
-      },
+      body: {'pin': pin, 'action': action.apiValue, 'notes': notes.trim()},
       authenticated: true,
       fromJson: StaffSupervisorDrinkActionApplyResult.fromJson,
     );
@@ -113,11 +109,7 @@ class StaffSupervisorDrinkApiService extends BaseApiService {
   }) {
     return postModel(
       StaffApiEndpoints.supervisorDrinkOverride(redemptionId),
-      body: {
-        'pin': pin,
-        'action': action.apiValue,
-        'notes': notes.trim(),
-      },
+      body: {'pin': pin, 'action': action.apiValue, 'notes': notes.trim()},
       authenticated: true,
       fromJson: StaffSupervisorDrinkActionApplyResult.fromJson,
     );

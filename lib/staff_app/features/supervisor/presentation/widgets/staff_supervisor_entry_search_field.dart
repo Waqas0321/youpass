@@ -53,7 +53,8 @@ class StaffSupervisorEntrySearchField extends StatelessWidget {
                 ),
               ),
             ),
-            if (controller.isDropdownVisible) SizedBox(height: layout.spacing(8)),
+            if (controller.isDropdownVisible)
+              SizedBox(height: layout.spacing(8)),
             _SearchDropdown(
               layout: layout,
               controller: controller,
@@ -129,60 +130,60 @@ class _SearchDropdown extends StatelessWidget {
                 ),
               )
             : controller.hasSearched &&
-                    !controller.isSearching &&
-                    controller.results.isEmpty
-                ? Padding(
-                    padding: EdgeInsets.all(layout.spacing(16)),
-                    child: AppText(
-                      controller.searchError ?? noResultsLabel,
-                      variant: AppTextVariant.body,
-                      textAlign: TextAlign.center,
-                      color: controller.searchError != null
-                          ? const Color(0xFFEF4444)
-                          : AppColors.secondaryGrey,
-                      fontSize: layout.fontSize(13),
+                  !controller.isSearching &&
+                  controller.results.isEmpty
+            ? Padding(
+                padding: EdgeInsets.all(layout.spacing(16)),
+                child: AppText(
+                  controller.searchError ?? noResultsLabel,
+                  variant: AppTextVariant.body,
+                  textAlign: TextAlign.center,
+                  color: controller.searchError != null
+                      ? const Color(0xFFEF4444)
+                      : AppColors.secondaryGrey,
+                  fontSize: layout.fontSize(13),
+                ),
+              )
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      layout.spacing(14),
+                      layout.spacing(10),
+                      layout.spacing(14),
+                      layout.spacing(6),
                     ),
-                  )
-                : Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(
-                          layout.spacing(14),
-                          layout.spacing(10),
-                          layout.spacing(14),
-                          layout.spacing(6),
-                        ),
-                        child: AppText(
-                          resultsCountLabel(controller.totalResults),
-                          variant: AppTextVariant.label,
-                          color: AppColors.secondaryGrey,
-                          fontWeight: FontWeight.w700,
-                          fontSize: layout.fontSize(11),
-                        ),
-                      ),
-                      Flexible(
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemCount: controller.results.length,
-                          separatorBuilder: (context, index) => Divider(
-                            height: 1,
-                            color: AppColors.homeDividerGrey.withValues(alpha: 0.7),
-                          ),
-                          itemBuilder: (context, index) {
-                            final result = controller.results[index];
-                            return StaffSupervisorEntrySearchResultTile(
-                              layout: layout,
-                              result: result,
-                              onTap: () => onResultSelected(result),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                    child: AppText(
+                      resultsCountLabel(controller.totalResults),
+                      variant: AppTextVariant.label,
+                      color: AppColors.secondaryGrey,
+                      fontWeight: FontWeight.w700,
+                      fontSize: layout.fontSize(11),
+                    ),
                   ),
+                  Flexible(
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: controller.results.length,
+                      separatorBuilder: (context, index) => Divider(
+                        height: 1,
+                        color: AppColors.homeDividerGrey.withValues(alpha: 0.7),
+                      ),
+                      itemBuilder: (context, index) {
+                        final result = controller.results[index];
+                        return StaffSupervisorEntrySearchResultTile(
+                          layout: layout,
+                          result: result,
+                          onTap: () => onResultSelected(result),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }

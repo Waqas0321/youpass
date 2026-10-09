@@ -45,7 +45,10 @@ InputDecoration staffSupervisorInputDecoration(
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(layout.radius(12)),
-      borderSide: const BorderSide(color: StaffSupervisorDesign.accent, width: 1.5),
+      borderSide: const BorderSide(
+        color: StaffSupervisorDesign.accent,
+        width: 1.5,
+      ),
     ),
   );
 }

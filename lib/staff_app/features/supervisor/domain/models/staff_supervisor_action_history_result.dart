@@ -50,7 +50,9 @@ class StaffSupervisorActionHistoryEntry {
   final String? ticketId;
   final String? entryCode;
 
-  factory StaffSupervisorActionHistoryEntry.fromJson(Map<String, dynamic> json) {
+  factory StaffSupervisorActionHistoryEntry.fromJson(
+    Map<String, dynamic> json,
+  ) {
     return StaffSupervisorActionHistoryEntry(
       id: json['id'] as String? ?? '',
       category: _parseCategory(json['category'] as String?),
@@ -62,8 +64,10 @@ class StaffSupervisorActionHistoryEntry {
           'Staff',
       timeLabel: json['time_label'] as String? ?? '',
       occurredAt: json['occurred_at'] as String? ?? '',
-      targetLabel: json['target_label'] as String? ?? json['guest_name'] as String?,
-      guestName: json['guest_name'] as String? ?? json['target_label'] as String?,
+      targetLabel:
+          json['target_label'] as String? ?? json['guest_name'] as String?,
+      guestName:
+          json['guest_name'] as String? ?? json['target_label'] as String?,
       ticketType: json['ticket_type'] as String?,
       accessPoint: json['access_point'] as String?,
       deviceLabel: json['device_label'] as String?,
@@ -87,7 +91,9 @@ class StaffSupervisorActionHistoryResult {
   final List<StaffSupervisorActionHistoryEntry> actions;
   final int total;
 
-  factory StaffSupervisorActionHistoryResult.fromJson(Map<String, dynamic> json) {
+  factory StaffSupervisorActionHistoryResult.fromJson(
+    Map<String, dynamic> json,
+  ) {
     return StaffSupervisorActionHistoryResult(
       eventId: json['event_id'] as String? ?? '',
       eventTitle: json['event_title'] as String? ?? '',
@@ -107,7 +113,8 @@ StaffSupervisorActionHistoryCategory _parseCategory(String? value) {
   return switch (value) {
     'access' => StaffSupervisorActionHistoryCategory.access,
     'duplicate' => StaffSupervisorActionHistoryCategory.duplicate,
-    'manual_validation' => StaffSupervisorActionHistoryCategory.manualValidation,
+    'manual_validation' =>
+      StaffSupervisorActionHistoryCategory.manualValidation,
     'vip' => StaffSupervisorActionHistoryCategory.vip,
     'system' => StaffSupervisorActionHistoryCategory.system,
     _ => StaffSupervisorActionHistoryCategory.entryOverride,

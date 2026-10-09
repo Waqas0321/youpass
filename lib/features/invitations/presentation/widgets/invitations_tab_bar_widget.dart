@@ -20,7 +20,10 @@ class InvitationsTabBarWidget extends StatelessWidget {
     final strings = context.l10n;
     final tabs = <(InvitationListTab, String)>[
       (InvitationListTab.pending, AppStrings.invitationsTabPending(strings)),
-      (InvitationListTab.confirmed, AppStrings.invitationsTabConfirmed(strings)),
+      (
+        InvitationListTab.confirmed,
+        AppStrings.invitationsTabConfirmed(strings),
+      ),
     ];
 
     return Row(
@@ -57,18 +60,26 @@ class _TabButton extends StatelessWidget {
 
     return Material(
       color: isSelected ? accent.withValues(alpha: 0.14) : Colors.transparent,
-      borderRadius: BorderRadius.circular(InvitationsDesignSpec.px(context, 10)),
+      borderRadius: BorderRadius.circular(
+        InvitationsDesignSpec.px(context, 10),
+      ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(InvitationsDesignSpec.px(context, 10)),
+        borderRadius: BorderRadius.circular(
+          InvitationsDesignSpec.px(context, 10),
+        ),
         child: Container(
           padding: EdgeInsets.symmetric(
             vertical: InvitationsDesignSpec.px(context, 12),
           ),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(InvitationsDesignSpec.px(context, 10)),
+            borderRadius: BorderRadius.circular(
+              InvitationsDesignSpec.px(context, 10),
+            ),
             border: Border.all(
-              color: isSelected ? accent : InvitationsDesignSpec.filterUnselectedBorder,
+              color: isSelected
+                  ? accent
+                  : InvitationsDesignSpec.filterUnselectedBorder,
             ),
           ),
           alignment: Alignment.center,

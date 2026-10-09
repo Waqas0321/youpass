@@ -1,6 +1,1 @@
-enum InvitationSubmitAction {
-  confirm,
-  reject,
-  cancel,
-  viewQr,
-}
+enum InvitationSubmitAction { confirm, reject, cancel, viewQr }

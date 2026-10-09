@@ -14,12 +14,16 @@ class GuaranteedPassAcceptDialog extends StatefulWidget {
 
   final InvitationEntity invitation;
 
-  static Future<bool> show(BuildContext context, InvitationEntity invitation) async {
+  static Future<bool> show(
+    BuildContext context,
+    InvitationEntity invitation,
+  ) async {
     final result = await showDialog<bool>(
       context: context,
       barrierDismissible: true,
       useRootNavigator: true,
-      builder: (dialogContext) => GuaranteedPassAcceptDialog(invitation: invitation),
+      builder: (dialogContext) =>
+          GuaranteedPassAcceptDialog(invitation: invitation),
     );
     return result ?? false;
   }
@@ -29,7 +33,8 @@ class GuaranteedPassAcceptDialog extends StatefulWidget {
       _GuaranteedPassAcceptDialogState();
 }
 
-class _GuaranteedPassAcceptDialogState extends State<GuaranteedPassAcceptDialog> {
+class _GuaranteedPassAcceptDialogState
+    extends State<GuaranteedPassAcceptDialog> {
   bool termsAccepted = false;
   bool showTermsError = false;
 
@@ -46,7 +51,8 @@ class _GuaranteedPassAcceptDialogState extends State<GuaranteedPassAcceptDialog>
   Widget build(BuildContext context) {
     final strings = context.l10n;
     final deadline = widget.invitation.cancellationDeadlineLabel ?? '—';
-    final amount = widget.invitation.noShowChargeLabel ??
+    final amount =
+        widget.invitation.noShowChargeLabel ??
         widget.invitation.chargeAmount?.toStringAsFixed(0) ??
         '—';
 
@@ -72,7 +78,11 @@ class _GuaranteedPassAcceptDialogState extends State<GuaranteedPassAcceptDialog>
             ),
             const SizedBox(height: 12),
             Text(
-              AppStrings.invitationsGuaranteedPassMessage(strings, deadline, amount),
+              AppStrings.invitationsGuaranteedPassMessage(
+                strings,
+                deadline,
+                amount,
+              ),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
@@ -137,7 +147,8 @@ class _GuaranteedPassAcceptDialogState extends State<GuaranteedPassAcceptDialog>
             const SizedBox(height: 8),
             YouPassDialogOutlineButton(
               label: AppStrings.invitationsDialogCancel(strings),
-              onPressed: () => Navigator.of(context, rootNavigator: true).pop(false),
+              onPressed: () =>
+                  Navigator.of(context, rootNavigator: true).pop(false),
             ),
           ],
         ),

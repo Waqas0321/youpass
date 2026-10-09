@@ -15,8 +15,8 @@ class StaffSupervisorResolveDuplicateProvider extends ChangeNotifier {
     required String genericSearchError,
     required String genericLoadError,
     required String duplicateNotFoundError,
-  })  : _apiService = apiService ?? StaffSupervisorApiService(ApiClient()),
-        _args = args {
+  }) : _apiService = apiService ?? StaffSupervisorApiService(ApiClient()),
+       _args = args {
     search = StaffSupervisorEntrySearchController(
       apiService: _apiService,
       filter: StaffSupervisorEntryQuickFilter.duplicate,
@@ -87,10 +87,7 @@ class StaffSupervisorResolveDuplicateProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadAlert({
-    String? ticketId,
-    String? entryCode,
-  }) async {
+  Future<void> loadAlert({String? ticketId, String? entryCode}) async {
     isLoadingAlert = true;
     alertError = null;
     alert = null;
@@ -125,7 +122,10 @@ class StaffSupervisorResolveDuplicateProvider extends ChangeNotifier {
     final action = selectedAction;
     final reason = selectedReason;
 
-    if (currentAlert == null || action == null || reason == null || !canSubmit) {
+    if (currentAlert == null ||
+        action == null ||
+        reason == null ||
+        !canSubmit) {
       return false;
     }
 

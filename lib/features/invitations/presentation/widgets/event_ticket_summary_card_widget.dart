@@ -5,10 +5,7 @@ import 'package:youpass/features/invitations/presentation/invitations_design_spe
 import 'package:youpass/features/invitations/presentation/widgets/event_ticket_meta_row_widget.dart';
 
 class EventTicketSummaryCardWidget extends StatelessWidget {
-  const EventTicketSummaryCardWidget({
-    super.key,
-    required this.ticket,
-  });
+  const EventTicketSummaryCardWidget({super.key, required this.ticket});
 
   final InvitationTicketEntity ticket;
 

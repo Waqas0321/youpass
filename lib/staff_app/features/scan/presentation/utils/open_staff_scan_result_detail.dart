@@ -12,8 +12,6 @@ void openStaffScanResultDetail(
 }) {
   Navigator.of(context).pushNamed(
     StaffAppRoutes.qrScanResult,
-    arguments: StaffQrScanResultRouteArgs(
-      result: scan.toQrScanResult(purpose),
-    ),
+    arguments: StaffQrScanResultRouteArgs(result: scan.toQrScanResult(purpose)),
   );
 }

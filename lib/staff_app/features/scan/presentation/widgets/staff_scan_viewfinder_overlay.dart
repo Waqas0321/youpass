@@ -18,7 +18,11 @@ class StaffScanLayoutMetrics {
     const bottomBlockHeight = 88.0;
 
     final totalBlockHeight =
-        flashBlockHeight + gapAfterFlash + scanWindowSize + gapAfterFrame + bottomBlockHeight;
+        flashBlockHeight +
+        gapAfterFlash +
+        scanWindowSize +
+        gapAfterFrame +
+        bottomBlockHeight;
 
     final blockTop = (viewportSize.height - totalBlockHeight) / 2;
 
@@ -26,7 +30,10 @@ class StaffScanLayoutMetrics {
     final windowTop = blockTop + flashBlockHeight + gapAfterFlash;
     bottomContentTop = windowTop + scanWindowSize + gapAfterFrame;
 
-    windowCenter = Offset(viewportSize.width / 2, windowTop + scanWindowSize / 2);
+    windowCenter = Offset(
+      viewportSize.width / 2,
+      windowTop + scanWindowSize / 2,
+    );
     windowRect = Rect.fromLTWH(
       (viewportSize.width - scanWindowSize) / 2,
       windowTop,
@@ -49,9 +56,9 @@ class StaffScanViewfinderOverlay extends StatelessWidget {
     this.windowRect,
     this.cornerColor = staffScanAccent,
   }) : assert(
-          metrics != null || windowRect != null,
-          'Provide metrics or windowRect',
-        );
+         metrics != null || windowRect != null,
+         'Provide metrics or windowRect',
+       );
 
   final StaffScanLayoutMetrics? metrics;
   final Rect? windowRect;
@@ -70,10 +77,7 @@ class StaffScanViewfinderOverlay extends StatelessWidget {
 }
 
 class _ScanOverlayPainter extends CustomPainter {
-  _ScanOverlayPainter({
-    required this.windowRect,
-    required this.cornerColor,
-  });
+  _ScanOverlayPainter({required this.windowRect, required this.cornerColor});
 
   final Rect windowRect;
   final Color cornerColor;
@@ -85,10 +89,7 @@ class _ScanOverlayPainter extends CustomPainter {
       Offset.zero & size,
       Paint()..color = Colors.black.withValues(alpha: 0.42),
     );
-    canvas.drawRect(
-      windowRect,
-      Paint()..blendMode = BlendMode.clear,
-    );
+    canvas.drawRect(windowRect, Paint()..blendMode = BlendMode.clear);
     canvas.restore();
 
     final cornerLength = windowRect.width * 0.18;

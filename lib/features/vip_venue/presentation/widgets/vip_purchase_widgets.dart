@@ -109,6 +109,7 @@ class VipGeneralTicketSummaryCardWidget extends StatelessWidget {
           SizedBox(height: VipVenueDesignSpec.px(context, 12)),
           VipTicketQuantityStepperWidget(
             quantity: offering.quantity,
+            maxQuantity: offering.maxPerUser,
             onChanged: onQuantityChanged,
           ),
         ],

@@ -8,8 +8,7 @@ extension InvitationStatusX on InvitationStatus {
       this == InvitationStatus.pending;
 
   bool get isAccepted =>
-      this == InvitationStatus.accepted ||
-      this == InvitationStatus.confirmed;
+      this == InvitationStatus.accepted || this == InvitationStatus.confirmed;
 
   bool get isActive =>
       isPending || isAccepted || this == InvitationStatus.validated;

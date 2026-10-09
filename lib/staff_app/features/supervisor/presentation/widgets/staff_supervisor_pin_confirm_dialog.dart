@@ -5,10 +5,7 @@ import 'package:youpass/staff_app/core/widgets/app_text_variant.dart';
 import 'package:youpass/staff_app/features/supervisor/presentation/widgets/staff_pin_input_widget.dart';
 
 class StaffSupervisorPinConfirmResult {
-  const StaffSupervisorPinConfirmResult({
-    required this.pin,
-    this.notes,
-  });
+  const StaffSupervisorPinConfirmResult({required this.pin, this.notes});
 
   final String pin;
   final String? notes;
@@ -96,19 +93,13 @@ class _StaffSupervisorPinConfirmDialogState
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: AppText(
-        widget.title,
-        variant: AppTextVariant.title,
-      ),
+      title: AppText(widget.title, variant: AppTextVariant.title),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (widget.requireNotes) ...[
-            AppText(
-              widget.notesLabel ?? '',
-              variant: AppTextVariant.label,
-            ),
+            AppText(widget.notesLabel ?? '', variant: AppTextVariant.label),
             const SizedBox(height: 8),
             TextField(
               controller: _notesController,
@@ -120,10 +111,7 @@ class _StaffSupervisorPinConfirmDialogState
             ),
             const SizedBox(height: 16),
           ],
-          AppText(
-            widget.pinLabel,
-            variant: AppTextVariant.label,
-          ),
+          AppText(widget.pinLabel, variant: AppTextVariant.label),
           const SizedBox(height: 8),
           StaffPinInputWidget(
             controller: _pinController,
@@ -138,10 +126,7 @@ class _StaffSupervisorPinConfirmDialogState
           onPressed: () => Navigator.of(context).pop(),
           child: Text(widget.cancelLabel),
         ),
-        FilledButton(
-          onPressed: _submit,
-          child: Text(widget.confirmLabel),
-        ),
+        FilledButton(onPressed: _submit, child: Text(widget.confirmLabel)),
       ],
     );
   }

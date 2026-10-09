@@ -61,8 +61,9 @@ class _StaffSupervisorEntryHistoryScreenState
     }
 
     try {
-      final response =
-          await _supervisorApiService.getEntryHistory(widget.args.ticketId);
+      final response = await _supervisorApiService.getEntryHistory(
+        widget.args.ticketId,
+      );
 
       if (!mounted) {
         return;
@@ -205,7 +206,9 @@ class _StaffSupervisorEntryHistoryScreenState
                   SizedBox(height: layout.spacing(20)),
                   if (_isInitialLoading)
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: layout.spacing(32)),
+                      padding: EdgeInsets.symmetric(
+                        vertical: layout.spacing(32),
+                      ),
                       child: const Center(
                         child: CircularProgressIndicator(color: _accent),
                       ),
@@ -243,9 +246,7 @@ class _StaffSupervisorEntryHistoryScreenState
               ),
             ),
           ),
-          StaffConnectionStatusBar(
-            validatorLabel: _validatorFooterLabel(l10n),
-          ),
+          StaffConnectionStatusBar(validatorLabel: _validatorFooterLabel(l10n)),
         ],
       ),
     );

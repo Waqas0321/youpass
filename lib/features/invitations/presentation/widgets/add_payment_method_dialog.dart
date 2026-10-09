@@ -15,10 +15,7 @@ import 'package:youpass/features/invitations/presentation/utils/card_number_inpu
 import 'package:youpass/features/invitations/presentation/widgets/payment_method_field_widget.dart';
 
 class AddPaymentMethodDialog extends StatefulWidget {
-  const AddPaymentMethodDialog({
-    super.key,
-    required this.onSave,
-  });
+  const AddPaymentMethodDialog({super.key, required this.onSave});
 
   final Future<bool> Function(PaymentMethodRequestEntity request) onSave;
 
@@ -90,7 +87,8 @@ class AddPaymentMethodDialogState extends State<AddPaymentMethodDialog> {
     final provider = context.read<InvitationsProvider>();
     setState(() {
       isSaving = false;
-      errorMessage = provider.localizedErrorMessage(context.l10n) ??
+      errorMessage =
+          provider.localizedErrorMessage(context.l10n) ??
           context.l10n.errorGeneric;
     });
   }
@@ -119,7 +117,9 @@ class AddPaymentMethodDialogState extends State<AddPaymentMethodDialog> {
                 ),
               ),
               IconButton(
-                onPressed: isSaving ? null : () => Navigator.of(context).pop(false),
+                onPressed: isSaving
+                    ? null
+                    : () => Navigator.of(context).pop(false),
                 icon: const Icon(Icons.close),
                 color: YouPassDialogTheme.body(context),
               ),
@@ -139,9 +139,7 @@ class AddPaymentMethodDialogState extends State<AddPaymentMethodDialog> {
             hint: AppStrings.invitationsCardNumberHint(strings),
             icon: Icons.credit_card_outlined,
             keyboardType: TextInputType.number,
-            inputFormatters: const [
-              CardNumberInputFormatter(),
-            ],
+            inputFormatters: const [CardNumberInputFormatter()],
             maxLength: 19,
           ),
           const SizedBox(height: 12),

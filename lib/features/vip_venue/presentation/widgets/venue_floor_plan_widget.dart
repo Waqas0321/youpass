@@ -46,12 +46,16 @@ class VenueFloorPlanWidget extends StatelessWidget {
     super.key,
     required this.zones,
     required this.onZoneTap,
+    this.eventTitle,
     this.selectedZoneId,
   });
 
   final List<VenueZoneEntity> zones;
   final ValueChanged<VenueZoneEntity> onZoneTap;
   final String? selectedZoneId;
+
+  /// Shown above the stage; the plan used to hardcode the "YouFest" brand.
+  final String? eventTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +93,7 @@ class VenueFloorPlanWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _YouFestMapHeader(),
+          _YouFestMapHeader(eventTitle: eventTitle),
           Padding(
             padding: EdgeInsets.fromLTRB(padding, 0, padding, padding),
             child: Column(
@@ -168,12 +172,13 @@ class VenueFloorPlanWidget extends StatelessWidget {
 }
 
 class _YouFestMapHeader extends StatelessWidget {
-  const _YouFestMapHeader();
+  const _YouFestMapHeader({this.eventTitle});
+
+  final String? eventTitle;
 
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    final logoSize = VipVenueDesignSpec.px(context, 34);
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
@@ -184,29 +189,19 @@ class _YouFestMapHeader extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: logoSize,
-                height: logoSize,
-                child: CustomPaint(
-                  painter: YouFestBunnyLogoPainter(
-                    color: VipVenueMapTheme.neonPink,
-                  ),
-                ),
+          if (eventTitle != null && eventTitle!.trim().isNotEmpty)
+            Text(
+              eventTitle!.trim(),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: VipVenueMapTheme.neonPink,
+                fontSize: VipVenueDesignSpec.px(context, 22),
+                fontWeight: FontWeight.w900,
+                letterSpacing: -0.5,
               ),
-              Text(
-                AppStrings.vipYouFestBrand(strings),
-                style: TextStyle(
-                  color: VipVenueMapTheme.neonPink,
-                  fontSize: VipVenueDesignSpec.px(context, 24),
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: -0.5,
-                ),
-              ),
-            ],
-          ),
+            ),
           SizedBox(height: VipVenueDesignSpec.px(context, 10)),
           SizedBox(
             height: VipVenueDesignSpec.px(context, 30),

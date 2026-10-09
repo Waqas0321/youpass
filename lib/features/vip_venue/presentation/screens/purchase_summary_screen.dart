@@ -34,10 +34,7 @@ import 'package:youpass/features/vip_venue/presentation/widgets/vip_table_lock_e
 import 'package:youpass/routes/app_routes.dart';
 
 class PurchaseSummaryScreen extends StatefulWidget {
-  const PurchaseSummaryScreen({
-    super.key,
-    required this.args,
-  });
+  const PurchaseSummaryScreen({super.key, required this.args});
 
   final VipPurchaseRouteArgs args;
 
@@ -127,7 +124,9 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
   }
 
   Future<void> _warmCheckout() async {
-    if (!session.isVipTablePurchase || _hasActiveTableLock || _warmingCheckout) {
+    if (!session.isVipTablePurchase ||
+        _hasActiveTableLock ||
+        _warmingCheckout) {
       return;
     }
 
@@ -153,9 +152,9 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
     }
 
     await context.read<VipVenueProvider>().releaseTableLock(
-          eventId: session.event.id,
-          tableId: table.id,
-        );
+      eventId: session.event.id,
+      tableId: table.id,
+    );
 
     if (!mounted) {
       return;
@@ -186,9 +185,9 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
     }
 
     final lock = await context.read<VipVenueProvider>().lockTable(
-          eventId: session.event.id,
-          tableId: table.id,
-        );
+      eventId: session.event.id,
+      tableId: table.id,
+    );
 
     if (!mounted) {
       return false;
@@ -204,9 +203,9 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
               code: provider.errorCode,
               fallbackMessage: provider.errorMessage,
             );
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
       _tableLockFuture = null;
       return false;
     }
@@ -226,12 +225,15 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
 
   void updateOfferingQuantity(String offeringId, int quantity) {
     setState(() {
-      final index = session.offerings.indexWhere((item) => item.id == offeringId);
+      final index = session.offerings.indexWhere(
+        (item) => item.id == offeringId,
+      );
       if (index == -1) {
         return;
       }
-      session.offerings[index] =
-          session.offerings[index].copyWith(quantity: quantity);
+      session.offerings[index] = session.offerings[index].copyWith(
+        quantity: quantity,
+      );
     });
   }
 
@@ -263,8 +265,7 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
             break;
           }
         }
-        final needsChargeableCard =
-            selected == null || !selected.chargeable;
+        final needsChargeableCard = selected == null || !selected.chargeable;
         if (needsChargeableCard) {
           final added = await _addPaymentMethod();
           if (!mounted) {
@@ -275,7 +276,9 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
           );
           if (!added || !chargeable) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(AppStrings.vipAddPaymentMethod(context.l10n))),
+              SnackBar(
+                content: Text(AppStrings.vipAddPaymentMethod(context.l10n)),
+              ),
             );
             return;
           }
@@ -283,8 +286,9 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
       }
 
       if (session.totalAmount == 0) {
-        final paymentReady =
-            await FreeTicketCheckoutPaymentFlow(context).ensureBeforeCheckout();
+        final paymentReady = await FreeTicketCheckoutPaymentFlow(
+          context,
+        ).ensureBeforeCheckout();
         if (!mounted) {
           return;
         }
@@ -349,9 +353,9 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
         final table = session.selectedTable;
         if (table != null) {
           final lock = await context.read<VipVenueProvider>().lockTable(
-                eventId: session.event.id,
-                tableId: table.id,
-              );
+            eventId: session.event.id,
+            tableId: table.id,
+          );
           if (lock != null && mounted) {
             session.tableLockId = lock.lockId;
             session.tableLockExpiresAt = lock.expiresAt;
@@ -419,8 +423,9 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
   }
 
   Future<void> _refreshTicketTypes() async {
-    final bundle =
-        await context.read<VipVenueProvider>().loadTicketTypes(session.event.id);
+    final bundle = await context.read<VipVenueProvider>().loadTicketTypes(
+      session.event.id,
+    );
     if (!mounted || bundle == null) {
       return;
     }
@@ -440,7 +445,9 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
     if ((result.gateway == 'klap' || result.gateway == 'kushki') &&
         result.paymentUrl != null &&
         result.paymentUrl!.isNotEmpty) {
-      final opened = await PaymentUrlLauncher.openExternalUrl(result.paymentUrl!);
+      final opened = await PaymentUrlLauncher.openExternalUrl(
+        result.paymentUrl!,
+      );
       if (!mounted) {
         return;
       }
@@ -457,18 +464,18 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppStrings.errorGeneric(strings))),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(AppStrings.errorGeneric(strings))));
       return;
     }
 
     if (!mounted) {
       return;
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(AppStrings.errorGeneric(strings))),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(AppStrings.errorGeneric(strings))));
   }
 
   Future<void> openTicketQr() async {
@@ -479,9 +486,9 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppStrings.errorGeneric(strings))),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(AppStrings.errorGeneric(strings))));
       navigateHomeAfterPurchase();
       return;
     }
@@ -505,7 +512,8 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
       await InvitationQrUnavailableDialog.show(
         context,
         title: InvitationsQrHelper.lockedTitle(strings),
-        message: provider.localizedUpcomingErrorMessage(strings) ??
+        message:
+            provider.localizedUpcomingErrorMessage(strings) ??
             InvitationsQrHelper.lockedMessage(strings),
         subtitle: InvitationsQrHelper.unlockSubtitle(
           strings,
@@ -522,25 +530,21 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
 
     final error = provider.localizedUpcomingErrorMessage(strings);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(error ?? AppStrings.errorGeneric(strings)),
-      ),
+      SnackBar(content: Text(error ?? AppStrings.errorGeneric(strings))),
     );
     navigateHomeAfterPurchase();
   }
 
   void navigateHomeAfterPurchase() {
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      AppRoutes.home,
-      (route) => route.isFirst,
-    );
+    Navigator.of(
+      context,
+    ).pushNamedAndRemoveUntil(AppRoutes.home, (route) => route.isFirst);
   }
 
   void navigateToMyTickets() {
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      AppRoutes.myTickets,
-      (route) => route.isFirst,
-    );
+    Navigator.of(
+      context,
+    ).pushNamedAndRemoveUntil(AppRoutes.myTickets, (route) => route.isFirst);
   }
 
   void navigateToAssignTickets() {
@@ -600,7 +604,10 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    final padding = VipVenueDesignSpec.px(context, VipVenueDesignSpec.horizontalPadding);
+    final padding = VipVenueDesignSpec.px(
+      context,
+      VipVenueDesignSpec.horizontalPadding,
+    );
     final canPay = session.isVipTablePurchase || session.hasSelectedTickets;
     final lockExpiresAt = session.tableLockExpiresAt;
 
@@ -611,53 +618,55 @@ class _PurchaseSummaryScreenState extends State<PurchaseSummaryScreen> {
         }
       },
       child: VipFlowScaffold(
-      title: AppStrings.vipPurchaseSummaryTitle(strings),
-      subtitle: session.event.title,
-      showMenu: false,
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(padding, 0, padding, padding),
-        children: [
-          if (session.isVipTablePurchase && lockExpiresAt != null && !_lockExpired) ...[
-            VipTableLockCountdownWidget(
-              expiresAt: lockExpiresAt,
-              onExpired: handleTableLockExpired,
+        title: AppStrings.vipPurchaseSummaryTitle(strings),
+        subtitle: session.event.title,
+        showMenu: false,
+        body: ListView(
+          padding: EdgeInsets.fromLTRB(padding, 0, padding, padding),
+          children: [
+            if (session.isVipTablePurchase &&
+                lockExpiresAt != null &&
+                !_lockExpired) ...[
+              VipTableLockCountdownWidget(
+                expiresAt: lockExpiresAt,
+                onExpired: handleTableLockExpired,
+              ),
+              SizedBox(height: VipVenueDesignSpec.px(context, 12)),
+            ],
+            PurchaseSummaryContentWidget(
+              session: session,
+              onOfferingQuantityChanged: updateOfferingQuantity,
+              cards: _walletCards,
+              selectedCardId: _selectedCardId,
+              isLoadingCards: _loadingCards,
+              isAddingPaymentMethod: _addingPaymentMethod,
+              onSelectCard: (card) => setState(() => _selectedCardId = card.id),
+              onAddPaymentMethod: _addingPaymentMethod
+                  ? null
+                  : () => unawaited(_addPaymentMethod()),
             ),
-            SizedBox(height: VipVenueDesignSpec.px(context, 12)),
           ],
-          PurchaseSummaryContentWidget(
-            session: session,
-            onOfferingQuantityChanged: updateOfferingQuantity,
-            cards: _walletCards,
-            selectedCardId: _selectedCardId,
-            isLoadingCards: _loadingCards,
-            isAddingPaymentMethod: _addingPaymentMethod,
-            onSelectCard: (card) => setState(() => _selectedCardId = card.id),
-            onAddPaymentMethod: _addingPaymentMethod
-                ? null
-                : () => unawaited(_addPaymentMethod()),
-          ),
-        ],
-      ),
-      bottomBar: SafeArea(
-        minimum: EdgeInsets.fromLTRB(padding, 0, padding, padding),
-        child: VipFlowBottomActionRowWidget(
-          backLabel: AppStrings.vipBackButton(strings),
-          onBack: handleBack,
-          primaryLabel: AppStrings.vipPayButton(
-            strings,
-            VipCurrencyFormatter.formatAmount(
-              context,
-              session.totalAmount,
-              currencyCode: session.currency,
-              countryIsoCode: session.countryIsoCode,
-              currencyDecimals: session.currencyDecimals,
-            ),
-          ),
-          onPrimary: submitPayment,
-          primaryEnabled: canPay,
-          primaryLoading: isSubmitting,
         ),
-      ),
+        bottomBar: SafeArea(
+          minimum: EdgeInsets.fromLTRB(padding, 0, padding, padding),
+          child: VipFlowBottomActionRowWidget(
+            backLabel: AppStrings.vipBackButton(strings),
+            onBack: handleBack,
+            primaryLabel: AppStrings.vipPayButton(
+              strings,
+              VipCurrencyFormatter.formatAmount(
+                context,
+                session.totalAmount,
+                currencyCode: session.currency,
+                countryIsoCode: session.countryIsoCode,
+                currencyDecimals: session.currencyDecimals,
+              ),
+            ),
+            onPrimary: submitPayment,
+            primaryEnabled: canPay,
+            primaryLoading: isSubmitting,
+          ),
+        ),
       ),
     );
   }

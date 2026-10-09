@@ -19,10 +19,7 @@ import 'package:youpass/features/vip_venue/presentation/widgets/vip_navigation_w
 import 'package:youpass/routes/app_routes.dart';
 
 class FloorPlanScreen extends StatefulWidget {
-  const FloorPlanScreen({
-    super.key,
-    required this.args,
-  });
+  const FloorPlanScreen({super.key, required this.args});
 
   final VipPurchaseRouteArgs args;
 
@@ -54,8 +51,8 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
 
   Future<void> _loadFloorPlan() async {
     final layout = await context.read<VipVenueProvider>().loadVenueLayout(
-          widget.args.session.event.id,
-        );
+      widget.args.session.event.id,
+    );
     if (!mounted) {
       return;
     }
@@ -71,15 +68,18 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
       return;
     }
 
-    final snapshot = await context.read<VipVenueProvider>().refreshTableAvailability(
-          widget.args.session.event.id,
-        );
+    final snapshot = await context
+        .read<VipVenueProvider>()
+        .refreshTableAvailability(widget.args.session.event.id);
     if (!mounted || snapshot == null) {
       return;
     }
 
     setState(() {
-      floorPlan = VipVenueAvailabilityMapper.mergeFloorPlan(currentPlan, snapshot);
+      floorPlan = VipVenueAvailabilityMapper.mergeFloorPlan(
+        currentPlan,
+        snapshot,
+      );
       _clearSelectionIfInvalid();
     });
   }
@@ -132,7 +132,10 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
 
   Widget _buildBottomBar(BuildContext context, {bool canContinue = false}) {
     final strings = context.l10n;
-    final padding = VipVenueDesignSpec.px(context, VipVenueDesignSpec.horizontalPadding);
+    final padding = VipVenueDesignSpec.px(
+      context,
+      VipVenueDesignSpec.horizontalPadding,
+    );
 
     return SafeArea(
       minimum: EdgeInsets.fromLTRB(padding, 0, padding, padding),
@@ -150,10 +153,14 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
   Widget build(BuildContext context) {
     final strings = context.l10n;
     final provider = context.watch<VipVenueProvider>();
-    final padding = VipVenueDesignSpec.px(context, VipVenueDesignSpec.horizontalPadding);
+    final padding = VipVenueDesignSpec.px(
+      context,
+      VipVenueDesignSpec.horizontalPadding,
+    );
     final plan = floorPlan;
     final isLoading =
-        provider.venueLayoutStatus == VipVenueLoadStatus.loading && plan == null;
+        provider.venueLayoutStatus == VipVenueLoadStatus.loading &&
+        plan == null;
 
     if (isLoading) {
       return VipFlowScaffold(
@@ -170,12 +177,7 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
 
       return VipFlowScaffold(
         title: AppStrings.vipFloorPlanTitle(strings),
-        body: Center(
-          child: Text(
-            message,
-            textAlign: TextAlign.center,
-          ),
-        ),
+        body: Center(child: Text(message, textAlign: TextAlign.center)),
         bottomBar: _buildBottomBar(context),
       );
     }
@@ -205,6 +207,21 @@ class _FloorPlanScreenState extends State<FloorPlanScreen> {
       body: ListView(
         padding: EdgeInsets.fromLTRB(padding, 0, padding, padding),
         children: [
+          if (plan.floorPlanImageUrl != null &&
+              plan.floorPlanImageUrl!.isNotEmpty) ...[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(
+                VipVenueDesignSpec.px(context, 16),
+              ),
+              child: Image.network(
+                plan.floorPlanImageUrl!,
+                fit: BoxFit.contain,
+                // A broken map URL must not block choosing a zone below.
+                errorBuilder: (_, _, _) => const SizedBox.shrink(),
+              ),
+            ),
+            SizedBox(height: VipVenueDesignSpec.px(context, 16)),
+          ],
           VenueFloorPlanWidget(
             zones: plan.zones,
             selectedZoneId: selectedZoneId,

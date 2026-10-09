@@ -27,7 +27,8 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
   });
 
   final VipPurchaseSession session;
-  final void Function(String offeringId, int quantity)? onOfferingQuantityChanged;
+  final void Function(String offeringId, int quantity)?
+  onOfferingQuantityChanged;
   final List<ProfileWalletCardModel> cards;
   final String? selectedCardId;
   final bool isLoadingCards;
@@ -49,7 +50,10 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
           ...session.selectedOfferings.map(
             (offering) => VipGeneralTicketSummaryCardWidget(
               offering: offering,
-              detailsLine: VipPurchaseLabelHelper.ticketDetailsLine(strings, offering),
+              detailsLine: VipPurchaseLabelHelper.ticketDetailsLine(
+                strings,
+                offering,
+              ),
               countryIsoCode: session.countryIsoCode,
               currencyDecimals: session.currencyDecimals,
               onQuantityChanged: (quantity) {
@@ -109,16 +113,24 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
               children: [
                 if (table != null && zone != null) ...[
                   VipPurchaseSummaryItemRowWidget(
-                    tableNumber:
-                        VipVenueLabelHelper.tableDisplayNumber(table.label),
+                    tableNumber: VipVenueLabelHelper.tableDisplayNumber(
+                      table.label,
+                    ),
                     zoneName: zone.name,
                     eventTitle: session.event.title,
-                    peopleLabel:
-                        AppStrings.vipTableCapacity(strings, table.capacity),
-                    bottlesLabel:
-                        AppStrings.vipTableBottles(strings, table.bottleCount),
-                    vouchersLabel:
-                        AppStrings.vipTableVouchers(strings, table.voucherCount),
+                    peopleLabel: AppStrings.vipTableCapacity(
+                      strings,
+                      table.capacity,
+                    ),
+                    bottlesLabel: table.bottleCount > 0
+                        ? AppStrings.vipTableBottles(strings, table.bottleCount)
+                        : '',
+                    vouchersLabel: table.voucherCount > 0
+                        ? AppStrings.vipTableVouchers(
+                            strings,
+                            table.voucherCount,
+                          )
+                        : '',
                     amount: table.price,
                     currencyCode: session.currency,
                     countryIsoCode: session.countryIsoCode,
@@ -185,8 +197,9 @@ class PurchaseSummaryContentWidget extends StatelessWidget {
                   ? AppStrings.paymentBrandMastercard(strings)
                   : AppStrings.paymentBrandVisa(strings),
               cardLabel: card.maskedLabel,
-              defaultLabel:
-                  card.isDefault ? AppStrings.profileDefaultCard(strings) : null,
+              defaultLabel: card.isDefault
+                  ? AppStrings.profileDefaultCard(strings)
+                  : null,
               selected: card.id == selectedCardId,
               onTap: () => onSelectCard?.call(card),
               brandColor: brand == 'mastercard'

@@ -3,6 +3,8 @@ import 'package:youpass/core/network/base_api_service.dart';
 import 'package:youpass/features/vip_venue/data/models/physical_venue_model.dart';
 import 'package:youpass/features/vip_venue/data/models/vip_venue_models.dart';
 
+/// Table reads send the session (optional on the server) so a user's own table lock
+/// comes back as "selected" instead of "locked by someone else".
 class VipVenueApiService extends BaseApiService {
   VipVenueApiService(super.apiClient);
 
@@ -18,7 +20,7 @@ class VipVenueApiService extends BaseApiService {
     return getModel(
       ApiEndpoints.eventVenueLayout(eventId),
       fromJson: VenueFloorPlanModel.fromJson,
-      authenticated: false,
+      authenticated: true,
     );
   }
 
@@ -49,7 +51,7 @@ class VipVenueApiService extends BaseApiService {
     return getModel(
       ApiEndpoints.eventZoneTables(eventId, zoneId),
       fromJson: ZoneTablesBundleModel.fromJson,
-      authenticated: false,
+      authenticated: true,
     );
   }
 
@@ -60,7 +62,7 @@ class VipVenueApiService extends BaseApiService {
     return getModel(
       ApiEndpoints.eventTableById(eventId, tableId),
       fromJson: VenueTableModel.fromJson,
-      authenticated: false,
+      authenticated: true,
     );
   }
 
@@ -91,7 +93,7 @@ class VipVenueApiService extends BaseApiService {
     return getModel(
       ApiEndpoints.eventTablesAvailabilityRealtime(eventId),
       fromJson: TableAvailabilitySnapshotModel.fromJson,
-      authenticated: false,
+      authenticated: true,
     );
   }
 
@@ -102,7 +104,7 @@ class VipVenueApiService extends BaseApiService {
     return getModel(
       ApiEndpoints.eventTableLockStatus(eventId, tableId),
       fromJson: TableLockStatusModel.fromJson,
-      authenticated: false,
+      authenticated: true,
     );
   }
 }

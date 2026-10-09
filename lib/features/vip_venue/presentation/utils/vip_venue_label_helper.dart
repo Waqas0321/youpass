@@ -7,8 +7,18 @@ import 'package:youpass/l10n/app_localizations.dart';
 class VipVenueLabelHelper {
   VipVenueLabelHelper._();
 
+  /// "Table 1" / "Mesa 1" / "M11" -> "1" / "11". Strings like "Table {table}"
+  /// already add the word, so the raw admin label would read "Table Table 1".
   static String tableDisplayNumber(String label) {
-    return label.startsWith('M') ? label.substring(1) : label;
+    final trimmed = label.trim();
+    final withoutWord = trimmed.replaceFirst(
+      RegExp(r'^(table|mesa)\s*', caseSensitive: false),
+      '',
+    );
+    if (withoutWord != trimmed && withoutWord.isNotEmpty) {
+      return withoutWord;
+    }
+    return RegExp(r'^M\d').hasMatch(trimmed) ? trimmed.substring(1) : trimmed;
   }
 
   static String offeringDescription(
@@ -31,7 +41,10 @@ class VipVenueLabelHelper {
     return AppStrings.vipZoneTablesScreenTitle(l10n, zone.name);
   }
 
-  static String tablesCapacitySubtitle(AppLocalizations l10n, VenueZoneEntity zone) {
+  static String tablesCapacitySubtitle(
+    AppLocalizations l10n,
+    VenueZoneEntity zone,
+  ) {
     return AppStrings.vipTablesCapacitySubtitle(
       l10n,
       zone.capacityPerTable ?? 10,

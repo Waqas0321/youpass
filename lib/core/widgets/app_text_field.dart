@@ -63,6 +63,9 @@ class AppTextField extends StatelessWidget {
       validator: validator,
       obscureText: obscureText,
       keyboardType: keyboardType,
+      // Emails: no iOS autocorrect/auto-capitalisation ("Camila.final@…").
+      autocorrect: keyboardType != TextInputType.emailAddress,
+      enableSuggestions: keyboardType != TextInputType.emailAddress,
       readOnly: readOnly,
       enabled: enabled,
       maxLength: maxLength,
@@ -95,7 +98,8 @@ class AppTextField extends StatelessWidget {
     TextStyle hintStyle,
   ) {
     final radius = BorderRadius.circular(layout.radius(12));
-    final padding = contentPadding ??
+    final padding =
+        contentPadding ??
         EdgeInsets.symmetric(
           horizontal: layout.spacing(12),
           vertical: layout.spacing(16),

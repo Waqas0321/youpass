@@ -12,6 +12,7 @@ class VenueFloorPlanEntity extends Equatable {
     this.eventId,
     this.physicalVenue,
     this.tableLockMinutes = 10,
+    this.floorPlanImageUrl,
   });
 
   final String venueName;
@@ -23,15 +24,19 @@ class VenueFloorPlanEntity extends Equatable {
   final PhysicalVenueEntity? physicalVenue;
   final int tableLockMinutes;
 
+  /// Venue map uploaded in admin (Event map); shown above the zone picker.
+  final String? floorPlanImageUrl;
+
   @override
   List<Object?> get props => [
-        venueName,
-        dimensionsLabel,
-        zones,
-        venueId,
-        layoutVenueId,
-        eventId,
-        physicalVenue,
-        tableLockMinutes,
-      ];
+    venueName,
+    dimensionsLabel,
+    zones,
+    venueId,
+    layoutVenueId,
+    eventId,
+    physicalVenue,
+    tableLockMinutes,
+    floorPlanImageUrl,
+  ];
 }

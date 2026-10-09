@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'package:youpass/features/vip_venue/presentation/utils/vip_venue_label_helper.dart';
 
 import 'package:flutter/material.dart';
 import 'package:youpass/core/constants/app_strings.dart';
@@ -160,7 +161,7 @@ class VipTableSeatWidget extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  table.label,
+                  VipVenueLabelHelper.tableDisplayNumber(table.label),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: VipVenueDesignSpec.px(context, 14),

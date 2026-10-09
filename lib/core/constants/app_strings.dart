@@ -1415,12 +1415,14 @@ class AppStrings {
   static String vipLegendTableBlocked(AppLocalizations l10n) =>
       l10n.vipLegendTableBlocked;
 
+  /// Joins only the parts that apply: tables without bottles/vouchers must not
+  /// read "0 bottles · 0 vouchers".
   static String vipTableIncludesShort(
     AppLocalizations l10n,
     String people,
     String bottles,
     String vouchers,
-  ) => l10n.vipTableIncludesShort(people, bottles, vouchers);
+  ) => [people, bottles, vouchers].where((part) => part.isNotEmpty).join(' · ');
 
   static String vipPurchaseSummaryItemTitle(
     AppLocalizations l10n,

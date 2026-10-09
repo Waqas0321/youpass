@@ -65,29 +65,37 @@ class TicketOfferingModel extends TicketOfferingEntity {
   }
 
   factory TicketOfferingModel.fromJson(Map<String, dynamic> json) {
-    final sectionRaw =
-        JsonReaders.string(json, 'section', fallback: 'general').toLowerCase();
+    final sectionRaw = JsonReaders.string(
+      json,
+      'section',
+      fallback: 'general',
+    ).toLowerCase();
     final type = JsonReaders.nullableString(json, 'type');
     final slug = JsonReaders.nullableString(json, 'slug');
     final rawId = JsonReaders.nullableString(json, 'id');
     final id = type ?? slug ?? rawId ?? '';
     final name = JsonReaders.nullableString(json, 'name');
     final label = JsonReaders.nullableString(json, 'label') ?? name ?? id;
-    final status =
-        JsonReaders.string(json, 'status', fallback: 'active').toLowerCase();
-    final soldOut = _readBool(json, 'is_sold_out') ||
+    final status = JsonReaders.string(
+      json,
+      'status',
+      fallback: 'active',
+    ).toLowerCase();
+    final soldOut =
+        _readBool(json, 'is_sold_out') ||
         _readBool(json, 'isSoldOut') ||
         status == 'sold_out' ||
         status == 'closed';
     final paused = status == 'paused';
-    final selectable = json.containsKey('is_selectable') ||
-            json.containsKey('isSelectable')
+    final selectable =
+        json.containsKey('is_selectable') || json.containsKey('isSelectable')
         ? (_readBool(json, 'is_selectable') || _readBool(json, 'isSelectable'))
         : status == 'active' && !soldOut && !paused;
 
     return TicketOfferingModel(
       id: id,
-      offeringId: JsonReaders.nullableString(json, 'offering_id') ??
+      offeringId:
+          JsonReaders.nullableString(json, 'offering_id') ??
           JsonReaders.nullableString(json, 'offeringId') ??
           rawId,
       type: type ?? slug ?? rawId,
@@ -98,14 +106,17 @@ class TicketOfferingModel extends TicketOfferingEntity {
       section: sectionRaw == 'vip'
           ? TicketOfferingSection.vip
           : TicketOfferingSection.general,
-      mapsToTier: JsonReaders.nullableString(json, 'maps_to_tier') ??
+      mapsToTier:
+          JsonReaders.nullableString(json, 'maps_to_tier') ??
           JsonReaders.nullableString(json, 'mapsToTier'),
-      mapsToType: JsonReaders.nullableString(json, 'maps_to_type') ??
+      mapsToType:
+          JsonReaders.nullableString(json, 'maps_to_type') ??
           JsonReaders.nullableString(json, 'mapsToType'),
       currency: JsonReaders.string(json, 'currency', fallback: 'CLP'),
       description: JsonReaders.nullableString(json, 'description'),
       maxPerUser: _readPositiveInt(json['max_per_user'] ?? json['maxPerUser']),
-      badgeLabel: JsonReaders.nullableString(json, 'badge_label') ??
+      badgeLabel:
+          JsonReaders.nullableString(json, 'badge_label') ??
           JsonReaders.nullableString(json, 'badgeLabel'),
       vouchersPerTicket: JsonReaders.integerValue(
         json['vouchers_per_ticket'] ?? json['vouchersPerTicket'],
@@ -125,7 +136,9 @@ class TicketOfferingModel extends TicketOfferingEntity {
   }
 
   static int? _readPositiveInt(Object? value) {
-    final parsed = value is num ? value.toInt() : int.tryParse('${value ?? ''}');
+    final parsed = value is num
+        ? value.toInt()
+        : int.tryParse('${value ?? ''}');
     return parsed != null && parsed > 0 ? parsed : null;
   }
 }
@@ -145,7 +158,8 @@ class TicketTypesBundleModel extends TicketTypesBundleEntity {
     final offerings = _parseOfferings(json['offerings']);
     final rate = json['service_fee_rate'] ?? json['serviceFeeRate'];
     final decimalsRaw = json['currency_decimals'] ?? json['currencyDecimals'];
-    final lockMinutesRaw = json['table_lock_minutes'] ?? json['tableLockMinutes'];
+    final lockMinutesRaw =
+        json['table_lock_minutes'] ?? json['tableLockMinutes'];
     return TicketTypesBundleModel(
       eventId: JsonReaders.string(json, 'event_id', fallback: '') != ''
           ? JsonReaders.string(json, 'event_id')
@@ -153,7 +167,8 @@ class TicketTypesBundleModel extends TicketTypesBundleEntity {
       serviceFeeRate: rate is num ? rate.toDouble() : 0.05,
       currency: JsonReaders.string(json, 'currency', fallback: 'CLP'),
       currencyDecimals: decimalsRaw is num ? decimalsRaw.toInt() : null,
-      hasVenueLayout: JsonReaders.boolean(json, 'has_venue_layout') ||
+      hasVenueLayout:
+          JsonReaders.boolean(json, 'has_venue_layout') ||
           JsonReaders.boolean(json, 'hasVenueLayout'),
       tableLockMinutes: lockMinutesRaw is num ? lockMinutesRaw.toInt() : 10,
       offerings: List<TicketOfferingEntity>.from(offerings),
@@ -176,7 +191,8 @@ class VenueZoneModel extends VenueZoneEntity {
 
   factory VenueZoneModel.fromJson(Map<String, dynamic> json) {
     final externalId = JsonReaders.nullableString(json, 'id');
-    final internalId = JsonReaders.nullableString(json, 'zone_id') ??
+    final internalId =
+        JsonReaders.nullableString(json, 'zone_id') ??
         JsonReaders.nullableString(json, 'zoneId');
     final id = externalId ?? internalId ?? '';
     final type = JsonReaders.string(json, 'type', fallback: '') != ''
@@ -191,15 +207,23 @@ class VenueZoneModel extends VenueZoneEntity {
       kind: _mapZoneKind(type, id),
       name: JsonReaders.string(json, 'name'),
       status: _mapZoneStatus(json),
-      capacityPerTable: JsonReaders.integerValue(
-        json['table_capacity'] ?? json['tableCapacity'],
-        fallback: 0,
-      ).clamp(0, 999) == 0
+      capacityPerTable:
+          JsonReaders.integerValue(
+                json['table_capacity'] ?? json['tableCapacity'],
+                fallback: 0,
+              ).clamp(0, 999) ==
+              0
           ? null
-          : JsonReaders.integerValue(json['table_capacity'] ?? json['tableCapacity']),
+          : JsonReaders.integerValue(
+              json['table_capacity'] ?? json['tableCapacity'],
+            ),
       isSelectable: selectable,
       internalZoneId: internalId,
-      availableTables: _optionalCount(json, 'available_tables', 'availableTables'),
+      availableTables: _optionalCount(
+        json,
+        'available_tables',
+        'availableTables',
+      ),
       totalTables: _optionalCount(json, 'total_tables', 'totalTables'),
     );
   }
@@ -215,6 +239,7 @@ class VenueFloorPlanModel extends VenueFloorPlanEntity {
     super.eventId,
     super.physicalVenue,
     super.tableLockMinutes,
+    super.floorPlanImageUrl,
   });
 
   factory VenueFloorPlanModel.fromJson(Map<String, dynamic> json) {
@@ -231,7 +256,8 @@ class VenueFloorPlanModel extends VenueFloorPlanEntity {
       }
     }
 
-    final dimensionsLabel = JsonReaders.nullableString(json, 'dimensions_label') ??
+    final dimensionsLabel =
+        JsonReaders.nullableString(json, 'dimensions_label') ??
         JsonReaders.nullableString(json, 'dimensionsLabel') ??
         physicalVenue?.dimensionsLabel ??
         _formatDimensions(json['dimensions']);
@@ -244,17 +270,23 @@ class VenueFloorPlanModel extends VenueFloorPlanEntity {
       venueName: venueName,
       dimensionsLabel: dimensionsLabel ?? '',
       zones: zones,
-      venueId: JsonReaders.nullableString(json, 'venue_id') ??
+      venueId:
+          JsonReaders.nullableString(json, 'venue_id') ??
           JsonReaders.nullableString(json, 'venueId'),
-      layoutVenueId: JsonReaders.nullableString(json, 'layout_venue_id') ??
+      layoutVenueId:
+          JsonReaders.nullableString(json, 'layout_venue_id') ??
           JsonReaders.nullableString(json, 'layoutVenueId'),
-      eventId: JsonReaders.nullableString(json, 'event_id') ??
+      eventId:
+          JsonReaders.nullableString(json, 'event_id') ??
           JsonReaders.nullableString(json, 'eventId'),
       physicalVenue: physicalVenue,
       tableLockMinutes: JsonReaders.integerValue(
         json['table_lock_minutes'] ?? json['tableLockMinutes'],
         fallback: 10,
       ),
+      floorPlanImageUrl:
+          JsonReaders.nullableString(json, 'floor_plan_image_url') ??
+          JsonReaders.nullableString(json, 'floorPlanImageUrl'),
     );
   }
 
@@ -307,7 +339,9 @@ class VenueTableModel extends VenueTableEntity {
             fallback: 0,
           )
         : 0;
-    final extras = includes is Map ? _readStringList(includes['extras']) : const <String>[];
+    final extras = includes is Map
+        ? _readStringList(includes['extras'])
+        : const <String>[];
 
     final zoneId = JsonReaders.string(json, 'zone_id', fallback: '') != ''
         ? JsonReaders.string(json, 'zone_id')
@@ -322,28 +356,29 @@ class VenueTableModel extends VenueTableEntity {
         : _readCoordinate(json['position_y'] ?? json['positionY']);
 
     final mappedStatus = _mapTableStatus(json);
-    final isPremiumFlag = JsonReaders.boolean(json, 'is_premium') ||
+    final isPremiumFlag =
+        JsonReaders.boolean(json, 'is_premium') ||
         JsonReaders.boolean(json, 'isPremium');
     final status = isPremiumFlag && mappedStatus == VenueTableStatus.available
         ? VenueTableStatus.premium
         : mappedStatus;
 
-    final tableNumber = JsonReaders.integerValue(
-      json['number'],
-      fallback: 0,
-    );
+    final tableNumber = JsonReaders.integerValue(json['number'], fallback: 0);
     final labelRaw = JsonReaders.nullableString(json, 'label');
     final externalId = JsonReaders.nullableString(json, 'id');
-    final internalId = JsonReaders.nullableString(json, 'table_id') ??
+    final internalId =
+        JsonReaders.nullableString(json, 'table_id') ??
         JsonReaders.nullableString(json, 'tableId');
     final tableId = externalId ?? internalId ?? '';
-    final capacityFromApi = JsonReaders.integerValue(json['capacity'], fallback: 0);
+    final capacityFromApi = JsonReaders.integerValue(
+      json['capacity'],
+      fallback: 0,
+    );
     final capacity = capacityFromApi > 0 ? capacityFromApi : people;
 
     return VenueTableModel(
       id: tableId,
-      label: labelRaw ??
-          (tableNumber > 0 ? 'M$tableNumber' : tableId),
+      label: labelRaw ?? (tableNumber > 0 ? 'M$tableNumber' : tableId),
       zoneId: zoneId,
       status: status,
       price: _readPrice(json['price']),
@@ -356,7 +391,8 @@ class VenueTableModel extends VenueTableEntity {
       isPremium: isPremiumFlag || status == VenueTableStatus.premium,
       currency: JsonReaders.string(json, 'currency', fallback: 'CLP'),
       tableNumber: tableNumber > 0 ? tableNumber : null,
-      eventId: JsonReaders.nullableString(json, 'event_id') ??
+      eventId:
+          JsonReaders.nullableString(json, 'event_id') ??
           JsonReaders.nullableString(json, 'eventId'),
       internalTableId: internalId,
       lockedUntil: _parseDateTime(json['locked_until'] ?? json['lockedUntil']),
@@ -436,7 +472,8 @@ class TableLockResultModel extends TableLockResultEntity {
       tableId: JsonReaders.string(json, 'table_id', fallback: '') != ''
           ? JsonReaders.string(json, 'table_id')
           : JsonReaders.string(json, 'tableId'),
-      expiresAt: DateTime.tryParse(expiresAtRaw) ??
+      expiresAt:
+          DateTime.tryParse(expiresAtRaw) ??
           DateTime.now().add(const Duration(minutes: 10)),
       expiresInSeconds: JsonReaders.integerValue(
         json['expires_in_seconds'] ?? json['expiresInSeconds'],
@@ -478,7 +515,8 @@ class TableLockStatusModel extends TableLockStatusEntity {
         json['remaining_seconds'] ?? json['remainingSeconds'],
         fallback: 0,
       ),
-      isLockedByMe: JsonReaders.boolean(json, 'is_locked_by_me') ||
+      isLockedByMe:
+          JsonReaders.boolean(json, 'is_locked_by_me') ||
           JsonReaders.boolean(json, 'isLockedByMe'),
     );
   }
@@ -663,7 +701,8 @@ VenueZoneStatus _mapZoneStatus(Map<String, dynamic> json) {
 VenueTableStatus _mapTableStatus(Map<String, dynamic> json) {
   // Use API `status` only — never `db_status`.
   final status = JsonReaders.string(json, 'status', fallback: '').toLowerCase();
-  final lockedByMe = JsonReaders.boolean(json, 'locked_by_me') ||
+  final lockedByMe =
+      JsonReaders.boolean(json, 'locked_by_me') ||
       JsonReaders.boolean(json, 'lockedByMe');
 
   if (lockedByMe || status == 'selected') {
